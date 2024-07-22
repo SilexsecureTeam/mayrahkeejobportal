@@ -8,8 +8,11 @@ import newApplicant from "../../../assets/pngs/applicant-logo1.png"
 import newApplicant2 from "../../../assets/pngs/applicant-Logo2.png"
 import newApplicant3 from "../../../assets/pngs/applicant-logo3.png"
 import RecentlyAdded from "./RecentlyAdded";
+import { motion } from "framer-motion";
+import { fadeIn } from "../../../utils/variants"
 
 function Home() {
+
   return (
     <>
       <Helmet>
@@ -27,7 +30,12 @@ function Home() {
             </div>
           </div>
           <div className="flex mt-8 gap-3">
-            <div className="w-1/5 ">
+            <motion.div
+              variants={fadeIn('down', 0.7)}
+              initial={"hidden"}
+              whileInView={"show"}
+              viewport={{ once: true, amount: 0.7 }}
+              className="w-1/5 ">
               <div className="pb-1 h-1/2">
                 <div className="border h-full mb-4 p-3 pb-0 flex flex-col justify-between">
                   <p className="font-medium">Total Jobs Applied</p>
@@ -50,7 +58,7 @@ function Home() {
                   </div>
                 </div>
               </div>
-            </div>
+            </motion.div>
             <div className="w-2/5 border">
               <div className=" p-3">
                 <p>Jobs Applied Status</p>
@@ -81,7 +89,12 @@ function Home() {
                 </div>
               </div>
             </div>
-            <div className="w-3/5 border py-3 text-sm">
+            <motion.div
+              variants={fadeIn('up', 0.2)}
+              initial={"hidden"}
+              whileInView={"show"}
+              viewport={{ once: true, amount: 0.7 }}
+              className="w-3/5 border py-3 text-sm">
               <div className="px-3 border-b">
                 <p className="font-bold my-3">Upcomming Interviews</p>
               </div>
@@ -112,7 +125,7 @@ function Home() {
                 <p className="w-1/6">11:00 AM</p>
                 <p className="border-b w-5/6 pt-1"> </p>
               </div>
-            </div>
+            </motion.div>
           </div>
         </div>
         <div className="my-12">
