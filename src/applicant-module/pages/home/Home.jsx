@@ -9,7 +9,7 @@ import newApplicant2 from "../../../assets/pngs/applicant-Logo2.png"
 import newApplicant3 from "../../../assets/pngs/applicant-logo3.png"
 import RecentlyAdded from "./RecentlyAdded";
 import { motion } from "framer-motion";
-import { fadeIn } from "../../../utils/variants"
+import { fadeIn, fadeInXaxis } from "../../../utils/variants"
 
 function Home() {
 
@@ -90,7 +90,7 @@ function Home() {
               </div>
             </div>
             <motion.div
-              variants={fadeIn('up', 0.2)}
+              variants={fadeInXaxis('left', 0.2)}
               initial={"hidden"}
               whileInView={"show"}
               viewport={{ once: true, amount: 0.7 }}
