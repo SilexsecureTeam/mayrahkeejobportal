@@ -52,7 +52,7 @@ function useApplicantRoute() {
       {/* Routes and dashboard take up 80% of total width and 100% of height*/}
       <div className="w-[82%] flex divide-y-2 divide-secondaryColor bg-white flex-col h-full">
         <NavBar state={state}/>
-        <div className="w-full p-2  h-[92%] overflow-y-auto">
+        <div className="w-full h-[92%] overflow-y-auto">
           <Routes>
             <Route index element={<Home />} />
             <Route path="*" element={<NotFound />} />

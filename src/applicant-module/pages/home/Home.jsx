@@ -18,7 +18,7 @@ function Home() {
       <Helmet>
         <title>Dashboard | Home</title>
       </Helmet>
-      <div className="h-full epilogue w-full text-sm p-4 text-primary">
+      <div className="h-full epilogue p-6 w-full text-sm text-primary">
         <div className="text-sm">
           <div className="flex justify-between align-center">
             <div className="">
