@@ -1,3 +1,23 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.epilogue{
+    font-family: "epilogue", sans-serif !important;
+}
+
+.fair_clash{
+    font-family: "Playfair Display", serif;
+}
+
+.prime_text{
+    color: #0F5A02 !important;
+}
+
+.prime_bg{
+    background-color: #025a34 !important;
+}
+
+.recent_added:nth-child(odd){
+    background-color: #47AA491A;
+}
