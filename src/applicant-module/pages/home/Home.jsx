@@ -10,6 +10,7 @@ import newApplicant3 from "../../../assets/pngs/applicant-logo3.png"
 import RecentlyAdded from "./RecentlyAdded";
 import { motion } from "framer-motion";
 import { fadeIn, fadeInXaxis } from "../../../utils/variants"
+import { RiCalendarEventLine } from "react-icons/ri";
 
 function Home() {
 
@@ -26,7 +27,7 @@ function Home() {
               <p>Here is what’s happening with your job search applications from July 19 - July 25.</p>
             </div>
             <div>
-              <button className="border p-2 ">Jul 19 - Jul 25 </button>
+            <button className="border p-2 flex items-center hover:bg-gray-100 hover:shadow">Jul 19 - Jul 25  <RiCalendarEventLine className="ml-2 prime_text" size={15} /></button>
             </div>
           </div>
           <div className="flex mt-8 gap-3">

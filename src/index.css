@@ -10,6 +10,10 @@
     font-family: "Playfair Display", serif;
 }
 
+.inter_font{
+    font-family: "Inter", sans-serif !important;
+}
+
 .prime_text{
     color: #0F5A02 !important;
 }
