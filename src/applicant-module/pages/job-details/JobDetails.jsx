@@ -5,7 +5,7 @@ import { FaRegCheckCircle } from 'react-icons/fa'
 
 const JobDetails = () => {
     return (
-        <div className="h-full text-[#25324b] epilogue p-6 text-sm w-full">
+        <div className="h-full text-[#25324b] epilogue p-6 text-s w-full">
             <div>
                 <div className="job_header p-6">
                     <div className="p-3 bg-white border">
@@ -62,8 +62,43 @@ const JobDetails = () => {
                                     Engage with online communities
                                 </div>
                             </div>
+                            <div className="mb-6">
+                                <h4 className='font-bold mb-4'>Who You Are</ h4>
+                                <div className='flex items-center mb-2'>
+                                    <span className="mr-3 prime_text"><FaRegCheckCircle /></span>
+                                    You get energy from people and building the ideal work environment                                </div>
+                                <div className='flex items-center mb-2'>
+                                    <span className="mr-3 prime_text"><FaRegCheckCircle /></span>
+                                    You have a sense for beautiful spaces and office experiences                                </div>
+                                <div className='flex items-center mb-2'>
+                                    <span className="mr-3 prime_text"><FaRegCheckCircle /></span>
+                                    You are a confident office manager, ready for added responsibilities                                </div>
+                                <div className='flex items-center mb-2'>
+                                    <span className="mr-3 prime_text"><FaRegCheckCircle /></span>
+                                    You're detail-oriented and creative                                </div>
+                                <div className='flex items-center mb-2'>
+                                    <span className="mr-3 prime_text"><FaRegCheckCircle /></span>
+                                    You're a growth marketer and know how to run campaigns                                </div>
+                            </div>
+                            <div className="mb-6">
+                                <h4 className='font-bold mb-4'>Nice-To-Haves</ h4>
+                                <div className='flex items-center mb-2'>
+                                    <span className="mr-3 prime_text"><FaRegCheckCircle /></span>
+                                    Fluent in English                                </div>
+                                <div className='flex items-center mb-2'>
+                                    <span className="mr-3 prime_text"><FaRegCheckCircle /></span>
+                                    Project management skills
+                                </div>
+                                <div className='flex items-center mb-2'>
+                                    <span className="mr-3 prime_text"><FaRegCheckCircle /></span>
+                                    Copy editing skills
+                                </div>
+                            </div>
                         </div>
-                        <div className="w-[20%]"></div>
+                        <div className="w-[20%]">
+                            <h4 className="font-bold mb-4">About this role</h4>
+                            <div className="p-2 bg-ggray-200"></div>
+                        </div>
                     </div>
                 </div>
             </div>
