@@ -15,6 +15,7 @@ const Home = lazy(() => import("../applicant-module/pages/home/Home"));
 const Messages = lazy(() => import("../applicant-module/pages/messages/Messages"));
 const Applications = lazy(() => import("../applicant-module/pages/applications/Applications"));
 const FindJob = lazy(() => import("../applicant-module/pages/jobs/FindJob"));
+const JobDetails = lazy(() => import("../applicant-module/pages/job-details/JobDetails"));
 const Companies = lazy(() => import("../applicant-module/pages/companies/Companies"));
 const PublicProfile = lazy(() => import("../applicant-module/pages/profile/PublicProfile"));
 const NotFound = lazy(() => import("../applicant-module/pages/404"));
@@ -60,6 +61,7 @@ function useApplicantRoute() {
             <Route path="messages" element={<Messages />} />
             <Route path="applications" element={<Applications />} />
             <Route path="find-job" element={<FindJob />} />
+            <Route path="find-job/:id" element={<JobDetails />} />
             <Route path="browse-companies" element={<Companies/>} />
             <Route path="public-profile" element={<PublicProfile/>} />
           </Routes>

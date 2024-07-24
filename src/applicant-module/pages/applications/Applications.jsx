@@ -8,6 +8,7 @@ import { BsFilter } from "react-icons/bs";
 import newApplicant from "../../../assets/pngs/applicant-logo1.png"
 import newApplicant2 from "../../../assets/pngs/applicant-Logo2.png"
 import newApplicant3 from "../../../assets/pngs/applicant-logo3.png"
+import Pagination from "../../components/Pagination";
 
 function Application() {
 
@@ -242,21 +243,7 @@ function Application() {
               </div>
             </div>
           </div>
-          <div className="my-4 flex justify-center">
-            <div className="">
-              <div className="flex pb-6">
-                <button className="hover:bg-gray-200"><MdOutlineChevronLeft size={20} /></button>
-                <button className="hover:bg-gray-200 px-3 py-1  bg-green-600 text-white rounded">1</button>
-                <button className="hover:bg-gray-200 px-3 py-1 rounded">2</button>
-                <button className="hover:bg-gray-200 px-3 py-1 rounded">3</button>
-                <button className="hover:bg-gray-200 px-3 py-1 rounded">4</button>
-                <button className="hover:bg-gray-200 px-3 py-1 rounded">5</button>
-                <button className="hover:bg-gray-200 px-3 py-1 rounded">...</button>
-                <button className="hover:bg-gray-200 px-3 py-1 rounded">38</button>
-                <button className="hover:bg-gray-200"><MdOutlineChevronRight size={20} /></button>
-              </div>
-            </div>
-          </div>
+        <Pagination/>
         </div>
       </div>
     </>

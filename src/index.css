@@ -2,26 +2,39 @@
 @tailwind components;
 @tailwind utilities;
 
-.epilogue{
-    font-family: "epilogue", sans-serif !important;
+.epilogue {
+  font-family: "epilogue", sans-serif !important;
 }
 
-.fair_clash{
-    font-family: "Playfair Display", serif;
+.fair_clash {
+  font-family: "Playfair Display", serif;
 }
 
-.inter_font{
-    font-family: "Inter", sans-serif !important;
+.inter_font {
+  font-family: "Inter", sans-serif !important;
 }
 
-.prime_text{
-    color: #0F5A02 !important;
+.prime_text {
+  color: #0f5a02 !important;
 }
 
-.prime_bg{
-    background-color: #025a34 !important;
+.prime_bg {
+  background-color: #025a34 !important;
 }
 
-.recent_added:nth-child(odd){
-    background-color: #47AA491A;
+.recent_added:nth-child(odd) {
+  background-color: #47aa491a;
+}
+
+.checkbox[type="checkbox"] {
+  accent-color: #0f5a02 !important;
+}
+
+.green_btn {
+  background-color: #025a34;
+}
+
+.job_header {
+  background-image: url("./assets/pngs/details-header.png");
+  background-size: cover;
 }
