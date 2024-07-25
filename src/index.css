@@ -38,3 +38,8 @@
   background-image: url("./assets/pngs/details-header.png");
   background-size: cover;
 }
+
+.bg_layout{
+  background-image: url("./assets/pngs/profile-bg.png");
+  background-size: cover;
+}
