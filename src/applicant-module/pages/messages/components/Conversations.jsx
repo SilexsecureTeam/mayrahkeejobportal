@@ -21,6 +21,7 @@ const Conversations = () => {
                                 <div className=" p-2 border mt-2 w-3/4">
                                     <p>We want to invite you for a quick interview</p>
                                 </div>
+                                <span className='text-xs mt-2'>12 mins ago</span>
                             </div>
                         </div>
                     </div>
@@ -30,6 +31,7 @@ const Conversations = () => {
                                 <p className="font-bold text-end">You</p>
                                 <p className="p-2 border text-end rounded mt-2 bg-[#47AA4933]">Hey Jake, I wanted to reach out because we saw your work contributions and were impressed by your work.</p>
                                 <p className="p-2 border text-end rounded mt-2 bg-[#47AA4933]">We want to invite you for a quick interview</p>
+                                <span className='text-xs mt-2'>12 mins ago</span>
                             </div>
                             <div className="ml-2">
                                 <div className="bg-gray-300 size-10 rounded-full"></div>
