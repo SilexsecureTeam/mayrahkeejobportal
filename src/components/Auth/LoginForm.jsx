@@ -23,22 +23,22 @@ function LoginForm({
   return (
     <div
       id="login-form"
-      className={`h-[55%] w-[25%] bg-white absolute rounded-md left-[10%] top-[20%] px-[3%] py-[10px]`}
+      className={`h-full w-[60%] flex pt-[10%] justify-center bg-white rounded-md  px-[3%] py-[10px]`}
     >
-      <img src={MainLogo} />
+      
 
-      <div id="login-section" className="flex flex-col gap-[5px] w-full  items-center">
-        <h3 className="font-bold text-meduim text-gray-700">
+      <div id="login-section" className="flex flex-col gap-[3%] w-[50%] h-[60%] items-center">
+        <h3 className="font-bold text-2xl text-black">
           Login to your Account
         </h3>
-        <span className="font-meduim text-center text-gray-400 text-little">
+        <span className="font-meduim text-center w-[80%] text-gray-400 text-[11px]">
           Explore/manage job different job oppurtunities
         </span>
 
         <form
           onSubmit={handleOnSubmit}
           id="form-wrapper"
-          className="flex flex-col w-full gap-[10px] items-center mt-[10px]"
+          className="flex flex-col mt-[10%] w-full gap-[15px] items-center "
         >
           <div className="h-[40px] w-full flex items-center pl-[10px] gap-[10px] rounded-md border-[1.5px]">
             <img src={Person} className="h-[20px]" />
@@ -47,7 +47,7 @@ function LoginForm({
               name="email"
               type="text"
               required
-              className="w-[80%] h-full placeholder:text-little text-little bg-white/0 focus:bg-white/0  focus:outline-none text-gray-700 "
+              className="w-[80%] focus:bg-opacity-white h-full placeholder:text-little text-little bg-white/0 focus:bg-white/0  focus:outline-none text-gray-700 "
               placeholder="Enter email or phone"
             />
           </div>
