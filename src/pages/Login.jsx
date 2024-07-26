@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import LoginForm from "../components/Auth/LoginForm";
 import LoginOne from "../assets/pngs/login-image2.png";
 import { Helmet } from "react-helmet";
+import SideCard from "../components/Auth/SideCard";
 
 function Login() {
   const [rememberMe, setRememberMe] = useState(false);
@@ -25,12 +26,14 @@ function Login() {
       </Helmet>
       <main
         id="login-Wrapper"
-        className={`h-screen w-screen flex bg-center items-start justify-center relative `}
+        className={`h-screen w-screen flex bg-center items-start justify-start relative `}
       >
-        <img
+        {/* <img
           className="w-full h-full object-cover object-top absolute"
           src={LoginOne}
-        />
+        /> */}
+
+        <SideCard/>
 
         <LoginForm
           rememberMe={rememberMe}

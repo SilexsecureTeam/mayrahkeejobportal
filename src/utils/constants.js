@@ -22,6 +22,32 @@ import calanderIcon from '../assets/pngs/calander-icon.png';
 import settingsIcon from '../assets/pngs/settings-icon.png';
 import settingsIconActive from '../assets/pngs/settings-icon-active.png';
 import helpIcon from '../assets/pngs/help-icon.png';
+//Registration Details
+import Person from "../assets/pngs/person.png";
+import PersonActive from "../assets/pngs/person-active.png";
+import Message from "../assets/pngs/message.png";
+import MessageActive from "../assets/pngs/message-active.png";
+import PersonCaptured from "../assets/pngs/person-captured.png";
+import PersonWithBoard from "../assets/pngs/person-with-board.png";
+import Camera from "../assets/pngs/camera.png";
+
+// Company Profile details
+import fireIcon from '../assets/pngs/fire-icon.png'
+import peopleIcon from '../assets/pngs/people-icon.png'
+import locationIcon from '../assets/pngs/location-icon.png'
+import companyIcon2 from '../assets/pngs/company-2-icon.png'
+
+//Socials 
+import twitterIcon from '../assets/pngs/twitter-icon.png'
+import facebookIcon from '../assets/pngs/facebook-icon.png'
+import linkedinIcon from '../assets/pngs/linkedin-icon.png'
+import mailIcon from '../assets/pngs/mail-icon.png'
+
+//Tech Stack
+import bubblesIcon from '../assets/pngs/bubbles-icon.png'
+import loopIcon from '../assets/pngs/loop-icon.png'
+import pathscriptIcon from '../assets/pngs/pathscript-icon.png'
+
 
 
 
@@ -139,4 +165,107 @@ export const utilOptions = [
     icon: helpIcon,
     iconActive: helpIcon
   },
+]
+
+
+export const registration_steps_keys = {
+  create_account: {
+    title: "User Registration",
+    desc: "Enter your name, email and password.",
+    activeIcon: PersonActive,
+    inactiveIcon: Person,
+  },
+  email_verification: {
+    title: "Email Verification",
+    desc: "Verify your email address",
+    activeIcon: MessageActive,
+    inactiveIcon: Message,
+  },
+  person_details: {
+    title: "Profile Details",
+    desc: "Provide profile Pictures and job title",
+    activeIcon: PersonCaptured,
+    inactiveIcon: PersonCaptured,
+  },
+  course_details: {
+    title: "Course Details",
+    desc: "Choose your course details and other info",
+    activeIcon: PersonWithBoard,
+    inactiveIcon: PersonWithBoard,
+  },
+  welcome_video: {
+    title: "Welcome Video",
+    desc: "Start your journey with a Click",
+    activeIcon: Camera,
+    inactiveIcon: Camera,
+  },
+};
+
+
+export const company_profile_attributes =[
+  {
+    id: 1,
+    title:'Founded',
+    icon: fireIcon,
+    content: 'Jusly 31, 2011'
+  },
+  {
+    id: 2,
+    title:'Employees',
+    icon: peopleIcon,
+    content: '4000+'
+  },
+  {
+    id: 3,
+    title:'Location',
+    icon: locationIcon,
+    content: '20 Countries'
+  },
+  {
+    id: 4,
+    title:'Industry',
+    icon: companyIcon2,
+    content: 'Social Media & Non-Profit'
+  },
+]
+
+export const company_socials = [
+  {
+    id: 1,
+    name: 'twitter.com/Nomad',
+    icon: twitterIcon
+  },
+  {
+    id: 2,
+    name: 'facebook.com/NomadHQ',
+    icon: facebookIcon
+  },
+  {
+    id: 3,
+    name: 'linkedin.com/company/nomad',
+    icon: linkedinIcon
+  },
+  {
+    id: 1,
+    name: 'nomad@gmail.com',
+    icon: mailIcon
+  },
+]
+
+export const company_stack_socials = [
+  {
+    id: 1,
+    name: 'Bubbles',
+    icon: bubblesIcon
+  },
+  {
+    id: 2,
+    name: 'Loop 3',
+    icon: loopIcon
+  },
+  {
+    id: 3,
+    name: 'Pathscript',
+    icon: pathscriptIcon
+  }
 ]
