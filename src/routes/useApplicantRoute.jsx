@@ -19,6 +19,7 @@ const JobDetails = lazy(() => import("../applicant-module/pages/job-details/JobD
 const Companies = lazy(() => import("../applicant-module/pages/companies/Companies"));
 const PublicProfile = lazy(() => import("../applicant-module/pages/profile/PublicProfile"));
 const NotFound = lazy(() => import("../applicant-module/pages/404"));
+const Settings = lazy(() => import("../applicant-module/pages/settings/Settings"));
 
 function useApplicantRoute() {
   const [state, dispatch] = useReducer(ApplicantReducer, applicantOptions[0]);
@@ -64,6 +65,7 @@ function useApplicantRoute() {
             <Route path="find-job/:id" element={<JobDetails />} />
             <Route path="browse-companies" element={<Companies/>} />
             <Route path="public-profile" element={<PublicProfile/>} />
+            <Route path="setting" element={<Settings/>} />
           </Routes>
         </div>
       </div>
