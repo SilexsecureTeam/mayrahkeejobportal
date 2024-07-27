@@ -1,4 +1,3 @@
-import { responseKeys } from "./constants";
 
 export const handleOnChange = (e, setDetails) => {
   const { name, value } = e.target;
