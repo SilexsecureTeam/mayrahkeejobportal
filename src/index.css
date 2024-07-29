@@ -30,6 +30,10 @@
   accent-color: #0f5a02 !important;
 }
 
+.radio[type="radio"] {
+  accent-color: #0f5a02 !important;
+}
+
 .green_btn {
   background-color: #025a34;
 }
@@ -42,4 +46,12 @@
 .bg_layout{
   background-image: url("./assets/pngs/profile-bg.png");
   background-size: cover;
+}
+
+.flip_y{
+  transform: rotateX(3.142rad);
+}
+
+.flip_x{
+  transform: rotateY(3.142rad);
 }

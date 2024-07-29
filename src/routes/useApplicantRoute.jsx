@@ -20,6 +20,7 @@ const Companies = lazy(() => import("../applicant-module/pages/companies/Compani
 const PublicProfile = lazy(() => import("../applicant-module/pages/profile/PublicProfile"));
 const NotFound = lazy(() => import("../applicant-module/pages/404"));
 const Settings = lazy(() => import("../applicant-module/pages/settings/Settings"));
+const HelpCenter = lazy(() => import("../applicant-module/pages/help-center/HelpCenter"));
 
 function useApplicantRoute() {
   const [state, dispatch] = useReducer(ApplicantReducer, applicantOptions[0]);
@@ -66,6 +67,7 @@ function useApplicantRoute() {
             <Route path="browse-companies" element={<Companies/>} />
             <Route path="public-profile" element={<PublicProfile/>} />
             <Route path="setting" element={<Settings/>} />
+            <Route path="help-center" element={<HelpCenter/>} />
           </Routes>
         </div>
       </div>
