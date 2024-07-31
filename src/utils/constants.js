@@ -167,6 +167,30 @@ export const utilOptions = [
   },
 ]
 
+export const adminUtilOptions = [
+  {
+    type: "SETTINGS",
+    title: "Settings",
+    route: "/company/settings",
+    icon: settingsIcon,
+    iconActive: settingsIconActive,
+  },
+  {
+    type: "HELP-CENTER",
+    title: "Help Center",
+    route: "/company/help-center",
+    icon: helpIcon,
+    iconActive: helpIcon,
+  },
+  {
+    type: "LOG-OUT",
+    title: "Log Out",
+    route: "/",
+    icon: helpIcon,
+    iconActive: helpIcon
+  },
+]
+
 
 export const registration_steps_keys = {
   create_account: {

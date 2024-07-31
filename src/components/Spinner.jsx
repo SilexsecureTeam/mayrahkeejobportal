@@ -2,7 +2,7 @@ import React from "react";
 
 function Spinner() {
   return (
-    <div className="w-full h-full flex items-center rounded-[10px] top-0 bg-green/90 justify-center absolute">
+    <div className="w-full h-full flex items-center rounded-[10px] top-0 bg-primaryColor/90 justify-center absolute">
 
     <div className="flex w-[15px] pt-[2%] h-[15px] justify-center items-center">
       <div role="status">

@@ -1,5 +1,6 @@
 import wheelIcon from '../../assets/pngs/wheel-icon.png'
 import plusIcon from '../../assets/pngs/plus-icon.png'
+import { Link } from 'react-router-dom';
 
 function NavBar({ state }) {
   return (
@@ -10,10 +11,10 @@ function NavBar({ state }) {
       </div>
 
       <div className="flex justify-between  w-[25%]">
-        <button className="border px-[5px] flex py-[5px] font-semibold justify-center items-center gap-[3px] text-sm bg-primaryColor text-white">
+        <Link to={'/company/job-posting'} className="border px-[5px] flex py-[5px] font-semibold justify-center items-center gap-[3px] text-sm bg-primaryColor text-white">
           <img src={plusIcon} className='h-[15px] w-[15px]'/>
           Post a Job
-        </button>
+        </Link>
       </div>
     </nav>
   );

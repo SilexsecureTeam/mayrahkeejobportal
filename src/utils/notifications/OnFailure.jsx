@@ -7,7 +7,7 @@ export const onFailure = (error) => {
       <MdCancel className="text-[25px] " />
       <div className="flex flex-col">
        <strong className="text-[14px] ">{error.message}</strong>
-       <p className="text-small text-gray-500 ">{error.error}</p>
+       <p className="text-little text-gray-500 ">{error.error}</p>
       </div>
        
     </div>

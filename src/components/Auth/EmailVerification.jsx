@@ -1,24 +1,33 @@
 import React, { useEffect, useState } from "react";
 import { registration_steps_keys } from "../../utils/constants";
 import OTPInput from "react-otp-input";
-import { useNavigate} from "react-router-dom";
-import { formatTime} from '../../utils/formmaters'
+import { useNavigate } from "react-router-dom";
+import { formatTime } from "../../utils/formmaters";
 import { onPrompt } from "../../utils/notifications/onPrompt";
 import FormButton from "../../components/FormButton";
+import useRegistration from "../../hooks/useRegistration";
+import { onSuccess } from "../../utils/notifications/OnSuccess";
 
 function EmailVerification({ state, dispatch }) {
   const timeInMs = 10;
   const [secondsLeft, setSecondsLeft] = useState(timeInMs);
-  const navigate = useNavigate();
+  const [otp, setOtp] = useState("");
 
+  const { error, verifyOtp, loading, resendOtp } = useRegistration();
+
+  const navigate = useNavigate();
 
   const resetTimer = () => {
     setSecondsLeft(timeInMs);
+    onSuccess({
+      message: 'Otp Sent!',
+      success: 'An otp has ben sent'
+    })
   };
 
   const navigateToHome = () => {
-    navigate('/login')
-  }
+    navigate("/login");
+  };
 
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -45,14 +54,12 @@ function EmailVerification({ state, dispatch }) {
     <div className="flex flex-col items-center justify-start w-[50%] pt-[10%] px-[10%] ">
       <div className="flex flex-col items-center">
         <h1 className="font-semibold text-[25px]">Verify your email</h1>
-        <p className="text-little text-gray-400">
-          We sent a code to 
-        </p>
+        <p className="text-little text-gray-400">We sent a code to</p>
       </div>
       <div className="flex flex-col gap-[10px] mt-[5%] items-center">
         <OTPInput
-          // onChange={onOtpChange}
-          // value={otp?.otp}
+          onChange={(val) => setOtp(val)}
+          value={otp}
           numInputs={4}
           inputStyle={{
             background: "white",
@@ -72,15 +79,22 @@ function EmailVerification({ state, dispatch }) {
       </div>
 
       <div className="w-[60%]">
-        <FormButton onClick={() => {}} loading={false}>Verify OTP</FormButton>
+        <FormButton
+          onClick={() => {
+            verifyOtp(otp, () => {
+              navigate('/')
+              onSuccess({
+                message: 'verification successful!',
+                success: 'Login to continue'
+              })
+              localStorage.clear()
+            });
+          }}
+          loading={loading}
+        >
+          Verify OTP
+        </FormButton>
       </div>
-
-      {/* <button
-        onClick={() => navigate("/registration/profile_details")}
-        className="text-little hover:text-[13px] hover:scale-105 duration-150 font-semibold w-[60%] text-white bg-green h-[45px] mt-[20px] rounded-md"
-      >
-        Create Account
-      </button> */}
 
       {secondsLeft !== 0 && (
         <span className="text-little text-gray-400 mt-[3px] ">
@@ -88,7 +102,7 @@ function EmailVerification({ state, dispatch }) {
         </span>
       )}
 
-      {!true && secondsLeft === 0 && (
+      {!loading && secondsLeft === 0 && (
         <span
           onClick={() => resendOtp(resetTimer)}
           className="text-little text-gray-400 mt-[3px] hover:underline cursor-pointer "
@@ -96,7 +110,7 @@ function EmailVerification({ state, dispatch }) {
           Didn’t get a code? Resend
         </span>
       )}
-      {true && (
+      {loading && (
         <span className="text-little text-gray-400 mt-[3px]">
           Processing request...
         </span>
