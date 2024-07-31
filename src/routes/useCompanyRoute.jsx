@@ -10,7 +10,7 @@ import { user } from "../utils/dummies";
 import CompanyReducer from "../reducers/CompanyReducer";
 import { AuthContext } from "../context/AuthContex";
 
-//Util Components
+//Util Component
 const NavBar = lazy(() => import("../company-module/components/NavBar"));
 const SideBar = lazy(() => import("../company-module/components/SideBar"));
 const SideBarItem = lazy(() =>
