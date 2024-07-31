@@ -13,30 +13,37 @@ const HelpCenter = () => {
             </Helmet>
             <div className="h-full epilogue text-[#7C8493] w-full flex">
                 <div className="w-1/3 border-r h-full p-6">
-                    <div className="">
-                        <p>Type your question or search keyword</p>
-                        <div className="relative border my-5 py-1 w-full">
-                            <input type="text" placeholder="Search" className="pl-[35px] focus:outline-none w-full" />
-                            <span className="absolute text-primary top-0 left-0 p-2">
-                                <CiSearch size={20} />
-                            </span>
+                    <div className="h-full flex flex-col justify-between">
+                        <div className="">
+                            <p>Type your question or search keyword</p>
+                            <div className="relative border my-5 py-1 w-full">
+                                <input type="text" placeholder="Search" className="pl-[35px] focus:outline-none w-full" />
+                                <span className="absolute text-primary top-0 left-0 p-2">
+                                    <CiSearch size={20} />
+                                </span>
+                            </div>
+                            <div className="divide-y-2">
+                                <div className="my-2">
+                                    <button className="py-2 font-medium">Getting Started</button>
+                                </div>
+                                <div className="my-2">
+                                    <button className="py-2 font-medium">My Profile</button>
+                                </div>
+                                <div className="my-2">
+                                    <button className="py-2 font-medium">Applying for a Job</button>
+                                </div>
+                                <div className="my-2">
+                                    <button className="py-2 font-medium">Jobb search Tips</button>
+                                </div>
+                                <div className="my-2">
+                                    <button className="py-2 font-medium">Job Alerts</button>
+                                </div>
+                            </div>
                         </div>
-                        <div className="divide-y-2">
-                            <div className="my-2">
-                                <button className="py-2 font-medium">Getting Started</button>
-                            </div>
-                            <div className="my-2">
-                                <button className="py-2 font-medium">My Profile</button>
-                            </div>
-                            <div className="my-2">
-                                <button className="py-2 font-medium">Applying for a Job</button>
-                            </div>
-                            <div className="my-2">
-                                <button className="py-2 font-medium">Jobb search Tips</button>
-                            </div>
-                            <div className="my-2">
-                                <button className="py-2 font-medium">Job Alerts</button>
-                            </div>
+                        <div className="bg-g mt-24 text-white p-6 contact_card">
+                            <p className="font-bold">Didn't find what you were looking for?</p>
+                            <p className=" my-5">Contact our customer service</p>
+                            <button className="transition px-6 hover:scale-110 py-2 bg-white text-green-600">Contact Us</button>
                         </div>
                     </div>
                 </div>
