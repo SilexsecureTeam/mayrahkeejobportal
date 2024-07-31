@@ -65,7 +65,7 @@ const BasicInfo = () => {
                                             </div>
                                             <div className="">
                                                 <label className="block">
-                                                    <span className="block text-sm font-medium text-slate-700 mb-1">Full Name</span>
+                                                    <span className="block text-sm font-medium text-slate-700 mb-1">Gender</span>
                                                     <select name="gender" id="" className='border w-full focus:outline-none p-2 pb-1'>
                                                         <option value="male">Male</option>
                                                         <option value="female">Female</option>

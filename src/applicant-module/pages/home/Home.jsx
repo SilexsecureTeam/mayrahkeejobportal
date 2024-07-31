@@ -3,7 +3,7 @@ import docsIcon from "../../../assets/pngs/doc-vector.png"
 import chatsIcon from "../../../assets/pngs/multiple-chat.png"
 import RoundChart from "../../components/charts/RoundCharts";
 import { FaArrowRightLong } from "react-icons/fa6";
-import { MdChevronLeft, MdChevronRight, MdOutlineMoreHoriz } from "react-icons/md";
+import { MdChevronLeft, MdChevronRight, MdOutlineMoreHoriz, MdOutlineRateReview, MdOutlineRemoveRedEye } from "react-icons/md";
 import newApplicant from "../../../assets/pngs/applicant-logo1.png"
 import newApplicant2 from "../../../assets/pngs/applicant-Logo2.png"
 import newApplicant3 from "../../../assets/pngs/applicant-logo3.png"
@@ -38,7 +38,7 @@ function Home() {
               viewport={{ once: true, amount: 0.7 }}
               className="w-1/5 ">
               <div className="pb-1 h-1/2">
-                <div className="border h-full mb-4 p-3 pb-0 flex flex-col justify-between">
+                <div className="border transition duration-400 h-full cursor-pointer hover:shadow-xl mb-4 p-3 pb-0 flex flex-col justify-between">
                   <p className="font-medium">Total Jobs Applied</p>
                   <div className="flex justify-between items-end mt-4">
                     <p className="text-6xl font-medium">45</p>
@@ -49,7 +49,7 @@ function Home() {
                 </div>
               </div>
               <div className="pt-1 h-1/2">
-                <div className="border h-full mb-4 p-3 pb-0 flex flex-col justify-between">
+                <div className="border transition duration-400 h-full cursor-pointer hover:shadow-xl mb-4 p-3 pb-0 flex flex-col justify-between">
                   <p className="font-medium">Interviewed</p>
                   <div className="flex justify-between items-end mt-4">
                     <p className="text-6xl font-medium">18</p>
@@ -60,14 +60,45 @@ function Home() {
                 </div>
               </div>
             </motion.div>
-            <div className="w-2/5 border">
+            <motion.div
+              variants={fadeIn('down', 0.7)}
+              initial={"hidden"}
+              whileInView={"show"}
+              viewport={{ once: true, amount: 0.7 }}
+              className="w-1/5 ">
+              <div className="pb-1 h-1/2">
+                <div className="border transition duration-400 h-full cursor-pointer hover:shadow-xl mb-4 p-3 pb-0 flex flex-col justify-between">
+                  <p className="font-medium">Review by Employer</p>
+                  <div className="flex justify-between items-end mt-4">
+                    <p className="text-6xl font-medium">5</p>
+                    <div className=" text-gray-300">
+                    <MdOutlineRateReview size={50}/>
+                      {/* <img src={docsIcon} alt="" className="w-10" /> */}
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="pt-1 h-1/2">
+                <div className="border transition duration-400 h-full cursor-pointer hover:shadow-xl mb-4 p-3 pb-0 flex flex-col justify-between">
+                  <p className="font-medium">Views by Employer</p>
+                  <div className="flex justify-between items-end mt-4">
+                    <p className="text-6xl font-medium">14</p>
+                    <div className=" text-gray-300">
+                    <MdOutlineRemoveRedEye size={50} />
+                      {/* <img src={chatsIcon} alt="" className="w-[60px]" /> */}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+            <div className="w-1/5 border">
               <div className=" p-3">
                 <p>Jobs Applied Status</p>
                 <div className="my-5 flex items-center">
-                  <div className="w-3/5">
+                  <div className="">
                     <RoundChart />
                   </div>
-                  <div className="w-2/5">
+                  {/* <div className="w-2/5">
                     <div className="flex items-center">
                       <div className="size-3 rounded bg-[#0F5A02] mr-3"></div>
                       <div className="mb-2">
@@ -82,7 +113,7 @@ function Home() {
                         <p>Interviewed</p>
                       </div>
                     </div>
-                  </div>
+                  </div> */}
                 </div>
                 <div className="flex my-3 items-center cursor-pointer prime_text hover:opacity-90">
                   <p>View All Applications</p>
