@@ -29,5 +29,4 @@ function SideBar({ children, authDetails }) {
     </aside>
   );
 }
-
 export default React.memo(SideBar);

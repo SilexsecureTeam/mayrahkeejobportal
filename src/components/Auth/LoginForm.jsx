@@ -31,7 +31,7 @@ function LoginForm({ rememberMe, toogleRememberMe }) {
 
   useEffect(() => {
     setRole("candidate");
-  }, []);
+    }, []);
   return (
     <div
       id="login-form"
