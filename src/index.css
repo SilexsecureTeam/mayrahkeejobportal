@@ -60,3 +60,9 @@
 .contact_card{
   background-image: url("./assets/pngs/Contact-us-bg.png");
 }
+
+.company-textarea{
+  width: 100% !important;
+  background-color: #0f5a02;
+  color: red;
+}
