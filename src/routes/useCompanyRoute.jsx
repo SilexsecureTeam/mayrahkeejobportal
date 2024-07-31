@@ -1,15 +1,16 @@
-import { lazy, useReducer } from "react";
+import { lazy, useContext, useReducer } from "react";
 import { Route, Routes } from "react-router-dom";
 import ApplicantReducer from "../reducers/ApplicantReducer";
 import {
   applicantOptions,
   companyOptions,
-  utilOptions,
+  adminUtilOptions,
 } from "../utils/constants";
 import { user } from "../utils/dummies";
 import CompanyReducer from "../reducers/CompanyReducer";
+import { AuthContext } from "../context/AuthContex";
 
-//Util Components
+//Util Component
 const NavBar = lazy(() => import("../company-module/components/NavBar"));
 const SideBar = lazy(() => import("../company-module/components/SideBar"));
 const SideBarItem = lazy(() =>
@@ -39,18 +40,33 @@ const JobType = lazy(() =>
 const CompanyProfile = lazy(() =>
   import("../company-module/pages/company-profile/CompanyProfile")
 );
+
 const Schedule = lazy(() =>
   import("../company-module/pages/schedule/Schedule")
 );
+
+const JobPosting = lazy(() =>
+  import("../company-module/pages/job-posting/JobPosting")
+);
+
+
+
+const Settings = lazy(() =>
+  import("../company-module/pages/settings/Settings")
+);
+
+
 const NotFound = lazy(() => import("../company-module/pages/404"));
 
 function useCompanyRoute() {
   const [state, dispatch] = useReducer(CompanyReducer, companyOptions[0]);
+  const { authDetails } = useContext(AuthContext);
 
+  console.log(state)
   return (
     <main className="h-screen w-screen flex">
       {/* Side bar takes up 20% of total width and 100% of height */}
-      <SideBar user={user}>
+      <SideBar authDetails={authDetails}>
         <ul className="flex flex-col gap-[10px]">
           {companyOptions.map((currentOption) => (
             <SideBarItem
@@ -63,7 +79,7 @@ function useCompanyRoute() {
         </ul>
 
         <ul className="flex flex-col gap-[10px]">
-          {utilOptions.map((currentOption) => (
+          {adminUtilOptions.map((currentOption) => (
             <SideBarItem
               key={currentOption.type}
               data={currentOption}
@@ -83,6 +99,7 @@ function useCompanyRoute() {
             <Route path="*" element={<NotFound />} />
 
             <Route path="messages" element={<Messages />} />
+            <Route path="job-posting" element={<JobPosting />} />
 
             <Route path="applicants/*">
               <Route index element={<Applicants />} />
@@ -97,6 +114,8 @@ function useCompanyRoute() {
             </Route>
 
             <Route path="schedule" element={<Schedule />} />
+
+            <Route path="settings" element={<Settings />} />
           </Routes>
         </div>
       </div>

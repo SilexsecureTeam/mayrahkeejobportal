@@ -4,7 +4,7 @@ import {
   intialProfileState,
 } from "../reducers/RegistrationReducer";
 import RegistrationProgress from "../components/Auth/RegistrationProgress";
-import { lazy, useReducer } from "react";
+import { lazy, useContext, useReducer } from "react";
 import { Route, Routes } from "react-router-dom";
 
 const RegistrationFormTwo = lazy(() =>

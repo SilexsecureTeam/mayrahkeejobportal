@@ -7,6 +7,9 @@ function SideBarItem({ data, dispatch, state }) {
   const navigateToPage = () => {
     navigate(data.route);
     dispatch({ ...data });
+    if(data.type === 'LOG-OUT'){
+      localStorage.clear()
+    }
   };
 
   return (

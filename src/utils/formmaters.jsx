@@ -1,4 +1,3 @@
-
 export const handleOnChange = (e, setDetails) => {
   const { name, value } = e.target;
 
@@ -46,6 +45,7 @@ export const FormatError = (error, setError, message) => {
       message: message,
       error: error.message,
     });
+    console.log("normal erro");
   } else if (error?.response?.data) {
     const errorsFromResponse = error?.response?.data?.errors;
     let errorMessage = "";
@@ -54,8 +54,12 @@ export const FormatError = (error, setError, message) => {
         const currentError = errorsFromResponse[currentErrorKey];
         errorMessage = errorMessage + currentError[0] + "\n";
       });
+      console.log("api error");
     } else if (error?.response?.data?.response) {
+      console.log("axios erro");
       errorMessage = error?.response?.data?.response;
+    } else if(error?.response?.data?.message && !error?.response?.data?.errors) {
+      errorMessage = error?.response?.data?.message;
     } else {
       errorMessage = "Something went wrong";
     }
