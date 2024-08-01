@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
-import GroupExperience from './GroupExperience';
+import SocialsGroup from './SocialsGroup';
 import { MdAdd } from 'react-icons/md';
 
-const DynamicExperienceForm = () => {
+const SocialsForm = () => {
     const [experiences, setExperiences] = useState([
         { title: "", description: "", company: '', position: '', startDate: '', endDate: '' },
     ]);
@@ -33,20 +33,19 @@ const DynamicExperienceForm = () => {
         <div>
             <div>
                 {experiences.map((experience, index) => (
-                    <GroupExperience
+                    <SocialsGroup
                         handleInputChange={handleInputChange}
                         handleRemoveExperience={handleRemoveExperience}
                         index={index}
                         experience={experience}
                         key={index} />
                 ))}
-                <button className='border px-3 py-1 flex bg-green-600 text-white' type="button" onClick={handleAddExperience}>
-                    <MdAdd size={20} /> Add
-
+                <button className='border px-3 flex py-1 bg-green-600 text-white' type="button" onClick={handleAddExperience}>
+                <MdAdd size={20} /> Add
                 </button>
             </div>
         </div >
     )
 }
 
-export default DynamicExperienceForm
+export default SocialsForm
