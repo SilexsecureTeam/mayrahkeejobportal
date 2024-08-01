@@ -1,6 +1,7 @@
 import React from 'react'
 import { TbPhoto } from 'react-icons/tb'
 import DynamicExperienceForm from './DynamicExperienceForm'
+import SocialsForm from './SocialsForm'
 // import UiSelect from '../../../components/general/UiSelect'
 
 const BasicInfo = () => {
@@ -29,7 +30,7 @@ const BasicInfo = () => {
                 <div className="update_form py-6">
                     <div>
                         <form>
-                            <div className=" md:w-4/5">
+                            <div className=" md:w-5/6">
                                 <div className="border-b py-6">
                                     <div className="flex">
                                         <div className="font-medium w-2/5 text-slate-900">
@@ -82,12 +83,6 @@ const BasicInfo = () => {
                                                             className="mt-1 block p-1 focus:outline-none w-full border" />
                                                     </label>
                                                 </div>
-                                                {/* <div className="">
-                                                <label className="block">
-                                                    <span className="block text-sm font-medium text-slate-700 mb-1">Gender</span>
-                                                    <UiSelect />
-                                                </label>
-                                            </div> */}
                                             </div>
                                         </div>
                                     </div>
@@ -213,6 +208,9 @@ const BasicInfo = () => {
                                                             <option value="female">Ondo</option>
                                                         </select>
                                                     </label>
+                                                </div>
+                                                <div className="">
+                                                    <SocialsForm />
                                                 </div>
                                                 <div className="">
                                                     <DynamicExperienceForm />
