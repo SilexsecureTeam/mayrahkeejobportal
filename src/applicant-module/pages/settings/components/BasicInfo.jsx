@@ -34,7 +34,7 @@ const BasicInfo = () => {
                                 <div className="border-b py-6">
                                     <div className="flex">
                                         <div className="font-medium w-2/5 text-slate-900">
-                                            <p>Personal Details</p>
+                                            <p>Personal Information</p>
                                         </div>
                                         <div className="w-3/5">
                                             <div className="mb-4">
