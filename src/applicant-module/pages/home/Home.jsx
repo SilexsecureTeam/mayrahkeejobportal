@@ -12,9 +12,21 @@ import { motion } from "framer-motion";
 import { fadeIn, fadeInXaxis } from "../../../utils/variants"
 import { RiCalendarEventLine } from "react-icons/ri";
 import ApplicantModal from "../../../components/ApplicantModal";
-
+import { useContext } from "react";
+import { AuthContext } from "../../../context/AuthContex";
+const now = new Date()
 function Home() {
+  const { authDetails } = useContext(AuthContext);
+  const hour = now.getHours();
+  const user = authDetails?.user
 
+  let timeOfDay = ""
+  if (hour > 16) {
+   timeOfDay = "Evening"
+  } else if (hour > 11 && hour < 17) {
+   timeOfDay = "Afternoon"
+  } else { timeOfDay = "Morning" }
+  console.log(timeOfDay)
   return (
     <>
       <Helmet>
@@ -25,7 +37,7 @@ function Home() {
         <div className="text-sm">
           <div className="flex justify-between align-center">
             <div className="">
-              <h4 className="fair_clash bold text-2xl mb-5">Good morning, Jake</h4>
+              <h4 className="fair_clash bold text-2xl mb-5">Good {timeOfDay}, {user.first_name}</h4>
               <p>Here is what’s happening with your job search applications from July 19 - July 25.</p>
             </div>
             <div>
