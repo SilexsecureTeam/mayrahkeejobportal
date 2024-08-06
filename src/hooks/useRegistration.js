@@ -37,7 +37,7 @@ function useRegistration(role) {
       if (regDetails.password !== regDetails.re_enter_password)
         throw Error("Password Mismatch");
 
-      if (gender.id === 2000) throw Error("please selct a gender");
+      if (gender.id === 2000) throw Error("please select a gender");
 
       const response = await client.post(`/${regDetails.role}/NewUser`, detail);
       onSuccess();

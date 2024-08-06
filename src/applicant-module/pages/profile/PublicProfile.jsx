@@ -9,8 +9,13 @@ import eduIcon from "../../../assets/pngs/edu-icon.png"
 import eduIcon2 from "../../../assets/pngs/edu-icon2.png"
 import { MdOutlineEmail, MdOutlinePhoneIphone } from "react-icons/md";
 import { IoLanguageOutline } from "react-icons/io5";
+import { useContext } from "react";
+import { AuthContext } from "../../../context/AuthContex";
 
 function PublicProfile() {
+  const { authDetails } = useContext(AuthContext);
+  const user = authDetails?.user
+
   return (
     <>
       <Helmet>
@@ -31,7 +36,7 @@ function PublicProfile() {
                 </div>
                 <div className="w-full flex justify-between">
                   <div className="">
-                    <h4 className="font-bold mb-4">Jake Gyil</h4>
+                    <h4 className="font-bold mb-4">{user?.first_name} {user?.last_name}</h4>
                     <div className="text-[#7C8493]">
                       <p>Product Designer at <b className="text-black">Twitter</b></p>
                       <div className="my-3 flex">
@@ -205,7 +210,7 @@ function PublicProfile() {
                 <span className="mr-2"><MdOutlineEmail />                </span>
                 <div className="">
                   <p>Email</p>
-                  <p>jakegyll@email.com</p>
+                  <p>{user?.email}</p>
                 </div>
               </div>
               <div className="my-3 flex text-[#7C8493]">

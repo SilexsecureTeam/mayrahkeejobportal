@@ -1,8 +1,12 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import BasicInfo from './components/BasicInfo';
 import ApplicantLoginDetails from './components/ApplicantLoginDetails';
+import { AuthContext } from '../../../context/AuthContex';
 
 const Settings = () => {
+    const { authDetails } = useContext(AuthContext);
+
+    const user = authDetails?.user
     const [active, setActive] = useState("profile")
     const handleActive = (event) => setActive(event);
     return (
@@ -18,7 +22,7 @@ const Settings = () => {
                         <p className="font-medium mb-3 text-slate-950">Basic Information</p>
                         <p>This is your personal information that you can update anytime.</p>
                     </div>
-                    {active === "profile" ? <BasicInfo /> : <ApplicantLoginDetails />}
+                    {active === "profile" ? <BasicInfo authDetails={authDetails} /> : <ApplicantLoginDetails />}
                 </div>
             </div>
         </div>
