@@ -58,9 +58,9 @@ function LoginForm({ rememberMe, toogleRememberMe }) {
             Candidate
           </button>
           <button
-            onClick={() => setRole("employee")}
+            onClick={() => setRole("employer")}
             className={`px-2 py-1 ${
-              role === "employee"
+              role === "employer"
                 ? "text-white bg-primaryColor border-0"
                 : "text-primaryColor border bg-primaryColor/30"
             }`}

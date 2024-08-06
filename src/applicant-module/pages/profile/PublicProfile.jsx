@@ -21,7 +21,7 @@ function PublicProfile() {
       <Helmet>
         <title>Dashboard | Public Profile </title>
       </Helmet>
-      <div className="h-full epilogue w-full p-6">
+      <div className="h-full w-full p-6">
         <div className="flex">
           <div className="md:w-[70%]">
             <div className="border">
@@ -54,7 +54,7 @@ function PublicProfile() {
                     </div>
                   </div>
                   <div className="">
-                    <button className="p-2 px-3 border-2 flex border border-green-700 font-medium hover:bg-green-100 text-green-700 items-center">
+                    <button className="p-2 px-3 border-2 flex  border-green-700 font-medium hover:bg-green-100 text-green-700 items-center">
                       Edit Profile
                     </button>
                   </div>

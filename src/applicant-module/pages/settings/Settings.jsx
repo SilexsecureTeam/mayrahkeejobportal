@@ -10,7 +10,7 @@ const Settings = () => {
     const [active, setActive] = useState("profile")
     const handleActive = (event) => setActive(event);
     return (
-        <div className="h-full text-[#25324b] epilogue w-full">
+        <div className="h-full text-[#25324b] w-full">
             <div className="pl-6 mt-6">
                 <div className="flex border-b pt-4">
                     <button onClick={() => handleActive("profile")} className={`p-2 mx-3 border-green-700 ${active === "profile" ? "border-b-2 font-medium" : ""}`}>My Profile</button>
