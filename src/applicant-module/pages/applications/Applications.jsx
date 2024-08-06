@@ -21,12 +21,11 @@ function Application() {
       <Helmet>
         <title>Dashboard | My Application </title>
       </Helmet>
-
-      <div className="h-full inter_font p-6 w-full text-sm text-primary">
+      <div className="h-full p-6 w-full text-sm text-primary">
         <div className="text-sm">
           <div className="flex justify-between align-center">
             <div className="">
-              <h4 className="fair_clash bold text-2xl mb-5">Keep it up, Jake</h4>
+              <h4 className=" font-semibold text-2xl mb-5">Keep it up, Jake</h4>
               <p>Here is what’s happening with your job search applications from July 19 - July 25.f</p>
             </div>
             <div>

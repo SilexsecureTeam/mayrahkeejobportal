@@ -3,9 +3,113 @@ import RangeSlider from "react-range-slider-input";
 import "../style.css";
 import { useState } from "react";
 import { FormatPrice } from "../../../utils/formmaters";
+import BasicJobInput from "./BasicJobInput";
+import QualificationsForm from "./QualificationsForm";
 
-function BasicInformation({setCurrentStep, data}) {
+// {
+//   id: 4,
+//   name: "introduction_video_url",
+//   label: "Introduction Video url",
+//   type: "text",
+//   placeholder: "e.g https://writerposition.com",
+//   prompt: 'Here you enter job video url'
+// },
+
+const basic_inputs = [
+  {
+    id: 1,
+    name: "email",
+    label: "Contact Email",
+    type: "text",
+    placeholder: "e.g hr@example.com",
+    prompt: "Here you input the company email",
+  },
+  {
+    id: 2,
+    name: "sector",
+    label: "Sector",
+    type: "text",
+    placeholder: "e.g IT",
+    prompt: "Here you input the job sector",
+  },
+  {
+    id: 3,
+    name: "preferred_age",
+    label: "Prefered Age",
+    type: "number",
+    placeholder: "e.g 18",
+    prompt: "Here you input prefered average age (years)",
+  },
+
+  {
+    id: 4,
+    name: "application_deadline_date",
+    label: "Application Deadline",
+    type: "date",
+    placeholder: "e.g some date",
+    prompt: "Here you set an application deadline",
+  },
+  {
+    id: 5,
+    name: "office_address",
+    label: "Office Address",
+    type: "text",
+    placeholder: "e.g victoria Island, Lagos street",
+    prompt: "Here you insert the office address",
+  },
+  {
+    id: 6,
+    name: "location",
+    label: "Location",
+    type: "text",
+    placeholder: "e.g 11.023 20.345",
+    prompt: "Here you insert the longitude and latitude",
+  },
+  {
+    id: 7,
+    name: "search_keywords",
+    label: "Search Keywords",
+    type: "text",
+    placeholder: "e.g networks engineer",
+    prompt: "Here you specify search keywords",
+  },
+];
+
+const job_types = [
+  {
+    id: 1,
+    name: "Full Name",
+  },
+  {
+    id: 2,
+    name: "Part Name",
+  },
+  {
+    id: 3,
+    name: "Remote",
+  },
+  {
+    id: 4,
+    name: "Internship",
+  },
+  {
+    id: 5,
+    name: "Contract",
+  },
+];
+
+
+function BasicInformation({ setCurrentStep, data, jobUtils }) {
   const [salaryRange, setSalaryRange] = useState([5000, 22000]);
+  const [selectedType, setSelectedType] = useState();
+  const [currentQualification, setCurrentQualification] = useState('');
+
+  const toogleSelectedType = (selected) => {
+    setSelectedType(selected);
+    jobUtils.setDetails({ ...jobUtils.details, type: selected.name });
+  };
+
+ 
 
   return (
     <div className="flex w-full flex-col p-2">
@@ -19,26 +123,10 @@ function BasicInformation({setCurrentStep, data}) {
         </span>
       </div>
 
-      {/* Job Title */}
-      <div className="flex gap-[30px] border-b py-2 ">
-        <div className="flex flex-col max-w-[25%] gap-[10px]">
-          <h3 className="text-gray-700 text-sm font-semibold">Job Title</h3>
-          <span className="text-little text-gray-400">
-            Job titles must be described one position
-          </span>
-        </div>
-
-        <div className="flex flex-col gap-[3px] ">
-          <input
-            className="border py-1 px-2 text-sm"
-            placeholder="e.g software engineer"
-          />
-
-          <span className="text-[10px] text-gray-400">
-            At least 80 characters
-          </span>
-        </div>
-      </div>
+      {/* Basic Inputs */}
+      {basic_inputs.map((current) => (
+        <BasicJobInput data={current} jobUtils={jobUtils} />
+      ))}
 
       {/* Employment Types */}
       <div className="flex gap-[30px] border-b py-2 ">
@@ -52,11 +140,15 @@ function BasicInformation({setCurrentStep, data}) {
         </div>
 
         <div className="flex flex-col gap-[3px] ">
-          {["Full Time", "Part Time", "Remote", "Internship", "Contract"].map(
-            (current, index) => (
-              <JobTypeItem data={current} key={index} />
-            )
-          )}
+          {job_types.map((current, index) => (
+            <JobTypeItem
+              selectedType={selectedType}
+              toogleSelectedType={toogleSelectedType}
+              data={current}
+              key={index}
+              jobUtils={jobUtils}
+            />
+          ))}
         </div>
       </div>
 
@@ -72,28 +164,38 @@ function BasicInformation({setCurrentStep, data}) {
 
         <div className="flex flex-col gap-[20px] justify-center w-[20%]">
           <div className="flex items-center text-little text-gray-700 justify-between">
-            <span className="border p-1 ">{FormatPrice(salaryRange[0])}</span>
+            <span className="border p-1 ">
+              {FormatPrice(jobUtils.details.min_salary)}
+            </span>
             <span>to</span>
-            <span className="border p-1 ">{FormatPrice(salaryRange[1])}</span>
+            <span className="border p-1 ">
+              {FormatPrice(jobUtils.details.max_salary)}
+            </span>
           </div>
 
           <RangeSlider
             min={0}
             max={100000}
             step={500}
-            defaultValue={salaryRange}
-            onInput={(range) => setSalaryRange(range)}
+            defaultValue={[
+              jobUtils.details.min_salary,
+              jobUtils.details.max_salary,
+            ]}
+            onInput={(range) => {
+              jobUtils.setDetails({
+                ...jobUtils.details,
+                min_salary: range[0],
+                max_salary: range[1],
+              });
+            }}
           />
         </div>
       </div>
 
-
-       {/* Categories */}
-       <div className="flex gap-[30px] border-b py-2 ">
+      {/* Categories */}
+      <div className="flex gap-[30px] border-b py-2 ">
         <div className="flex flex-col gap-[10px] min-w-[25%]">
-          <h3 className="text-gray-700 text-sm font-semibold">
-            Categories
-          </h3>
+          <h3 className="text-gray-700 text-sm font-semibold">Categories</h3>
           <span className="text-little text-gray-400">
             You can select multiple categories types
           </span>
@@ -108,31 +210,16 @@ function BasicInformation({setCurrentStep, data}) {
         </div>
       </div>
 
+      {/* Job Title */}
+      <QualificationsForm jobUtils={jobUtils}/>
+    
 
-       {/* Job Title */}
-       <div className="flex gap-[30px] border-b py-2 ">
-        <div className="flex flex-col max-w-[25%] gap-[10px]">
-          <h3 className="text-gray-700 text-sm font-semibold">Required Skill</h3>
-          <span className="text-little text-gray-400">
-            Add required skills for the job
-          </span>
-        </div>
-
-        <div className="flex flex-col gap-[10px] ">
-          <button className="border py-[3px] px-1 w-fit text-little border-primaryColor text-primaryColor">
-            Add Skill
-          </button>
-
-          <ul className="text-[10px] flex text-gray-400">
-            <li className="border py-[3px] px-1 text-little text-white bg-primaryColor/40">Graphics design</li>
-            <li className="border py-[3px] px-1 text-little text-white bg-primaryColor/40">Ui/UX design</li>
-            <li className="border py-[3px] px-1 text-little text-white bg-primaryColor/40">Programming</li>
-          </ul>
-        </div>
-      </div>
-
-       <button onClick={() => setCurrentStep(data[1])} className="p-2 place-self-end mt-[10px] font-semibold w-fit text-little bg-primaryColor text-white">Next Step</button>
-
+      <button
+        onClick={() => setCurrentStep(data[1])}
+        className="p-2 place-self-end mt-[10px] font-semibold w-fit text-little bg-primaryColor text-white"
+      >
+        Next Step
+      </button>
     </div>
   );
 }

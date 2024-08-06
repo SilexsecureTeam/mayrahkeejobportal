@@ -12,7 +12,7 @@ import unity from "../../../assets/pngs/perks-n-benefits/unity.png"
 
 const JobDetails = () => {
     return (
-        <div className="h-full text-[#25324b] epilogue w-full">
+        <div className="h-full text-[#25324b] w-full">
             <div className=' p-6 border-b mb-8'>
                 <div className="job_header p-6">
                     <div className="p-3 bg-white border">

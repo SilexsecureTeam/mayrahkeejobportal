@@ -3,6 +3,7 @@ import PostingHeader from "../../components/job-posting/PostingHeader";
 import BasicInformation from "../../components/job-posting/BasicInformation";
 import Descriptions from "../../components/job-posting/Descriptions";
 import MoreInformation from "../../components/job-posting/MoreInformation";
+import useJobManagement from "../../../hooks/useJobManagement";
 
 const job_steps = [
   {
@@ -15,15 +16,11 @@ const job_steps = [
     status: false,
     title: "Job Description",
   },
-  {
-    id: 3,
-    status: false,
-    title: "Perks and Benefits",
-  },
 ];
 
 function JobPosting() {
   const [currentStep, setCurrentStep] = useState(job_steps[0]);
+  const jobUtils = useJobManagement()
 
   return (
     <div className="p-2 w-full h-full flex flex-col">
@@ -34,15 +31,11 @@ function JobPosting() {
       />
 
       {currentStep.id === 1 && (
-        <BasicInformation data={job_steps} setCurrentStep={setCurrentStep} />
+        <BasicInformation jobUtils={jobUtils} data={job_steps} setCurrentStep={setCurrentStep} />
       )}
 
       {currentStep.id === 2 && (
         <Descriptions data={job_steps} setCurrentStep={setCurrentStep} />
-      )}
-
-      {currentStep.id === 3 && (
-        <MoreInformation data={job_steps} setCurrentStep={setCurrentStep} />
       )}
     </div>
   );

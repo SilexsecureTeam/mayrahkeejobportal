@@ -99,3 +99,25 @@ export const setSelectedData = (dataList, setData, value) => {
     }
   }
 };
+
+
+export const getImageURL = (e, setStateFunctionUrl) => {
+  const { name } = e.target;
+  const file = e.target.files[0]; //filelist is an object carrying all details of file, .files[0] collects the value from key 0 (not array), and stores it in file
+
+  if (file && (file.type === "image/jpeg" || file.type === "image/png")) {
+    // You can also perform additional actions with the valid file
+    const generatedUrl = URL.createObjectURL(file);
+    setStateFunctionUrl(generatedUrl);
+    setDetails((prev) => { return {...prev, [name]: file}})
+  } else {
+    // Handle invalid file type
+    alert("Please select a valid JPEG or PNG file.");
+  }
+};
+
+
+export const onTextChange = (e, details, setDetails) => {
+  const { name, value } = e.target;
+  setDetails({ ...details, [name]: value });
+};

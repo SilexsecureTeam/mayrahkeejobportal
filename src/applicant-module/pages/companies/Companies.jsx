@@ -22,7 +22,7 @@ function Companies() {
       <Helmet>
         <title>Dashboard | Browse Companies </title>
       </Helmet>
-      <div className="h-full text-[#25324b] epilogue p-6 text-sm w-full">
+      <div className="h-full text-[#25324b] p-6 text-sm w-full">
         <div className="px-3 py-5 border mb-2 flex">
           <div className="relative border-b py-1 px-6 mx-4 w-[35%] ">
             <input type="text" placeholder="Company title or keyword" className="pl-[10px] focus:outline-none w-full" />

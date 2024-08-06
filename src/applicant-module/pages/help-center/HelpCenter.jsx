@@ -11,7 +11,7 @@ const HelpCenter = () => {
             <Helmet>
                 <title>Dashboard | Help Center</title>
             </Helmet>
-            <div className="h-full epilogue text-[#7C8493] w-full flex">
+            <div className="h-full text-[#7C8493] w-full flex">
                 <div className="w-1/3 border-r h-full p-6">
                     <div className="">
                         <p>Type your question or search keyword</p>

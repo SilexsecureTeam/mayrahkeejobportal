@@ -13,7 +13,7 @@ function Messages() {
       <Helmet>
         <title>Dashboard | Messages</title>
       </Helmet>
-      <div className="h-full epilogue text-sm w-full">
+      <div className="h-full text-sm w-full">
         <div className="flex text-primary h-full">
           <div className="w-1/3 p-5">
             <div className="relative border py-1 px-6 mb-4">
