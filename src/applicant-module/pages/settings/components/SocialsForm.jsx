@@ -2,13 +2,13 @@ import React, { useState } from 'react'
 import SocialsGroup from './SocialsGroup';
 import { MdAdd } from 'react-icons/md';
 
-const SocialsForm = () => {
-    const [experiences, setExperiences] = useState([
-        { title: "", description: "", company: '', position: '', startDate: '', endDate: '' },
-    ]);
+const SocialsForm = ({experiences, setExperiences}) => {
+    // const [experiences, setExperiences] = useState([
+    //     { network: "", url: "", },
+    // ]);
 
     const handleAddExperience = () => {
-        setExperiences([...experiences, { title: "", description: "", company: '', position: '', startDate: '', endDate: '' }]);
+        setExperiences([...experiences, { network: "", url: "", }]);
     };
 
     const handleRemoveExperience = (index) => {
@@ -21,7 +21,7 @@ const SocialsForm = () => {
         }
 
     };
-    console.log(experiences)
+    // console.log(experiences)
 
     const handleInputChange = (index, event) => {
         const newExperiences = [...experiences];
@@ -41,7 +41,7 @@ const SocialsForm = () => {
                         key={index} />
                 ))}
                 <button className='border px-3 flex py-1 bg-green-600 text-white' type="button" onClick={handleAddExperience}>
-                <MdAdd size={20} /> Add
+                    <MdAdd size={20} /> Add
                 </button>
             </div>
         </div >

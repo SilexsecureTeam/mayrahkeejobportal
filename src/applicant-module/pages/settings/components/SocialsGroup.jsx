@@ -36,7 +36,11 @@ const SocialsGroup = ({ index,
                         <div className="mb-4">
                             <label className="block">
                                 <span className="block text-sm font-medium text-slate-700">Netwok</span>
-                                <select name="network" id="" className='border w-full focus:outline-none p-2 pb-1'>
+                                <select 
+                                name='network' 
+                                value={experience.network}
+                                onChange={(e) => handleInputChange(index, e)}
+                                 id="" className='border w-full focus:outline-none p-2 pb-1'>
                                     <option value="facebook">Facebook</option>
                                     <option value="twitter">Twitter</option>
                                     <option value="linkedIn">LinkedIn</option>
