@@ -14,6 +14,7 @@ import { RiCalendarEventLine } from "react-icons/ri";
 import ApplicantModal from "../../../components/ApplicantModal";
 import { useContext } from "react";
 import { AuthContext } from "../../../context/AuthContex";
+import FirstUpdateForm from "../../components/first-update/FirstUpdateForm";
 const now = new Date()
 function Home() {
   const { authDetails } = useContext(AuthContext);
@@ -22,17 +23,19 @@ function Home() {
 
   let timeOfDay = ""
   if (hour > 16) {
-   timeOfDay = "Evening"
+    timeOfDay = "Evening"
   } else if (hour > 11 && hour < 17) {
-   timeOfDay = "Afternoon"
+    timeOfDay = "Afternoon"
   } else { timeOfDay = "Morning" }
-  console.log(timeOfDay)
+
+
   return (
     <>
       <Helmet>
         <title>Dashboard | Home</title>
       </Helmet>
-      <ApplicantModal />
+      {/* <ApplicantModal /> */}
+      <FirstUpdateForm />
       <div className="h-full epilogue p-6 w-full text-sm text-primary">
         <div className="text-sm">
           <div className="flex justify-between align-center">

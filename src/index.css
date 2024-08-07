@@ -18,6 +18,10 @@
   color: #0f5a02 !important;
 }
 
+.thin_scroll_bar{
+  scrollbar-width:thin;
+}
+
 .prime_bg {
   background-color: #025a34 !important;
 }

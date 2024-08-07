@@ -1,17 +1,18 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { TbPhoto } from 'react-icons/tb'
-import DynamicExperienceForm from './DynamicExperienceForm'
-import SocialsForm from './SocialsForm'
-import { BASE_URL } from '../../../../utils/base'
+// import DynamicExperienceForm from './DynamicExperienceForm'
+// import { BASE_URL } from '../../../../utils/base'
 // import UiSelect from '../../../components/general/UiSelect'
 import axios from "axios";
 import { IoCheckboxSharp } from 'react-icons/io5';
 import { MdOutlineCheckBoxOutlineBlank } from 'react-icons/md';
-import { AuthContext } from '../../../../context/AuthContex'
-import { ResourceContext } from '../../../../context/ResourceContext'
-import TextEditor from './TextEditor'
+import { ResourceContext } from '../../../context/ResourceContext'
+import { AuthContext } from '../../../context/AuthContex'
+import TextEditor from '../../pages/settings/components/TextEditor'
+import SocialsForm from '../../pages/settings/components/SocialsForm';
+import { BASE_URL } from '../../../utils/base';
 
-const BasicInfo = () => {
+const NewForm = ({ setIsOpen }) => {
 
     const { getCandidate, setGetCandidate } = useContext(ResourceContext);
 
@@ -33,8 +34,7 @@ const BasicInfo = () => {
         })
     }, [])
 
-    console.log(getCandidate.data)
-const candidate = getCandidate.data?.details
+    console.log(getCandidate)
 
     const toggleAccept = () => {
         setDetails((prev) => {
@@ -47,32 +47,31 @@ const candidate = getCandidate.data?.details
     const [profileImageUrl, setProfileImageUrl] = useState(user.image ? user.image : null);
     const [details, setDetails] = useState({
         candidate_id: user.id ? user.id : "",
-        // full_name: user.full_name ? user.full_name : "",
         full_name: user.first_name ? ` ${user.first_name} ${user.last_name}` : "",
-        date_of_birth: candidate.date_of_birth ? candidate?.date_of_birth : "",
-        gender: candidate.gender ? candidate?.gender : "",
-        phone_number: candidate.phone_number ? candidate?.phone_number : "",
-        email: candidate.email ? candidate?.email : "",
+        date_of_birth: user.date_of_birth ? user.date_of_birth : "",
+        gender: user.gender ? user.gender : "",
+        phone_number: user.phone_number ? user.phone_number : "",
+        email: user.email ? user.email : "",
         password: user.password ? user.password : "",
-        means_of_identification: candidate.means_of_identification ? candidate?.means_of_identification : "",
-        nin: candidate.nin ? candidate?.nin : "",
-        nin_slip: candidate.nin_slip ? candidate?.nin_slip : "",
-        educational_qualification: candidate.educational_qualification ? candidate?.educational_qualification : "",
-        work_experience: candidate.work_experience ? candidate?.work_experience : "",
-        languages: candidate.languages ? candidate?.languages : "",
-        salary_type: candidate.salary_type ? candidate?.salary_type : "",
-        salary: candidate.salary ? candidate?.salary : "",
-        categories: candidate.categories ? candidate?.categories : "",
+        means_of_identification: user.means_of_identification ? user.means_of_identification : "",
+        nin: user.nin ? user.nin : "",
+        nin_slip: user.nin_slip ? user.nin_slip : "",
+        educational_qualification: user.educational_qualification ? user.educational_qualification : "",
+        work_experience: user.work_experience ? user.work_experience : "",
+        languages: user.languages ? user.languages : "",
+        salary_type: user.salary_type ? user.salary_type : "",
+        salary: user.salary ? user.salary : "",
+        categories: user.categories ? user.categories : "",
         // show_my_profile: true,
-        preferred_job_role: candidate.preferred_job_role ? candidate?.preferred_job_role : "",
-        personal_profile: candidate.personal_profile ? candidate?.personal_profile : "",
-        network: candidate.network ? candidate?.network : "",
-        contact_address: candidate.contact_address ? candidate?.contact_address : "",
-        country: candidate.country ? candidate?.country : "",
-        state: candidate.state ? candidate?.state : "",
-        local_gov: candidate.local_gov ? candidate?.local_gov : "",
-        address: candidate.address ? candidate?.address : "",
-        experience: candidate.experience ? candidate?.experience : "",
+        preferred_job_role: user.preferred_job_role ? user.preferred_job_role : "",
+        personal_profile: user.personal_profile ? user.personal_profile : "",
+        network: user.network ? user.network : "",
+        contact_address: user.contact_address ? user.contact_address : "",
+        country: user.country ? user.country : "",
+        state: user.state ? user.state : "",
+        local_gov: user.local_gov ? user.local_gov : "",
+        address: user.address ? user.address : "",
+        experience: user.experience ? user.experience : "",
         introduction_video: null,
         social_media_handle: [],
     })
@@ -119,6 +118,11 @@ const candidate = getCandidate.data?.details
         e.preventDefault();
         setErrorMsg(null)
         setLoading(true)
+        setGetCandidate((prev) => {
+            return {
+                ...prev, isDataNeeded: false
+            }
+        })
         axios.post(`${BASE_URL}/candidate/UpdateCandidate/${user.id}`, details, {
             headers: {
                 Authorization: `Bearer ${authDetails.token}`,
@@ -129,9 +133,16 @@ const candidate = getCandidate.data?.details
                 console.log(response)
                 setLoading(false)
                 // toast.success("successful");
+                setGetCandidate((prev) => {
+                    return {
+                        ...prev, isDataNeeded: true
+                    }
+                })
+                setIsOpen(false)
             })
             .catch((error) => {
                 console.log(error)
+                setLoading(false);
                 if (error.response) {
                     // console.log(error.response)
                     // setErrorMsg(error.response.data.message)
@@ -152,6 +163,7 @@ const candidate = getCandidate.data?.details
                     setShowMsg(true)
                     setLoading(false);
                 }
+                setLoading(false);
             });
     }
     // console.log(errorMsg)
@@ -174,7 +186,7 @@ const candidate = getCandidate.data?.details
         <div className='text-[#515B6F]'>
 
             <div className="my-4">
-                <div className="flex items-cente pb-6 border-b">
+                {/* <div className="flex items-cente pb-6 border-b">
                     <div className="w-1/3 pr-5">
                         <p className="font-medium mb-2 text-slate-950">Profile Photo</p>
                         <p>This image will be shown publicly as your profile picture, it will help recruiters recognize you!</p>
@@ -198,7 +210,7 @@ const candidate = getCandidate.data?.details
                             </div>
                         </label>
                     </div>
-                </div>
+                </div> */}
                 <div className="update_form py-6">
                     <div>
                         <form onSubmit={handleSubmit}>
@@ -212,7 +224,7 @@ const candidate = getCandidate.data?.details
                                             <div className="mb-4">
                                                 <label className="block">
                                                     <span className="block text-sm font-medium text-slate-700">Full Name</span>
-                                                    <input type="text" value={details.full_name} name='full_name' onChange={handleOnChange}
+                                                    <input type="text" value={details.full_name} onChange={handleOnChange}
                                                         className="mt-1 block p-1 focus:outline-none w-full border" />
                                                 </label>
                                             </div>
@@ -230,7 +242,7 @@ const candidate = getCandidate.data?.details
                                                     <label className="block">
                                                         <span className="block text-sm font-medium text-slate-700">Email</span>
                                                         <input type="email"
-                                                            value={details.email} name='email' onChange={handleOnChange}
+                                                            value={details.email} onChange={handleOnChange}
                                                             placeholder='Jakegyll@gmail.com'
                                                             className="mt-1 block p-1 focus:outline-none w-full border" />
                                                     </label>
@@ -353,6 +365,21 @@ const candidate = getCandidate.data?.details
                                                             className="mt-1 block p-1 focus:outline-none w-full border" />
                                                     </label>
                                                 </div>
+                                                <div className="mb-4">
+                                                    <label className="block">
+                                                        <span className="block text-sm font-medium text-slate-700">Preferred Job Role</span>
+                                                        <input type="text"
+                                                            value={details.preferred_job_role} name='preferred_job_role' onChange={handleOnChange}
+                                                            className="mt-1 block p-1 focus:outline-none w-full border" />
+                                                    </label>
+                                                </div> <div className="mb-4">
+                                                    <label className="block">
+                                                        <span className="block text-sm font-medium text-slate-700">Personal Profile</span>
+                                                    </label>
+                                                    <textarea
+                                                        value={details.personal_profile} name='personal_profile' onChange={handleOnChange}
+                                                        className="mt-1 block w-full focus:outline-green-400 border" id=""></textarea>
+                                                </div>
                                                 {/* <div className="">
                                                     <label className="block">
                                                         <span className="block text-sm font-medium text-slate-700 mb-1">Show my profile</span>
@@ -377,21 +404,6 @@ const candidate = getCandidate.data?.details
                                                         )}
                                                     </button>
                                                 </div> */}
-                                                <div className="mb-4">
-                                                    <label className="block">
-                                                        <span className="block text-sm font-medium text-slate-700">Preferred Job Role</span>
-                                                        <input type="text"
-                                                            value={details.preferred_job_role} name='preferred_job_role' onChange={handleOnChange}
-                                                            className="mt-1 block p-1 focus:outline-none w-full border" />
-                                                    </label>
-                                                </div> <div className="mb-4">
-                                                    <label className="block">
-                                                        <span className="block text-sm font-medium text-slate-700">Personal Profile</span>
-                                                    </label>
-                                                    <textarea
-                                                        value={details.personal_profile} name='personal_profile' onChange={handleOnChange}
-                                                        className="mt-1 block w-full focus:outline-green-400 border" id=""></textarea>
-                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -542,8 +554,8 @@ const candidate = getCandidate.data?.details
                                         </div>
                                     </div>
                                 </div> */}
-                                <button className="rounded border prime_bg text-white px-4 flex justify-center py-2 w-[50%]">Save Profile
-                                {loading && <div className="size-[20px] ml-3 animate-spin rounded-full border-r-4  border- "></div>}
+                                <button className="rounded border prime_bg text-white px-4 py-2 flex justify-center w-[50%]">Save Profile
+                                    {loading && <div className="size-[20px] ml-3 animate-spin rounded-full border-r-4  border- "></div>}
                                 </button>
                             </div>
                         </form>
@@ -554,4 +566,4 @@ const candidate = getCandidate.data?.details
     )
 }
 
-export default BasicInfo
+export default NewForm

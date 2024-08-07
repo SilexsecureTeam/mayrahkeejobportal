@@ -9,12 +9,27 @@ import eduIcon from "../../../assets/pngs/edu-icon.png"
 import eduIcon2 from "../../../assets/pngs/edu-icon2.png"
 import { MdOutlineEmail, MdOutlinePhoneIphone } from "react-icons/md";
 import { IoLanguageOutline } from "react-icons/io5";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { AuthContext } from "../../../context/AuthContex";
+import UpdateCandidateProfile from "../settings/components/UpdateCandidateProfile";
+import { ResourceContext } from "../../../context/ResourceContext";
 
 function PublicProfile() {
+
+  const { getCandidate, setGetCandidate } = useContext(ResourceContext);
   const { authDetails } = useContext(AuthContext);
   const user = authDetails?.user
+
+  useEffect(() => {
+    setGetCandidate((prev) => {
+      return {
+        ...prev, isDataNeeded: true
+      }
+    })
+  }, [])
+
+  const candidate = getCandidate.data?.details
+  console.log(getCandidate.data)
 
   return (
     <>
@@ -38,14 +53,16 @@ function PublicProfile() {
                   <div className="">
                     <h4 className="font-bold mb-4">{user?.first_name} {user?.last_name}</h4>
                     <div className="text-[#7C8493]">
-                      <p>Product Designer at <b className="text-black">Twitter</b></p>
+                      <p>{candidate?.preferred_job_role} <b className="text-black ml-2">Twitter</b></p>
                       <div className="my-3 flex">
                         <span className="mr-3">
                           <GrLocation />
                         </span>
-                        <span className="">Manchester, UK</span>
+                        <span className="">{candidate?.state}, {candidate?.country}</span>
                       </div>
-                      <button className="p-2 flex bg-green-100 hover:bg-green-200 text-green-900 items-center rounded">
+                      <p><b>Address :</b> <span className="ml-2">{candidate?.address}</span></p>
+
+                      <button className="p-2 mt-5 flex bg-green-100 hover:bg-green-200 text-green-900 items-center rounded">
                         <span className="mr-2">
                           <CiFlag1 />
                         </span>
@@ -54,9 +71,8 @@ function PublicProfile() {
                     </div>
                   </div>
                   <div className="">
-                    <button className="p-2 px-3 border-2 flex  border-green-700 font-medium hover:bg-green-100 text-green-700 items-center">
-                      Edit Profile
-                    </button>
+                    <UpdateCandidateProfile />
+
                   </div>
                 </div>
               </div>
@@ -68,10 +84,7 @@ function PublicProfile() {
                   <button className="p-1 border border-green-500   text-green-700 hover:text-gray-600"><FaRegEdit /></button>
                 </div>
                 <div className="my-3 text-[#515B6F]">
-                  <p className="my-3">I’m a product designer + filmmaker currently working remotely at Twitter from beautiful Manchester, United Kingdom. I’m passionate about designing digital products that have a positive impact on the world.</p>
-                  <p>
-                    For 10 years, I’ve specialised in interface, experience & interaction design as well as working in user research and product strategy for product agencies, big tech companies & start-ups.
-                  </p>
+                  <p className="my-3">{candidate?.personal_profile} </p>
                 </div>
               </div>
             </div>
@@ -84,7 +97,10 @@ function PublicProfile() {
                 <div className="  divide-y">
                   <div className="py-6 text-sm text-[#515B6F]">
                     <div className="flex justify-b">
-                      <div className="w-[30%]">
+                      {/* {candidate?.experience} */}
+                  <p dangerouslySetInnerHTML={{ __html: candidate?.experience }} />
+
+                      {/* <div className="w-[30%]">
                         <img src={twitter} alt="" />
                       </div>
                       <div className="w-full">
@@ -99,7 +115,7 @@ function PublicProfile() {
                             Created and executed social media plan for 10 brands utilizing multiple features and content types to increase brand outreach, engagement, and leads.
                           </p>
                         </div>
-                      </div>
+                      </div> */}
                     </div>
                   </div>
                   <div className="py-6 text-sm text-[#515B6F]">
@@ -133,7 +149,7 @@ function PublicProfile() {
                 </div>
                 <div className="  divide-y">
                   <div className="py-6 text-sm text-[#515B6F]">
-                    <div className="flex justify-b">
+                    {/* <div className="flex justify-b">
                       <div className="w-[30%]">
                         <img src={eduIcon} alt="" />
                       </div>
@@ -149,7 +165,10 @@ function PublicProfile() {
                             As an Applied Psychologist in the field of Consumer and Society, I am specialized in creating business opportunities by observing, analysing, researching and changing behaviour.                          </p>
                         </div>
                       </div>
-                    </div>
+                    </div> */}
+                    {/* <p>{candidate?.educational_qualification}</p> */}
+                    <p dangerouslySetInnerHTML={{ __html: candidate?.educational_qualification }} />
+
                   </div>
                   <div className="py-6 text-sm text-[#515B6F]">
                     <div className="flex justify-b">
@@ -217,14 +236,14 @@ function PublicProfile() {
                 <span className="mr-2"><MdOutlinePhoneIphone />                </span>
                 <div className="">
                   <p>Phone</p>
-                  <p>+44 1245 572 135</p>
+                  <p>{candidate?.phone_number}</p>
                 </div>
               </div>
               <div className="my-3 flex text-[#7C8493]">
                 <span className="mr-2"><IoLanguageOutline />                </span>
                 <div className="">
                   <p>Language</p>
-                  <p>English, French</p>
+                  <p>{candidate?.languages}</p>
                 </div>
               </div>
             </div>
@@ -233,27 +252,17 @@ function PublicProfile() {
                 <p className="font-bold ">Social Links</p>
                 <button className="p-1 border border-green-500   text-green-700 hover:text-gray-600"><FaRegEdit /></button>
               </div>
-              <div className="my-3 flex text-[#7C8493]">
-                <span className="mr-2"><CiInstagram />                </span>
-                <div className="">
-                  <p>Instagram</p>
-                  <p className="text-green-700">instagram.com/jakegyll</p>
-                </div>
-              </div>
-              <div className="my-3 flex text-[#7C8493]">
-                <span className="mr-2"><CiTwitter />                </span>
-                <div className="">
-                  <p>Twitter</p>
-                  <p className="text-green-700">twitter.com/jakegyll</p>
-                </div>
-              </div>
-              <div className="my-3 flex text-[#7C8493]">
-                <span className="mr-2"><GrLanguage />                </span>
-                <div className="">
-                  <p>Web</p>
-                  <p className="text-green-700">www.jakegyll.com</p>
-                </div>
-              </div>
+              {
+                candidate?.social_media_handle?.map((social) => (
+                  <div key={social.url} className="my-3 flex text-[#7C8493]">
+                    <span className="mr-2"><CiInstagram />                </span>
+                    <div className="">
+                      <p>{social.network}</p>
+                      <p className="text-green-700">{social.url}</p>
+                    </div>
+                  </div>
+                ))
+              }
             </div>
           </div>
         </div>
