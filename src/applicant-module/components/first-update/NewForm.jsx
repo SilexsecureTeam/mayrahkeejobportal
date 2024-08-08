@@ -144,29 +144,19 @@ const NewForm = ({ setIsOpen }) => {
                 console.log(error)
                 setLoading(false);
                 if (error.response) {
-                    // console.log(error.response)
-                    // setErrorMsg(error.response.data.message)
-                    if (error.response.data.errors.user_id) {
-                        setErrorMsg(error.response.data.errors.user_id)
-                        // } else if (error.response.data.message.instructor_id) {
-                        //     setErrorMsg(error.response.data.message.instructor_id)
-                        // } else if (error.response.data.message.start_time) {
-                        //     setErrorMsg(error.response.data.message.start_time)
-                    } else {
-                        setErrorMsg(error.response.data.message)
-                    }
+                    setErrorMsg({ stack: error.response.data.message })
                     setShowMsg(true)
                     setLoading(false);
                 } else {
                     console.log(error)
-                    setErrorMsg(error.message)
+                    setErrorMsg({ network: error.message })
                     setShowMsg(true)
                     setLoading(false);
                 }
                 setLoading(false);
             });
     }
-    // console.log(errorMsg)
+
     const getImageURL = (e) => {
         const { name } = e.target;
         const file = e.target.files[0]; //filelist is an object carrying all details of file, .files[0] collects the value from key 0 (not array), and stores it in file
@@ -181,7 +171,7 @@ const NewForm = ({ setIsOpen }) => {
             alert('Please select a valid JPEG or PNG file.');
         }
     };
-    console.log(details)
+    // console.log(details)
     return (
         <div className='text-[#515B6F]'>
 
@@ -224,7 +214,7 @@ const NewForm = ({ setIsOpen }) => {
                                             <div className="mb-4">
                                                 <label className="block">
                                                     <span className="block text-sm font-medium text-slate-700">Full Name</span>
-                                                    <input type="text" value={details.full_name} onChange={handleOnChange}
+                                                    <input type="text" value={details.full_name} name='full_name' onChange={handleOnChange}
                                                         className="mt-1 block p-1 focus:outline-none w-full border" />
                                                 </label>
                                             </div>
@@ -268,11 +258,24 @@ const NewForm = ({ setIsOpen }) => {
                                                 </div>
                                                 <div className="">
                                                     <label className="block">
+                                                        <span className="block text-sm font-medium text-slate-700 mb-1">Type of ID</span>
+                                                        <select
+                                                            value={details.means_of_identification} name='means_of_identification' onChange={handleOnChange}
+                                                            id="" className='border w-full focus:outline-none p-2 pb-1'>
+                                                            <option value="male">-- Select --</option>
+                                                            <option value="nin">National Identity Card (NIN)</option>
+                                                            <option value="license">Drivers License </option>
+                                                            <option value="passport">International Passport </option>
+                                                        </select>
+                                                    </label>
+                                                </div>
+                                                {/* <div className="">
+                                                    <label className="block">
                                                         <span className="block text-sm font-medium text-slate-700">Type of ID</span>
                                                         <input type="text" value={details.means_of_identification} name='means_of_identification' onChange={handleOnChange}
                                                             className="mt-1 block p-1 focus:outline-none w-full border" />
                                                     </label>
-                                                </div>
+                                                </div> */}
                                                 <div className="">
                                                     <label className="block">
                                                         <span className="block text-sm font-medium text-slate-700">Input your NIN</span>
@@ -322,11 +325,11 @@ const NewForm = ({ setIsOpen }) => {
                                                             value={details.work_experience} name='work_experience' onChange={handleOnChange}
                                                             className='border w-full focus:outline-none p-2 pb-1'>
                                                             <option value="">-- select --</option>
-                                                            <option value="1">1</option>
-                                                            <option value="2">2</option>
-                                                            <option value="3">3</option>
-                                                            <option value="4">4 </option>
-                                                            <option value="5">5</option>
+                                                            <option value="1">1 year</option>
+                                                            <option value="2">2 years</option>
+                                                            <option value="3">3 years</option>
+                                                            <option value="4">4 years </option>
+                                                            <option value="5">5 years</option>
                                                         </select>
                                                     </label>
                                                 </div>
@@ -448,7 +451,7 @@ const NewForm = ({ setIsOpen }) => {
                                                             <option value="">-- select --</option>
                                                             <option value="nigeria">Nigeria</option>
                                                             <option value="ghana">Ghana</option>
-                                                            <option value="egypt">Egypt</option>
+                                                            <option value="cameroon">Cameroon</option>
                                                         </select>
                                                     </label>
                                                 </div>
@@ -526,6 +529,23 @@ const NewForm = ({ setIsOpen }) => {
                                         </div>
                                     </div>
                                 </div>
+                                {errorMsg?.stack && (
+                                    <div className="py-4 border-b mb-8 text-center">
+                                        {Object.keys(errorMsg.stack).map((field) => (
+                                            <div key={field}>
+                                                {errorMsg.stack[field].map((error, index) => (
+                                                    <p className="text-red-700 text-base font-medium" key={index}> {error}</p>
+                                                ))}
+                                            </div>
+                                        ))}
+                                    </div>
+                                )}
+                                {errorMsg?.network && (
+                                    <div className="py-4 border-b mb-8 text-center">
+                                        <p className="text-red-700 text-base font-medium"> {errorMsg.network}</p>
+                                    </div>
+                                )}
+
                                 {/* <div className=" border-b mb-8">
                                     <div className="flex py-6">
                                         <div className=" w-2/5 text-slate-900">
