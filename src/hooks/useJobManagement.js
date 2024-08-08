@@ -9,7 +9,7 @@ export const JOB_MANAGEMENT_Key = "Job Management Database";
 
 function useJobManagement() {
   const { authDetails } = useContext(AuthContext);
-  const client = axiosClient(authDetails.token);
+  const client = axiosClient(authDetails.token, true);
   const [loading, setLoading] = useState(false);
   const [details, setDetails] = useState({
     featured_image: null,
@@ -36,6 +36,7 @@ function useJobManagement() {
     location: "",
     maps_location: "",
   });
+  const [jobList, setJobList] = useState([])
   const [error, setError] = useState({
     message: "",
     error: "",
@@ -50,12 +51,15 @@ function useJobManagement() {
     setLoading(true);
     try {
       const response = await client.post(
-        `/job/${details.employer_id}`,
+        `/job`,
         details
       );
+      setDetails({})
       handleSuccess();
     } catch (error) {
       FormatError(error, setError, "Update Error");
+    } finally {
+      setLoading(false)
     }
   };
 
@@ -71,7 +75,7 @@ function useJobManagement() {
       try {
         const storedValue = await get(JOB_MANAGEMENT_Key);
         if (storedValue !== undefined) {
-          setDetails(storedValue);
+          setJobList(storedValue);
         }
       } catch (error) {
         FormatError(error, setError, "Index Error");
@@ -81,7 +85,7 @@ function useJobManagement() {
     initValue();
   }, []);
 
-  return { loading, details, onTextChange, setDetails, addJob };
+  return { loading, details, jobList, onTextChange, setDetails, addJob };
 }
 
 export default useJobManagement;

@@ -15,6 +15,8 @@ function useCompanyProfile() {
   const [loading, setLoading] = useState(false);
 
   const [details, setDetails] = useState({
+    //beenRetrieved check it data has instantialted
+    beenRetreived: false,
     employer_id: authDetails.user.id,
     company_profile: "",
     logo_image: "",
@@ -45,6 +47,22 @@ function useCompanyProfile() {
     setDetails({ ...details, [name]: value });
   };
 
+
+
+  const getProfileInfo = async () => {
+    setLoading(true)
+    try {
+      const response = await client.get(`/employer/getEmployer/${authDetails.user.id}`)
+      if(response.data.details){
+        await set(COMPANY_PROFILE_Key, response.data.details);
+        setDetails({...response.data.details, beenRetreived: true})
+      }
+    } catch (error) {
+      console.log(error)
+      setDetails({...response.data.details, beenRetreived: true})
+    }
+  }
+
   //Function to map details to a form data
   const mapToFormData = () => {
     const formData = new FormData();
@@ -67,6 +85,8 @@ function useCompanyProfile() {
 
     return formData;
   };
+
+
 
   //Api request to update profile
   const updateCompanyProfile = async (handleSuccess) => {
@@ -97,13 +117,14 @@ function useCompanyProfile() {
   }, [error.message, error.error]);
 
   useEffect(() => {
-
     //Initailise value from index db
     const initValue = async () => {
       try {
         const storedValue = await get(COMPANY_PROFILE_Key);
         if (storedValue !== undefined) {
-          setDetails({...storedValue, company_campaign_photos:[]});
+          setDetails({...storedValue, beenRetreived:true, company_campaign_photos: []});
+        } else {
+          await getProfileInfo()
         }
       } catch (error) {
         FormatError(error, setError, "Index Error");
@@ -112,6 +133,7 @@ function useCompanyProfile() {
 
     initValue();
   }, []);
+  
 
   return { loading, details, onTextChange, setDetails, updateCompanyProfile };
 }

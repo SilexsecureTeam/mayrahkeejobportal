@@ -7,9 +7,12 @@ import DetailsRight from "../../components/company-profile/DetailsRight";
 import { useContext, useState } from "react";
 import UpdateCompanyProfileModal from "../../components/company-profile/UpdateCompanyProfileModal";
 import { AuthContext } from "../../../context/AuthContex";
+import useCompanyProfile from "../../../hooks/useCompanyProfile";
 
 function CompaniesProfile() {
   const [displayPic, setDisplayPic] = useState("");
+  const companyHookProps = useCompanyProfile()
+  const {details} = companyHookProps
 
   const [isOpen, setIsOpen] = useState(false);
 
@@ -18,12 +21,13 @@ function CompaniesProfile() {
       <Helmet>
         <title> Company Dashboard | Companies Profile </title>
       </Helmet>
-      <UpdateCompanyProfileModal isOpen={isOpen} setIsOpen={setIsOpen} />
+      <UpdateCompanyProfileModal isOpen={isOpen} setIsOpen={setIsOpen} companyHookProps={companyHookProps} />
       <div className="h-full w-full flex flex-col p-2 justify-between">
         <ProfileHeader
           isOpen={isOpen}
           setIsOpen={setIsOpen}
           displayPic={displayPic}
+          details={details}
           setDisplayPic={setDisplayPic}
         >
           {company_profile_attributes.map((current) => (

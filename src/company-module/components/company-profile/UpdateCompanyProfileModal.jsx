@@ -133,12 +133,11 @@ const social_media_inputs = [
   },
 ];
 
-function UpdateCompanyProfileModal({ isOpen, setIsOpen, user }) {
+function UpdateCompanyProfileModal({ isOpen, setIsOpen, onInit = false, companyHookProps }) {
   const [displayPic, setDisplayPic] = useState("");
-  const [socials, setSocials] = useState( ["", "", "", ""]);
+  const [socials, setSocials] = useState(["", "", "", ""]);
   const [companyProfile, setCompanyProfile] = useState();
-  const { details, setDetails, loading, onTextChange, updateCompanyProfile } =
-    useCompanyProfile();
+  const { details, setDetails, loading, onTextChange, updateCompanyProfile } = companyHookProps
   const [campaignPhotos, setCampaignPhotos] = useState([
     ...details.company_campaign_photos,
   ]);
@@ -165,12 +164,21 @@ function UpdateCompanyProfileModal({ isOpen, setIsOpen, user }) {
 
     updateCompanyProfile(() => {
       console.log("Success!!!");
+      setIsOpen(false)
     });
   };
 
   useEffect(() => {
-    console.log(details);
-  }, [details.company_campaign_photos]);
+    setTimeout(() => {
+      if (details.beenRetreived && onInit && !details.email) {
+        console.log('details',details)
+        console.log(onInit)
+        setIsOpen(true);
+      } else{
+        setIsOpen(false)
+      }
+    }, 2000);
+  }, [details.beenRetreived]);
 
   return (
     isOpen && (

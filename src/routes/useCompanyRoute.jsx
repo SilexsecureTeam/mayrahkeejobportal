@@ -9,6 +9,9 @@ import {
 import CompanyReducer from "../reducers/CompanyReducer";
 import { AuthContext } from "../context/AuthContex";
 import RedirectModal from "../components/RedirectModal";
+import UpdateCompanyProfileModal from "../company-module/components/company-profile/UpdateCompanyProfileModal";
+import { clear } from "idb-keyval";
+import useCompanyProfile from "../hooks/useCompanyProfile";
 
 //Util Component
 const NavBar = lazy(() => import("../company-module/components/NavBar"));
@@ -59,7 +62,8 @@ function useCompanyRoute() {
   const [state, dispatch] = useReducer(CompanyReducer, companyOptions[0]);
   const { authDetails } = useContext(AuthContext);
   const [redirectState, setRedirectState] = useState();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+  const companyHookProps = useCompanyProfile()
 
   const navigateToProfile = (setIsOpen) => {
     const profile = companyOptions[3];
@@ -69,12 +73,12 @@ function useCompanyRoute() {
   };
 
   useEffect(() => {
-    setTimeout(() => {
-      setRedirectState(true);
-    }, 2000);
+
+    const clearDb = async() => await clear()
+
+    // return () => clearDb()
   }, []);
 
-  console.log(state);
   return (
     <>
       <main className="h-screen w-screen relative flex">
@@ -105,11 +109,11 @@ function useCompanyRoute() {
 
         {/* Routes and dashboard take up 80% of total width and 100% of height*/}
         <div className="w-[82%] relative flex divide-y-2 divide-secondaryColor bg-white flex-col h-full">
-          <RedirectModal
-            user={authDetails.user}
-            navigateToProfile={navigateToProfile}
+          <UpdateCompanyProfileModal
             isOpen={redirectState}
             setIsOpen={setRedirectState}
+            onInit={true}
+            companyHookProps={companyHookProps}
           />
           <NavBar state={state} />
           <div className="w-full  h-[92%] overflow-y-auto">
