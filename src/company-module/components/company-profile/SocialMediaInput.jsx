@@ -43,7 +43,6 @@ function SocialMediaInput({ data, socials, setSocials }) {
         break;
     }
 
-    console.log("deafult", value);
     return value;
   };
 

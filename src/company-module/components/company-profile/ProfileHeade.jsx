@@ -1,7 +1,7 @@
 import wheelIcon from "../../../assets/pngs/wheel-icon-black.png";
 import { FaRegEdit } from "react-icons/fa";
 
-function ProfileHeader({ children, displayPic, setDisplayPic, isOpen, setIsOpen }) {
+function ProfileHeader({ children, displayPic, setDisplayPic, isOpen, setIsOpen, details }) {
 
   
   const getImageURL = (e, setStateFunctionUrl) => {
@@ -17,10 +17,6 @@ function ProfileHeader({ children, displayPic, setDisplayPic, isOpen, setIsOpen 
       alert("Please select a valid JPEG or PNG file.");
     }
   };
-
-
-  console.log(displayPic)
-
 
   return (
     <div className="w-full h-[25%] border flex">
@@ -38,7 +34,7 @@ function ProfileHeader({ children, displayPic, setDisplayPic, isOpen, setIsOpen 
         {/* Circle section */}
         <div className="flex justify-between h-[50%] items-center">
           <div className="flex flex-col gap-[5px]">
-            <h2 className="font-bold text-3xl">Circle</h2>
+            <h2 className="font-bold text-3xl">{details?.company_name}</h2>
             <a
               href="google.com"
               className="text-primaryColor underline text-sm"
