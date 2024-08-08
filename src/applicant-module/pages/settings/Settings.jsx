@@ -17,7 +17,7 @@ const Settings = () => {
                     <button onClick={() => handleActive("log")} className={`p-2 mx-3 border-green-700 ${active === "log" ? "border-b-2 font-medium" : ""}`}>Log Details</button>
                     <button onClick={() => handleActive("notification")} className={`p-2 mx-3 border-green-700 ${active === "notification" ? "border-b-2 font-medium" : ""}`}>Notifications</button>
                 </div>
-                <div className="my-5 pr-6">
+                <div className="my-5 pr-[100px] pr-6">
                     <div className='border-b pb-4'>
                         <p className="font-medium mb-3 text-slate-950">Basic Information</p>
                         <p>This is your personal information that you can update anytime.</p>

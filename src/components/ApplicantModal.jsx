@@ -10,8 +10,8 @@ const navigate = useNavigate();
     }
 
     function handleRedirection() {
+        setIsOpen(false);
         navigate("/applicant/setting")
-        setIsOpen(true);
     }
 
 
