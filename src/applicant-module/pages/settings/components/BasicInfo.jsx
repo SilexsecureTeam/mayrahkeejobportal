@@ -11,7 +11,7 @@ import { AuthContext } from '../../../../context/AuthContex'
 import { ResourceContext } from '../../../../context/ResourceContext'
 import TextEditor from './TextEditor'
 
-const BasicInfo = () => {
+const BasicInfo = ({setIsOpen}) => {
 
     const { getCandidate, setGetCandidate } = useContext(ResourceContext);
 
@@ -34,7 +34,7 @@ const BasicInfo = () => {
     }, [])
 
     console.log(getCandidate.data)
-const candidate = getCandidate.data?.details
+    const candidate = getCandidate.data?.details
 
     const toggleAccept = () => {
         setDetails((prev) => {
@@ -119,6 +119,11 @@ const candidate = getCandidate.data?.details
         e.preventDefault();
         setErrorMsg(null)
         setLoading(true)
+        setGetCandidate((prev) => {
+            return {
+                ...prev, isDataNeeded: false
+            }
+        })
         axios.post(`${BASE_URL}/candidate/UpdateCandidate/${user.id}`, details, {
             headers: {
                 Authorization: `Bearer ${authDetails.token}`,
@@ -128,27 +133,23 @@ const candidate = getCandidate.data?.details
             .then((response) => {
                 console.log(response)
                 setLoading(false)
+                setIsOpen(false) 
+                setGetCandidate((prev) => {
+                    return {
+                        ...prev, isDataNeeded: true
+                    }
+                })
                 // toast.success("successful");
             })
             .catch((error) => {
                 console.log(error)
                 if (error.response) {
-                    // console.log(error.response)
-                    // setErrorMsg(error.response.data.message)
-                    if (error.response.data.errors.user_id) {
-                        setErrorMsg(error.response.data.errors.user_id)
-                        // } else if (error.response.data.message.instructor_id) {
-                        //     setErrorMsg(error.response.data.message.instructor_id)
-                        // } else if (error.response.data.message.start_time) {
-                        //     setErrorMsg(error.response.data.message.start_time)
-                    } else {
-                        setErrorMsg(error.response.data.message)
-                    }
+                    setErrorMsg({ stack: error.response.data.message })
                     setShowMsg(true)
                     setLoading(false);
                 } else {
                     console.log(error)
-                    setErrorMsg(error.message)
+                    setErrorMsg({ network: error.message })
                     setShowMsg(true)
                     setLoading(false);
                 }
@@ -256,9 +257,15 @@ const candidate = getCandidate.data?.details
                                                 </div>
                                                 <div className="">
                                                     <label className="block">
-                                                        <span className="block text-sm font-medium text-slate-700">Type of ID</span>
-                                                        <input type="text" value={details.means_of_identification} name='means_of_identification' onChange={handleOnChange}
-                                                            className="mt-1 block p-1 focus:outline-none w-full border" />
+                                                        <span className="block text-sm font-medium text-slate-700 mb-1">Type of ID</span>
+                                                        <select
+                                                            value={details.means_of_identification} name='means_of_identification' onChange={handleOnChange}
+                                                            id="" className='border w-full focus:outline-none p-2 pb-1'>
+                                                            <option value="male">-- Select --</option>
+                                                            <option value="nin">National Identity Card (NIN)</option>
+                                                            <option value="license">Drivers License </option>
+                                                            <option value="passport">International Passport </option>
+                                                        </select>
                                                     </label>
                                                 </div>
                                                 <div className="">
@@ -310,11 +317,11 @@ const candidate = getCandidate.data?.details
                                                             value={details.work_experience} name='work_experience' onChange={handleOnChange}
                                                             className='border w-full focus:outline-none p-2 pb-1'>
                                                             <option value="">-- select --</option>
-                                                            <option value="1">1</option>
-                                                            <option value="2">2</option>
-                                                            <option value="3">3</option>
-                                                            <option value="4">4 </option>
-                                                            <option value="5">5</option>
+                                                            <option value="1">1 year</option>
+                                                            <option value="2">2 years</option>
+                                                            <option value="3">3 years</option>
+                                                            <option value="4">4 years </option>
+                                                            <option value="5">5 years</option>
                                                         </select>
                                                     </label>
                                                 </div>
@@ -412,7 +419,7 @@ const candidate = getCandidate.data?.details
                                         </label>
                                     </div>
                                 </div>
-                                <div className="border-b py-6">
+                                <div className="border-b mb-8 py-6">
                                     <div className="flex">
                                         <div className="font-medium w-2/6 text-slate-900">
                                             <p>Contact Details</p>
@@ -514,6 +521,22 @@ const candidate = getCandidate.data?.details
                                         </div>
                                     </div>
                                 </div>
+                                {errorMsg?.stack && (
+                                    <div className="py-4 border-b mb-8 text-center">
+                                        {Object.keys(errorMsg.stack).map((field) => (
+                                            <div key={field}>
+                                                {errorMsg.stack[field].map((error, index) => (
+                                                    <p className="text-red-700 text-base font-medium" key={index}> {error}</p>
+                                                ))}
+                                            </div>
+                                        ))}
+                                    </div>
+                                )}
+                                {errorMsg?.network && (
+                                    <div className="py-4 border-b mb-8 text-center">
+                                        <p className="text-red-700 text-base font-medium"> {errorMsg.network}</p>
+                                    </div>
+                                )}
                                 {/* <div className=" border-b mb-8">
                                     <div className="flex py-6">
                                         <div className=" w-2/5 text-slate-900">
@@ -543,7 +566,7 @@ const candidate = getCandidate.data?.details
                                     </div>
                                 </div> */}
                                 <button className="rounded border prime_bg text-white px-4 flex justify-center py-2 w-[50%]">Save Profile
-                                {loading && <div className="size-[20px] ml-3 animate-spin rounded-full border-r-4  border- "></div>}
+                                    {loading && <div className="size-[20px] ml-3 animate-spin rounded-full border-r-4  border- "></div>}
                                 </button>
                             </div>
                         </form>

@@ -6,7 +6,8 @@ export const getUpdatedUser = (
   setDataState,
   setErrorMessage,
   endPoint,
-  dataArray
+  dataArray,
+  setChecker
 ) => {
   const fleetTypesApi = `${BASE_URL}${endPoint}`;
   let newFleetMakesData = [];
@@ -19,7 +20,10 @@ export const getUpdatedUser = (
       })
       .then((response) => {
         const apiData = response.data;
-        //   console.log(apiData);
+        if (!apiData.details){
+          setChecker(true)
+        }
+          // console.log(apiData.details == null);
         // apiData?.map((item) => {
         //   newFleetMakesData.push({
         //     id: item.id,

@@ -14,6 +14,7 @@ function ResourceContextProvider({ children }) {
         backgroundColor: "rgba(0, 0, 0, 0.15)",
         display: "block"
     })
+    const [checker, setChecker] = useState(false);
     const [errorMesage, setErrorMessage] = useState('');
 
     const [meetingTitle, setMeetingTitle] = useState('');
@@ -31,7 +32,7 @@ function ResourceContextProvider({ children }) {
         if (getCandidate.isDataNeeded) {
             const endPoint = `/candidate/getCandidate/${userId}`
             const dataArray = "candidateAuth"
-            getUpdatedUser(token, setGetCandidate, setErrorMessage, endPoint, dataArray)
+            getUpdatedUser(token, setGetCandidate, setErrorMessage, endPoint, dataArray, setChecker)
         }
     }, [getCandidate.isDataNeeded]);
 
@@ -40,6 +41,8 @@ function ResourceContextProvider({ children }) {
     return (
         <ResourceContext.Provider
             value={{
+                checker,
+                setChecker,
                 errorMesage,
                 meetingTitle,
                 setMeetingTitle,

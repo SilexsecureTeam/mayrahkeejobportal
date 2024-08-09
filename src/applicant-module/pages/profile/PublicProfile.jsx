@@ -42,7 +42,7 @@ function PublicProfile() {
             <div className="border">
               <div className="bg_layout p-4 h-[150px]">
                 <div className="flex justify-end text-white">
-                  <button className="p-1 border border-white hover:text-gray-200"><FaRegEdit /></button>
+                  {/* <button className="p-1 border border-white hover:text-gray-200"><FaRegEdit /></button> */}
                 </div>
               </div>
               <div className="p-4 flex">

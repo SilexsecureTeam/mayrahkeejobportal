@@ -13,7 +13,7 @@ const UpdateCandidateProfile = () => {
                 Edit Profile
             </button>
             <UseModal header={header} setIsOpen={setIsOpen} isOpen={isOpen} >
-                <BasicInfo />
+                <BasicInfo setIsOpen={setIsOpen}/>
             </UseModal>
         </>
     )
