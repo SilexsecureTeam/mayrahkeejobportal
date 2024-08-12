@@ -24,6 +24,11 @@ function ResourceContextProvider({ children }) {
         isDataNeeded: false,
     });
 
+    const [getAllJobs, setGetAllJobs] = useState({
+        data: null,
+        isDataNeeded: false,
+    });
+
 
 
     //Users Resource useEffect
@@ -36,9 +41,19 @@ function ResourceContextProvider({ children }) {
         }
     }, [getCandidate.isDataNeeded]);
 
+    // Get All Jobs
+    useEffect(() => {
+        setErrorMessage('');
+        if (getAllJobs.isDataNeeded) {
+            const endPoint = "/job"
+            const dataArray = ""
+            getItemFunc(token, setGetAllJobs, setErrorMessage, endPoint, dataArray)
+        }
+    }, [getAllJobs.isDataNeeded]);
 
 
-    return (
+
+    return ( 
         <ResourceContext.Provider
             value={{
                 checker,
@@ -48,6 +63,8 @@ function ResourceContextProvider({ children }) {
                 setMeetingTitle,
                 getCandidate,
                 setGetCandidate,
+                getAllJobs,
+                setGetAllJobs,
             }}
         >
             {children}

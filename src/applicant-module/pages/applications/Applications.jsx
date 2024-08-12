@@ -9,7 +9,7 @@ import newApplicant from "../../../assets/pngs/applicant-logo1.png"
 import newApplicant2 from "../../../assets/pngs/applicant-Logo2.png"
 import newApplicant3 from "../../../assets/pngs/applicant-logo3.png"
 import Pagination from "../../components/Pagination";
-import ApplicantModal from "../../../components/ApplicantModal";
+// import ApplicantModal from "../../../components/ApplicantModal";
 
 function Application() {
 

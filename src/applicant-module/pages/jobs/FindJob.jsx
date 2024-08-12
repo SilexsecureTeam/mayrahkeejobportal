@@ -12,11 +12,21 @@ import newApplicant3 from "../../../assets/pngs/applicant-logo3.png"
 import JobCard from "./components/JobCard";
 import Pagination from "../../components/Pagination";
 import { TbLayoutList, TbLayoutListFilled } from "react-icons/tb";
-import { useState } from "react";
+import { useState, useContext, useEffect } from "react";
 import JobGridCard from "./components/JobGridCard";
+import { ResourceContext } from "../../../context/ResourceContext";
 
 function FindJob() {
   const [isGrid, setIsGrid] = useState(false);
+  const { getAllJobs, setGetAllJobs } = useContext(ResourceContext)
+
+  useEffect(() => {
+    setGetAllJobs((prev) => {
+      return {
+        ...prev, isDataNeeded: true
+      }
+    })
+  }, [])
 
   return (
     <>
@@ -54,7 +64,7 @@ function FindJob() {
                 <h4 className="font-bold text-base">All Jobs</h4>
                 <div className="flex justify-between mb-6">
                   <div className="">
-                    <p>Showing 73 results</p>
+                    <p>Showing {getAllJobs.data?.length} results</p>
                   </div>
                   <div className="flex">
                     <div className="flex mr-3">
@@ -75,29 +85,25 @@ function FindJob() {
                     </div>
                   </div>
                 </div>
-                {isGrid ? (<div className="">
-                  <div className="grid grid-cols-3 gap-4">
-                    <JobGridCard newApplicant={newApplicant} />
-                    <JobGridCard newApplicant={newApplicant2} />
-                    <JobGridCard newApplicant={newApplicant3} />
-                    <JobGridCard newApplicant={newApplicant} />
-                    <JobGridCard newApplicant={newApplicant2} />
-                    <JobGridCard newApplicant={newApplicant3} />
-                    <JobGridCard newApplicant={newApplicant} />
-                    <JobGridCard newApplicant={newApplicant2} />
-                    <JobGridCard newApplicant={newApplicant3} />
-                  </div>
-                </div>
-                ) : (
-                  <div>
-                    <JobCard newApplicant={newApplicant} />
-                    <JobCard newApplicant={newApplicant2} />
-                    <JobCard newApplicant={newApplicant3} />
-                    <JobCard newApplicant={newApplicant} />
-                    <JobCard newApplicant={newApplicant2} />
-                    <JobCard newApplicant={newApplicant3} />
+                {getAllJobs.data && (
+                  <div className="">
+                    {isGrid ? (<div className="">
+                      <div className="grid grid-cols-3 gap-4">
+                        {getAllJobs.data?.map((job) => (
+                          <JobGridCard key={job.id} job={job} newApplicant={newApplicant} />
+                        ))}
+                      </div>
+                    </div>
+                    ) : (
+                      <div>
+                         {getAllJobs.data?.map((job) => (
+                          <JobCard key={job.id} job={job} newApplicant={newApplicant} />
+                        ))}
+                      </div>
+                    )}
                   </div>
                 )}
+
               </div>
               <Pagination />
             </div>

@@ -11,15 +11,14 @@ import RecentlyAdded from "./RecentlyAdded";
 import { motion } from "framer-motion";
 import { fadeIn, fadeInXaxis } from "../../../utils/variants"
 import { RiCalendarEventLine } from "react-icons/ri";
-import ApplicantModal from "../../../components/ApplicantModal";
 import { useContext } from "react";
 import { AuthContext } from "../../../context/AuthContex";
 import FirstUpdateForm from "../../components/first-update/FirstUpdateForm";
 const now = new Date()
 function Home() {
-  const { authDetails } = useContext(AuthContext);
+  const { authDetails, userUpdate } = useContext(AuthContext);
   const hour = now.getHours();
-  const user = authDetails?.user
+  const user = authDetails?.user 
 
   let timeOfDay = ""
   if (hour > 16) {
@@ -28,13 +27,13 @@ function Home() {
     timeOfDay = "Afternoon"
   } else { timeOfDay = "Morning" }
 
+  console.log(userUpdate)
 
   return (
     <>
       <Helmet>
         <title>Dashboard | Home</title>
       </Helmet>
-      {/* <ApplicantModal /> */}
       <FirstUpdateForm />
       <div className="h-full epilogue p-6 w-full text-sm text-primary">
         <div className="text-sm">

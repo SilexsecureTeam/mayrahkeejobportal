@@ -11,11 +11,11 @@ import { AuthContext } from '../../../../context/AuthContex'
 import { ResourceContext } from '../../../../context/ResourceContext'
 import TextEditor from './TextEditor'
 
-const BasicInfo = ({setIsOpen}) => {
+const BasicInfo = ({ setIsOpen }) => {
 
     const { getCandidate, setGetCandidate } = useContext(ResourceContext);
 
-    const { authDetails } = useContext(AuthContext)
+    const { authDetails, userUpdate, setUserUpdate } = useContext(AuthContext)
     const user = authDetails?.user
     const [errorMsg, setErrorMsg] = useState(null)
     const [showMsg, setShowMsg] = useState(false)
@@ -48,11 +48,13 @@ const BasicInfo = ({setIsOpen}) => {
     const [details, setDetails] = useState({
         candidate_id: user.id ? user.id : "",
         // full_name: user.full_name ? user.full_name : "",
+        profile: null,
         full_name: user.first_name ? ` ${user.first_name} ${user.last_name}` : "",
-        date_of_birth: candidate.date_of_birth ? candidate?.date_of_birth : "",
+        date_of_birth: candidate?.date_of_birth ? candidate?.date_of_birth : "",
         gender: candidate.gender ? candidate?.gender : "",
         phone_number: candidate.phone_number ? candidate?.phone_number : "",
         email: candidate.email ? candidate?.email : "",
+        background_profile: null,
         password: user.password ? user.password : "",
         means_of_identification: candidate.means_of_identification ? candidate?.means_of_identification : "",
         nin: candidate.nin ? candidate?.nin : "",
@@ -132,8 +134,10 @@ const BasicInfo = ({setIsOpen}) => {
         })
             .then((response) => {
                 console.log(response)
+                localStorage.setItem("userDetails", JSON.stringify(response.data.candidate));
+                // setUserUpdate(updateData)
                 setLoading(false)
-                setIsOpen(false) 
+                setIsOpen(false)
                 setGetCandidate((prev) => {
                     return {
                         ...prev, isDataNeeded: true
@@ -171,6 +175,8 @@ const BasicInfo = ({setIsOpen}) => {
         }
     };
     console.log(details)
+    console.log(userUpdate)
+
     return (
         <div className='text-[#515B6F]'>
 
@@ -194,8 +200,8 @@ const BasicInfo = ({setIsOpen}) => {
                                 <p><span className='text-green-500 font-medium'>Click to replace </span>or drag and drop</p>
                                 <p>SVG, PNG, JPG or GIF (max. 400 x 400px)</p>
                                 <input type="file"
-                                    accept='.jpeg, .png, .pdf'
-                                    name='image' onChange={getImageURL} id='image' className='invisible ' />
+                                    accept='.jpeg, .png, .jpg,'
+                                    name='profile' onChange={getImageURL} id='image' className='invisible ' />
                             </div>
                         </label>
                     </div>
@@ -280,6 +286,15 @@ const BasicInfo = ({setIsOpen}) => {
                                                         <span className="block text-sm font-medium text-slate-700">Upload NIN</span>
                                                         <input type="file"
                                                             name='nin_slip' onChange={handleOnChange}
+                                                            className="mt-1 block p-1 focus:outline-none w-full border" />
+                                                    </label>
+                                                </div>
+                                                <div className="">
+                                                    <label className="block">
+                                                        <span className="block text-sm font-medium text-slate-700">Background Image</span>
+                                                        <input type="file"
+                                                            accept='.jpeg, .png, .jpg,'
+                                                            name='background_profile' onChange={handleOnChange}
                                                             className="mt-1 block p-1 focus:outline-none w-full border" />
                                                     </label>
                                                 </div>

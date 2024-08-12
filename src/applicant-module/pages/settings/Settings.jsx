@@ -7,7 +7,7 @@ const Settings = () => {
     const { authDetails } = useContext(AuthContext);
 
     const user = authDetails?.user
-    const [active, setActive] = useState("profile")
+    const [active, setActive] = useState("log")
     const handleActive = (event) => setActive(event);
     return (
         <div className="h-full text-[#25324b] w-full">
@@ -22,7 +22,7 @@ const Settings = () => {
                         <p className="font-medium mb-3 text-slate-950">Basic Information</p>
                         <p>This is your personal information that you can update anytime.</p>
                     </div>
-                    {active === "profile" ? <BasicInfo authDetails={authDetails} /> : <ApplicantLoginDetails />}
+                    {active === "log" ? <ApplicantLoginDetails authDetails={authDetails}/> : <BasicInfo authDetails={authDetails} />}
                 </div>
             </div>
         </div>
