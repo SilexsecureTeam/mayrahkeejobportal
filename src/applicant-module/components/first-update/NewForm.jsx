@@ -1,21 +1,22 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { TbPhoto } from 'react-icons/tb'
-import DynamicExperienceForm from './DynamicExperienceForm'
-import SocialsForm from './SocialsForm'
-import { BASE_URL } from '../../../../utils/base'
+// import DynamicExperienceForm from './DynamicExperienceForm'
+// import { BASE_URL } from '../../../../utils/base'
 // import UiSelect from '../../../components/general/UiSelect'
 import axios from "axios";
 import { IoCheckboxSharp } from 'react-icons/io5';
 import { MdOutlineCheckBoxOutlineBlank } from 'react-icons/md';
-import { AuthContext } from '../../../../context/AuthContex'
-import { ResourceContext } from '../../../../context/ResourceContext'
-import TextEditor from './TextEditor'
+import { ResourceContext } from '../../../context/ResourceContext'
+import { AuthContext } from '../../../context/AuthContex'
+import TextEditor from '../../pages/settings/components/TextEditor'
+import SocialsForm from '../../pages/settings/components/SocialsForm';
+import { BASE_URL } from '../../../utils/base';
 
-const BasicInfo = ({ setIsOpen }) => {
+const NewForm = ({ setIsOpen }) => {
 
     const { getCandidate, setGetCandidate } = useContext(ResourceContext);
 
-    const { authDetails, userUpdate, setUserUpdate } = useContext(AuthContext)
+    const { authDetails, userUpdate } = useContext(AuthContext)
     const user = authDetails?.user
     const [errorMsg, setErrorMsg] = useState(null)
     const [showMsg, setShowMsg] = useState(false)
@@ -33,8 +34,7 @@ const BasicInfo = ({ setIsOpen }) => {
         })
     }, [])
 
-    console.log(getCandidate.data)
-    const candidate = getCandidate.data?.details
+    console.log(getCandidate)
 
     const toggleAccept = () => {
         setDetails((prev) => {
@@ -47,35 +47,34 @@ const BasicInfo = ({ setIsOpen }) => {
     const [profileImageUrl, setProfileImageUrl] = useState(user.image ? user.image : null);
     const [details, setDetails] = useState({
         candidate_id: user.id ? user.id : "",
-        // full_name: user.full_name ? user.full_name : "",
-        profile: null,
         full_name: user.first_name ? ` ${user.first_name} ${user.last_name}` : "",
-        date_of_birth: candidate?.date_of_birth ? candidate?.date_of_birth : "",
-        gender: candidate.gender ? candidate?.gender : "",
-        phone_number: candidate.phone_number ? candidate?.phone_number : "",
-        email: candidate.email ? candidate?.email : "",
-        background_profile: null,
+        profile: null,
+        date_of_birth: user.date_of_birth ? user.date_of_birth : "",
+        gender: user.gender ? user.gender : "",
+        phone_number: user.phone_number ? user.phone_number : "",
+        email: user.email ? user.email : "",
         password: user.password ? user.password : "",
-        means_of_identification: candidate.means_of_identification ? candidate?.means_of_identification : "",
-        nin: candidate.nin ? candidate?.nin : "",
-        nin_slip: candidate.nin_slip ? candidate?.nin_slip : "",
-        educational_qualification: candidate.educational_qualification ? candidate?.educational_qualification : "",
-        work_experience: candidate.work_experience ? candidate?.work_experience : "",
-        languages: candidate.languages ? candidate?.languages : "",
-        salary_type: candidate.salary_type ? candidate?.salary_type : "",
-        salary: candidate.salary ? candidate?.salary : "",
-        categories: candidate.categories ? candidate?.categories : "",
+        means_of_identification: user.means_of_identification ? user.means_of_identification : "",
+        nin: user.nin ? user.nin : "",
+        nin_slip: user.nin_slip ? user.nin_slip : "",
+        educational_qualification: user.educational_qualification ? user.educational_qualification : "",
+        work_experience: user.work_experience ? user.work_experience : "",
+        languages: user.languages ? user.languages : "",
+        salary_type: user.salary_type ? user.salary_type : "",
+        salary: user.salary ? user.salary : "",
+        categories: user.categories ? user.categories : "",
         // show_my_profile: true,
-        preferred_job_role: candidate.preferred_job_role ? candidate?.preferred_job_role : "",
-        personal_profile: candidate.personal_profile ? candidate?.personal_profile : "",
-        network: candidate.network ? candidate?.network : "",
-        contact_address: candidate.contact_address ? candidate?.contact_address : "",
-        country: candidate.country ? candidate?.country : "",
-        state: candidate.state ? candidate?.state : "",
-        local_gov: candidate.local_gov ? candidate?.local_gov : "",
-        address: candidate.address ? candidate?.address : "",
-        experience: candidate.experience ? candidate?.experience : "",
+        preferred_job_role: user.preferred_job_role ? user.preferred_job_role : "",
+        personal_profile: user.personal_profile ? user.personal_profile : "",
+        network: user.network ? user.network : "",
+        contact_address: user.contact_address ? user.contact_address : "",
+        country: user.country ? user.country : "",
+        state: user.state ? user.state : "",
+        local_gov: user.local_gov ? user.local_gov : "",
+        address: user.address ? user.address : "",
+        experience: user.experience ? user.experience : "",
         introduction_video: null,
+        background_profile: null,
         social_media_handle: [],
     })
 
@@ -137,16 +136,17 @@ const BasicInfo = ({ setIsOpen }) => {
                 localStorage.setItem("userDetails", JSON.stringify(response.data.candidate));
                 // setUserUpdate(updateData)
                 setLoading(false)
-                setIsOpen(false)
+                // toast.success("successful");
                 setGetCandidate((prev) => {
                     return {
                         ...prev, isDataNeeded: true
                     }
                 })
-                // toast.success("successful");
+                setIsOpen(false)
             })
             .catch((error) => {
                 console.log(error)
+                setLoading(false);
                 if (error.response) {
                     setErrorMsg({ stack: error.response.data.message })
                     setShowMsg(true)
@@ -157,9 +157,10 @@ const BasicInfo = ({ setIsOpen }) => {
                     setShowMsg(true)
                     setLoading(false);
                 }
+                setLoading(false);
             });
     }
-    // console.log(errorMsg)
+
     const getImageURL = (e) => {
         const { name } = e.target;
         const file = e.target.files[0]; //filelist is an object carrying all details of file, .files[0] collects the value from key 0 (not array), and stores it in file
@@ -174,9 +175,7 @@ const BasicInfo = ({ setIsOpen }) => {
             alert('Please select a valid JPEG or PNG file.');
         }
     };
-    console.log(details)
     console.log(userUpdate)
-
     return (
         <div className='text-[#515B6F]'>
 
@@ -192,7 +191,7 @@ const BasicInfo = ({ setIsOpen }) => {
                                 <img className='w-[100px] h-[100px] rounded-full' src={profileImageUrl} alt="" />
                             </div>
                         </div>
-                        <label htmlFor='image' className="min-h-32 min-w-96 cursor-pointer bg-green-50 border-2 border-green-500 border-dashed p-5 rounded">
+                        <label htmlFor='profile' className="min-h-32 min-w-96 cursor-pointer bg-green-50 border-2 border-green-500 border-dashed p-5 rounded">
                             <div className="text-center">
                                 <div className="flex justify-center">
                                     <span className='text-green-500 mb-3'><TbPhoto /></span>
@@ -200,8 +199,8 @@ const BasicInfo = ({ setIsOpen }) => {
                                 <p><span className='text-green-500 font-medium'>Click to replace </span>or drag and drop</p>
                                 <p>SVG, PNG, JPG or GIF (max. 400 x 400px)</p>
                                 <input type="file"
-                                    accept='.jpeg, .png, .jpg,'
-                                    name='profile' onChange={getImageURL} id='image' className='invisible ' />
+                                    accept='.jpeg, .png, .jpg, .pdf'
+                                    name='image' onChange={getImageURL} id='profile' className='invisible ' />
                             </div>
                         </label>
                     </div>
@@ -237,7 +236,7 @@ const BasicInfo = ({ setIsOpen }) => {
                                                     <label className="block">
                                                         <span className="block text-sm font-medium text-slate-700">Email</span>
                                                         <input type="email"
-                                                            value={details.email} name='email' onChange={handleOnChange}
+                                                            value={details.email} onChange={handleOnChange}
                                                             placeholder='Jakegyll@gmail.com'
                                                             className="mt-1 block p-1 focus:outline-none w-full border" />
                                                     </label>
@@ -274,6 +273,13 @@ const BasicInfo = ({ setIsOpen }) => {
                                                         </select>
                                                     </label>
                                                 </div>
+                                                {/* <div className="">
+                                                    <label className="block">
+                                                        <span className="block text-sm font-medium text-slate-700">Type of ID</span>
+                                                        <input type="text" value={details.means_of_identification} name='means_of_identification' onChange={handleOnChange}
+                                                            className="mt-1 block p-1 focus:outline-none w-full border" />
+                                                    </label>
+                                                </div> */}
                                                 <div className="">
                                                     <label className="block">
                                                         <span className="block text-sm font-medium text-slate-700">Input your NIN</span>
@@ -375,6 +381,21 @@ const BasicInfo = ({ setIsOpen }) => {
                                                             className="mt-1 block p-1 focus:outline-none w-full border" />
                                                     </label>
                                                 </div>
+                                                <div className="mb-4">
+                                                    <label className="block">
+                                                        <span className="block text-sm font-medium text-slate-700">Preferred Job Role</span>
+                                                        <input type="text"
+                                                            value={details.preferred_job_role} name='preferred_job_role' onChange={handleOnChange}
+                                                            className="mt-1 block p-1 focus:outline-none w-full border" />
+                                                    </label>
+                                                </div> <div className="mb-4">
+                                                    <label className="block">
+                                                        <span className="block text-sm font-medium text-slate-700">Personal Profile</span>
+                                                    </label>
+                                                    <textarea
+                                                        value={details.personal_profile} name='personal_profile' onChange={handleOnChange}
+                                                        className="mt-1 block w-full focus:outline-green-400 border" id=""></textarea>
+                                                </div>
                                                 {/* <div className="">
                                                     <label className="block">
                                                         <span className="block text-sm font-medium text-slate-700 mb-1">Show my profile</span>
@@ -399,21 +420,6 @@ const BasicInfo = ({ setIsOpen }) => {
                                                         )}
                                                     </button>
                                                 </div> */}
-                                                <div className="mb-4">
-                                                    <label className="block">
-                                                        <span className="block text-sm font-medium text-slate-700">Preferred Job Role</span>
-                                                        <input type="text"
-                                                            value={details.preferred_job_role} name='preferred_job_role' onChange={handleOnChange}
-                                                            className="mt-1 block p-1 focus:outline-none w-full border" />
-                                                    </label>
-                                                </div> <div className="mb-4">
-                                                    <label className="block">
-                                                        <span className="block text-sm font-medium text-slate-700">Personal Profile</span>
-                                                    </label>
-                                                    <textarea
-                                                        value={details.personal_profile} name='personal_profile' onChange={handleOnChange}
-                                                        className="mt-1 block w-full focus:outline-green-400 border" id=""></textarea>
-                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -434,7 +440,7 @@ const BasicInfo = ({ setIsOpen }) => {
                                         </label>
                                     </div>
                                 </div>
-                                <div className="border-b mb-8 py-6">
+                                <div className="border-b py-6">
                                     <div className="flex">
                                         <div className="font-medium w-2/6 text-slate-900">
                                             <p>Contact Details</p>
@@ -458,7 +464,7 @@ const BasicInfo = ({ setIsOpen }) => {
                                                             <option value="">-- select --</option>
                                                             <option value="nigeria">Nigeria</option>
                                                             <option value="ghana">Ghana</option>
-                                                            <option value="egypt">Egypt</option>
+                                                            <option value="cameroon">Cameroon</option>
                                                         </select>
                                                     </label>
                                                 </div>
@@ -552,6 +558,7 @@ const BasicInfo = ({ setIsOpen }) => {
                                         <p className="text-red-700 text-base font-medium"> {errorMsg.network}</p>
                                     </div>
                                 )}
+
                                 {/* <div className=" border-b mb-8">
                                     <div className="flex py-6">
                                         <div className=" w-2/5 text-slate-900">
@@ -580,7 +587,7 @@ const BasicInfo = ({ setIsOpen }) => {
                                         </div>
                                     </div>
                                 </div> */}
-                                <button className="rounded border prime_bg text-white px-4 flex justify-center py-2 w-[50%]">Save Profile
+                                <button className="rounded border prime_bg text-white px-4 py-2 flex justify-center w-[50%]">Save Profile
                                     {loading && <div className="size-[20px] ml-3 animate-spin rounded-full border-r-4  border- "></div>}
                                 </button>
                             </div>
@@ -592,4 +599,4 @@ const BasicInfo = ({ setIsOpen }) => {
     )
 }
 
-export default BasicInfo
+export default NewForm

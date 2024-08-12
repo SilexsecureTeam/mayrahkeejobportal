@@ -1,7 +1,7 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 
-const CompanyGridCard = ({ newApplicant }) => {
+const CompanyGridCard = ({ newApplicant, job}) => {
     const navigate = useNavigate();
 
     return (
