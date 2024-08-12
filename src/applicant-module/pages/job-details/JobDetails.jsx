@@ -9,8 +9,17 @@ import arrowUp from "../../../assets/pngs/perks-n-benefits/kite-up.png"
 import coffee from "../../../assets/pngs/perks-n-benefits/coffee-cup.png"
 import trainIcon from "../../../assets/pngs/perks-n-benefits/vehicle.png"
 import unity from "../../../assets/pngs/perks-n-benefits/unity.png"
+import { useLocation } from 'react-router-dom'
+import JobApplicationForm from './components/JobApplicationForm'
 
 const JobDetails = () => {
+    const { state } = useLocation();
+    console.log(state)
+    const job = state?.job
+
+    const postedDate = new Date(job.created_at)
+    const keywordArr = job.search_keywords?.split(',')
+
     return (
         <div className="h-full text-[#25324b] w-full">
             <div className=' p-6 border-b mb-8'>
@@ -22,8 +31,9 @@ const JobDetails = () => {
                                     <img src={headerImg} width={80} alt="" />
                                 </div>
                                 <div className="ml-3">
-                                    <p className="text-base mb-4 font-bold">Social Media Assistance</p>
-                                    <p className="mb-3">Agency · Paris · France · Full Time</p>
+                                    <p className="text-base mb-4 font-bold">{job.job_title}</p>
+                                    <p className="mb-3">· {job.location} · {job.type}</p>
+                                    <p className=""><b>Address:</b> {job.office_address}</p>
                                 </div>
                             </div>
                             <div className="flex items-center">
@@ -33,7 +43,8 @@ const JobDetails = () => {
                                     </button>
                                 </div>
                                 <div className="ml-3">
-                                    <button className='px-10 py-2 green_btn text-white hover:bg-green-700'>Apply</button>
+                                    <JobApplicationForm job={job} />
+                                    {/* <button className='px-10 py-2 green_btn text-white hover:bg-green-700'>Apply</button> */}
                                 </div>
                             </div>
                         </div>
@@ -44,32 +55,18 @@ const JobDetails = () => {
                         <div className="w-[80%] pr-4">
                             <div className="mb-6">
                                 <h4 className='font-bold mb-4'>Description</ h4>
-                                <p>Pattern is looking for Social Media Marketing expert to help manage our online networks. You will be responsible for monitoring our social media channels, creating content, finding effective ways to engage the community and incentivize others to engage on our channels.</p>
+                                <p className="">{job.job_description}</p>
                             </div>
                             <div className="mb-6">
-                                <h4 className='font-bold mb-4'>Responsibilties</ h4>
-                                <div className='flex items-center mb-2'>
-                                    <span className="mr-3 prime_text"><FaRegCheckCircle /></span>
-                                    Community engagement to ensure that is supported and actively represented online
-                                </div>
-                                <div className='flex items-center mb-2'>
-                                    <span className="mr-3 prime_text"><FaRegCheckCircle /></span>
-                                    Focus on social media content development and publication
-                                </div>
-                                <div className='flex items-center mb-2'>
-                                    <span className="mr-3 prime_text"><FaRegCheckCircle /></span>
-                                    Marketing and strategy support
-                                </div>
-                                <div className='flex items-center mb-2'>
-                                    <span className="mr-3 prime_text"><FaRegCheckCircle /></span>
-                                    Stay on top of trends on social media platforms, and suggest content ideas to the team
-                                </div>
-                                <div className='flex items-center mb-2'>
-                                    <span className="mr-3 prime_text"><FaRegCheckCircle /></span>
-                                    Engage with online communities
-                                </div>
+                                <h4 className='font-bold mb-4'>Qualifications</ h4>
+                                {job.qualification?.map((each, i) => (
+                                    <div key={i} className='flex items-center mb-2'>
+                                        <span className="mr-3 prime_text"><FaRegCheckCircle /></span>
+                                        {each}
+                                    </div>
+                                ))}
                             </div>
-                            <div className="mb-6">
+                            {/* <div className="mb-6">
                                 <h4 className='font-bold mb-4'>Who You Are</ h4>
                                 <div className='flex items-center mb-2'>
                                     <span className="mr-3 prime_text"><FaRegCheckCircle /></span>
@@ -100,7 +97,7 @@ const JobDetails = () => {
                                     <span className="mr-3 prime_text"><FaRegCheckCircle /></span>
                                     Copy editing skills
                                 </div>
-                            </div>
+                            </div> */}
                         </div>
                         <div className="w-[20%]">
                             <h4 className="font-bold mb-4">About this role</h4>
@@ -113,22 +110,39 @@ const JobDetails = () => {
                             <div className="my-6 border-b">
                                 <div className="flex my-3 justify-between">
                                     <p>Apply Before</p>
-                                    <p className="font-medium">June 31, 2021</p>
+                                    <p className="font-medium">{job.application_deadline_date}</p>
                                 </div>
                                 <div className="flex my-3 justify-between">
                                     <p>Job Posted On</p>
-                                    <p className="font-medium">July 1, 2021</p>
+                                    <p className="font-medium">{postedDate.toLocaleDateString()}</p>
+                                </div>
+                                <div className="flex my-3 justify-between">
+                                    <p>Email</p>
+                                    <p className="font-medium">{job.email}</p>
                                 </div>
                                 <div className="flex my-3 justify-between">
                                     <p>Job Type</p>
-                                    <p className="font-medium">Full-Time</p>
+                                    <p className="font-medium">{job.type}</p>
+                                </div>
+                                <div className="flex my-3 justify-between">
+                                    <p>Experience</p>
+                                    <p className="font-medium">{job.experience}</p>
+                                </div>
+                                <div className="flex my-3 justify-between">
+                                    <p>Salary Type</p>
+                                    <p className="font-medium">{job.salary_type}</p>
+                                </div>
+                                <div className="flex my-3 justify-between">
+                                    <p>Currency</p>
+                                    <p className="font-medium">{job.currency}</p>
                                 </div>
                             </div>
                             <div className="my-6 border-b pb-6">
                                 <h4 className="font-bold mb-4">Categories</h4>
-                                <div className="flex text-xs">
-                                    <button className="px-3 py-1 rounded-full bg-amber-100 text-amber-500">Marketing</button>
-                                    <button className="px-3 py-1 mx-2 rounded-full bg-teal-50 text-teal-400">Design</button>
+                                <div className="flex flex-wrap gap-1 text-xs">
+                                    {keywordArr?.map((each, index) => (
+                                        <button key={index} className="px-3 py-1 rounded-full odd:bg-amber-100 text-amber-500 even:bg-teal-50 even:text-teal-400">{each}</button>
+                                    ))}
                                 </div>
                             </div>
                             <div className="my-6 border-b pb-6">

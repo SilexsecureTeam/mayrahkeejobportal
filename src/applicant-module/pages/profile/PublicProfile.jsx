@@ -13,11 +13,12 @@ import { useContext, useEffect } from "react";
 import { AuthContext } from "../../../context/AuthContex";
 import UpdateCandidateProfile from "../settings/components/UpdateCandidateProfile";
 import { ResourceContext } from "../../../context/ResourceContext";
+import { IMAGE_URL } from "../../../utils/base";
 
 function PublicProfile() {
 
   const { getCandidate, setGetCandidate } = useContext(ResourceContext);
-  const { authDetails } = useContext(AuthContext);
+  const { authDetails, userUpdate } = useContext(AuthContext);
   const user = authDetails?.user
 
   useEffect(() => {
@@ -30,6 +31,7 @@ function PublicProfile() {
 
   const candidate = getCandidate.data?.details
   console.log(getCandidate.data)
+  console.log(userUpdate)
 
   return (
     <>
@@ -47,13 +49,15 @@ function PublicProfile() {
               </div>
               <div className="p-4 flex">
                 <div className="mr-5">
-                  <div className="size-[120px] -mt-[50%] ring-white ring-4 rounded-full bg-gray-300"></div>
+                  <div className="size-[120px] -mt-[50%] ring-white ring-4 rounded-full bg-gray-300">
+                    <img src={`${IMAGE_URL}/${candidate?.profile}`} alt="profile image" />
+                  </div>
                 </div>
                 <div className="w-full flex justify-between">
                   <div className="">
                     <h4 className="font-bold mb-4">{user?.first_name} {user?.last_name}</h4>
                     <div className="text-[#7C8493]">
-                      <p>{candidate?.preferred_job_role} <b className="text-black ml-2">Twitter</b></p>
+                      <p>{candidate?.preferred_job_role} <b className="text-black ml-2"></b></p>
                       <div className="my-3 flex">
                         <span className="mr-3">
                           <GrLocation />
@@ -72,7 +76,6 @@ function PublicProfile() {
                   </div>
                   <div className="">
                     <UpdateCandidateProfile />
-
                   </div>
                 </div>
               </div>
@@ -118,26 +121,7 @@ function PublicProfile() {
                       </div> */}
                     </div>
                   </div>
-                  <div className="py-6 text-sm text-[#515B6F]">
-                    <div className="flex justify-b">
-                      <div className="w-[30%]">
-                        <img src={thread} alt="" />
-                      </div>
-                      <div className="w-full">
-                        <div className="flex justify-between">
-                          <p className="font-bold ">Product Designer</p>
-                          <button className="p-1 border border-green-500   text-green-700 hover:text-gray-600"><FaRegEdit /></button>
-                        </div>
-                        <div className="">
-                          <p><span className="font-medium">Twitter</span> · Full Time · Full TimeJun 2019 - Present (1y 1m)</p>
-                          <p>Manchester, UK</p>
-                          <p>
-                            Created and executed social media plan for 10 brands utilizing multiple features and content types to increase brand outreach, engagement, and leads.
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+                  
                 </div>
               </div>
             </div>
@@ -169,26 +153,6 @@ function PublicProfile() {
                     {/* <p>{candidate?.educational_qualification}</p> */}
                     <p dangerouslySetInnerHTML={{ __html: candidate?.educational_qualification }} />
 
-                  </div>
-                  <div className="py-6 text-sm text-[#515B6F]">
-                    <div className="flex justify-b">
-                      <div className="w-[30%]">
-                        <img src={eduIcon2} alt="" />
-                      </div>
-                      <div className="w-full">
-                        <div className="flex justify-between">
-                          <p className="font-bold ">Product Designer</p>
-                          <button className="p-1 border border-green-500   text-green-700 hover:text-gray-600"><FaRegEdit /></button>
-                        </div>
-                        <div className="">
-                          <p><span className="font-medium">Twitter</span> · Full Time · Full TimeJun 2019 - Present (1y 1m)</p>
-                          <p>Manchester, UK</p>
-                          <p>
-                            Created and executed social media plan for 10 brands utilizing multiple features and content types to increase brand outreach, engagement, and leads.
-                          </p>
-                        </div>
-                      </div>
-                    </div>
                   </div>
                 </div>
               </div>

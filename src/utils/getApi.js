@@ -19,6 +19,7 @@ export const getUpdatedUser = (
         },
       })
       .then((response) => {
+        // console.log(response);
         const apiData = response.data;
         if (!apiData.details){
           setChecker(true)
@@ -30,7 +31,7 @@ export const getUpdatedUser = (
         //     ...item,
         //   });
         // });
-
+        // localStorage.setItem("userDetails", JSON.stringify(apiData));
         setDataState((prev) => {
           return {
             data: apiData,
@@ -65,8 +66,10 @@ export const getItemFunc = (
         },
       })
       .then((response) => {
-        const apiData = response.data[dataArray];
-        //   console.log(apiData);
+        console.log(response);
+        // const apiData = response.data[dataArray];
+        const apiData = response.data;
+        console.log(apiData);
         apiData?.map((item) => {
           newFleetMakesData.push({
             id: item.id,

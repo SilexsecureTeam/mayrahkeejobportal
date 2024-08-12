@@ -16,7 +16,7 @@ const NewForm = ({ setIsOpen }) => {
 
     const { getCandidate, setGetCandidate } = useContext(ResourceContext);
 
-    const { authDetails } = useContext(AuthContext)
+    const { authDetails, userUpdate } = useContext(AuthContext)
     const user = authDetails?.user
     const [errorMsg, setErrorMsg] = useState(null)
     const [showMsg, setShowMsg] = useState(false)
@@ -48,6 +48,7 @@ const NewForm = ({ setIsOpen }) => {
     const [details, setDetails] = useState({
         candidate_id: user.id ? user.id : "",
         full_name: user.first_name ? ` ${user.first_name} ${user.last_name}` : "",
+        profile: null,
         date_of_birth: user.date_of_birth ? user.date_of_birth : "",
         gender: user.gender ? user.gender : "",
         phone_number: user.phone_number ? user.phone_number : "",
@@ -73,6 +74,7 @@ const NewForm = ({ setIsOpen }) => {
         address: user.address ? user.address : "",
         experience: user.experience ? user.experience : "",
         introduction_video: null,
+        background_profile: null,
         social_media_handle: [],
     })
 
@@ -131,6 +133,8 @@ const NewForm = ({ setIsOpen }) => {
         })
             .then((response) => {
                 console.log(response)
+                localStorage.setItem("userDetails", JSON.stringify(response.data.candidate));
+                // setUserUpdate(updateData)
                 setLoading(false)
                 // toast.success("successful");
                 setGetCandidate((prev) => {
@@ -171,12 +175,12 @@ const NewForm = ({ setIsOpen }) => {
             alert('Please select a valid JPEG or PNG file.');
         }
     };
-    // console.log(details)
+    console.log(userUpdate)
     return (
         <div className='text-[#515B6F]'>
 
             <div className="my-4">
-                {/* <div className="flex items-cente pb-6 border-b">
+                <div className="flex items-cente pb-6 border-b">
                     <div className="w-1/3 pr-5">
                         <p className="font-medium mb-2 text-slate-950">Profile Photo</p>
                         <p>This image will be shown publicly as your profile picture, it will help recruiters recognize you!</p>
@@ -187,7 +191,7 @@ const NewForm = ({ setIsOpen }) => {
                                 <img className='w-[100px] h-[100px] rounded-full' src={profileImageUrl} alt="" />
                             </div>
                         </div>
-                        <label htmlFor='image' className="min-h-32 min-w-96 cursor-pointer bg-green-50 border-2 border-green-500 border-dashed p-5 rounded">
+                        <label htmlFor='profile' className="min-h-32 min-w-96 cursor-pointer bg-green-50 border-2 border-green-500 border-dashed p-5 rounded">
                             <div className="text-center">
                                 <div className="flex justify-center">
                                     <span className='text-green-500 mb-3'><TbPhoto /></span>
@@ -195,12 +199,12 @@ const NewForm = ({ setIsOpen }) => {
                                 <p><span className='text-green-500 font-medium'>Click to replace </span>or drag and drop</p>
                                 <p>SVG, PNG, JPG or GIF (max. 400 x 400px)</p>
                                 <input type="file"
-                                    accept='.jpeg, .png, .pdf'
-                                    name='image' onChange={getImageURL} id='image' className='invisible ' />
+                                    accept='.jpeg, .png, .jpg, .pdf'
+                                    name='image' onChange={getImageURL} id='profile' className='invisible ' />
                             </div>
                         </label>
                     </div>
-                </div> */}
+                </div>
                 <div className="update_form py-6">
                     <div>
                         <form onSubmit={handleSubmit}>
@@ -288,6 +292,15 @@ const NewForm = ({ setIsOpen }) => {
                                                         <span className="block text-sm font-medium text-slate-700">Upload NIN</span>
                                                         <input type="file"
                                                             name='nin_slip' onChange={handleOnChange}
+                                                            className="mt-1 block p-1 focus:outline-none w-full border" />
+                                                    </label>
+                                                </div>
+                                                <div className="">
+                                                    <label className="block">
+                                                        <span className="block text-sm font-medium text-slate-700">Background Image</span>
+                                                        <input type="file"
+                                                            accept='.jpeg, .png, .jpg,'
+                                                            name='background_profile' onChange={handleOnChange}
                                                             className="mt-1 block p-1 focus:outline-none w-full border" />
                                                     </label>
                                                 </div>

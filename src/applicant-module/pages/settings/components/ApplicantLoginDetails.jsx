@@ -1,8 +1,10 @@
 import React from 'react'
 import { FaRegCheckCircle } from 'react-icons/fa'
 import { GrCircleAlert } from 'react-icons/gr'
+import NotificationModal from '../../../../components/NotificationModal'
+import DeleteUser from './DeleteUser'
 
-const ApplicantLoginDetails = () => {
+const ApplicantLoginDetails = ({authDetails}) => {
   return (
     <div>
       <div className="update_form py-6">
@@ -64,12 +66,7 @@ const ApplicantLoginDetails = () => {
               </div>
             </div>
           </form>
-          <div className="flex justify-end py-6">
-            <div className="flex text-red-500 font-medium items-center">
-              <span>Close Account </span>
-              <span className='ml-3'><GrCircleAlert /></span>
-            </div>
-          </div>
+          <DeleteUser authDetails={authDetails} />
         </div>
       </div>
     </div>
