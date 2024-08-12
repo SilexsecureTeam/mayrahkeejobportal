@@ -1,55 +1,62 @@
 import { useNavigate } from "react-router-dom";
 
-function ListingRow() {
+function ListingRow({ data }) {
   const navigate = useNavigate();
 
   const navigateJobTypeDetails = () =>
-    navigate("/company/job-listing/type/senoir_manager");
+    navigate(`/company/job-listing/type/${data.id}`, { state: { data } });
 
   return (
-    <tr onClick={navigateJobTypeDetails} className="border-b cursor-pointer odd:bg-gray-200  text-little">
+    <tr
+      onClick={navigateJobTypeDetails}
+      className="border-b cursor-pointer hover:scale-105 odd:bg-gray-200 hover:bg-primaryColor hover:text-white  text-little"
+    >
       <td className="text-center py-[5px]">
         <div className="flex justify-center items-center gap-[5px]">
-          <span>Senoir Manager</span>
-        </div>
-      </td>
-
-      <td>
-      <div className="flex w-full justify-center py-[10px] items-center">
-        <button className="py-[2px] px-[5px] border w-[80%] text-little border-primaryColor rounded-[30px] text-center font-semibold">
-          Live
-        </button>
+          <span>{data.job_title}</span>
         </div>
       </td>
 
       <td>
         <div className="flex w-full justify-center py-[10px] items-center">
-          <span className="text-little font-semibold">17, May 2023</span>
+          <button className="py-[2px] px-[5px] border w-[80%] text-little border-primaryColor rounded-[30px] text-center font-semibold">
+            Live
+          </button>
         </div>
       </td>
 
       <td>
         <div className="flex w-full justify-center py-[10px] items-center">
-          <span className="text-little font-semibold">17, May 2023</span>
+          <span className="text-little font-semibold">
+            {new Date(data.created_at).toLocaleDateString()}
+          </span>
         </div>
       </td>
 
       <td>
         <div className="flex w-full justify-center py-[10px] items-center">
-        <button className="py-[2px] px-[5px] w-[80%] text-little border border-primaryColor rounded-[30px] text-center font-semibold">
-          Fulltime
-        </button>
+          <span className="text-little font-semibold">
+            {new Date(data.application_deadline_date).toLocaleDateString()}
+          </span>
         </div>
       </td>
 
       <td>
         <div className="flex w-full justify-center py-[10px] items-center">
-          <span className="text-little font-semibold">20</span>
+          <button className="py-[2px] px-[5px] w-[80%] text-little border border-primaryColor rounded-[30px] text-center font-semibold">
+            {data?.type}
+          </button>
+        </div>
+      </td>
+
+      <td>
+        <div className="flex w-full justify-center py-[10px] items-center">
+          <span className="text-little font-semibold">None</span>
         </div>
       </td>
       <td>
         <div className="flex w-full justify-center py-[10px] items-center">
-          <span className="text-little font-semibold">4/11</span>
+          <span className="text-little font-semibold">{data.gender}</span>
         </div>
       </td>
       {/* 

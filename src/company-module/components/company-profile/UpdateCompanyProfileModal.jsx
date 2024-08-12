@@ -21,6 +21,7 @@ const basic_inputs = [
     id: 1,
     name: "company_name",
     label: "Company Name",
+    required: true,
     type: "text",
     placeholder: "Enter Company name",
   },
@@ -28,6 +29,7 @@ const basic_inputs = [
     id: 2,
     name: "email",
     label: "Company Email",
+    required: true,
     type: "email",
     placeholder: "Enter Company Email",
   },
@@ -35,12 +37,13 @@ const basic_inputs = [
     id: 3,
     name: "phone_number",
     label: "Company Phone",
+    required: true,
     type: "tel",
     placeholder: "Enter Company Phone",
   },
   {
     id: 4,
-    name: "Phone Number",
+    name: "Company Website",
     label: "Company Website",
     type: "text",
     placeholder: "https://www.example.com",
@@ -133,13 +136,19 @@ const social_media_inputs = [
   },
 ];
 
-function UpdateCompanyProfileModal({ isOpen, setIsOpen, onInit = false, companyHookProps }) {
+function UpdateCompanyProfileModal({
+  isOpen,
+  setIsOpen,
+  onInit = false,
+  companyHookProps,
+}) {
   const [displayPic, setDisplayPic] = useState("");
   const [socials, setSocials] = useState(["", "", "", ""]);
   const [companyProfile, setCompanyProfile] = useState();
-  const { details, setDetails, loading, onTextChange, updateCompanyProfile } = companyHookProps
+  const { details, setDetails, loading, onTextChange, updateCompanyProfile, retrievalState } =
+    companyHookProps;
   const [campaignPhotos, setCampaignPhotos] = useState([
-    ...details.company_campaign_photos,
+    ...details?.company_campaign_photos,
   ]);
 
   const getCampaingPhotoURL = (e) => {
@@ -164,21 +173,26 @@ function UpdateCompanyProfileModal({ isOpen, setIsOpen, onInit = false, companyH
 
     updateCompanyProfile(() => {
       console.log("Success!!!");
-      setIsOpen(false)
+      setIsOpen(false);
     });
   };
 
   useEffect(() => {
     setTimeout(() => {
-      if (details.beenRetreived && onInit && !details.email) {
-        console.log('details',details)
-        console.log(onInit)
+      if (
+        details.beenRetreived === retrievalState.notRetrieved &&
+        onInit
+      ) {
+        console.log("details", details);
+        console.log(onInit);
         setIsOpen(true);
-      } else{
-        setIsOpen(false)
+      } else {
+        setIsOpen(false);
       }
-    }, 2000);
+    }, 1000);
   }, [details.beenRetreived]);
+
+  useEffect(() => console.log(details), [details])
 
   return (
     isOpen && (

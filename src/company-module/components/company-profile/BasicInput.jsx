@@ -5,6 +5,7 @@ function BasicInput({ data, details, onTextChange }) {
       <input
         value={details[data?.name]}
         onChange={onTextChange}
+        required={data.required}
         className="p-2 border focus:outline-none"
         name={data.name}
         placeholder={data.placeholder}

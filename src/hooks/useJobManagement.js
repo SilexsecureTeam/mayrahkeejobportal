@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { axiosClient } from "../services/axios-client";
-import { set, get, del, keys } from "idb-keyval";
+import { set, get, del, keys, clear } from "idb-keyval";
 import { FormatError } from "../utils/formmaters";
 import { AuthContext } from "../context/AuthContex";
 import { onFailure } from "../utils/notifications/OnFailure";
@@ -36,7 +36,7 @@ function useJobManagement() {
     location: "",
     maps_location: "",
   });
-  const [jobList, setJobList] = useState([])
+  const [jobList, setJobList] = useState([]);
   const [error, setError] = useState({
     message: "",
     error: "",
@@ -50,15 +50,40 @@ function useJobManagement() {
   const addJob = async (handleSuccess) => {
     setLoading(true);
     try {
-      const response = await client.post(
-        `/job`,
-        details
-      );
-      setDetails({})
+      const response = await client.post(`/job`, details);
+      setDetails({});
       handleSuccess();
+      getJobsFromDB()
     } catch (error) {
       FormatError(error, setError, "Update Error");
     } finally {
+      setLoading(false);
+    }
+  };
+
+
+  const deleteJob = async (handleSuccess, jobId) => {
+    setLoading(true)
+    try {
+       const response = await client.delete(`/job/${jobId}`)
+       await getJobsFromDB()
+       handleSuccess()
+    } catch (error) {
+        FormatError(error, setError, 'Delete Job')
+    } finally{
+      setLoading(false)
+    }
+  }
+
+  const getJobsFromDB = async () => {
+    setLoading(true);
+    try {
+      const response = await client.get("/job");
+      await set(JOB_MANAGEMENT_Key, response.data);
+      setJobList(response.data);
+    } catch (error) {
+      FormatError(error);
+    } finally{
       setLoading(false)
     }
   };
@@ -73,10 +98,12 @@ function useJobManagement() {
   useEffect(() => {
     const initValue = async () => {
       try {
+        await clear()
         const storedValue = await get(JOB_MANAGEMENT_Key);
         if (storedValue !== undefined) {
           setJobList(storedValue);
         }
+        getJobsFromDB()
       } catch (error) {
         FormatError(error, setError, "Index Error");
       }
@@ -85,7 +112,7 @@ function useJobManagement() {
     initValue();
   }, []);
 
-  return { loading, details, jobList, onTextChange, setDetails, addJob };
+  return { loading, details, jobList, onTextChange, setDetails, addJob, deleteJob };
 }
 
 export default useJobManagement;
