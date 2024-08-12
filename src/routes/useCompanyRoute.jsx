@@ -12,6 +12,7 @@ import RedirectModal from "../components/RedirectModal";
 import UpdateCompanyProfileModal from "../company-module/components/company-profile/UpdateCompanyProfileModal";
 import { clear } from "idb-keyval";
 import useCompanyProfile from "../hooks/useCompanyProfile";
+import withSubscription from "../hocs/withSubscription";
 
 //Util Component
 const NavBar = lazy(() => import("../company-module/components/NavBar"));
@@ -122,7 +123,7 @@ function useCompanyRoute() {
               <Route path="*" element={<NotFound />} />
 
               <Route path="messages" element={<Messages />} />
-              <Route path="job-posting" element={<JobPosting />} />
+              <Route path="job-posting" element={ withSubscription(JobPosting, 'Job Posting')} />
 
               <Route path="applicants/*">
                 <Route index element={<Applicants />} />

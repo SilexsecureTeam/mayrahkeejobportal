@@ -1,8 +1,10 @@
 import { Helmet } from "react-helmet";
 import Header from "../../components/job-listing/Header";
 import ListingRow from "../../components/job-listing/ListingRow";
+import useJobManagement from "../../../hooks/useJobManagement";
 
 function JobListing() {
+  const jobUtils = useJobManagement();
   return (
     <>
       <Helmet>
@@ -31,22 +33,14 @@ function JobListing() {
               <th className="px-4 py-1 text-center">Due Date</th>
               <th className="px-4 py-1 text-center">Job Type</th>
               <th className="px-4 py-1 text-center">Applicants</th>
-              <th className="px-4 py-1 text-center">Needs</th>
+              <th className="px-4 py-1 text-center">Gender</th>
             </tr>
           </thead>
 
           <tbody>
-            <ListingRow />
-            <ListingRow />
-            <ListingRow />
-            <ListingRow />
-            <ListingRow />
-            <ListingRow />
-            <ListingRow />
-            <ListingRow />
-            <ListingRow />
-            <ListingRow />
-            <ListingRow />s
+            {
+              jobUtils?.jobList.map( current => <ListingRow data={current} key={current.id}/>).reverse()
+            }
           </tbody>
         </table>
       </div>

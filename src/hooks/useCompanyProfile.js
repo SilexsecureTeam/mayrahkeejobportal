@@ -7,8 +7,16 @@ import { onFailure } from "../utils/notifications/OnFailure";
 
 export const COMPANY_PROFILE_Key = "Company Profile Database";
 
+
+
 function useCompanyProfile() {
   const { authDetails } = useContext(AuthContext);
+
+  const retrievalState = {
+    init: 1,
+    notRetrieved: 2,
+    retrieved: 3
+  }
 
   const client = axiosClient(authDetails.token, true);
 
@@ -16,7 +24,7 @@ function useCompanyProfile() {
 
   const [details, setDetails] = useState({
     //beenRetrieved check it data has instantialted
-    beenRetreived: false,
+    beenRetreived: retrievalState.init,
     employer_id: authDetails.user.id,
     company_profile: "",
     logo_image: "",
@@ -55,11 +63,15 @@ function useCompanyProfile() {
       const response = await client.get(`/employer/getEmployer/${authDetails.user.id}`)
       if(response.data.details){
         await set(COMPANY_PROFILE_Key, response.data.details);
-        setDetails({...response.data.details, beenRetreived: true})
+        setDetails({...response.data.details, beenRetreived: retrievalState.retrieved})
+      } else{
+        setDetails({ ...details,beenRetreived: retrievalState.notRetrieved})
       }
     } catch (error) {
       console.log(error)
-      setDetails({...response.data.details, beenRetreived: true})
+      setDetails({...details, beenRetreived: retrievalState.notRetrieved})
+    } finally{
+      setLoading(false)
     }
   }
 
@@ -85,8 +97,6 @@ function useCompanyProfile() {
 
     return formData;
   };
-
-
 
   //Api request to update profile
   const updateCompanyProfile = async (handleSuccess) => {
@@ -122,7 +132,7 @@ function useCompanyProfile() {
       try {
         const storedValue = await get(COMPANY_PROFILE_Key);
         if (storedValue !== undefined) {
-          setDetails({...storedValue, beenRetreived:true, company_campaign_photos: []});
+          setDetails({...storedValue, beenRetreived:retrievalState.retrieved});
         } else {
           await getProfileInfo()
         }
@@ -135,7 +145,7 @@ function useCompanyProfile() {
   }, []);
   
 
-  return { loading, details, onTextChange, setDetails, updateCompanyProfile };
+  return { loading, details, onTextChange, setDetails, updateCompanyProfile, retrievalState };
 }
 
 export default useCompanyProfile;

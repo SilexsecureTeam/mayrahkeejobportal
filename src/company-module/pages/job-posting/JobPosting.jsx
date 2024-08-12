@@ -5,6 +5,7 @@ import Descriptions from "../../components/job-posting/Descriptions";
 import MoreInformation from "../../components/job-posting/MoreInformation";
 import useJobManagement from "../../../hooks/useJobManagement";
 import { onSuccess } from "../../../utils/notifications/OnSuccess";
+import { useNavigate } from "react-router-dom";
 
 const job_steps = [
   {
@@ -22,6 +23,7 @@ const job_steps = [
 function JobPosting() {
   const [currentStep, setCurrentStep] = useState(job_steps[0]);
   const jobUtils = useJobManagement()
+  const navigate = useNavigate()
 
 
   const handleSuccess = () => {
@@ -29,6 +31,7 @@ function JobPosting() {
         message: 'New Job',
         success: 'Job Created Successfully'
        })
+       navigate('/company/job-listing')
   }
 
   useEffect(() => {
