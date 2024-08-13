@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Helmet } from "react-helmet";
 import { MdClose, MdMoreHoriz, MdOutlineChevronLeft, MdOutlineChevronRight } from "react-icons/md";
 import { RiCalendarEventLine } from "react-icons/ri";
@@ -9,14 +9,43 @@ import newApplicant from "../../../assets/pngs/applicant-logo1.png"
 import newApplicant2 from "../../../assets/pngs/applicant-Logo2.png"
 import newApplicant3 from "../../../assets/pngs/applicant-logo3.png"
 import Pagination from "../../components/Pagination";
+import { ResourceContext } from "../../../context/ResourceContext";
+import AllApplicants from "./components/AllApplicants";
+import { AuthContext } from "../../../context/AuthContex";
 // import ApplicantModal from "../../../components/ApplicantModal";
 
 function Application() {
+  const { getAllApplications, setGetAllApplications } = useContext(ResourceContext);
+  const { authDetails } = useContext(AuthContext);
 
   const [closeNote, setCloseNote] = useState(true)
   const [view, setView] = useState("all")
 
   const handleView = (type) => setView(type);
+  function generateDateRange() {
+    const today = new Date();
+    const oneWeekLater = new Date(today);
+    oneWeekLater.setDate(today.getDate() + 7);
+
+    // Format dates as "Month Day, Year"
+    const formattedStartDate = today.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+    const formattedEndDate = oneWeekLater.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+
+    return `${formattedStartDate} - ${formattedEndDate}.`;
+  }
+
+  useEffect(() => {
+    setGetAllApplications((prev) => {
+      return {
+        ...prev, isDataNeeded: true
+      }
+    })
+  }, [])
+
+  const allApplications = getAllApplications?.data
+  const pendingReview = allApplications?.filter((app) => app.status === "pending")
+  const pendingInterview = allApplications?.filter((app) => app.status === "interview")
+
   return (
     <>
       <Helmet>
@@ -26,11 +55,11 @@ function Application() {
         <div className="text-sm">
           <div className="flex justify-between align-center">
             <div className="">
-              <h4 className=" font-semibold text-2xl mb-5">Keep it up, Jake</h4>
-              <p>Here is what’s happening with your job search applications from July 19 - July 25.f</p>
+              <h4 className=" font-semibold text-2xl mb-5">Keep it up, {authDetails.user?.first_name}</h4>
+              <p>Here is what’s happening with your job search applications from {generateDateRange()}</p>
             </div>
             <div>
-              <button className="border p-2 flex items-center hover:bg-gray-100">Jul 19 - Jul 25  <RiCalendarEventLine className="ml-2 prime_text" size={15} /></button>
+              <button className="border p-2 flex items-center hover:bg-gray-100">{generateDateRange()}  <RiCalendarEventLine className="ml-2 prime_text" size={15} /></button>
             </div>
           </div>
           <div className="my-6">
@@ -43,8 +72,7 @@ function Application() {
                     </div>
                     <div className="ml-3">
                       <p className="font-bold">New Feature</p>
-                      <p>You can request a follow-up 7 days after appl
-                        ying for a job if the application status is in review. Only one follow-up is allowed per job.
+                      <p>You can request a follow-up 7 days after applying for a job if the application status is in review. Only one follow-up is allowed per job.
                       </p>
                     </div>
                   </div>
@@ -59,25 +87,25 @@ function Application() {
           <div className="flex border-b mb-6">
             <button
               onClick={() => handleView("all")}
-              className={`mx-2 p-2 hover:text-gray-500 ${view === "all" ? "border-b-2 border-green-600 font-medium" : ""}`}>All (23)</button>
+              className={`mx-2 p-2 hover:text-gray-500 ${view === "all" ? "border-b-2 border-green-600 font-medium" : ""}`}>All ({allApplications?.length})</button>
             <button
               onClick={() => handleView("review")}
-              className={`mx-2 p-2 hover:text-gray-500 ${view === "review" ? "border-b-2 border-green-600 font-medium" : ""}`}>In Review (23)</button>
+              className={`mx-2 p-2 hover:text-gray-500 ${view === "review" ? "border-b-2 border-green-600 font-medium" : ""}`}>In Review ({pendingReview?.length})</button>
             <button
               onClick={() => handleView("interview")}
-              className={`mx-2 p-2 hover:text-gray-500 ${view === "interview" ? "border-b-2 border-green-600 font-medium" : ""}`}>Interview (23)</button>
+              className={`mx-2 p-2 hover:text-gray-500 ${view === "interview" ? "border-b-2 border-green-600 font-medium" : ""}`}>Interview ({pendingInterview?.length})</button>
             <button
               onClick={() => handleView("assesment")}
-              className={`mx-2 p-2 hover:text-gray-500 ${view === "assesment" ? "border-b-2 border-green-600 font-medium" : ""}`}>Assesment (23)</button>
+              className={`mx-2 p-2 hover:text-gray-500 ${view === "assesment" ? "border-b-2 border-green-600 font-medium" : ""}`}>Assesment (0)</button>
             <button
               onClick={() => handleView("offered")}
-              className={`mx-2 p-2 hover:text-gray-500 ${view === "offered" ? "border-b-2 border-green-600 font-medium" : ""}`}>Offered (23)</button>
+              className={`mx-2 p-2 hover:text-gray-500 ${view === "offered" ? "border-b-2 border-green-600 font-medium" : ""}`}>Offered (0)</button>
             <button
               onClick={() => handleView("hired")}
-              className={`mx-2 p-2 hover:text-gray-500 ${view === "hired" ? "border-b-2 border-green-600 font-medium" : ""}`}>Hired (23)</button>
+              className={`mx-2 p-2 hover:text-gray-500 ${view === "hired" ? "border-b-2 border-green-600 font-medium" : ""}`}>Hired (0)</button>
           </div>
           <div className="flex justify-between items-center">
-            <p className="font-bold">Applications History</p>
+            <p className="font-bold">Applications {view}</p>
             <div className="flex items-start">
               <div className="">
                 <div className="relative border h-full py-1 px-6 mb-4">
@@ -104,146 +132,17 @@ function Application() {
             </div>
           </div>
           <div className="my-3">
-            <div className="flex recent_added items-center">
-              <div className="flex justify-between py-3 px-2 w-[25%]">
-                <span>1</span>
-                <div className="w-3/4 flex items-center">
-                  <div>
-                    <img src={newApplicant} width={'40px'} alt="" />
-                  </div>
-                  <p className="ml-2">Company</p>
-                </div>
-              </div>
-              <div className="flex py-3 px-2 w-3/6">
-                <p className="w-[60%]">Social Media Assistant</p>
-                <p className="w-[40%]">24 July 2021</p>
-              </div>
-              <div className="flex justify-between py-3 px-2 w-[25%]">
-                <div className="w-2/3">
-                  <button className="border border-yellow-400 text-yellow-400 px-2 py-1 rounded-full">Review</button>
-                </div>
-                <div className="w-1/3">
-                  <button className="hover:bg-gray-200 p-1 rounded-full"><MdMoreHoriz size={25} /></button>
-                </div>
-              </div>
-            </div>
-            <div className="flex recent_added items-center">
-              <div className="flex justify-between py-3 px-2 w-[25%]">
-                <span>2</span>
-                <div className="w-3/4 flex items-center">
-                  <div>
-                    <img src={newApplicant2} width={'40px'} alt="" />
-                  </div>
-                  <p className="ml-2">Design</p>
-                </div>
-              </div>
-              <div className="flex py-3 px-2 w-3/6">
-                <p className="w-[60%]">Social Media Assistant</p>
-                <p className="w-[40%]">24 July 2021</p>
-              </div>
-              <div className="flex justify-between py-3 px-2 w-[25%]">
-                <div className="w-2/3">
-                  <button className="border border-green-400 text-green-400 font-medium px-2 py-1 rounded-full">Shortlisted</button>
-                </div>
-                <div className="w-1/3">
-                  <button className="hover:bg-gray-200 p-1 rounded-full"><MdMoreHoriz size={25} /></button>
-                </div>
-              </div>
-            </div>
-            <div className="flex recent_added items-center">
-              <div className="flex justify-between py-3 px-2 w-[25%]">
-                <span>3</span>
-                <div className="w-3/4 flex items-center">
-                  <div>
-                    <img src={newApplicant3} width={'40px'} alt="" />
-                  </div>
-                  <p className="ml-2">Ares</p>
-                </div>
-              </div>
-              <div className="flex py-3 px-2 w-3/6">
-                <p className="w-[60%]">Social Media Assistant</p>
-                <p className="w-[40%]">24 July 2021</p>
-              </div>
-              <div className="flex justify-between py-3 px-2 w-[25%]">
-                <div className="w-2/3">
-                  <button className="border border-black px-2 py-1 rounded-full">Offered</button>
-                </div>
-                <div className="w-1/3">
-                  <button className="hover:bg-gray-200 p-1 rounded-full"><MdMoreHoriz size={25} /></button>
-                </div>
-              </div>
-            </div>
-            <div className="flex recent_added items-center">
-              <div className="flex justify-between py-3 px-2 w-[25%]">
-                <span>4</span>
-                <div className="w-3/4 flex items-center">
-                  <div>
-                    <img src={newApplicant} width={'40px'} alt="" />
-                  </div>
-                  <p className="ml-2">Company</p>
-                </div>
-              </div>
-              <div className="flex py-3 px-2 w-3/6">
-                <p className="w-[60%]">Social Media Assistant</p>
-                <p className="w-[40%]">24 July 2021</p>
-              </div>
-              <div className="flex justify-between py-3 px-2 w-[25%]">
-                <div className="w-2/3">
-                  <button className="border border-yellow-400 text-yellow-400 px-2 py-1 rounded-full">Review</button>
-                </div>
-                <div className="w-1/3">
-                  <button className="hover:bg-gray-200 p-1 rounded-full"><MdMoreHoriz size={25} /></button>
-                </div>
-              </div>
-            </div>
-            <div className="flex recent_added items-center">
-              <div className="flex justify-between py-3 px-2 w-[25%]">
-                <span>5</span>
-                <div className="w-3/4 flex items-center">
-                  <div>
-                    <img src={newApplicant2} width={'40px'} alt="" />
-                  </div>
-                  <p className="ml-2">Design</p>
-                </div>
-              </div>
-              <div className="flex py-3 px-2 w-3/6">
-                <p className="w-[60%]">Social Media Assistant</p>
-                <p className="w-[40%]">24 July 2021</p>
-              </div>
-              <div className="flex justify-between py-3 px-2 w-[25%]">
-                <div className="w-2/3">
-                  <button className="border border-green-400 text-green-400 font-medium px-2 py-1 rounded-full">Shortlisted</button>
-                </div>
-                <div className="w-1/3">
-                  <button className="hover:bg-gray-200 p-1 rounded-full"><MdMoreHoriz size={25} /></button>
-                </div>
-              </div>
-            </div>
-            <div className="flex recent_added items-center">
-              <div className="flex justify-between py-3 px-2 w-[25%]">
-                <span>6</span>
-                <div className="w-3/4 flex items-center">
-                  <div>
-                    <img src={newApplicant3} width={'40px'} alt="" />
-                  </div>
-                  <p className="ml-2">Ares</p>
-                </div>
-              </div>
-              <div className="flex py-3 px-2 w-3/6">
-                <p className="w-[60%]">Social Media Assistant</p>
-                <p className="w-[40%]">24 July 2021</p>
-              </div>
-              <div className="flex justify-between py-3 px-2 w-[25%]">
-                <div className="w-2/3">
-                  <button className="border border-black px-2 py-1 rounded-full">Offered</button>
-                </div>
-                <div className="w-1/3">
-                  <button className="hover:bg-gray-200 p-1 rounded-full"><MdMoreHoriz size={25} /></button>
-                </div>
-              </div>
-            </div>
+            {view === "all" && allApplications?.map((app, index) => (
+              <AllApplicants key={app.id} app={app} index={index} />
+            ))}
+            {view === "review" && pendingReview?.map((app, index) => (
+              <AllApplicants key={app.id} app={app} index={index} />
+            ))}
+            {view === "interview" && pendingInterview?.map((app, index) => (
+              <AllApplicants key={app.id} app={app} index={index} />
+            ))}
           </div>
-          <Pagination />
+          {/* <Pagination /> */}
         </div>
       </div>
     </>

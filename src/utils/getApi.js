@@ -21,10 +21,10 @@ export const getUpdatedUser = (
       .then((response) => {
         // console.log(response);
         const apiData = response.data;
-        if (!apiData.details){
+        if (!apiData.details) {
           setChecker(true)
         }
-          // console.log(apiData.details == null);
+        // console.log(apiData.details == null);
         // apiData?.map((item) => {
         //   newFleetMakesData.push({
         //     id: item.id,
@@ -58,6 +58,7 @@ export const getItemFunc = (
 ) => {
   const fleetTypesApi = `${BASE_URL}${endPoint}`;
   let newFleetMakesData = [];
+  let apiData = [];
   if (token)
     axios
       .get(fleetTypesApi, {
@@ -66,10 +67,13 @@ export const getItemFunc = (
         },
       })
       .then((response) => {
-        console.log(response);
-        // const apiData = response.data[dataArray];
-        const apiData = response.data;
-        console.log(apiData);
+        // console.log(response);
+        if (dataArray) {
+          apiData = response.data[dataArray];
+        } else {
+          apiData = response.data;
+        }
+        // console.log(apiData);
         apiData?.map((item) => {
           newFleetMakesData.push({
             id: item.id,

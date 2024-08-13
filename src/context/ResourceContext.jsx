@@ -29,6 +29,11 @@ function ResourceContextProvider({ children }) {
         isDataNeeded: false,
     });
 
+    const [getAllApplications, setGetAllApplications] = useState({
+        data: null,
+        isDataNeeded: false,
+    });
+
 
 
     //Users Resource useEffect
@@ -45,15 +50,25 @@ function ResourceContextProvider({ children }) {
     useEffect(() => {
         setErrorMessage('');
         if (getAllJobs.isDataNeeded) {
-            const endPoint = "/job"
-            const dataArray = ""
+            const endPoint = "/job";
+            const dataArray = null;
             getItemFunc(token, setGetAllJobs, setErrorMessage, endPoint, dataArray)
         }
     }, [getAllJobs.isDataNeeded]);
 
+    // Get All Application
+    useEffect(() => {
+        setErrorMessage('');
+        if (getAllApplications.isDataNeeded) {
+            const endPoint = `/getUserApply/${userId}`;
+            const dataArray = "job_application"
+            getItemFunc(token, setGetAllApplications, setErrorMessage, endPoint, dataArray)
+        }
+    }, [getAllApplications.isDataNeeded]);
 
 
-    return ( 
+
+    return (
         <ResourceContext.Provider
             value={{
                 checker,
@@ -65,6 +80,8 @@ function ResourceContextProvider({ children }) {
                 setGetCandidate,
                 getAllJobs,
                 setGetAllJobs,
+                getAllApplications,
+                setGetAllApplications,
             }}
         >
             {children}

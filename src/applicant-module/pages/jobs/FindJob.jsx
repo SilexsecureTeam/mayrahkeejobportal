@@ -105,7 +105,7 @@ function FindJob() {
                 )}
 
               </div>
-              <Pagination />
+              {/* <Pagination /> */}
             </div>
           </div>
         </div>

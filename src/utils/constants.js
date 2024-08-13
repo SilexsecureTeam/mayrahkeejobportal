@@ -67,18 +67,18 @@ export const applicantOptions = [
     iconActive: messageIconActive
   },
   {
-    type: "APPLICATIONS",
-    title: "My Applications",
-    route: "/applicant/applications",
-    icon: documentIcon,
-    iconActive: documentIconActive
-  },
-  {
     type: "FIND-JOB",
     title: "Find Job",
     route: "/applicant/find-job",
     icon: searchIcon,
     iconActive: searchIconActive
+  },
+  {
+    type: "APPLICATIONS",
+    title: "My Applications",
+    route: "/applicant/applications",
+    icon: documentIcon,
+    iconActive: documentIconActive
   },
   {
     type: "COMPANIES",
