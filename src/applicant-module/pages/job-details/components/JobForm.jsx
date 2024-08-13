@@ -1,15 +1,9 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { TbPhoto } from 'react-icons/tb'
-// import DynamicExperienceForm from './DynamicExperienceForm'
-// import SocialsForm from './SocialsForm'
 import { BASE_URL } from '../../../../utils/base'
-// import UiSelect from '../../../components/general/UiSelect'
 import axios from "axios";
-import { IoCheckboxSharp } from 'react-icons/io5';
-import { MdOutlineCheckBoxOutlineBlank } from 'react-icons/md';
 import { AuthContext } from '../../../../context/AuthContex'
 import { ResourceContext } from '../../../../context/ResourceContext'
-// import TextEditor from './TextEditor'
+import { onSuccess } from '../../../../utils/notifications/OnSuccess';
 
 const JobForm = ({ setIsOpen, getCandidate, job }) => {
 
@@ -51,7 +45,7 @@ const JobForm = ({ setIsOpen, getCandidate, job }) => {
         e.preventDefault();
         setErrorMsg(null)
         setLoading(true)
-        axios.post(`${BASE_URL}/candidate/UpdateCandidate/${user.id}`, details, {
+        axios.post(`${BASE_URL}/apply`, details, {
             headers: {
                 Authorization: `Bearer ${authDetails.token}`,
                 'Content-Type': 'multipart/form-data',
@@ -59,8 +53,10 @@ const JobForm = ({ setIsOpen, getCandidate, job }) => {
         })
             .then((response) => {
                 console.log(response)
-                localStorage.setItem("userDetails", JSON.stringify(response.data.candidate));
-                // setUserUpdate(updateData)
+                onSuccess({
+                    message: 'New Application',
+                    success: response.data.message
+                   })
                 setLoading(false)
                 setIsOpen(false)
                 // toast.success("successful");
@@ -68,7 +64,7 @@ const JobForm = ({ setIsOpen, getCandidate, job }) => {
             .catch((error) => {
                 console.log(error)
                 if (error.response) {
-                    setErrorMsg({ stack: error.response.data.message })
+                    setErrorMsg({ stack: error.response.data })
                     setShowMsg(true)
                     setLoading(false);
                 } else {
@@ -82,6 +78,14 @@ const JobForm = ({ setIsOpen, getCandidate, job }) => {
 
     console.log(details)
     // console.log(job)
+
+    
+  const handleSuccess = () => {
+    onSuccess({
+     message: 'New Job',
+     success: 'Job Created Successfully'
+    })
+}
 
     return (
         <div className='text-[#515B6F]'>
