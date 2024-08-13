@@ -55,7 +55,13 @@ const JobDetails = () => {
                         <div className="w-[80%] pr-4">
                             <div className="mb-6">
                                 <h4 className='font-bold mb-4'>Description</ h4>
-                                <p className="">{job.job_description}</p>
+                                <p dangerouslySetInnerHTML={{ __html: job.job_description }} />
+                                {/* <p className="">{job.job_description}</p> */}
+                            </div>
+                            <div className="mb-6">
+                                <h4 className='font-bold mb-4'>Experience</ h4>
+                                <p dangerouslySetInnerHTML={{ __html: job.experience }} />
+                                {/* <p className="">{job.job_description}</p> */}
                             </div>
                             <div className="mb-6">
                                 <h4 className='font-bold mb-4'>Qualifications</ h4>
@@ -116,7 +122,7 @@ const JobDetails = () => {
                                     <p>Job Posted On</p>
                                     <p className="font-medium">{postedDate.toLocaleDateString()}</p>
                                 </div>
-                                <div className="flex my-3 justify-between">
+                                <div className="flex flex-wrap my-3 justify-between">
                                     <p>Email</p>
                                     <p className="font-medium">{job.email}</p>
                                 </div>
@@ -124,10 +130,11 @@ const JobDetails = () => {
                                     <p>Job Type</p>
                                     <p className="font-medium">{job.type}</p>
                                 </div>
-                                <div className="flex my-3 justify-between">
+                                {/* <div className="flex my-3 justify-between">
                                     <p>Experience</p>
+                                    <p dangerouslySetInnerHTML={{ __html: job.experience }} />
                                     <p className="font-medium">{job.experience}</p>
-                                </div>
+                                </div> */}
                                 <div className="flex my-3 justify-between">
                                     <p>Salary Type</p>
                                     <p className="font-medium">{job.salary_type}</p>
