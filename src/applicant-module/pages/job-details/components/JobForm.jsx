@@ -5,7 +5,7 @@ import { AuthContext } from '../../../../context/AuthContex'
 import { ResourceContext } from '../../../../context/ResourceContext'
 import { onSuccess } from '../../../../utils/notifications/OnSuccess';
 
-const JobForm = ({ setIsOpen, getCandidate, job }) => {
+const JobForm = ({ setIsOpen, getCandidate, job, updateAllApplications }) => {
 
     const { authDetails } = useContext(AuthContext)
 
@@ -28,7 +28,6 @@ const JobForm = ({ setIsOpen, getCandidate, job }) => {
 
     const user = authDetails?.user
 
-
     const handleOnChange = (e) => {
         const { value, name, files, type, checked } = e.target
         setDetails((prev) => {
@@ -43,6 +42,11 @@ const JobForm = ({ setIsOpen, getCandidate, job }) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        updateAllApplications((prev) => {
+            return {
+                ...prev, isDataNeeded: false
+            }
+        })
         setErrorMsg(null)
         setLoading(true)
         axios.post(`${BASE_URL}/apply`, details, {
@@ -56,10 +60,14 @@ const JobForm = ({ setIsOpen, getCandidate, job }) => {
                 onSuccess({
                     message: 'New Application',
                     success: response.data.message
-                   })
+                })
+                updateAllApplications((prev) => {
+                    return {
+                        ...prev, isDataNeeded: true
+                    }
+                })
                 setLoading(false)
                 setIsOpen(false)
-                // toast.success("successful");
             })
             .catch((error) => {
                 console.log(error)
@@ -79,13 +87,13 @@ const JobForm = ({ setIsOpen, getCandidate, job }) => {
     console.log(details)
     // console.log(job)
 
-    
-  const handleSuccess = () => {
-    onSuccess({
-     message: 'New Job',
-     success: 'Job Created Successfully'
-    })
-}
+
+    const handleSuccess = () => {
+        onSuccess({
+            message: 'New Job',
+            success: 'Job Created Successfully'
+        })
+    }
 
     return (
         <div className='text-[#515B6F]'>
@@ -101,14 +109,14 @@ const JobForm = ({ setIsOpen, getCandidate, job }) => {
                                             <div className="mb-4">
                                                 <label className="block">
                                                     <span className="block text-sm font-medium text-slate-700">LinkedIn</span>
-                                                    <input type="text" value={details.linkedin_url} name='linkedin_url' placeholder='url' onChange={handleOnChange}
+                                                    <input type="url" value={details.linkedin_url} name='linkedin_url' placeholder='url' onChange={handleOnChange}
                                                         className="mt-1 block p-1 focus:outline-none w-full border" />
                                                 </label>
                                             </div>
                                             <div className="mb-4">
                                                 <label className="block">
                                                     <span className="block text-sm font-medium text-slate-700">Portfolio</span>
-                                                    <input type="text" value={details.portfolio_url} name='portfolio_url' placeholder='url' onChange={handleOnChange}
+                                                    <input type="url" value={details.portfolio_url} name='portfolio_url' placeholder='url' onChange={handleOnChange}
                                                         className="mt-1 block p-1 focus:outline-none w-full border" />
                                                 </label>
                                             </div>
@@ -125,7 +133,7 @@ const JobForm = ({ setIsOpen, getCandidate, job }) => {
                                                 </label>
                                                 <textarea
                                                     value={details.additional_information} name='additional_information' onChange={handleOnChange}
-                                                    className="mt-1 block w-full focus:outline-green-400 border" id=""></textarea>
+                                                    className="mt-1 block w-full focus:outline-green-400 border min-h-[100px]" id=""></textarea>
                                             </div>
                                         </div>
                                     </div>

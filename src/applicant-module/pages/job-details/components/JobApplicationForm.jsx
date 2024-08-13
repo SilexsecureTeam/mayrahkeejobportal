@@ -4,7 +4,7 @@ import JobForm from './JobForm';
 import { ResourceContext } from '../../../../context/ResourceContext';
 
 const JobApplicationForm = ({ job }) => {
-    const { getCandidate, setGetCandidate } = useContext(ResourceContext);
+    const { getCandidate, setGetCandidate, setGetAllApplications } = useContext(ResourceContext);
 
     const [isOpen, setIsOpen] = useState(false);
     const header = "Fill the form to  apply"
@@ -28,6 +28,7 @@ const JobApplicationForm = ({ job }) => {
                 <JobForm
                     setIsOpen={setIsOpen}
                     getCandidate={getCandidate.data}
+                    updateAllApplications={setGetAllApplications}
                     job={job} />
             </UseModal>
         </>
