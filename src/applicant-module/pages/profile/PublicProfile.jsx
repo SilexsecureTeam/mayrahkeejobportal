@@ -84,7 +84,7 @@ function PublicProfile() {
               <div className="p-4">
                 <div className="flex justify-between">
                   <p className="font-bold">About Me</p>
-                  <button className="p-1 border border-green-500   text-green-700 hover:text-gray-600"><FaRegEdit /></button>
+                  {/* <button className="p-1 border border-green-500 text-green-700 hover:text-gray-600"><FaRegEdit /></button> */}
                 </div>
                 <div className="my-3 text-[#515B6F]">
                   <p className="my-3">{candidate?.personal_profile} </p>
@@ -95,30 +95,13 @@ function PublicProfile() {
               <div className="p-4">
                 <div className="flex justify-between">
                   <p className="font-bold">Experience</p>
-                  <button className="p-1 border border-green-500   text-green-700 hover:text-gray-600"><IoMdAdd /></button>
+                  {/* <button className="p-1 border border-green-500   text-green-700 hover:text-gray-600"><IoMdAdd /></button> */}
                 </div>
                 <div className="  divide-y">
                   <div className="py-6 text-sm text-[#515B6F]">
                     <div className="flex justify-b">
                       {/* {candidate?.experience} */}
                   <p dangerouslySetInnerHTML={{ __html: candidate?.experience }} />
-
-                      {/* <div className="w-[30%]">
-                        <img src={twitter} alt="" />
-                      </div>
-                      <div className="w-full">
-                        <div className="flex justify-between">
-                          <p className="font-bold ">Product Designer</p>
-                          <button className="p-1 border border-green-500   text-green-700 hover:text-gray-600"><FaRegEdit /></button>
-                        </div>
-                        <div className="">
-                          <p><span className="font-medium">Twitter</span> · Full Time · Full TimeJun 2019 - Present (1y 1m)</p>
-                          <p>Manchester, UK</p>
-                          <p>
-                            Created and executed social media plan for 10 brands utilizing multiple features and content types to increase brand outreach, engagement, and leads.
-                          </p>
-                        </div>
-                      </div> */}
                     </div>
                   </div>
                   
@@ -129,30 +112,11 @@ function PublicProfile() {
               <div className="p-4">
                 <div className="flex justify-between">
                   <p className="font-bold">Education</p>
-                  <button className="p-1 border border-green-500   text-green-700 hover:text-gray-600"><IoMdAdd /></button>
+                  {/* <button className="p-1 border border-green-500   text-green-700 hover:text-gray-600"><IoMdAdd /></button> */}
                 </div>
                 <div className="  divide-y">
                   <div className="py-6 text-sm text-[#515B6F]">
-                    {/* <div className="flex justify-b">
-                      <div className="w-[30%]">
-                        <img src={eduIcon} alt="" />
-                      </div>
-                      <div className="w-full">
-                        <div className="flex justify-between">
-                          <p className="font-bold ">International University</p>
-                          <button className="p-1 border border-green-500   text-green-700 hover:text-gray-600"><FaRegEdit /></button>
-                        </div>
-                        <div className="">
-                          <p>Bachelor’s degree, Applied Psychology</p>
-                          <p>2010 - 2012</p>
-                          <p>
-                            As an Applied Psychologist in the field of Consumer and Society, I am specialized in creating business opportunities by observing, analysing, researching and changing behaviour.                          </p>
-                        </div>
-                      </div>
-                    </div> */}
-                    {/* <p>{candidate?.educational_qualification}</p> */}
                     <p dangerouslySetInnerHTML={{ __html: candidate?.educational_qualification }} />
-
                   </div>
                 </div>
               </div>
@@ -160,8 +124,8 @@ function PublicProfile() {
             <div className="border my-4">
               <div className="p-4">
                 <div className="flex justify-between">
-                  <p className="font-bold">Education</p>
-                  <button className="p-1 border border-green-500   text-green-700 hover:text-gray-600"><IoMdAdd /></button>
+                  <p className="font-bold mb-4">Keyword</p>
+                  {/* <button className="p-1 border border-green-500 text-green-700 hover:text-gray-600"><IoMdAdd /></button> */}
                 </div>
                 <div className="flex flex-wrap">
                   <button className="p-2 m-2 flex bg-green-100 hover:bg-green-200 text-green-900 items-center rounded">

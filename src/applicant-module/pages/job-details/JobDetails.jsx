@@ -44,7 +44,6 @@ const JobDetails = () => {
                                 </div>
                                 <div className="ml-3">
                                     <JobApplicationForm job={job} />
-                                    {/* <button className='px-10 py-2 green_btn text-white hover:bg-green-700'>Apply</button> */}
                                 </div>
                             </div>
                         </div>
@@ -56,12 +55,10 @@ const JobDetails = () => {
                             <div className="mb-6">
                                 <h4 className='font-bold mb-4'>Description</ h4>
                                 <p dangerouslySetInnerHTML={{ __html: job.job_description }} />
-                                {/* <p className="">{job.job_description}</p> */}
                             </div>
                             <div className="mb-6">
                                 <h4 className='font-bold mb-4'>Experience</ h4>
                                 <p dangerouslySetInnerHTML={{ __html: job.experience }} />
-                                {/* <p className="">{job.job_description}</p> */}
                             </div>
                             <div className="mb-6">
                                 <h4 className='font-bold mb-4'>Qualifications</ h4>
@@ -72,38 +69,6 @@ const JobDetails = () => {
                                     </div>
                                 ))}
                             </div>
-                            {/* <div className="mb-6">
-                                <h4 className='font-bold mb-4'>Who You Are</ h4>
-                                <div className='flex items-center mb-2'>
-                                    <span className="mr-3 prime_text"><FaRegCheckCircle /></span>
-                                    You get energy from people and building the ideal work environment                                </div>
-                                <div className='flex items-center mb-2'>
-                                    <span className="mr-3 prime_text"><FaRegCheckCircle /></span>
-                                    You have a sense for beautiful spaces and office experiences                                </div>
-                                <div className='flex items-center mb-2'>
-                                    <span className="mr-3 prime_text"><FaRegCheckCircle /></span>
-                                    You are a confident office manager, ready for added responsibilities                                </div>
-                                <div className='flex items-center mb-2'>
-                                    <span className="mr-3 prime_text"><FaRegCheckCircle /></span>
-                                    You're detail-oriented and creative                                </div>
-                                <div className='flex items-center mb-2'>
-                                    <span className="mr-3 prime_text"><FaRegCheckCircle /></span>
-                                    You're a growth marketer and know how to run campaigns                                </div>
-                            </div>
-                            <div className="my-6">
-                                <h4 className='font-bold mb-4'>Nice-To-Haves</ h4>
-                                <div className='flex items-center mb-2'>
-                                    <span className="mr-3 prime_text"><FaRegCheckCircle /></span>
-                                    Fluent in English                                </div>
-                                <div className='flex items-center mb-2'>
-                                    <span className="mr-3 prime_text"><FaRegCheckCircle /></span>
-                                    Project management skills
-                                </div>
-                                <div className='flex items-center mb-2'>
-                                    <span className="mr-3 prime_text"><FaRegCheckCircle /></span>
-                                    Copy editing skills
-                                </div>
-                            </div> */}
                         </div>
                         <div className="w-[20%]">
                             <h4 className="font-bold mb-4">About this role</h4>
@@ -124,7 +89,7 @@ const JobDetails = () => {
                                 </div>
                                 <div className="flex flex-wrap my-3 justify-between">
                                     <p>Email</p>
-                                    <p className="font-medium">{job.email}</p>
+                                    <p className="font-medium break-words">{job.email}</p>
                                 </div>
                                 <div className="flex my-3 justify-between">
                                     <p>Job Type</p>
@@ -152,8 +117,8 @@ const JobDetails = () => {
                                     ))}
                                 </div>
                             </div>
-                            <div className="my-6 border-b pb-6">
-                                <h4 className="font-bold mb-4">Reuired Skills</h4>
+                            {/* <div className="my-6 border-b pb-6">
+                                <h4 className="font-bold mb-4">Required Skills</h4>
                                 <div className="flex flex-wrap">
                                     <button className="m-1 px-2 py-1 rounded bg-green-100 hover:bg-green-200 hover:text-green-900 text-green-700">Project Management</button>
                                     <button className="m-1 px-2 py-1 rounded bg-green-100 hover:bg-green-200 hover:text-green-900 text-green-700">Copywriting</button>
@@ -161,7 +126,7 @@ const JobDetails = () => {
                                     <button className="m-1 px-2 py-1 rounded bg-green-100 hover:bg-green-200 hover:text-green-900 text-green-700">social Media Marketing</button>
                                     <button className="m-1 px-2 py-1 rounded bg-green-100 hover:bg-green-200 hover:text-green-900 text-green-700">Cpoy Editing</button>
                                 </div>
-                            </div>
+                            </div> */}
                         </div>
                     </div>
                 </div>
