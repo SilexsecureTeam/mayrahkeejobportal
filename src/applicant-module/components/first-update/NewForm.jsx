@@ -21,6 +21,7 @@ const NewForm = ({ setIsOpen }) => {
     const [errorMsg, setErrorMsg] = useState(null)
     const [showMsg, setShowMsg] = useState(false)
     const [loading, setLoading] = useState(false)
+    const [selectId, setSelectId] = useState(null);
 
     const [socialHandles, setSocialHandles] = useState([
         { network: "", url: "", },
@@ -42,6 +43,12 @@ const NewForm = ({ setIsOpen }) => {
                 ...prev, show_my_profile: !details.show_my_profile
             };
         });
+    }
+
+    function updateFirstLetter(word) {
+        if (word) {
+            return setSelectId(word[0]?.toUpperCase() + word.slice(1));
+        } else { return setSelectId(null) }
     }
 
     const [profileImageUrl, setProfileImageUrl] = useState(user.image ? user.image : null);
@@ -80,7 +87,10 @@ const NewForm = ({ setIsOpen }) => {
 
     // console.log(getAllFaculty.data)
     const handleOnChange = (e) => {
-        const { value, name, files, type, checked } = e.target
+        const { value, name, files, type, checked } = e.target;
+        if (name === "means_of_identification") {
+            updateFirstLetter(value)
+        }
         setDetails((prev) => {
             return {
                 ...prev,
@@ -100,14 +110,14 @@ const NewForm = ({ setIsOpen }) => {
         setErrorMsg("");
     };
 
-    const handleEducation = (event) => {
-        setDetails((prev) => {
-            return {
-                ...prev, educational_qualification: event
-            };
-        });
-        setErrorMsg("");
-    };
+    // const handleEducation = (event) => {
+    //     setDetails((prev) => {
+    //         return {
+    //             ...prev, educational_qualification: event
+    //         };
+    //     });
+    //     setErrorMsg("");
+    // };
     useEffect(() => {
         setDetails(details => {
             return {
@@ -262,11 +272,11 @@ const NewForm = ({ setIsOpen }) => {
                                                 </div>
                                                 <div className="">
                                                     <label className="block">
-                                                        <span className="block text-sm font-medium text-slate-700 mb-1">Type of ID</span>
+                                                        <span className="block text-sm font-medium text-slate-700 mb-1">Select Type of ID</span>
                                                         <select
                                                             value={details.means_of_identification} name='means_of_identification' onChange={handleOnChange}
                                                             id="" className='border w-full focus:outline-none p-2 pb-1'>
-                                                            <option value="male">-- Select --</option>
+                                                            <option value="">-- Select --</option>
                                                             <option value="nin">National Identity Card (NIN)</option>
                                                             <option value="license">Drivers License </option>
                                                             <option value="passport">International Passport </option>
@@ -280,21 +290,23 @@ const NewForm = ({ setIsOpen }) => {
                                                             className="mt-1 block p-1 focus:outline-none w-full border" />
                                                     </label>
                                                 </div> */}
-                                                <div className="">
-                                                    <label className="block">
-                                                        <span className="block text-sm font-medium text-slate-700">Input your NIN</span>
-                                                        <input type="number" value={details.nin} name='nin' onChange={handleOnChange}
-                                                            className="mt-1 block p-1 focus:outline-none w-full border" />
-                                                    </label>
-                                                </div>
-                                                <div className="">
-                                                    <label className="block">
-                                                        <span className="block text-sm font-medium text-slate-700">Upload NIN</span>
-                                                        <input type="file"
-                                                            name='nin_slip' onChange={handleOnChange}
-                                                            className="mt-1 block p-1 focus:outline-none w-full border" />
-                                                    </label>
-                                                </div>
+                                                {selectId && (
+                                                    <div className="">
+                                                        <label className="block">
+                                                            <span className="block text-sm font-medium text-slate-700">Input {selectId} No:</span>
+                                                            <input type="text" value={details.nin} name='nin' onChange={handleOnChange}
+                                                                className="mt-1 block p-1 focus:outline-none w-full border" />
+                                                        </label>
+                                                    </div>)}
+                                                {selectId && (
+                                                    <div className="">
+                                                        <label className="block">
+                                                            <span className="block text-sm font-medium text-slate-700">Upload {selectId}</span>
+                                                            <input type="file"
+                                                                name='nin_slip' onChange={handleOnChange}
+                                                                className="mt-1 block p-1 focus:outline-none w-full border" />
+                                                        </label>
+                                                    </div>)}
                                                 <div className="">
                                                     <label className="block">
                                                         <span className="block text-sm font-medium text-slate-700">Background Image</span>
@@ -315,7 +327,7 @@ const NewForm = ({ setIsOpen }) => {
                                         </div>
                                         <div className="w-4/6">
                                             <div className="grid grid-cols-2 gap-4">
-                                                {/* <div className="">
+                                                <div className="">
                                                     <label className="block">
                                                         <span className="block text-sm font-medium text-slate-700 mb-1">Educational Qualification</span>
                                                         <select
@@ -330,7 +342,7 @@ const NewForm = ({ setIsOpen }) => {
                                                             <option value="msc">Master's Degree</option>
                                                         </select>
                                                     </label>
-                                                </div> */}
+                                                </div>
                                                 <div className="">
                                                     <label className="block">
                                                         <span className="block text-sm font-medium text-slate-700 mb-1">Work Experience</span>
@@ -370,6 +382,7 @@ const NewForm = ({ setIsOpen }) => {
                                                             <option value="">-- select --</option>
                                                             <option value="monthly">Monthly</option>
                                                             <option value="hourly">Hourly</option>
+                                                            <option value="contract">Contract</option>
                                                         </select>
                                                     </label>
                                                 </div>
@@ -431,14 +444,14 @@ const NewForm = ({ setIsOpen }) => {
                                                 handleText={handleOutline} />
                                         </label>
                                     </div>
-                                    <div className="mb-5">
+                                    {/* <div className="mb-5">
                                         <label>
                                             <p className="font-bold mb-5">Education</p>
                                             <TextEditor
                                                 textValue={details.educational_qualification}
                                                 handleText={handleEducation} />
                                         </label>
-                                    </div>
+                                    </div> */}
                                 </div>
                                 <div className="border-b py-6">
                                     <div className="flex">

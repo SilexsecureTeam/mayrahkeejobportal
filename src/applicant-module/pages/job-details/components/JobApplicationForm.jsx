@@ -3,8 +3,8 @@ import UseModal from '../../../components/general/UseModal';
 import JobForm from './JobForm';
 import { ResourceContext } from '../../../../context/ResourceContext';
 
-const JobApplicationForm = ({ job }) => {
-    const { getCandidate, setGetCandidate, setGetAllApplications } = useContext(ResourceContext);
+const JobApplicationForm = ({ job, hasApplied }) => {
+    const { getCandidate, setGetCandidate, getAllApplications, setGetAllApplications } = useContext(ResourceContext);
 
     const [isOpen, setIsOpen] = useState(false);
     const header = "Fill the form to  apply"
@@ -16,13 +16,13 @@ const JobApplicationForm = ({ job }) => {
             }
         })
     }, [])
-
     return (
         <>
             <button
+            disabled={hasApplied}
                 onClick={() => setIsOpen(true)}
                 className='px-10 py-2 green_btn text-white hover:bg-green-700'>
-                Apply
+               {hasApplied ? " Applied" : "Apply"}
             </button>
             <UseModal header={header} setIsOpen={setIsOpen} isOpen={isOpen} >
                 <JobForm

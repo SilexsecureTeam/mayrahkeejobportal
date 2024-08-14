@@ -17,9 +17,10 @@ const BasicInfo = ({ setIsOpen }) => {
 
     const { authDetails, userUpdate, setUserUpdate } = useContext(AuthContext)
     const user = authDetails?.user
-    const [errorMsg, setErrorMsg] = useState(null)
-    const [showMsg, setShowMsg] = useState(false)
-    const [loading, setLoading] = useState(false)
+    const [errorMsg, setErrorMsg] = useState(null);
+    const [showMsg, setShowMsg] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const [selectId, setSelectId] = useState(null);
 
     const [socialHandles, setSocialHandles] = useState([
         { network: "", url: "", },
@@ -58,7 +59,7 @@ const BasicInfo = ({ setIsOpen }) => {
         password: user.password ? user.password : "",
         means_of_identification: candidate.means_of_identification ? candidate?.means_of_identification : "",
         nin: candidate.nin ? candidate?.nin : "",
-        nin_slip: candidate.nin_slip ? candidate?.nin_slip : "",
+        nin_slip: null,
         educational_qualification: candidate.educational_qualification ? candidate?.educational_qualification : "",
         work_experience: candidate.work_experience ? candidate?.work_experience : "",
         languages: candidate.languages ? candidate?.languages : "",
@@ -79,9 +80,18 @@ const BasicInfo = ({ setIsOpen }) => {
         social_media_handle: [],
     })
 
+    function updateFirstLetter(word) {
+        if (word) {
+            return setSelectId(word[0]?.toUpperCase() + word.slice(1));
+        } else { return setSelectId(null) }
+    }
+
     // console.log(getAllFaculty.data)
     const handleOnChange = (e) => {
-        const { value, name, files, type, checked } = e.target
+        const { value, name, files, type, checked } = e.target;
+        if (name === "means_of_identification") {
+            updateFirstLetter(value)
+        }
         setDetails((prev) => {
             return {
                 ...prev,
@@ -101,14 +111,14 @@ const BasicInfo = ({ setIsOpen }) => {
         setErrorMsg("");
     };
 
-    const handleEducation = (event) => {
-        setDetails((prev) => {
-            return {
-                ...prev, educational_qualification: event
-            };
-        });
-        setErrorMsg("");
-    };
+    // const handleEducation = (event) => {
+    //     setDetails((prev) => {
+    //         return {
+    //             ...prev, educational_qualification: event
+    //         };
+    //     });
+    //     setErrorMsg("");
+    // };
     useEffect(() => {
         setDetails(details => {
             return {
@@ -159,7 +169,6 @@ const BasicInfo = ({ setIsOpen }) => {
                 }
             });
     }
-    // console.log(errorMsg)
     const getImageURL = (e) => {
         const { name } = e.target;
         const file = e.target.files[0]; //filelist is an object carrying all details of file, .files[0] collects the value from key 0 (not array), and stores it in file
@@ -175,10 +184,10 @@ const BasicInfo = ({ setIsOpen }) => {
         }
     };
     console.log(details)
-    console.log(userUpdate)
+    console.log(candidate)
 
     return (
-        <div className='text-[#515B6F]'>
+        <div className='text-[#515B6F] text-base'>
 
             <div className="my-4">
                 <div className="flex items-cente pb-6 border-b">
@@ -263,32 +272,33 @@ const BasicInfo = ({ setIsOpen }) => {
                                                 </div>
                                                 <div className="">
                                                     <label className="block">
-                                                        <span className="block text-sm font-medium text-slate-700 mb-1">Type of ID</span>
+                                                        <span className="block text-sm font-medium text-slate-700 mb-1">Select Type of ID</span>
                                                         <select
                                                             value={details.means_of_identification} name='means_of_identification' onChange={handleOnChange}
                                                             id="" className='border w-full focus:outline-none p-2 pb-1'>
-                                                            <option value="male">-- Select --</option>
+                                                            <option value="">-- Select --</option>
                                                             <option value="nin">National Identity Card (NIN)</option>
                                                             <option value="license">Drivers License </option>
                                                             <option value="passport">International Passport </option>
                                                         </select>
                                                     </label>
                                                 </div>
-                                                <div className="">
+
+                                                {selectId && (<div className="">
                                                     <label className="block">
-                                                        <span className="block text-sm font-medium text-slate-700">Input your NIN</span>
-                                                        <input type="number" value={details.nin} name='nin' onChange={handleOnChange}
+                                                        <span className="block text-sm font-medium text-slate-700">Input {selectId ? selectId : ""} No:</span>
+                                                        <input type="text" value={details.nin} name='nin' onChange={handleOnChange}
                                                             className="mt-1 block p-1 focus:outline-none w-full border" />
                                                     </label>
-                                                </div>
-                                                <div className="">
+                                                </div>)}
+                                                {selectId && (<div className="">
                                                     <label className="block">
-                                                        <span className="block text-sm font-medium text-slate-700">Upload NIN</span>
+                                                        <span className="block text-sm font-medium text-slate-700">Upload {selectId ? selectId : ""} NIN</span>
                                                         <input type="file"
                                                             name='nin_slip' onChange={handleOnChange}
                                                             className="mt-1 block p-1 focus:outline-none w-full border" />
                                                     </label>
-                                                </div>
+                                                </div>)}
                                                 <div className="">
                                                     <label className="block">
                                                         <span className="block text-sm font-medium text-slate-700">Background Image</span>
@@ -309,7 +319,7 @@ const BasicInfo = ({ setIsOpen }) => {
                                         </div>
                                         <div className="w-4/6">
                                             <div className="grid grid-cols-2 gap-4">
-                                                {/* <div className="">
+                                                <div className="">
                                                     <label className="block">
                                                         <span className="block text-sm font-medium text-slate-700 mb-1">Educational Qualification</span>
                                                         <select
@@ -324,7 +334,7 @@ const BasicInfo = ({ setIsOpen }) => {
                                                             <option value="msc">Master's Degree</option>
                                                         </select>
                                                     </label>
-                                                </div> */}
+                                                </div>
                                                 <div className="">
                                                     <label className="block">
                                                         <span className="block text-sm font-medium text-slate-700 mb-1">Work Experience</span>
@@ -364,6 +374,7 @@ const BasicInfo = ({ setIsOpen }) => {
                                                             <option value="">-- select --</option>
                                                             <option value="monthly">Monthly</option>
                                                             <option value="hourly">Hourly</option>
+                                                            <option value="contract">Contract</option>
                                                         </select>
                                                     </label>
                                                 </div>
@@ -425,14 +436,14 @@ const BasicInfo = ({ setIsOpen }) => {
                                                 handleText={handleOutline} />
                                         </label>
                                     </div>
-                                    <div className="mb-5">
+                                    {/* <div className="mb-5">
                                         <label>
                                             <p className="font-bold mb-5">Education</p>
                                             <TextEditor
                                                 textValue={details.educational_qualification}
                                                 handleText={handleEducation} />
                                         </label>
-                                    </div>
+                                    </div> */}
                                 </div>
                                 <div className="border-b mb-8 py-6">
                                     <div className="flex">

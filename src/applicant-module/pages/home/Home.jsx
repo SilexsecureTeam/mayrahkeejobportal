@@ -5,8 +5,6 @@ import RoundChart from "../../components/charts/RoundCharts";
 import { FaArrowRightLong } from "react-icons/fa6";
 import { MdChevronLeft, MdChevronRight, MdOutlineMoreHoriz, MdOutlineRateReview, MdOutlineRemoveRedEye } from "react-icons/md";
 import newApplicant from "../../../assets/pngs/applicant-logo1.png"
-import newApplicant2 from "../../../assets/pngs/applicant-Logo2.png"
-import newApplicant3 from "../../../assets/pngs/applicant-logo3.png"
 import RecentlyAdded from "./RecentlyAdded";
 import { motion } from "framer-motion";
 import { fadeIn, fadeInXaxis } from "../../../utils/variants"
@@ -20,7 +18,9 @@ function Home() {
   const { getAllApplications, setGetAllApplications, getAllJobs, setGetAllJobs } = useContext(ResourceContext);
   const { authDetails, userUpdate } = useContext(AuthContext);
   const hour = now.getHours();
-  const user = authDetails?.user
+  const user = authDetails?.user;
+
+  const currentDate = now.toLocaleDateString('en-US', { month: 'long', day: 'numeric' });
 
   let timeOfDay = ""
   if (hour > 16) {
@@ -56,7 +56,7 @@ function Home() {
       }
     })
   }, [])
-  
+
   const allApplications = getAllApplications?.data
   const pendingReview = allApplications?.filter((app) => app.status === "pending")
   console.log(allApplications)
@@ -178,7 +178,7 @@ function Home() {
                 <p className="font-bold my-3">Upcomming Interviews</p>
               </div>
               <div className="px-3 flex border-b justify-between items-center">
-                <p className=" my-3"><b>Today</b>, 26 November</p>
+                <p className=" my-3"><b>Today</b>, {currentDate}</p>
                 <div className="flex">
                   <span className="mr-2"><MdChevronLeft /> </span>
                   <span><MdChevronRight /> </span>

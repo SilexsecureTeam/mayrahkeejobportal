@@ -43,7 +43,7 @@ const JobDetails = () => {
                                     </button>
                                 </div>
                                 <div className="ml-3">
-                                    <JobApplicationForm job={job} />
+                                    <JobApplicationForm job={job} hasApplied={state?.hasApplied} />
                                 </div>
                             </div>
                         </div>

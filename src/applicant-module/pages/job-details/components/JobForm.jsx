@@ -4,6 +4,7 @@ import axios from "axios";
 import { AuthContext } from '../../../../context/AuthContex'
 import { ResourceContext } from '../../../../context/ResourceContext'
 import { onSuccess } from '../../../../utils/notifications/OnSuccess';
+import { FcApproval } from 'react-icons/fc';
 
 const JobForm = ({ setIsOpen, getCandidate, job, updateAllApplications }) => {
 
@@ -12,6 +13,7 @@ const JobForm = ({ setIsOpen, getCandidate, job, updateAllApplications }) => {
     const [errorMsg, setErrorMsg] = useState(null)
     const [showMsg, setShowMsg] = useState(false)
     const [loading, setLoading] = useState(false)
+    const [resumePicker, setResumePicker] = useState(false)
 
     const [details, setDetails] = useState({
         candidate_id: getCandidate?.candidateAuth?.id,
@@ -20,8 +22,8 @@ const JobForm = ({ setIsOpen, getCandidate, job, updateAllApplications }) => {
         email: getCandidate?.candidateAuth?.email,
         phone_number: getCandidate?.details?.phone_number,
         job_title: job.job_title,
-        linkedin_url: "",
-        portfolio_url: "",
+        // linkedin_url: "",
+        // portfolio_url: "",
         additional_information: "",
         resume: "",
     })
@@ -29,7 +31,10 @@ const JobForm = ({ setIsOpen, getCandidate, job, updateAllApplications }) => {
     const user = authDetails?.user
 
     const handleOnChange = (e) => {
-        const { value, name, files, type, checked } = e.target
+        const { value, name, files, type, checked } = e.target;
+        if (name === "resume") {
+            setResumePicker(true)
+        }
         setDetails((prev) => {
             return {
                 ...prev,
@@ -106,25 +111,26 @@ const JobForm = ({ setIsOpen, getCandidate, job, updateAllApplications }) => {
                                 <div className="border-b py-6">
                                     <div className="flex">
                                         <div className="w-full">
-                                            <div className="mb-4">
+                                            {/* <div className="mb-4">
                                                 <label className="block">
                                                     <span className="block text-sm font-medium text-slate-700">LinkedIn</span>
                                                     <input type="url" value={details.linkedin_url} name='linkedin_url' placeholder='url' onChange={handleOnChange}
                                                         className="mt-1 block p-1 focus:outline-none w-full border" />
                                                 </label>
-                                            </div>
-                                            <div className="mb-4">
+                                            </div> */}
+                                            {/* <div className="mb-4">
                                                 <label className="block">
                                                     <span className="block text-sm font-medium text-slate-700">Portfolio</span>
                                                     <input type="url" value={details.portfolio_url} name='portfolio_url' placeholder='url' onChange={handleOnChange}
                                                         className="mt-1 block p-1 focus:outline-none w-full border" />
                                                 </label>
-                                            </div>
-                                            <div className="mb-4">
-                                                <label className="block">
-                                                    <span className="block text-sm font-medium text-slate-700">Resume</span>
-                                                    <input type="file" name='resume' placeholder='url' onChange={handleOnChange}
-                                                        className="mt-1 block p-1 focus:outline-none w-full border" />
+                                            </div> */}
+                                            <div className="my-4 pt-5">
+                                                <label htmlFor='resume' className="cursor-pointer flex">
+                                                    <span className="text-sm  bg-green-100 rounded border p-4 font-medium text-slate-700">Resume</span>
+                                                    <span> {resumePicker && (<FcApproval />)}</span>
+                                                <input type="file" id='resume' name='resume' placeholder='url' onChange={handleOnChange}
+                                                    className="mt-1 invisible p-1 focus:outline-none w-full border" />
                                                 </label>
                                             </div>
                                             <div className="mb-4">
