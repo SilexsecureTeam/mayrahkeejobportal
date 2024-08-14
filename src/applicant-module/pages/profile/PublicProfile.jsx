@@ -39,7 +39,7 @@ function PublicProfile() {
       <Helmet>
         <title>Dashboard | Public Profile </title>
       </Helmet>
-      <div className="h-full w-full p-6">
+      <div className="h-full w-full p-8">
         <div className="flex">
           <div className="md:w-[70%]">
             <div className="border">

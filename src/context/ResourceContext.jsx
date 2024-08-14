@@ -14,7 +14,7 @@ function ResourceContextProvider({ children }) {
         backgroundColor: "rgba(0, 0, 0, 0.15)",
         display: "block"
     })
-    const [checker, setChecker] = useState(false);
+    const [checker, setChecker] = useState(true);
     const [errorMesage, setErrorMessage] = useState('');
 
     const [meetingTitle, setMeetingTitle] = useState('');

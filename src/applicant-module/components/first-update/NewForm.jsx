@@ -11,6 +11,7 @@ import { AuthContext } from '../../../context/AuthContex'
 import TextEditor from '../../pages/settings/components/TextEditor'
 import SocialsForm from '../../pages/settings/components/SocialsForm';
 import { BASE_URL } from '../../../utils/base';
+import { onSuccess } from '../../../utils/notifications/OnSuccess';
 
 const NewForm = ({ setIsOpen }) => {
 
@@ -143,6 +144,10 @@ const NewForm = ({ setIsOpen }) => {
         })
             .then((response) => {
                 console.log(response)
+                onSuccess({
+                    message: 'Profile',
+                    success: response.data.message
+                })
                 localStorage.setItem("userDetails", JSON.stringify(response.data.candidate));
                 // setUserUpdate(updateData)
                 setLoading(false)

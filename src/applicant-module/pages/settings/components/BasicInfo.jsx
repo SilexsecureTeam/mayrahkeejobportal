@@ -10,6 +10,7 @@ import { MdOutlineCheckBoxOutlineBlank } from 'react-icons/md';
 import { AuthContext } from '../../../../context/AuthContex'
 import { ResourceContext } from '../../../../context/ResourceContext'
 import TextEditor from './TextEditor'
+import { onSuccess } from '../../../../utils/notifications/OnSuccess'
 
 const BasicInfo = ({ setIsOpen }) => {
 
@@ -144,6 +145,10 @@ const BasicInfo = ({ setIsOpen }) => {
         })
             .then((response) => {
                 console.log(response)
+                onSuccess({
+                    message: 'Profile',
+                    success: response.data.message
+                })
                 localStorage.setItem("userDetails", JSON.stringify(response.data.candidate));
                 // setUserUpdate(updateData)
                 setLoading(false)

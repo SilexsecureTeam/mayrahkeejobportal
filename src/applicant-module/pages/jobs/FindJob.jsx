@@ -41,7 +41,7 @@ function FindJob() {
       <Helmet>
         <title>Dashboard | Find Job </title>
       </Helmet>
-      <div className="h-full text-[#25324b] p-6 text-sm w-full">
+      <div className="h-full text-[#25324b] p-8 text-sm w-full">
         <div className="px-3 py-5 border mb-2 flex">
           <div className="relative border-b py-1 px-6 mx-4 w-[35%] ">
             <input type="text" placeholder="Search messages" className="pl-[10px] focus:outline-none w-full" />

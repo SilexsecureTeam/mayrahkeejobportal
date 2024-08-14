@@ -19,7 +19,7 @@ const JobApplicationForm = ({ job, hasApplied }) => {
     return (
         <>
             <button
-            disabled={hasApplied}
+            disabled={!hasApplied}
                 onClick={() => setIsOpen(true)}
                 className='px-10 py-2 green_btn text-white hover:bg-green-700'>
                {hasApplied ? " Applied" : "Apply"}
