@@ -4,14 +4,16 @@ import axios from "axios";
 import { AuthContext } from '../../../../context/AuthContex'
 import { ResourceContext } from '../../../../context/ResourceContext'
 import { onSuccess } from '../../../../utils/notifications/OnSuccess';
+import { FcApproval } from 'react-icons/fc';
 
-const JobForm = ({ setIsOpen, getCandidate, job }) => {
+const JobForm = ({ setIsOpen, getCandidate, job, updateAllApplications }) => {
 
     const { authDetails } = useContext(AuthContext)
 
     const [errorMsg, setErrorMsg] = useState(null)
     const [showMsg, setShowMsg] = useState(false)
     const [loading, setLoading] = useState(false)
+    const [resumePicker, setResumePicker] = useState(false)
 
     const [details, setDetails] = useState({
         candidate_id: getCandidate?.candidateAuth?.id,
@@ -20,17 +22,19 @@ const JobForm = ({ setIsOpen, getCandidate, job }) => {
         email: getCandidate?.candidateAuth?.email,
         phone_number: getCandidate?.details?.phone_number,
         job_title: job.job_title,
-        linkedin_url: "",
-        portfolio_url: "",
+        // linkedin_url: "",
+        // portfolio_url: "",
         additional_information: "",
         resume: "",
     })
 
     const user = authDetails?.user
 
-
     const handleOnChange = (e) => {
-        const { value, name, files, type, checked } = e.target
+        const { value, name, files, type, checked } = e.target;
+        if (name === "resume") {
+            setResumePicker(true)
+        }
         setDetails((prev) => {
             return {
                 ...prev,
@@ -43,6 +47,11 @@ const JobForm = ({ setIsOpen, getCandidate, job }) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        updateAllApplications((prev) => {
+            return {
+                ...prev, isDataNeeded: false
+            }
+        })
         setErrorMsg(null)
         setLoading(true)
         axios.post(`${BASE_URL}/apply`, details, {
@@ -56,10 +65,14 @@ const JobForm = ({ setIsOpen, getCandidate, job }) => {
                 onSuccess({
                     message: 'New Application',
                     success: response.data.message
-                   })
+                })
+                updateAllApplications((prev) => {
+                    return {
+                        ...prev, isDataNeeded: true
+                    }
+                })
                 setLoading(false)
                 setIsOpen(false)
-                // toast.success("successful");
             })
             .catch((error) => {
                 console.log(error)
@@ -79,13 +92,13 @@ const JobForm = ({ setIsOpen, getCandidate, job }) => {
     console.log(details)
     // console.log(job)
 
-    
-  const handleSuccess = () => {
-    onSuccess({
-     message: 'New Job',
-     success: 'Job Created Successfully'
-    })
-}
+
+    const handleSuccess = () => {
+        onSuccess({
+            message: 'New Job',
+            success: 'Job Created Successfully'
+        })
+    }
 
     return (
         <div className='text-[#515B6F]'>
@@ -98,25 +111,26 @@ const JobForm = ({ setIsOpen, getCandidate, job }) => {
                                 <div className="border-b py-6">
                                     <div className="flex">
                                         <div className="w-full">
-                                            <div className="mb-4">
+                                            {/* <div className="mb-4">
                                                 <label className="block">
                                                     <span className="block text-sm font-medium text-slate-700">LinkedIn</span>
-                                                    <input type="text" value={details.linkedin_url} name='linkedin_url' placeholder='url' onChange={handleOnChange}
+                                                    <input type="url" value={details.linkedin_url} name='linkedin_url' placeholder='url' onChange={handleOnChange}
                                                         className="mt-1 block p-1 focus:outline-none w-full border" />
                                                 </label>
-                                            </div>
-                                            <div className="mb-4">
+                                            </div> */}
+                                            {/* <div className="mb-4">
                                                 <label className="block">
                                                     <span className="block text-sm font-medium text-slate-700">Portfolio</span>
-                                                    <input type="text" value={details.portfolio_url} name='portfolio_url' placeholder='url' onChange={handleOnChange}
+                                                    <input type="url" value={details.portfolio_url} name='portfolio_url' placeholder='url' onChange={handleOnChange}
                                                         className="mt-1 block p-1 focus:outline-none w-full border" />
                                                 </label>
-                                            </div>
-                                            <div className="mb-4">
-                                                <label className="block">
-                                                    <span className="block text-sm font-medium text-slate-700">Resume</span>
-                                                    <input type="file" name='resume' placeholder='url' onChange={handleOnChange}
-                                                        className="mt-1 block p-1 focus:outline-none w-full border" />
+                                            </div> */}
+                                            <div className="my-4 pt-5">
+                                                <label htmlFor='resume' className="cursor-pointer flex">
+                                                    <span className="text-sm  bg-green-100 rounded border p-4 font-medium text-slate-700">Resume</span>
+                                                    <span> {resumePicker && (<FcApproval />)}</span>
+                                                <input type="file" id='resume' name='resume' placeholder='url' onChange={handleOnChange}
+                                                    className="mt-1 invisible p-1 focus:outline-none w-full border" />
                                                 </label>
                                             </div>
                                             <div className="mb-4">
@@ -125,7 +139,7 @@ const JobForm = ({ setIsOpen, getCandidate, job }) => {
                                                 </label>
                                                 <textarea
                                                     value={details.additional_information} name='additional_information' onChange={handleOnChange}
-                                                    className="mt-1 block w-full focus:outline-green-400 border" id=""></textarea>
+                                                    className="mt-1 block w-full focus:outline-green-400 border min-h-[100px]" id=""></textarea>
                                             </div>
                                         </div>
                                     </div>

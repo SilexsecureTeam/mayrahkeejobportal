@@ -1,12 +1,14 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom';
 
-const JobCard = ({ newApplicant, job }) => {
+const JobCard = ({ newApplicant, job, getAllApplications }) => {
 
     const navigate = useNavigate();
+    const hasApplied = getAllApplications?.some((app) => app.job_id === job.id)
+    console.log(hasApplied)
     return (
         <div
-            onClick={() => navigate("/applicant/find-job/id", { state: { job: job } })}
+            onClick={() => navigate("/applicant/find-job/id", { state: { job: job, hasApplied: hasApplied } })}
             className="border cursor-pointer hover:shadow-inner my-4 p-4">
             <div className="flex justify-between">
                 <div className="flex">
@@ -24,8 +26,8 @@ const JobCard = ({ newApplicant, job }) => {
                     </div>
                 </div>
                 <div className="">
-                    <button className="w-[150px] text-white mb-2 py-2 bg-green-700 hover:bg-green-900">
-                        Apply
+                    <button disabled={hasApplied} className="w-[150px] text-white mb-2 py-2 bg-green-700 hover:bg-green-900">
+                        {hasApplied ? "Applied" : "Apply"}
                     </button>
                     <div className="flex my-3 bg-gray-100">
                         <div className="pt-1 bg-[#56CDAD] w-[50%]"></div>

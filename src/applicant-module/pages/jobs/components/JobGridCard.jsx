@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom'
 const JobGridCard = ({ newApplicant, job }) => {
     const navigate = useNavigate();
     const keywordArr = job.search_keywords?.split(',')
+    
     return (
         <div
             onClick={() => navigate("/applicant/find-job/id", { state: { job: job } })}

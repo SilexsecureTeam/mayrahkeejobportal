@@ -20,6 +20,7 @@ function Application() {
 
   const [closeNote, setCloseNote] = useState(true)
   const [view, setView] = useState("all")
+  const [appFilter, setAppFilter] = useState("")
 
   const handleView = (type) => setView(type);
   function generateDateRange() {
@@ -42,10 +43,15 @@ function Application() {
     })
   }, [])
 
-  const allApplications = getAllApplications?.data
+  const filterByKeyword = getAllApplications.data?.filter((item) => (
+    item.job_title?.toLowerCase().includes(appFilter)
+  ))
+
+  const allApplications = filterByKeyword
   const pendingReview = allApplications?.filter((app) => app.status === "pending")
   const pendingInterview = allApplications?.filter((app) => app.status === "interview")
 
+  console.log(filterByKeyword)
   return (
     <>
       <Helmet>
@@ -109,7 +115,7 @@ function Application() {
             <div className="flex items-start">
               <div className="">
                 <div className="relative border h-full py-1 px-6 mb-4">
-                  <input type="text" placeholder="Search" className="pl-[10px] focus:outline-none w-full" />
+                  <input type="text" placeholder="Search" onChange={(e) => setAppFilter(e.target.value)} className="pl-[10px] focus:outline-none w-full" />
                   <span className="absolute text-primary top-0 left-0 p-2">
                     <CiSearch />
                   </span>

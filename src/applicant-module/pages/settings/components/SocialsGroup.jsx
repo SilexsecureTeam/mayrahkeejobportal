@@ -27,7 +27,7 @@ const SocialsGroup = ({ index,
                         type='button'
                         onClick={() => setShow(!show)}
                         className='text-green-500 transition hover:text-lg'>
-                        {show ? <GoChevronUp /> : <GoChevronDown />}
+                        {show ? <GoChevronUp size={30} /> : <GoChevronDown size={30} />}
                     </button>
                 </div>
                 {show && (
@@ -35,7 +35,7 @@ const SocialsGroup = ({ index,
 
                         <div className="mb-4">
                             <label className="block">
-                                <span className="block text-sm font-medium text-slate-700">Netwok</span>
+                                <span className="block text-sm font-medium text-slate-700">Network</span>
                                 <select 
                                 name='network' 
                                 value={experience.network}

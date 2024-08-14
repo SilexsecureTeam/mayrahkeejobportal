@@ -18,10 +18,18 @@ import { ResourceContext } from "../../../context/ResourceContext";
 
 function FindJob() {
   const [isGrid, setIsGrid] = useState(false);
-  const { getAllJobs, setGetAllJobs } = useContext(ResourceContext)
+  const { getAllJobs, setGetAllJobs, getAllApplications, setGetAllApplications } = useContext(ResourceContext)
 
   useEffect(() => {
     setGetAllJobs((prev) => {
+      return {
+        ...prev, isDataNeeded: true
+      }
+    })
+  }, [])
+
+  useEffect(() => {
+    setGetAllApplications((prev) => {
       return {
         ...prev, isDataNeeded: true
       }
@@ -96,8 +104,11 @@ function FindJob() {
                     </div>
                     ) : (
                       <div>
-                         {getAllJobs.data?.map((job) => (
-                          <JobCard key={job.id} job={job} newApplicant={newApplicant} />
+                        {getAllJobs.data?.map((job) => (
+                          <JobCard
+                          getAllApplications={getAllApplications?.data}
+                           key={job.id} job={job} 
+                          newApplicant={newApplicant} />
                         ))}
                       </div>
                     )}
