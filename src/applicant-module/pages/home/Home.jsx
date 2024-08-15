@@ -5,20 +5,22 @@ import RoundChart from "../../components/charts/RoundCharts";
 import { FaArrowRightLong } from "react-icons/fa6";
 import { MdChevronLeft, MdChevronRight, MdOutlineMoreHoriz, MdOutlineRateReview, MdOutlineRemoveRedEye } from "react-icons/md";
 import newApplicant from "../../../assets/pngs/applicant-logo1.png"
-import newApplicant2 from "../../../assets/pngs/applicant-Logo2.png"
-import newApplicant3 from "../../../assets/pngs/applicant-logo3.png"
 import RecentlyAdded from "./RecentlyAdded";
 import { motion } from "framer-motion";
 import { fadeIn, fadeInXaxis } from "../../../utils/variants"
 import { RiCalendarEventLine } from "react-icons/ri";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { AuthContext } from "../../../context/AuthContex";
 import FirstUpdateForm from "../../components/first-update/FirstUpdateForm";
+import { ResourceContext } from "../../../context/ResourceContext";
 const now = new Date()
 function Home() {
+  const { getAllApplications, setGetAllApplications, getAllJobs, setGetAllJobs } = useContext(ResourceContext);
   const { authDetails, userUpdate } = useContext(AuthContext);
   const hour = now.getHours();
-  const user = authDetails?.user 
+  const user = authDetails?.user;
+
+  const currentDate = now.toLocaleDateString('en-US', { month: 'long', day: 'numeric' });
 
   let timeOfDay = ""
   if (hour > 16) {
@@ -27,8 +29,37 @@ function Home() {
     timeOfDay = "Afternoon"
   } else { timeOfDay = "Morning" }
 
-  console.log(userUpdate)
+  function generateDateRange() {
+    const today = new Date();
+    const oneWeekLater = new Date(today);
+    oneWeekLater.setDate(today.getDate() + 7);
 
+    // Format dates as "Month Day, Year"
+    const formattedStartDate = today.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+    const formattedEndDate = oneWeekLater.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+
+    return `${formattedStartDate} - ${formattedEndDate}.`;
+  }
+
+  useEffect(() => {
+    setGetAllJobs((prev) => {
+      return {
+        ...prev, isDataNeeded: true
+      }
+    })
+  }, [])
+
+  useEffect(() => {
+    setGetAllApplications((prev) => {
+      return {
+        ...prev, isDataNeeded: true
+      }
+    })
+  }, [])
+
+  const allApplications = getAllApplications?.data
+  const pendingReview = allApplications?.filter((app) => app.status === "pending")
+  console.log(allApplications)
   return (
     <>
       <Helmet>
@@ -39,11 +70,11 @@ function Home() {
         <div className="text-sm">
           <div className="flex justify-between align-center">
             <div className="">
-              <h4 className="fair_clash bold text-2xl mb-5">Good {timeOfDay}, {user.first_name}</h4>
-              <p>Here is what’s happening with your job search applications from July 19 - July 25.</p>
+              <h4 className="font-bold text-2xl mb-5">Good {timeOfDay}, {user.first_name}</h4>
+              <p>Here is what’s happening with your job search applications from {generateDateRange()}</p>
             </div>
             <div>
-              <button className="border p-2 flex items-center hover:bg-gray-100 hover:shadow">Jul 19 - Jul 25  <RiCalendarEventLine className="ml-2 prime_text" size={15} /></button>
+              <button className="border p-2 flex items-center hover:bg-gray-100 hover:shadow"> {generateDateRange()}<RiCalendarEventLine className="ml-2 prime_text" size={15} /></button>
             </div>
           </div>
           <div className="flex mt-8 gap-3">
@@ -57,7 +88,7 @@ function Home() {
                 <div className="border transition duration-400 h-full cursor-pointer hover:shadow-xl mb-4 p-3 pb-0 flex flex-col justify-between">
                   <p className="font-medium">Total Jobs Applied</p>
                   <div className="flex justify-between items-end mt-4">
-                    <p className="text-6xl font-medium">45</p>
+                    <p className="text-6xl font-medium">{getAllApplications.data?.length}</p>
                     <div className="">
                       <img src={docsIcon} alt="" className="w-10" />
                     </div>
@@ -68,7 +99,7 @@ function Home() {
                 <div className="border transition duration-400 h-full cursor-pointer hover:shadow-xl mb-4 p-3 pb-0 flex flex-col justify-between">
                   <p className="font-medium">Interviewed</p>
                   <div className="flex justify-between items-end mt-4">
-                    <p className="text-6xl font-medium">18</p>
+                    <p className="text-6xl font-medium">0</p>
                     <div className="">
                       <img src={chatsIcon} alt="" className="w-[60px]" />
                     </div>
@@ -86,7 +117,7 @@ function Home() {
                 <div className="border transition duration-400 h-full cursor-pointer hover:shadow-xl mb-4 p-3 pb-0 flex flex-col justify-between">
                   <p className="font-medium">Review by Employer</p>
                   <div className="flex justify-between items-end mt-4">
-                    <p className="text-6xl font-medium">5</p>
+                    <p className="text-6xl font-medium">{pendingReview?.length}</p>
                     <div className=" text-gray-300">
                       <MdOutlineRateReview size={50} />
                       {/* <img src={docsIcon} alt="" className="w-10" /> */}
@@ -98,7 +129,7 @@ function Home() {
                 <div className="border transition duration-400 h-full cursor-pointer hover:shadow-xl mb-4 p-3 pb-0 flex flex-col justify-between">
                   <p className="font-medium">Views by Employer</p>
                   <div className="flex justify-between items-end mt-4">
-                    <p className="text-6xl font-medium">14</p>
+                    <p className="text-6xl font-medium">{pendingReview?.length}</p>
                     <div className=" text-gray-300">
                       <MdOutlineRemoveRedEye size={50} />
                       {/* <img src={chatsIcon} alt="" className="w-[60px]" /> */}
@@ -147,7 +178,7 @@ function Home() {
                 <p className="font-bold my-3">Upcomming Interviews</p>
               </div>
               <div className="px-3 flex border-b justify-between items-center">
-                <p className=" my-3"><b>Today</b>, 26 November</p>
+                <p className=" my-3"><b>Today</b>, {currentDate}</p>
                 <div className="flex">
                   <span className="mr-2"><MdChevronLeft /> </span>
                   <span><MdChevronRight /> </span>
@@ -182,10 +213,9 @@ function Home() {
               <p className="font-bold text-base">Recent Application History</p>
             </div>
             <div className="p-3">
-              <RecentlyAdded newApplicant={newApplicant} />
-              <RecentlyAdded newApplicant={newApplicant2} />
-              <RecentlyAdded newApplicant={newApplicant3} />
-
+              {allApplications?.map((app) => (
+                <RecentlyAdded app={app.id} newApp={app} newApplicant={newApplicant} />
+              ))}
               <div className="my-4 flex justify-center">
                 <div className="flex my-3 items-center cursor-pointer prime_text hover:opacity-90">
                   <p>View All Applications</p>
