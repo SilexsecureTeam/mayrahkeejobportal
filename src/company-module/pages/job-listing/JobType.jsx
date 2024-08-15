@@ -53,7 +53,7 @@ function JobType() {
 
   return (
     <>
-    <div className="w-full p-2 flex flex-col gap-[20px]">
+    <div className="w-full p-5 flex flex-col gap-[20px]">
       <Header
         options={options}
         currentOption={currentOption}

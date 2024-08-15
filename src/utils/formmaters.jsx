@@ -101,7 +101,7 @@ export const setSelectedData = (dataList, setData, value) => {
 };
 
 
-export const getImageURL = (e, setStateFunctionUrl) => {
+export const getImageURL = (e, setStateFunctionUrl, setDetails) => {
   const { name } = e.target;
   const file = e.target.files[0]; //filelist is an object carrying all details of file, .files[0] collects the value from key 0 (not array), and stores it in file
 

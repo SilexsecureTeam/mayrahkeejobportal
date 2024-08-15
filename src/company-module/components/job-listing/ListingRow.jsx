@@ -9,7 +9,7 @@ function ListingRow({ data }) {
   return (
     <tr
       onClick={navigateJobTypeDetails}
-      className="border-b cursor-pointer hover:scale-105 odd:bg-gray-200 hover:bg-primaryColor hover:text-white  text-little"
+      className="border-b cursor-pointer hover:scale-[102%] odd:bg-gray-200 hover:bg-primaryColor hover:text-white  text-little"
     >
       <td className="text-center py-[5px]">
         <div className="flex justify-center items-center gap-[5px]">

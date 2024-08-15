@@ -13,6 +13,8 @@ import UpdateCompanyProfileModal from "../company-module/components/company-prof
 import { clear } from "idb-keyval";
 import useCompanyProfile from "../hooks/useCompanyProfile";
 import withSubscription from "../hocs/withSubscription";
+import useSubscription from "../hooks/useSubscription";
+import SubscriptionModal from "../components/subscription/SubscriptionModal";
 
 //Util Component
 const NavBar = lazy(() => import("../company-module/components/NavBar"));
@@ -63,6 +65,8 @@ function useCompanyRoute() {
   const [state, dispatch] = useReducer(CompanyReducer, companyOptions[0]);
   const { authDetails } = useContext(AuthContext);
   const [redirectState, setRedirectState] = useState();
+
+  // const [redirectState, setRedirectState] = useState();
   const navigate = useNavigate();
   const companyHookProps = useCompanyProfile()
 
@@ -77,11 +81,14 @@ function useCompanyRoute() {
 
     const clearDb = async() => await clear()
 
-    // return () => clearDb()
+
+
+    return () => clearDb()
   }, []);
 
   return (
     <>
+    <SubscriptionModal redirectState={redirectState}/>
       <main className="h-screen w-screen relative flex">
         {/* Side bar takes up 20% of total width and 100% of height */}
         <SideBar authDetails={authDetails}>
@@ -126,15 +133,15 @@ function useCompanyRoute() {
               <Route path="job-posting" element={ withSubscription(JobPosting, 'Job Posting')} />
 
               <Route path="applicants/*">
-                <Route index element={<Applicants />} />
-                <Route path="detail/:id" element={<SingleApplicant />} />
+                <Route index element={withSubscription(Applicants, 'Applicants')} />
+                <Route path="detail/:id" element={withSubscription(SingleApplicant, 'Single Applicant')} />
               </Route>
 
               <Route path="company-profile" element={<CompanyProfile />} />
 
               <Route path="job-listing/*">
-                <Route index element={<JobListing />} />
-                <Route path="type/:id" element={<JobType />} />
+                <Route index element={withSubscription(JobListing, 'Job Listing')} />
+                <Route path="type/:id" element={withSubscription(JobType, 'Job Type')} />
               </Route>
 
               <Route path="schedule" element={<Schedule />} />

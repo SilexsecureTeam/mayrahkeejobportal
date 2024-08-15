@@ -9,19 +9,19 @@ export const stats_cards_dummies = [
         id: 1,
         title: 'New candidates to review',
         bg_color: 'bg-primaryColor',
-        value: 76
+        value: 0
     },
     {
         id: 2,
         title: 'Matches Live',
         bg_color: 'bg-[#504a4a]',
-        value: 3
+        value: 0
     },
     {
         id: 4,
         title: 'Messaged Recieved',
         bg_color: 'bg-[#47aa49]',
-        value: 24
+        value: 0
     },
 ]
 
@@ -30,31 +30,31 @@ export const applicants_summary_dummies = [
     {
         id: 1,
         category: 'Full Time',
-        applicants: 45,
+        applicants: 0,
         bg_color: 'bg-primaryColor'
     },
     {
         id: 2,
         category: 'Part-Time',
-        applicants: 42,
+        applicants: 0,
         bg_color: 'bg-[#56cdad]'
     },
     {
         id: 3,
         category: 'Remote',
-        applicants: 22,
+        applicants: 0,
         bg_color: 'bg-[#26a4ff]'
     },
     {
         id: 4,
         category: 'Internship',
-        applicants: 32,
+        applicants: 0,
         bg_color: 'bg-[#ffb836]'
     },
     {
         id: 5,
         category: 'Contract',
-        applicants: 32,
+        applicants: 0,
         bg_color: 'bg-[#ff6550]'
     },
 ]

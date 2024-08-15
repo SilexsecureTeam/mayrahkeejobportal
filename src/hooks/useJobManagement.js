@@ -62,6 +62,20 @@ function useJobManagement() {
   };
 
 
+  const deactivateJob = async (currentJob, status, handleSuccess) => {
+        setLoading(true)
+        try {
+           const response = await client.put(`/job/${currentJob.id}`, {status: status})
+            handleSuccess()
+            getJobsFromDB()
+        } catch (error) {
+           FormatError(error, setError, "Status Error")
+        } finally{
+          setLoading(false)
+        }
+  }
+
+
   const deleteJob = async (handleSuccess, jobId) => {
     setLoading(true)
     try {
@@ -98,7 +112,6 @@ function useJobManagement() {
   useEffect(() => {
     const initValue = async () => {
       try {
-        await clear()
         const storedValue = await get(JOB_MANAGEMENT_Key);
         if (storedValue !== undefined) {
           setJobList(storedValue);
@@ -112,7 +125,7 @@ function useJobManagement() {
     initValue();
   }, []);
 
-  return { loading, details, jobList, onTextChange, setDetails, addJob, deleteJob };
+  return { loading, details, jobList, onTextChange, setDetails, addJob, deleteJob , deactivateJob};
 }
 
 export default useJobManagement;

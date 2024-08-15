@@ -6,16 +6,22 @@ import JobStatistic from "../../components/home/JobStatistic";
 import JobOpen from "../../components/home/JobOpen";
 import ApplicantSummary from "../../components/home/ApplicantSummary";
 import JobUpdates from "../../components/home/JobUpdates";
-import { applicants_summary_dummies, job_dummies } from "../../../utils/dummies";
+import {
+  applicants_summary_dummies,
+  job_dummies,
+} from "../../../utils/dummies";
+import { GrSchedules } from "react-icons/gr";
+import useJobManagement from "../../../hooks/useJobManagement";
 
 function Home() {
+  const jobUtils = useJobManagement();
+
   return (
     <>
       <Helmet>
         <title>Company Dashboard | Home</title>
       </Helmet>
-      <div className="h-fit w-full p-5 gap-[15px] flex flex-col">
-
+      <div className="h-fit w-full py-5 px-6 gap-[15px] flex flex-col">
         {/* First ROw */}
         <div className="w-full flex justify-between">
           <div className="flex flex-col gap-[5px]">
@@ -25,24 +31,28 @@ function Home() {
             </span>
           </div>
 
-          <img src={calanderTest} className="w-[12%] h-[35px] object-contain" />
+          {/* <img src={calanderTest} className="w-[12%] h-[35px] object-contain" /> */}
+
+          <div className="px-1 py-1 border flex cursor-pointer gap-[10px] h-fit text-little items-center">
+            <span>{new Date().toLocaleDateString()}</span>
+            <GrSchedules className="text-primaryColor text-sm" />
+          </div>
         </div>
 
         {/* Second Row */}
-        <StatsCardWrapper/>
+        <StatsCardWrapper />
 
         {/* Third Row */}
         <JobStatsAndSummary>
-          <JobStatistic/>
+          <JobStatistic />
           <div className="flex flex-col w-[30%] px-3 h-full justify-between">
-             <JobOpen/>
-             <ApplicantSummary applicants={applicants_summary_dummies}/>
+            <JobOpen />
+            <ApplicantSummary applicants={applicants_summary_dummies} />
           </div>
         </JobStatsAndSummary>
-      
-      
+
         {/* Fourth Row */}
-        <JobUpdates jobs={job_dummies}/>
+        <JobUpdates jobs={jobUtils.jobList} />
       </div>
     </>
   );

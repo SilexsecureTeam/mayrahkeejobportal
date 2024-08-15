@@ -1,39 +1,38 @@
 import { useNavigate } from "react-router-dom";
 
-function ApplicantRow() {
+function ApplicantRow({data}) {
 
     const navigate = useNavigate()
 
-    const navigateToApplicantDetails = () => navigate('/company/applicants/detail/1')
+    const navigateToApplicantDetails = () => navigate(`/company/applicants/detail/${data.id}`, {state: {data}})
 
   return (
     <tr className="border-b odd:bg-gray-200  text-little">
       <td className="text-center py-[5px]">
         <div className="flex justify-center items-center gap-[5px]">
-          <img src="h-[30px] w-[30px] rounded-full bg-black" />
-          <span>Jake Sully</span>
+          <span>{data.full_name}</span>
         </div>
       </td>
       <td>
         <div className="flex w-full justify-center py-[10px] items-center">
-          0.00
+          {data.email}
         </div>
       </td>
 
       <td>
         <div className="flex items-center justify-center">
-          <button className="py-[2px] px-[5px] border border-primaryColor rounded-[30px] text-center font-semibold">
-            Interview
+          <button className="py-[2px] px-[5px] border text-[10px] uppercase border-primaryColor rounded-[30px] text-center font-semibold">
+            {data.status}
           </button>
         </div>
       </td>
 
       <td>
-        <p className=" py-[5px] text-center font-semibold">{`13, July 2024`}</p>
+        <p className=" py-[5px] text-center font-semibold">{(new Date(data.created_at)).toLocaleDateString()}</p>
       </td>
 
       <td>
-        <p className=" py-[5px] text-center">{`Javascript`}</p>
+        <p className=" py-[5px] text-center">{data.job_title}</p>
       </td>
 
       <td>

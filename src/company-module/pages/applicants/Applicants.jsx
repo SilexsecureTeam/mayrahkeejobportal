@@ -1,7 +1,16 @@
 import { Helmet } from "react-helmet";
 import ApplicantRow from "../../components/applicants/ApplicantRow";
+import useApplicationManagement from "../../../hooks/useApplicationManagement";
+import { useEffect } from "react";
 
 function Applicants() {
+
+  const applicationUtils = useApplicationManagement()
+
+
+   useEffect(() => {
+     applicationUtils.getApplicantsByEmployee()
+   }, [])
   return (
     <>
       <Helmet>
@@ -23,10 +32,10 @@ function Applicants() {
               Full Name
             </th>
             <th className="px-4 py-1 text-center">
-              Score
+              Email
             </th>
             <th className="px-4 py-1 text-center">
-              Hiring Stage
+              Status
             </th>
             <th className="px-4 py-1 text-center">
               Applied Date
@@ -41,20 +50,9 @@ function Applicants() {
         </thead>
 
         <tbody>
-          <ApplicantRow/>
-          <ApplicantRow/>
-          <ApplicantRow/>
-          <ApplicantRow/>
-          <ApplicantRow/>
-          <ApplicantRow/>
-          <ApplicantRow/>
-          <ApplicantRow/>
-          <ApplicantRow/>
-          <ApplicantRow/>
-          <ApplicantRow/>
-          <ApplicantRow/>
-          <ApplicantRow/>
-          <ApplicantRow/>
+          {
+            applicationUtils?.applicants?.map(current => <ApplicantRow key={current.id} data={current}/>)
+          }
           </tbody>
       </table>
       </div>

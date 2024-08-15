@@ -11,19 +11,19 @@ const options = [
   "Intervie Schedule",
 ];
 
-function SecondaryDetail() {
+function SecondaryDetail(props) {
   const [currentOption, setCurrentOption] = useState(options[0]);
 
   const getCurrentOption = () => {
     switch (currentOption) {
       case options[0]:
-        return <ApplicantProfile />;
+        return <ApplicantProfile {...props}/>;
       case options[1]:
-        return <Resume />;
+        return <Resume {...props}/>;
       case options[2]:
-        return <HiringProgress />;
+        return <HiringProgress {...props}/>;
       case options[3]:
-        return <IntervieweSchedule />;
+        return <IntervieweSchedule {...props}/>;
     }
   };
 
