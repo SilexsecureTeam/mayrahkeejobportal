@@ -9,13 +9,13 @@ function SubscriptionModal({ redirectState }) {
   const subUtils = useContext(SubscriptionContext);
 
   useEffect(() => {
-    setInterval(() => {
-      subUtils.getActivePackage();
-      if (!redirectState && !subUtils.activePackage) {
-        console.log(subUtils.activePackage);
-        setIsOpen(true);
-      }
-    }, 90000);
+    // setInterval(() => {
+    //   subUtils.getActivePackage();
+    //   if (!redirectState && !subUtils.activePackage) {
+    //     console.log(subUtils.activePackage);
+    //     setIsOpen(true);
+    //   }
+    // }, 90000);
 
     return () => {
       clearInterval();
