@@ -1,6 +1,7 @@
 import axios, { AxiosInstance } from "axios";
 
 export const apiURL = "https://dash.mayrahkeeafrica.com/api";
+export const resourceUrl = 'https://dash.mayrahkeeafrica.com/'
 
 export const axiosClient = (token: string | null, multiMedia: boolean = false): AxiosInstance => {
   let headers;

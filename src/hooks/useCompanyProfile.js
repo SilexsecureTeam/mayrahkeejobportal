@@ -85,7 +85,9 @@ function useCompanyProfile() {
         if (details.hasOwnProperty(key) && Array.isArray(val)) {
           if (val.length !== 0) {
             details[key].forEach((file) => {
-              formData.append(`${key}[]`, file);
+              if( typeof file === 'object'){
+                formData.append(`${key}[]`, file);
+              }
             });
           }
         } else {

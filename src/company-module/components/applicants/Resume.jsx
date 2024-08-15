@@ -17,7 +17,7 @@ const stages = [
   },
 ];
 
-function Resume() {
+function Resume({data, applicant}) {
   const bgColor = (current) => {
     if (current.stage === "passed") {
       return "bg-primaryColor/80";
@@ -31,11 +31,10 @@ function Resume() {
   return (
     <>
       <div className="flex justify-between px-10">
-        <div className="flex flex-col justify-center items-center gap-[2px]">
-          <span className="font-semibold text-xl">Jerome Bell</span>
-          <span className="font-semibold text-sm">Product Designer</span>
+        <div className="flex flex-col text-little justify-center items-start gap-[2px]">
+          <span className="font-semibold ">Portfolio Url</span>
+          <a href={data?.portfolio_url} className="font-semibold ">{data?.portfolio_url}</a>
         </div>
-        <div className="h-[65px] w-[65px] rounded-full bg-gray-400" />
       </div>
 
       <div className="flex w-full px-10 mt-[5px]">
