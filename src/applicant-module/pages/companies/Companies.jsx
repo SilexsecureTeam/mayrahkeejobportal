@@ -18,22 +18,22 @@ import { ResourceContext } from "../../../context/ResourceContext";
 function Companies() {
   const [isGrid, setIsGrid] = useState(true);
 
-  const { getAllJobs, setGetAllJobs } = useContext(ResourceContext)
+  const { getAllJobs, setGetAllJobs, getAllCompanies, setGetAllCompanies } = useContext(ResourceContext)
 
   useEffect(() => {
-    setGetAllJobs((prev) => {
+    setGetAllCompanies((prev) => {
       return {
         ...prev, isDataNeeded: true
       }
     })
   }, [])
-  // console.log(getAllJobs.data);
+  console.log(getAllCompanies.data);
   return (
     <>
       <Helmet>
         <title>Dashboard | Browse Companies </title>
       </Helmet>
-      <div className="h-full text-[#25324b] p-6 text-sm w-full">
+      <div className="h-full text-[#25324b] p-8 text-sm w-full">
         <div className="px-3 py-5 border mb-2 flex">
           <div className="relative border-b py-1 px-6 mx-4 w-[35%] ">
             <input type="text" placeholder="Company title or keyword" className="pl-[10px] focus:outline-none w-full" />
@@ -64,7 +64,7 @@ function Companies() {
                 <h4 className="font-bold text-base">All Companies</h4>
                 <div className="flex justify-between mb-6">
                   <div className="">
-                    <p>Showing {getAllJobs.data?.length} results</p>
+                    <p>Showing {getAllCompanies.data?.length} results</p>
                   </div>
                   <div className="flex">
                     <div className="flex mr-3">
@@ -85,12 +85,12 @@ function Companies() {
                     </div>
                   </div>
                 </div>
-                {getAllJobs.data && (
+                {getAllCompanies.data && (
                   <div className="">
                     {isGrid ? (
                       <div className="">
                         <div className="grid grid-cols-3 gap-4">
-                          {getAllJobs.data?.map((job) => (
+                          {getAllCompanies.data?.map((job) => (
                             <CompanyGridCard key={job.id} job={job} newApplicant={newApplicant} />
                           ))}
                         </div>

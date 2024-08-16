@@ -11,6 +11,7 @@ import companyIcon from '../assets/pngs/company-icon.png';
 import companyIconActive from '../assets/pngs/company-icon-active.png';
 import profileIcon from '../assets/pngs/profile-icon.png';
 import profileIconActive from '../assets/pngs/profile-icon-active.png';
+import profileIconResume from '../assets/pngs/doc-resume.png';
 
 //Company icons import
 import multipleProfilesIcon from '../assets/pngs/multiple-profiles-icon.png';
@@ -92,6 +93,13 @@ export const applicantOptions = [
     title: "My Public Profile",
     route: "/applicant/public-profile",
     icon: profileIcon,
+    iconActive: profileIconActive
+  },
+  {
+    type: "RESUME",
+    title: "My Resume",
+    route: "/applicant/my-resume",
+    icon: profileIconResume,
     iconActive: profileIconActive
   },
 ];

@@ -57,7 +57,7 @@ function Application() {
       <Helmet>
         <title>Dashboard | My Application </title>
       </Helmet>
-      <div className="h-full p-6 w-full text-sm text-primary">
+      <div className="h-full p-8 w-full text-sm text-primary">
         <div className="text-sm">
           <div className="flex justify-between align-center">
             <div className="">

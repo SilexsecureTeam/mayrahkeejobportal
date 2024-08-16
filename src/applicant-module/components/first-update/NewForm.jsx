@@ -11,6 +11,8 @@ import { AuthContext } from '../../../context/AuthContex'
 import TextEditor from '../../pages/settings/components/TextEditor'
 import SocialsForm from '../../pages/settings/components/SocialsForm';
 import { BASE_URL } from '../../../utils/base';
+import { onSuccess } from '../../../utils/notifications/OnSuccess';
+import { Country, State, City } from 'country-state-city';
 
 const NewForm = ({ setIsOpen }) => {
 
@@ -22,6 +24,10 @@ const NewForm = ({ setIsOpen }) => {
     const [showMsg, setShowMsg] = useState(false)
     const [loading, setLoading] = useState(false)
     const [selectId, setSelectId] = useState(null);
+    const [selectStates, setSelectStates] = useState();
+    const [selectState, setSelectState] = useState();
+    const [selectCity, setSelectCity] = useState();
+    const [countryInfo, setCountryInfo] = useState();
 
     const [socialHandles, setSocialHandles] = useState([
         { network: "", url: "", },
@@ -37,6 +43,12 @@ const NewForm = ({ setIsOpen }) => {
 
     console.log(getCandidate)
 
+    const countries = Country.getAllCountries();
+    const states = State.getAllStates();
+    const cities = City.getAllCities();
+
+
+
     const toggleAccept = () => {
         setDetails((prev) => {
             return {
@@ -45,12 +57,19 @@ const NewForm = ({ setIsOpen }) => {
         });
     }
 
+
     function updateFirstLetter(word) {
         if (word) {
             return setSelectId(word[0]?.toUpperCase() + word.slice(1));
         } else { return setSelectId(null) }
     }
 
+    function updateStates(word) {
+        if (word) {
+            const findStates = states.filter((each) => each.countryCode === "NG")
+            return setSelectStates(findStates);
+        } else { return setSelectStates(null) }
+    }
     const [profileImageUrl, setProfileImageUrl] = useState(user.image ? user.image : null);
     const [details, setDetails] = useState({
         candidate_id: user.id ? user.id : "",
@@ -88,8 +107,37 @@ const NewForm = ({ setIsOpen }) => {
     // console.log(getAllFaculty.data)
     const handleOnChange = (e) => {
         const { value, name, files, type, checked } = e.target;
+        // let countryInfo = {}
         if (name === "means_of_identification") {
             updateFirstLetter(value)
+        }
+        if (name === "country") {
+            const countryInfoDetails = Country.getCountryByCode(value)
+            setCountryInfo(countryInfoDetails)
+            // console.log(countryInfo.name)
+            const states = State.getStatesOfCountry(countryInfoDetails?.isoCode);
+            setSelectStates(states);
+            console.log(countryInfoDetails?.name);
+            setDetails((prev) => {
+                return {
+                    ...prev,
+                    [name]: type === "checkbox" ? checked : type === "file" ? files[0] : countryInfoDetails?.name,
+                    // [name]: name === 'cv' ? files[0] : value,
+                };
+            });
+
+        } else if (name == "state") {
+            const cities = City.getCitiesOfState(countryInfo.isoCode, value);
+            setSelectCity(cities)
+            const stateName = State.getStateByCodeAndCountry(value, countryInfo.isoCode)
+            setSelectState(stateName.name)
+            setDetails((prev) => {
+                return {
+                    ...prev,
+                    [name]: type === "checkbox" ? checked : type === "file" ? files[0] : cities.name,
+                    // [name]: name === 'cv' ? files[0] : value,
+                };
+            });
         }
         setDetails((prev) => {
             return {
@@ -135,6 +183,8 @@ const NewForm = ({ setIsOpen }) => {
                 ...prev, isDataNeeded: false
             }
         })
+        details.country = countryInfo.name;
+        details.state = selectState;
         axios.post(`${BASE_URL}/candidate/UpdateCandidate/${user.id}`, details, {
             headers: {
                 Authorization: `Bearer ${authDetails.token}`,
@@ -143,6 +193,10 @@ const NewForm = ({ setIsOpen }) => {
         })
             .then((response) => {
                 console.log(response)
+                onSuccess({
+                    message: 'Profile',
+                    success: response.data.message
+                })
                 localStorage.setItem("userDetails", JSON.stringify(response.data.candidate));
                 // setUserUpdate(updateData)
                 setLoading(false)
@@ -185,7 +239,13 @@ const NewForm = ({ setIsOpen }) => {
             alert('Please select a valid JPEG or PNG file.');
         }
     };
-    console.log(userUpdate)
+    // console.log(selectStates) 
+    // const findStates = states.filter((each) => each.countryCode === "NG")
+    // console.log(cities)
+    // const testStates = State.getStatesOfCountry("NG")
+
+    // console.log(testStates)
+    console.log(details)
     return (
         <div className='text-[#515B6F]'>
 
@@ -475,9 +535,11 @@ const NewForm = ({ setIsOpen }) => {
                                                             value={details.country} name='country' onChange={handleOnChange}
                                                             className='border w-full focus:outline-none p-2 pb-1'>
                                                             <option value="">-- select --</option>
-                                                            <option value="nigeria">Nigeria</option>
-                                                            <option value="ghana">Ghana</option>
-                                                            <option value="cameroon">Cameroon</option>
+                                                            {
+                                                                countries.map((country) => (
+                                                                    <option key={country.isoCode} value={country.isoCode}>{country.name}</option>
+                                                                ))
+                                                            }
                                                         </select>
                                                     </label>
                                                 </div>
@@ -488,9 +550,12 @@ const NewForm = ({ setIsOpen }) => {
                                                             value={details.state} name='state' onChange={handleOnChange}
                                                             className='border w-full focus:outline-none p-2 pb-1'>
                                                             <option value="">-- select --</option>
-                                                            <option value="kano">Kano</option>
+                                                            {selectStates?.map((each) => (
+                                                                <option key={each.name} value={each.isoCode}>{each.name}</option>
+                                                            ))}
+                                                            {/* <option value="kano">Kano</option>
                                                             <option value="lagos">Lagos</option>
-                                                            <option value="Ondo">Ondo</option>
+                                                            <option value="Ondo">Ondo</option> */}
                                                         </select>
                                                     </label>
                                                 </div>
@@ -501,9 +566,12 @@ const NewForm = ({ setIsOpen }) => {
                                                             value={details.local_gov} name='local_gov' onChange={handleOnChange}
                                                             className='border w-full focus:outline-none p-2 pb-1'>
                                                             <option value="">-- select --</option>
-                                                            <option value="kuje">Kuje</option>
+                                                            {selectCity?.map((city) => (
+                                                                <option key={city.name} value={city.name}>{city.name}</option>
+                                                            ))}
+                                                            {/* <option value="kuje">Kuje</option>
                                                             <option value="abaji">Abaji</option>
-                                                            <option value="gwagwalada">Gwagwalada</option>
+                                                            <option value="gwagwalada">Gwagwalada</option> */}
                                                         </select>
                                                     </label>
                                                 </div>

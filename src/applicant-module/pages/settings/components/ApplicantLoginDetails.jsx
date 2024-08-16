@@ -19,7 +19,7 @@ const ApplicantLoginDetails = ({authDetails}) => {
                 <div className="w-3/5">
                   <div className="mb-4">
                     <div className='mb-5'>
-                      <div className='font-medium text-slate-900 flex'>jakegyll@email.coml <span className='ml-2 prime_text'><FaRegCheckCircle /></span></div>
+                      <div className='font-medium text-slate-900 flex'>{authDetails.user.email}<span className='ml-2 prime_text'><FaRegCheckCircle /></span></div>
                       <p>Your email address is verified.</p>
                     </div>
                     <label className="block">

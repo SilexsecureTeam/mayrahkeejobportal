@@ -34,6 +34,16 @@ function ResourceContextProvider({ children }) {
         isDataNeeded: false,
     });
 
+    const [getResumeById, setGetResumeById] = useState({
+        data: null,
+        isDataNeeded: false,
+    });
+
+    const [getAllCompanies, setGetAllCompanies] = useState({
+        data: null,
+        isDataNeeded: false,
+    });
+
 
 
     //Users Resource useEffect
@@ -56,6 +66,16 @@ function ResourceContextProvider({ children }) {
         }
     }, [getAllJobs.isDataNeeded]);
 
+    // Get Resume By ID
+    useEffect(() => {
+        setErrorMessage('');
+        if (getResumeById.isDataNeeded) {
+            const endPoint = `/myResumes/${userId}`;
+            const dataArray = null;
+            getItemFunc(token, setGetResumeById, setErrorMessage, endPoint, dataArray)
+        }
+    }, [getResumeById.isDataNeeded]);
+
     // Get All Application
     useEffect(() => {
         setErrorMessage('');
@@ -65,6 +85,16 @@ function ResourceContextProvider({ children }) {
             getItemFunc(token, setGetAllApplications, setErrorMessage, endPoint, dataArray)
         }
     }, [getAllApplications.isDataNeeded]);
+
+    // Get All Companiy
+    useEffect(() => {
+        setErrorMessage('');
+        if (getAllCompanies.isDataNeeded) {
+            const endPoint = `/getEmployer`;
+            const dataArray = null
+            getItemFunc(token, setGetAllCompanies, setErrorMessage, endPoint, dataArray)
+        }
+    }, [getAllCompanies.isDataNeeded]);
 
 
 
@@ -82,6 +112,10 @@ function ResourceContextProvider({ children }) {
                 setGetAllJobs,
                 getAllApplications,
                 setGetAllApplications,
+                getResumeById,
+                setGetResumeById,
+                getAllCompanies,
+                setGetAllCompanies,
             }}
         >
             {children}
