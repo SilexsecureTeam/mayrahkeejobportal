@@ -12,7 +12,7 @@ function useSubscription() {
   const PUBLIC_KEY = import.meta.env.VITE_TEST_PUBLIC_KEY;
   const { authDetails } = useContext(AuthContext);
   const [activePackage, setActivePackage] = useState();
-  const client = axiosClient(authDetails.token);
+  const client = axiosClient(authDetails?.token);
   const [error, setError] = useState({
     message: "",
     error: "",
