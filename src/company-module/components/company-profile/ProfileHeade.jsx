@@ -1,5 +1,6 @@
 import wheelIcon from "../../../assets/pngs/wheel-icon-black.png";
 import { FaRegEdit } from "react-icons/fa";
+import { resourceUrl } from "../../../services/axios-client";
 
 function ProfileHeader({ children, isOpen, setIsOpen, details }) {
   const getImageURL = (e, setStateFunctionUrl) => {
@@ -21,7 +22,7 @@ function ProfileHeader({ children, isOpen, setIsOpen, details }) {
       <div className="w-[10%] flex items-center justify-center relative">
         <img
           className="h-[80px] w-[80px] rounded-full"
-          src={details?.logo_image ? details?.logo_image : wheelIcon}
+          src={details?.logo_image ? `${resourceUrl}/${details?.logo_image}` : wheelIcon}
         />
       </div>
 

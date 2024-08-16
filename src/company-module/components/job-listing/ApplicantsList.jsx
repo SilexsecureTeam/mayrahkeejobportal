@@ -1,7 +1,7 @@
 import ApplicantRow from "./ApplicantRow";
 import ListingRow from "./ListingRow";
 
-function ApplicantsList() {
+function ApplicantsList({applicants}) {
     return ( 
         <table className="min-w-full bg-white border border-gray-200">
          <thead className="border bg-white  text-gray-600 font-semibold ">
@@ -10,16 +10,16 @@ function ApplicantsList() {
               Full Name
             </th>
             <th className="px-4 py-1 text-center">
-              Score
+              Email
             </th>
             <th className="px-4 py-1 text-center">
-              Hiring Stage
+              Status
             </th>
             <th className="px-4 py-1 text-center">
               Applied Date
             </th>
             <th className="px-4 py-1 text-center">
-              Job Role
+              Job Title
             </th>
             <th className="px-4 py-1 text-center">
               Action
@@ -28,8 +28,8 @@ function ApplicantsList() {
         </thead>
 
           <tbody>
-            <ApplicantRow />
-        
+
+            { applicants?.length > 0 ? applicants?.map(current => <ApplicantRow data={current} /> ) : <span>No applicants</span>}
           </tbody>
         </table> );
 }

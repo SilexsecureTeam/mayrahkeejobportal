@@ -204,8 +204,8 @@ function BasicInformation({ setCurrentStep, data, jobUtils }) {
       </div>
 
       {/* Featured Image */}
-      <div className="flex gap-[30px] items-center border-b py-2 text-little ">
-        <div className="flex flex-col min-w-[25%] gap-[10px]">
+      <div className="flex gap-[15%] items-center border-b py-2 text-little ">
+        <div className="flex flex-col w-full max-w-[25%] gap-[10px]">
           <h3 className="text-gray-700 text-sm font-semibold">
             Featured Image
           </h3>
@@ -240,8 +240,8 @@ function BasicInformation({ setCurrentStep, data, jobUtils }) {
       ))}
 
       {/* Employment Types */}
-      <div className="flex gap-[30px] border-b py-2 ">
-        <div className="flex flex-col gap-[10px] max-w-[25%]">
+      <div className="flex gap-[15%] border-b py-2 ">
+        <div className="flex flex-col gap-[10px] w-full max-w-[25%]">
           <h3 className="text-gray-700 text-sm font-semibold">
             Type of Employment
           </h3>
@@ -264,8 +264,8 @@ function BasicInformation({ setCurrentStep, data, jobUtils }) {
       </div>
 
       {/* Salary */}
-      <div className="flex gap-[30px]  border-b py-2 ">
-        <div className="flex flex-col max-w-[25%] gap-[10px]">
+      <div className="flex gap-[15%]  border-b py-2 ">
+        <div className="flex flex-col max-w-[25%] w-full gap-[10px]">
           <h3 className="text-gray-700 text-sm font-semibold">Salary</h3>
           <span className="text-little text-gray-400">
             Please specify the estimated salary range for the role. *You can
@@ -303,29 +303,7 @@ function BasicInformation({ setCurrentStep, data, jobUtils }) {
         </div>
       </div>
 
-      {/* Categories */}
-      <div className="flex gap-[30px] border-b py-2 ">
-        <div className="flex flex-col gap-[10px] min-w-[25%]">
-          <h3 className="text-gray-700 text-sm font-semibold">Categories</h3>
-          <span className="text-little text-gray-400">
-            You can select multiple categories types
-          </span>
-        </div>
-
-        <div className="flex flex-col gap-[3px] ">
-          {["Category One", "Category Two", "Category Three"].map(
-            (current, index) => (
-              <JobTypeItem
-                data={current}
-                key={index}
-                selected={selectedGender}
-                setSelected={setSelectedGender}
-              />
-            )
-          )}
-        </div>
-      </div>
-
+   
       {/* Job Title */}
       <QualificationsForm jobUtils={jobUtils} />
 

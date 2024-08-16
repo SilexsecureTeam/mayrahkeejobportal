@@ -2,15 +2,17 @@ import { Helmet } from "react-helmet";
 import Header from "../../components/job-listing/Header";
 import ListingRow from "../../components/job-listing/ListingRow";
 import useJobManagement from "../../../hooks/useJobManagement";
+import useApplicationManagement from "../../../hooks/useApplicationManagement";
 
 function JobListing() {
   const jobUtils = useJobManagement();
+  const {applicants} = useApplicationManagement()
   return (
     <>
       <Helmet>
         <title>Company Dashboard | Job Listing </title>
       </Helmet>
-      <div className="h-full w-full flex flex-col p-5 gap-[15px]">
+      <div className="h-full w-full flex flex-col px-12 py-5 gap-[15px]">
         <div className="w-full flex justify-between ">
           <div className="flex flex-col">
             <h2 className="font-semibold text-md">Job Listing</h2>
@@ -39,7 +41,9 @@ function JobListing() {
 
           <tbody>
             {
-              jobUtils?.jobList.map( current => <ListingRow data={current} key={current.id}/>).reverse()
+              jobUtils?.jobList.map( current => {
+               const jobApplicants = applicants?.filter(currentApplicant => current.id === currentApplicant.job_id)  
+              return <ListingRow applicants={jobApplicants} data={current} key={current.id}/>}).reverse()
             }
           </tbody>
         </table>

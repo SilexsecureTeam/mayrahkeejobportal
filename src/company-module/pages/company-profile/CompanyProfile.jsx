@@ -61,7 +61,7 @@ function CompaniesProfile() {
         companyHookProps={companyHookProps}
       />
       {(details.company_name && details.beenRetreived === retrievalState.retrieved) ? (
-        <div className="h-full w-full flex flex-col p-2 justify-between">
+        <div className="h-full w-full flex flex-col px-12 py-2 justify-between">
           <ProfileHeader
             isOpen={isOpen}
             setIsOpen={setIsOpen}
