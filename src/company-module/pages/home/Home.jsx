@@ -21,7 +21,7 @@ function Home() {
       <Helmet>
         <title>Company Dashboard | Home</title>
       </Helmet>
-      <div className="h-fit w-full py-5 px-6 gap-[15px] flex flex-col">
+      <div className="h-fit w-full py-5 px-12 gap-[15px] flex flex-col">
         {/* First ROw */}
         <div className="w-full flex justify-between">
           <div className="flex flex-col gap-[5px]">

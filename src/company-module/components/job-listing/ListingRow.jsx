@@ -1,10 +1,10 @@
 import { useNavigate } from "react-router-dom";
 
-function ListingRow({ data }) {
+function ListingRow({ data, applicants }) {
   const navigate = useNavigate();
 
   const navigateJobTypeDetails = () =>
-    navigate(`/company/job-listing/type/${data.id}`, { state: { data } });
+    navigate(`/company/job-listing/type/${data.id}`, { state: { data:data, applicants: applicants } });
 
   return (
     <tr
@@ -51,7 +51,7 @@ function ListingRow({ data }) {
 
       <td>
         <div className="flex w-full justify-center py-[10px] items-center">
-          <span className="text-little font-semibold">None</span>
+          <span className="text-little font-semibold">{applicants.length > 0 ? applicants.length : 'None'}</span>
         </div>
       </td>
       <td>

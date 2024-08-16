@@ -16,7 +16,7 @@ function Applicants() {
       <Helmet>
         <title>Company Dashboard | All Applicants </title>
       </Helmet>
-      <div className="h-full w-full flex flex-col p-2 gap-[15px]">
+      <div className="h-full w-full flex flex-col px-12 py-2 gap-[15px]">
         <div className="w-full flex justify-between ">
             <h2 className="font-semibold text-md">Total Applicants: 19</h2>
             <div className="flex bg-gray-300 p-1 text-primaryColor">
@@ -51,7 +51,7 @@ function Applicants() {
 
         <tbody>
           {
-            applicationUtils?.applicants?.map(current => <ApplicantRow key={current.id} data={current}/>)
+            applicationUtils?.applicants &&  applicationUtils?.applicants?.map(current => <ApplicantRow key={current.id} data={current}/>)
           }
           </tbody>
       </table>

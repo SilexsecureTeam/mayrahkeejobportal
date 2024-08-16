@@ -4,7 +4,7 @@ import Selector from "../../../components/Selector";
 function SelectorInput({ data, listData, jobUtils, selected, setSelected }) {
  
   return (
-    <div className="flex gap-[30px] border-b py-2 text-little ">
+    <div className="flex gap-[15%] border-b py-2 text-little ">
       <div className="flex flex-col min-w-[25%] gap-[10px]">
         <h3 className="text-gray-700 text-sm font-semibold">{data.label}</h3>
         <span className="text-little text-gray-400">{data.prompt}</span>

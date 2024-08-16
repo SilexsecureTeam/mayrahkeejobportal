@@ -2,7 +2,7 @@ import { useState } from "react";
 import ApplicantsList from "./ApplicantsList";
 import ApplicantsGrid from "./ApplicantsGrid";
 
-function Applicants() {
+function Applicants({applicants}) {
   const [view, setView] = useState("grid");
 
   return (
@@ -41,7 +41,7 @@ function Applicants() {
         </div>
       </div>
 
-      {view === "table" ? <ApplicantsList /> : <ApplicantsGrid />}
+      {view === "table" ? <ApplicantsList applicants={applicants} /> : <ApplicantsGrid applicants={applicants} />}
     </div>
   );
 }

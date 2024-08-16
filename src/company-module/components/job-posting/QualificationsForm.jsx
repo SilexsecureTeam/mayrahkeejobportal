@@ -38,8 +38,8 @@ function QualificationsForm({ jobUtils }) {
 
   useEffect(() => console.log(jobUtils.details.qualification), [jobUtils.details.qualification])
   return (
-    <div className="flex gap-[30px] border-b py-2 ">
-      <div className="flex flex-col max-w-[25%] gap-[10px]">
+    <div className="flex gap-[15%] border-b py-2 ">
+      <div className="flex flex-col max-w-[25%] w-full gap-[10px]">
         <h3 className="text-gray-700 text-sm font-semibold">Required Qualifications</h3>
         <span className="text-little text-gray-400">
           Add required qualifications for the job

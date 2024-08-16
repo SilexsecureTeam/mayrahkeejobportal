@@ -1,10 +1,12 @@
 import React from 'react';
 import mayrahkeeIcon from '../../assets/pngs/mayrakee-icon.png'
 import interviewIcon from '../../assets/svgs/interview-icon.svg'
+import managerAttireIcon from '../../assets/manager-business-attire.jpg'
+import specialistIcon from '../../assets/specialist-office.jpg'
 function SideCard() {
   return <div className='h-full w-[50%] flex flex-col justify-start items-center  bg-primaryColor pt-[5%]'>
     <img src={mayrahkeeIcon} className='w-[50%] h-[15%]'/>
-    <img src={interviewIcon} className='h-[40%] mt-[10%]'/>
+    <img src={managerAttireIcon} className='h-[50%] mt-[10%] rounded-[30px] border shadow shadow-gray-800'/>
   </div>;
 }
 

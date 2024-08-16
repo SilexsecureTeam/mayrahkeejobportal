@@ -28,11 +28,12 @@ function JobType() {
   const { id } = useParams();
   const [currentJob, setCurrentJob] = useState();
   const location = useLocation();
+  const applicants = location?.state?.applicants
 
   const getComponent = () => {
     switch (currentOption.id) {
       case options[0].id:
-        return <Applicants data={currentJob} />;
+        return <Applicants data={currentJob} applicants={applicants} />;
       case options[1].id:
         return <JobDetails data={currentJob} jobUtils={jobUtils} />;
       case options[2].id:
@@ -53,7 +54,7 @@ function JobType() {
 
   return (
     <>
-    <div className="w-full p-5 flex flex-col gap-[20px]">
+    <div className="w-full px-12 py-5 flex flex-col gap-[20px]">
       <Header
         options={options}
         currentOption={currentOption}
