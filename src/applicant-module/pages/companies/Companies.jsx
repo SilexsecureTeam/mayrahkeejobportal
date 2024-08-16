@@ -18,16 +18,16 @@ import { ResourceContext } from "../../../context/ResourceContext";
 function Companies() {
   const [isGrid, setIsGrid] = useState(true);
 
-  const { getAllJobs, setGetAllJobs } = useContext(ResourceContext)
+  const { getAllJobs, setGetAllJobs, getAllCompanies, setGetAllCompanies } = useContext(ResourceContext)
 
   useEffect(() => {
-    setGetAllJobs((prev) => {
+    setGetAllCompanies((prev) => {
       return {
         ...prev, isDataNeeded: true
       }
     })
   }, [])
-  // console.log(getAllJobs.data);
+  console.log(getAllCompanies.data);
   return (
     <>
       <Helmet>
@@ -64,7 +64,7 @@ function Companies() {
                 <h4 className="font-bold text-base">All Companies</h4>
                 <div className="flex justify-between mb-6">
                   <div className="">
-                    <p>Showing {getAllJobs.data?.length} results</p>
+                    <p>Showing {getAllCompanies.data?.length} results</p>
                   </div>
                   <div className="flex">
                     <div className="flex mr-3">
@@ -85,12 +85,12 @@ function Companies() {
                     </div>
                   </div>
                 </div>
-                {getAllJobs.data && (
+                {getAllCompanies.data && (
                   <div className="">
                     {isGrid ? (
                       <div className="">
                         <div className="grid grid-cols-3 gap-4">
-                          {getAllJobs.data?.map((job) => (
+                          {getAllCompanies.data?.map((job) => (
                             <CompanyGridCard key={job.id} job={job} newApplicant={newApplicant} />
                           ))}
                         </div>

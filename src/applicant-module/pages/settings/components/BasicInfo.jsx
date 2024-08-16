@@ -11,6 +11,8 @@ import { AuthContext } from '../../../../context/AuthContex'
 import { ResourceContext } from '../../../../context/ResourceContext'
 import TextEditor from './TextEditor'
 import { onSuccess } from '../../../../utils/notifications/OnSuccess'
+import { Country, State, City } from 'country-state-city';
+
 
 const BasicInfo = ({ setIsOpen }) => {
 
@@ -22,7 +24,17 @@ const BasicInfo = ({ setIsOpen }) => {
     const [showMsg, setShowMsg] = useState(false);
     const [loading, setLoading] = useState(false);
     const [selectId, setSelectId] = useState(null);
+    const [selectStates, setSelectStates] = useState();
+    const [selectState, setSelectState] = useState();
+    const [selectCity, setSelectCity] = useState();
+    const [countryInfo, setCountryInfo] = useState();
 
+
+
+
+    const countries = Country.getAllCountries();
+    const states = State.getAllStates();
+    const cities = City.getAllCities();
     const [socialHandles, setSocialHandles] = useState([
         { network: "", url: "", },
     ]);
@@ -88,10 +100,55 @@ const BasicInfo = ({ setIsOpen }) => {
     }
 
     // console.log(getAllFaculty.data)
+    // const handleOnChange = (e) => {
+    //     const { value, name, files, type, checked } = e.target;
+    //     if (name === "means_of_identification") {
+    //         updateFirstLetter(value)
+    //     }
+    //     setDetails((prev) => {
+    //         return {
+    //             ...prev,
+    //             [name]: type === "checkbox" ? checked : type === "file" ? files[0] : value,
+    //             // [name]: name === 'cv' ? files[0] : value,
+    //         };
+    //     });
+    //     setErrorMsg(null);
+    // };
+
+    // console.log(getAllFaculty.data)
     const handleOnChange = (e) => {
         const { value, name, files, type, checked } = e.target;
+        // let countryInfo = {}
         if (name === "means_of_identification") {
             updateFirstLetter(value)
+        }
+        if (name === "country") {
+            const countryInfoDetails = Country.getCountryByCode(value)
+            setCountryInfo(countryInfoDetails)
+            // console.log(countryInfo.name)
+            const states = State.getStatesOfCountry(countryInfoDetails?.isoCode);
+            setSelectStates(states);
+            console.log(countryInfoDetails?.name);
+            setDetails((prev) => {
+                return {
+                    ...prev,
+                    [name]: type === "checkbox" ? checked : type === "file" ? files[0] : countryInfoDetails?.name,
+                    // [name]: name === 'cv' ? files[0] : value,
+                };
+            });
+
+        } else if (name == "state") {
+            const cities = City.getCitiesOfState(countryInfo.isoCode, value);
+            setSelectCity(cities)
+            const stateName = State.getStateByCodeAndCountry(value, countryInfo.isoCode)
+            setSelectState(stateName.name)
+            setDetails((prev) => {
+                return {
+                    ...prev,
+                    [name]: type === "checkbox" ? checked : type === "file" ? files[0] : cities.name,
+                    // [name]: name === 'cv' ? files[0] : value,
+                };
+            });
         }
         setDetails((prev) => {
             return {
@@ -137,6 +194,8 @@ const BasicInfo = ({ setIsOpen }) => {
                 ...prev, isDataNeeded: false
             }
         })
+        details.country = countryInfo.name;
+        details.state = selectState;
         axios.post(`${BASE_URL}/candidate/UpdateCandidate/${user.id}`, details, {
             headers: {
                 Authorization: `Bearer ${authDetails.token}`,
@@ -472,9 +531,11 @@ const BasicInfo = ({ setIsOpen }) => {
                                                             value={details.country} name='country' onChange={handleOnChange}
                                                             className='border w-full focus:outline-none p-2 pb-1'>
                                                             <option value="">-- select --</option>
-                                                            <option value="nigeria">Nigeria</option>
-                                                            <option value="ghana">Ghana</option>
-                                                            <option value="egypt">Egypt</option>
+                                                            {
+                                                                countries.map((country) => (
+                                                                    <option key={country.isoCode} value={country.isoCode}>{country.name}</option>
+                                                                ))
+                                                            }
                                                         </select>
                                                     </label>
                                                 </div>
@@ -485,9 +546,9 @@ const BasicInfo = ({ setIsOpen }) => {
                                                             value={details.state} name='state' onChange={handleOnChange}
                                                             className='border w-full focus:outline-none p-2 pb-1'>
                                                             <option value="">-- select --</option>
-                                                            <option value="kano">Kano</option>
-                                                            <option value="lagos">Lagos</option>
-                                                            <option value="Ondo">Ondo</option>
+                                                            {selectStates?.map((each) => (
+                                                                <option key={each.name} value={each.isoCode}>{each.name}</option>
+                                                            ))}
                                                         </select>
                                                     </label>
                                                 </div>
@@ -498,9 +559,9 @@ const BasicInfo = ({ setIsOpen }) => {
                                                             value={details.local_gov} name='local_gov' onChange={handleOnChange}
                                                             className='border w-full focus:outline-none p-2 pb-1'>
                                                             <option value="">-- select --</option>
-                                                            <option value="kuje">Kuje</option>
-                                                            <option value="abaji">Abaji</option>
-                                                            <option value="gwagwalada">Gwagwalada</option>
+                                                            {selectCity?.map((city) => (
+                                                                <option key={city.name} value={city.name}>{city.name}</option>
+                                                            ))}
                                                         </select>
                                                     </label>
                                                 </div>

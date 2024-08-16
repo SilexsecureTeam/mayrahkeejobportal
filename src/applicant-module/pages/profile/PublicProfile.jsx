@@ -113,17 +113,6 @@ function PublicProfile() {
               </div>
             </div>
             <div className="border my-4">
-              <div className="p-4">
-                <div className="flex justify-between">
-                  <p className="font-bold">Education</p>
-                  {/* <button className="p-1 border border-green-500   text-green-700 hover:text-gray-600"><IoMdAdd /></button> */}
-                </div>
-                {/* <div className="  divide-y">
-                  <div className="py-6 text-sm text-[#515B6F]">
-                    <p dangerouslySetInnerHTML={{ __html: candidate?.educational_qualification }} />
-                  </div>
-                </div> */}
-              </div>
             </div>
             <div className="border my-4">
               <div className="p-4">
