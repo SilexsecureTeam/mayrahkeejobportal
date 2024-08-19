@@ -52,14 +52,14 @@ function Companies() {
         <p>Popular : Twitter, Microsoft, Apple, Facebook</p>
         <div className="my-6">
           <div className="flex">
-            <div className="w-[25%]">
+            <div className="w-[20%]">
               <div className="checks_container pr-5">
                 <div className="mb-4">
                   <CompaniesCategory />
                 </div>
               </div>
             </div>
-            <div className="w-[75%]">
+            <div className="w-[80%]">
               <div>
                 <h4 className="font-bold text-base">All Companies</h4>
                 <div className="flex justify-between mb-6">
@@ -90,15 +90,15 @@ function Companies() {
                     {isGrid ? (
                       <div className="">
                         <div className="grid grid-cols-3 gap-4">
-                          {getAllCompanies.data?.map((job) => (
-                            <CompanyGridCard key={job.id} job={job} newApplicant={newApplicant} />
+                          {getAllCompanies.data?.map((company) => (
+                            <CompanyGridCard key={company.id} company={company} newApplicant={newApplicant} />
                           ))}
                         </div>
                       </div>
                     ) : (
                       <div>
-                         {getAllJobs.data?.map((job) => (
-                            <CompanyCard key={job.id} job={job} newApplicant={newApplicant} />
+                         {getAllCompanies.data?.map((company) => (
+                            <CompanyCard key={company.id} company={company} newApplicant={newApplicant} />
                           ))}
                       </div>
                     )}

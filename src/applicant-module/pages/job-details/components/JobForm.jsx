@@ -6,7 +6,7 @@ import { ResourceContext } from '../../../../context/ResourceContext'
 import { onSuccess } from '../../../../utils/notifications/OnSuccess';
 import { FcApproval } from 'react-icons/fc';
 
-const JobForm = ({ setIsOpen, getCandidate, job, updateAllApplications }) => {
+const JobForm = ({ setIsOpen, getCandidate, job, getResumeById, updateAllApplications }) => {
 
     const { authDetails } = useContext(AuthContext)
 
@@ -14,6 +14,11 @@ const JobForm = ({ setIsOpen, getCandidate, job, updateAllApplications }) => {
     const [showMsg, setShowMsg] = useState(false)
     const [loading, setLoading] = useState(false)
     const [resumePicker, setResumePicker] = useState(false)
+    const [activeResume, setActiveResume] = useState("")
+    const [newDetails, setNewDetails] = useState({
+        resume: "",
+        resumeOne: "",
+    })
 
     const [details, setDetails] = useState({
         candidate_id: getCandidate?.candidateAuth?.id,
@@ -27,8 +32,14 @@ const JobForm = ({ setIsOpen, getCandidate, job, updateAllApplications }) => {
         additional_information: "",
         resume: "",
     })
-
     const user = authDetails?.user
+
+    function handleActive(id) {
+        setActiveResume(id)
+        setNewDetails((prev) => (
+            { ...prev, resume: activeResume}
+        ))
+    }
 
     const handleOnChange = (e) => {
         const { value, name, files, type, checked } = e.target;
@@ -89,7 +100,7 @@ const JobForm = ({ setIsOpen, getCandidate, job, updateAllApplications }) => {
             });
     }
 
-    console.log(details)
+    console.log(newDetails)
     // console.log(job)
 
 
@@ -99,13 +110,26 @@ const JobForm = ({ setIsOpen, getCandidate, job, updateAllApplications }) => {
             success: 'Job Created Successfully'
         })
     }
-
+    console.log(getResumeById)
     return (
         <div className='text-[#515B6F]'>
 
             <div className="my-4">
                 <div className="update_form py-6">
                     <div>
+                        <div className="border p-3 flex flex-wrap gap-4">
+                            {getResumeById?.map((item) => {
+                                const active = activeResume === item.id
+                                return (
+                                    <button
+                                        onClick={()=>handleActive(item.id)}
+                                        key={item.id} className="p-3 rounded bg-green-300 relative">
+                                        {item.title}
+                                        <span className='absolute top-0'> {active && (<FcApproval />)}</span>
+                                    </button>
+                                )
+                            })}
+                        </div>
                         <form onSubmit={handleSubmit}>
                             <div className=" md:w-">
                                 <div className="border-b py-6">
@@ -129,8 +153,8 @@ const JobForm = ({ setIsOpen, getCandidate, job, updateAllApplications }) => {
                                                 <label htmlFor='resume' className="cursor-pointer flex">
                                                     <span className="text-sm  bg-green-100 rounded border p-4 font-medium text-slate-700">Resume</span>
                                                     <span> {resumePicker && (<FcApproval />)}</span>
-                                                <input type="file" id='resume' name='resume' placeholder='url' onChange={handleOnChange}
-                                                    className="mt-1 invisible p-1 focus:outline-none w-full border" />
+                                                    <input type="file" id='resume' name='resume' placeholder='url' onChange={handleOnChange}
+                                                        className="mt-1 invisible p-1 focus:outline-none w-full border" />
                                                 </label>
                                             </div>
                                             <div className="mb-4">
