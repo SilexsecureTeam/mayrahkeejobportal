@@ -28,6 +28,9 @@ const JobDetails = lazy(() =>
 const Companies = lazy(() =>
   import("../applicant-module/pages/companies/Companies")
 );
+const CompanyDetails = lazy(() =>
+  import("../applicant-module/pages/company-details/CompanyDetails")
+);
 const PublicProfile = lazy(() =>
   import("../applicant-module/pages/profile/PublicProfile")
 );
@@ -84,6 +87,7 @@ function useApplicantRoute() {
               <Route path="find-job" element={<FindJob />} />
               <Route path="find-job/:id" element={<JobDetails />} />
               <Route path="browse-companies" element={<Companies />} />
+              <Route path="browse-companies/:1d" element={<CompanyDetails />} />
               <Route path="public-profile" element={<PublicProfile />} />
               <Route path="setting" element={<Settings />} />
               <Route path="my-resume" element={<MyResume />} />
