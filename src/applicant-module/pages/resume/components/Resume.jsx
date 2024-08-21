@@ -3,6 +3,7 @@ import { FaEdit } from 'react-icons/fa'
 import EditResume from './EditResume'
 import { BASE_URL } from '../../../../utils/base'
 import axios from 'axios'
+import { onSuccess } from '../../../../utils/notifications/OnSuccess'
 
 const Resume = ({ resume, setGetResumeById, authDetails }) => {
     const [errorMsg, setErrorMsg] = useState(false)
@@ -25,11 +26,14 @@ const Resume = ({ resume, setGetResumeById, authDetails }) => {
             .then((response) => {
                 console.log(response)
                 setLoading(false)
-                setIsOpen(false)
                 setGetResumeById((prev) => {
                     return {
                         ...prev, isDataNeeded: true
                     }
+                })
+                onSuccess({
+                    message: 'Delete Resume',
+                    success: response.data.message
                 })
             })
             .catch((error) => {

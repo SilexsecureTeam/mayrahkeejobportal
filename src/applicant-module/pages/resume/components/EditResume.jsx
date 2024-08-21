@@ -82,7 +82,7 @@ const EditResume = ({ resume }) => {
             .then((response) => {
                 console.log(response)
                 onSuccess({
-                    message: 'Profile',
+                    message: 'Resume Edit',
                     success: response.data.message
                 })
                 // localStorage.setItem("userDetails", JSON.stringify(response.data.candidate));

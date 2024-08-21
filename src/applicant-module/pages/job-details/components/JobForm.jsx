@@ -15,10 +15,10 @@ const JobForm = ({ setIsOpen, getCandidate, job, getResumeById, updateAllApplica
     const [loading, setLoading] = useState(false)
     const [resumePicker, setResumePicker] = useState(false)
     const [activeResume, setActiveResume] = useState("")
-    const [newDetails, setNewDetails] = useState({
-        resume: "",
-        resumeOne: "",
-    })
+    // const [newDetails, setNewDetails] = useState({
+    //     resume: "",
+    //     resumeOne: "",
+    // })
 
     const [details, setDetails] = useState({
         candidate_id: getCandidate?.candidateAuth?.id,
@@ -27,6 +27,7 @@ const JobForm = ({ setIsOpen, getCandidate, job, getResumeById, updateAllApplica
         email: getCandidate?.candidateAuth?.email,
         phone_number: getCandidate?.details?.phone_number,
         job_title: job.job_title,
+        resume_id: "",
         // linkedin_url: "",
         // portfolio_url: "",
         additional_information: "",
@@ -36,8 +37,8 @@ const JobForm = ({ setIsOpen, getCandidate, job, getResumeById, updateAllApplica
 
     function handleActive(id) {
         setActiveResume(id)
-        setNewDetails((prev) => (
-            { ...prev, resume: activeResume}
+        setDetails((prev) => (
+            { ...prev, resume_id: id }
         ))
     }
 
@@ -100,7 +101,7 @@ const JobForm = ({ setIsOpen, getCandidate, job, getResumeById, updateAllApplica
             });
     }
 
-    console.log(newDetails)
+    console.log(details)
     // console.log(job)
 
 
@@ -122,7 +123,7 @@ const JobForm = ({ setIsOpen, getCandidate, job, getResumeById, updateAllApplica
                                 const active = activeResume === item.id
                                 return (
                                     <button
-                                        onClick={()=>handleActive(item.id)}
+                                        onClick={() => handleActive(item.id)}
                                         key={item.id} className="p-3 rounded bg-green-300 relative">
                                         {item.title}
                                         <span className='absolute top-0'> {active && (<FcApproval />)}</span>
