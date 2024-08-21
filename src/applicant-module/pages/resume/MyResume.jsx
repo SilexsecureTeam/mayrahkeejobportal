@@ -8,6 +8,7 @@ import { ResourceContext } from '../../../context/ResourceContext';
 import axios from 'axios';
 import { FcApproval } from 'react-icons/fc';
 import { onSuccess } from '../../../utils/notifications/OnSuccess';
+import Resume from './components/Resume';
 
 const MyResume = () => {
     const { authDetails } = useContext(AuthContext);
@@ -107,11 +108,19 @@ const MyResume = () => {
             });
     }
 
-    console.log(details)
+    // console.log(details)
     // console.log(getResumeById)
     return (
         <div className="h-full text-[#25324b] w-full">
             <div className="px-8 mt-6">
+                <div className="grid grid-cols-4 gap-3">
+                    {getResumeById.data?.map((resume) => (
+                        <Resume
+                        authDetails={authDetails}
+                        setGetResumeById={setGetResumeById}
+                         key={resume.id} resume={resume} />
+                    ))}
+                </div>
                 <div className="">
                     <form onSubmit={handleSubmit}>
                         <div className="border-b py-6">
@@ -119,7 +128,7 @@ const MyResume = () => {
                                 <div className="w-full">
                                     <div className="mb-4">
                                         <div className='mb-5'>
-                                            <div className='font-medium mb-5 text-2xl text-slate-900 flex'>Edit Resume
+                                            <div className='font-medium mb-5 text-2xl text-slate-900 flex'>Add Resume
                                                 {/* <span className='ml-2 prime_text'><FaRegCheckCircle /></span> */}
                                             </div>
                                         </div>

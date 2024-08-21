@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react'
+import React from 'react'
 import headerImg from "../../../assets/pngs/detail-logo.png"
 import { BsShare } from 'react-icons/bs'
 import { FaRegCheckCircle } from 'react-icons/fa'
@@ -9,26 +9,16 @@ import arrowUp from "../../../assets/pngs/perks-n-benefits/kite-up.png"
 import coffee from "../../../assets/pngs/perks-n-benefits/coffee-cup.png"
 import trainIcon from "../../../assets/pngs/perks-n-benefits/vehicle.png"
 import unity from "../../../assets/pngs/perks-n-benefits/unity.png"
-import { useLocation } from 'react-router-dom'
-import JobApplicationForm from './components/JobApplicationForm'
-import { ResourceContext } from '../../../context/ResourceContext'
-import { data } from 'autoprefixer'
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { FaArrowLeft } from "react-icons/fa";
 
-const JobDetails = () => {
+// import JobApplicationForm from './components/JobApplicationForm'
+
+const CompanyDetails = () => {
     const { state } = useLocation();
     console.log(state)
-    const job = state?.job
-
-    const { getResumeById, setGetResumeById } = useContext(ResourceContext);
-
-    useEffect(() => {
-        setGetResumeById((prev) => (
-            {
-                ...prev,
-                isDataNeeded: true
-            }
-        ))
-    }, [])
+    const job = state?.company
+    const navigate = useNavigate();
     const postedDate = new Date(job.created_at)
     const keywordArr = job.search_keywords?.split(',')
 
@@ -43,9 +33,9 @@ const JobDetails = () => {
                                     <img src={headerImg} width={80} alt="" />
                                 </div>
                                 <div className="ml-3">
-                                    <p className="text-base mb-4 font-bold">{job.job_title}</p>
+                                    <p className="text-base mb-4 font-bold">{job.company_name}</p>
                                     <p className="mb-3">· {job.location} · {job.type}</p>
-                                    <p className=""><b>Address:</b> {job.office_address}</p>
+                                    {/* <p className=""><b>Address:</b> {job.address}</p> */}
                                 </div>
                             </div>
                             <div className="flex items-center">
@@ -54,36 +44,29 @@ const JobDetails = () => {
                                         <BsShare />
                                     </button>
                                 </div>
-                                <div className="ml-3">
-                                    <JobApplicationForm job={job} getResumeById={getResumeById.data} hasApplied={state?.hasApplied} />
-                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
+                <button
+                    onClick={() => navigate("/applicant/browse-companies")}
+                    className='mt-4'>
+                    <FaArrowLeft size={20} />
+                </button>
                 <div className="my-10">
                     <div className="flex px-10">
                         <div className="w-[80%] pr-4">
                             <div className="mb-6">
+                                <h4 className='font-bold mb-4'>Address:</ h4>
+                                <p> {job.address} </p>
+                            </div>
+                            <div className="mb-6">
                                 <h4 className='font-bold mb-4'>Description</ h4>
-                                <p dangerouslySetInnerHTML={{ __html: job.job_description }} />
-                            </div>
-                            <div className="mb-6">
-                                <h4 className='font-bold mb-4'>Experience</ h4>
-                                <p dangerouslySetInnerHTML={{ __html: job.experience }} />
-                            </div>
-                            <div className="mb-6">
-                                <h4 className='font-bold mb-4'>Qualifications</ h4>
-                                {job.qualification?.map((each, i) => (
-                                    <div key={i} className='flex items-center mb-2'>
-                                        <span className="mr-3 prime_text"><FaRegCheckCircle /></span>
-                                        {each}
-                                    </div>
-                                ))}
+                                <p dangerouslySetInnerHTML={{ __html: job.company_profile }} />
                             </div>
                         </div>
                         <div className="w-[20%]">
-                            <h4 className="font-bold mb-4">About this role</h4>
+                            <h4 className="font-bold mb-4">More Information</h4>
                             <div className="text-sm p-2 bg-gray-100">
                                 <div className="flex my-4 bg-gray-300">
                                     <div className="pt-1 bg-[#56CDAD] w-[50%]"></div>
@@ -92,29 +75,41 @@ const JobDetails = () => {
                             </div>
                             <div className="my-6 border-b">
                                 <div className="flex my-3 justify-between">
-                                    <p>Apply Before</p>
-                                    <p className="font-medium">{job.application_deadline_date}</p>
+                                    <p>Website:</p>
+                                    <p className="font-medium">{job.profile_url}</p>
                                 </div>
                                 <div className="flex my-3 justify-between">
-                                    <p>Job Posted On</p>
-                                    <p className="font-medium">{postedDate.toLocaleDateString()}</p>
+                                    <p>Ref No:</p>
+                                    <p className="font-medium">{job.rc_number}</p>
+                                </div>
+                                <div className="flex my-3 justify-between">
+                                    <p>Newtork:</p>
+                                    <p className="font-medium">{job.network}</p>
+                                </div>
+                                <div className="flex my-3 justify-between">
+                                    <p>Founded:</p>
+                                    <p className="font-medium">{job.year_of_incorporation}</p>
                                 </div>
                                 <div className="flex flex-wrap my-3 justify-between">
-                                    <p>Email</p>
+                                    <p>Email:</p>
                                     <p className="font-medium break-words">{job.email}</p>
                                 </div>
                                 <div className="flex my-3 justify-between">
-                                    <p>Job Type</p>
-                                    <p className="font-medium">{job.type}</p>
+                                    <p>Sector:</p>
+                                    <p className="font-medium">{job.sector}</p>
                                 </div>
                                 {/* <div className="flex my-3 justify-between">
                                     <p>Experience</p>
                                     <p dangerouslySetInnerHTML={{ __html: job.experience }} />
                                     <p className="font-medium">{job.experience}</p>
                                 </div> */}
-                                <div className="flex my-3 justify-between">
-                                    <p>Salary Type</p>
-                                    <p className="font-medium">{job.salary_type}</p>
+                                <div className="fle my-3 justify-between">
+                                    <p>Socials:</p>
+                                    {job.social_media?.map((social) => (
+                                        <Link>
+                                            <p key={social} className="font-medium">{social}</p>
+                                        </Link>
+                                    ))}
                                 </div>
                                 <div className="flex my-3 justify-between">
                                     <p>Currency</p>
@@ -228,4 +223,4 @@ const JobDetails = () => {
     )
 }
 
-export default JobDetails
+export default CompanyDetails
