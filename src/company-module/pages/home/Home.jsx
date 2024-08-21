@@ -12,8 +12,11 @@ import {
 } from "../../../utils/dummies";
 import { GrSchedules } from "react-icons/gr";
 import useJobManagement from "../../../hooks/useJobManagement";
+import { useContext, useState } from "react";
+import { AuthContext } from "../../../context/AuthContex";
 
 function Home() {
+  const {authDetails} = useContext(AuthContext)
   const jobUtils = useJobManagement();
 
   return (
@@ -25,7 +28,7 @@ function Home() {
         {/* First ROw */}
         <div className="w-full flex justify-between">
           <div className="flex flex-col gap-[5px]">
-            <h2 className="font-semibold">Good Morning, Maria</h2>
+            <h2 className="font-semibold">Good Morning, {authDetails.user.name.split(' ')[0]}</h2>
             <span className="text-little text-gray-400">
               Here is your job listings statistic report from July 19 - July 25.
             </span>

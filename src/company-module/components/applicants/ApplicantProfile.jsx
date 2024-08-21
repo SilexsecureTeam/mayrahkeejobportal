@@ -87,7 +87,6 @@ function ApplicantProfile({data, applicant}) {
               Certification Held
             </span>
             <div dangerouslySetInnerHTML={{__html: data?.educational_qualification}}/>
-          
           </li>
         </ul>
       </div>

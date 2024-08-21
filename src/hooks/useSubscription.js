@@ -11,7 +11,7 @@ const PACKAGES_KEY = "Packahes Database";
 function useSubscription() {
   const PUBLIC_KEY = import.meta.env.VITE_TEST_PUBLIC_KEY;
   const { authDetails } = useContext(AuthContext);
-  const [activePackage, setActivePackage] = useState();
+  const [activePackage, setActivePackage] = useState(1);
   const client = axiosClient(authDetails?.token);
   const [error, setError] = useState({
     message: "",
@@ -49,6 +49,7 @@ function useSubscription() {
       }
     } catch (error) {
       FormatError(error);
+      setActivePackage(2)
     } finally {
       setLoading(false);
     }

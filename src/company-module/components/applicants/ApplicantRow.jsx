@@ -1,10 +1,10 @@
 import { useNavigate } from "react-router-dom";
 
-function ApplicantRow({data}) {
+function ApplicantRow({ data }) {
+  const navigate = useNavigate();
 
-    const navigate = useNavigate()
-
-    const navigateToApplicantDetails = () => navigate(`/company/applicants/detail/${data.id}`, {state: {data}})
+  const navigateToApplicantDetails = () =>
+    navigate(`/company/applicants/detail/${data.id}`, { state: { data } });
 
   return (
     <tr className="border-b odd:bg-gray-200  text-little">
@@ -28,7 +28,9 @@ function ApplicantRow({data}) {
       </td>
 
       <td>
-        <p className=" py-[5px] text-center font-semibold">{(new Date(data.created_at)).toLocaleDateString()}</p>
+        <p className=" py-[5px] text-center font-semibold">
+          {new Date(data.created_at).toLocaleDateString()}
+        </p>
       </td>
 
       <td>
@@ -37,7 +39,10 @@ function ApplicantRow({data}) {
 
       <td>
         <div className="items-center flex justify-center py-[5px]">
-          <button onClick={navigateToApplicantDetails} className="font-semibold text-white px-2 py-[3px] border  bg-primaryColor">
+          <button
+            onClick={navigateToApplicantDetails}
+            className="font-semibold text-white px-2 py-[3px] border  bg-primaryColor"
+          >
             See Application
           </button>
         </div>
