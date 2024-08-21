@@ -69,7 +69,7 @@ function useCompanyProfile() {
       }
     } catch (error) {
       console.log(error)
-      setDetails({...details, beenRetreived: retrievalState.notRetrieved})
+      setDetails({...details, beenRetreived: retrievalState.retrieved})
     } finally{
       setLoading(false)
     }

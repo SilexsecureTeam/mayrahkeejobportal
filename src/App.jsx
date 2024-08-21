@@ -7,6 +7,8 @@ import FallBack from "./components/Fallback";
 import { ToastContainer } from "react-toastify";
 import { AuthContextProvider } from "./context/AuthContex";
 import { SubscriptionContextProvider } from "./context/SubscriptionContext";
+import { createTheme, MantineProvider } from "@mantine/core";
+import '@mantine/core/styles.css';
 
 //Lazy imports of pages
 const Login = lazy(() => import("./pages/Login"));
@@ -23,24 +25,29 @@ function App() {
   return (
     <>
       <AuthContextProvider>
-        <SubscriptionContextProvider>
-          <Suspense fallback={<FallBack />}>
-            <Router>
-              <Routes>
-                <Route path="/" element={<Login />} />
-                {/* <Route path="/registration" element={<Registration />} /> */}
-                <Route path="*" element={<NotFound />} />
+        <MantineProvider>
+          <SubscriptionContextProvider>
+            <Suspense fallback={<FallBack />}>
+              <Router>
+                <Routes>
+                  <Route path="/" element={<Login />} />
+                  {/* <Route path="/registration" element={<Registration />} /> */}
+                  <Route path="*" element={<NotFound />} />
 
-                {/* Dashboard Routes using the dashboard hook */}
-                {/* Other Routes can go here using thier hook e.g adminDashboardRoute */}
-                <Route path="/applicant/*" element={<ApplicantRoutes />} />
-                <Route path="/registration/*" element={<RegistrationRoute />} />
-                <Route path="/company/*" element={<CompanyRoutes />} />
-              </Routes>
-            </Router>
-          </Suspense>
-          <ToastContainer autoClose={2000} draggable />
-        </SubscriptionContextProvider>
+                  {/* Dashboard Routes using the dashboard hook */}
+                  {/* Other Routes can go here using thier hook e.g adminDashboardRoute */}
+                  <Route path="/applicant/*" element={<ApplicantRoutes />} />
+                  <Route
+                    path="/registration/*"
+                    element={<RegistrationRoute />}
+                  />
+                  <Route path="/company/*" element={<CompanyRoutes />} />
+                </Routes>
+              </Router>
+            </Suspense>
+            <ToastContainer autoClose={2000} draggable />
+          </SubscriptionContextProvider>
+        </MantineProvider>
       </AuthContextProvider>
     </>
   );

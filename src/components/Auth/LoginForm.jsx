@@ -35,44 +35,64 @@ function LoginForm({ rememberMe, toogleRememberMe }) {
   return (
     <div
       id="login-form"
-      className={`h-full w-[60%] flex pt-[10%] justify-center bg-white rounded-md  px-[3%] py-[10px]`}
+      className={`h-full w-[65%] flex pt-[10%] justify-center bg-white rounded-md  px-[3%] py-[10px]`}
     >
       <div
         id="login-section"
-        className="flex flex-col gap-[3%] w-[50%] h-[60%] items-center"
+        className="flex flex-col gap-[3%] w-[98%] h-[60%] items-center"
       >
         <h3 className="font-bold text-2xl text-black">Login to your Account</h3>
-        <span className="font-meduim text-center w-[80%] text-gray-400 text-[11px]">
+        <span className="font-meduim text-center w-[90%] text-gray-400 text-[11px]">
           Explore/manage job different job oppurtunities
         </span>
 
-        <div className="flex w-full justify-center gap-[20px] text-sm font-semibold items-centeritems">
+        <div className="flex w-full justify-between mt-[3%] text-sm font-semibold items-center text-little">
           <button
             onClick={() => setRole("candidate")}
-            className={`px-2 py-1 ${
+            className={`px-2 py-1 text-little w-[23%] ${
               role === "candidate"
                 ? "text-white bg-primaryColor border-0"
-                : "text-primaryColor border bg-primaryColor/30"
+                : "text-primaryColor border  bg-primaryColor/30"
             }`}
           >
-            Candidate
+            Corperate Candidate
           </button>
           <button
             onClick={() => setRole("employer")}
-            className={`px-2 py-1 ${
+            className={`px-2 py-1 text-little w-[23%] ${
               role === "employer"
                 ? "text-white bg-primaryColor border-0"
                 : "text-primaryColor border bg-primaryColor/30"
             }`}
           >
-            Employer
+             Corperate Employer
+          </button>
+          <button
+            onClick={() => setRole("artisan")}
+            className={`px-2 py-1 text-little w-[23%] ${
+              role === "artisan"
+                ? "text-white bg-primaryColor border-0"
+                : "text-primaryColor border bg-primaryColor/30"
+            }`}
+          >
+           Artisan
+          </button>
+          <button
+            onClick={() => setRole("staff")}
+            className={`px-2 py-1 text-little w-[23%] ${
+              role === "staff"
+                ? "text-white bg-primaryColor border-0"
+                : "text-primaryColor border bg-primaryColor/30"
+            }`}
+          >
+            Domestic Staff
           </button>
         </div>
 
         <form
           onSubmit={handleOnSubmit}
           id="form-wrapper"
-          className="flex flex-col mt-[10%] w-full gap-[15px] items-center "
+          className="flex flex-col mt-[8%] w-[50%] gap-[15px] items-center "
         >
           <div className="h-[40px] w-full flex items-center pl-[10px] gap-[10px] rounded-md border-[1.5px]">
             <img src={Person} className="h-[20px]" />

@@ -9,7 +9,7 @@ import useRegistration from "../../hooks/useRegistration";
 import { onSuccess } from "../../utils/notifications/OnSuccess";
 
 function EmailVerification({ state, dispatch }) {
-  const timeInMs = 10;
+  const timeInMs = 60;
   const [secondsLeft, setSecondsLeft] = useState(timeInMs);
   const [otp, setOtp] = useState("");
 
