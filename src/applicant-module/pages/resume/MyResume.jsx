@@ -113,6 +113,7 @@ const MyResume = () => {
     return (
         <div className="h-full text-[#25324b] w-full">
             <div className="px-8 mt-6">
+                {getResumeById.data?.length < 1 && <p className='text-red-600'>Resume Empty !!!</p>}
                 <div className="grid grid-cols-4 gap-3">
                     {getResumeById.data?.map((resume) => (
                         <Resume
@@ -120,6 +121,7 @@ const MyResume = () => {
                         setGetResumeById={setGetResumeById}
                          key={resume.id} resume={resume} />
                     ))}
+                    
                 </div>
                 <div className="">
                     <form onSubmit={handleSubmit}>
