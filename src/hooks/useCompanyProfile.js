@@ -18,7 +18,7 @@ function useCompanyProfile() {
     retrieved: 3
   }
 
-  const client = axiosClient(authDetails.token, true);
+  const client = axiosClient(authDetails?.token, true);
 
   const [loading, setLoading] = useState(false);
 

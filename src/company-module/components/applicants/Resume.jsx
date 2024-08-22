@@ -1,3 +1,5 @@
+import { resourceUrl } from "../../../services/axios-client";
+
 const stages = [
   {
     name: "In-Review",
@@ -30,11 +32,20 @@ function Resume({data, applicant}) {
 
   return (
     <>
-      <div className="flex justify-between px-10">
+      <div className="flex flex-col justify-between px-10">
         <div className="flex flex-col text-little justify-center items-start gap-[2px]">
           <span className="font-semibold ">Portfolio Url</span>
           <a href={data?.portfolio_url} className="font-semibold ">{data?.portfolio_url}</a>
         </div>
+
+        <div className="flex flex-col text-little justify-center items-start gap-[2px]">
+          <span className="font-semibold ">NIN</span>
+          <img
+            src={`${resourceUrl}/${applicant?.nin_slip}`}
+            className="h-[60px] w-[60px] bg-gray-400 rounded-full"
+          />
+        </div>
+      
       </div>
 
       <div className="flex w-full px-10 mt-[5px]">

@@ -4,6 +4,7 @@ import { AuthContext } from "../context/AuthContex";
 import { FormatError } from "../utils/formmaters";
 import { onFailure } from "../utils/notifications/OnFailure";
 import { get, set } from "idb-keyval";
+import { stages } from "../utils/constants";
 
 const APPLICANTS_KEY = 'Applicants Database'
 
@@ -16,6 +17,14 @@ function useApplicationManagement() {
         error: ''
     }) 
     const [applicants, setApplicants] = useState([])   
+    const [interviewDetails, setInterviewDetails] = useState({})
+
+
+    const onTextChange = (e) => {
+      const { name, value } = e.target;
+      setInterviewDetails({ ...interviewDetails, [name]: value });
+    };
+  
 
     const getApplicantsByEmployee = async () => {
           setLoading(true)
@@ -43,6 +52,32 @@ function useApplicationManagement() {
       }
     }
 
+
+    const scheduleInterview = async (applicant, data, setData, handleOnSuccess) => {
+         setLoading(true)
+         try {
+          const primarydata = {
+            job_application_id: data.id,
+            candidate_id: applicant.id,
+          }
+          const updateprimarydata = {
+            job_id: data.job_id,
+            candidate_id: applicant.id,
+          }
+
+           const interviewResponse = await client.post(`/interviews`,{...primarydata, ...interviewDetails})
+           const interviewData = interviewResponse.data.interview
+           const applicationUpdateResponse = await client.post(`/applicationRespond`,{...updateprimarydata, status: stages[1].name })
+           const applicatonUpdateData = applicationUpdateResponse.data.job_application
+           setData(applicatonUpdateData)
+           handleOnSuccess()
+         } catch (error) {
+           FormatError(error, setError, 'Schedule Error')
+         } finally{
+          setLoading(false)
+         }
+    }
+
     useEffect(() => {
         if(error.error && error.message){
             onFailure(error)
@@ -66,7 +101,7 @@ function useApplicationManagement() {
       initValue();
     }, [])
 
-    return {loading, applicants, getApplicantsByEmployee, getApplicant};
+    return {loading, applicants, interviewDetails, scheduleInterview, onTextChange, getApplicantsByEmployee, getApplicant};
 }
 
 export default useApplicationManagement;
