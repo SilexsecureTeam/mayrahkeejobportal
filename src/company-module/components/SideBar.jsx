@@ -1,10 +1,11 @@
 import React from "react";
 import mainLogo from '../../assets/svgs/main-logo.svg'
+import mainLogoTwo from '../../assets/pngs/main-logo-icon.png'
 
 function SideBar({ children, authDetails }) {
   return (
     <aside className="w-[18%] relative h-full items-center bg-secondaryColor px-2 pb-2 flex flex-col justify-end">
-      <img src={mainLogo} className="w-[80%]"/>
+      <img src={mainLogoTwo} className="w-[80%]"/>
       <nav className="h-[92%] w-full flex flex-col justify-start gap-[20px] divide-y-2">
         {children[0]}
         <div className="flex flex-col gap-[5px] ">

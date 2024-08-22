@@ -50,7 +50,7 @@ function useJobManagement() {
   const addJob = async (handleSuccess) => {
     setLoading(true);
     try {
-      const response = await client.post(`/job`, details);
+      const response = await client.post(`/job`, {employer_id:authDetails.user.id ,...details});
       setDetails({});
       handleSuccess();
       getJobsFromDB()

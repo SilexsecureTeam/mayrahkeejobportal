@@ -301,3 +301,22 @@ export const company_stack_socials = [
     icon: pathscriptIcon
   }
 ]
+
+export const stages = [
+  {
+    name: "in-review",
+    stage: "passed",
+  },
+  {
+    name: "shortlist",
+    stage: "passed",
+  },
+  {
+    name: "interview",
+    stage: "current",
+  },
+  {
+    name: "hired/declined",
+    stage: null,
+  },
+];

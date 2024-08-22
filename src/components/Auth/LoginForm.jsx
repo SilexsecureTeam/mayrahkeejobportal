@@ -35,21 +35,21 @@ function LoginForm({ rememberMe, toogleRememberMe }) {
   return (
     <div
       id="login-form"
-      className={`h-full w-[65%] flex pt-[10%] justify-center bg-white rounded-md  px-[3%] py-[10px]`}
+      className={`h-full w-[65%] flex pt-[8%] justify-center bg-white rounded-md  px-[3%] py-[10px]`}
     >
       <div
         id="login-section"
-        className="flex flex-col gap-[3%] w-[98%] h-[60%] items-center"
+        className="flex flex-col gap-[3%] w-[60%]  h-[60%] items-center"
       >
         <h3 className="font-bold text-2xl text-black">Login to your Account</h3>
         <span className="font-meduim text-center w-[90%] text-gray-400 text-[11px]">
           Explore/manage job different job oppurtunities
         </span>
 
-        <div className="flex w-full justify-between mt-[3%] text-sm font-semibold items-center text-little">
+        <div className="grid grid-cols-2 w-full mt-[3%] gap-[10px] text-sm font-semibold text-little">
           <button
             onClick={() => setRole("candidate")}
-            className={`px-2 py-1 text-little w-[23%] ${
+            className={`px-2 py-1 text-little ${
               role === "candidate"
                 ? "text-white bg-primaryColor border-0"
                 : "text-primaryColor border  bg-primaryColor/30"
@@ -59,7 +59,7 @@ function LoginForm({ rememberMe, toogleRememberMe }) {
           </button>
           <button
             onClick={() => setRole("employer")}
-            className={`px-2 py-1 text-little w-[23%] ${
+            className={`px-2 py-1 text-little ${
               role === "employer"
                 ? "text-white bg-primaryColor border-0"
                 : "text-primaryColor border bg-primaryColor/30"
@@ -69,7 +69,7 @@ function LoginForm({ rememberMe, toogleRememberMe }) {
           </button>
           <button
             onClick={() => setRole("artisan")}
-            className={`px-2 py-1 text-little w-[23%] ${
+            className={`px-2 py-1 text-little ${
               role === "artisan"
                 ? "text-white bg-primaryColor border-0"
                 : "text-primaryColor border bg-primaryColor/30"
@@ -79,7 +79,7 @@ function LoginForm({ rememberMe, toogleRememberMe }) {
           </button>
           <button
             onClick={() => setRole("staff")}
-            className={`px-2 py-1 text-little w-[23%] ${
+            className={`px-2 py-1 text-little ${
               role === "staff"
                 ? "text-white bg-primaryColor border-0"
                 : "text-primaryColor border bg-primaryColor/30"
@@ -92,7 +92,7 @@ function LoginForm({ rememberMe, toogleRememberMe }) {
         <form
           onSubmit={handleOnSubmit}
           id="form-wrapper"
-          className="flex flex-col mt-[8%] w-[50%] gap-[15px] items-center "
+          className="flex flex-col mt-[8%] w-[80%] gap-[15px] items-center "
         >
           <div className="h-[40px] w-full flex items-center pl-[10px] gap-[10px] rounded-md border-[1.5px]">
             <img src={Person} className="h-[20px]" />
