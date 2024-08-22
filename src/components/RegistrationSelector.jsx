@@ -63,7 +63,7 @@ function RegistrationSelector({ data, selected, setSelected, icon}) {
                     key={current.id}
                     className={({ active }) =>
                       `relative cursor-default select-none flex py-2 pl-10 pr-4 ${
-                        active ? 'bg-green/70 text-white' : 'text-gray-900'
+                        active ? 'bg-green/70 hover:text-green-500' : 'text-gray-900'
                       }`
                     }
                     value={current}
