@@ -58,7 +58,8 @@ function Home() {
   }, [])
 
   const allApplications = getAllApplications?.data
-  const pendingReview = allApplications?.filter((app) => app.status === "pending")
+  const pendingReview = allApplications?.filter((app) => app.status === "in-review")
+  const shortlistedReview = allApplications?.filter((app) => app.status === "shortlist")
   console.log(allApplications)
   return (
     <>
@@ -115,7 +116,7 @@ function Home() {
               className="w-1/5 ">
               <div className="pb-1 h-1/2">
                 <div className="border transition duration-400 h-full cursor-pointer hover:shadow-xl mb-4 p-3 pb-0 flex flex-col justify-between">
-                  <p className="font-medium">Review by Employer</p>
+                  <p className="font-medium">In-Review</p>
                   <div className="flex justify-between items-end mt-4">
                     <p className="text-6xl font-medium">{pendingReview?.length}</p>
                     <div className=" text-gray-300">
@@ -127,9 +128,9 @@ function Home() {
               </div>
               <div className="pt-1 h-1/2">
                 <div className="border transition duration-400 h-full cursor-pointer hover:shadow-xl mb-4 p-3 pb-0 flex flex-col justify-between">
-                  <p className="font-medium">Views by Employer</p>
+                  <p className="font-medium">Shortlisted</p>
                   <div className="flex justify-between items-end mt-4">
-                    <p className="text-6xl font-medium">{pendingReview?.length}</p>
+                    <p className="text-6xl font-medium">{shortlistedReview?.length}</p>
                     <div className=" text-gray-300">
                       <MdOutlineRemoveRedEye size={50} />
                       {/* <img src={chatsIcon} alt="" className="w-[60px]" /> */}

@@ -28,7 +28,7 @@ const JobApplicationForm = ({ job, getResumeById, hasApplied }) => {
                 <JobForm
                     setIsOpen={setIsOpen}
                     getCandidate={getCandidate.data}
-                    getResumeById={getResumeById}
+                    resume={getResumeById}
                     updateAllApplications={setGetAllApplications}
                     job={job} />
             </UseModal>
