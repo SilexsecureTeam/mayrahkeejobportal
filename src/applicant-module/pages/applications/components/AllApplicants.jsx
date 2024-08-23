@@ -22,7 +22,7 @@ const AllApplicants = ({ app, index }) => {
             </div>
             <div className="flex justify-between py-3 px-2 w-[25%]">
                 <div className="w-2/3">
-                    <button className="border border-yellow-400 text-yellow-400 px-2 py-1 rounded-full">{app.status}</button>
+                    <button className="border border-green-600 text-green-900 px-2 py-1 rounded-full">{app.status}</button>
                 </div>
                 <div className="w-1/3">
                     <button className="hover:bg-gray-200 p-1 rounded-full"><MdMoreHoriz size={25} /></button>
