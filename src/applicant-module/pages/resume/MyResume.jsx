@@ -143,7 +143,7 @@ const MyResume = () => {
         <div className="h-full text-[#25324b] w-full">
             <div className="px-8 mt-6">
                 {getResumeById.data?.length < 1 && <p className='text-red-600'>Resume Empty !!!</p>}
-                <div className="grid md:grid-cols-2 gap-3">
+                <div className="grid md:grid-cols-2 gap-10">
                     {getResumeById.data?.map((resume) => (
                         <Resume
                             authDetails={authDetails}

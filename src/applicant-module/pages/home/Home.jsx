@@ -48,6 +48,8 @@ function Home() {
       }
     })
   }, [])
+  
+  console.log(userUpdate)
 
   useEffect(() => {
     setGetAllApplications((prev) => {
@@ -87,7 +89,7 @@ function Home() {
               className="w-1/5 ">
               <div className="pb-1 h-1/2">
                 <div className="border transition duration-400 h-full cursor-pointer hover:shadow-xl mb-4 p-3 pb-0 flex flex-col justify-between">
-                  <p className="font-medium">Total Jobs Applied</p>
+                  <p className="font-bold">Total Jobs Applied</p>
                   <div className="flex justify-between items-end mt-4">
                     <p className="text-6xl font-medium">{getAllApplications.data?.length}</p>
                     <div className="">
@@ -98,7 +100,7 @@ function Home() {
               </div>
               <div className="pt-1 h-1/2">
                 <div className="border transition duration-400 h-full cursor-pointer hover:shadow-xl mb-4 p-3 pb-0 flex flex-col justify-between">
-                  <p className="font-medium">Interviewed</p>
+                  <p className="font-bold">Interviewed</p>
                   <div className="flex justify-between items-end mt-4">
                     <p className="text-6xl font-medium">0</p>
                     <div className="">
@@ -116,7 +118,7 @@ function Home() {
               className="w-1/5 ">
               <div className="pb-1 h-1/2">
                 <div className="border transition duration-400 h-full cursor-pointer hover:shadow-xl mb-4 p-3 pb-0 flex flex-col justify-between">
-                  <p className="font-medium">In-Review</p>
+                  <p className="font-bold">In-Review</p>
                   <div className="flex justify-between items-end mt-4">
                     <p className="text-6xl font-medium">{pendingReview?.length}</p>
                     <div className=" text-gray-300">
@@ -128,7 +130,7 @@ function Home() {
               </div>
               <div className="pt-1 h-1/2">
                 <div className="border transition duration-400 h-full cursor-pointer hover:shadow-xl mb-4 p-3 pb-0 flex flex-col justify-between">
-                  <p className="font-medium">Shortlisted</p>
+                  <p className="font-bold">Shortlisted</p>
                   <div className="flex justify-between items-end mt-4">
                     <p className="text-6xl font-medium">{shortlistedReview?.length}</p>
                     <div className=" text-gray-300">
@@ -141,7 +143,7 @@ function Home() {
             </motion.div>
             <div className="w-1/5 border">
               <div className=" p-3">
-                <p>Jobs Applied Status</p>
+                <p className="font-bold">Jobs Applied Status</p>
                 <div className="my-5 flex items-center">
                   <div className="">
                     <RoundChart />
@@ -163,7 +165,7 @@ function Home() {
                     </div>
                   </div> */}
                 </div>
-                <div className="flex my-3 items-center cursor-pointer prime_text hover:opacity-90">
+                <div className="flex my-3 items-center font-bold cursor-pointer prime_text hover:opacity-90">
                   <p>View All Applications</p>
                   <span className="ml-2"> <FaArrowRightLong /></span>
                 </div>
@@ -174,7 +176,7 @@ function Home() {
               initial={"hidden"}
               whileInView={"show"}
               viewport={{ once: true, amount: 0.7 }}
-              className="w-3/5 border py-3 text-sm">
+              className="w-3/5 font-medium border py-3 text-sm">
               <div className="px-3 border-b">
                 <p className="font-bold my-3">Upcomming Interviews</p>
               </div>
@@ -186,11 +188,11 @@ function Home() {
                 </div>
               </div>
               <div className="px-3 my-3 flex items-center">
-                <p className="w-1/6">10:00 AM</p>
+                <p className="w-1/6 font-medium">10:00 AM</p>
                 <p className="border-b w-5/6 pt-1"> </p>
               </div>
               <div className="px-3 my-3 flex items-center">
-                <p className="w-1/6">10:30 AM</p>
+                <p className="w-1/6 font-medium">10:30 AM</p>
                 <div className="bg-[#47AA4933] rounded w-5/6 p-3">
                   <div className="flex items-center">
                     <div className="size-12 mr-3 rounded-full bg-gray-100"></div>
@@ -202,7 +204,7 @@ function Home() {
                 </div>
               </div>
               <div className="px-3 my-3 flex items-center">
-                <p className="w-1/6">11:00 AM</p>
+                <p className="w-1/6 font-medium">11:00 AM</p>
                 <p className="border-b w-5/6 pt-1"> </p>
               </div>
             </motion.div>
@@ -215,7 +217,7 @@ function Home() {
             </div>
             <div className="p-3">
               {allApplications?.map((app) => (
-                <RecentlyAdded app={app.id} newApp={app} newApplicant={newApplicant} />
+                <RecentlyAdded key={app.id} app={app.id} newApp={app} newApplicant={newApplicant} />
               ))}
               <div className="my-4 flex justify-center">
                 <div className="flex my-3 items-center cursor-pointer prime_text hover:opacity-90">
