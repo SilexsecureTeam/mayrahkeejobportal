@@ -1,41 +1,99 @@
-import { useEffect, useState } from "react";
+import axios from "axios";
+import { useContext, useEffect, useState } from "react";
+import { axiosClient } from "../../../services/axios-client";
+import { AuthContext } from "../../../context/AuthContex";
+import { FormatError } from "../../../utils/formmaters";
+import { onFailure } from "../../../utils/notifications/OnFailure";
 
-function Shortlist() {
-   const [interview, setInterview] = useState()
+function Shortlist({ data }) {
+  const { authDetails } = useContext(AuthContext);
+  const client = axiosClient(authDetails.token);
+  const [interview, setInterview] = useState();
+  const [error, setError] = useState({
+    message: "",
+    error: "",
+  });
 
+  const handleOnClick = () => {
+    const interviewDate = new Date(interview.interview_date);
+    const currentDate = new Date();
+    if (interviewDate === currentDate) {
+    } else {
+      onFailure({
+        message: "Interview Error",
+        error: "This interview is not scheduled for this time",
+      });
+    }
+  };
 
-   useEffect(() => {
+  useEffect(() => {
+    const initInteview = async () => {
+      try {
+        const response = await client.get(`/interviews/${data.interview_id}`);
+        setInterview(response.data.interview);
+      } catch (error) {
+        FormatError(error, setError, "Intervew Error");
+      }
+    };
 
-   }, [])
+    initInteview();
+  }, []);
 
+  useEffect(() => {
+    if (error.message && error.error) {
+      onFailure(error)
+    }
+  }, [error.message, error.error]);
 
-    return <>
-     <div className="grid grid-cols-2 w-full gap-y-2 justify-between items-center px-2">
-        <div className="flex flex-col">
-          <span className="text-gray-400 text-sm">Interview Date</span>
-          <span className="text-gray-700 font-semibold text-little">
-            10 - 13 July 2021
-          </span>
+  return (
+    interview && (
+      <>
+        <h3 className="px-2 text-little">An Interview has been Schedule</h3>
+        <div className="grid grid-cols-2 w-full gap-y-2 justify-between items-center px-2">
+          <div className="flex flex-col">
+            <span className="text-gray-400 text-sm">Interview Date</span>
+            <span className="text-gray-700 font-semibold text-little">
+              {new Date(interview.created_at).toLocaleDateString()}
+            </span>
+          </div>
+          <div className="flex flex-col w-[40%]">
+            <span className="text-gray-400 text-sm">Interviewer</span>
+            <span className="text-gray-700 font-semibold text-little">
+              {interview.interviewer_name}
+            </span>
+          </div>
+
+          <div className="flex flex-col">
+            <span className="text-gray-400 text-sm">Interview Location</span>
+            <span className="text-gray-700 font-semibold text-little">
+              {interview.location}
+            </span>
+          </div>
+
+          <div className="flex flex-col">
+            <span className="text-gray-400 text-sm">Interview Time</span>
+            <span className="text-gray-700 font-semibold text-little">
+              {new Date(interview.interview_date).toLocaleDateString()}
+            </span>
+          </div>
+
+          <div className="flex flex-col">
+            <span className="text-gray-400 text-sm">Add Ons</span>
+            <span className="text-gray-700 font-semibold text-little">
+              {interview.notes}
+            </span>
+          </div>
         </div>
-        <div className="flex flex-col w-[40%]">
-          <span className="text-gray-400 text-sm">Interview Status</span>
-          <span className="text-amber-600 rounded-[30px] py-[1px] flex items-center justify-center bg-amber-400/20 font-semibold text-little">
-            In Progress
-          </span>
-        </div>
-        <div className="flex flex-col">
-          <span className="text-gray-400 text-sm">Interview Location</span>
-          <span className="text-gray-700 font-semibold text-little">
-            Silver Crysta Room, Nomad Office 3517 W. Gray St. Utica,
-            Pennsylvania 57867
-          </span>
-        </div>
-      </div>
 
-      <hr className="h-[1px] bg-gray-400 w-full" />
-
+        <button
+          onClick={handleOnClick}
+          className="ml-2 border w-fit hover:bg-primaryColor hover:text-white py-1 text-little px-2  border-primaryColor"
+        >
+          Proceed to Interview
+        </button>
+        {/* 
       <div className="w-full flex justify-between px-2">
-        <h3 className="font-semibold text-sm px-2">Current Stage</h3>
+        <h3 className="font-semibold text-sm px-2">Current S</h3>
         <button className="text-primaryColor font-semibold text-little">
           Add notes
         </button>
@@ -64,7 +122,10 @@ function Shortlist() {
             more new employee now
           </p>
         </li>
-      </ul></>;
+      </ul> */}
+      </>
+    )
+  );
 }
 
 export default Shortlist;

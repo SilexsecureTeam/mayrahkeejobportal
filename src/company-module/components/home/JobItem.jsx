@@ -1,9 +1,21 @@
+import { useNavigate } from "react-router-dom";
 import wheelIcon from "../../../assets/pngs/wheel-icon-black.png";
 import { FormatPrice } from "../../../utils/formmaters";
 import ProgressBar from "../shared/ProgressBar";
+import { useContext } from "react";
+import { CompanyRouteContext } from "../../../context/CompanyRouteContext";
 function JobItem({ data }) {
+
+  const navigate = useNavigate()
+  const {setSideBar} = useContext(CompanyRouteContext)
+
   return (
-    <div className="flex flex-col  w-[180px] cursor-pointer hover:scale-105 duration-100  max-w-[180px]  border justify-between h-full p-2">
+    <div 
+    onClick={() => {
+      setSideBar(4);
+      navigate(`/company/job-listing/type/${data.id}`);
+    }}
+    className="flex flex-col  w-[180px] cursor-pointer hover:scale-105 duration-100  max-w-[180px]  border justify-between h-full p-2">
       <div className="flex justify-between  items-center">
         <img src={wheelIcon} className="h-[30px] w-[30px]" />
         <button className="bg-green-600/40 text-black text-little px-2 h-fit rounded-[20px]">

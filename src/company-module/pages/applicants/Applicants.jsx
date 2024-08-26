@@ -1,12 +1,12 @@
 import { Helmet } from "react-helmet";
 import ApplicantRow from "../../components/applicants/ApplicantRow";
 import useApplicationManagement from "../../../hooks/useApplicationManagement";
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
+import { ApplicationContext } from "../../../context/ApplicationContext";
 
 function Applicants() {
 
-  const applicationUtils = useApplicationManagement()
-
+  const applicationUtils = useContext(ApplicationContext);
 
    useEffect(() => {
      applicationUtils.getApplicantsByEmployee()
@@ -18,7 +18,7 @@ function Applicants() {
       </Helmet>
       <div className="h-full w-full flex flex-col px-12 py-2 gap-[15px]">
         <div className="w-full flex justify-between ">
-            <h2 className="font-semibold text-md">Total Applicants: 19</h2>
+            <h2 className="font-semibold text-md">Total Applicants: {applicationUtils.applicants?.length}</h2>
             <div className="flex bg-gray-300 p-1 text-primaryColor">
                <button className="text-little p-1  bg-gray-300">Pipeline View</button>
                <button className="text-little p-1 bg-white ">Table View</button>

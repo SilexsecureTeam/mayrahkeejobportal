@@ -7,7 +7,7 @@ function ApplicantRow({ data }) {
     navigate(`/company/applicants/detail/${data.id}`, { state: { data } });
 
   return (
-    <tr className="border-b odd:bg-gray-200  text-little">
+    <tr className="border-b odd:bg-primaryColor/70 odd:text-white hover:bg-primaryColor hover:scale-105 duration-100 text-little">
       <td className="text-center py-[5px]">
         <div className="flex justify-center items-center gap-[5px]">
           <span>{data.full_name}</span>

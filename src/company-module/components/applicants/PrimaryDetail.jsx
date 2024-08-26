@@ -34,30 +34,30 @@ function PrimaryDetail({ data, applicant }) {
           />
           <div className="flex flex-col ">
             <h3 className="text-lg font-semibold">{data?.full_name}</h3>
-            <span className="text-sm text-gray-400"> {data?.job_title}</span>
+            <span className="text-sm text-gray-800"> {data?.job_title}</span>
           </div>
         </div>
 
-        <div className="w-full h-[100px] flex flex-col gap-[5px] bg-gray-100">
+        <div className="w-full h-[100px] text-white flex flex-col gap-[5px] bg-primaryColor">
           <div className="w-full flex p-2 border-b border-gray-400 justify-between">
-            <span className="text-gray-600 text-little">Applied Job</span>
-            <span className="text-gray-400 text-little">
+            <span className=" text-little">Applied Job</span>
+            <span className=" text-little">
               {new Date(data?.created_at).toLocaleDateString()}
             </span>
           </div>
           <div className="w-full flex flex-col p-2 gap-[5px]  justify-between">
-            <span className="text-black font-semibold text-[12px]">
+            <span className=" font-semibold text-[12px]">
               {data?.job_title}
             </span>
-            <span className="text-gray-400 text-little">
+            <span className="text-little">
               Marketting - Full time
             </span>
           </div>
         </div>
 
-        <div className="w-full h-[30px] flex justify-between px-2 py-1  gap-[5px] bg-gray-100">
+        <div className="w-full h-[30px] text-white flex justify-between px-2 py-1  gap-[5px] bg-primaryColor">
           <span className="text-little">Status</span>
-          <span className="text-[10px] text-primaryColor uppercase">
+          <span className="text-[10px] uppercase">
             {data?.status}
           </span>
         </div>

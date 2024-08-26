@@ -1,9 +1,10 @@
 import { useLocation } from "react-router-dom";
 import PrimaryDetail from "../../components/applicants/PrimaryDetail";
 import SecondaryDetail from "../../components/applicants/SecondaryDetail";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import useApplicationManagement from "../../../hooks/useApplicationManagement";
 import ScheduleInterviewModal from "../../components/applicants/ScheduleInteviewModal";
+import { ApplicationContext } from "../../../context/ApplicationContext";
 
 function SingleApplicant() {
   const location = useLocation();
@@ -16,7 +17,8 @@ function SingleApplicant() {
     onTextChange,
     loading,
     scheduleInterview,
-  } = useApplicationManagement();
+  } = useContext(ApplicationContext);
+  
   const [applicant, setApplicant] = useState();
 
   const toogleInterview = () => setIsOpen(!isOpen);
@@ -39,7 +41,7 @@ function SingleApplicant() {
     initApplicant();
   }, []);
 
-  console.log(applicant);
+  console.log(applicationData);
 
   return (
     <>

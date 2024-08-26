@@ -7,8 +7,7 @@ import IntervieweSchedule from "./InterviewerSchedule";
 const options = [
   "Applicant Profile",
   "Resume",
-  "Hiring Progress",
-  "Intervie Schedule",
+  "Hiring Progress"
 ];
 
 function SecondaryDetail(props) {
@@ -22,8 +21,6 @@ function SecondaryDetail(props) {
         return <Resume {...props}/>;
       case options[2]:
         return <HiringProgress {...props}/>;
-      case options[3]:
-        return <IntervieweSchedule {...props}/>;
     }
   };
 

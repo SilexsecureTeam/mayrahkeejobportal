@@ -66,7 +66,7 @@ function HiringProgress({ data, applicant, toogleInterview }) {
       case stages[0].name:
         return InView;
       case stages[1].name:
-        return <Shortlist/>;
+        return <Shortlist data={data}/>;
     }
   };
 

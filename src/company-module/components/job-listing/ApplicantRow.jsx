@@ -10,7 +10,7 @@ function ApplicantRow({data}) {
   
 
   return (
-    <tr className="border-b odd:bg-gray-200  text-little">
+    <tr className="border-b odd:bg-primaryColor/50 hover:scale-105 hover:bg-primaryColor hover:text-white duration-100  text-little">
       <td className="text-center py-[5px]">
         <div className="flex justify-center items-center gap-[5px]">
           <span>{data?.full_name}</span>
