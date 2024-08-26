@@ -1,17 +1,49 @@
 import { BarChart } from "@mantine/charts";
 import '@mantine/core/styles.css';
 import classes from '../../../css/charts.module.css'
+import { getThreeMonths, monthNames, toCamelCase } from "../../../utils/formmaters";
 
 const data = [
   { month: "January", Smartphones: 1200, Laptops: 900, Tablets: 200 },
   { month: "February", Smartphones: 1900, Laptops: 1200, Tablets: 400 },
   { month: "March", Smartphones: 400, Laptops: 1000, Tablets: 200 },
-  { month: "April", Smartphones: 1000, Laptops: 200, Tablets: 800 },
-  { month: "May", Smartphones: 800, Laptops: 1400, Tablets: 1200 },
-  { month: "June", Smartphones: 750, Laptops: 600, Tablets: 1000 },
+ 
 ];
 
-function JobStatistic() {
+function JobStatistic({applicants,  byCategory}) {
+    
+  const data1 = () => {
+      const threeMonths = getThreeMonths()
+
+
+      const applicantByMonth = []
+
+      threeMonths.map(currentMonth => {
+           const monthApplicants = applicants.filter(current => monthNames[(new Date(current.created_at).getMonth())] == currentMonth)
+             
+           const applicantByMonthCat = {}
+            Object.keys(byCategory).map(current => {
+                   const catApps = monthApplicants.filter(currentApp => currentApp.job_id == byCategory[current][0].job_id)
+                   const key = toCamelCase(byCategory[current][0].job_title)
+                  applicantByMonthCat[key]=  catApps.length 
+            })
+
+             
+            applicantByMonth.push({
+              month: currentMonth, 
+              ...applicantByMonthCat
+            })
+
+           
+           
+          })
+          
+          console.log('Result',...applicantByMonth)
+        
+          return applicantByMonth
+  }
+
+
   return (
     <div className="border h-full w-[65%]  ">
       <div className="h-[28%] border-b px-2 justify-between pt-1 flex flex-col">
@@ -23,7 +55,7 @@ function JobStatistic() {
             </span>
           </div>
 
-          <div className="w-[35%] flex justify-between p-1 bg-gray-400 h-[80%]">
+          {/* <div className="w-[35%] flex justify-between p-1 bg-gray-400 h-[80%]">
             <button className="w-[30%] bg-white hover:scale-105 duration-75 text-black font-semibold text-little">
               Week
             </button>
@@ -33,7 +65,7 @@ function JobStatistic() {
             <button className="w-[30%] bg-white hover:scale-105 duration-75 text-black font-semibold text-little">
               Year
             </button>
-          </div>
+          </div> */}
         </div>
 
         <h3 className="text-little border-b w-fit border-primaryColor font-semibold">

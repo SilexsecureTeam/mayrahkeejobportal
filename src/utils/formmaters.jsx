@@ -121,3 +121,50 @@ export const onTextChange = (e, details, setDetails) => {
   const { name, value } = e.target;
   setDetails({ ...details, [name]: value });
 };
+
+
+// Get the names of the months in an array
+export const monthNames = [
+  "January", "February", "March", "April", "May", "June",
+  "July", "August", "September", "October", "November", "December"
+];
+
+export function getThreeMonths() {
+  // Create a Date object for the current date
+  const currentDate = new Date();
+  
+  // Get the current month (0-11 where 0 is January and 11 is December)
+  const currentMonth = currentDate.getMonth();
+  
+  
+  
+  // Calculate the previous two months and handle wrapping around the year
+  const previousMonth1 = (currentMonth - 1 + 12) % 12; // Still safe, but redundant
+  const previousMonth2 = (currentMonth - 2 + 12) % 12; // Still safe, but redundant
+
+  // More simplified approach:
+  // const previousMonth1 = (currentMonth - 1) % 12;
+  // const previousMonth2 = (currentMonth - 2) % 12;
+  
+  // Get the names of the current month and the two previous months
+  const months = [
+      monthNames[previousMonth2],
+      monthNames[previousMonth1],
+      monthNames[currentMonth]
+  ];
+  
+  return months;
+}
+
+
+export function toCamelCase(str) {
+  return str
+      .toLowerCase()          // Convert the entire string to lowercase
+      .split(' ')             // Split the string into an array of words
+      .map((word, index) =>   // Map over each word
+          index === 0         // If it's the first word, keep it lowercase
+              ? word
+              : word.charAt(0).toUpperCase() + word.slice(1) // Capitalize first letter of other words
+      )
+      .join('');              // Join the words back into a single string
+}

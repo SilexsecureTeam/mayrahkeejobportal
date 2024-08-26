@@ -6,6 +6,9 @@ import Analytics from "../../components/job-listing/Analytics";
 import { useLocation, useParams } from "react-router-dom";
 import useJobManagement from "../../../hooks/useJobManagement";
 import DeleteDialog from "../../../components/DeleteDialog";
+import { JobContext } from "../../../context/JobContext";
+import { useContext } from "react";
+import { ApplicationContext } from "../../../context/ApplicationContext";
 
 const options = [
   {
@@ -15,20 +18,17 @@ const options = [
   {
     id: 2,
     name: "Job Details",
-  },
-  {
-    id: 3,
-    name: "Settings",
-  },
+  }
 ];
 
 function JobType() {
   const [currentOption, setCurrentOption] = useState(options[0]);
-  const jobUtils = useJobManagement();
+  const jobUtils = useContext(JobContext);
+  const {applicants} = useContext(ApplicationContext)
   const { id } = useParams();
   const [currentJob, setCurrentJob] = useState();
   const location = useLocation();
-  const applicants = location?.state?.applicants
+  const [allApplicants, setAllApplicants] = useState();
 
   const getComponent = () => {
     switch (currentOption.id) {
@@ -36,34 +36,40 @@ function JobType() {
         return <Applicants data={currentJob} applicants={applicants} />;
       case options[1].id:
         return <JobDetails data={currentJob} jobUtils={jobUtils} />;
-      case options[2].id:
-        return <Analytics data={currentJob} />;
     }
   };
 
   useEffect(() => {
-    if (location.state.data) {
+    if (location?.state?.data) {
       setCurrentJob(location.state.data);
     } else {
-      const job = jobUtils.jobList.find((current) => current.id === id);
+      console.log(jobUtils.jobList)
+      const job = jobUtils.jobList.find((current) => current.id === Number(id));
       setCurrentJob(job);
+    }
+
+    if (location?.state?.applicants) {
+      setCurrentJob(location.state.applicants);
+    } else {
+      const currentApplicants = applicants.find((current) => current.job_id === Number(id));
+      setAllApplicants(currentApplicants);
     }
   }, []);
 
-
-
   return (
-    <>
-    <div className="w-full px-12 py-5 flex flex-col gap-[20px]">
-      <Header
-        options={options}
-        currentOption={currentOption}
-        setCurrentOption={setCurrentOption}
-      />
+    currentJob && (
+      <>
+        <div className="w-full px-12 py-5 flex flex-col gap-[20px]">
+          <Header
+            options={options}
+            currentOption={currentOption}
+            setCurrentOption={setCurrentOption}
+          />
 
-      {getComponent()}
-    </div>
-    </>
+          {allApplicants && getComponent()}
+        </div>
+      </>
+    )
   );
 }
 

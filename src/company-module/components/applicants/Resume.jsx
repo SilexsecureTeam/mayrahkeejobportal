@@ -32,27 +32,11 @@ function Resume({data, applicant}) {
 
   return (
     <>
-      <div className="flex flex-col justify-between px-10">
-        <div className="flex flex-col text-little justify-center items-start gap-[2px]">
-          <span className="font-semibold ">Portfolio Url</span>
-          <a href={data?.portfolio_url} className="font-semibold ">{data?.portfolio_url}</a>
-        </div>
-
-        <div className="flex flex-col text-little justify-center items-start gap-[2px]">
-          <span className="font-semibold ">NIN</span>
-          <img
-            src={`${resourceUrl}/${applicant?.nin_slip}`}
-            className="h-[60px] w-[60px] bg-gray-400 rounded-full"
-          />
-        </div>
-      
-      </div>
-
       <div className="flex w-full px-10 mt-[5px]">
         <div className="flex flex-col w-[60%]">
-          <h3 className="font-serif tracking-wide text-sm">Experience</h3>
+          <h3 className="mb-[10px] tracking-wide text-smd font-semibold">Experience</h3>
 
-          <ul className="flex flex-col text-gray-400 gap-[10px] text-little">
+          <ul className="flex flex-col text-black gap-[10px] text-little">
             <li className="flex flex-col gap-[5px] border-b">
               <span className="font-semibold text-gray-700 text-sm">
                 Senior UI/UX Product Designer
@@ -93,8 +77,23 @@ function Resume({data, applicant}) {
         </div>
         <div className="flex flex-col items-end w-[35%] pt-4">
 
-          <p className="w-[70%] text-gray-400 text-end text-little">leromebell@gmail.com +44 1245 572 135 Vernouillet</p>
+          <p className="w-[70%] text-black text-end text-little">leromebell@gmail.com +44 1245 572 135 Vernouillet</p>
         </div>
+      </div>
+      <div className="flex flex-col justify-between px-10">
+        {/* <div className="flex flex-col text-little justify-center items-start gap-[2px]">
+          <span className="font-semibold ">Portfolio Url</span>
+          <a href={data?.portfolio_url} className="font-semibold ">{data?.portfolio_url}</a>
+        </div> */}
+
+        <div className="flex flex-col text-little justify-center items-start gap-[2px]">
+          <span className="font-semibold ">NIN</span>
+          <img
+            src={`${resourceUrl}/${applicant?.nin_slip}`}
+            className="h-[100px] w-[100px] border border-dotted p-1 "
+          />
+        </div>
+      
       </div>
     </>
   );

@@ -1,41 +1,52 @@
 import MultipleProgressBar from "./MultipleProgressBar";
+import "../../../css/styles.css";
+import { CompanyRouteContext } from "../../../context/CompanyRouteContext";
+import { useContext } from "react";
+import { useNavigate } from "react-router-dom";
 
-function ApplicantSummary({ applicants }) {
-  const totalApplicants = () => {
-    let total = 0;
-
-    applicants.map((current) => (total = total + current.applicants));
-
-    return total;
-  };
+function ApplicantSummary({ applicants, byCategory }) {
+  const { setSideBar } = useContext(CompanyRouteContext);
+  const navigate = useNavigate();
 
   return (
     <div className="h-[65%] w-full border p-3 justify-between flex flex-col">
       <h2 className="text-sm font-semibold">Applicants Summary</h2>
 
       <div className="flex gap-[5px] items-end">
-        <span className="font-semibold text-2xl">{totalApplicants()}</span>
+        <span className="font-semibold text-2xl">{applicants?.length}</span>
         <span className="text-little">Applicants</span>
       </div>
 
       <div className="w-full flex flex-col gap-[10px]">
         <MultipleProgressBar
-          applicants={applicants}
-          totalApplicants={totalApplicants}
+          applicants={byCategory}
+          totalApplicants={applicants?.length}
         />
-        <ul className="grid grid-cols-2">
-          {applicants.map((current) => {
-           
-            return (
-              <div
-                className={`flex  h-full text-[11px] items-center gap-[5px]`}
-              >
-                  <div className={`h-[10px] w-[10px] rounded-[3px] ${current.bg_color}`}/>
-                  <span className=" font-semibold">{current.category} :</span>
-                  <span className="text-gray-400">{current.applicants}</span>
-              </div>
-            );
-          })}
+        <ul className="grid grid-cols-1">
+          {byCategory &&
+            Object.keys(byCategory)?.map((current) => {
+              const info = byCategory[current];
+
+              return (
+                <>
+                  <div
+                    className={` list-item-parent flex h-full text-[11px] items-center gap-[5px]`}
+                  >
+                    <div className={`h-[10px] w-[10px] rounded-[3px] child`} />
+                    <span
+                      onClick={() => {
+                        setSideBar(4);
+                        navigate(`/company/job-listing/type/${current}`);
+                      }}
+                      className=" font-semibold hover:underline cursor-pointer"
+                    >
+                      {info[0].job_title} :
+                    </span>
+                    <span className="text-gray-400">{info?.length}</span>
+                  </div>
+                </>
+              );
+            })}
         </ul>
       </div>
     </div>
