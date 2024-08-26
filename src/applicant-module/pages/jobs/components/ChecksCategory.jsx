@@ -6,14 +6,19 @@ import JobCategory from './JobCategory'
 import JobLevelCategory from './JobLevelCategory'
 import SalaryCategory from './SalaryCategory'
 
-const ChecksCategory = () => {
+const ChecksCategory = ({
+    setSalaryRange,
+    setEmploymentType,
+    setCategory,
+    setJobLevel,}
+) => {
 
     return (
         <div>
-            <EmploymentCategory />
-            <JobCategory />
-            <JobLevelCategory />
-            <SalaryCategory />
+            <EmploymentCategory setEmploymentType={setEmploymentType} />
+            <JobCategory setCategory={setCategory} />
+            <JobLevelCategory setJobLevel={setJobLevel} />
+            <SalaryCategory setSalaryRange={setSalaryRange} />
         </div>
     )
 }

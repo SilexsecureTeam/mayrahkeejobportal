@@ -141,7 +141,7 @@ function Home() {
                 </div>
               </div>
             </motion.div>
-            <div className="w-1/5 border">
+            <div className="w-1/5 bg-[#47AA4933] text-whit border">
               <div className=" p-3">
                 <p className="font-bold">Jobs Applied Status</p>
                 <div className="my-5 flex items-center">
@@ -165,7 +165,7 @@ function Home() {
                     </div>
                   </div> */}
                 </div>
-                <div className="flex my-3 items-center font-bold cursor-pointer prime_text hover:opacity-90">
+                <div className="flex my-3 items-center font-bold cursor-pointer hover:opacity-90">
                   <p>View All Applications</p>
                   <span className="ml-2"> <FaArrowRightLong /></span>
                 </div>

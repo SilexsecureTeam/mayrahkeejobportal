@@ -9,7 +9,7 @@ function SideBar({ children, authDetails }) {
     <aside className="w-[18%] relative h-full items-center bg-secondaryColor p-2 flex flex-col justify-end">
       <img src={mainLogoTwo} className="w-[80%]"/>
 
-      <nav className="h-[92%] w-full flex flex-col justify-start gap-[20px] divide-y-2">
+      <nav className="h-[92%] w-full flex flex-col ps-4 justify-start gap-[20px] divide-y-2">
         {children[0]}
         <div className="flex flex-col gap-[5px] ">
           <h3 className="px-2 text-primary text-sm mt-[10px] font-semibold">Personalise</h3>

@@ -17,6 +17,8 @@ import { ResourceContext } from "../../../context/ResourceContext";
 
 function Companies() {
   const [isGrid, setIsGrid] = useState(true);
+  const [industry, setIndustry] = useState('');
+  const [companySize, setCompanySize] = useState('');
 
   const { getAllJobs, setGetAllJobs, getAllCompanies, setGetAllCompanies } = useContext(ResourceContext)
 
@@ -27,7 +29,22 @@ function Companies() {
       }
     })
   }, [])
-  console.log(getAllCompanies.data);
+
+  const filteredData = getAllCompanies.data?.filter((job) => {
+    // Apply filtering logic based on multiple criteria
+
+    const filteredSized = companySize ? job.company_size > companySize : true;
+
+    const filterIndustry = industry ? job.sector?.toLowerCase().includes(industry?.toLowerCase()) : true;
+    console.log(filterIndustry)
+    console.log(filteredSized)
+    return filterIndustry && filteredSized;
+  });
+
+
+  console.log(filteredData);
+  console.log(companySize);
+  console.log(industry);
   return (
     <>
       <Helmet>
@@ -55,7 +72,10 @@ function Companies() {
             <div className="w-[20%]">
               <div className="checks_container pr-5">
                 <div className="mb-4">
-                  <CompaniesCategory />
+                  <CompaniesCategory
+                    setCompanySize={setCompanySize}
+                    setIndustry={setIndustry}
+                  />
                 </div>
               </div>
             </div>
@@ -86,20 +106,20 @@ function Companies() {
                   </div>
                 </div>
                 {getAllCompanies.data && (
-                  <div className="">
+                  <div className="max-h-[75vh] overflow-y-auto thin_scroll_bar">
                     {isGrid ? (
                       <div className="">
                         <div className="grid grid-cols-3 gap-4">
-                          {getAllCompanies.data?.map((company) => (
+                          {filteredData?.map((company) => (
                             <CompanyGridCard key={company.id} company={company} newApplicant={newApplicant} />
                           ))}
                         </div>
                       </div>
                     ) : (
                       <div>
-                         {getAllCompanies.data?.map((company) => (
-                            <CompanyCard key={company.id} company={company} newApplicant={newApplicant} />
-                          ))}
+                        {filteredData?.map((company) => (
+                          <CompanyCard key={company.id} company={company} newApplicant={newApplicant} />
+                        ))}
                       </div>
                     )}
                   </div>

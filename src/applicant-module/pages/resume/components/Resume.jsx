@@ -50,7 +50,7 @@ const Resume = ({ resume, setGetResumeById, authDetails, getCandidate }) => {
     console.log(resume)
     console.log(getCandidate)
     return (
-        <div className='p-4 border rounded shadow-2xl justify-between flex-col flex'>
+        <div className='p-5 border rounded shadow-2xl justify-between flex-col flex'>
             <div>
                 <div className="flex justify-between w-full">
                     <p>{resume.title}</p>
@@ -67,42 +67,48 @@ const Resume = ({ resume, setGetResumeById, authDetails, getCandidate }) => {
                             <h3 className="font-bold">{getCandidate.details?.full_name}</h3>
                         </div>
                     </div>
-                    <div className="grid md:grid-cols-2 gap-3">
-                        <div className="">
-                            <p className="font-bold">Address:</p>
-                            <p>{getCandidate.details?.address}</p>
-                        </div>
-                        <div className="">
-                            <p className="font-bold">Phone:</p>
-                            <p>{getCandidate.details?.phone_number}</p>
-                        </div>
-                    </div>
-                    <div className="flex my-3">
-                        <div className="w-2/5">
-                            <p className="font-bold text-base">Email</p>
-                        </div>
-                        <div className="w-3/5">
-                            <p className="font-medium">{getCandidate.details?.email}</p>
-                        </div>
-                    </div>
-                    <div className="flex my-3">
-                        <div className="w-2/5">
-                            <p className="font-bold text-base">Employment</p>
-                            <p className="font-medium text-base">Position</p>
-                        </div>
-                        <div className="w-3/5">
-                            <p className="font-medium">{resume.company_name}</p>
-                            <p className="">{resume.position_held}</p>
-                            <p><span>{resume.start_date}</span> - <span>{resume.end_date}</span></p>
-                        </div>
-                    </div>
-                    <div className="flex my-3">
-                        <div className="w-2/5">
-                            <p className="font-bold text-base">Education</p>
-                        </div>
-                        <div className="w-3/5">
-                            <p className="font-medium">{resume.educational_institution}</p>
-                            <p><span>{resume.year_of_entry}</span> - <span>{resume.year_of_graduation}</span></p>
+                    <div className="details flex justify-center">
+                        <div className="md:w-[90%]">
+                            <div className="grid text-center md:gri-cols-2 gap-3">
+                                <div className="">
+                                    <p className="font-bold">Address:</p>
+                                    <p>{getCandidate.details?.address}</p>
+                                </div>
+                                <div className="flex justify-center">
+                                    <div className="flex">
+                                        <p className="font-bold">Phone: </p>
+                                        <p> {getCandidate.details?.phone_number} </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="flex my-3">
+                                <div className="w-2/5">
+                                    <p className="font-bold text-base">Email</p>
+                                </div>
+                                <div className="w-3/5">
+                                    <p className="font-medium">{getCandidate.details?.email}</p>
+                                </div>
+                            </div>
+                            <div className="flex my-3">
+                                <div className="w-2/5">
+                                    <p className="font-bold text-base">Employment</p>
+                                    <p className="font-medium text-base">Position</p>
+                                </div>
+                                <div className="w-3/5">
+                                    <p className="font-medium">{resume.company_name}</p>
+                                    <p className="">{resume.position_held}</p>
+                                    <p><span>{resume.start_date}</span> - <span>{resume.end_date}</span></p>
+                                </div>
+                            </div>
+                            <div className="flex my-3">
+                                <div className="w-2/5">
+                                    <p className="font-bold text-base">Education</p>
+                                </div>
+                                <div className="w-3/5">
+                                    <p className="font-medium">{resume.educational_institution}</p>
+                                    <p><span>{resume.year_of_entry}</span> - <span>{resume.year_of_graduation}</span></p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
