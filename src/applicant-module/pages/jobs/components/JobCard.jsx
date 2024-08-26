@@ -5,7 +5,7 @@ const JobCard = ({ newApplicant, job, getAllApplications }) => {
 
     const navigate = useNavigate();
     const hasApplied = getAllApplications?.some((app) => app.job_id === job.id)
-    console.log(hasApplied)
+    // console.log(hasApplied)
     return (
         <div
             onClick={() => navigate("/applicant/find-job/id", { state: { job: job, hasApplied: hasApplied } })}

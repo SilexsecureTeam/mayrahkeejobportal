@@ -15,10 +15,17 @@ import { TbLayoutList, TbLayoutListFilled } from "react-icons/tb";
 import { useState, useContext, useEffect } from "react";
 import JobGridCard from "./components/JobGridCard";
 import { ResourceContext } from "../../../context/ResourceContext";
+import { split } from "postcss/lib/list";
 
 function FindJob() {
+  const { getAllJobs, setGetAllJobs, getAllApplications, setGetAllApplications } = useContext(ResourceContext);
   const [isGrid, setIsGrid] = useState(false);
-  const { getAllJobs, setGetAllJobs, getAllApplications, setGetAllApplications } = useContext(ResourceContext)
+
+  const [filteredJobs, setFilteredJobs] = useState([]);
+  const [salaryRange, setSalaryRange] = useState('');
+  const [employmentType, setEmploymentType] = useState('');
+  const [category, setCategory] = useState('');
+  const [jobLevel, setJobLevel] = useState('');
 
   useEffect(() => {
     setGetAllJobs((prev) => {
@@ -36,6 +43,44 @@ function FindJob() {
     })
   }, [])
 
+  // console.log(getAllJobs.data)
+  // const handleFilter = () => {
+  //   const filteredData = getAllJobs.data?.filter((job) => {
+  //     // Apply filtering logic based on multiple criteria
+  //     const salaryFigures = job.min_salary?.split(".")[0]
+  //     const salaryInRange = salaryRange ? salaryFigures >= salaryRange : true;
+
+  //     const matchesEmploymentType = employmentType ? job.type?.toLowerCase().includes(employmentType?.toLowerCase()) : true;
+
+  //     const matchesCategory = category ? job.sector?.toLowerCase().includes(category?.toLowerCase()) : true;
+
+  //     const matchesJobLevel = jobLevel ? job.career_level?.toLowerCase() === jobLevel?.toLocaleLowerCase() : true;
+
+  //     return salaryInRange && matchesEmploymentType && matchesCategory && matchesJobLevel;
+  //   });
+
+  //   setFilteredJobs(filteredData);
+  // };
+
+  const filteredData = getAllJobs.data?.filter((job) => {
+    // Apply filtering logic based on multiple criteria
+    const salaryFigures = job.min_salary?.split(".")[0]
+    const salaryInRange = salaryRange ? salaryFigures >= salaryRange : true;
+
+    const matchesEmploymentType = employmentType ? job.type?.toLowerCase().includes(employmentType?.toLowerCase()) : true;
+
+    const matchesCategory = category ? job.search_keywords?.toLowerCase().includes(category?.toLowerCase()) : true;
+
+    const matchesJobLevel = jobLevel ? job.career_level?.toLowerCase() === jobLevel?.toLocaleLowerCase() : true;
+
+    return salaryInRange && matchesEmploymentType && matchesCategory && matchesJobLevel;
+  });
+
+  console.log(filteredJobs)
+  console.log(employmentType)
+  console.log(salaryRange)
+  console.log(category)
+  console.log(jobLevel)
   return (
     <>
       <Helmet>
@@ -55,7 +100,10 @@ function FindJob() {
               <GrLocation size={20} />
             </span>
           </div>
-          <button className="bg-green-700 text-white py-2 px-6 hover:bg-green-900 font-medium">Search</button>
+          <button
+            // onClick={handleFilter}
+            className="bg-green-700 text-white py-2 px-6 hover:bg-green-900 font-medium"
+          >Search</button>
         </div>
         <p>Popular : UI Designer, UX Researcher, Android, Admin</p>
         <div className="my-6">
@@ -63,7 +111,12 @@ function FindJob() {
             <div className="w-[25%]">
               <div className="checks_container pr-5">
                 <div className="mb-4">
-                  <ChecksCategory />
+                  <ChecksCategory
+                    setSalaryRange={setSalaryRange}
+                    setEmploymentType={setEmploymentType}
+                    setCategory={setCategory}
+                    setJobLevel={setJobLevel}
+                  />
                 </div>
               </div>
             </div>
@@ -93,28 +146,29 @@ function FindJob() {
                     </div>
                   </div>
                 </div>
-                {getAllJobs.data && (
-                  <div className="">
-                    {isGrid ? (<div className="">
-                      <div className="grid grid-cols-3 gap-4">
-                        {getAllJobs.data?.map((job) => (
-                          <JobGridCard key={job.id} job={job} newApplicant={newApplicant} />
-                        ))}
+                <div className="max-h-[75vh] overflow-y-auto thin_scroll_bar">
+                  {getAllJobs.data && (
+                    <div className="">
+                      {isGrid ? (<div className="">
+                        <div className="grid grid-cols-3 gap-4">
+                          {filteredData?.map((job) => (
+                            <JobGridCard key={job.id} job={job} newApplicant={newApplicant} />
+                          ))}
+                        </div>
                       </div>
+                      ) : (
+                        <div>
+                          {filteredData?.map((job) => (
+                            <JobCard
+                              getAllApplications={getAllApplications?.data}
+                              key={job.id} job={job}
+                              newApplicant={newApplicant} />
+                          ))}
+                        </div>
+                      )}
                     </div>
-                    ) : (
-                      <div>
-                        {getAllJobs.data?.map((job) => (
-                          <JobCard
-                          getAllApplications={getAllApplications?.data}
-                           key={job.id} job={job} 
-                          newApplicant={newApplicant} />
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                )}
-
+                  )}
+                </div>
               </div>
               {/* <Pagination /> */}
             </div>
