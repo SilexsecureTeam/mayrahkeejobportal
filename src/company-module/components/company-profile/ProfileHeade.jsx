@@ -30,7 +30,7 @@ function ProfileHeader({ children, isOpen, setIsOpen, details }) {
       <div className="flex flex-col h-full justify-between w-[90%] p-2">
         {/* Circle section */}
         <div className="flex justify-between h-[60%] items-center">
-          <div className="flex flex-col gap-[3px] text-gray-600">
+          <div className="flex flex-col gap-[3px] text-gray-800">
             <h2 className="font-bold text-3xl">{details?.company_name}</h2>
             <div className="flex w-full items-center gap-[10%]">
             <span className="flex gap-[5px] text-little">

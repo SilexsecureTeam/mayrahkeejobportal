@@ -41,7 +41,6 @@ function SingleApplicant() {
     initApplicant();
   }, []);
 
-  console.log(applicationData);
 
   return (
     <>

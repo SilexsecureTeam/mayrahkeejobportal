@@ -52,6 +52,12 @@ const CompanyProfile = lazy(() =>
 const Schedule = lazy(() =>
   import("../company-module/pages/schedule/Schedule")
 );
+const Artisan = lazy(() =>
+  import("../company-module/pages/artisan/Artisan")
+);
+const DomesticStaffs = lazy(() =>
+  import("../company-module/pages/staffs/DomesticStaffs")
+);
 
 const JobPosting = lazy(() =>
   import("../company-module/pages/job-posting/JobPosting")
@@ -96,7 +102,8 @@ function useCompanyRoute() {
         <SubscriptionModal redirectState={redirectState} />
         <main className="h-screen w-screen relative flex">
           {/* Side bar takes up 20% of total width and 100% of height */}
-          <SideBar authDetails={authDetails}>
+              
+              <SideBar companyHookProps={companyHookProps} authDetails={authDetails}>
             <ul className="flex flex-col gap-[10px]">
               {companyOptions.map((currentOption) => (
                 <SideBarItem
@@ -158,6 +165,8 @@ function useCompanyRoute() {
                 </Route>
 
                 <Route path="company-profile" element={<CompanyProfile />} />
+                <Route path="artisan" element={<Artisan/>} />
+                <Route path="domestic-staffs" element={<DomesticStaffs/>} />
 
                 <Route path="job-listing/*">
                   <Route

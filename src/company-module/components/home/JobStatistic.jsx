@@ -1,48 +1,49 @@
 import { BarChart } from "@mantine/charts";
-import '@mantine/core/styles.css';
-import classes from '../../../css/charts.module.css'
-import { getThreeMonths, monthNames, toCamelCase } from "../../../utils/formmaters";
+import "@mantine/core/styles.css";
+import classes from "../../../css/charts.module.css";
+import {
+  getThreeMonths,
+  monthNames,
+  toCamelCase,
+} from "../../../utils/formmaters";
 
 const data = [
   { month: "January", Smartphones: 1200, Laptops: 900, Tablets: 200 },
   { month: "February", Smartphones: 1900, Laptops: 1200, Tablets: 400 },
   { month: "March", Smartphones: 400, Laptops: 1000, Tablets: 200 },
- 
 ];
 
-function JobStatistic({applicants,  byCategory}) {
-    
+function JobStatistic({ applicants, byCategory }) {
   const data1 = () => {
-      const threeMonths = getThreeMonths()
+    const threeMonths = getThreeMonths();
 
+    const applicantByMonth = [];
 
-      const applicantByMonth = []
+    threeMonths.map((currentMonth) => {
+      const monthApplicants = applicants.filter(
+        (current) =>
+          monthNames[new Date(current.created_at).getMonth()] == currentMonth
+      );
 
-      threeMonths.map(currentMonth => {
-           const monthApplicants = applicants.filter(current => monthNames[(new Date(current.created_at).getMonth())] == currentMonth)
-             
-           const applicantByMonthCat = {}
-            Object.keys(byCategory).map(current => {
-                   const catApps = monthApplicants.filter(currentApp => currentApp.job_id == byCategory[current][0].job_id)
-                   const key = toCamelCase(byCategory[current][0].job_title)
-                  applicantByMonthCat[key]=  catApps.length 
-            })
+      const applicantByMonthCat = {};
+      Object.keys(byCategory).map((current) => {
+        const catApps = monthApplicants.filter(
+          (currentApp) => currentApp.job_id == byCategory[current][0].job_id
+        );
+        const key = toCamelCase(byCategory[current][0].job_title);
+        applicantByMonthCat[key] = catApps.length;
+      });
 
-             
-            applicantByMonth.push({
-              month: currentMonth, 
-              ...applicantByMonthCat
-            })
+      applicantByMonth.push({
+        month: currentMonth,
+        ...applicantByMonthCat,
+      });
+    });
 
-           
-           
-          })
-          
-          console.log('Result',...applicantByMonth)
-        
-          return applicantByMonth
-  }
+    console.log("Result", ...applicantByMonth);
 
+    return applicantByMonth;
+  };
 
   return (
     <div className="border h-full w-[65%]  ">
@@ -80,14 +81,14 @@ function JobStatistic({applicants,  byCategory}) {
           w={500}
           dataKey="month"
           classNames={{
-           root: classes.bar_root,
-           bar: classes.bar,
-           grid: classes.grid,
-          //  container: classes.container,
-           tooltip: classes.tooltip, 
-           tooltipBody: classes.tooltipBody,
-           tooltipItem: classes.tooltipItem,
-           tooltipItemBody: classes.tooltipItemBody
+            root: classes.bar_root,
+            bar: classes.bar,
+            grid: classes.grid,
+            //  container: classes.container,
+            tooltip: classes.tooltip,
+            tooltipBody: classes.tooltipBody,
+            tooltipItem: classes.tooltipItem,
+            tooltipItemBody: classes.tooltipItemBody,
           }}
           className="text-little "
           series={[

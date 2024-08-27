@@ -1,4 +1,6 @@
+import { useContext, useEffect, useState } from "react";
 import { resourceUrl } from "../../../services/axios-client";
+import { ApplicationContext } from "../../../context/ApplicationContext";
 
 const stages = [
   {
@@ -19,7 +21,10 @@ const stages = [
   },
 ];
 
-function Resume({data, applicant}) {
+function Resume({ data, applicant }) {
+  const [resume, setResume] = useState();
+  const { getResume } = useContext(ApplicationContext);
+
   const bgColor = (current) => {
     if (current.stage === "passed") {
       return "bg-primaryColor/80";
@@ -30,72 +35,91 @@ function Resume({data, applicant}) {
     }
   };
 
+  useEffect(() => {
+    getResume(data?.resume_id, setResume);
+  }, []);
+
   return (
-    <>
-      <div className="flex w-full px-10 mt-[5px]">
-        <div className="flex flex-col w-[60%]">
-          <h3 className="mb-[10px] tracking-wide text-smd font-semibold">Experience</h3>
+    resume && (
+      <>
+        <div className="flex w-full px-10 mt-[5px]">
+          <div className="flex flex-col w-full items-center">
+            <h3 className="mb-[10px] tracking-wide flex flex-col items-center text-smd font-semibold">
+              {resume.title}
+              <a href={`${resourceUrl}/public/${resume.resume_path}`} className="text-little font-normal hover:underline text-primaryColor">link to file</a>
+            </h3>
 
-          <ul className="flex flex-col text-black gap-[10px] text-little">
-            <li className="flex flex-col gap-[5px] border-b">
-              <span className="font-semibold text-gray-700 text-sm">
-                Senior UI/UX Product Designer
-              </span>
-              <span className="">Enterprise Name: Satoshi Compant LTD</span>
-              <span className="">Duration: Aug 2018 to present</span>
-              <span className="">
-                Description: Directly collaborated with CEO and Product team to
-                prototype, design and deliver the UI and UX experience with a
-                lean design process: research, design, test, and iterate.
-              </span>
-            </li>
-            <li className="flex flex-col gap-[5px] border-b">
-              <span className="font-semibold text-gray-700 text-sm">
-                Senior UI/UX Product Designer
-              </span>
-              <span className="">Enterprise Name: Satoshi Compant LTD</span>
-              <span className="">Duration: Aug 2018 to present</span>
-              <span className="">
-                Description: Directly collaborated with CEO and Product team to
-                prototype, design and deliver the UI and UX experience with a
-                lean design process: research, design, test, and iterate.
-              </span>
-            </li>
-            <li className="flex flex-col gap-[5px] border-b">
-              <span className="font-semibold text-gray-700 text-sm">
-                Senior UI/UX Product Designer
-              </span>
-              <span className="">Enterprise Name: Satoshi Compant LTD</span>
-              <span className="">Duration: Aug 2018 to present</span>
-              <span className="">
-                Description: Directly collaborated with CEO and Product team to
-                prototype, design and deliver the UI and UX experience with a
-                lean design process: research, design, test, and iterate.
-              </span>
-            </li>
-          </ul>
+            <ul className="flex flex-col text-black gap-[10px] text-sm w-full">
+            
+              <li className="flex flex-col gap-[5px] items-center bg-secondaryColor p-2 border-b">
+                <span className="font-semibold text-black text-[15px]">
+                  Education
+                </span>
+                <span className="text-black font-semibold flex w-full justify-between">
+                Intitution
+                  <span className="font-normal">{resume.educational_institution}</span>
+                </span>
+                <span className="text-black font-semibold flex w-full justify-between">
+                  Academy Name
+                  <span className="font-normal">{resume.academy_name}</span>
+                </span>
+                <span className="text-black font-semibold flex w-full justify-between">
+                  Year of Entry{" "}
+                  <span className="font-normal">{resume.year_of_entry}</span>
+                </span>
+                <span className="text-black font-semibold flex w-full justify-between">
+                  Year of Graduation{" "}
+                  <span className="font-normal">
+                    {resume.year_of_graduation}
+                  </span>
+                </span>
+              </li>
+              <li className=" flex flex-col gap-[5px] items-center border-b bg-secondaryColor p-2">
+                <span className="font-semibold text-black text-[15px]">
+                  Current Work Experience
+                </span>
+                <span className="text-black font-semibold flex w-full justify-between">
+                  Company:{" "}
+                  <span className="font-normal">{resume.company_name}</span>
+                </span>
+                <span className="text-black font-semibold flex w-full justify-between">
+                  Position Held{" "}
+                  <span className="font-normal">{resume.position_held}</span>
+                </span>
+                <span className="text-black font-semibold flex w-full justify-between">
+                  Date Started{" "}
+                  <span className="font-normal">
+                    {" "}
+                    {new Date(resume.start_date).toLocaleDateString()}
+                  </span>
+                </span>
+                <span className="text-black font-semibold flex w-full justify-between">
+                  Date Ended{" "}
+                  <span className="font-normal">
+                    {" "}
+                    {new Date(resume.end_date).toLocaleDateString()}
+                  </span>
+                </span>
+              </li>
+            </ul>
+          </div>
         </div>
-        <div className="flex flex-col items-end w-[35%] pt-4">
-
-          <p className="w-[70%] text-black text-end text-little">leromebell@gmail.com +44 1245 572 135 Vernouillet</p>
-        </div>
-      </div>
-      <div className="flex flex-col justify-between px-10">
-        {/* <div className="flex flex-col text-little justify-center items-start gap-[2px]">
+        <div className="flex flex-col justify-between px-10">
+          {/* <div className="flex flex-col text-little justify-center items-start gap-[2px]">
           <span className="font-semibold ">Portfolio Url</span>
           <a href={data?.portfolio_url} className="font-semibold ">{data?.portfolio_url}</a>
         </div> */}
 
-        <div className="flex flex-col text-little justify-center items-start gap-[2px]">
-          <span className="font-semibold ">NIN</span>
-          <img
-            src={`${resourceUrl}/${applicant?.nin_slip}`}
-            className="h-[100px] w-[100px] border border-dotted p-1 "
-          />
+          <div className="flex flex-col text-little justify-center items-start gap-[2px]">
+            <span className="font-semibold ">NIN</span>
+            <img
+              src={`${resourceUrl}/${applicant?.nin_slip}`}
+              className="h-[100px] w-[100px] border border-dotted p-1 "
+            />
+          </div>
         </div>
-      
-      </div>
-    </>
+      </>
+    )
   );
 }
 

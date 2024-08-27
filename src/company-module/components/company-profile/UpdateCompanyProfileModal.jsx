@@ -15,6 +15,7 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import useCompanyProfile from "../../../hooks/useCompanyProfile";
 import FormButton from "../../../components/FormButton";
+import { resourceUrl } from "../../../services/axios-client";
 
 const basic_inputs = [
   {
@@ -172,7 +173,6 @@ function UpdateCompanyProfileModal({
     e.preventDefault();
 
     updateCompanyProfile(() => {
-      console.log("Success!!!");
       setIsOpen(false);
     });
   };
@@ -183,16 +183,13 @@ function UpdateCompanyProfileModal({
         details.beenRetreived === retrievalState.notRetrieved &&
         onInit
       ) {
-        console.log("details", details);
-        console.log(onInit);
+     
         setIsOpen(true);
       } else {
         setIsOpen(false);
       }
     }, 1000);
   }, [details.beenRetreived]);
-
-  useEffect(() => console.log(details), [details])
 
   return (
     isOpen && (
@@ -215,7 +212,7 @@ function UpdateCompanyProfileModal({
                 <div className="w-[20%] mt-[5px] flex items-start justify-start relative">
                   <img
                     className="h-[50px] w-[50px] rounded-full"
-                    src={displayPic ? displayPic : wheelIcon}
+                    src={displayPic ? displayPic : `${resourceUrl}/${details?.logo_image}`}
                   />
                   <input
                     id="displayPic"

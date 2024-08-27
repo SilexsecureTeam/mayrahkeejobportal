@@ -148,6 +148,20 @@ export const companyOptions = [
     icon: calanderIcon,
     iconActive: searchIconActive
   },
+  {
+    type: "ARTISAN",
+    title: "Artisan",
+    route: "/company/artisan",
+    icon: clipboardIcon,
+    iconActive: profileIconActive
+  },
+  {
+    type: "STAFFS",
+    title: "Domestic Staffs",
+    route: "/company/domestic-staffs",
+    icon: calanderIcon,
+    iconActive: searchIconActive
+  },
 ];
 
 

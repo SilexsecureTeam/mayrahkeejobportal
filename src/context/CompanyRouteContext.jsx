@@ -1,5 +1,4 @@
 import { createContext } from "react";
-import useApplicationManagement from "../hooks/useApplicationManagement";
 
 export const CompanyRouteContext = createContext();
 
