@@ -13,6 +13,10 @@ import { useContext, useEffect } from "react";
 import { AuthContext } from "../../../context/AuthContex";
 import FirstUpdateForm from "../../components/first-update/FirstUpdateForm";
 import { ResourceContext } from "../../../context/ResourceContext";
+import { BASE_URL } from "../../../utils/base";
+import Interview from "./components/Interview";
+import axios from "axios";
+
 const now = new Date()
 function Home() {
   const { getAllApplications, setGetAllApplications, getAllJobs, setGetAllJobs } = useContext(ResourceContext);
@@ -48,7 +52,7 @@ function Home() {
       }
     })
   }, [])
-  
+
   console.log(userUpdate)
 
   useEffect(() => {
@@ -62,7 +66,33 @@ function Home() {
   const allApplications = getAllApplications?.data
   const pendingReview = allApplications?.filter((app) => app.status === "in-review")
   const shortlistedReview = allApplications?.filter((app) => app.status === "shortlist")
-  console.log(allApplications)
+
+  const getInterviews = (id, setState) => {
+    axios.get(`${BASE_URL}/interviews/${id}`, {
+      headers: {
+        Authorization: `Bearer ${authDetails.token}`,
+      },
+    })
+      .then((response) => {
+        // console.log(response)
+        setState(response.data.interview)
+        // onSuccess({
+        //     message: 'New Application',
+        //     success: response.data.message
+        // })
+      })
+      .catch((error) => {
+        console.log(error)
+        if (error.response) {
+          setErrorMsg(error.response.data.message)
+        } else {
+          console.log(error)
+          setErrorMsg(error.message)
+        }
+      });
+  }
+
+  // console.log(allApplications)
   return (
     <>
       <Helmet>
@@ -187,11 +217,17 @@ function Home() {
                   <span><MdChevronRight /> </span>
                 </div>
               </div>
-              <div className="px-3 my-3 flex items-center">
+              {/* <div className="px-3 my-3 flex items-center">
                 <p className="w-1/6 font-medium">10:00 AM</p>
                 <p className="border-b w-5/6 pt-1"> </p>
+              </div> */}
+              <div className="overflow-y-scroll max-h-[250px] no_scroll_bar">
+                {shortlistedReview?.map(shortListed => <Interview
+                  key={shortListed.id}
+                  getInterviews={getInterviews}
+                  shortListed={shortListed} />)}
               </div>
-              <div className="px-3 my-3 flex items-center">
+              {/* <div className="px-3 my-3 flex items-center">
                 <p className="w-1/6 font-medium">10:30 AM</p>
                 <div className="bg-[#47AA4933] rounded w-5/6 p-3">
                   <div className="flex items-center">
@@ -202,11 +238,11 @@ function Home() {
                     </div>
                   </div>
                 </div>
-              </div>
-              <div className="px-3 my-3 flex items-center">
+              </div> */}
+              {/* <div className="px-3 my-3 flex items-center">
                 <p className="w-1/6 font-medium">11:00 AM</p>
                 <p className="border-b w-5/6 pt-1"> </p>
-              </div>
+              </div> */}
             </motion.div>
           </div>
         </div>
