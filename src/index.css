@@ -22,6 +22,10 @@
   scrollbar-width:thin;
 }
 
+.no_scroll_bar{
+  scrollbar-width:none;
+}
+
 .prime_bg {
   background-color: #025a34 !important;
 }

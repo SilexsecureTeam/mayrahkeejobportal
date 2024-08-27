@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import CustomizedCheckbox from './CustomizedCheckbox'
 import { FaChevronDown, FaChevronUp } from 'react-icons/fa'
 
-const JobCategory = () => {
+const JobCategory = ({setCategory}) => {
     const [close, setClose] = useState(true)
     return (
         <div>
@@ -15,33 +15,61 @@ const JobCategory = () => {
                 </div>
                 {close && (
                     <div className="">
-                        <CustomizedCheckbox values={{
+                        <CustomizedCheckbox 
+                        setSelectedValue={setCategory}values={{
+                            label: "Undo",
+                            value: "",
+                            id: "undoCategory",
+                            name: "sector"
+                        }} />
+                        <CustomizedCheckbox 
+                        setSelectedValue={setCategory}values={{
                             label: "Design",
-                            id: "Design"
+                            value: "Design",
+                            id: "Design",
+                            name: "sector"
                         }} />
-                        <CustomizedCheckbox values={{
+                        <CustomizedCheckbox 
+                        setSelectedValue={setCategory}values={{
                             label: "Sales",
-                            id: "Sales"
+                            value: "Sales",
+                            id: "Sales",
+                            name: "sector"
                         }} />
-                        <CustomizedCheckbox values={{
+                        <CustomizedCheckbox 
+                        setSelectedValue={setCategory}values={{
                             label: "Marketing",
-                            id: "Marketing"
+                            value: "Marketing",
+                            id: "Marketing",
+                            name: "sector"
                         }} />
-                        <CustomizedCheckbox values={{
+                        <CustomizedCheckbox 
+                        setSelectedValue={setCategory}values={{
                             label: "Human Resource",
-                            id: "resource"
+                            value: "Human Resource",
+                            id: "resource",
+                            name: "sector"
                         }} />
-                        <CustomizedCheckbox values={{
+                        <CustomizedCheckbox 
+                        setSelectedValue={setCategory}values={{
                             label: "Finance",
-                            id: "Finance"
+                            value: "Finance",
+                            id: "Finance",
+                            name: "sector"
                         }} />
-                        <CustomizedCheckbox values={{
+                        <CustomizedCheckbox 
+                        setSelectedValue={setCategory}values={{
                             label: "Engineering",
-                            id: "Engineering"
+                            value: "Engineering",
+                            id: "Engineering",
+                            name: "sector"
                         }} />
-                        <CustomizedCheckbox values={{
+                        <CustomizedCheckbox 
+                        setSelectedValue={setCategory}values={{
                             label: "Technology",
-                            id: "Technology"
+                            value: "Technology",
+                            id: "Technology",
+                            name: "sector"
                         }} />
                     </div>
                 )}

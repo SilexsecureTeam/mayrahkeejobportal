@@ -12,7 +12,7 @@ import Resume from './components/Resume';
 
 const MyResume = () => {
     const { authDetails } = useContext(AuthContext);
-    const { getResumeById, setGetResumeById } = useContext(ResourceContext);
+    const { getResumeById, setGetResumeById, getCandidate, setGetCandidate } = useContext(ResourceContext);
 
     const user = authDetails?.user
     // const [active, setActive] = useState("log")
@@ -39,6 +39,26 @@ const MyResume = () => {
         year_attended: "",
     })
 
+    const clearForm = () => {
+        setDetails({
+            candidate_id: user.id,
+            title: "",
+            resume: "",
+            educational_institution: "",
+            academy_name: "",
+            year_of_entry: "",
+            year_of_graduation: "",
+            company_name: "",
+            position_held: "",
+            start_date: "",
+            end_date: "",
+            portfolio: "",
+            awarding_institution: "",
+            qualification_title: "",
+            year_attended: "",
+        })
+    }
+
     const handleOnChange = (e) => {
         const { value, name, files, type, checked } = e.target;
         if (name === "resume") {
@@ -58,6 +78,14 @@ const MyResume = () => {
     };
     useEffect(() => {
         setGetResumeById((prev) => {
+            return {
+                ...prev, isDataNeeded: true
+            }
+        })
+    }, [])
+
+    useEffect(() => {
+        setGetCandidate((prev) => {
             return {
                 ...prev, isDataNeeded: true
             }
@@ -87,7 +115,8 @@ const MyResume = () => {
                 })
                 // localStorage.setItem("userDetails", JSON.stringify(response.data.candidate));
                 // setUserUpdate(updateData)
-                setLoading(false)
+                setLoading(false);
+                clearForm();
                 setGetResumeById((prev) => {
                     return {
                         ...prev, isDataNeeded: true
@@ -114,14 +143,15 @@ const MyResume = () => {
         <div className="h-full text-[#25324b] w-full">
             <div className="px-8 mt-6">
                 {getResumeById.data?.length < 1 && <p className='text-red-600'>Resume Empty !!!</p>}
-                <div className="grid grid-cols-4 gap-3">
+                <div className="grid md:grid-cols-2 gap-10">
                     {getResumeById.data?.map((resume) => (
                         <Resume
-                        authDetails={authDetails}
-                        setGetResumeById={setGetResumeById}
-                         key={resume.id} resume={resume} />
+                            authDetails={authDetails}
+                            setGetResumeById={setGetResumeById}
+                            getCandidate={getCandidate.data}
+                            key={resume.id} resume={resume} />
                     ))}
-                    
+
                 </div>
                 <div className="">
                     <form onSubmit={handleSubmit}>

@@ -48,8 +48,8 @@ function Application() {
   ))
 
   const allApplications = filterByKeyword
-  const pendingReview = allApplications?.filter((app) => app.status === "pending")
-  const pendingInterview = allApplications?.filter((app) => app.status === "interview")
+  const pendingReview = allApplications?.filter((app) => app.status === "in-review")
+  const pendingInterview = allApplications?.filter((app) => app.status === "shortlist")
 
   console.log(filterByKeyword)
   return (
@@ -99,10 +99,10 @@ function Application() {
               className={`mx-2 p-2 hover:text-gray-500 ${view === "review" ? "border-b-2 border-green-600 font-medium" : ""}`}>In Review ({pendingReview?.length})</button>
             <button
               onClick={() => handleView("interview")}
-              className={`mx-2 p-2 hover:text-gray-500 ${view === "interview" ? "border-b-2 border-green-600 font-medium" : ""}`}>Interview ({pendingInterview?.length})</button>
+              className={`mx-2 p-2 hover:text-gray-500 ${view === "interview" ? "border-b-2 border-green-600 font-medium" : ""}`}>shortlisted ({pendingInterview?.length})</button>
             <button
               onClick={() => handleView("assesment")}
-              className={`mx-2 p-2 hover:text-gray-500 ${view === "assesment" ? "border-b-2 border-green-600 font-medium" : ""}`}>Assesment (0)</button>
+              className={`mx-2 p-2 hover:text-gray-500 ${view === "assesment" ? "border-b-2 border-green-600 font-medium" : ""}`}>interview (0)</button>
             <button
               onClick={() => handleView("offered")}
               className={`mx-2 p-2 hover:text-gray-500 ${view === "offered" ? "border-b-2 border-green-600 font-medium" : ""}`}>Offered (0)</button>

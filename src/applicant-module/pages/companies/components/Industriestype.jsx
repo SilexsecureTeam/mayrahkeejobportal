@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import CustomizedCheckbox from '../../jobs/components/CustomizedCheckbox'
 import { FaChevronDown, FaChevronUp } from 'react-icons/fa'
 
-const Insdustriestype = () => {
+const Insdustriestype = ({ setIndustry }) => {
     const [close, setClose] = useState(true)
     return (
         <div>
@@ -15,51 +15,115 @@ const Insdustriestype = () => {
                 </div>
                 {close && (
                     <div className="">
-                        <CustomizedCheckbox values={{
+                        <CustomizedCheckbox 
+                        setSelectedValue={setIndustry}
+                        values={{
+                            name: "industry",
+                            value: "",
+                            label: "Undo",
+                            id: "industryNil"
+                        }} />
+                        <CustomizedCheckbox 
+                        setSelectedValue={setIndustry}
+                        values={{
+                            name: "industry",
+                            value: "Advertising",
                             label: "Advertising",
                             id: "Advertising"
                         }} />
-                        <CustomizedCheckbox values={{
+                        <CustomizedCheckbox 
+                        setSelectedValue={setIndustry}
+                        values={{
+                            name: "industry",
+                            value: "Tech",
+                            label: "Technology",
+                            id: "Tech"
+                        }} />
+                        <CustomizedCheckbox 
+                        setSelectedValue={setIndustry}
+                        values={{
+                            name: "industry",
+                            value: "Business",
                             label: "Business Service",
                             id: "business"
                         }} />
-                        <CustomizedCheckbox values={{
-                            label: "Block Chian",
+                        <CustomizedCheckbox 
+                        setSelectedValue={setIndustry}
+                        values={{
+                            name: "industry",
+                            value: "Block",
+                            label: "Block Chain",
                             id: "blockChain"
                         }} />
-                        <CustomizedCheckbox values={{
+                        <CustomizedCheckbox 
+                        setSelectedValue={setIndustry}
+                        values={{
+                            name: "industry",
+                            value: "Cloud",
                             label: "Cloud",
                             id: "Cloud"
                         }} />
-                        <CustomizedCheckbox values={{
+                        <CustomizedCheckbox 
+                        setSelectedValue={setIndustry}
+                        values={{
+                            name: "industry",
+                            value: "Consumer",
                             label: "Consumer Tech",
                             id: "Consumer"
                         }} />
-                        <CustomizedCheckbox values={{
+                        <CustomizedCheckbox 
+                        setSelectedValue={setIndustry}
+                        values={{
+                            name: "industry",
+                            value: "Education",
                             label: "Education",
                             id: "Education"
                         }} />
-                        <CustomizedCheckbox values={{
+                        <CustomizedCheckbox 
+                        setSelectedValue={setIndustry}
+                        values={{
+                            name: "industry",
+                            value: "Fintech",
                             label: "Fintech",
                             id: "Fintech"
                         }} />
-                        <CustomizedCheckbox values={{
+                        <CustomizedCheckbox 
+                        setSelectedValue={setIndustry}
+                        values={{
+                            name: "industry",
+                            value: "Gaming",
                             label: "Gaming",
                             id: "Gaming"
                         }} />
-                        <CustomizedCheckbox values={{
+                        <CustomizedCheckbox 
+                        setSelectedValue={setIndustry}
+                        values={{
+                            name: "industry",
+                            value: "Food",
                             label: "Food",
                             id: "Food"
                         }} />
-                        <CustomizedCheckbox values={{
+                        <CustomizedCheckbox 
+                        setSelectedValue={setIndustry}
+                        values={{
+                            name: "industry",
+                            value: "Health",
                             label: "Healthcare",
                             id: "Healthcare"
                         }} />
-                        <CustomizedCheckbox values={{
+                        <CustomizedCheckbox 
+                        setSelectedValue={setIndustry}
+                        values={{
+                            name: "industry",
+                            value: "Hosting",
                             label: "Hosting",
                             id: "Hosting"
                         }} />
-                        <CustomizedCheckbox values={{
+                        <CustomizedCheckbox 
+                        setSelectedValue={setIndustry}
+                        values={{
+                            name: "industry",
+                            value: "Media",
                             label: "Media",
                             id: "Media"
                         }} />

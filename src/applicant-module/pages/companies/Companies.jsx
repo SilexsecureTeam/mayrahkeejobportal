@@ -14,9 +14,15 @@ import { useContext, useEffect, useState } from "react";
 import CompanyGridCard from "./components/CompanyGridCard";
 import CompanyCard from "./components/CompanyCard";
 import { ResourceContext } from "../../../context/ResourceContext";
+import { useMemo } from "react";
+import CustomPagination from "../../../components/CustomPagination";
+
+const PageSize = 1;
 
 function Companies() {
   const [isGrid, setIsGrid] = useState(true);
+  const [industry, setIndustry] = useState('');
+  const [companySize, setCompanySize] = useState('');
 
   const { getAllJobs, setGetAllJobs, getAllCompanies, setGetAllCompanies } = useContext(ResourceContext)
 
@@ -27,7 +33,30 @@ function Companies() {
       }
     })
   }, [])
-  console.log(getAllCompanies.data);
+
+  const filteredData = getAllCompanies.data?.filter((job) => {
+    // Apply filtering logic based on multiple criteria
+    const filteredSized = companySize ? job.company_size > companySize : true;
+    const filterIndustry = industry ? job.sector?.toLowerCase().includes(industry?.toLowerCase()) : true;
+    return filterIndustry && filteredSized;
+  });
+
+
+  // pagination methods Starts here
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPage, setTotalPage] = useState();
+
+  const currentTableData = useMemo(() => {
+    const firstPageIndex = (currentPage - 1) * PageSize;
+    const lastPageIndex = firstPageIndex + PageSize;
+    return filteredData?.slice(firstPageIndex, lastPageIndex);
+  }, [currentPage, filteredData]);
+
+  useEffect(() => {
+    setTotalPage(Math.ceil(filteredData?.length / PageSize));
+  }, [filteredData])
+  // pagination methods Ends here
+
   return (
     <>
       <Helmet>
@@ -55,7 +84,10 @@ function Companies() {
             <div className="w-[20%]">
               <div className="checks_container pr-5">
                 <div className="mb-4">
-                  <CompaniesCategory />
+                  <CompaniesCategory
+                    setCompanySize={setCompanySize}
+                    setIndustry={setIndustry}
+                  />
                 </div>
               </div>
             </div>
@@ -86,26 +118,44 @@ function Companies() {
                   </div>
                 </div>
                 {getAllCompanies.data && (
-                  <div className="">
+                  <div className="max-h-[75vh] overflow-y-auto thin_scroll_bar">
                     {isGrid ? (
                       <div className="">
                         <div className="grid grid-cols-3 gap-4">
-                          {getAllCompanies.data?.map((company) => (
+                          {currentTableData?.map((company) => (
                             <CompanyGridCard key={company.id} company={company} newApplicant={newApplicant} />
                           ))}
                         </div>
                       </div>
                     ) : (
                       <div>
-                         {getAllCompanies.data?.map((company) => (
-                            <CompanyCard key={company.id} company={company} newApplicant={newApplicant} />
-                          ))}
+                        {currentTableData?.map((company) => (
+                          <CompanyCard key={company.id} company={company} newApplicant={newApplicant} />
+                        ))}
                       </div>
                     )}
                   </div>
                 )}
               </div>
-              <Pagination />
+              {/* <Pagination /> */}
+              {getAllCompanies.data && (
+                <div className=" mt-5">
+                  <div>
+                    <p>Showing {currentPage}/{totalPage} of  {filteredData?.length} entries</p>
+                  </div>
+                  {/* <Pagination /> */}
+                  <div className="my-6 flex justify-center">
+                    <div className="">
+                      <CustomPagination
+                        className="pagination-bar"
+                        currentPage={currentPage}
+                        totalCount={filteredData?.length}
+                        pageSize={PageSize}
+                        onPageChange={page => setCurrentPage(page)} />
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>
