@@ -7,16 +7,14 @@ import { onFailure } from "../utils/notifications/OnFailure";
 
 export const COMPANY_PROFILE_Key = "Company Profile Database";
 
-
-
 function useCompanyProfile() {
   const { authDetails } = useContext(AuthContext);
 
   const retrievalState = {
     init: 1,
     notRetrieved: 2,
-    retrieved: 3
-  }
+    retrieved: 3,
+  };
 
   const client = axiosClient(authDetails?.token, true);
 
@@ -55,25 +53,28 @@ function useCompanyProfile() {
     setDetails({ ...details, [name]: value });
   };
 
-
-
   const getProfileInfo = async () => {
-    setLoading(true)
+    setLoading(true);
     try {
-      const response = await client.get(`/employer/getEmployer/${authDetails.user.id}`)
-      if(response.data.details){
+      const response = await client.get(
+        `/employer/getEmployer/${authDetails.user.id}`
+      );
+      if (response.data.details) {
         await set(COMPANY_PROFILE_Key, response.data.details);
-        setDetails({...response.data.details, beenRetreived: retrievalState.retrieved})
-      } else{
-        setDetails({ ...details,beenRetreived: retrievalState.notRetrieved})
+        setDetails({
+          ...response.data.details,
+          beenRetreived: retrievalState.retrieved,
+        });
+      } else {
+        setDetails({ ...details, beenRetreived: retrievalState.notRetrieved });
       }
     } catch (error) {
-      console.log(error)
-      setDetails({...details, beenRetreived: retrievalState.retrieved})
-    } finally{
-      setLoading(false)
+      console.log(error);
+      setDetails({ ...details, beenRetreived: retrievalState.retrieved });
+    } finally {
+      setLoading(false);
     }
-  }
+  };
 
   //Function to map details to a form data
   const mapToFormData = () => {
@@ -85,16 +86,19 @@ function useCompanyProfile() {
         if (details.hasOwnProperty(key) && Array.isArray(val)) {
           if (val.length !== 0) {
             details[key].forEach((file) => {
-              if( typeof file === 'object'){
+              if (typeof file === "object") {
                 formData.append(`${key}[]`, file);
               }
             });
           }
         } else {
-          formData.append(current, details[current]);
+          if(key === 'logo_image' && typeof val === 'string'){
+              return
+          } else{
+            formData.append(current, details[current]);
+          }
         }
       }
-      
     });
 
     return formData;
@@ -105,6 +109,8 @@ function useCompanyProfile() {
     setLoading(true);
     try {
       const data = mapToFormData();
+
+
       const response = await client.post(
         `/employer/UpdateEmployer/${details.employer_id}`,
         data
@@ -134,9 +140,12 @@ function useCompanyProfile() {
       try {
         const storedValue = await get(COMPANY_PROFILE_Key);
         if (storedValue !== undefined) {
-          setDetails({...storedValue, beenRetreived:retrievalState.retrieved});
+          setDetails({
+            ...storedValue,
+            beenRetreived: retrievalState.retrieved,
+          });
         } else {
-          await getProfileInfo()
+          await getProfileInfo();
         }
       } catch (error) {
         FormatError(error, setError, "Index Error");
@@ -145,9 +154,15 @@ function useCompanyProfile() {
 
     initValue();
   }, []);
-  
 
-  return { loading, details, onTextChange, setDetails, updateCompanyProfile, retrievalState };
+  return {
+    loading,
+    details,
+    onTextChange,
+    setDetails,
+    updateCompanyProfile,
+    retrievalState,
+  };
 }
 
 export default useCompanyProfile;

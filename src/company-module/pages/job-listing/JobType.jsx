@@ -18,13 +18,13 @@ const options = [
   {
     id: 2,
     name: "Job Details",
-  }
+  },
 ];
 
 function JobType() {
   const [currentOption, setCurrentOption] = useState(options[0]);
   const jobUtils = useContext(JobContext);
-  const {applicants} = useContext(ApplicationContext)
+  const { applicants } = useContext(ApplicationContext);
   const { id } = useParams();
   const [currentJob, setCurrentJob] = useState();
   const location = useLocation();
@@ -43,15 +43,16 @@ function JobType() {
     if (location?.state?.data) {
       setCurrentJob(location.state.data);
     } else {
-      console.log(jobUtils.jobList)
-      const job = jobUtils.jobList.find((current) => current.id === Number(id));
-      setCurrentJob(job);
+      console.log(jobUtils.jobList);
+      jobUtils.getJobById(id, setCurrentJob);
     }
 
     if (location?.state?.applicants) {
       setCurrentJob(location.state.applicants);
     } else {
-      const currentApplicants = applicants.find((current) => current.job_id === Number(id));
+      const currentApplicants = applicants.find(
+        (current) => current.job_id === Number(id)
+      );
       setAllApplicants(currentApplicants);
     }
   }, []);

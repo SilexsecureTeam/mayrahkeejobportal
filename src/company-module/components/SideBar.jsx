@@ -1,8 +1,13 @@
-import React from "react";
+import React, { useContext } from "react";
 import mainLogo from '../../assets/svgs/main-logo.svg'
 import mainLogoTwo from '../../assets/pngs/main-logo-icon.png'
+import useCompanyProfile from "../../hooks/useCompanyProfile";
+import { resourceUrl } from "../../services/axios-client";
 
-function SideBar({ children, authDetails }) {
+function SideBar({ children, authDetails, companyHookProps }) {
+
+  const {details} = companyHookProps
+
   return (
     <aside className="w-[18%] relative h-full items-center bg-secondaryColor px-2 pb-2 flex flex-col justify-end">
       <img src={mainLogoTwo} className="w-[80%]"/>
@@ -21,7 +26,7 @@ function SideBar({ children, authDetails }) {
 
       {/* user info  */}
       <div className="absolute bottom-8 left-3 flex gap-[5px]  items-center">
-        <img className="h-[35px] w-[35px] rounded-full bg-secondaryColor" />
+        <img src={`${resourceUrl}/${details?.logo_image}`} className="h-[35px] w-[35px] rounded-full bg-secondaryColor" />
         <div className="flex-col flex">
           <span className="text-secondaryColor text-sm">{authDetails?.user?.name}</span>
           <span className="text-gray-300 text-[11px]">{authDetails?.user?.email}</span>

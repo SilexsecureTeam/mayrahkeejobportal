@@ -11,6 +11,7 @@ import { createTheme, MantineProvider } from "@mantine/core";
 import "@mantine/core/styles.css";
 import { ApplicationContextProvider } from "./context/ApplicationContext";
 import { JobContext, JobContextProvider } from "./context/JobContext";
+import { InterviewContext, InterviewContextProvider } from "./context/InterviewContext";
 
 //Lazy imports of pages
 const Login = lazy(() => import("./pages/Login"));
@@ -31,27 +32,29 @@ function App() {
           <SubscriptionContextProvider>
             <ApplicationContextProvider>
               <JobContextProvider>
-                <Suspense fallback={<FallBack />}>
-                  <Router>
-                    <Routes>
-                      <Route path="/" element={<Login />} />
-                      {/* <Route path="/registration" element={<Registration />} /> */}
-                      <Route path="*" element={<NotFound />} />
+                <InterviewContextProvider>
+                  <Suspense fallback={<FallBack />}>
+                    <Router>
+                      <Routes>
+                        <Route path="/" element={<Login />} />
+                        {/* <Route path="/registration" element={<Registration />} /> */}
+                        <Route path="*" element={<NotFound />} />
 
-                      {/* Dashboard Routes using the dashboard hook */}
-                      {/* Other Routes can go here using thier hook e.g adminDashboardRoute */}
-                      <Route
-                        path="/applicant/*"
-                        element={<ApplicantRoutes />}
-                      />
-                      <Route
-                        path="/registration/*"
-                        element={<RegistrationRoute />}
-                      />
-                      <Route path="/company/*" element={<CompanyRoutes />} />
-                    </Routes>
-                  </Router>
-                </Suspense>
+                        {/* Dashboard Routes using the dashboard hook */}
+                        {/* Other Routes can go here using thier hook e.g adminDashboardRoute */}
+                        <Route
+                          path="/applicant/*"
+                          element={<ApplicantRoutes />}
+                        />
+                        <Route
+                          path="/registration/*"
+                          element={<RegistrationRoute />}
+                        />
+                        <Route path="/company/*" element={<CompanyRoutes />} />
+                      </Routes>
+                    </Router>
+                  </Suspense>
+                </InterviewContextProvider>
                 <ToastContainer autoClose={2000} draggable />
               </JobContextProvider>
             </ApplicationContextProvider>

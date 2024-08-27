@@ -101,10 +101,8 @@ function useSubscription() {
     const initVals = async () => {
       const result = await get(PACKAGES_KEY);
       if (result) {
-        console.log("Found");
         setPackages(result);
       } else {
-        console.log("Not Found");
         await getPackages();
       }
     };

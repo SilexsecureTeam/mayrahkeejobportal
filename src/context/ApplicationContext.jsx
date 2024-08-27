@@ -8,10 +8,12 @@ export const ApplicationContextProvider = ({ children }) => {
     loading,
     applicants,
     interviewDetails,
+    resume,
     scheduleInterview,
     onTextChange,
     getApplicantsByEmployee,
     getApplicant,
+    getResume
   } = useApplicationManagement();
 
   return (
@@ -20,10 +22,12 @@ export const ApplicationContextProvider = ({ children }) => {
         loading,
         applicants,
         interviewDetails,
+        resume,
         scheduleInterview,
         onTextChange,
         getApplicantsByEmployee,
         getApplicant,
+        getResume
       }}
     >
       {children}

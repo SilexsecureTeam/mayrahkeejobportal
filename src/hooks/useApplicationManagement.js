@@ -27,6 +27,7 @@ function useApplicationManagement() {
   const getApplicantsByEmployee = async () => {
     setLoading(true);
     try {
+  
       const response = await client(`getEmployerApply/${authDetails.user.id}`);
       await set(APPLICANTS_KEY, response.data.job_application);
       setApplicants(response.data.job_application);
@@ -40,6 +41,7 @@ function useApplicationManagement() {
   const getApplicant = async (applicantId) => {
     setLoading(true);
     try {
+    
       const response = await client(`/candidate/getCandidate/${applicantId}`);
       return response.data.details;
     } catch (error) {
@@ -73,7 +75,11 @@ function useApplicationManagement() {
       const interviewData = interviewResponse.data.interview;
       const applicationUpdateResponse = await client.post(
         `/applicationRespond`,
-        { ...updateprimarydata, status: stages[1].name, interview_id: interviewData.id}
+        {
+          ...updateprimarydata,
+          status: stages[1].name,
+          interview_id: interviewData.id,
+        }
       );
       const applicatonUpdateData =
         applicationUpdateResponse.data.job_application;
@@ -83,6 +89,19 @@ function useApplicationManagement() {
       FormatError(error, setError, "Schedule Error");
     } finally {
       setLoading(false);
+    }
+  };
+
+  const getResume = async (resumeId, setResume) => {
+    setLoading(true);
+    try {
+      if (!resumeId) throw Error('Resume not attached')
+      const { data } = await client.get(`/resumeById/${resumeId}`);
+       setResume(data[0])
+    } catch (error) {
+      FormatError(error, setError, "Resume Error");
+    } finally{
+      setLoading(false)
     }
   };
 
@@ -117,6 +136,7 @@ function useApplicationManagement() {
     onTextChange,
     getApplicantsByEmployee,
     getApplicant,
+    getResume,
   };
 }
 

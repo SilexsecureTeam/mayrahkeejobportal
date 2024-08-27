@@ -5,7 +5,7 @@ function HeaderAttribute({ data }) {
       {<data.icon />}
       </div>
       <div className="flex flex-col">
-        <span className="text-little text-gray-400">{data.title}</span>
+        <span className="text-little text-gray-800">{data.title}</span>
         <a href={data.content} className="text-little cursor-pointer hover:underline font-semibold text-black">{data.content}</a>
       </div>
     </div>

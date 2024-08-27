@@ -42,6 +42,8 @@ function useJobManagement() {
     error: "",
   });
 
+
+
   const onTextChange = (e) => {
     const { name, value } = e.target;
     setDetails({ ...details, [name]: value });
@@ -102,6 +104,23 @@ function useJobManagement() {
     }
   };
 
+  const getJobById = async (jobId, setJob) => {
+    setLoading(true);
+    const job = jobList.find((current) => current.id === Number(jobId));
+    if(job){
+      setJob(job)
+      return
+    }
+    try {
+      const {data} = await client.get(`/job/${jobId}`);
+      setJob({...data});
+    } catch (error) {
+      FormatError(error);
+    } finally{
+      setLoading(false)
+    }
+  };
+
   //   useEffect(() => console.log(details), [details]);
   useEffect(() => {
     if (error.message && error.error) {
@@ -125,7 +144,7 @@ function useJobManagement() {
     initValue();
   }, []);
 
-  return { loading, details, jobList, onTextChange, setDetails, addJob, deleteJob , deactivateJob};
+  return { loading, details, jobList, onTextChange, setDetails, addJob, deleteJob , deactivateJob, getJobById};
 }
 
 export default useJobManagement;

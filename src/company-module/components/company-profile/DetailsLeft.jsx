@@ -12,7 +12,7 @@ function DetailsLeft({ data }) {
           <h2 className="font-semibold text-md">Company Profile</h2>
         </div>
         <div
-          className="text-sm text-gray-500 border border-dotted p-2"
+          className="text-sm text-gray-800 border border-dotted p-2"
           dangerouslySetInnerHTML={{ __html: data?.company_profile }}
         />
       </div>
