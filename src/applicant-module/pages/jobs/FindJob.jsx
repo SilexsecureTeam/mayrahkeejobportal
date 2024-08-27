@@ -10,18 +10,22 @@ import newApplicant from "../../../assets/pngs/applicant-logo1.png"
 import newApplicant2 from "../../../assets/pngs/applicant-Logo2.png"
 import newApplicant3 from "../../../assets/pngs/applicant-logo3.png"
 import JobCard from "./components/JobCard";
-import Pagination from "../../components/Pagination";
 import { TbLayoutList, TbLayoutListFilled } from "react-icons/tb";
 import { useState, useContext, useEffect } from "react";
 import JobGridCard from "./components/JobGridCard";
 import { ResourceContext } from "../../../context/ResourceContext";
 import { split } from "postcss/lib/list";
+import { useMemo } from "react";
+import CustomPagination from "../../../components/CustomPagination";
+import Pagination from "../../components/Pagination";
+
+const PageSize = 3;
 
 function FindJob() {
   const { getAllJobs, setGetAllJobs, getAllApplications, setGetAllApplications } = useContext(ResourceContext);
   const [isGrid, setIsGrid] = useState(false);
 
-  const [filteredJobs, setFilteredJobs] = useState([]);
+  // const [filteredJobs, setFilteredJobs] = useState([]);
   const [salaryRange, setSalaryRange] = useState('');
   const [employmentType, setEmploymentType] = useState('');
   const [category, setCategory] = useState('');
@@ -42,26 +46,7 @@ function FindJob() {
       }
     })
   }, [])
-
-  // console.log(getAllJobs.data)
-  // const handleFilter = () => {
-  //   const filteredData = getAllJobs.data?.filter((job) => {
-  //     // Apply filtering logic based on multiple criteria
-  //     const salaryFigures = job.min_salary?.split(".")[0]
-  //     const salaryInRange = salaryRange ? salaryFigures >= salaryRange : true;
-
-  //     const matchesEmploymentType = employmentType ? job.type?.toLowerCase().includes(employmentType?.toLowerCase()) : true;
-
-  //     const matchesCategory = category ? job.sector?.toLowerCase().includes(category?.toLowerCase()) : true;
-
-  //     const matchesJobLevel = jobLevel ? job.career_level?.toLowerCase() === jobLevel?.toLocaleLowerCase() : true;
-
-  //     return salaryInRange && matchesEmploymentType && matchesCategory && matchesJobLevel;
-  //   });
-
-  //   setFilteredJobs(filteredData);
-  // };
-
+  // const allJobs = getAllJobs.data
   const filteredData = getAllJobs.data?.filter((job) => {
     // Apply filtering logic based on multiple criteria
     const salaryFigures = job.min_salary?.split(".")[0]
@@ -76,11 +61,22 @@ function FindJob() {
     return salaryInRange && matchesEmploymentType && matchesCategory && matchesJobLevel;
   });
 
-  console.log(filteredJobs)
-  console.log(employmentType)
-  console.log(salaryRange)
-  console.log(category)
-  console.log(jobLevel)
+  // pagination methods Starts here
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPage, setTotalPage] = useState();
+
+  const currentTableData = useMemo(() => {
+    const firstPageIndex = (currentPage - 1) * PageSize;
+    const lastPageIndex = firstPageIndex + PageSize;
+    return filteredData?.slice(firstPageIndex, lastPageIndex);
+  }, [currentPage, filteredData]);
+
+  useEffect(() => {
+    setTotalPage(Math.ceil(filteredData?.length / PageSize));
+  }, [filteredData])
+
+  // pagination methods Ends here
   return (
     <>
       <Helmet>
@@ -151,14 +147,14 @@ function FindJob() {
                     <div className="">
                       {isGrid ? (<div className="">
                         <div className="grid grid-cols-3 gap-4">
-                          {filteredData?.map((job) => (
+                          {currentTableData?.map((job) => (
                             <JobGridCard key={job.id} job={job} newApplicant={newApplicant} />
                           ))}
                         </div>
                       </div>
                       ) : (
                         <div>
-                          {filteredData?.map((job) => (
+                          {currentTableData?.map((job) => (
                             <JobCard
                               getAllApplications={getAllApplications?.data}
                               key={job.id} job={job}
@@ -170,7 +166,24 @@ function FindJob() {
                   )}
                 </div>
               </div>
-              {/* <Pagination /> */}
+              {getAllJobs.data && (
+                <div className="">
+                  <div>
+                    <p>Showing {currentPage}/{totalPage} of  {filteredData?.length} entries</p>
+                  </div>
+                  {/* <Pagination /> */}
+                  <div className="my-6 flex justify-center">
+                    <div className="">
+                      <CustomPagination
+                        className="pagination-bar"
+                        currentPage={currentPage}
+                        totalCount={filteredData?.length}
+                        pageSize={PageSize}
+                        onPageChange={page => setCurrentPage(page)} />
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>

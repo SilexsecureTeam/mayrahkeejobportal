@@ -141,7 +141,7 @@ function Home() {
                 </div>
               </div>
             </motion.div>
-            <div className="w-1/5 bg-[#47AA4933] text-whit border">
+            <div className="w-1/5 bg-primaryColor text-white border">
               <div className=" p-3">
                 <p className="font-bold">Jobs Applied Status</p>
                 <div className="my-5 flex items-center">
@@ -215,7 +215,7 @@ function Home() {
             <div className="p-3 border-b">
               <p className="font-bold text-base">Recent Application History</p>
             </div>
-            <div className="p-3">
+            <div className="p-3 h-[40vh] overflow-y-auto no_scroll_bar">
               {allApplications?.map((app) => (
                 <RecentlyAdded key={app.id} app={app.id} newApp={app} newApplicant={newApplicant} />
               ))}

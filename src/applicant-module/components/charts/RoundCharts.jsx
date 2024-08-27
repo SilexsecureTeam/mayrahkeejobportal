@@ -18,7 +18,7 @@ function RoundChart() {
                 }
               },
             legend: false,
-            colors: ['#0F5A02', 'rgba(71, 170, 73, 0.2)',],
+            colors: ['#0F5A02', '#fafafa',],
             responsive: [{
                 breakpoint: 480,
                 options: {
