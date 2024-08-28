@@ -7,7 +7,7 @@ const Conversations = () => {
     return (
         <div className="relative pb-[45px]">
             <div style={{ scrollbarWidth: "none" }} className=" h-[250px] overflow-y-auto py-3">
-                <div>
+                {/* <div>
                     <div className="flex">
                         <div className="w-4/5 flex mb-3">
                             <div className="">
@@ -38,6 +38,9 @@ const Conversations = () => {
                             </div>
                         </div>
                     </div>
+                </div> */}
+                <div className="flex items-center justify-center h-[100%]">
+                    <p className="text">No message available</p>
                 </div>
             </div>
             <div className="absolute inset-x-0 bottom-0 w-full">
