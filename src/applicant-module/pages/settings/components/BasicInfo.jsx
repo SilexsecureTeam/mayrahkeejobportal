@@ -194,7 +194,7 @@ const BasicInfo = ({ setIsOpen }) => {
                 ...prev, isDataNeeded: false
             }
         })
-        details.country = countryInfo.name;
+        details.country = countryInfo?.name;
         details.state = selectState;
         axios.post(`${BASE_URL}/candidate/UpdateCandidate/${user.id}`, details, {
             headers: {

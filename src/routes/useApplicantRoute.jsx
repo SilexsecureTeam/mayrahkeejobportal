@@ -37,6 +37,9 @@ const PublicProfile = lazy(() =>
 const MyResume = lazy(() =>
   import("../applicant-module/pages/resume/MyResume")
 );
+const ShortListedDetails = lazy(() =>
+  import("../applicant-module/pages/shortlisted/ShortListedDetails")
+);
 const NotFound = lazy(() => import("../applicant-module/pages/404"));
 const Settings = lazy(() => import("../applicant-module/pages/settings/Settings"));
 const HelpCenter = lazy(() => import("../applicant-module/pages/help-center/HelpCenter"));
@@ -84,10 +87,11 @@ function useApplicantRoute() {
 
               <Route path="messages" element={<Messages />} />
               <Route path="applications" element={<Applications />} />
+              <Route path="applications/:id" element={<ShortListedDetails />} />
               <Route path="find-job" element={<FindJob />} />
               <Route path="find-job/:id" element={<JobDetails />} />
               <Route path="browse-companies" element={<Companies />} />
-              <Route path="browse-companies/:1d" element={<CompanyDetails />} />
+              <Route path="browse-companies/:id" element={<CompanyDetails />} />
               <Route path="public-profile" element={<PublicProfile />} />
               <Route path="setting" element={<Settings />} />
               <Route path="my-resume" element={<MyResume />} />

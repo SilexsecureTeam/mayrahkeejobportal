@@ -12,6 +12,7 @@ import Pagination from "../../components/Pagination";
 import { ResourceContext } from "../../../context/ResourceContext";
 import AllApplicants from "./components/AllApplicants";
 import { AuthContext } from "../../../context/AuthContex";
+import AllShortlistedApplicants from "./components/AllShortlistedApplication";
 // import ApplicantModal from "../../../components/ApplicantModal";
 
 function Application() {
@@ -145,7 +146,7 @@ function Application() {
               <AllApplicants key={app.id} app={app} index={index} />
             ))}
             {view === "interview" && pendingInterview?.map((app, index) => (
-              <AllApplicants key={app.id} app={app} index={index} />
+              <AllShortlistedApplicants key={app.id} app={app} index={index} />
             ))}
           </div>
           {/* <Pagination /> */}
