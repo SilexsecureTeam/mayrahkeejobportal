@@ -33,7 +33,7 @@ function Selector({ data, selected, setSelected}) {
         <div className="relative mt-1 ">
           <div className="relative w-full  cursor-default border border-gray-400 overflow-hidden bg-white text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-teal-300 sm:text-sm">
             <Combobox.Input
-              className="w-full outline-none border-none py-[3px] pl-3 pr-10 text-little leading-5  text-black focus:ring-0"
+              className="w-full outline-none border-none py-[5px] pl-3 pr-10 text-little leading-5  text-black focus:ring-0"
               displayValue={(current) => current?.name}
               onChange={(event) => setQuery(event.target.value)}
             />

@@ -5,12 +5,13 @@ import { FormatError } from "../utils/formmaters";
 import { onFailure } from "../utils/notifications/OnFailure";
 import { get, set } from "idb-keyval";
 import { stages } from "../utils/constants";
+import { interviewOptions } from "../company-module/components/applicants/ScheduleInteviewModal";
 
 const APPLICANTS_KEY = "Applicants Database";
 
 function useApplicationManagement() {
   const { authDetails } = useContext(AuthContext);
-  const client = axiosClient(authDetails.token);
+  const client = axiosClient(authDetails?.token);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState({
     message: "",
@@ -55,13 +56,18 @@ function useApplicationManagement() {
     applicant,
     data,
     setData,
-    handleOnSuccess
+    handleOnSuccess, 
+    option
   ) => {
     setLoading(true);
     try {
+
+       if(!option.name) throw Error('An inteview option must be selected')
+
       const primarydata = {
         job_application_id: data.id,
         candidate_id: applicant.candidate_id,
+        option: option.name
       };
       const updateprimarydata = {
         job_id: data.job_id,
