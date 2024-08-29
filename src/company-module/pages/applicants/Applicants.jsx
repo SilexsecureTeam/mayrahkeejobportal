@@ -51,7 +51,7 @@ function Applicants() {
 
         <tbody>
           {
-            applicationUtils?.applicants &&  applicationUtils?.applicants?.map(current => <ApplicantRow key={current.id} data={current}/>)
+            applicationUtils?.applicants &&  applicationUtils?.applicants?.map(current => <ApplicantRow key={current.id} data={current}/>).reverse()
           }
           </tbody>
       </table>

@@ -94,7 +94,7 @@ function Overview() {
 
       {/* About Company */}
       <div >
-        <DescriptionItem data={about} />
+        {/* <DescriptionItem data={about} /> */}
       </div>
 
       <button  className="p-2 place-self-end mt-[10px] font-semibold w-fit text-little bg-primaryColor text-white">Save Changes</button>

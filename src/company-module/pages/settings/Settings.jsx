@@ -13,14 +13,6 @@ const options = [
         id:1,
         name: 'Overview'
     },
-    {
-        id:2,
-        name: 'Social Links'
-    },
-    {
-        id:3,
-        name: 'Team'
-    },
 ]
 
 function Settings() {
@@ -31,14 +23,12 @@ function Settings() {
     const getComponent = () => {
         switch(currentOption.id){
             case options[0].id: return <Overview/>
-            case options[1].id: return <SocialLinks/>
-            case options[2].id: return <Team/>
         }
     }
 
   return (
-    <div className="w-full p-2 flex flex-col gap-[20px]">
-      <Header options={options} currentOption={currentOption} setCurrentOption={setCurrentOption} />
+    <div className="w-full px-6 py-2 flex flex-col gap-[20px]">
+          <h1 className="font-semibold"> Notification Settings </h1>
 
        {getComponent()}
     </div>
