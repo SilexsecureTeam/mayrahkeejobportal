@@ -9,7 +9,7 @@ export const JOB_MANAGEMENT_Key = "Job Management Database";
 
 function useJobManagement() {
   const { authDetails } = useContext(AuthContext);
-  const client = axiosClient(authDetails.token, true);
+  const client = axiosClient(authDetails?.token, true);
   const [loading, setLoading] = useState(false);
   const [details, setDetails] = useState({
     featured_image: null,
