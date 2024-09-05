@@ -29,7 +29,7 @@ function useApplicationManagement() {
     setLoading(true);
     try {
   
-      const response = await client(`getEmployerApply/${authDetails.user.id}`);
+      const response = await client(`getEmployerApply/${authDetails?.user?.id}`);
       await set(APPLICANTS_KEY, response.data.job_application);
       setApplicants(response.data.job_application);
     } catch (error) {
@@ -39,12 +39,17 @@ function useApplicationManagement() {
     }
   };
 
-  const getApplicant = async (applicantId) => {
+  const getApplicant = async (applicantId, setApplicant) => {
     setLoading(true);
+    const applicant = applicants.find((current) => current.id === Number(APPLICANTS_KEY));
+    if(applicant){
+      setApplicant(applicant.details)
+      return
+    }
     try {
     
       const response = await client(`/candidate/getCandidate/${applicantId}`);
-      return response.data.details;
+      setApplicant(response.data.details);
     } catch (error) {
       FormatError(error, setError, "Applicants Error");
     } finally {

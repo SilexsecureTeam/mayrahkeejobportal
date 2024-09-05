@@ -61,7 +61,7 @@ function CompaniesProfile() {
         companyHookProps={companyHookProps}
       />
       {(details.company_name && details.beenRetreived === retrievalState.retrieved) ? (
-        <div className="h-full w-full flex flex-col px-12 py-2 justify-between">
+        <div className="h-full w-full flex flex-col px-2 md:px-12 py-2 justify-between">
           <ProfileHeader
             isOpen={isOpen}
             setIsOpen={setIsOpen}
@@ -74,7 +74,7 @@ function CompaniesProfile() {
             ))}
           </ProfileHeader>
 
-          <div className="flex w-full justify-between overscroll-y-auto h-[73%]">
+          <div className="flex flex-col mt-8 md:mt-0 md:flex-row w-full justify-between overscroll-y-auto h-[73%]">
             <DetailsLeft  data={details}/>
             <DetailsRight data={details}/>
           </div>

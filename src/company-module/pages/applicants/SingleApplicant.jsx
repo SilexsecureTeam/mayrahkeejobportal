@@ -32,7 +32,7 @@ function SingleApplicant() {
 
   useEffect(() => {
     const initApplicant = async () => {
-      const result = await getApplicant(applicationData.candidate_id);
+      const result = await getApplicant(applicationData.candidate_id, setApplicant);
       if (result) {
         setApplicant(result);
       }
@@ -62,7 +62,7 @@ function SingleApplicant() {
             </button>
           </div>
 
-          <div className="flex justify-between h-full">
+          <div className="flex flex-col md:flex-row justify-between h-full">
             <PrimaryDetail
               data={applicationData}
               applicant={applicant}

@@ -25,7 +25,7 @@ function SecondaryDetail(props) {
   };
 
   return (
-    <div className="w-[65%] h-full flex flex-col border gap-[10px]">
+    <div className="w-full  md:w-[65%] md:min-h-0 min-h-[620px] md:h-full flex flex-col border gap-[10px]">
       <ul className="border-b flex gap-[15px] w-full  items-center text-sm font-semibold">
         {options.map(current => <li onClick={() => setCurrentOption(current)} className={`text-sm cursor-pointer p-2 ${current === currentOption ? 'border-b border-primaryColor' : 'border-0'}`}>{current}</li>)}
       </ul>

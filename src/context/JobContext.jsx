@@ -13,7 +13,8 @@ export const JobContextProvider = ({ children }) => {
     addJob,
     deleteJob,
     deactivateJob,
-    getJobById
+    getJobById,
+    getJobsByApplicant
   } = useJobManagement();
 
   return (
@@ -22,12 +23,14 @@ export const JobContextProvider = ({ children }) => {
         loading,
         details,
         jobList,
+        appplicantJobs,
         onTextChange,
         setDetails,
         addJob,
         deleteJob,
         deactivateJob,
-        getJobById
+        getJobById,
+        getJobsByApplicant
       }}
     >
       {children}

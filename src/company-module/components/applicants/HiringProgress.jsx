@@ -48,10 +48,10 @@ function HiringProgress({ data, applicant, toogleInterview }) {
         This customer is still in review and waiting for your action
       </span>
       <div className="flex  gap-[20px] w-full">
-        <button onClick={toogleInterview} className="border w-[20%] hover:bg-primaryColor hover:text-white py-1 text-little px-2  border-primaryColor">
+        <button onClick={toogleInterview} className="border w-[40%] md:w-[20%] hover:bg-primaryColor hover:text-white p-2 md:py-1 text-little px-2  border-primaryColor">
           Schedule Interview
         </button>
-        <button className="border w-[20%] hover:bg-red-500 hover:text-white py-1 text-little px-2  border-red-500">
+        <button className="border w-[40%] md:w-[20%] hover:bg-red-500 hover:text-white p-2 md:py-1 text-little px-2  border-red-500">
           Turn Down
         </button>
       </div>

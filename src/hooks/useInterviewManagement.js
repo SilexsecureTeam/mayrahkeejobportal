@@ -29,9 +29,6 @@ function useInterviewManagement() {
     setLoading(true);
     try {
       const response = await client.get(`/interviews`);
-
-      // //On success, save response data to index db
-      // await set(COMPANY_PROFILE_Key, response.data.employer);
       handleSuccess();
     } catch (error) {
       console.log(error);

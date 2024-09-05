@@ -7,7 +7,7 @@ export const user = {
 export const stats_cards_dummies = [
     {
         id: 1,
-        title: 'New candidates to review',
+        title: 'New candidates',
         bg_color: 'bg-primaryColor',
         value: 0
     },

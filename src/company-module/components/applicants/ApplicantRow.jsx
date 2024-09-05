@@ -7,13 +7,13 @@ function ApplicantRow({ data }) {
     navigate(`/company/applicants/detail/${data.id}`, { state: { data } });
 
   return (
-    <tr className="border-b odd:bg-primaryColor/70 odd:text-white hover:bg-primaryColor hover:scale-105 duration-100 text-little">
+    <tr className="border-b odd:bg-black odd:text-white hover:bg-primaryColor duration-100 text-little">
       <td className="text-center py-[5px]">
         <div className="flex justify-center items-center gap-[5px]">
           <span>{data.full_name}</span>
         </div>
       </td>
-      <td>
+      <td className="hidden md:block">
         <div className="flex w-full justify-center py-[10px] items-center">
           {data.email}
         </div>
@@ -27,23 +27,29 @@ function ApplicantRow({ data }) {
         </div>
       </td>
 
-      <td>
+      <td className="hidden md:block">
         <p className=" py-[5px] text-center font-semibold">
           {new Date(data.created_at).toLocaleDateString()}
         </p>
       </td>
 
       <td>
-        <p className=" py-[5px] text-center">{data.job_title}</p>
+        <p className=" py-[5px] text-center text-clip">{data.job_title}</p>
       </td>
 
       <td>
         <div className="items-center flex justify-center py-[5px]">
           <button
             onClick={navigateToApplicantDetails}
-            className="font-semibold text-white px-2 py-[3px] border  bg-primaryColor"
+            className="font-semibold hidden md:block bg-gray-800 text-white px-2 py-[3px] border"
           >
             See Application
+          </button>
+          <button
+            onClick={navigateToApplicantDetails}
+            className="font-semibold md:hidden bg-gray-800 text-white px-2 py-[3px] border"
+          >
+            Application
           </button>
         </div>
       </td>

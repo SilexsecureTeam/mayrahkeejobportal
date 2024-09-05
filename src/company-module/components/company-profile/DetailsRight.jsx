@@ -5,7 +5,7 @@ import { apiURL, resourceUrl } from "../../../services/axios-client";
 
 function DetailsRight({ data }) {
   return (
-    <div className="w-[30%] flex flex-col gap-[20px]">
+    <div className="w-full md:w-[30%] flex flex-col gap-[20px]">
       {/* Tech Stack Section */}
       <div className="flex w-full flex-col gap-[10px] border-b pb-[10px]">
         <div className="flex justify-between items-center w-full ">

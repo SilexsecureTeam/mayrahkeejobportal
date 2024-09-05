@@ -37,12 +37,11 @@ function useJobManagement() {
     maps_location: "",
   });
   const [jobList, setJobList] = useState([]);
+  const [applicantJobs, setApplicantJobs] = useState([]);
   const [error, setError] = useState({
     message: "",
     error: "",
   });
-
-
 
   const onTextChange = (e) => {
     const { name, value } = e.target;
@@ -52,10 +51,13 @@ function useJobManagement() {
   const addJob = async (handleSuccess) => {
     setLoading(true);
     try {
-      const response = await client.post(`/job`, {employer_id:authDetails.user.id ,...details});
+      const response = await client.post(`/job`, {
+        employer_id: authDetails?.user.id,
+        ...details,
+      });
       setDetails({});
       handleSuccess();
-      getJobsFromDB()
+      getJobsFromDB();
     } catch (error) {
       FormatError(error, setError, "Update Error");
     } finally {
@@ -63,33 +65,33 @@ function useJobManagement() {
     }
   };
 
-
   const deactivateJob = async (currentJob, status, handleSuccess) => {
-        setLoading(true)
-        try {
-           const response = await client.put(`/job/${currentJob.id}`, {status: status})
-            handleSuccess()
-            getJobsFromDB()
-        } catch (error) {
-           FormatError(error, setError, "Status Error")
-        } finally{
-          setLoading(false)
-        }
-  }
-
+    setLoading(true);
+    try {
+      const response = await client.put(`/job/${currentJob.id}`, {
+        status: status,
+      });
+      handleSuccess();
+      getJobsFromDB();
+    } catch (error) {
+      FormatError(error, setError, "Status Error");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const deleteJob = async (handleSuccess, jobId) => {
-    setLoading(true)
+    setLoading(true);
     try {
-       const response = await client.delete(`/job/${jobId}`)
-       await getJobsFromDB()
-       handleSuccess()
+      const response = await client.delete(`/job/${jobId}`);
+      await getJobsFromDB();
+      handleSuccess();
     } catch (error) {
-        FormatError(error, setError, 'Delete Job')
-    } finally{
-      setLoading(false)
+      FormatError(error, setError, "Delete Job");
+    } finally {
+      setLoading(false);
     }
-  }
+  };
 
   const getJobsFromDB = async () => {
     setLoading(true);
@@ -99,24 +101,36 @@ function useJobManagement() {
       setJobList(response.data);
     } catch (error) {
       FormatError(error);
-    } finally{
-      setLoading(false)
+    } finally {
+      setLoading(false);
     }
   };
 
   const getJobById = async (jobId, setJob) => {
     setLoading(true);
     const job = jobList.find((current) => current.id === Number(jobId));
-    if(job){
-      setJob(job)
-      return
+    if (job) {
+      setJob(job);
+      return;
     }
     try {
-      const {data} = await client.get(`/job/${jobId}`);
-      setJob({...data});
+      const { data } = await client.get(`/job/${jobId}`);
+      setJob({ ...data });
     } catch (error) {
       FormatError(error);
-    } finally{
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const getJobsByApplicant = async () => {
+    setLoading(true);
+    try {
+      const { data } = await client.get(`/getUserApply/${authDetails.user.id}`);
+        setApplicantJobs(data.job_application)
+    } catch (error) {
+      FormatError(error, setError, "Jobs Error");
+    }finally{
       setLoading(false)
     }
   };
@@ -135,7 +149,7 @@ function useJobManagement() {
         if (storedValue !== undefined) {
           setJobList(storedValue);
         }
-        getJobsFromDB()
+        getJobsFromDB();
       } catch (error) {
         FormatError(error, setError, "Index Error");
       }
@@ -144,7 +158,20 @@ function useJobManagement() {
     initValue();
   }, []);
 
-  return { loading, details, jobList, onTextChange, setDetails, addJob, deleteJob , deactivateJob, getJobById};
+  return {
+    loading,
+    details,
+    jobList,
+    applicantJobs,
+    onTextChange,
+    setDetails,
+    addJob,
+    deleteJob,
+    deactivateJob,
+    getJobById,
+    getJobsByApplicant
+
+  };
 }
 
 export default useJobManagement;

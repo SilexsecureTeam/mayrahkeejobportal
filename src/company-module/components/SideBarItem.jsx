@@ -12,7 +12,7 @@ function SideBarItem({ data, dispatch, state }) {
   return (
     <li
       onClick={navigateToPage}
-      className={`cursor-pointer flex gap-[10px] items-center z-10  p-[5px] ${
+      className={`cursor-pointer flex gap-[10px] items-center z-10 p-[5px] ${
         state?.type === data?.type ? "bg-primaryColor" : "bg-none"
       }`}
     >

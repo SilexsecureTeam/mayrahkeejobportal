@@ -39,7 +39,7 @@ function useSubscription() {
     setLoading(true);
     try {
       const { data } = await client.get(
-        `/user-package-payment/${authDetails.user.id}`
+        `/user-package-payment/${authDetails?.user?.id}`
       );
       if (data.data.length !== 0) {
         const byAscendingOrder = data.data.sort(

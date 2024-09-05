@@ -33,7 +33,7 @@ function ChatComponent({ selectedChat, setSelectedChat, applicationUtils }) {
   };
 
   useEffect(() => {
-    currentCandidate && getMessages(currentCandidate.candidate_id, () => {});
+    currentCandidate && getMessages(currentCandidate.candidate_id);
   }, [currentCandidate]);
 
   useEffect(() => {

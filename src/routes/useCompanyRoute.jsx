@@ -16,7 +16,10 @@ import withSubscription from "../hocs/withSubscription";
 import useSubscription from "../hooks/useSubscription";
 import SubscriptionModal from "../components/subscription/SubscriptionModal";
 import { ApplicationContextProvider } from "../context/ApplicationContext";
-import { CompanyRouteContext, CompanyRouteContextProvider } from "../context/CompanyRouteContext";
+import {
+  CompanyRouteContext,
+  CompanyRouteContextProvider,
+} from "../context/CompanyRouteContext";
 
 //Util Component
 const NavBar = lazy(() => import("../company-module/components/NavBar"));
@@ -52,9 +55,7 @@ const CompanyProfile = lazy(() =>
 const Schedule = lazy(() =>
   import("../company-module/pages/schedule/Schedule")
 );
-const Artisan = lazy(() =>
-  import("../company-module/pages/artisan/Artisan")
-);
+const Artisan = lazy(() => import("../company-module/pages/artisan/Artisan"));
 const DomesticStaffs = lazy(() =>
   import("../company-module/pages/staffs/DomesticStaffs")
 );
@@ -67,23 +68,28 @@ const Settings = lazy(() =>
   import("../company-module/pages/settings/Settings")
 );
 
+const HelpCenter = lazy(() => import("../company-module/pages/help/Help"));
+
 const NotFound = lazy(() => import("../company-module/pages/404"));
 
 function useCompanyRoute() {
   const [state, dispatch] = useReducer(CompanyReducer, companyOptions[0]);
   const { authDetails } = useContext(AuthContext);
   const [redirectState, setRedirectState] = useState();
+  const [isOpen, setIsOpen] = useState(false);
 
   // const [redirectState, setRedirectState] = useState();
   const navigate = useNavigate();
   const companyHookProps = useCompanyProfile();
 
-  const navigateToProfile = (setIsOpen) => {
-    const profile = companyOptions[3];
-    navigate(profile.route);
-    dispatch({ ...profile });
-    setIsOpen(false);
-  };
+  const toogleIsOpen = () => setIsOpen(!isOpen);
+
+  // const navigateToProfile = (setIsOpen) => {
+  //   const profile = companyOptions[3];
+  //   navigate(profile.route);
+  //   dispatch({ ...profile });
+  //   setIsOpen(false);
+  // };
 
   const setSideBar = (index) => {
     const page = companyOptions[index];
@@ -102,8 +108,13 @@ function useCompanyRoute() {
         <SubscriptionModal redirectState={redirectState} />
         <main className="h-screen w-screen relative flex">
           {/* Side bar takes up 20% of total width and 100% of height */}
-              
-              <SideBar companyHookProps={companyHookProps} authDetails={authDetails}>
+
+          <SideBar
+            companyHookProps={companyHookProps}
+            authDetails={authDetails}
+            toogleIsOpen={toogleIsOpen}
+            isMenuOpen={isOpen}
+          >
             <ul className="flex flex-col gap-[10px]">
               {companyOptions.map((currentOption) => (
                 <SideBarItem
@@ -121,27 +132,27 @@ function useCompanyRoute() {
                   key={currentOption.type}
                   data={currentOption}
                   dispatch={dispatch}
-                  state={state}
                 />
               ))}
             </ul>
           </SideBar>
 
           {/* Routes and dashboard take up 80% of total width and 100% of height*/}
-          <div className="w-[82%] relative flex divide-y-2 divide-secondaryColor bg-white flex-col h-full">
+          <div className="md:w-[82%] w-full relative flex divide-y-2 divide-secondaryColor bg-white flex-col h-full">
             <UpdateCompanyProfileModal
               isOpen={redirectState}
               setIsOpen={setRedirectState}
               onInit={true}
               companyHookProps={companyHookProps}
             />
-            <NavBar state={state} />
+            <NavBar
+              state={state}
+              toogleIsOpen={toogleIsOpen}
+              isMenuOpen={isOpen}
+            />
             <div className="w-full  h-[92%] overflow-y-auto">
               <Routes>
-                <Route
-                  index
-                  element={<Home />}
-                />
+                <Route index element={<Home />} />
                 <Route path="*" element={<NotFound />} />
 
                 <Route path="messages" element={<Messages />} />
@@ -165,8 +176,8 @@ function useCompanyRoute() {
                 </Route>
 
                 <Route path="company-profile" element={<CompanyProfile />} />
-                <Route path="artisan" element={<Artisan/>} />
-                <Route path="domestic-staffs" element={<DomesticStaffs/>} />
+                <Route path="artisan" element={<Artisan />} />
+                <Route path="domestic-staffs" element={<DomesticStaffs />} />
 
                 <Route path="job-listing/*">
                   <Route
@@ -182,6 +193,7 @@ function useCompanyRoute() {
                 <Route path="schedule" element={<Schedule />} />
 
                 <Route path="settings" element={<Settings />} />
+                <Route path="help-center" element={<HelpCenter />} />
               </Routes>
             </div>
           </div>
