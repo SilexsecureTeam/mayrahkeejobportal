@@ -81,7 +81,7 @@ function ScheduleInterviewModal({
             </h4>
 
             <form
-              onSubmit={handleOnSubmit}
+              onSubmit={(e) => handleOnSubmit(e, selected)}
               className="flex flex-col w-full gap-[10px]"
             >
               <BasicInput
@@ -112,17 +112,13 @@ function ScheduleInterviewModal({
 
               {selected.name !== interviewOptions[0].name && (
                 <BasicInput
-                  data={fields[2]}
+                  data={fields[3]}
                   details={details}
                   onTextChange={onTextChange}
                   value={companyUtil.details.address}
                 />
               )}
-              <BasicInput
-                data={fields[3]}
-                details={details}
-                onTextChange={onTextChange}
-              />
+         
 
               <FormButton loading={loading}>Schedule</FormButton>
             </form>
