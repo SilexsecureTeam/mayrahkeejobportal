@@ -8,7 +8,9 @@ module.exports = {
         secondaryColor: "#f8faf7",
       },
       textColor: {
-        primary: '#25324b'
+        primary: '#25324b',
+        darkblue: '#060b37',
+        lightblue: '#004aaf'
       },
       fontSize: {
         little: '12px'
