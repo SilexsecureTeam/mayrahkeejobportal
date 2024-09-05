@@ -1,10 +1,11 @@
-import { lazy, useContext, useReducer } from "react";
+import { lazy, useContext, useEffect, useReducer, useState } from "react";
 import { Route, Routes } from "react-router-dom";
 import ApplicantReducer from "../reducers/ApplicantReducer";
 import { applicantOptions, utilOptions } from "../utils/constants";
 import { user } from "../utils/dummies";
 import { AuthContext } from "../context/AuthContex";
 import ResourceContextProvider from "../context/ResourceContext";
+import { clear } from "idb-keyval";
 
 //Util Components
 const NavBar = lazy(() => import("../applicant-module/components/NavBar"));
@@ -41,19 +42,40 @@ const ShortListedDetails = lazy(() =>
   import("../applicant-module/pages/shortlisted/ShortListedDetails")
 );
 const NotFound = lazy(() => import("../applicant-module/pages/404"));
-const Settings = lazy(() => import("../applicant-module/pages/settings/Settings"));
-const HelpCenter = lazy(() => import("../applicant-module/pages/help-center/HelpCenter"));
+const Settings = lazy(() =>
+  import("../applicant-module/pages/settings/Settings")
+);
+const HelpCenter = lazy(() =>
+  import("../applicant-module/pages/help-center/HelpCenter")
+);
 
 function useApplicantRoute() {
   const [state, dispatch] = useReducer(ApplicantReducer, applicantOptions[0]);
   const { authDetails } = useContext(AuthContext);
+  const [isOpen, setIsOpen] = useState(false);
 
-  console.log(authDetails)
+  const toogleIsOpen = () => setIsOpen(!isOpen);
+
+  // const setSideBar = (index) => {
+  //   const page = companyOptions[index];
+  //   dispatch({ ...page });
+  // };
+
+  useEffect(() => {
+    const clearDb = async () => await clear();
+
+    return () => clearDb();
+  }, []);
+
   return (
-    <main className="h-screen w-screen flex">
+    <main className="h-screen w-screen  flex">
       <ResourceContextProvider>
         {/* Side bar takes up 20% of total width and 100% of height */}
-        <SideBar authDetails={authDetails}>
+        <SideBar
+          authDetails={authDetails}
+          toogleIsOpen={toogleIsOpen}
+          isMenuOpen={isOpen}
+        >
           <ul className="flex flex-col gap-[10px]">
             {applicantOptions.map((currentOption) => (
               <SideBarItem
@@ -78,8 +100,12 @@ function useApplicantRoute() {
         </SideBar>
 
         {/* Routes and dashboard take up 80% of total width and 100% of height*/}
-        <div className="w-[82%] flex divide-y-2 divide-secondaryColor bg-white flex-col h-full">
-          <NavBar state={state} />
+        <div className="w-full lg:w-[82%] flex divide-y-2 divide-secondaryColor bg-white flex-col h-full">
+          <NavBar
+            state={state}
+            toogleIsOpen={toogleIsOpen}
+            isMenuOpen={isOpen}
+          />
           <div className="w-full h-[92%] overflow-y-auto">
             <Routes>
               <Route index element={<Home />} />

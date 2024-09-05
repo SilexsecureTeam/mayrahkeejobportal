@@ -9,7 +9,7 @@ function ApplicantSummary({ applicants, byCategory }) {
   const navigate = useNavigate();
 
   return (
-    <div className="h-[65%] w-full border p-3 justify-between flex flex-col">
+    <div className="md:h-[65%] h-fit w-full border p-3 justify-between flex flex-col">
       <h2 className="text-sm font-semibold">Applicants Summary</h2>
 
       <div className="flex gap-[5px] items-end">

@@ -39,8 +39,10 @@ function JobType() {
     }
   };
 
+  
+  console.log(currentJob)
   useEffect(() => {
-    if (location?.state?.data) {
+    if (location?.state?.data !== null) {
       setCurrentJob(location.state.data);
     } else {
       console.log(jobUtils.jobList);
@@ -48,7 +50,7 @@ function JobType() {
     }
 
     if (location?.state?.applicants) {
-      setCurrentJob(location.state.applicants);
+      setAllApplicants(location.state.applicants);
     } else {
       const currentApplicants = applicants.find(
         (current) => current.job_id === Number(id)

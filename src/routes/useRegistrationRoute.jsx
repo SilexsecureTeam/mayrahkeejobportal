@@ -23,7 +23,7 @@ function useRegistrationRoute() {
         <title>Registration Page</title>
       </Helmet>
       <main className="w-screen h-screen flex">
-        <div className="w-[50%] h-screen">
+        <div className="w-[50%] md:block hidden  h-screen">
           <RegistrationProgress state={state} dispatch={dispatch} />
         </div>
 

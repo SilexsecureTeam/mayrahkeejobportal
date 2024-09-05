@@ -20,7 +20,8 @@ function FallbackComponent() {
     <main className="w-full h-screen bg-white/90 flex flex-col justify-center items-center">
       <Lottie
         lottieRef={lottieRef}
-        style={{ height: "25%" }}
+        // style={{ height: "25%" }}
+        className="w-[40%] md:w-[25%]"
         animationData={searcherAnim}
       />
       <img src={mainLogoTwo} className="w-[15%]"/>

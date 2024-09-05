@@ -46,7 +46,7 @@ function JobStatistic({ applicants, byCategory }) {
   };
 
   return (
-    <div className="border h-full w-[65%]  ">
+    <div className="border h-fit md:h-full w-full md:w-[65%]  ">
       <div className="h-[28%] border-b px-2 justify-between pt-1 flex flex-col">
         <div className="w-full justify-between flex">
           <div className="flex flex-col">

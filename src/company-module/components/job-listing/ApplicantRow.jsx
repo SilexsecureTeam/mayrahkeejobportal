@@ -10,7 +10,7 @@ function ApplicantRow({data}) {
   
 
   return (
-    <tr className="border-b odd:bg-primaryColor/50 hover:scale-105 hover:bg-primaryColor hover:text-white duration-100  text-little">
+    <tr className="border-b odd:bg-primaryColor/50 odd:bg-black odd:text-white hover:text-white duration-100  text-little">
       <td className="text-center py-[5px]">
         <div className="flex justify-center items-center gap-[5px]">
           <span>{data?.full_name}</span>
@@ -40,7 +40,7 @@ function ApplicantRow({data}) {
 
       <td>
         <div className="items-center flex justify-center py-[5px]">
-          <button onClick={navigateToApplicantDetails} className="font-semibold text-white px-2 py-[3px] border  bg-primaryColor">
+          <button onClick={navigateToApplicantDetails} className="font-semibold border-white bg-gray-800 text-white px-2 py-[3px] border ">
             See Application
           </button>
         </div>

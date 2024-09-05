@@ -16,7 +16,7 @@ function Applicants() {
       <Helmet>
         <title>Company Dashboard | All Applicants </title>
       </Helmet>
-      <div className="h-full w-full flex flex-col px-12 py-2 gap-[15px]">
+      <div className="h-full w-full flex flex-col px-2 md:px-12 py-2 gap-[15px]">
         <div className="w-full flex justify-between ">
             <h2 className="font-semibold text-md">Total Applicants: {applicationUtils.applicants?.length}</h2>
             <div className="flex bg-gray-300 p-1 text-primaryColor">
@@ -31,13 +31,13 @@ function Applicants() {
             <th className="px-4 py-1 text-center">
               Full Name
             </th>
-            <th className="px-4 py-1 text-center">
+            <th className="px-4 py-1 hidden md:block text-center">
               Email
             </th>
             <th className="px-4 py-1 text-center">
               Status
             </th>
-            <th className="px-4 py-1 text-center">
+            <th className="px-4 py-1 hidden md:block text-center">
               Applied Date
             </th>
             <th className="px-4 py-1 text-center">

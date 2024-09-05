@@ -16,9 +16,7 @@ function RegistrationTwo() {
         <title>Registration Page</title>
       </Helmet>
       <main className="w-screen h-screen flex">
-        <div className="w-[50%] h-screen">
-          <RegistrationProgress state={state} dispatch={dispatch} />
-        </div>
+
         <RegistrationFormTwo/>
 
       </main>

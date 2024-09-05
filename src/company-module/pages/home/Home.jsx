@@ -66,7 +66,7 @@ function Home({navigateToPage}) {
       <Helmet>
         <title>Company Dashboard | Home</title>
       </Helmet>
-      <div className="h-fit w-full py-5 px-12 gap-[15px] flex flex-col">
+      <div className="h-fit w-full py-5 px-2 md:px-12 gap-[15px] flex flex-col">
         {/* First ROw */}
         <div className="w-full flex justify-between">
           <div className="flex flex-col gap-[5px]">
@@ -80,7 +80,7 @@ function Home({navigateToPage}) {
 
           {/* <img src={calanderTest} className="w-[12%] h-[35px] object-contain" /> */}
 
-          <div className="px-1 py-1 border flex cursor-pointer gap-[10px] h-fit text-little items-center">
+          <div className="px-1 py-1 border hidden md:flex cursor-pointer gap-[10px] h-fit text-little items-center">
             <span>{new Date().toLocaleDateString()}</span>
             <GrSchedules className="text-primaryColor text-sm" />
           </div>
@@ -92,7 +92,7 @@ function Home({navigateToPage}) {
         {/* Third Row */}
         <JobStatsAndSummary>
           <JobStatistic applicants={applicants} byCategory={value}/>
-          <div className="flex flex-col w-[30%] px-3 h-full justify-between">
+          <div className="flex flex-col w-full md:w-[30%] px-3 h-fit md:h-full justify-between">
             <JobOpen data={openJobs} />
             <ApplicantSummary applicants={applicants} byCategory={value} />
           </div>

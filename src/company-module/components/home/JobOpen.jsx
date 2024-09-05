@@ -12,7 +12,7 @@ function JobOpen({ data }) {
         setSideBar(4);
         navigate("/company/job-listing");
       }}
-      className="w-full h-[30%] hover:scale-105 duration-100 cursor-pointer justify-between px-3 py-[3px] flex flex-col border"
+      className="w-full h-fit md:h-[30%] hover:scale-105 duration-100 cursor-pointer justify-between px-3 py-[3px] flex flex-col border"
     >
       <h3 className="font-semibold text-gray-700">Jobs open</h3>
 

@@ -148,7 +148,15 @@ const currencyData = [
   },
   {
     id: 3,
-    name: "Dollars (D)",
+    name: "Dollars ($)",
+  },
+  {
+    id: 4,
+    name: "Euros (E)",
+  },
+  {
+    id: 5,
+    name: "Pounds (P)",
   },
 ];
 
@@ -181,7 +189,6 @@ function BasicInformation({ setCurrentStep, data, jobUtils }) {
     }
   };
 
- 
   useEffect(() => {
     jobUtils.setDetails({
       ...jobUtils.details,
@@ -215,9 +222,20 @@ function BasicInformation({ setCurrentStep, data, jobUtils }) {
         </div>
 
         <div className="flex flex-col gap-[3px] ">
-          <label htmlFor="photo_url" className="text-little text-primaryColor hover:underline cursor-pointer">Upload</label>
+          <label
+            htmlFor="photo_url"
+            className="text-little text-primaryColor hover:underline cursor-pointer"
+          >
+            Upload
+          </label>
           <div className="flex flex-col h-[80px] w-[80px] border border-dashed p-1 border-gray-400">
-            {photoUrl && <img src={photoUrl} alt="" className="h-full w-full object-cover bg-red-300" />}
+            {photoUrl && (
+              <img
+                src={photoUrl}
+                alt=""
+                className="h-full w-full object-cover bg-red-300"
+              />
+            )}
             <input
               id="photo_url"
               onChange={getPhotoURL}
@@ -228,9 +246,7 @@ function BasicInformation({ setCurrentStep, data, jobUtils }) {
             />
           </div>
 
-          <span className="text-[10px] text-gray-400">
-            Only Jpeg or png
-          </span>
+          <span className="text-[10px] text-gray-400">Only Jpeg or png</span>
         </div>
       </div>
 
@@ -263,47 +279,6 @@ function BasicInformation({ setCurrentStep, data, jobUtils }) {
         </div>
       </div>
 
-      {/* Salary */}
-      <div className="flex gap-[15%]  border-b py-2 ">
-        <div className="flex flex-col max-w-[25%] w-full gap-[10px]">
-          <h3 className="text-gray-700 text-sm font-semibold">Salary</h3>
-          <span className="text-little text-gray-400">
-            Please specify the estimated salary range for the role. *You can
-            leave this blank
-          </span>
-        </div>
-
-        <div className="flex flex-col gap-[20px] justify-center w-[20%]">
-          <div className="flex items-center text-little text-gray-700 justify-between">
-            <span className="border p-1 ">
-              {FormatPrice(jobUtils.details.min_salary)}
-            </span>
-            <span>to</span>
-            <span className="border p-1 ">
-              {FormatPrice(jobUtils.details.max_salary)}
-            </span>
-          </div>
-
-          <RangeSlider
-            min={0}
-            max={100000}
-            step={500}
-            defaultValue={[
-              jobUtils.details.min_salary,
-              jobUtils.details.max_salary,
-            ]}
-            onInput={(range) => {
-              jobUtils.setDetails({
-                ...jobUtils.details,
-                min_salary: range[0],
-                max_salary: range[1],
-              });
-            }}
-          />
-        </div>
-      </div>
-
-   
       {/* Job Title */}
       <QualificationsForm jobUtils={jobUtils} />
 
@@ -346,6 +321,46 @@ function BasicInformation({ setCurrentStep, data, jobUtils }) {
         selected={selectedCurrency}
         setSelected={setSelectedCurrency}
       />
+
+      {/* Salary */}
+      <div className="flex gap-[15%]  border-b py-2 ">
+        <div className="flex flex-col max-w-[25%] w-full gap-[10px]">
+          <h3 className="text-gray-700 text-sm font-semibold">Salary</h3>
+          <span className="text-little text-gray-400">
+            Please specify the estimated salary range for the role. *You can
+            leave this blank
+          </span>
+        </div>
+
+        <div className="flex flex-col gap-[20px] justify-center w-[20%]">
+          <div className="flex items-center text-little text-gray-700 justify-between">
+            <span className="border p-1 ">
+              {FormatPrice(jobUtils.details.min_salary)}
+            </span>
+            <span>to</span>
+            <span className="border p-1 ">
+              {FormatPrice(jobUtils.details.max_salary)}
+            </span>
+          </div>
+
+          <RangeSlider
+            min={0}
+            max={100000}
+            step={500}
+            defaultValue={[
+              jobUtils.details.min_salary,
+              jobUtils.details.max_salary,
+            ]}
+            onInput={(range) => {
+              jobUtils.setDetails({
+                ...jobUtils.details,
+                min_salary: range[0],
+                max_salary: range[1],
+              });
+            }}
+          />
+        </div>
+      </div>
 
       <button
         onClick={() => setCurrentStep(data[1])}

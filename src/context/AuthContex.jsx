@@ -26,7 +26,6 @@ export const AuthContextProvider = ({ children }) => {
     }
   }, [authDetails?.token, authDetails?.user]);
   
-  console.log(userUpdate)
 
   return (
     <AuthContext.Provider value={{ authDetails, setAuthDetails, userUpdate, setUserUpdate }}>

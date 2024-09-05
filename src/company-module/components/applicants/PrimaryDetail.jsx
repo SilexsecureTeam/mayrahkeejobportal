@@ -25,7 +25,7 @@ function PrimaryDetail({ data, applicant }) {
   };
 
   return (
-    <div className="w-[30%] border h-full p-2">
+    <div className="w-full md:w-[30%] border h-full p-2">
       <div className="w-full flex flex-col gap-[15px] items-center">
         <div className="flex w-full gap-[10px] items-center">
           <img

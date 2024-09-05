@@ -1,13 +1,19 @@
 import { Helmet } from "react-helmet";
-import docsIcon from "../../../assets/pngs/doc-vector.png"
-import chatsIcon from "../../../assets/pngs/multiple-chat.png"
+import docsIcon from "../../../assets/pngs/doc-vector.png";
+import chatsIcon from "../../../assets/pngs/multiple-chat.png";
 import RoundChart from "../../components/charts/RoundCharts";
 import { FaArrowRightLong } from "react-icons/fa6";
-import { MdChevronLeft, MdChevronRight, MdOutlineMoreHoriz, MdOutlineRateReview, MdOutlineRemoveRedEye } from "react-icons/md";
-import newApplicant from "../../../assets/pngs/applicant-logo1.png"
+import {
+  MdChevronLeft,
+  MdChevronRight,
+  MdOutlineMoreHoriz,
+  MdOutlineRateReview,
+  MdOutlineRemoveRedEye,
+} from "react-icons/md";
+import newApplicant from "../../../assets/pngs/applicant-logo1.png";
 import RecentlyAdded from "./RecentlyAdded";
 import { motion } from "framer-motion";
-import { fadeIn, fadeInXaxis } from "../../../utils/variants"
+import { fadeIn, fadeInXaxis } from "../../../utils/variants";
 import { RiCalendarEventLine } from "react-icons/ri";
 import { useContext, useEffect } from "react";
 import { AuthContext } from "../../../context/AuthContex";
@@ -17,21 +23,31 @@ import { BASE_URL } from "../../../utils/base";
 import Interview from "./components/Interview";
 import axios from "axios";
 
-const now = new Date()
+const now = new Date();
 function Home() {
-  const { getAllApplications, setGetAllApplications, getAllJobs, setGetAllJobs } = useContext(ResourceContext);
+  const {
+    getAllApplications,
+    setGetAllApplications,
+    getAllJobs,
+    setGetAllJobs,
+  } = useContext(ResourceContext);
   const { authDetails, userUpdate } = useContext(AuthContext);
   const hour = now.getHours();
   const user = authDetails?.user;
 
-  const currentDate = now.toLocaleDateString('en-US', { month: 'long', day: 'numeric' });
+  const currentDate = now.toLocaleDateString("en-US", {
+    month: "long",
+    day: "numeric",
+  });
 
-  let timeOfDay = ""
+  let timeOfDay = "";
   if (hour > 16) {
-    timeOfDay = "Evening"
+    timeOfDay = "Evening";
   } else if (hour > 11 && hour < 17) {
-    timeOfDay = "Afternoon"
-  } else { timeOfDay = "Morning" }
+    timeOfDay = "Afternoon";
+  } else {
+    timeOfDay = "Morning";
+  }
 
   function generateDateRange() {
     const today = new Date();
@@ -39,8 +55,14 @@ function Home() {
     oneWeekLater.setDate(today.getDate() + 7);
 
     // Format dates as "Month Day, Year"
-    const formattedStartDate = today.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
-    const formattedEndDate = oneWeekLater.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+    const formattedStartDate = today.toLocaleDateString("en-US", {
+      month: "short",
+      day: "numeric",
+    });
+    const formattedEndDate = oneWeekLater.toLocaleDateString("en-US", {
+      month: "short",
+      day: "numeric",
+    });
 
     return `${formattedStartDate} - ${formattedEndDate}.`;
   }
@@ -48,49 +70,56 @@ function Home() {
   useEffect(() => {
     setGetAllJobs((prev) => {
       return {
-        ...prev, isDataNeeded: true
-      }
-    })
-  }, [])
+        ...prev,
+        isDataNeeded: true,
+      };
+    });
+  }, []);
 
-  console.log(userUpdate)
+  console.log(userUpdate);
 
   useEffect(() => {
     setGetAllApplications((prev) => {
       return {
-        ...prev, isDataNeeded: true
-      }
-    })
-  }, [])
+        ...prev,
+        isDataNeeded: true,
+      };
+    });
+  }, []);
 
-  const allApplications = getAllApplications?.data
-  const pendingReview = allApplications?.filter((app) => app.status === "in-review")
-  const shortlistedReview = allApplications?.filter((app) => app.status === "shortlist")
+  const allApplications = getAllApplications?.data;
+  const pendingReview = allApplications?.filter(
+    (app) => app.status === "in-review"
+  );
+  const shortlistedReview = allApplications?.filter(
+    (app) => app.status === "shortlist"
+  );
 
   const getInterviews = (id, setState) => {
-    axios.get(`${BASE_URL}/interviews/${id}`, {
-      headers: {
-        Authorization: `Bearer ${authDetails.token}`,
-      },
-    })
+    axios
+      .get(`${BASE_URL}/interviews/${id}`, {
+        headers: {
+          Authorization: `Bearer ${authDetails.token}`,
+        },
+      })
       .then((response) => {
         // console.log(response)
-        setState(response.data.interview)
+        setState(response.data.interview);
         // onSuccess({
         //     message: 'New Application',
         //     success: response.data.message
         // })
       })
       .catch((error) => {
-        console.log(error)
+        console.log(error);
         if (error.response) {
-          setErrorMsg(error.response.data.message)
+          setErrorMsg(error.response.data.message);
         } else {
-          console.log(error)
-          setErrorMsg(error.message)
+          console.log(error);
+          setErrorMsg(error.message);
         }
       });
-  }
+  };
 
   // console.log(allApplications)
   return (
@@ -99,37 +128,43 @@ function Home() {
         <title>Dashboard | Home</title>
       </Helmet>
       <FirstUpdateForm />
-      <div className="h-full epilogue p-6 w-full text-sm text-primary">
+      <div className="h-full p-6 w-full text-sm text-gray-800">
         <div className="text-sm">
-          <div className="flex justify-between align-center">
+          <div className="flex justify-between ">
             <div className="">
-              <h4 className="font-bold text-2xl mb-5">Good {timeOfDay}, {user.first_name}</h4>
-              <p>Here is what’s happening with your job search applications from {generateDateRange()}</p>
+              <h4 className="font-bold text-2xl mb-2  ">
+                Good {timeOfDay}, {user.first_name}
+              </h4>
+              <p>
+                Here is what’s happening with your job search applications from{" "}
+                {generateDateRange()}
+              </p>
             </div>
             <div>
-              <button className="border p-2 flex items-center hover:bg-gray-100 hover:shadow"> {generateDateRange()}<RiCalendarEventLine className="ml-2 prime_text" size={15} /></button>
+              <button className="border p-2 hidden md:flex items-center">
+                {" "}
+                {generateDateRange()}
+                <RiCalendarEventLine className="ml-2 " size={15} />
+              </button>
             </div>
           </div>
-          <div className="flex mt-8 gap-3">
-            <motion.div
-              variants={fadeIn('down', 0.7)}
-              initial={"hidden"}
-              whileInView={"show"}
-              viewport={{ once: true, amount: 0.7 }}
-              className="w-1/5 ">
-              <div className="pb-1 h-1/2">
-                <div className="border transition duration-400 h-full cursor-pointer hover:shadow-xl mb-4 p-3 pb-0 flex flex-col justify-between">
+          <div className="md:flex-row flex-col flex  mt-8 gap-2">
+            <div className=" w-full md:w-[17%]  flex justify-between md:flex-col ">
+              <div className="pb-1 h-full md:w-full w-[45%] md:h-1/2">
+                <div className="border transition duration-400 h-full cursor-pointer mb-4 p-3 pb-0 flex flex-col justify-between">
                   <p className="font-bold">Total Jobs Applied</p>
-                  <div className="flex justify-between items-end mt-4">
-                    <p className="text-6xl font-medium">{getAllApplications.data?.length}</p>
+                  <div className="flex justify-between items-end mt-">
+                    <p className="text-6xl font-medium">
+                      {getAllApplications.data?.length}
+                    </p>
                     <div className="">
-                      <img src={docsIcon} alt="" className="w-10" />
+                      <img src={docsIcon} alt="" className="w-5" />
                     </div>
                   </div>
                 </div>
               </div>
-              <div className="pt-1 h-1/2">
-                <div className="border transition duration-400 h-full cursor-pointer hover:shadow-xl mb-4 p-3 pb-0 flex flex-col justify-between">
+              <div className="pt-1 h-full md:w-full w-[45%]  md:h-1/2">
+                <div className="border transition duration-400 h-full cursor-pointer mb-4 p-3 pb-0 flex flex-col justify-between">
                   <p className="font-bold">Interviewed</p>
                   <div className="flex justify-between items-end mt-4">
                     <p className="text-6xl font-medium">0</p>
@@ -139,18 +174,15 @@ function Home() {
                   </div>
                 </div>
               </div>
-            </motion.div>
-            <motion.div
-              variants={fadeIn('down', 0.7)}
-              initial={"hidden"}
-              whileInView={"show"}
-              viewport={{ once: true, amount: 0.7 }}
-              className="w-1/5 ">
-              <div className="pb-1 h-1/2">
-                <div className="border transition duration-400 h-full cursor-pointer hover:shadow-xl mb-4 p-3 pb-0 flex flex-col justify-between">
+            </div>
+            <div className=" w-full md:w-[17%]  flex justify-between md:flex-col ">
+              <div  className="pt-1 h-full md:w-full w-[45%]  md:h-1/2">
+                <div className="border transition duration-400 h-full cursor-pointer mb-4 p-3 pb-0 flex flex-col justify-between">
                   <p className="font-bold">In-Review</p>
                   <div className="flex justify-between items-end mt-4">
-                    <p className="text-6xl font-medium">{pendingReview?.length}</p>
+                    <p className="text-6xl font-medium">
+                      {pendingReview?.length}
+                    </p>
                     <div className=" text-gray-300">
                       <MdOutlineRateReview size={50} />
                       {/* <img src={docsIcon} alt="" className="w-10" /> */}
@@ -158,11 +190,13 @@ function Home() {
                   </div>
                 </div>
               </div>
-              <div className="pt-1 h-1/2">
-                <div className="border transition duration-400 h-full cursor-pointer hover:shadow-xl mb-4 p-3 pb-0 flex flex-col justify-between">
+              <div  className="pt-1 h-full md:w-full w-[45%]  md:h-1/2">
+                <div className="border transition duration-400 h-full cursor-pointer mb-4 p-3 pb-0 flex flex-col justify-between">
                   <p className="font-bold">Shortlisted</p>
                   <div className="flex justify-between items-end mt-4">
-                    <p className="text-6xl font-medium">{shortlistedReview?.length}</p>
+                    <p className="text-6xl font-medium">
+                      {shortlistedReview?.length}
+                    </p>
                     <div className=" text-gray-300">
                       <MdOutlineRemoveRedEye size={50} />
                       {/* <img src={chatsIcon} alt="" className="w-[60px]" /> */}
@@ -170,8 +204,9 @@ function Home() {
                   </div>
                 </div>
               </div>
-            </motion.div>
-            <div className="w-1/5 bg-primaryColor text-white border">
+            </div>
+
+            <div className="w-full flex items-center justify-center md:w-[25%] bg-primaryColor text-white border">
               <div className=" p-3">
                 <p className="font-bold">Jobs Applied Status</p>
                 <div className="my-5 flex items-center">
@@ -195,26 +230,34 @@ function Home() {
                     </div>
                   </div> */}
                 </div>
-                <div className="flex my-3 items-center font-bold cursor-pointer hover:opacity-90">
+                <div className="flex my-3  items-center font-bold cursor-pointer hover:opacity-90">
                   <p>View All Applications</p>
-                  <span className="ml-2"> <FaArrowRightLong /></span>
+                  <span className="ml-2">
+                    {" "}
+                    <FaArrowRightLong />
+                  </span>
                 </div>
               </div>
             </div>
-            <motion.div
-              variants={fadeInXaxis('left', 0.2)}
-              initial={"hidden"}
-              whileInView={"show"}
-              viewport={{ once: true, amount: 0.7 }}
-              className="w-3/5 font-medium border py-3 text-sm">
+
+
+            <div
+              className="w-full md:w-[50%] font-medium border py-3 text-sm"
+            >
               <div className="px-3 border-b">
                 <p className="font-bold my-3">Upcomming Interviews</p>
               </div>
               <div className="px-3 flex border-b justify-between items-center">
-                <p className=" my-3"><b>Today</b>, {currentDate}</p>
+                <p className=" my-3">
+                  <b>Today</b>, {currentDate}
+                </p>
                 <div className="flex">
-                  <span className="mr-2"><MdChevronLeft /> </span>
-                  <span><MdChevronRight /> </span>
+                  <span className="mr-2">
+                    <MdChevronLeft />{" "}
+                  </span>
+                  <span>
+                    <MdChevronRight />{" "}
+                  </span>
                 </div>
               </div>
               {/* <div className="px-3 my-3 flex items-center">
@@ -222,10 +265,13 @@ function Home() {
                 <p className="border-b w-5/6 pt-1"> </p>
               </div> */}
               <div className="overflow-y-scroll max-h-[250px] no_scroll_bar">
-                {shortlistedReview?.map(shortListed => <Interview
-                  key={shortListed.id}
-                  getInterviews={getInterviews}
-                  shortListed={shortListed} />)}
+                {shortlistedReview?.map((shortListed) => (
+                  <Interview
+                    key={shortListed.id}
+                    getInterviews={getInterviews}
+                    shortListed={shortListed}
+                  />
+                ))}
               </div>
               {/* <div className="px-3 my-3 flex items-center">
                 <p className="w-1/6 font-medium">10:30 AM</p>
@@ -243,22 +289,30 @@ function Home() {
                 <p className="w-1/6 font-medium">11:00 AM</p>
                 <p className="border-b w-5/6 pt-1"> </p>
               </div> */}
-            </motion.div>
+            </div>
           </div>
         </div>
-        <div className="my-12">
+        <div className="my-8">
           <div className="border">
             <div className="p-3 border-b">
               <p className="font-bold text-base">Recent Application History</p>
             </div>
             <div className="p-3 h-[40vh] overflow-y-auto no_scroll_bar">
               {allApplications?.map((app) => (
-                <RecentlyAdded key={app.id} app={app.id} newApp={app} newApplicant={newApplicant} />
+                <RecentlyAdded
+                  key={app.id}
+                  app={app.id}
+                  newApp={app}
+                  newApplicant={newApplicant}
+                />
               ))}
               <div className="my-4 flex justify-center">
                 <div className="flex my-3 items-center cursor-pointer prime_text hover:opacity-90">
                   <p>View All Applications</p>
-                  <span className="ml-2"> <FaArrowRightLong /></span>
+                  <span className="ml-2">
+                    {" "}
+                    <FaArrowRightLong />
+                  </span>
                 </div>
               </div>
             </div>

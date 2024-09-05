@@ -57,10 +57,10 @@ function RegistrationFormTwo({ state, dispatch }) {
   }, []);
 
   return (
-    <div className="w-[50%] px-[5%] pt-[10px] flex flex-col  items-center">
+    <div className="md:w-[50%] w-full px-[5%] pt-[10px] flex flex-col  items-center">
       <img src={MainIcon} className="w-[60%]" />
 
-      <div className="flex flex-col items-center gap-[8px] w-[60%]">
+      <div className="flex flex-col items-center gap-[8px] w-full md:w-[60%]">
         <h1 className="font-semibold text-[25px]">Create Account</h1>
         <div className="flex w-full justify-center gap-[20px] text-sm font-semibold items-centeritems">
           <button
@@ -88,7 +88,7 @@ function RegistrationFormTwo({ state, dispatch }) {
 
       <form
         onSubmit={handleOnSubmit}
-        className="flex flex-col w-[65%] mt-[10px] items-center gap-[5px] "
+        className="flex flex-col w-full md:w-[65%] mt-[10px] items-center gap-[15px] md:gap-[5px] "
       >
         <div className="h-[40px] w-full flex items-center pl-[10px] gap-[10px] rounded-md border-[1.5px]">
           <img src={Person} className="h-[20px]" />

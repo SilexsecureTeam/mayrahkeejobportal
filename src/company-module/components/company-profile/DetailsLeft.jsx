@@ -4,7 +4,7 @@ import { company_socials } from "../../../utils/constants";
 
 function DetailsLeft({ data }) {
   return (
-    <div className="w-[60%] flex flex-col gap-[20px]">
+    <div className="w-full md:w-[60%] flex flex-col gap-[20px]">
       {/* Company Profile Section */}
       <div className="flex w-full flex-col gap-[10px] ">
 

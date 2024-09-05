@@ -18,7 +18,7 @@ function ProfileHeader({ children, isOpen, setIsOpen, details }) {
   };
 
   return (
-    <div className="w-full h-[25%] border flex">
+    <div className="w-full h-[50vh] md:h-[25%] border flex flex-col md:flex-row">
       <div className="w-[10%] flex items-center justify-center relative">
         <img
           className="h-[80px] w-[80px] rounded-full"
@@ -27,17 +27,18 @@ function ProfileHeader({ children, isOpen, setIsOpen, details }) {
       </div>
 
       {/* Right hand */}
-      <div className="flex flex-col h-full justify-between w-[90%] p-2">
+      <div className="flex flex-col h-full justify-between w-full md:w-[90%] p-2">
         {/* Circle section */}
         <div className="flex justify-between h-[60%] items-center">
           <div className="flex flex-col gap-[3px] text-gray-800">
             <h2 className="font-bold text-3xl">{details?.company_name}</h2>
-            <div className="flex w-full items-center gap-[10%]">
+          
+            <div className="flex flex-col md:flex-row md:w-full md:items-center gap-[10%]">
             <span className="flex gap-[5px] text-little">
               Email:
               <a className=" hover:underline cursor-pointer ">{details?.email}</a>
             </span>
-            <hr className="w-[50px] border-gray-400 bg-gray-400 border h-[8px]"/>
+            <hr className="md:block hidden w-[50px] border-gray-400 bg-gray-400 border h-[8px]"/>
             <span className="flex gap-[5px] text-little">
               Phone:
               <a className=" ">{details?.phone_number}</a>
@@ -63,7 +64,7 @@ function ProfileHeader({ children, isOpen, setIsOpen, details }) {
         </div>
 
         {/* Attributes section */}
-        <ul className="flex justify-between border mt-[5px] p-2 h-[40%] items-center">
+        <ul className=" grid grid-cols-2 w-full gap-2 md:gap-0 md:flex justify-between border mt-[5px] p-2 h-[40%] items-center">
           {children}
         </ul>
       </div>
