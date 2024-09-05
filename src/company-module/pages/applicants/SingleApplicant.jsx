@@ -18,21 +18,30 @@ function SingleApplicant() {
     loading,
     scheduleInterview,
   } = useContext(ApplicationContext);
-  
+
   const [applicant, setApplicant] = useState();
 
   const toogleInterview = () => setIsOpen(!isOpen);
 
-  const handleOnSubmit = (e) => {
+  const handleOnSubmit = (e, selectedOption) => {
     e.preventDefault();
-    scheduleInterview(applicant, applicationData, setApplicantData, () => {
-      toogleInterview();
-    });
+    scheduleInterview(
+      applicant,
+      applicationData,
+      setApplicantData,
+      () => {
+        toogleInterview();
+      },
+      selectedOption
+    );
   };
 
   useEffect(() => {
     const initApplicant = async () => {
-      const result = await getApplicant(applicationData.candidate_id, setApplicant);
+      const result = await getApplicant(
+        applicationData.candidate_id,
+        setApplicant
+      );
       if (result) {
         setApplicant(result);
       }
@@ -40,7 +49,6 @@ function SingleApplicant() {
 
     initApplicant();
   }, []);
-
 
   return (
     <>

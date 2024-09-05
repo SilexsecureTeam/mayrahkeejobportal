@@ -6,15 +6,18 @@ module.exports = {
       colors: {
         primaryColor: "#0f5a02",
         secondaryColor: "#f8faf7",
+        darkblue: "#060b37",
+        lightblue: "#004aaf",
+        darkgreen: '#064200',
+        lightgreen: '#00bf6f',
+        lightorange: '#f9ab00',
       },
       textColor: {
-        primary: '#25324b',
-        darkblue: '#060b37',
-        lightblue: '#004aaf'
+        primary: "#25324b",
       },
       fontSize: {
-        little: '12px'
-      }
+        little: "12px",
+      },
     },
   },
   plugins: [],

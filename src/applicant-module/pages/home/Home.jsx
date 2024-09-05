@@ -151,7 +151,7 @@ function Home() {
           <div className="md:flex-row flex-col flex  mt-8 gap-2">
             <div className=" w-full md:w-[17%]  flex justify-between md:flex-col ">
               <div className="pb-1 h-full md:w-full w-[45%] md:h-1/2">
-                <div className="border transition duration-400 h-full cursor-pointer mb-4 p-3 pb-0 flex flex-col justify-between">
+                <div className="border text-white transition duration-400 bg-lightgreen h-full cursor-pointer mb-4 p-3 pb-0 flex flex-col justify-between">
                   <p className="font-bold">Total Jobs Applied</p>
                   <div className="flex justify-between items-end mt-">
                     <p className="text-6xl font-medium">
@@ -164,7 +164,7 @@ function Home() {
                 </div>
               </div>
               <div className="pt-1 h-full md:w-full w-[45%]  md:h-1/2">
-                <div className="border transition duration-400 h-full cursor-pointer mb-4 p-3 pb-0 flex flex-col justify-between">
+                <div className="border bg-lightblue text-white transition duration-400 h-full cursor-pointer mb-4 p-3 pb-0 flex flex-col justify-between">
                   <p className="font-bold">Interviewed</p>
                   <div className="flex justify-between items-end mt-4">
                     <p className="text-6xl font-medium">0</p>
@@ -177,7 +177,7 @@ function Home() {
             </div>
             <div className=" w-full md:w-[17%]  flex justify-between md:flex-col ">
               <div  className="pt-1 h-full md:w-full w-[45%]  md:h-1/2">
-                <div className="border transition duration-400 h-full cursor-pointer mb-4 p-3 pb-0 flex flex-col justify-between">
+                <div className="border bg-darkblue text-white transition duration-400 h-full cursor-pointer mb-4 p-3 pb-0 flex flex-col justify-between">
                   <p className="font-bold">In-Review</p>
                   <div className="flex justify-between items-end mt-4">
                     <p className="text-6xl font-medium">
@@ -191,7 +191,7 @@ function Home() {
                 </div>
               </div>
               <div  className="pt-1 h-full md:w-full w-[45%]  md:h-1/2">
-                <div className="border transition duration-400 h-full cursor-pointer mb-4 p-3 pb-0 flex flex-col justify-between">
+                <div className="border bg-lightorange text-white transition duration-400 h-full cursor-pointer mb-4 p-3 pb-0 flex flex-col justify-between">
                   <p className="font-bold">Shortlisted</p>
                   <div className="flex justify-between items-end mt-4">
                     <p className="text-6xl font-medium">
