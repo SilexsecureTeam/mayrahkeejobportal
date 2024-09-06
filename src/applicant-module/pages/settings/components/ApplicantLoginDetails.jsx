@@ -45,7 +45,7 @@ const ApplicantLoginDetails = ({authDetails}) => {
                 <div className="w-3/5">
                   <div className="mb-6">
                     <label className="block">
-                      <span className="block text-sm font-medium text-slate-700">Old Password</span>
+                      <span className="block text-sm font-medium text-slate-700">Enter New Password</span>
                       <input type="text" value="" placeholder='Enter your old password'
                         className="mt-1 block p-2 focus:outline-none w-full border" />
                     </label>
@@ -53,7 +53,7 @@ const ApplicantLoginDetails = ({authDetails}) => {
                   </div>
                   <div className="mb-6">
                     <label className="block">
-                      <span className="block text-sm font-medium text-slate-700">New Password</span>
+                      <span className="block text-sm font-medium text-slate-700">Recomfirm New Password</span>
                       <input type="text" value="" placeholder='Enter your new password'
                         className="mt-1 block p-2 focus:outline-none w-full border" />
                     </label>

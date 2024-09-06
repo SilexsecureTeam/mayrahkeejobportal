@@ -12,6 +12,8 @@ function SideBarItem({ data, dispatch, state }) {
     }
   };
 
+  
+
   return (
     <li
       onClick={navigateToPage}

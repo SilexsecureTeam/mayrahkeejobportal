@@ -98,7 +98,7 @@ function RegistrationFormTwo({ state, dispatch }) {
             value={regDetails.first_name}
             onChange={onTextChange}
             required
-            className="w-[80%] h-full placeholder:text-little text-small bg-white/0 focus:bg-white/0  focus:outline-none text-gray-700 "
+            className="w-[80%] h-full placeholder:text-little text-sm bg-white/0 focus:bg-white/0  focus:outline-none text-gray-700 "
             placeholder="Enter first name"
           />
         </div>
@@ -111,7 +111,7 @@ function RegistrationFormTwo({ state, dispatch }) {
             value={regDetails.last_name}
             onChange={onTextChange}
             required
-            className="w-[80%] h-full placeholder:text-little text-small bg-white/0 focus:bg-white/0  focus:outline-none text-gray-700 "
+            className="w-[80%] h-full placeholder:text-little text-sm bg-white/0 focus:bg-white/0  focus:outline-none text-gray-700 "
             placeholder="Enter last name"
           />
         </div>
@@ -136,7 +136,7 @@ function RegistrationFormTwo({ state, dispatch }) {
             value={regDetails.password}
             onChange={onTextChange}
             required
-            className="w-[80%] h-full placeholder:text-little text-little bg-white/0 focus:outline-none text-gray-700 "
+            className="w-[80%] h-full placeholder:text-little text-sm bg-white/0 focus:outline-none text-gray-700 "
             placeholder="Password"
           />
         </div>
@@ -148,7 +148,7 @@ function RegistrationFormTwo({ state, dispatch }) {
             value={regDetails.re_enter_password}
             onChange={onTextChange}
             required
-            className="w-[80%] h-full placeholder:text-small text-little bg-white/0 focus:outline-none text-gray-700 "
+            className="w-[80%] h-full placeholder:text-small text-sm bg-white/0 focus:outline-none text-gray-700 "
             placeholder="Re-enter Password"
           />
         </div>
