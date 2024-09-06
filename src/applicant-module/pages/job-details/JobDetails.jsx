@@ -143,7 +143,7 @@ const JobDetails = () => {
                     </div>
                 </div>
             </div>
-            <div className="p-6 border-b">
+            {/* <div className="p-6 border-b">
                 <h4 className="font-bold text-xl">Perks & Benefits</h4>
                 <p>This job comes with several perks and benefits</p>
                 <div className="my-5 pb-4  flex flex-wrap text-sm">
@@ -223,7 +223,7 @@ const JobDetails = () => {
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> */}
         </div>
     )
 }

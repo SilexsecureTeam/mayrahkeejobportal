@@ -50,7 +50,7 @@ function LoginForm({ rememberMe, toogleRememberMe }) {
           Explore/manage job different job oppurtunities
         </span>
 
-        <div className="grid grid-cols-2 w-full mt-[3%] gap-[10px] text-sm font-semibold text-little">
+        <div className="grid grid-cols-2 w-full mt-[3%] gap-[10px] text-sm font-semibold">
           <button
             onClick={() => setRole("candidate")}
             className={`px-2 py-1 text-little ${
@@ -106,7 +106,7 @@ function LoginForm({ rememberMe, toogleRememberMe }) {
               value={loginDetails.email}
               onChange={onTextChange}
               required
-              className="w-[80%] h-full placeholder:text-little text-little  md:bg-white/0 focus:bg-white/0 active:bg  focus:outline-none text-gray-700 "
+              className="w-[90%] h-full placeholder:text-little text-md md:bg-white/0 focus:bg-white/0 active:bg  focus:outline-none text-gray-700 "
               placeholder="Enter email or phone"
             />
           </div>
@@ -119,12 +119,12 @@ function LoginForm({ rememberMe, toogleRememberMe }) {
               value={loginDetails.password}
               onChange={onTextChange}
               required
-              className="w-[80%] h-full placeholder:text-littleall text-little md:bg-white/0 focus:outline-none text-gray-700 "
+              className="w-[90%] h-full placeholder:text-md text-sm md:bg-white/0 focus:outline-none text-gray-700 "
               placeholder="Password"
             />
           </div>
 
-          <div className="flex justify-between text-little w-full text-gray-400">
+          <div className="flex justify-between text-sm w-full text-gray-800">
             <p className="flex items-center gap-[3px]">
               {rememberMe ? (
                 <GiPlainCircle
@@ -149,7 +149,7 @@ function LoginForm({ rememberMe, toogleRememberMe }) {
           <FormButton width="w-full md:bg-primaryColor md:text-white bg-white" loading={loading}>Login to continue</FormButton>
         </form>
 
-        <p className="flex w-full group items-center mt-[10px] cursor-pointer hover:underline justify-center gap-[3px] text-little all text-gray-400">
+        <p className="flex w-full group items-center mt-[10px] cursor-pointer hover:underline justify-center gap-[3px] text-sm all text-gray-800">
           <NavLink to="/registration">
             Do not have an account?
             <span className="text-green group-hover:underline">Sign up</span>

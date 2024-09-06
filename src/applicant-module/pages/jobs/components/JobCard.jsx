@@ -25,14 +25,10 @@ const JobCard = ({ newApplicant, job, getAllApplications }) => {
                         </div>
                     </div>
                 </div>
-                <div className="">
+                <div className="flex items-center justify-center">
                     <button disabled={hasApplied} className="w-[150px] text-white mb-2 py-2 bg-green-700 hover:bg-green-900">
                         {hasApplied ? "Applied" : "Apply"}
                     </button>
-                    <div className="flex my-3 bg-gray-100">
-                        <div className="pt-1 bg-[#56CDAD] w-[50%]"></div>
-                    </div>
-                    <p><b>5 applied</b> of 10 capacity</p>
                 </div>
             </div>
         </div>
