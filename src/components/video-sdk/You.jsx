@@ -12,7 +12,7 @@ function You({ data }) {
     micOn,
     isLocal,
     displayName,
-  } = useParticipant(data);
+  } = useParticipant(data.id);
 
   const videoStream = useMemo(() => {
     if (webcamOn && webcamStream) {
