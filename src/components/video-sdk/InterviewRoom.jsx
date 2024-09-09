@@ -10,8 +10,8 @@ import { useLocation } from "react-router-dom";
 import Meeting from "./Meeting";
 
 function InterviewRoom() {
-  const location = useLocation();
-  const [meetingId, setMeetingId] = useState(location?.state?.meetingId);
+  const { state } = useLocation();
+  const [meetingId, setMeetingId] = useState(state?.interview?.meeting_id);
   const { authDetails } = useContext(AuthContext);
 
   console.log("auth token", authToken);
@@ -23,9 +23,8 @@ function InterviewRoom() {
   };
 
   return (
-    <main className="h-screen flex items-center justify-center w-screen bg-gray-200">
-      <div className="w-[90%] p-2 flex flex-col items-center justify-between rounded-[15px] h-[95%] bg-white/50">
-  
+    <main className="h-screen flex items-center justify-center w-screen">
+      <div className="w-[95%] flex flex-col items-center justify-between rounded-[15px] h-[95%] bg-white/50">
         {meetingId && (
           <MeetingProvider
             config={{
@@ -38,7 +37,7 @@ function InterviewRoom() {
             }}
             token={authToken}
           >
-            <Meeting />
+            <Meeting interview={state.interview} />
           </MeetingProvider>
         )}
       </div>
