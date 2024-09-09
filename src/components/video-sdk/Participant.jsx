@@ -5,7 +5,7 @@ import ReactPlayer from 'react-player'
 function Participant({ data }) {
   const micRef = useRef(null);
   const { webcamStream, micStream, webcamOn, micOn, isLocal, displayName } =
-    useParticipant(data.id);
+    useParticipant(data?.id);
 
   const videoStream = useMemo(() => {
     if (webcamOn && webcamStream) {
