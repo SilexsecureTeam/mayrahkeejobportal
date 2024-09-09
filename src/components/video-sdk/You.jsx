@@ -1,5 +1,6 @@
 import { useParticipant } from "@videosdk.live/react-sdk";
 import { useEffect, useMemo, useRef, useState } from "react";
+import ReactPlayer from "react-player";
 
 function You({ data }) {
   const micRef = useRef(null);
@@ -31,7 +32,6 @@ function You({ data }) {
 
   const toogleMic = () => setIsMicEnabled(!isMicEnabled);
 
-  console.log("displa", data);
 
   useEffect(() => {
     if (micRef.current) {
