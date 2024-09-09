@@ -4,9 +4,10 @@ import { axiosClient } from "../../../services/axios-client";
 import { AuthContext } from "../../../context/AuthContex";
 import { FormatError } from "../../../utils/formmaters";
 import { onFailure } from "../../../utils/notifications/OnFailure";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 function Shortlist({ data }) {
+  const { state } = useLocation();
   const { authDetails } = useContext(AuthContext);
   const client = axiosClient(authDetails.token);
   const [interview, setInterview] = useState();
@@ -15,7 +16,7 @@ function Shortlist({ data }) {
     error: "",
   });
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const handleOnClick = () => {
     const interviewDate = new Date(interview.interview_date);
@@ -27,9 +28,8 @@ function Shortlist({ data }) {
     //     error: "This interview is not scheduled for this time",
     //   });
     // }
-    
-    navigate('/interview-room', {state: {meetingId: interview.meeting_id}})
 
+    navigate("/interview-room", { state: { interview: interview } });
   };
 
   useEffect(() => {
@@ -47,7 +47,7 @@ function Shortlist({ data }) {
 
   useEffect(() => {
     if (error.message && error.error) {
-      onFailure(error)
+      onFailure(error);
     }
   }, [error.message, error.error]);
 
@@ -94,15 +94,23 @@ function Shortlist({ data }) {
               {interview.notes}
             </span>
           </div>
-      
         </div>
 
-        <button
-          onClick={handleOnClick}
-          className="ml-2 border w-fit hover:bg-primaryColor hover:text-white py-1 text-little px-2  border-primaryColor"
-        >
-          Proceed to Interview
-        </button>
+        {state.interviewFinished ? (
+          <button
+            onClick={handleOnClick}
+            className="ml-2 border w-fit hover:bg-primaryColor hover:text-white py-1 text-little px-2  border-primaryColor"
+          >
+            Mark as finished
+          </button>
+        ) : (
+          <button
+            onClick={handleOnClick}
+            className="ml-2 border w-fit hover:bg-primaryColor hover:text-white py-1 text-little px-2  border-primaryColor"
+          >
+            Proceed to Interview
+          </button>
+        )}
         {/* 
       <div className="w-full flex justify-between px-2">
         <h3 className="font-semibold text-sm px-2">Current S</h3>

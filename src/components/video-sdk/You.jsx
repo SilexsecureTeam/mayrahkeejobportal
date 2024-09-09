@@ -1,9 +1,21 @@
-import { useParticipant } from "@videosdk.live/react-sdk";
+import { useMeeting, useParticipant } from "@videosdk.live/react-sdk";
 import { useEffect, useMemo, useRef, useState } from "react";
 import ReactPlayer from "react-player";
+import { FaMicrophone, FaMicrophoneSlash } from "react-icons/fa";
+import {
+  BsFillCameraVideoFill,
+  BsFillCameraVideoOffFill,
+} from "react-icons/bs";
+import { MdCallEnd } from "react-icons/md";
+import { useContext } from "react";
+import { AuthContext } from "../../context/AuthContex";
+import { useNavigate } from "react-router-dom";
+import { FormatPrice } from "../../utils/formmaters";
 
-function You({ data }) {
+function You({ data, job, applicant }) {
   const micRef = useRef(null);
+  const { authDetails } = useContext(AuthContext);
+  const navigate = useNavigate();
   const {
     webcamStream,
     micStream,
@@ -12,7 +24,9 @@ function You({ data }) {
     micOn,
     isLocal,
     displayName,
-  } = useParticipant(data.id);
+  } = useParticipant(data?.id);
+
+  const { toggleMic, toggleWebcam, leave } = useMeeting();
 
   const videoStream = useMemo(() => {
     if (webcamOn && webcamStream) {
@@ -30,8 +44,7 @@ function You({ data }) {
 
   const [isMicEnabled, setIsMicEnabled] = useState(false);
 
-  const toogleMic = () => setIsMicEnabled(!isMicEnabled);
-
+  // const toogleMic = () => setIsMicEnabled(!isMicEnabled);
 
   useEffect(() => {
     if (micRef.current) {
@@ -52,10 +65,10 @@ function You({ data }) {
   }, [micStream, micOn]);
 
   return (
-    <div className="w-full h-[70%] overflow-hidden rounded-[10px]">
+    <div className="w-full h-full flex flex-col  rounded-[10px]">
       <audio ref={micRef} autoPlay playsInline muted={isLocal} />
 
-      <div className="w-full  h-full rounded-[10px]">
+      <div className="w-full h-[40%] overflow-hidden rounded-[10px]">
         {webcamOn ? (
           <ReactPlayer
             //
@@ -68,22 +81,123 @@ function You({ data }) {
             //
             url={videoStream}
             //
-            height={"300px"}
+            height={"100%"}
             width={"400px"}
             onError={(err) => {
               console.log(err, "participant video error");
             }}
           />
         ) : (
-          <div className="flex flex-col w-[35%] h-full overflow-hidden rounded-[10px]">
+          <div className="flex flex-col relative  h-full  rounded-[10px]">
             <img
               src="https://images.pexels.com/photos/6325968/pexels-photo-6325968.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-              className="w-full h-[80%]  object-cover bg-gray-400/10"
+              className="w-full  object-cover bg-gray-400/10"
             />
-            <span className=" bg-gray-500 text-little text-white h-[15%] px-2">
+            <span className=" bg-gray-500 absolute left-0 top-0 p-1 w-fit h-fit text-little text-white  px-2">
               {data.displayName}
             </span>
           </div>
+        )}
+      </div>
+
+      <div className="flex justify-center gap-8 p-5">
+        <div className="flex flex-col items-center">
+          {micOn ? (
+            <FaMicrophone
+              className="text-sm h-[45px] w-[45px] cursor-pointer p-3 bg-gray-400 rounded-full"
+              onClick={() => toggleMic()}
+            />
+          ) : (
+            <FaMicrophoneSlash
+              className="text-sm h-[45px] w-[45px] cursor-pointer p-3 bg-red-500 text-red-800 rounded-full"
+              onClick={() => toggleMic()}
+            />
+          )}
+          <span className="text-sm font-semibold">
+            {micOn ? "Unmuted" : "Muted"}
+          </span>
+        </div>
+
+        <div className="flex flex-col items-center">
+          {webcamOn ? (
+            <BsFillCameraVideoFill
+              className="text-sm h-[45px] w-[45px] cursor-pointer p-3 bg-gray-400 rounded-full"
+              onClick={() => toggleWebcam()}
+            />
+          ) : (
+            <BsFillCameraVideoOffFill
+              className="text-sm h-[45px] w-[45px] cursor-pointer p-3 bg-red-500 text-red-800 rounded-full"
+              onClick={() => toggleWebcam()}
+            />
+          )}
+          <span className="text-sm font-semibold">
+            {micOn ? "Cam On" : "Cam Off"}
+          </span>
+        </div>
+
+        <div className="flex flex-col items-center">
+          <MdCallEnd
+            className="text-sm h-[45px] w-[45px] cursor-pointer p-3 bg-red-500 text-red-800 rounded-full"
+            onClick={() => {
+              leave();
+              if (authDetails.user.role === "employer") {
+                navigate(-1, {state: {interviewFinished: true}});
+              } else {
+                navigate(-1, {state: {interviewFinished: true}});
+              }
+            }}
+          />
+          <span className="text-sm font-semibold">Leave</span>
+        </div>
+      </div>
+
+      <div className="w-full flex flex-col h-[45%] p-4 rounded-md bg-gray-950">
+        {job && (
+          <>
+            <span className="text-white font-semibold">Job Details</span>
+            <span className="text-white tracking-wider mt-3 flex justify-between w-full text-sm">
+              Title
+              <span>{job.job_title}</span>
+            </span>
+            <span className="text-white tracking-wider mt-3 flex justify-between w-full text-sm">
+              Type <span>{job.type}</span>
+            </span>
+            <span className="text-white tracking-wider mt-3 flex justify-between w-full text-sm">
+              Salary{" "}
+              <span>
+                {FormatPrice(Number(job.min_salary))} -{" "}
+                {FormatPrice(Number(job.max_salary))}
+              </span>
+            </span>
+            <span className="text-white tracking-wider mt-3 flex justify-between w-full text-sm">
+              Qualifications{" "}
+              <span>
+                {job.qualification.length} needed
+              </span>
+            </span>
+          </>
+        )}
+        {applicant && (
+          <>
+            <span className="text-white font-semibold">Applicant Details</span>
+            <span className="text-white tracking-wider mt-3 flex justify-between w-full text-sm">
+              Fullname
+              <span>{applicant.full_name}</span>
+            </span>
+           
+            <span className="text-white tracking-wider mt-3 flex justify-between w-full text-sm">
+              DOB <span>{applicant.date_of_birth}</span>
+            </span>
+            <span className="text-white tracking-wider mt-3 flex justify-between w-full text-sm">
+              Country <span>{applicant.country}</span>
+            </span>
+            <span className="text-white tracking-wider mt-3 flex justify-between w-full text-sm">
+              State <span>{applicant.state}</span>
+            </span>
+            <span className="text-white tracking-wider mt-3 flex justify-between w-full text-sm">
+              Gender <span>{applicant.gender}</span>
+            </span>
+          </>
         )}
       </div>
     </div>

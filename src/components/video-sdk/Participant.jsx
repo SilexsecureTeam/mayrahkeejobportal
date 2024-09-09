@@ -1,6 +1,6 @@
 import { useParticipant } from "@videosdk.live/react-sdk";
 import { useEffect, useMemo, useRef, useState } from "react";
-import ReactPlayer from 'react-player'
+import ReactPlayer from "react-player";
 
 function Participant({ data }) {
   const micRef = useRef(null);
@@ -37,11 +37,11 @@ function Participant({ data }) {
   }, [micStream, micOn]);
 
   return (
-    <li className="h-full relative bg-black/50  justify-center rounded-[10px]  min-w-[20%]  items-center flex">
+    <li className="w-fit relative bg-black/50  justify-center rounded-[10px]  min-w-[20%]  items-center flex">
       <audio ref={micRef} autoPlay playsInline muted={isLocal} />
 
       {webcamOn ? (
-        <div className=""> 
+        <div className="object-cover rounded-lg overflow-hidden">
           <ReactPlayer
             //
             playsinline // extremely crucial prop
@@ -50,19 +50,21 @@ function Participant({ data }) {
             controls={false}
             muted={true}
             playing={true}
+            className=''
             //
-            className='w-full h-[300px]'
+            // className='w-full h-[500px]'
             url={videoStream}
             //
-           
+            height={450}
+            width={800}
             onError={(err) => {
               console.log(err, "participant video error");
             }}
-            />
-            </div>
+          />
+        </div>
       ) : (
         <img
-          className="h-full w-full object-cover rounded-md"
+          className="h-[450px] w-[800px] object-cover rounded-md"
           src="https://images.pexels.com/photos/4491440/pexels-photo-4491440.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
         />
       )}
