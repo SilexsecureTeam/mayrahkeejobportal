@@ -28,8 +28,9 @@ function useApplicationManagement() {
   const getApplicantsByEmployee = async () => {
     setLoading(true);
     try {
-  
-      const response = await client(`getEmployerApply/${authDetails?.user?.id}`);
+      const response = await client(
+        `getEmployerApply/${authDetails?.user?.id}`
+      );
       await set(APPLICANTS_KEY, response.data.job_application);
       setApplicants(response.data.job_application);
     } catch (error) {
@@ -41,13 +42,14 @@ function useApplicationManagement() {
 
   const getApplicant = async (applicantId, setApplicant) => {
     setLoading(true);
-    const applicant = applicants.find((current) => current.id === Number(APPLICANTS_KEY));
-    if(applicant){
-      setApplicant(applicant.details)
-      return
+    const applicant = applicants.find(
+      (current) => current.id === Number(APPLICANTS_KEY)
+    );
+    if (applicant) {
+      setApplicant(applicant.details);
+      return;
     }
     try {
-    
       const response = await client(`/candidate/getCandidate/${applicantId}`);
       setApplicant(response.data.details);
     } catch (error) {
@@ -61,18 +63,20 @@ function useApplicationManagement() {
     applicant,
     data,
     setData,
-    handleOnSuccess, 
-    option
+    handleOnSuccess,
+    option,
+    meetingId
   ) => {
     setLoading(true);
     try {
+      if (!option.name) throw Error("An inteview option must be selected");
+      if (!meetingId) throw Error("Please generate a meeting id");
 
-       if(!option.name) throw Error('An inteview option must be selected')
-
-      const primarydata = {
+      const interviewPrimarydata = {
         job_application_id: data.id,
         candidate_id: applicant.candidate_id,
-        option: option.name
+        option: option.name,
+        meeting_id: meetingId,
       };
       const updateprimarydata = {
         job_id: data.job_id,
@@ -80,7 +84,7 @@ function useApplicationManagement() {
       };
 
       const interviewResponse = await client.post(`/interviews`, {
-        ...primarydata,
+        ...interviewPrimarydata,
         ...interviewDetails,
       });
       const interviewData = interviewResponse.data.interview;
@@ -96,6 +100,7 @@ function useApplicationManagement() {
         applicationUpdateResponse.data.job_application;
       setData(applicatonUpdateData);
       handleOnSuccess();
+      await getApplicantsByEmployee();
     } catch (error) {
       FormatError(error, setError, "Schedule Error");
     } finally {
@@ -106,13 +111,13 @@ function useApplicationManagement() {
   const getResume = async (resumeId, setResume) => {
     setLoading(true);
     try {
-      if (!resumeId) throw Error('Resume not attached')
+      if (!resumeId) throw Error("Resume not attached");
       const { data } = await client.get(`/resumeById/${resumeId}`);
-       setResume(data[0])
+      setResume(data[0]);
     } catch (error) {
       FormatError(error, setError, "Resume Error");
-    } finally{
-      setLoading(false)
+    } finally {
+      setLoading(false);
     }
   };
 

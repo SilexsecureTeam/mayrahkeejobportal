@@ -15,7 +15,7 @@ import { useEffect } from "react";
 import { JobContext } from "../../../context/JobContext";
 import { stages } from "../../../utils/constants";
 
-function Home({navigateToPage}) {
+function Home() {
   const { authDetails } = useContext(AuthContext);
   const jobUtils = useJobManagement();
 

@@ -23,7 +23,7 @@ const notificatioTypes = [
 ];
 
 function Notification() {
-  const { updateNotificationSetting, loading, getNotificationSetting } =
+  const { updateNotificationSetting, loading, details, getNotificationSetting, setDetails } =
     useContext(NotificationContext);
 
   useEffect(() => {
@@ -36,6 +36,8 @@ function Notification() {
         <NotificationCard
           key={current.id}
           id={current.id}
+          details={details}
+          setDetails={setDetails}
           title={current.name}
           description={current.description}
         />
@@ -51,7 +53,7 @@ function Notification() {
             });
           })
         }
-        width="w-[20%] mt-[10px] text-sm"
+        width="w-[20%] mt-[10px] bg-primaryColor text-white text-sm"
       >
         Save Changes
       </FormButton>

@@ -23,7 +23,7 @@ function SingleApplicant() {
 
   const toogleInterview = () => setIsOpen(!isOpen);
 
-  const handleOnSubmit = (e, selectedOption) => {
+  const handleOnSubmit = (e, selectedOption, meetingId) => {
     e.preventDefault();
     scheduleInterview(
       applicant,
@@ -32,7 +32,8 @@ function SingleApplicant() {
       () => {
         toogleInterview();
       },
-      selectedOption
+      selectedOption,
+      meetingId
     );
   };
 

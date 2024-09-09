@@ -7,6 +7,8 @@ import Selector from "../../../components/Selector";
 import { useContext } from "react";
 import { AuthContext } from "../../../context/AuthContex";
 import useCompanyProfile from "../../../hooks/useCompanyProfile";
+import { useSafeMantineTheme } from "@mantine/core";
+import { createMeeting } from "../../../components/video-sdk/Api";
 
 const fields = [
   {
@@ -64,9 +66,17 @@ function ScheduleInterviewModal({
   loading,
   handleOnSubmit,
 }) {
-  const companyUtil = useCompanyProfile()
+  const companyUtil = useCompanyProfile();
 
   const [selected, setSelected] = useState(interviewOptions[0]);
+
+  const [meetingId, setMeetingId] = useState(false);
+
+  const onClick = async () => {
+    const roomId = await createMeeting("");
+    setMeetingId(roomId);
+  };
+
   return (
     isOpen && (
       <div className="h-full z-10 w-full text-gray-400 text-little flex justify-center items-center bg-gray-600/70 fixed top-0 left-0">
@@ -81,7 +91,7 @@ function ScheduleInterviewModal({
             </h4>
 
             <form
-              onSubmit={(e) => handleOnSubmit(e, selected)}
+              onSubmit={(e) => handleOnSubmit(e, selected, meetingId)}
               className="flex flex-col w-full gap-[10px]"
             >
               <BasicInput
@@ -89,7 +99,7 @@ function ScheduleInterviewModal({
                 details={details}
                 onTextChange={onTextChange}
               />
-              
+
               <BasicInput
                 data={fields[1]}
                 details={details}
@@ -118,7 +128,20 @@ function ScheduleInterviewModal({
                   value={companyUtil.details.address}
                 />
               )}
-         
+
+              <div className="flex flex-col gap-[3px]">
+              <label className="text-sm font-semibold">Meeting Id</label>
+                <div className="flex justify-between border items-center p-2">
+                  <span>{meetingId ? meetingId : "no-meeting-id"}</span>
+                  <button
+                    type="button"
+                    onClick={onClick}
+                    className="w-fit px-2 py-1 bg-primaryColor rounded-[5px] text-white text-little font-semibold"
+                  >
+                    Generate Meeting Id
+                  </button>
+                </div>
+              </div>
 
               <FormButton loading={loading}>Schedule</FormButton>
             </form>

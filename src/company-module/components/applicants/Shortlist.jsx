@@ -4,6 +4,7 @@ import { axiosClient } from "../../../services/axios-client";
 import { AuthContext } from "../../../context/AuthContex";
 import { FormatError } from "../../../utils/formmaters";
 import { onFailure } from "../../../utils/notifications/OnFailure";
+import { useNavigate } from "react-router-dom";
 
 function Shortlist({ data }) {
   const { authDetails } = useContext(AuthContext);
@@ -14,16 +15,21 @@ function Shortlist({ data }) {
     error: "",
   });
 
+  const navigate = useNavigate()
+
   const handleOnClick = () => {
     const interviewDate = new Date(interview.interview_date);
     const currentDate = new Date();
-    if (interviewDate === currentDate) {
-    } else {
-      onFailure({
-        message: "Interview Error",
-        error: "This interview is not scheduled for this time",
-      });
-    }
+    // if (interviewDate === currentDate) {
+    // } else {
+    //   onFailure({
+    //     message: "Interview Error",
+    //     error: "This interview is not scheduled for this time",
+    //   });
+    // }
+    
+    navigate('/interview-room', {state: {meetingId: interview.meeting_id}})
+
   };
 
   useEffect(() => {
@@ -76,13 +82,19 @@ function Shortlist({ data }) {
               {new Date(interview.interview_date).toLocaleDateString()}
             </span>
           </div>
-
+          <div className="flex flex-col">
+            <span className="text-gray-400 text-sm">Meeting Id</span>
+            <span className="text-gray-700 font-semibold text-little">
+              {interview.meeting_id}
+            </span>
+          </div>
           <div className="flex flex-col">
             <span className="text-gray-400 text-sm">Add Ons</span>
             <span className="text-gray-700 font-semibold text-little">
               {interview.notes}
             </span>
           </div>
+      
         </div>
 
         <button

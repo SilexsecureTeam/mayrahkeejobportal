@@ -16,17 +16,22 @@ import {
   InterviewContextProvider,
 } from "./context/InterviewContext";
 import { NotificationContextProvider } from "./context/NotificationContext";
+import InterviewRoom from "./components/video-sdk/InterviewRoom";
 
 //Lazy imports of pages
 const Login = lazy(() => import("./pages/Login"));
 // const Registration = lazy(() => import("./pages/Registration"));
 const RegistrationTwo = lazy(() => import("./pages/RegistrationTwo"));
 const NotFound = lazy(() => import("./pages/404"));
+const ForgotPassword = lazy(() => import('./pages/ForgotPassword'))
 
 //Lazy imports of routes
 const RegistrationRoute = lazy(() => import("./routes/useRegistrationRoute"));
 const ApplicantRoutes = lazy(() => import("./routes/useApplicantRoute"));
 const CompanyRoutes = lazy(() => import("./routes/useCompanyRoute"));
+
+
+//
 
 function App() {
   return (
@@ -59,6 +64,9 @@ function App() {
                             path="/company/*"
                             element={<CompanyRoutes />}
                           />
+
+                          <Route path="/interview-room" element={<InterviewRoom/>}/>
+                          <Route path="/forgot-password" element={<ForgotPassword/>}/>
                         </Routes>
                       </Router>
                     </Suspense>
