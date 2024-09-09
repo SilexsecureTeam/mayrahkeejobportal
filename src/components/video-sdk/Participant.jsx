@@ -5,8 +5,7 @@ import ReactPlayer from 'react-player'
 function Participant({ data }) {
   const micRef = useRef(null);
   const { webcamStream, micStream, webcamOn, micOn, isLocal, displayName } =
-    useParticipant(data);
-  console.log(data);
+    useParticipant(data.id);
 
   const videoStream = useMemo(() => {
     if (webcamOn && webcamStream) {
@@ -42,23 +41,25 @@ function Participant({ data }) {
       <audio ref={micRef} autoPlay playsInline muted={isLocal} />
 
       {webcamOn ? (
-        <ReactPlayer
-          //
-          playsinline // extremely crucial prop
-          pip={false}
-          light={false}
-          controls={false}
-          muted={true}
-          playing={true}
-          //
-          url={videoStream}
-          //
-          height={"150px"}
-          width={"100px"}
-          onError={(err) => {
-            console.log(err, "participant video error");
-          }}
-        />
+        <div className=""> 
+          <ReactPlayer
+            //
+            playsinline // extremely crucial prop
+            pip={false}
+            light={false}
+            controls={false}
+            muted={true}
+            playing={true}
+            //
+            className='w-full h-[300px]'
+            url={videoStream}
+            //
+           
+            onError={(err) => {
+              console.log(err, "participant video error");
+            }}
+            />
+            </div>
       ) : (
         <img
           className="h-full w-full object-cover rounded-md"
