@@ -142,7 +142,7 @@ function LoginForm({ rememberMe, toogleRememberMe }) {
               </span>
             </p>
             <p className="cursor-pointer hover:underline">
-              <NavLink to={"/forgot_password"}>Forgot Password?</NavLink>
+              <NavLink to={"/forgot-password"}>Forgot Password?</NavLink>
             </p>
           </div>
 

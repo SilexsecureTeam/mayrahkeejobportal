@@ -3,12 +3,16 @@ import { Switch, Group } from "@mantine/core";
 import classes from "../../../css/customToogle.module.css";
 import { NotificationContext } from "../../../context/NotificationContext";
 
-function NotificationCard({ title, description, id }) {
-    const { details, setDetails } = useContext(NotificationContext);
-    const [state, setState] = useState(details[id]);
+function NotificationCard({ title, description, id, details, setDetails }) {
+  const [state, setState] = useState();
 
   useEffect(() => {
-    setDetails({ ...details, [id]: state });
+    console.log(details[id])
+    if(state){
+      setDetails({ ...details, [id]: state });
+    }
+
+    setState(details[id] === 1 || details[id] ? true : false);
   }, [state]);
 
   return (
@@ -22,9 +26,11 @@ function NotificationCard({ title, description, id }) {
         <Group justify="center" p="md">
           <Switch
             onChange={(e) => {
-                setState(!state)
+              setState(!state);
             }}
             label={state ? "Enabled" : "Disabled"}
+            checked={state}
+            defaultValue={state}
             value={state}
             classNames={classes}
           />

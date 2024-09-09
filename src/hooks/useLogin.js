@@ -3,13 +3,14 @@ import { axiosClient } from "../services/axios-client";
 import { FormatError } from "../utils/formmaters";
 import { onFailure } from "../utils/notifications/OnFailure";
 import { AuthContext } from "../context/AuthContex";
+import { onSuccess } from "../utils/notifications/OnSuccess";
 
 function useLogin(role) {
   const [loginDetails, setLoginDetails] = useState({
     email: "",
     password: "",
   });
-  const {setAuthDetails} = useContext(AuthContext)
+  const { setAuthDetails } = useContext(AuthContext);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState({
     message: "",
@@ -31,12 +32,54 @@ function useLogin(role) {
       onSuccess();
       setAuthDetails({
         token: response.data.token,
-        user: response.data.user
-      })
+        user: response.data.user,
+      });
     } catch (e) {
       FormatError(e, setError, "Registration Error");
     } finally {
       setLoading(false);
+    }
+  };
+
+  const forgotPassword = async (email, role) => {
+    setLoading(true);
+    try {
+      if (!role) throw new Error("A role must be selected");
+
+      const { data } = await client.post(`/${role}/forgotten-password`, {
+        email,
+      });
+      onSuccess({
+        message: 'Reset succesful',
+        success: 'A reset otp has been sent to you email'
+      })
+    } catch (error) {
+      FormatError(error, setError, "Reset Error");
+    } finally{
+      setLoading(false)
+    }
+  };
+
+  const resetPassword = async (email, password, otp, role) => {
+    setLoading(true);
+    try {
+      if (!role) throw new Error("A role must be selected");
+      if (!otp) throw new Error("Please enter OTP");
+      if (!email) throw new Error("Email not found, please try again");
+
+      const { data } = await client.post(`/${role}/setPassword`, {
+        email,
+        password,
+        otp
+      });
+      onSuccess({
+        message: 'Reset succesful',
+        success: 'Your passwod has been succesfull resetr'
+      })
+    } catch (error) {
+      FormatError(error, setError, "Reset Error");
+    } finally{
+      setLoading(false)
     }
   };
 
@@ -55,6 +98,8 @@ function useLogin(role) {
     loading,
     onTextChange,
     loginUser,
+    forgotPassword,
+    resetPassword
   };
 }
 
