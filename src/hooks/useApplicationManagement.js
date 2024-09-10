@@ -121,6 +121,7 @@ function useApplicationManagement() {
     }
   };
 
+
   useEffect(() => {
     if (error.error && error.message) {
       onFailure(error);

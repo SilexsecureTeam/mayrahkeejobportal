@@ -14,7 +14,6 @@ function InterviewRoom() {
   const { state } = useLocation();
   const [meetingId, setMeetingId] = useState(state?.interview?.meeting_id);
   const { authDetails } = useContext(AuthContext);
-  const { application } = useContext(ApplicationContext);
 
   console.log("auth token", authToken);
   console.log("meeting id", meetingId);

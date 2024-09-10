@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import LoginForm from "../components/Auth/LoginForm";
 import LoginOne from "../assets/pngs/login-image2.png";
 import { Helmet } from "react-helmet";
 import SideCard from "../components/Auth/SideCard";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
   const [rememberMe, setRememberMe] = useState(false);
@@ -19,6 +20,7 @@ function Login() {
     console.log(loginDetails);
   };
 
+
   return (
     <>
       <Helmet>
@@ -33,7 +35,7 @@ function Login() {
           src={LoginOne}
         /> */}
 
-        <SideCard/>
+        <SideCard />
 
         <LoginForm
           rememberMe={rememberMe}
