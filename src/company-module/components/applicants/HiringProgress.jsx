@@ -1,4 +1,5 @@
 import { stages } from "../../../utils/constants";
+import InterviewPhase from "./InterviewPhase";
 import Shortlist from "./Shortlist";
 
 function HiringProgress({ data, applicant, toogleInterview }) {
@@ -67,6 +68,8 @@ function HiringProgress({ data, applicant, toogleInterview }) {
         return InView;
       case stages[1].name:
         return <Shortlist data={data}/>;
+      case stages[2].name:
+        return <InterviewPhase data={data}/>;
     }
   };
 

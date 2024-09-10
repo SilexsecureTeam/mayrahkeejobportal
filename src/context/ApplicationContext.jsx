@@ -1,4 +1,4 @@
-import { createContext } from "react";
+import { createContext, useState } from "react";
 import useApplicationManagement from "../hooks/useApplicationManagement";
 
 export const ApplicationContext = createContext();
@@ -16,6 +16,9 @@ export const ApplicationContextProvider = ({ children }) => {
     getResume
   } = useApplicationManagement();
 
+  //Application specific to the applicant being inteviews
+  const [application, setApplication] = useState(null)
+
   return (
     <ApplicationContext.Provider
       value={{
@@ -23,11 +26,13 @@ export const ApplicationContextProvider = ({ children }) => {
         applicants,
         interviewDetails,
         resume,
+        application,        
         scheduleInterview,
         onTextChange,
         getApplicantsByEmployee,
         getApplicant,
-        getResume
+        getResume,
+        setApplication
       }}
     >
       {children}
