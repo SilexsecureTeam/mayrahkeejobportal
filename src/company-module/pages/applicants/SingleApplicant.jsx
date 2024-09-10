@@ -10,6 +10,7 @@ function SingleApplicant() {
   const location = useLocation();
 
   const [isOpen, setIsOpen] = useState(false);
+  const { application, setApplication } = useContext(ApplicationContext);
   const [applicationData, setApplicantData] = useState(location?.state?.data);
   const {
     getApplicant,
@@ -38,6 +39,14 @@ function SingleApplicant() {
   };
 
   useEffect(() => {
+    if (application) {
+      setApplicantData(application);
+    }
+
+    return setApplication(null);
+  }, [application]);
+
+  useEffect(() => {
     const initApplicant = async () => {
       const result = await getApplicant(
         applicationData.candidate_id,
@@ -48,8 +57,13 @@ function SingleApplicant() {
       }
     };
 
-    initApplicant();
-  }, []);
+    if (applicationData) {
+      initApplicant();
+    }
+    console.log("MAin", applicationData);
+    console.log("Location", location?.state?.data);
+    console.log("COntext", application);
+  }, [applicationData]);
 
   return (
     <>

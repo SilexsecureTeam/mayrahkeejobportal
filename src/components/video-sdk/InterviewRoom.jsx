@@ -8,14 +8,18 @@ import { authToken, createMeeting } from "./Api";
 import { onSuccess } from "../../utils/notifications/OnSuccess";
 import { useLocation } from "react-router-dom";
 import Meeting from "./Meeting";
+import { ApplicationContext } from "../../context/ApplicationContext";
 
 function InterviewRoom() {
   const { state } = useLocation();
   const [meetingId, setMeetingId] = useState(state?.interview?.meeting_id);
   const { authDetails } = useContext(AuthContext);
+  const { application } = useContext(ApplicationContext);
 
   console.log("auth token", authToken);
   console.log("meeting id", meetingId);
+
+  console.log('Curent Application', application)
 
   const onClick = async () => {
     const roomId = await createMeeting("");

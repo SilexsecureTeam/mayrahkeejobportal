@@ -5,10 +5,12 @@ import { AuthContext } from "../../../context/AuthContex";
 import { FormatError } from "../../../utils/formmaters";
 import { onFailure } from "../../../utils/notifications/OnFailure";
 import { useLocation, useNavigate } from "react-router-dom";
+import { ApplicationContext } from "../../../context/ApplicationContext";
 
 function Shortlist({ data }) {
   const { state } = useLocation();
   const { authDetails } = useContext(AuthContext);
+  const { setApplication } = useContext(ApplicationContext);
   const client = axiosClient(authDetails.token);
   const [interview, setInterview] = useState();
   const [error, setError] = useState({
@@ -28,7 +30,7 @@ function Shortlist({ data }) {
     //     error: "This interview is not scheduled for this time",
     //   });
     // }
-
+    setApplication({ ...data });
     navigate("/interview-room", { state: { interview: interview } });
   };
 
@@ -96,21 +98,13 @@ function Shortlist({ data }) {
           </div>
         </div>
 
-        {state.interviewFinished ? (
-          <button
-            onClick={handleOnClick}
-            className="ml-2 border w-fit hover:bg-primaryColor hover:text-white py-1 text-little px-2  border-primaryColor"
-          >
-            Mark as finished
-          </button>
-        ) : (
-          <button
-            onClick={handleOnClick}
-            className="ml-2 border w-fit hover:bg-primaryColor hover:text-white py-1 text-little px-2  border-primaryColor"
-          >
-            Proceed to Interview
-          </button>
-        )}
+        <button
+          onClick={handleOnClick}
+          className="ml-2 border w-fit hover:bg-primaryColor hover:text-white py-1 text-little px-2  border-primaryColor"
+        >
+          Proceed to Interview
+        </button>
+
         {/* 
       <div className="w-full flex justify-between px-2">
         <h3 className="font-semibold text-sm px-2">Current S</h3>
