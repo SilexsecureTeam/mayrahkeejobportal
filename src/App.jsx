@@ -31,16 +31,16 @@ const CompanyRoutes = lazy(() => import("./routes/useCompanyRoute"));
 function App() {
   return (
     <>
-      <SessionContextProvider>
-        <AuthContextProvider>
-          <MantineProvider>
-            <SubscriptionContextProvider>
-              <ApplicationContextProvider>
-                <JobContextProvider>
-                  <InterviewContextProvider>
-                    <NotificationContextProvider>
-                      <Suspense fallback={<FallBack />}>
-                        <Router>
+      <AuthContextProvider>
+        <MantineProvider>
+          <SubscriptionContextProvider>
+            <ApplicationContextProvider>
+              <JobContextProvider>
+                <InterviewContextProvider>
+                  <NotificationContextProvider>
+                    <Suspense fallback={<FallBack />}>
+                      <Router>
+                        <SessionContextProvider>
                           <Routes>
                             <Route path="/" element={<Login />} />
                             {/* <Route path="/registration" element={<Registration />} /> */}
@@ -70,17 +70,17 @@ function App() {
                               element={<ForgotPassword />}
                             />
                           </Routes>
-                        </Router>
-                      </Suspense>
-                    </NotificationContextProvider>
-                  </InterviewContextProvider>
-                  <ToastContainer autoClose={2000} draggable />
-                </JobContextProvider>
-              </ApplicationContextProvider>
-            </SubscriptionContextProvider>
-          </MantineProvider>
-        </AuthContextProvider>
-      </SessionContextProvider>
+                        </SessionContextProvider>
+                      </Router>
+                    </Suspense>
+                  </NotificationContextProvider>
+                </InterviewContextProvider>
+                <ToastContainer autoClose={2000} draggable />
+              </JobContextProvider>
+            </ApplicationContextProvider>
+          </SubscriptionContextProvider>
+        </MantineProvider>
+      </AuthContextProvider>
     </>
   );
 }
