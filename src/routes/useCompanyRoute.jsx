@@ -1,5 +1,5 @@
 import { lazy, useContext, useEffect, useReducer, useState } from "react";
-import { Route, Routes, useNavigate } from "react-router-dom";
+import { Navigate, redirect, Route, Routes, useNavigate } from "react-router-dom";
 import ApplicantReducer from "../reducers/ApplicantReducer";
 import {
   applicantOptions,
@@ -104,7 +104,7 @@ function useCompanyRoute() {
 
   return (
     <>
-      <CompanyRouteContextProvider setSideBar={setSideBar}>
+      {authDetails.user.role === 'employer' ? <CompanyRouteContextProvider setSideBar={setSideBar}>
         <SubscriptionModal redirectState={redirectState} />
         <main className="h-screen w-screen relative flex">
           {/* Side bar takes up 20% of total width and 100% of height */}
@@ -199,6 +199,8 @@ function useCompanyRoute() {
           </div>
         </main>
       </CompanyRouteContextProvider>
+      : <Navigate to={'/'} replace/>
+    }
     </>
   );
 }

@@ -5,10 +5,13 @@ function SideBarItem({ data, dispatch, state }) {
   const navigate = useNavigate();
 
   const navigateToPage = () => {
-    navigate(data.route);
-    dispatch({ ...data });
+  
     if(data.type === 'LOG-OUT'){
       localStorage.clear()
+      navigate(data.route, {replace: true});
+    }else{
+      dispatch({ ...data });
+      navigate(data.route);
     }
   };
 

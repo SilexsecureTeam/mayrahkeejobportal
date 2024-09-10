@@ -1,15 +1,11 @@
 import { lazy, useContext, useEffect, useReducer, useState } from "react";
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import ApplicantReducer from "../reducers/ApplicantReducer";
 import { applicantOptions, utilOptions } from "../utils/constants";
-import { user } from "../utils/dummies";
 import { AuthContext } from "../context/AuthContex";
 import ResourceContextProvider from "../context/ResourceContext";
 import { clear } from "idb-keyval";
-import {
-  ApplicantRouteContext,
-  ApplicantRouteContextProvider,
-} from "../context/ApplicantRouteContext";
+import { ApplicantRouteContextProvider } from "../context/ApplicantRouteContext";
 
 //Util Components
 const NavBar = lazy(() => import("../applicant-module/components/NavBar"));
@@ -57,7 +53,6 @@ function useApplicantRoute() {
   const [state, dispatch] = useReducer(ApplicantReducer, applicantOptions[0]);
   const { authDetails } = useContext(AuthContext);
   const [isOpen, setIsOpen] = useState(false);
-  
 
   const toogleIsOpen = () => setIsOpen(!isOpen);
 
@@ -72,7 +67,7 @@ function useApplicantRoute() {
     return () => clearDb();
   }, []);
 
-  return (
+  return authDetails.user.role === "candidate" ? (
     <ApplicantRouteContextProvider setSideBar={setSideBar}>
       <main className="h-screen w-screen  flex">
         <ResourceContextProvider>
@@ -140,6 +135,8 @@ function useApplicantRoute() {
         </ResourceContextProvider>
       </main>
     </ApplicantRouteContextProvider>
+  ) : (
+    <Navigate to={"/"} replace />
   );
 }
 
