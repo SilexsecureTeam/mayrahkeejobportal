@@ -20,20 +20,20 @@ function useSubscription() {
   const [packages, setPackages] = useState([]);
   const [loading, setLoading] = useState(false);
 
-
   const getPackages = async () => {
     setLoading(true);
     try {
-      const response = await client.get("/packages");
-      setPackages(response.data.data);
-      await set(PACKAGES_KEY, response.data.data);
+      const { data } = await client.get("/packages");
+      const userPackage = data.data.sort((a,b) => Number(a.price) - Number(b.price))
+
+      setPackages(userPackage);
+      await set(PACKAGES_KEY, userPackage);
     } catch (error) {
       FormatError(error, setError, "Subscription Error");
     } finally {
       setLoading(false);
     }
   };
-
 
   const getActivePackage = async () => {
     setLoading(true);
@@ -46,15 +46,16 @@ function useSubscription() {
           (a, b) => new Date(a.created_at) - new Date(b.created_at)
         );
         setActivePackage(byAscendingOrder[byAscendingOrder.length - 1]);
+      } else {
+        setActivePackage(null);
       }
     } catch (error) {
       FormatError(error);
-      setActivePackage(2)
+      setActivePackage(2);
     } finally {
       setLoading(false);
     }
   };
-
 
   const makePaymentCheck = useCallback(async (reference, data) => {
     setLoading(true);
@@ -66,7 +67,7 @@ function useSubscription() {
         payment_status: "successful",
         employee_auth_id: authDetails.user.id,
       });
-      getActivePackage()
+      getActivePackage();
     } catch (error) {
       FormatError(error, setError, "Payment Error");
     } finally {
@@ -76,8 +77,6 @@ function useSubscription() {
 
   const config = (data, handleSuccess) => {
     const priceInKobo = Number(data.price) * 100;
-    console.log(authDetails);
-
     const onClose = () => {
       onSuccess({
         message: "Payment Sucessful",
@@ -96,7 +95,6 @@ function useSubscription() {
     };
   };
 
-
   useEffect(() => {
     const initVals = async () => {
       const result = await get(PACKAGES_KEY);
@@ -107,16 +105,24 @@ function useSubscription() {
       }
     };
 
-    getActivePackage()
+    getActivePackage();
     initVals();
-  }, []);
+  }, [authDetails.user]);
 
   useEffect(() => {
     if (error.error && error.message) {
       onFailure(error);
     }
   }, [error.error, error.message]);
-  return { loading, packages, activePackage, config, makePaymentCheck, getActivePackage };
+
+  return {
+    loading,
+    packages,
+    activePackage,
+    config,
+    makePaymentCheck,
+    getActivePackage,
+  };
 }
 
 export default useSubscription;

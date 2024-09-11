@@ -18,7 +18,6 @@ function InterviewRoom() {
   console.log("auth token", authToken);
   console.log("meeting id", meetingId);
 
-  console.log('Curent Application', application)
 
   const onClick = async () => {
     const roomId = await createMeeting("");

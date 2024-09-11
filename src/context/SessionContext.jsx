@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useIdleTimer } from "react-idle-timer";
 
 
-const SESSION_TIMEOUT = 1800000; 
+const SESSION_TIMEOUT = 1800000;  //30 minutes
 
 export const SessionContext = createContext();
 

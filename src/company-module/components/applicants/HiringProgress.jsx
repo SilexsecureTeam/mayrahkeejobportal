@@ -33,8 +33,16 @@ function HiringProgress({ data, applicant, toogleInterview }) {
           current === stages[1].name
           ? "bg-primaryColor text-white"
           : "bg-white text-black";
-      case stages[3].name:
-        return current === stages[3].name ||
+      case "hired":
+        return current.includes(data.status) ||
+          current === stages[0].name ||
+          current === stages[1].name ||
+          current === stages[2].name
+          ? "bg-primaryColor text-white"
+          : "bg-white text-black";
+
+      case "declined":
+        return current.includes(data.status) ||
           current === stages[0].name ||
           current === stages[1].name ||
           current === stages[2].name
@@ -49,14 +57,16 @@ function HiringProgress({ data, applicant, toogleInterview }) {
         This customer is still in review and waiting for your action
       </span>
       <div className="flex  gap-[20px] w-full">
-        <button onClick={toogleInterview} className="border w-[40%] md:w-[20%] hover:bg-primaryColor hover:text-white p-2 md:py-1 text-little px-2  border-primaryColor">
+        <button
+          onClick={toogleInterview}
+          className="border w-[40%] md:w-[20%] hover:bg-primaryColor hover:text-white p-2 md:py-1 text-little px-2  border-primaryColor"
+        >
           Schedule Interview
         </button>
         <button className="border w-[40%] md:w-[20%] hover:bg-red-500 hover:text-white p-2 md:py-1 text-little px-2  border-red-500">
           Turn Down
         </button>
       </div>
-      
     </div>
   );
 
@@ -67,9 +77,13 @@ function HiringProgress({ data, applicant, toogleInterview }) {
       case stages[0].name:
         return InView;
       case stages[1].name:
-        return <Shortlist data={data}/>;
+        return <Shortlist data={data} />;
       case stages[2].name:
-        return <InterviewPhase data={data}/>;
+        return <InterviewPhase data={data} />;
+      case "hired":
+       return <div className="w-full px-4">This applicant has already been hired by you</div>;
+      case "declined":
+       return <div className="w-full px-4">This applicant has already been rejected by you</div>;
     }
   };
 
