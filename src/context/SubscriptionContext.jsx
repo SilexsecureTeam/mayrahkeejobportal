@@ -13,6 +13,8 @@ export const SubscriptionContextProvider = ({ children }) => {
     getActivePackage,
   } = useSubscription();
 
+  console.log('active package:',activePackage)
+
   return (
     <SubscriptionContext.Provider
       value={{
@@ -24,6 +26,9 @@ export const SubscriptionContextProvider = ({ children }) => {
         getActivePackage,
       }}
     >
+
+
+      
       {children}
     </SubscriptionContext.Provider>
   );

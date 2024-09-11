@@ -85,7 +85,7 @@ function You({ data, job, applicant }) {
       const { data } = await client.post("/applicationRespond", {
         candidate_id: application.candidate_id,
         job_id: application.job_id,
-        status: stages[1].name,
+        status: stages[2].name,
       });
       setApplication(data.job_application);
     } catch (error) {

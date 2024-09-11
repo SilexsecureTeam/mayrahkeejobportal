@@ -1,5 +1,11 @@
 import { lazy, useContext, useEffect, useReducer, useState } from "react";
-import { Navigate, redirect, Route, Routes, useNavigate } from "react-router-dom";
+import {
+  Navigate,
+  redirect,
+  Route,
+  Routes,
+  useNavigate,
+} from "react-router-dom";
 import ApplicantReducer from "../reducers/ApplicantReducer";
 import {
   applicantOptions,
@@ -104,103 +110,93 @@ function useCompanyRoute() {
 
   return (
     <>
-      {authDetails.user.role === 'employer' ? <CompanyRouteContextProvider setSideBar={setSideBar}>
-        <SubscriptionModal redirectState={redirectState} />
-        <main className="h-screen w-screen relative flex">
-          {/* Side bar takes up 20% of total width and 100% of height */}
+      {authDetails.user.role === "employer" ? (
+        <CompanyRouteContextProvider setSideBar={setSideBar}>
+          <SubscriptionModal redirectState={redirectState} />
+          <main className="h-screen w-screen relative flex">
+            {/* Side bar takes up 20% of total width and 100% of height */}
 
-          <SideBar
-            companyHookProps={companyHookProps}
-            authDetails={authDetails}
-            toogleIsOpen={toogleIsOpen}
-            isMenuOpen={isOpen}
-          >
-            <ul className="flex flex-col gap-[10px]">
-              {companyOptions.map((currentOption) => (
-                <SideBarItem
-                  key={currentOption.type}
-                  data={currentOption}
-                  dispatch={dispatch}
-                  state={state}
-                />
-              ))}
-            </ul>
-
-            <ul className="flex flex-col gap-[10px]">
-              {adminUtilOptions.map((currentOption) => (
-                <SideBarItem
-                  key={currentOption.type}
-                  data={currentOption}
-                  dispatch={dispatch}
-                />
-              ))}
-            </ul>
-          </SideBar>
-
-          {/* Routes and dashboard take up 80% of total width and 100% of height*/}
-          <div className="md:w-[82%] w-full relative flex divide-y-2 divide-secondaryColor bg-white flex-col h-full">
-            <UpdateCompanyProfileModal
-              isOpen={redirectState}
-              setIsOpen={setRedirectState}
-              onInit={true}
+            <SideBar
               companyHookProps={companyHookProps}
-            />
-            <NavBar
-              state={state}
+              authDetails={authDetails}
               toogleIsOpen={toogleIsOpen}
               isMenuOpen={isOpen}
-            />
-            <div className="w-full  h-[92%] overflow-y-auto">
-              <Routes>
-                <Route index element={<Home />} />
-                <Route path="*" element={<NotFound />} />
-
-                <Route path="messages" element={<Messages />} />
-                <Route
-                  path="job-posting"
-                  element={withSubscription(JobPosting, "Job Posting")}
-                />
-
-                <Route path="applicants/*">
-                  <Route
-                    index
-                    element={withSubscription(Applicants, "Applicants")}
+            >
+              <ul className="flex flex-col gap-[10px]">
+                {companyOptions.map((currentOption) => (
+                  <SideBarItem
+                    key={currentOption.type}
+                    data={currentOption}
+                    dispatch={dispatch}
+                    state={state}
                   />
-                  <Route
-                    path="detail/:id"
-                    element={withSubscription(
-                      SingleApplicant,
-                      "Single Applicant"
-                    )}
+                ))}
+              </ul>
+
+              <ul className="flex flex-col gap-[10px]">
+                {adminUtilOptions.map((currentOption) => (
+                  <SideBarItem
+                    key={currentOption.type}
+                    data={currentOption}
+                    dispatch={dispatch}
                   />
-                </Route>
+                ))}
+              </ul>
+            </SideBar>
 
-                <Route path="company-profile" element={<CompanyProfile />} />
-                <Route path="artisan" element={<Artisan />} />
-                <Route path="domestic-staffs" element={<DomesticStaffs />} />
+            {/* Routes and dashboard take up 80% of total width and 100% of height*/}
+            <div className="md:w-[82%] w-full relative flex divide-y-2 divide-secondaryColor bg-white flex-col h-full">
+              <UpdateCompanyProfileModal
+                isOpen={redirectState}
+                setIsOpen={setRedirectState}
+                onInit={true}
+                companyHookProps={companyHookProps}
+              />
+              <NavBar
+                state={state}
+                toogleIsOpen={toogleIsOpen}
+                isMenuOpen={isOpen}
+              />
+              <div className="w-full  h-[92%] overflow-y-auto">
+                <Routes>
+                  <Route index element={<Home />} />
+                  <Route path="*" element={<NotFound />} />
 
-                <Route path="job-listing/*">
+                  <Route path="messages" element={<Messages />} />
                   <Route
-                    index
-                    element={withSubscription(JobListing, "Job Listing")}
+                    path="job-posting"
+                    element={withSubscription(JobPosting, "Job Posting")}
                   />
-                  <Route
-                    path="type/:id"
-                    element={withSubscription(JobType, "Job Type")}
-                  />
-                </Route>
 
-                <Route path="schedule" element={<Schedule />} />
+                  <Route path="applicants/*">
+                    <Route index element={<Applicants />} />
+                    <Route path="detail/:id" element={<SingleApplicant />} />
+                  </Route>
 
-                <Route path="settings" element={<Settings />} />
-                <Route path="help-center" element={<HelpCenter />} />
-              </Routes>
+                  <Route path="company-profile" element={<CompanyProfile />} />
+                  <Route path="artisan" element={<Artisan />} />
+                  <Route path="domestic-staffs" element={<DomesticStaffs />} />
+
+                  <Route path="job-listing/*">
+                    <Route index element={<JobListing />} />
+                    <Route
+                      path="type/:id"
+                      element={<JobType/>}
+                    />
+                  </Route>
+
+                  <Route path="schedule" element={<Schedule />} />
+
+                  <Route path="settings" element={<Settings />} />
+                  <Route path="help-center" element={<HelpCenter />} />
+                </Routes>
+              </div>
             </div>
-          </div>
-        </main>
-      </CompanyRouteContextProvider>
-      : <Navigate to={'/'} replace/>
-    }
+          </main>
+        </CompanyRouteContextProvider>
+      ) : (
+        <Navigate to={"/"} replace />
+      )}
     </>
   );
 }

@@ -1,7 +1,6 @@
 import SubscriptionCard from "../components/subscription/SubscriptionCard";
 
-function SubscriptionPlans({subUtils, setIsOpen}) {
-
+function SubscriptionPlans({ subUtils, setIsOpen }) {
   return (
     <div className="h-full w-full justify-between items-center  bg-white flex flex-col">
       <h2 className="font-semibold text-black text-3xl">Choose a plan</h2>
@@ -13,10 +12,10 @@ function SubscriptionPlans({subUtils, setIsOpen}) {
         Best Subscription plans for Mayraykee
       </p>
 
-      <ul className="flex justify-between w-[90%] mt-[3%] h-[70%]">
+      <ul className="flex justify-between gap-3 w-[95%] mt-[3%] h-[70%]">
         {subUtils?.packages?.map((current) => (
           <SubscriptionCard
-          setIsOpen={setIsOpen}
+            setIsOpen={setIsOpen}
             subUtils={subUtils}
             key={current.id}
             data={current}

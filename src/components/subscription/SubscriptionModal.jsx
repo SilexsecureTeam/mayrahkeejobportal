@@ -34,8 +34,8 @@ function SubscriptionModal({ redirectState }) {
 
   return (
     isOpen && (
-      <div className="h-full z-10 w-full text-gray-400 text-little flex justify-center items-center bg-gray-600/70 fixed top-0 left-0">
-        <div className="w-[70%] h-[95%] p-2 flex flex-col  rounded-[10px]  bg-white border">
+      <div className="h-full z-50 w-full text-gray-400 text-little flex justify-center items-center bg-gray-600/70 fixed top-0 left-0">
+        <div className="w-[90%] h-[95%] p-2 flex flex-col  rounded-[10px]  bg-white border">
           <button
             onClick={() => setIsOpen(false)}
             className="flex items-center place-self-end justify-center rounded-[5px] gap-[5px] w-fit border px-2 py-1"
