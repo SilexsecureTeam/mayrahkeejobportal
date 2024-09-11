@@ -3,6 +3,9 @@ import { clear } from "idb-keyval";
 import { useNavigate } from "react-router-dom";
 import { useIdleTimer } from "react-idle-timer";
 
+
+const SESSION_TIMEOUT = 1800000; 
+
 export const SessionContext = createContext();
 
 export const SessionContextProvider = ({ children }) => {
@@ -16,7 +19,7 @@ export const SessionContextProvider = ({ children }) => {
   };
 
   useIdleTimer({
-    timeout: 15000,
+    timeout: SESSION_TIMEOUT,
     onIdle,
   });
 
