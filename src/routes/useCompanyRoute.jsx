@@ -179,10 +179,7 @@ function useCompanyRoute() {
 
                   <Route path="job-listing/*">
                     <Route index element={<JobListing />} />
-                    <Route
-                      path="type/:id"
-                      element={<JobType/>}
-                    />
+                    <Route path="type/:id" element={<JobType />} />
                   </Route>
 
                   <Route path="schedule" element={<Schedule />} />
