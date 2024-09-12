@@ -122,6 +122,20 @@ function useApplicationManagement() {
   };
 
 
+  const updateApplication = async (status, candidate_id, job_id) => {
+    try {
+      const response = await client.post('/applicationRespond', {
+        candidate_id: data.candidate_id,
+        job_id: data.job_id,
+        status
+      })
+      set
+    } catch (error) {
+      
+    }
+}
+
+
   useEffect(() => {
     if (error.error && error.message) {
       onFailure(error);

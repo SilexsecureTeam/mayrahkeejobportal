@@ -6,7 +6,6 @@ import { AuthContext } from "../context/AuthContex";
 import ResourceContextProvider from "../context/ResourceContext";
 import { clear } from "idb-keyval";
 import { ApplicantRouteContextProvider } from "../context/ApplicantRouteContext";
-import SubscriptionModal from "../components/subscription/SubscriptionModal";
 
 //Util Components
 const NavBar = lazy(() => import("../applicant-module/components/NavBar"));
@@ -71,7 +70,6 @@ function useApplicantRoute() {
 
   return authDetails.user.role === "candidate" ? (
     <ApplicantRouteContextProvider setSideBar={setSideBar}>
-      <SubscriptionModal redirectState={redirectState} />
       <main className="h-screen w-screen  flex">
         <ResourceContextProvider>
           {/* Side bar takes up 20% of total width and 100% of height */}
