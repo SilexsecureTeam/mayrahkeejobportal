@@ -303,7 +303,7 @@ function UpdateCompanyProfileModal({
               </div>
 
               <FormButton
-                width="w-[50%]"
+                width="w-[50%] bg-primaryColor"
                 height="min-h-[30px] mb-[10px]"
                 loading={loading}
               >
