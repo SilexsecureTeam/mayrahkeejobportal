@@ -65,7 +65,7 @@ function useSubscription() {
         amount: data.price,
         transaction_id: reference.reference,
         payment_status: "successful",
-        employee_auth_id: authDetails.user.id,
+        employee_auth_id: authDetails?.user?.id,
       });
       getActivePackage();
     } catch (error) {
