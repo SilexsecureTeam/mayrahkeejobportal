@@ -86,7 +86,7 @@ function useSubscription() {
 
     return {
       reference: new Date().getTime().toString(),
-      email: authDetails.user.email,
+      email: authDetails?.user?.email,
       amount: priceInKobo,
       publicKey: PUBLIC_KEY,
       text: "Paystack Button Implementation",
@@ -110,7 +110,7 @@ function useSubscription() {
 
     getActivePackage();
     initVals();
-  }, [authDetails.user]);
+  }, [authDetails?.user]);
 
   useEffect(() => {
     if (error.error && error.message) {
