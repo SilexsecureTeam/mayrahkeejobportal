@@ -102,9 +102,9 @@ function useSubscription() {
     const initVals = async () => {
       const result = await get(PACKAGES_KEY);
       if (result) {
-        setPackages(result);
+        setPackages(result)
       } else {
-        await getPackages();
+        await getPackages()
       }
     };
 
