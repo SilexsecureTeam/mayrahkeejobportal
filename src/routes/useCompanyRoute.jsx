@@ -169,8 +169,8 @@ function useCompanyRoute() {
                   />
 
                   <Route path="applicants/*">
-                    <Route index element={<Applicants />} />
-                    <Route path="detail/:id" element={<SingleApplicant />} />
+                    <Route index element={withSubscription(Applicants, "Applicant")} />
+                    <Route path="detail/:id" element={withSubscription(SingleApplicant)} />
                   </Route>
 
                   <Route path="company-profile" element={<CompanyProfile />} />
