@@ -38,7 +38,7 @@ function SubscriptionCard({ data, subUtils, setIsOpen }) {
           </>
         ) : (
           <>
-            <div className="flex flex-col px-2 h-[80%] items-start justify-center">
+            <div className="flex flex-col px-2 h-[80%] text-[12px] items-start justify-center">
               {data.permissions.map((current) => (
                 <div className="flex gap-2 font-semibold text-lig items-center w-full">
                   <IoMdCheckmarkCircleOutline className="text-md" />
