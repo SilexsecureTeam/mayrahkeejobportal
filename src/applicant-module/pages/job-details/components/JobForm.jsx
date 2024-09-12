@@ -27,6 +27,7 @@ const JobForm = ({ setIsOpen, getCandidate, job, resume, updateAllApplications }
         email: getCandidate?.candidateAuth?.email,
         phone_number: getCandidate?.details?.phone_number,
         job_title: job.job_title,
+        employer_id: job.employer_id,
         resume_id: "",
         status: "in-review",
         // linkedin_url: "",

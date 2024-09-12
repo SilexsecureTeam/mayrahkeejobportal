@@ -4,7 +4,7 @@ import GridRow from "./GridRow";
 const stages = [
   {
     id: 1,
-    name: 'pending',
+    name: 'in-review',
     border_color: 'border-[#ffb836]'
   },
   {

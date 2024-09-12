@@ -169,8 +169,8 @@ function useCompanyRoute() {
                   />
 
                   <Route path="applicants/*">
-                    <Route index element={<Applicants />} />
-                    <Route path="detail/:id" element={<SingleApplicant />} />
+                    <Route index element={withSubscription(Applicants, "Applicant")} />
+                    <Route path="detail/:id" element={withSubscription(SingleApplicant)} />
                   </Route>
 
                   <Route path="company-profile" element={<CompanyProfile />} />
@@ -178,11 +178,11 @@ function useCompanyRoute() {
                   <Route path="domestic-staffs" element={<DomesticStaffs />} />
 
                   <Route path="job-listing/*">
-                    <Route index element={<JobListing />} />
+                    <Route index element={withSubscription(JobListing, 'Job Listing')} />
                     <Route path="type/:id" element={<JobType />} />
                   </Route>
 
-                  <Route path="schedule" element={<Schedule />} />
+                  <Route path="schedule" element={withSubscription(Schedule, 'Schedule')} />
 
                   <Route path="settings" element={<Settings />} />
                   <Route path="help-center" element={<HelpCenter />} />
