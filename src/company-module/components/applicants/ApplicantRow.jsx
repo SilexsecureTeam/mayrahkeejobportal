@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import { stages } from "../../../utils/constants";
 
 function ApplicantRow({ data }) {
   const navigate = useNavigate();
@@ -6,8 +7,18 @@ function ApplicantRow({ data }) {
   const navigateToApplicantDetails = () =>
     navigate(`/company/applicants/detail/${data.id}`, { state: { data } });
 
+  const getBorderColor = () => {
+    switch(data.status){
+      case stages[0].name: return 'text-lightorange border-lightorange'
+      case stages[1].name: return 'text-lightblue border-lightblue'
+      case stages[2].name: return 'text-darkblue border-darkblue'
+      case stages[3].name.split('/')[0]: return 'text-primaryColor border-primaryColor'
+      case stages[3].name.split('/')[1]: return 'text-red-600 border-red-600'
+    }
+ }
+
   return (
-    <tr className="border-b odd:bg-black odd:text-white hover:bg-primaryColor duration-100 text-little">
+    <tr className={`"border-b odd:bg-black/50 odd:text-white even:hover:text-white hover:bg-gray-800 duration-100 text-little`}>
       <td className="text-center py-[5px]">
         <div className="flex justify-center items-center gap-[5px]">
           <span>{data.full_name}</span>
@@ -21,7 +32,7 @@ function ApplicantRow({ data }) {
 
       <td>
         <div className="flex items-center justify-center">
-          <button className="py-[2px] px-[5px] border text-[10px] uppercase border-primaryColor rounded-[30px] text-center font-semibold">
+          <button className={`py-[2px] px-[5px] border text-[10px] tracking-wider uppercase ${getBorderColor()} rounded-[30px] text-center font-semibold`}>
             {data.status}
           </button>
         </div>

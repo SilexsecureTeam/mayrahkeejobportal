@@ -1,8 +1,16 @@
+import { useContext } from "react";
 import { stages } from "../../../utils/constants";
 import InterviewPhase from "./InterviewPhase";
 import Shortlist from "./Shortlist";
+import { ApplicationContext } from "../../../context/ApplicationContext";
+import { axiosClient } from "../../../services/axios-client";
+import { AuthContext } from "../../../context/AuthContex";
 
 function HiringProgress({ data, applicant, toogleInterview }) {
+  const { setApplication } = useContext(ApplicationContext);
+  const { authDetails } = useContext(AuthContext);
+
+
   const bgColor = (current) => {
     if (current.stage === "passed") {
       return "bg-primaryColor/80";
@@ -46,10 +54,26 @@ function HiringProgress({ data, applicant, toogleInterview }) {
           current === stages[0].name ||
           current === stages[1].name ||
           current === stages[2].name
-          ? "bg-primaryColor text-white"
+          ? "bg-red-500 text-white"
           : "bg-white text-black";
     }
   };
+
+
+  const updateApplication = async (status) => {
+    try {
+      const client = axiosClient(authDetails.user.token);
+
+      const response = await client.post("/applicationRespond", {
+        candidate_id: data.candidate_id,
+        job_id: data.job_id,
+        status,
+      });
+
+      setApplication(response.data.job_application);
+    } catch (error) {}
+  };
+
 
   const InView = (
     <div className="flex flex-col w-full justify-between gap-[20px] items-start px-2">
@@ -63,7 +87,9 @@ function HiringProgress({ data, applicant, toogleInterview }) {
         >
           Schedule Interview
         </button>
-        <button className="border w-[40%] md:w-[20%] hover:bg-red-500 hover:text-white p-2 md:py-1 text-little px-2  border-red-500">
+        <button 
+        onClick={() => updateApplication('declined')}
+        className="border w-[40%] md:w-[20%] hover:bg-red-500 hover:text-white p-2 md:py-1 text-little px-2  border-red-500">
           Turn Down
         </button>
       </div>
@@ -94,7 +120,8 @@ function HiringProgress({ data, applicant, toogleInterview }) {
       <ul className="w-full px-2 flex justify-between">
         {stages.map((current) => (
           <li
-            className={`w-[24%] flex items-center border font-semibold justify-center py-2 text-sm ${getbgcolor(
+          
+            className={`w-[24%] flex uppercase items-center border font-semibold justify-center py-2 text-[11px] ${getbgcolor(
               current.name
             )}`}
           >

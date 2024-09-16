@@ -7,9 +7,14 @@ import { NavLink } from "react-router-dom";
 import "../../utils/notifications/OnSuccess";
 import { onSuccess } from "../../utils/notifications/OnSuccess";
 import FormButton from "../FormButton";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
+
 
 function RegistrationForm({ acceptTerms, toogleAcceptTerms }) {
   // const { loginDetails, handleLogin, loading, onTextChange } = useLogin();
+  const [showPassword, setShowPassword] = useState(false);
+  const [showPasswordReenter, setShowPasswordReenter] = useState(false);
+
 
   const handleOnSubmit = (e) => {
     e.preventDefault();

@@ -124,14 +124,14 @@ function FindJob() {
                     <p>Showing {getAllJobs.data?.length} results</p>
                   </div>
                   <div className="flex">
-                    <div className="flex mr-3">
-                      <span>Sorted by :</span>
+                    {/* <div className="flex mr-3">
+                      <span>Sorted by:</span>
                       <button className="flex">
                         <span className="mr-2 font-medium items-center">Most relevant</span>
                         <span><FaChevronDown size={10} /></span>
                       </button>
-                    </div>
-                    <div className="border-l px-2">
+                    </div> */}
+                    <div className="border- px-2">
                       <button
                         onClick={() => setIsGrid(true)}
                         className="bg-gray-200 rounded p-1 mx-3"> {isGrid ? <BsGridFill className="prime_text" /> : <BsGrid />}  </button>

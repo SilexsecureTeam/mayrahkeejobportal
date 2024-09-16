@@ -78,6 +78,7 @@ function useApplicantRoute() {
             toogleIsOpen={toogleIsOpen}
             isMenuOpen={isOpen}
           >
+          
             <ul className="flex flex-col gap-[10px]">
               {applicantOptions.map((currentOption) => (
                 <SideBarItem

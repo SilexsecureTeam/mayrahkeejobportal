@@ -1,10 +1,13 @@
-import React from "react";
+import React, { useContext } from "react";
 import mainLogo from "../../assets/svgs/main-logo.svg";
 import mainLogoTwo from "../../assets/pngs/main-logo-icon.png";
 import { MdClose } from "react-icons/md";
 import { resourceUrl } from "../../services/axios-client";
 
 function SideBar({ children, authDetails, toogleIsOpen, isMenuOpen }) {
+
+  // const {} = useContext()
+
   return (
     <>
       <aside className="w-[18%] hidden relative h-full items-center bg-secondaryColor px-2 pb-2 md:flex flex-col justify-end">
@@ -26,10 +29,7 @@ function SideBar({ children, authDetails, toogleIsOpen, isMenuOpen }) {
 
         {/* user info  */}
         <div className="absolute bottom-3 left-3 flex gap-[5px]  items-center">
-          <img
-            // src={`${resourceUrl}/${details?.logo_image}`}
-            className="h-[35px] w-[35px] rounded-full bg-secondaryColor"
-          />
+        
           <div className="flex-col flex">
             <span className="text-secondaryColor text-sm">
               {`${authDetails?.user?.first_name} ${authDetails?.user?.last_name}`}
@@ -38,6 +38,10 @@ function SideBar({ children, authDetails, toogleIsOpen, isMenuOpen }) {
               {authDetails?.user?.email}
             </span>
           </div>
+          <img
+            // src={`${resourceUrl}/${details?.logo_image}`}
+            className="h-[45px] w-[45px] rounded-full bg-secondaryColor"
+          />
         </div>
       </aside>
 
@@ -70,10 +74,7 @@ function SideBar({ children, authDetails, toogleIsOpen, isMenuOpen }) {
 
         {/* user info  */}
         <div className="absolute bottom-3 left-10 flex gap-[5px]  items-center">
-          <img
-            // src={`${resourceUrl}/${details?.logo_image}`}
-            className="h-[35px] w-[35px] rounded-full bg-secondaryColor"
-          />
+         
           <div className="flex-col flex">
             <span className="text-secondaryColor text-sm">
               {`${authDetails?.user?.first_name} ${authDetails?.user?.last_name}`}
@@ -82,6 +83,10 @@ function SideBar({ children, authDetails, toogleIsOpen, isMenuOpen }) {
               {authDetails?.user?.email}
             </span>
           </div>
+          <img
+            // src={`${resourceUrl}/${details?.logo_image}`}
+            className="h-[45px] w-[45px] rounded-full bg-primaryColor"
+          />
         </div>
       </aside>
     </>

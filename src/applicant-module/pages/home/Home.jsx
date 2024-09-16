@@ -178,7 +178,7 @@ function Home() {
               <div className="pt-1 h-full md:w-full w-[45%]  md:h-1/2">
                 <div
                   onClick={navigateToApplications}
-                  className="border bg-lightblue text-white transition duration-400 h-full cursor-pointer mb-4 p-3 pb-0 flex flex-col justify-between"
+                  className="border bg-darkblue text-white transition duration-400 h-full cursor-pointer mb-4 p-3 pb-0 flex flex-col justify-between"
                 >
                   <p className="font-bold">Interviewed</p>
                   <div className="flex justify-between items-end mt-4">
@@ -194,7 +194,7 @@ function Home() {
               <div className="pt-1 h-full md:w-full w-[45%]  md:h-1/2">
                 <div
                   onClick={navigateToApplications}
-                  className="border bg-darkblue text-white transition duration-400 h-full cursor-pointer mb-4 p-3 pb-0 flex flex-col justify-between"
+                  className="border  bg-lightorange text-white transition duration-400 h-full cursor-pointer mb-4 p-3 pb-0 flex flex-col justify-between"
                 >
                   <p className="font-bold">In-Review</p>
                   <div className="flex justify-between items-end mt-4">
@@ -211,7 +211,7 @@ function Home() {
               <div className="pt-1 h-full md:w-full w-[45%]  md:h-1/2">
                 <div
                   onClick={navigateToApplications}
-                  className="border bg-lightorange text-white transition duration-400 h-full cursor-pointer mb-4 p-3 pb-0 flex flex-col justify-between"
+                  className="border bg-lightblue text-white transition duration-400 h-full cursor-pointer mb-4 p-3 pb-0 flex flex-col justify-between"
                 >
                   <p className="font-bold">Shortlisted</p>
                   <div className="flex justify-between items-end mt-4">

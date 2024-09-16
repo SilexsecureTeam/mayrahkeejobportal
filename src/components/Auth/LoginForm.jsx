@@ -8,13 +8,14 @@ import "../../utils/notifications/OnSuccess";
 import { onSuccess } from "../../utils/notifications/OnSuccess";
 import FormButton from "../FormButton";
 import useLogin from "../../hooks/useLogin";
-import mayrahkeeIcon from '../../assets/pngs/mayrakee-icon.png'
-
+import mayrahkeeIcon from "../../assets/pngs/mayrakee-icon.png";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 function LoginForm({ rememberMe, toogleRememberMe }) {
   const [role, setRole] = useState();
   const navigate = useNavigate();
   const { loginDetails, loginUser, loading, onTextChange } = useLogin(role);
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleOnSubmit = (e) => {
     e.preventDefault();
@@ -45,11 +46,12 @@ function LoginForm({ rememberMe, toogleRememberMe }) {
         id="login-section"
         className="flex flex-col gap-[3%]  w-[80%] md:w-[60%] mt-0 md:mt-0 h-[60%] items-center"
       >
-        <h3 className="font-bold text-2xl text-white md:text-black">Login to your Account</h3>
+        <h3 className="font-bold text-2xl text-white md:text-black">
+          Login to your Account
+        </h3>
         <span className="font-meduim text-center w-[60%] md:w-[90%] text-gray-200 md:text-gray-400 text-[12px] md:text-[11px]">
           Explore/manage job different job oppurtunities
         </span>
-
         <div className="grid grid-cols-2 w-full mt-[3%] gap-[10px] text-sm font-semibold">
           <button
             onClick={() => setRole("candidate")}
@@ -65,8 +67,8 @@ function LoginForm({ rememberMe, toogleRememberMe }) {
             onClick={() => setRole("employer")}
             className={`px-2 py-1 text-little ${
               role === "employer"
-                 ? "md:text-white text-gray-500 bg-white md:bg-primaryColor border-0"
-                : "md:text-primaryColor text-white  border bg-white/30 md:bg-primaryColor/30"
+                ? "md:text-white text-gray-500 bg-white md:bg-lightblue border-0"
+                : "md:text-lightblue text-white  border bg-lightblue/30"
             }`}
           >
             Corperate Employer
@@ -75,8 +77,8 @@ function LoginForm({ rememberMe, toogleRememberMe }) {
             onClick={() => setRole("artisan")}
             className={`px-2 py-1 text-little ${
               role === "artisan"
-                 ? "md:text-white text-gray-500 bg-white md:bg-primaryColor border-0"
-                : "md:text-primaryColor text-white  border bg-white/30 md:bg-primaryColor/30"
+                ? "md:text-white text-gray-500 bg-white md:bg-darkblue border-0"
+                : "md:text-darkblue text-white  border bg-darkblue/30"
             }`}
           >
             Artisan
@@ -85,14 +87,13 @@ function LoginForm({ rememberMe, toogleRememberMe }) {
             onClick={() => setRole("staff")}
             className={`px-2 py-1 text-little ${
               role === "staff"
-                ? "md:text-white text-gray-500 bg-white md:bg-primaryColor border-0"
-                : "md:text-primaryColor text-white  border bg-white/30 md:bg-primaryColor/30"
+                ? "md:text-white text-gray-500 bg-white md:bg-lightorange border-0"
+                : "md:text-lightorange text-white  border bg-lightorange/30"
             }`}
           >
             Domestic Staff
           </button>
         </div>
-
         <form
           onSubmit={handleOnSubmit}
           id="form-wrapper"
@@ -111,20 +112,30 @@ function LoginForm({ rememberMe, toogleRememberMe }) {
             />
           </div>
 
-          <div className="h-[40px] w-full flex items-center pl-[10px] mt-[10px] bg-white md:bg-opacity-100  gap-[10px] rounded-md border-[1.5px]">
+          <div className="h-[40px] w-full flex items-center pl-[10px] pr-[5px] mt-[10px] bg-white md:bg-opacity-100  gap-[10px] rounded-md border-[1.5px]">
             <img src={Padlock} className="h-[20px]" />
             <input
               name="password"
-              type="password"
-              value={loginDetails.password}
+              type={showPassword ? 'text' : "password"}
+              value={ loginDetails.password}
               onChange={onTextChange}
               required
               className="w-[90%] h-full placeholder:text-md text-sm md:bg-white/0 focus:outline-none text-gray-700 "
-              placeholder="Password"
             />
+            {showPassword ? (
+              <FaEyeSlash
+                className="cursor-pointer text-green-600"
+                onClick={() => setShowPassword(!showPassword)}
+              />
+            ) : (
+              <FaEye
+                className="cursor-pointer text-green-600"
+                onClick={() => setShowPassword(!showPassword)}
+              />
+            )}
           </div>
 
-          <div className="flex justify-between text-sm w-full text-gray-800">
+          <div className="flex justify-between text-sm w-full text-white md:text-gray-800">
             <p className="flex items-center gap-[3px]">
               {rememberMe ? (
                 <GiPlainCircle
@@ -146,13 +157,26 @@ function LoginForm({ rememberMe, toogleRememberMe }) {
             </p>
           </div>
 
-          <FormButton width="w-full md:bg-primaryColor md:text-white bg-white" loading={loading}>Login to continue</FormButton>
+          <FormButton
+            width="w-full md:bg-primaryColor md:text-white bg-white"
+            loading={loading}
+          >
+            Login to continue
+          </FormButton>
         </form>
-
-        <p className="flex w-full group items-center mt-[10px] cursor-pointer hover:underline justify-center gap-[3px] text-sm all text-gray-800">
-          <NavLink to="/registration">
-            Do not have an account?
-            <span className="text-green group-hover:underline">Sign up</span>
+        <NavLink
+          to="/"
+          className="font-semibold hover:underline cursor-pointer text-white md:text-gray-800"
+        >
+          How it works
+        </NavLink>{" "}
+        <p className="flex  w-full group items-center cursor-pointer  justify-center gap-[3px] text-md all text-white md:text-gray-800">
+          <NavLink
+            to="/registration"
+            className="hover:underline peer font-semibold "
+          >
+            Do you have an account?
+            <span className=" ml-2  md:text-primaryColor">Sign up</span>
           </NavLink>{" "}
         </p>
       </div>

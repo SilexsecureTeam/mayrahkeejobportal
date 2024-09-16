@@ -17,7 +17,7 @@ function SideBarItem({ data, dispatch, state }) {
   return (
     <li
       onClick={navigateToPage}
-      className={`cursor-pointer flex gap-[10px] items-center z-10 p-[5px] ${
+      className={`cursor-pointer flex gap-[10px] hover:bg-green-800 group items-center z-10 p-[5px] ${
         state?.type === data?.type ? "bg-primaryColor" : "bg-none"
       }`}
     >
@@ -28,7 +28,7 @@ function SideBarItem({ data, dispatch, state }) {
       <span
         className={`${
           state?.type === data?.type ? "text-white" : "text-primary"
-        } text-sm`}
+        } text-sm group-hover:text-white`}
       >
         {data.title}
       </span>

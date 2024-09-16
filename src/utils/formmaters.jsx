@@ -168,3 +168,22 @@ export function toCamelCase(str) {
       )
       .join('');              // Join the words back into a single string
 }
+
+
+export function generateDateRange() {
+  const today = new Date();
+  const oneWeekLater = new Date(today);
+  oneWeekLater.setDate(today.getDate() + 7);
+
+  // Format dates as "Month Day, Year"
+  const formattedStartDate = today.toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+  });
+  const formattedEndDate = oneWeekLater.toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+  });
+
+  return `${formattedStartDate} - ${formattedEndDate}.`;
+}

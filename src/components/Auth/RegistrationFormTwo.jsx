@@ -12,6 +12,7 @@ import FormButton from "../../components/FormButton";
 import useRegistration from "../../hooks/useRegistration";
 import { onSuccess } from "../../utils/notifications/OnSuccess";
 import RegistrationSelector from "../RegistrationSelector";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 
 const genders = [
@@ -33,6 +34,8 @@ function RegistrationFormTwo({ state, dispatch }) {
   const [isTrained, setIsTrained] = useState(false);
   const [gender, setGender] = useState(genders[0])
   const [role, setRole] = useState();
+  const [showPassword, setShowPassword] = useState(true);
+  const [showPasswordReenter, setShowPasswordReenter] = useState(true);
   const { regDetails, onTextChange, loading, registerUser } =
     useRegistration(role);
   const navigate = useNavigate();
@@ -62,26 +65,46 @@ function RegistrationFormTwo({ state, dispatch }) {
 
       <div className="flex flex-col items-center gap-[8px] w-full md:w-[60%]">
         <h1 className="font-semibold text-[25px]">Create Account</h1>
-        <div className="flex w-full justify-center gap-[20px] text-sm font-semibold items-centeritems">
+        <div className="grid grid-cols-2 w-full mt-[3%] gap-[10px] text-sm font-semibold">
           <button
             onClick={() => setRole("candidate")}
-            className={`px-2 py-1 ${
+            className={`px-2 py-1 text-little ${
               role === "candidate"
-                ? "text-white bg-primaryColor border-0"
-                : "text-primaryColor border bg-primaryColor/30"
+                ? "md:text-white text-gray-500 bg-white md:bg-primaryColor border-0"
+                : "md:text-primaryColor text-white  border bg-white/30 md:bg-primaryColor/30"
             }`}
           >
-            Candidate
+            Corperate Candidate
           </button>
           <button
             onClick={() => setRole("employer")}
-            className={`px-2 py-1 ${
+            className={`px-2 py-1 text-little ${
               role === "employer"
-                ? "text-white bg-primaryColor border-0"
-                : "text-primaryColor border bg-primaryColor/30"
+                ? "md:text-white text-gray-500 bg-white md:bg-lightblue border-0"
+                : "md:text-lightblue text-white  border bg-lightblue/30"
             }`}
           >
-            Employer
+            Corperate Employer
+          </button>
+          <button
+            onClick={() => setRole("artisan")}
+            className={`px-2 py-1 text-little ${
+              role === "artisan"
+                ? "md:text-white text-gray-500 bg-white md:bg-darkblue border-0"
+                : "md:text-darkblue text-white  border bg-darkblue/30"
+            }`}
+          >
+            Artisan
+          </button>
+          <button
+            onClick={() => setRole("staff")}
+            className={`px-2 py-1 text-little ${
+              role === "staff"
+                ? "md:text-white text-gray-500 bg-white md:bg-lightorange border-0"
+                : "md:text-lightorange text-white  border bg-lightorange/30"
+            }`}
+          >
+            Domestic Staff
           </button>
         </div>
       </div>
@@ -132,25 +155,47 @@ function RegistrationFormTwo({ state, dispatch }) {
           <img src={Padlock} className="h-[20px]" />
           <input
             name="password"
-            type="password"
+            type={showPassword ? 'text' : "password"}
             value={regDetails.password}
             onChange={onTextChange}
             required
             className="w-[80%] h-full placeholder:text-little text-sm bg-white/0 focus:outline-none text-gray-700 "
             placeholder="Password"
           />
+           {showPassword ? (
+              <FaEyeSlash
+                className="cursor-pointer text-green-600"
+                onClick={() => setShowPassword(!showPassword)}
+              />
+            ) : (
+              <FaEye
+                className="cursor-pointer text-green-600"
+                onClick={() => setShowPassword(!showPassword)}
+              />
+            )}
         </div>
         <div className="h-[40px] w-full flex items-center pl-[10px] gap-[10px] rounded-md border-[1.5px]">
           <img src={Padlock} className="h-[20px]" />
           <input
             name="re_enter_password"
-            type="password"
+            type={showPasswordReenter ? 'text' : "password"}
             value={regDetails.re_enter_password}
             onChange={onTextChange}
             required
             className="w-[80%] h-full placeholder:text-small text-sm bg-white/0 focus:outline-none text-gray-700 "
             placeholder="Re-enter Password"
           />
+          {showPasswordReenter ? (
+              <FaEyeSlash
+                className="cursor-pointer text-green-600"
+                onClick={() => setShowPassword(!showPasswordReenter)}
+              />
+            ) : (
+              <FaEye
+                className="cursor-pointer text-green-600"
+                onClick={() => setShowPassword(!showPasswordReenter)}
+              />
+            )}
         </div>
 
         <RegistrationSelector

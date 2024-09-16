@@ -61,7 +61,7 @@ function Resume({ data, applicant }) {
                 </span>
                 <span className="text-black font-semibold flex w-full justify-between">
                   Academy Name
-                  <span className="font-normal">{resume.academy_name}</span>
+                  <span className="font-normal">{resume?.academy_name}</span>
                 </span>
                 <span className="text-black font-semibold flex w-full justify-between">
                   Year of Entry{" "}
