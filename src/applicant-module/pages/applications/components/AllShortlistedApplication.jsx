@@ -6,6 +6,16 @@ import { useNavigate } from 'react-router-dom'
 const AllShortlistedApplicants = ({ app, index }) => {
     const dateCreated = new Date(app?.created_at)
     const navigate = useNavigate()
+    const getBorderColor = () => {
+        switch(app.status){
+          case stages[0].name: return 'text-lightorange border-lightorange'
+          case stages[1].name: return 'text-lightblue border-lightblue'
+          case stages[2].name: return 'text-darkblue border-darkblue'
+          case stages[3].name.split('/')[0]: return 'text-primaryColor border-primaryColor'
+          case stages[3].name.split('/')[1]: return 'text-red-600 border-red-600'
+        }
+     }
+  
     return (
         <div
             onClick={() => navigate(`/applicant/applications/${app.id}`, { state: { app: app } })}
@@ -25,7 +35,7 @@ const AllShortlistedApplicants = ({ app, index }) => {
             </div>
             <div className="flex justify-between py-3 px-2 w-[25%]">
                 <div className="w-2/3">
-                    <button className="border border-green-600 text-green-900 px-2 py-1 rounded-full">{app.status}</button>
+                    <button className="border border-lightblue  text-lightblue px-2 py-1 rounded-full">{app.status}</button>
                 </div>
                 <div className="w-1/3">
                     <button className="hover:bg-gray-200 p-1 rounded-full"><MdMoreHoriz size={25} /></button>

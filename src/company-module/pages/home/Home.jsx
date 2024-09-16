@@ -14,6 +14,7 @@ import { ApplicationContext } from "../../../context/ApplicationContext";
 import { useEffect } from "react";
 import { JobContext } from "../../../context/JobContext";
 import { stages } from "../../../utils/constants";
+import { generateDateRange } from "../../../utils/formmaters";
 
 function Home() {
   const { authDetails } = useContext(AuthContext);
@@ -74,7 +75,7 @@ function Home() {
               Good Morning, {authDetails.user.name.split(" ")[0]}
             </h2>
             <span className="text-little text-gray-400">
-              Here is your job listings statistic report from July 19 - July 25.
+              Here is your job listings statistic report from {generateDateRange()}.
             </span>
           </div>
 

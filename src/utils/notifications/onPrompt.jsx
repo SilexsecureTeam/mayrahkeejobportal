@@ -7,7 +7,7 @@ export const onPrompt = (message) => {
       <IoInformationCircle className="text-[25px] " />
       <div className="flex flex-col">
        <strong className="text-[14px] ">Prompt</strong>
-       <p className="text-small ">{message}</p>
+       <p className="text-[12px] ">{message}</p>
       </div>
        
     </div>

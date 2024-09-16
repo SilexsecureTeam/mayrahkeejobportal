@@ -56,7 +56,7 @@ function PublicProfile() {
                 </div>
                 <div className="w-full flex justify-between">
                   <div className="">
-                    <h4 className="font-bold mb-4">{user?.first_name} {user?.last_name}</h4>
+                    <h4 className="font-bold mb-4">{candidate?.full_name}</h4>
                     <div className="text-[#7C8493]">
                       <p>{candidate?.preferred_job_role} <b className="text-black ml-2"></b></p>
                       <div className="my-3 flex">
@@ -65,7 +65,7 @@ function PublicProfile() {
                         </span>
                         <span className="">{candidate?.state}, {candidate?.country}</span>
                       </div>
-                      <p><b>Address :</b> <span className="ml-2">{candidate?.address}</span></p>
+                      <p><b>Address :</b> <span className="ml-2">{candidate?.contact_address}</span></p>
                       <div className="flex justify-between">
                         <p><b>Educational Qualification</b></p>
                         <p>{candidate?.educational_qualification?.toUpperCase()}</p>
