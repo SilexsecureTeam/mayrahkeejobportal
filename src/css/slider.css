@@ -1,0 +1,38 @@
+/* Override navigation button size and color */
+:root {
+    --swiper-navigation-size: 30px; /* Make the button smaller */
+    --swiper-navigation-color: #f9ab00; /* Set custom button color */
+  }
+  
+  /* Custom styles for navigation buttons */
+  .swiper-button-prev,
+  .swiper-button-next {
+    margin-top: 10px;
+    width: 30px; /* Adjust width */
+    height: 30px; /* Adjust height */
+    color: var(--swiper-navigation-color, #000); /* Set icon color */
+    background-color: rgba(0, 0, 0, 0.5); /* Add a background color */
+    border-radius: 50%; /* Make buttons circular */
+  }
+  
+  /* Ensure the icons inside the buttons are also resized */
+  .swiper-button-prev::after,
+  .swiper-button-next::after {
+    font-size: 14px; /* Adjust the font size of the icons */
+  }
+  
+  /* Optional: Adjust the position of the buttons */
+  .swiper-button-prev {
+    left: 5px; /* Move prev button closer to the left */
+  }
+  
+  .swiper-button-next {
+    right: 5px; /* Move next button closer to the right */
+  }
+  
+  /* Custom hover effect for navigation buttons */
+  .swiper-button-prev:hover,
+  .swiper-button-next:hover {
+    background-color: rgba(0, 0, 0, 0.7); /* Darken on hover */
+  }
+  

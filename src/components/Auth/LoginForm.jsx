@@ -10,6 +10,7 @@ import FormButton from "../FormButton";
 import useLogin from "../../hooks/useLogin";
 import mayrahkeeIcon from "../../assets/pngs/mayrakee-icon.png";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import HowItWorksSlider from "./HowItWorksSlider";
 
 function LoginForm({ rememberMe, toogleRememberMe }) {
   const [role, setRole] = useState();
@@ -38,13 +39,13 @@ function LoginForm({ rememberMe, toogleRememberMe }) {
   return (
     <div
       id="login-form"
-      className={`h-full w-full md:w-[65%] flex flex-col pt-[%] md:pt-[8%] items-center bg-primaryColor md:bg-white md:rounded-md  px-[3%] py-[10px]`}
+      className={`h-full w-full md:w-[65%] flex flex-col pt-[%] md:pt-[3%] items-center  bg-primaryColor md:bg-white md:rounded-md  px-[3%] py-[10px]`}
     >
       <img src={mayrahkeeIcon} className="w-[60%]  md:hidden h-[15%] mt-[3%]" />
 
       <div
         id="login-section"
-        className="flex flex-col gap-[3%]  w-[80%] md:w-[60%] mt-0 md:mt-0 h-[60%] items-center"
+        className="flex flex-col gap-[3%] w-[80%] md:w-[60%] mt-0 md:mt-0 h-[60%] items-center"
       >
         <h3 className="font-bold text-2xl text-white md:text-black">
           Login to your Account
@@ -57,8 +58,8 @@ function LoginForm({ rememberMe, toogleRememberMe }) {
             onClick={() => setRole("candidate")}
             className={`px-2 py-1 text-little ${
               role === "candidate"
-                ? "md:text-white text-gray-500 bg-white md:bg-primaryColor border-0"
-                : "md:text-primaryColor text-white  border bg-white/30 md:bg-primaryColor/30"
+                ? "scale-[103%] shadow-sm shadow-black md:text-primaryColor text-white  border bg-white/30 md:bg-primaryColor/30"
+                : "md:text-white text-gray-500 bg-white md:bg-primaryColor border-0"
             }`}
           >
             Corperate Candidate
@@ -67,8 +68,8 @@ function LoginForm({ rememberMe, toogleRememberMe }) {
             onClick={() => setRole("employer")}
             className={`px-2 py-1 text-little ${
               role === "employer"
-                ? "md:text-white text-gray-500 bg-white md:bg-lightblue border-0"
-                : "md:text-lightblue text-white  border bg-lightblue/30"
+                ? "scale-[103%] shadow-sm shadow-black md:text-lightblue text-white  border bg-lightblue/30"
+                : "md:text-white text-gray-500 bg-white md:bg-lightblue border-0"
             }`}
           >
             Corperate Employer
@@ -77,8 +78,8 @@ function LoginForm({ rememberMe, toogleRememberMe }) {
             onClick={() => setRole("artisan")}
             className={`px-2 py-1 text-little ${
               role === "artisan"
-                ? "md:text-white text-gray-500 bg-white md:bg-darkblue border-0"
-                : "md:text-darkblue text-white  border bg-darkblue/30"
+                ? "scale-[103%] shadow-sm shadow-black md:text-darkblue text-white  border bg-darkblue/30"
+                : "md:text-white text-gray-500 bg-white md:bg-darkblue border-0"
             }`}
           >
             Artisan
@@ -87,8 +88,8 @@ function LoginForm({ rememberMe, toogleRememberMe }) {
             onClick={() => setRole("staff")}
             className={`px-2 py-1 text-little ${
               role === "staff"
-                ? "md:text-white text-gray-500 bg-white md:bg-lightorange border-0"
-                : "md:text-lightorange text-white  border bg-lightorange/30"
+                ? "scale-[103%] shadow-sm shadow-black md:text-lightorange text-white  border bg-lightorange/30"
+                : "md:text-white text-gray-500 bg-white md:bg-lightorange border-0"
             }`}
           >
             Domestic Staff
@@ -116,8 +117,8 @@ function LoginForm({ rememberMe, toogleRememberMe }) {
             <img src={Padlock} className="h-[20px]" />
             <input
               name="password"
-              type={showPassword ? 'text' : "password"}
-              value={ loginDetails.password}
+              type={showPassword ? "text" : "password"}
+              value={loginDetails.password}
               onChange={onTextChange}
               required
               className="w-[90%] h-full placeholder:text-md text-sm md:bg-white/0 focus:outline-none text-gray-700 "
@@ -164,12 +165,6 @@ function LoginForm({ rememberMe, toogleRememberMe }) {
             Login to continue
           </FormButton>
         </form>
-        <NavLink
-          to="/"
-          className="font-semibold hover:underline cursor-pointer text-white md:text-gray-800"
-        >
-          How it works
-        </NavLink>{" "}
         <p className="flex  w-full group items-center cursor-pointer  justify-center gap-[3px] text-md all text-white md:text-gray-800">
           <NavLink
             to="/registration"
@@ -179,6 +174,15 @@ function LoginForm({ rememberMe, toogleRememberMe }) {
             <span className=" ml-2  md:text-primaryColor">Sign up</span>
           </NavLink>{" "}
         </p>
+        <NavLink
+          to="/"
+          className="font-semibold mt-3 hover:underline cursor-pointer text-white md:text-gray-800"
+        >
+          How it works
+        </NavLink>{" "}
+        <div className=" hidden md:flex max-w-[40%] bottom-10 absolute ">
+          <HowItWorksSlider />
+        </div>
       </div>
     </div>
   );

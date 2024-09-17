@@ -27,7 +27,7 @@ function Login() {
         <title>Login Page</title>
       </Helmet>
       <main
-        id="login-Wrapper"
+        id="/main-side-icon.jpg"
         className={`h-screen w-screen flex bg-center items-start justify-start relative `}
       >
         {/* <img
