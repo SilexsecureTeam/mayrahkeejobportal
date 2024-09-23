@@ -29,7 +29,7 @@ function LoginForm({ rememberMe, toogleRememberMe }) {
         navigate("/applicant");
       } else if (role == "employer") {
         navigate("/company");
-      } else{
+      } else {
         navigate("/staff");
       }
     });
@@ -176,13 +176,14 @@ function LoginForm({ rememberMe, toogleRememberMe }) {
             <span className=" ml-2  md:text-primaryColor">Sign up</span>
           </NavLink>{" "}
         </p>
-        <NavLink
-          to="/"
-          className="font-semibold hidden lg:block lg:mt-3 hover:underline cursor-pointer text-white md:text-gray-800"
-        >
-          How it works
-        </NavLink>{" "}
-        <div className=" hidden lg:block max-w-[50%] bottom-10 absolute ">
+
+        <div className=" hidden bg-gray-200  p-2 pt-8 lg:block max-w-[50%] bottom-5 absolute ">
+          <NavLink
+            to="/"
+            className="font-semibold absolute left-[43%] top-0 hidden lg:block lg:mt-3  text-white md:text-gray-800"
+          >
+            How it works
+          </NavLink>{" "}
           <HowItWorksSlider />
         </div>
       </div>
