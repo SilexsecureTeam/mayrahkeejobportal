@@ -16,7 +16,7 @@ function SideBar({ children, authDetails, toogleIsOpen, isMenuOpen }) {
           {children[0]}
           <div className="flex flex-col gap-[5px] ">
             <h3 className="px-2 text-primary text-sm mt-[10px] font-semibold">
-              Personalise
+              More
             </h3>
             {children[1]}
           </div>
@@ -61,7 +61,7 @@ function SideBar({ children, authDetails, toogleIsOpen, isMenuOpen }) {
           {children[0]}
           <div className="flex flex-col gap-[5px] ">
             <h3 className="px-2 text-primary text-sm mt-[10px] font-semibold">
-              Personalise
+              More
             </h3>
             {children[1]}
           </div>

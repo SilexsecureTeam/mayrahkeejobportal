@@ -16,8 +16,6 @@ function SideBarItem({ data, dispatch, state }) {
   };
 
   
- console.log('state', state)
- console.log('data', data)
   return (
     <li
       onClick={navigateToPage}

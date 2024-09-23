@@ -6,10 +6,18 @@ import { useState } from "react";
 import { ApplicationContext } from "../../../context/ApplicationContext";
 import { useContext } from "react";
 import { useEffect } from "react";
+import { ChatContext } from "../../../context/ChatContext";
 
 function Messages() {
   const applicationUtils = useContext(ApplicationContext);
   const [selectedChat, setSelectedChat] = useState(null);
+  const {
+    loading,
+    messages,
+    sendMessage,
+    getMessages,
+    initFirebaseChatSession,
+  } = useContext(ChatContext);
 
   const byApplicants = () => {
     const newList = [];

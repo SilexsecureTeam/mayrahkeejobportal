@@ -9,60 +9,78 @@ import useCompanyProfile from "../../../hooks/useCompanyProfile";
 import useChats from "../../../hooks/useChats";
 import Spinner from "../../../components/Spinner";
 import { BiLoaderCircle } from "react-icons/bi";
+import { database } from "../../../utils/firebase";
+import { onValue, ref } from "firebase/database";
 
 function ChatComponent({ selectedChat, setSelectedChat, applicationUtils }) {
-  const [currentCandidate, setCurrentCandidate] = useState();
+  const [currentEmployer, setCurrentEmployer] = useState();
   const { authDetails } = useContext(AuthContext);
 
   const [message, setMessage] = useState("");
 
   const { details } = useCompanyProfile();
-  const { loading, messages, sendMessage, getMessages } = useChats();
+  const { loading, messages, sendMessage, getMessages, firebaseMessaging } =
+    useChats();
 
   const onSendButtonClick = () => {
     const messageToSend = {
       sender_id: authDetails.user.id,
       sender_type: authDetails.user.role,
-      receiver_id: currentCandidate?.candidate_id,
-      receiver_type: "candidate",
+      receiver_id: currentEmployer?.employer_id,
+      receiver_type: "employer",
       message: message,
+      date_sent: new Date().toDateString(),
     };
+    firebaseMessaging(selectedChat.employer_id, messageToSend);
+
     sendMessage(messageToSend, () => {
       setMessage("");
     });
   };
 
+  const openCommunication = () => {
+    if (!currentEmployer) return;
+    const path = `employer-${selectedChat.employer_id}-candidate-${authDetails.user.id}`;
+    const messageRef = ref(database, `messages/` + path);
+
+    onValue(messageRef, (snapshot) => {
+      const data = snapshot.val();
+      getMessages(currentEmployer.employer_id, () => {});
+      console.log("Message Data", data);
+    });
+  };
+
   useEffect(() => {
-    currentCandidate && getMessages(currentCandidate.candidate_id);
-  }, [currentCandidate]);
+    openCommunication();
+  }, [currentEmployer]);
 
   useEffect(() => {
     if (selectedChat) {
-      applicationUtils.getApplicant(
-        selectedChat?.candidate_id,
-        setCurrentCandidate
+      applicationUtils.getCompany(
+        selectedChat?.employer_id,
+        setCurrentEmployer
       );
     }
-    return setCurrentCandidate();
+    return setCurrentEmployer();
   }, [selectedChat]);
 
   return (
-    currentCandidate && (
+    currentEmployer && (
       <div className="w-[70%] relative h-full flex flex-col items-center">
         {/* Chat Header */}
         <div className="h-[15%] border-b flex w-full">
           {/* Profile */}
           <div className="flex w-[40%] items-center p-2 gap-[10px]">
             <img
-              src={`${resourceUrl}/${currentCandidate?.profile}`}
+              src={`${resourceUrl}/${currentEmployer?.logo_image}`}
               className="h-[50px] w-[50px] rounded-full bg-gray-300"
             />
             <div className="flex flex-col">
               <h4 className="text-md font-semibold">
-                {currentCandidate?.full_name}
+                {currentEmployer?.company_name}
               </h4>
               <span className="text-sm  text-gray-400">
-                {selectedChat.job_title} Role
+                {currentEmployer?.sector}
               </span>
             </div>
           </div>
@@ -70,18 +88,18 @@ function ChatComponent({ selectedChat, setSelectedChat, applicationUtils }) {
           <div className="w-[50%]"></div>
         </div>
 
-        <ul className="flex w-full flex-col p-2 overflow-y-auto">
+        <ul className="flex w-full flex-col h-[75%] p-2 overflow-y-auto">
           {messages &&
             messages.length !== 0 &&
             messages?.map((current) => {
               const getPositions = (sender) => {
                 switch (sender) {
-                  case "candidate":
+                  case "employer":
                     return [
                       "",
                       "",
-                      `${resourceUrl}/${currentCandidate.profile}`,
-                      currentCandidate.full_name.split(" ", 1),
+                      `${resourceUrl}/${currentEmployer.logo_image}`,
+                      currentEmployer.company_name,
                     ];
                   default:
                     return [

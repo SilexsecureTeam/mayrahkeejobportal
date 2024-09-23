@@ -9,11 +9,14 @@ export const ApplicationContextProvider = ({ children }) => {
     applicants,
     interviewDetails,
     resume,
+    jobApplications,
     scheduleInterview,
     onTextChange,
     getApplicantsByEmployee,
     getApplicant,
-    getResume
+    getResume,
+    getJobApplications,
+    getCompany
   } = useApplicationManagement();
 
   //Application specific to the applicant being inteviews
@@ -26,13 +29,16 @@ export const ApplicationContextProvider = ({ children }) => {
         applicants,
         interviewDetails,
         resume,
-        application,        
+        application,   
+        jobApplications,     
         scheduleInterview,
         onTextChange,
         getApplicantsByEmployee,
         getApplicant,
         getResume,
-        setApplication
+        setApplication,
+        getJobApplications,
+        getCompany
       }}
     >
       {children}

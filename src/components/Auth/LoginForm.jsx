@@ -27,8 +27,10 @@ function LoginForm({ rememberMe, toogleRememberMe }) {
       });
       if (role === "candidate") {
         navigate("/applicant");
-      } else {
+      } else if (role == "employer") {
         navigate("/company");
+      } else{
+        navigate("/staff");
       }
     });
   };
@@ -45,7 +47,7 @@ function LoginForm({ rememberMe, toogleRememberMe }) {
 
       <div
         id="login-section"
-        className="flex flex-col gap-[3%] w-[80%] md:w-[60%] mt-0 md:mt-0 h-[60%] items-center"
+        className="flex flex-col  w-[80%] md:w-[80%] gap-2  lg:w-[60%] mt-0 md:mt-0 h-[60%] items-center"
       >
         <h3 className="font-bold text-2xl text-white md:text-black">
           Login to your Account
@@ -98,7 +100,7 @@ function LoginForm({ rememberMe, toogleRememberMe }) {
         <form
           onSubmit={handleOnSubmit}
           id="form-wrapper"
-          className="flex flex-col mt-[8%] w-full md:w-[80%] gap-[15px] items-center "
+          className="flex flex-col mt-[5%] w-full md:w-[95%] lg:w-[80%] gap-[15px] items-center "
         >
           <div className="h-[40px] w-full flex items-center bg-white md:bg-opacity-100 pl-[10px] gap-[10px] rounded-md border-[1.5px]">
             <img src={Person} className="h-[20px]" />
@@ -176,11 +178,11 @@ function LoginForm({ rememberMe, toogleRememberMe }) {
         </p>
         <NavLink
           to="/"
-          className="font-semibold mt-3 hover:underline cursor-pointer text-white md:text-gray-800"
+          className="font-semibold hidden lg:block lg:mt-3 hover:underline cursor-pointer text-white md:text-gray-800"
         >
           How it works
         </NavLink>{" "}
-        <div className=" hidden md:flex max-w-[40%] bottom-10 absolute ">
+        <div className=" hidden lg:block max-w-[50%] bottom-10 absolute ">
           <HowItWorksSlider />
         </div>
       </div>

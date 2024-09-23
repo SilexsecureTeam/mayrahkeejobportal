@@ -11,7 +11,7 @@ function Schedule() {
 
   useEffect(() => {
     applicationUtils.getApplicantsByEmployee();
-    interviewUtils.getAllInterviews()
+    interviewUtils.getAllInterviews(() => {})
   }, []);
 
   
@@ -20,10 +20,10 @@ function Schedule() {
       <Helmet>
         <title>Company Dashboard | My Schedules </title>
       </Helmet>
-      {/* <div className="h-full w-full flex flex-col px-12 py-2 gap-[15px]">
+      <div className="h-full w-full flex flex-col px-12 py-2 gap-[15px]">
         <div className="w-full flex justify-between ">
           <h2 className="font-semibold text-md">
-            Total Inteviews : {applicationUtils.applicants?.length}
+            Total Inteviews : {interviewUtils.interviews.length}
           </h2>
           <div className="flex bg-gray-300 p-1 text-primaryColor">
             <button className="text-little p-1  bg-gray-300">
@@ -46,13 +46,13 @@ function Schedule() {
           </thead>
 
           <tbody>
-            {applicationUtils?.applicants &&
+            {/* {applicationUtils?.applicants &&
               applicationUtils?.applicants?.map((current) => (
                 <ApplicantRow key={current.id} data={current} />
-              ))}
+              ))} */}
           </tbody>
         </table>
-      </div> */}
+      </div>
     </>
   );
 }

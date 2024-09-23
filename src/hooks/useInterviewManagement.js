@@ -24,11 +24,14 @@ function useInterviewManagement() {
 
   const [loading, setLoading] = useState(false);
 
+  const [interviews, setInterviews] = useState([])
+
   //Api request to update profile
   const getAllInterviews = async (handleSuccess) => {
     setLoading(true);
     try {
-      const response = await client.get(`/interviews`);
+      const {data}= await client.get(`/interviews/getByEmployerId/${authDetails.user.id}`);
+      setInterviews(data.interview)
       handleSuccess();
     } catch (error) {
       console.log(error);
@@ -38,7 +41,6 @@ function useInterviewManagement() {
     }
   };
 
-  // //   useEffect(() => console.log(details), [details]);
   // useEffect(() => {
   //   if (error.message && error.error) {
   //     onFailure(error);
@@ -46,7 +48,6 @@ function useInterviewManagement() {
   // }, [error.message, error.error]);
 
   // useEffect(() => {
-  //   //Initailise value from index db
   //   const initValue = async () => {
   //     try {
   //       const storedValue = await get(COMPANY_PROFILE_Key);
@@ -67,6 +68,7 @@ function useInterviewManagement() {
   // }, []);
 
   return {
+    interviews,
     getAllInterviews
   };
 }

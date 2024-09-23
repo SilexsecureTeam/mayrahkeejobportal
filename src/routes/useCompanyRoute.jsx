@@ -16,7 +16,7 @@ import CompanyReducer from "../reducers/CompanyReducer";
 import { AuthContext } from "../context/AuthContex";
 import RedirectModal from "../components/RedirectModal";
 import UpdateCompanyProfileModal from "../company-module/components/company-profile/UpdateCompanyProfileModal";
-import { clear } from "idb-keyval";
+import { clear} from "idb-keyval";
 import useCompanyProfile from "../hooks/useCompanyProfile";
 import withSubscription from "../hocs/withSubscription";
 import useSubscription from "../hooks/useSubscription";
@@ -26,6 +26,8 @@ import {
   CompanyRouteContext,
   CompanyRouteContextProvider,
 } from "../context/CompanyRouteContext";
+import { ref, set } from "firebase/database";
+import { database } from "../utils/firebase";
 
 //Util Component
 const NavBar = lazy(() => import("../company-module/components/NavBar"));
@@ -105,7 +107,30 @@ function useCompanyRoute() {
   useEffect(() => {
     const clearDb = async () => await clear();
 
-    return () => clearDb();
+    const onlineStatusRef = ref(
+      database,
+      "online-status/" + `employer-${authDetails.user.id}`
+    );
+
+    const handleUnload = () => {
+      clearDb();
+      set(onlineStatusRef, {
+        isOnline: false,
+        timeStamp: new Date().toDateString(),
+      });
+    };
+
+    set(onlineStatusRef, {
+      isOnline: true,
+      timeStamp: new Date().toDateString(),
+    });
+
+    window.addEventListener("unload", handleUnload);
+
+    return () => {
+      handleUnload();
+      window.removeEventListener("unload", handleUnload);
+    };
   }, []);
 
   return (
@@ -169,8 +194,14 @@ function useCompanyRoute() {
                   />
 
                   <Route path="applicants/*">
-                    <Route index element={withSubscription(Applicants, "Applicant")} />
-                    <Route path="detail/:id" element={withSubscription(SingleApplicant)} />
+                    <Route
+                      index
+                      element={withSubscription(Applicants, "Applicant")}
+                    />
+                    <Route
+                      path="detail/:id"
+                      element={withSubscription(SingleApplicant)}
+                    />
                   </Route>
 
                   <Route path="company-profile" element={<CompanyProfile />} />
@@ -178,11 +209,17 @@ function useCompanyRoute() {
                   <Route path="domestic-staffs" element={<DomesticStaffs />} />
 
                   <Route path="job-listing/*">
-                    <Route index element={withSubscription(JobListing, 'Job Listing')} />
+                    <Route
+                      index
+                      element={withSubscription(JobListing, "Job Listing")}
+                    />
                     <Route path="type/:id" element={<JobType />} />
                   </Route>
 
-                  <Route path="schedule" element={withSubscription(Schedule, 'Schedule')} />
+                  <Route
+                    path="schedule"
+                    element={withSubscription(Schedule, "Schedule")}
+                  />
 
                   <Route path="settings" element={<Settings />} />
                   <Route path="help-center" element={<HelpCenter />} />

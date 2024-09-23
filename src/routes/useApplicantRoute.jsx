@@ -6,6 +6,8 @@ import { AuthContext } from "../context/AuthContex";
 import ResourceContextProvider from "../context/ResourceContext";
 import { clear } from "idb-keyval";
 import { ApplicantRouteContextProvider } from "../context/ApplicantRouteContext";
+import { ref, set } from "firebase/database";
+import { database } from "../utils/firebase";
 
 //Util Components
 const NavBar = lazy(() => import("../applicant-module/components/NavBar"));
@@ -65,7 +67,31 @@ function useApplicantRoute() {
   useEffect(() => {
     const clearDb = async () => await clear();
 
-    return () => clearDb();
+    const onlineStatusRef = ref(
+      database,
+      "online-status/" + `candidate-${authDetails.user.id}`
+    );
+
+    const handleUnload = () => {
+      clearDb();
+      set(onlineStatusRef, {
+        isOnline: false,
+        timeStamp: new Date().toDateString(),
+      });
+    };
+
+    set(onlineStatusRef, {
+      isOnline: true,
+      timeStamp: new Date().toDateString(),
+    });
+
+
+    window.addEventListener("unload", handleUnload);
+
+    return () => {
+      handleUnload();
+      window.removeEventListener("unload", handleUnload);
+    };
   }, []);
 
   return authDetails.user.role === "candidate" ? (
@@ -78,7 +104,6 @@ function useApplicantRoute() {
             toogleIsOpen={toogleIsOpen}
             isMenuOpen={isOpen}
           >
-          
             <ul className="flex flex-col gap-[10px]">
               {applicantOptions.map((currentOption) => (
                 <SideBarItem

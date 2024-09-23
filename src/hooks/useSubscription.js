@@ -100,12 +100,17 @@ function useSubscription() {
 
   useEffect(() => {
     const initVals = async () => {
-      const result = await get(PACKAGES_KEY);
-      if (result) {
-        setPackages(result)
-      } else {
-        await getPackages()
+      try {
+        const result = await get(PACKAGES_KEY);
+        if (result) {
+          setPackages(result)
+        } else {
+          await getPackages()
+        }
+      } catch (error) {
+         console.log('Caught Error')
       }
+     
     };
 
     getActivePackage();

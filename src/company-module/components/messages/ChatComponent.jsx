@@ -9,6 +9,9 @@ import useCompanyProfile from "../../../hooks/useCompanyProfile";
 import useChats from "../../../hooks/useChats";
 import Spinner from "../../../components/Spinner";
 import { BiLoaderCircle } from "react-icons/bi";
+import { ChatContext } from "../../../context/ChatContext";
+import { onValue, ref } from "firebase/database";
+import { database } from "../../../utils/firebase";
 
 function ChatComponent({ selectedChat, setSelectedChat, applicationUtils }) {
   const [currentCandidate, setCurrentCandidate] = useState();
@@ -17,7 +20,8 @@ function ChatComponent({ selectedChat, setSelectedChat, applicationUtils }) {
   const [message, setMessage] = useState("");
 
   const { details } = useCompanyProfile();
-  const { loading, messages, sendMessage, getMessages } = useChats();
+  const { loading, messages, sendMessage, getMessages, firebaseMessaging } =
+    useContext(ChatContext);
 
   const onSendButtonClick = () => {
     const messageToSend = {
@@ -26,14 +30,28 @@ function ChatComponent({ selectedChat, setSelectedChat, applicationUtils }) {
       receiver_id: currentCandidate?.candidate_id,
       receiver_type: "candidate",
       message: message,
+      date_sent: new Date().toDateString(),
     };
+    firebaseMessaging(selectedChat.candidate_id, messageToSend);
     sendMessage(messageToSend, () => {
       setMessage("");
     });
   };
 
+  const openCommunication = () => {
+    if (!currentCandidate) return;
+    const path = `employer-${authDetails.user.id}-candidate-${selectedChat.candidate_id}`;
+    const messageRef = ref(database, `messages/` + path);
+
+    onValue(messageRef, (snapshot) => {
+      const data = snapshot.val();
+      getMessages(currentCandidate.candidate_id, () => {});
+      console.log("Message Data", data);
+    });
+  };
+
   useEffect(() => {
-    currentCandidate && getMessages(currentCandidate.candidate_id, () => {});
+    openCommunication();
   }, [currentCandidate]);
 
   useEffect(() => {
@@ -70,7 +88,7 @@ function ChatComponent({ selectedChat, setSelectedChat, applicationUtils }) {
           <div className="w-[50%]"></div>
         </div>
 
-        <ul className="flex w-full flex-col p-2 overflow-y-auto">
+        <ul className="flex w-full flex-col p-2 h-[75%] overflow-y-auto">
           {messages &&
             messages.length !== 0 &&
             messages?.map((current) => {
@@ -93,6 +111,7 @@ function ChatComponent({ selectedChat, setSelectedChat, applicationUtils }) {
               };
 
               const positions = getPositions(current.sender_type);
+
               return (
                 <li
                   className={`flex w-[50%] bf gap-[10px] mt-3 ${positions[0]} `}

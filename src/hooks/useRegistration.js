@@ -12,6 +12,13 @@ function useRegistration(role) {
     password: "",
     re_enter_password: "",
   });
+
+  const [staffsRegDetails, setStaffsRegDetails] = useState({
+    email: "",
+    password: "",
+    re_enter_password: "",
+    staff_category: "",
+  });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState({
     message: "",
@@ -26,18 +33,43 @@ function useRegistration(role) {
     setRegDetails({ ...regDetails, [name]: value });
   };
 
+  const onTextChangeStaff = (e) => {
+    const { name, value } = e.target;
+    setStaffsRegDetails({ ...staffsRegDetails, [name]: value });
+  };
+
+  const registerStaff = async (subcategory, onSuccess, staff) => {
+    setLoading(true);
+    try {
+      if (regDetails.password !== regDetails.re_enter_password)
+        throw Error("Password Mismatch");
+      await client.post(`/domesticStaff/register`, {
+        ...staffsRegDetails,
+        subcategory: subcategory.name,
+        staff_category: staff
+      });
+      onSuccess();
+    } catch (e) {
+      FormatError(e, setError, "Registration Error");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const registerUser = async (gender, onSuccess) => {
     setLoading(true);
     try {
       const detail =
         regDetails.role === "candidate"
           ? { ...regDetails, gender: gender.name }
-          : {name: `${regDetails.first_name} ${regDetails.last_name}`, gender: gender.name, ...regDetails};
+          : {
+              name: `${regDetails.first_name} ${regDetails.last_name}`,
+              gender: gender.name,
+              ...regDetails,
+            };
 
-      if (regDetails.password !== regDetails.re_enter_password)
+      if (staffsRegDetails.password !== staffsRegDetails.re_enter_password)
         throw Error("Password Mismatch");
-
-      if (gender.id === 2000) throw Error("please select a gender");
 
       const response = await client.post(`/${regDetails.role}/NewUser`, detail);
       onSuccess();
@@ -45,7 +77,6 @@ function useRegistration(role) {
       FormatError(e, setError, "Registration Error");
     } finally {
       setLoading(false);
-
     }
   };
 
@@ -107,9 +138,12 @@ function useRegistration(role) {
 
   return {
     regDetails,
+    staffsRegDetails,
     loading,
     onTextChange,
+    onTextChangeStaff,
     registerUser,
+    registerStaff,
     verifyOtp,
     resendOtp,
   };
