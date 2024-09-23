@@ -30,6 +30,7 @@ function ApplicantSummary({ applicants, byCategory }) {
               return (
                 <>
                   <div
+                  key={current.id}
                     className={` list-item-parent flex h-full text-[11px] items-center gap-[5px]`}
                   >
                     <div className={`h-[10px] w-[10px] rounded-[3px] child`} />

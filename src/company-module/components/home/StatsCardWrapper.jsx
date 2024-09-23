@@ -20,7 +20,7 @@ function StatsCardWrapper({ applicants }) {
             navigate('/company/applicants')
           };
         }
-        return <StatsCard data={currentStat} value={value} onClick={onClick} />;
+        return <StatsCard key={currentStat.id} data={currentStat} value={value} onClick={onClick} />;
       })}
     </ul>
   );

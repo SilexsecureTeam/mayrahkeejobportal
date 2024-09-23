@@ -8,11 +8,9 @@ import { MdClose } from "react-icons/md";
 function SideBar({
   children,
   authDetails,
-  companyHookProps,
   toogleIsOpen,
   isMenuOpen,
 }) {
-  const { details } = companyHookProps;
 
   return (
     <>
@@ -22,7 +20,7 @@ function SideBar({
           {children[0]}
           <div className="flex flex-col gap-[5px] ">
             <h3 className="px-2 text-primary text-sm mt-[10px] font-semibold">
-              More
+              Personalise
             </h3>
             {children[1]}
           </div>
@@ -36,15 +34,15 @@ function SideBar({
         {/* user info  */}
         <div className="absolute bottom-3 left-3 flex gap-[5px]  items-center">
           <img
-            src={`${resourceUrl}/${details?.logo_image}`}
+            src={``}
             className="h-[35px] w-[35px] rounded-full bg-secondaryColor"
           />
           <div className="flex-col flex">
             <span className="text-secondaryColor text-sm">
-              {authDetails?.user?.name}
+             Someone
             </span>
             <span className="text-gray-300 text-[11px]">
-              {authDetails?.user?.email}
+             someone
             </span>
           </div>
         </div>
@@ -80,15 +78,15 @@ function SideBar({
         {/* user info  */}
         <div className="absolute bottom-3 left-10 flex gap-[5px]  items-center">
           <img
-            src={`${resourceUrl}/${details?.logo_image}`}
+            src={``}
             className="h-[35px] w-[35px] rounded-full bg-secondaryColor"
           />
           <div className="flex-col flex">
             <span className="text-secondaryColor text-sm">
-              {authDetails?.user?.name}
+              Someone
             </span>
             <span className="text-gray-300 text-[11px]">
-              {authDetails?.user?.email}
+              someone
             </span>
           </div>
         </div>

@@ -36,7 +36,7 @@ const basic_inputs = [
   {
     id: 3,
     name: "preferred_age",
-    label: "Prefered Age",
+    label: "Application Age Limit",
     type: "number",
     placeholder: "e.g 18",
     prompt: "Here you input prefered average age (years)",
@@ -77,7 +77,7 @@ const basic_inputs = [
   {
     id: 8,
     name: "experience",
-    label: "Experience",
+    label: "Minimum years of Experience",
     type: "number",
     placeholder: "e.g 2 years",
     prompt: "Here you specify experiece in years",

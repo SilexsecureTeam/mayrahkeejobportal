@@ -8,8 +8,8 @@ function RegistrationSelector({ data, selected, setSelected, icon}) {
   const filteredData =
     query === ''
       ? data
-      : data.filter((current) =>
-          current.name
+      : data?.filter((current) =>
+          current?.name
             .toLowerCase()
             .replace(/\s+/g, '')
             .includes(query.toLowerCase().replace(/\s+/g, ''))

@@ -18,6 +18,7 @@ function useApplicationManagement() {
     error: "",
   });
   const [applicants, setApplicants] = useState([]);
+  const [jobApplications, setjobApplications] = useState([]);
   const [interviewDetails, setInterviewDetails] = useState({});
 
   const onTextChange = (e) => {
@@ -33,6 +34,19 @@ function useApplicationManagement() {
       );
       await set(APPLICANTS_KEY, response.data.job_application);
       setApplicants(response.data.job_application);
+    } catch (error) {
+      FormatError(error, setError, "Applicants Error");
+    } finally {
+      setLoading(false);
+    }
+  };
+  const getJobApplications = async () => {
+    setLoading(true);
+    try {
+      const response = await client(
+        `/getUserApply/${authDetails?.user?.id}`
+      );
+      setjobApplications(response.data.job_application);
     } catch (error) {
       FormatError(error, setError, "Applicants Error");
     } finally {
@@ -58,6 +72,17 @@ function useApplicationManagement() {
       setLoading(false);
     }
   };
+  const getCompany = async (employerId, setEmployer) => {
+    setLoading(true);
+    try {
+      const response = await client(`/employer/getEmployer/${employerId}`);
+      setEmployer(response.data.details);
+    } catch (error) {
+      FormatError(error, setError, "Applicants Error");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const scheduleInterview = async (
     applicant,
@@ -74,6 +99,7 @@ function useApplicationManagement() {
 
       const interviewPrimarydata = {
         job_application_id: data.id,
+        employer_id: authDetails.user.id,
         candidate_id: applicant.candidate_id,
         option: option.name,
         meeting_id: meetingId,
@@ -163,11 +189,14 @@ function useApplicationManagement() {
     loading,
     applicants,
     interviewDetails,
+    jobApplications,
     scheduleInterview,
     onTextChange,
     getApplicantsByEmployee,
     getApplicant,
     getResume,
+    getJobApplications,
+    getCompany
   };
 }
 

@@ -526,19 +526,14 @@ const BasicInfo = ({ setIsOpen }) => {
                             <span className="block text-sm font-medium text-slate-700 mb-1">
                               Work Experience
                             </span>
-                            <select
+                            <input
                               value={details.work_experience}
                               name="work_experience"
+                              placeholder="3 years"
                               onChange={handleOnChange}
                               className="border w-full focus:outline-none p-2 pb-1"
-                            >
-                              <option value="">-- select --</option>
-                              <option value="1">1 year</option>
-                              <option value="2">2 years</option>
-                              <option value="3">3 years</option>
-                              <option value="4">4 years </option>
-                              <option value="5">5 years</option>
-                            </select>
+                            />
+                        
                           </label>
                         </div>
                         <div className="">
@@ -573,7 +568,9 @@ const BasicInfo = ({ setIsOpen }) => {
                               className="border w-full focus:outline-none p-2 pb-1"
                             >
                               <option value="">-- select --</option>
+                              <option value="monthly">Annual</option>
                               <option value="monthly">Monthly</option>
+                              <option value="monthly">Weekly</option>
                               <option value="hourly">Hourly</option>
                               <option value="contract">Contract</option>
                             </select>

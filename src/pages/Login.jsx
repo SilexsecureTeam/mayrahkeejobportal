@@ -27,14 +27,9 @@ function Login() {
         <title>Login Page</title>
       </Helmet>
       <main
-        id="/main-side-icon.jpg"
+        id="login-Wrapper"
         className={`h-screen w-screen flex bg-center items-start justify-start relative `}
       >
-        {/* <img
-          className="w-full h-full object-cover object-top absolute"
-          src={LoginOne}
-        /> */}
-
         <SideCard />
 
         <LoginForm

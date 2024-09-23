@@ -27,13 +27,25 @@ function useLogin(role) {
 
   const loginUser = async (onSuccess) => {
     setLoading(true);
+
     try {
-      const response = await client.post(`/${role}/login`, loginDetails);
+      if (role === "candidate" || role == "employer") {
+        const response = await client.post(`/${role}/login`, loginDetails);
+        setAuthDetails({
+          token: response.data.token,
+          user: response.data.user,
+        });
+      } else {
+        const response = await client.post(`/domesticStaff/login`, {
+          email: loginDetails.email,
+          password: loginDetails.password,
+        });
+        setAuthDetails({
+          token: response.data.token,
+          user: response.data.user,
+        });
+      }
       onSuccess();
-      setAuthDetails({
-        token: response.data.token,
-        user: response.data.user,
-      });
     } catch (e) {
       FormatError(e, setError, "Registration Error");
     } finally {
@@ -50,13 +62,13 @@ function useLogin(role) {
         email,
       });
       onSuccess({
-        message: 'Reset succesful',
-        success: 'A reset otp has been sent to you email'
-      })
+        message: "Reset succesful",
+        success: "A reset otp has been sent to you email",
+      });
     } catch (error) {
       FormatError(error, setError, "Reset Error");
-    } finally{
-      setLoading(false)
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -70,16 +82,16 @@ function useLogin(role) {
       const { data } = await client.post(`/${role}/setPassword`, {
         email,
         password,
-        otp
+        otp,
       });
       onSuccess({
-        message: 'Reset succesful',
-        success: 'Your passwod has been succesfull resetr'
-      })
+        message: "Reset succesful",
+        success: "Your passwod has been succesfull resetr",
+      });
     } catch (error) {
       FormatError(error, setError, "Reset Error");
-    } finally{
-      setLoading(false)
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -99,7 +111,7 @@ function useLogin(role) {
     onTextChange,
     loginUser,
     forgotPassword,
-    resetPassword
+    resetPassword,
   };
 }
 

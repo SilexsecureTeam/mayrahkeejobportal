@@ -6,18 +6,21 @@ import { useState } from "react";
 import { ApplicationContext } from "../../../context/ApplicationContext";
 import { useContext } from "react";
 import { useEffect } from "react";
+import { ChatContext } from "../../../context/ChatContext";
 
 function Messages() {
   const applicationUtils = useContext(ApplicationContext);
-  const [selectedChat, setSelectedChat] = useState(null)
+  const [selectedChat, setSelectedChat] = useState(null);
+  const { loading, messages, sendMessage, getMessages } =
+    useContext(ChatContext);
 
   const byCompany = () => {
     const newList = [];
 
-    applicationUtils.applicantJobs.map((current) => {
+    applicationUtils?.jobApplications?.map((current) => {
       if (newList.length !== 0) {
         const doesExist = newList.filter(
-          (currentApp) => current.candidate_id === currentApp.candidate_id
+          (currentApp) => current.employer_id === currentApp.employer_id
         );
         if (doesExist.length === 0) {
           newList.push(current);
@@ -32,9 +35,9 @@ function Messages() {
     return newList;
   };
 
-   useEffect(() => {
-     applicationUtils.getApplicantsByEmployee()
-   }, [])
+  useEffect(() => {
+    applicationUtils.getJobApplications();
+  }, []);
 
   return (
     <>
@@ -45,8 +48,18 @@ function Messages() {
         <h1 className="font-semibold text-md">Messages</h1>
 
         <div className="flex border-2 h-[95%] w-full">
-              <MessagedList chats={chat_dummies} data={applicationUtils.applicants} setSelectedChat={setSelectedChat} selectedChat={selectedChat}/>
-              <ChatComponent chats={chat_dummies} applicationUtils={applicationUtils} setSelectedChat={setSelectedChat} selectedChat={selectedChat}/>
+          <MessagedList
+            chats={chat_dummies}
+            data={byCompany()}
+            setSelectedChat={setSelectedChat}
+            selectedChat={selectedChat}
+          />
+          <ChatComponent
+            chats={chat_dummies}
+            applicationUtils={applicationUtils}
+            setSelectedChat={setSelectedChat}
+            selectedChat={selectedChat}
+          />
         </div>
       </div>
     </>

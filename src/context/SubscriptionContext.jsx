@@ -13,7 +13,6 @@ export const SubscriptionContextProvider = ({ children }) => {
     getActivePackage,
   } = useSubscription();
 
-  console.log('active package:',activePackage)
 
   return (
     <SubscriptionContext.Provider
