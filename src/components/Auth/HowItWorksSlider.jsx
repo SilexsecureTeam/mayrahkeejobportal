@@ -31,15 +31,6 @@ function HowItWorksSlider() {
         </div>
       </SwiperSlide>
       <SwiperSlide>
-        <div className="flex flex-col items-center tex-sm gap-2">
-          <img src="/svgs/update-profile.svg" className="h-[50px]" />
-          <h1 className="font-semibold">Update Profile</h1>
-          <span className="text-center text-little">
-            Update your profile on your dashboard
-          </span>
-        </div>
-      </SwiperSlide>
-      <SwiperSlide>
         <div className="flex flex-col items-center text-sm gap-2">
           <img src="/svgs/job-search.svg" className="h-[50px]" />
           <h1 className="font-semibold text-center">
@@ -47,6 +38,15 @@ function HowItWorksSlider() {
           </h1>
           <span className="text-center text-little">
             Get unlimited access to candidates and employers/companies
+          </span>
+        </div>
+      </SwiperSlide>
+      <SwiperSlide>
+        <div className="flex flex-col items-center tex-sm gap-2">
+          <img src="/svgs/update-profile.svg" className="h-[50px]" />
+          <h1 className="font-semibold">Update Profile</h1>
+          <span className="text-center text-little">
+            Update your profile on your dashboard
           </span>
         </div>
       </SwiperSlide>
