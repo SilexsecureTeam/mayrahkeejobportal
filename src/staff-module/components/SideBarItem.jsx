@@ -1,3 +1,4 @@
+import { clear } from "idb-keyval";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -7,6 +8,7 @@ function SideBarItem({ data, dispatch, state }) {
   const navigateToPage = () => {
     if (data.type === "LOG-OUT") {
       localStorage.clear();
+      clear()
       navigate(data.route, { replace: true });
     } else {
       dispatch({ ...data });

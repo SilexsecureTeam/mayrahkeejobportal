@@ -7,11 +7,16 @@ import { AuthContext } from "../../../context/AuthContex";
 import { IoMdAddCircle } from "react-icons/io";
 import { get, set } from "idb-keyval";
 import { onFailure } from "../../../utils/notifications/OnFailure";
+import { StaffManagementContext } from "../../../context/StaffManagementModule";
+import { onSuccess } from "../../../utils/notifications/OnSuccess";
 
 const PROFILE_DETAILS_KEY = "Staff Profile Detaials Database";
 
 function ProfileForm() {
   const { authDetails } = useContext(AuthContext);
+  const { profileDetails, getStaffProfile } = useContext(
+    StaffManagementContext
+  );
   const client = axiosClient(authDetails?.token);
   const {
     register,
@@ -24,7 +29,6 @@ function ProfileForm() {
     message: "",
     error: "",
   });
-  const [profileDetails, setProfileDetails] = useState();
 
   const onSubmit = async (data) => {
     setLoading(true);
@@ -33,55 +37,35 @@ function ProfileForm() {
         `/domesticStaff/update-profile/${authDetails.user.id}`,
         { ...data }
       );
+      getStaffProfile();
+      onSuccess({
+        message: "Profile Success",
+        success: "Profile Info updated succesfully",
+      });
     } catch (error) {}
+    setLoading(false);
   };
 
-  const filterProfileDetails = profileDetails && Object.keys(profileDetails).filter(
-    (currentKey) => currentKey !== "created_at" &&
-     currentKey !== "updated_at" &&
-     currentKey !== "id" &&
-     currentKey !== "staff_category" &&
-     currentKey !== "staff_category" &&
-     currentKey !== "guarantor_verification_status" &&
-     currentKey !== "residence_verification_status" &&
-     currentKey !== "medical_history_verification_status" &&
-     currentKey !== "police_report_verification_status" &&
-     currentKey !== "previous_employer_verification_status" &&
-     currentKey !== "family_verification_status" && 
-     currentKey !== "contact_information" && 
-     currentKey !== "subcategory"  &&
-     currentKey !== "resume"  &&
-     currentKey !== "availability_status"  
-  );
-
-  useEffect(() => {
-    const initProfileDetails = async () => {
-      setLoading(true);
-      try {
-        const dataFromDB = await get(PROFILE_DETAILS_KEY);
-        if (dataFromDB) {
-          setProfileDetails(dataFromDB);
-          return;
-        }
-
-        const { data } = await client.get(
-          `/domesticStaff/get-staff/${authDetails.user.id}`
-        );
-        await set(PROFILE_DETAILS_KEY, data.data);
-        setProfileDetails(data.data);
-      } catch (error) {
-        FormatError(error, setError, "Profile Error");
-      }
-    };
-
-    initProfileDetails();
-  }, []);
-
-  useEffect(() => {
-    if (error.error && error.message) {
-      onFailure(error);
-    }
-  }, [error.message, error.error]);
+  const filterProfileDetails =
+    profileDetails &&
+    Object.keys(profileDetails).filter(
+      (currentKey) =>
+        currentKey !== "created_at" &&
+        currentKey !== "updated_at" &&
+        currentKey !== "id" &&
+        currentKey !== "staff_category" &&
+        currentKey !== "staff_category" &&
+        currentKey !== "guarantor_verification_status" &&
+        currentKey !== "residence_verification_status" &&
+        currentKey !== "medical_history_verification_status" &&
+        currentKey !== "police_report_verification_status" &&
+        currentKey !== "previous_employer_verification_status" &&
+        currentKey !== "family_verification_status" &&
+        currentKey !== "contact_information" &&
+        currentKey !== "subcategory" &&
+        currentKey !== "resume" &&
+        currentKey !== "availability_status"
+    );
 
   return (
     <div className="w-full flex flex-col gap-10">
@@ -96,19 +80,20 @@ function ProfileForm() {
               const detail = profileDetails[currentKey];
               const labelText = currentKey.replace(/_/g, " ").toUpperCase();
 
+              const inputType = currentKey == "member_since" ? "date" : "text";
               return (
                 <div className="flex flex-col gap-1">
                   <label>{labelText}</label>
                   <input
                     className="p-1 border focus:outline-none border-gray-900  rounded-md"
-                    type="text"
+                    type={inputType}
                     defaultValue={detail}
                     {...register(currentKey)}
                   />
                 </div>
               );
             })}
-            <FormButton>Update Profile</FormButton>
+            <FormButton loading={loading}>Update Profile</FormButton>
           </>
         ) : (
           <span>Loading Data</span>

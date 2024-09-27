@@ -58,7 +58,10 @@ export const FormatError = (error, setError, message) => {
     } else if (error?.response?.data?.response) {
       console.log("axios erro");
       errorMessage = error?.response?.data?.response;
-    } else if(error?.response?.data?.message && !error?.response?.data?.errors) {
+    } else if (
+      error?.response?.data?.message &&
+      !error?.response?.data?.errors
+    ) {
       errorMessage = error?.response?.data?.message;
     } else {
       errorMessage = "Something went wrong";
@@ -100,7 +103,6 @@ export const setSelectedData = (dataList, setData, value) => {
   }
 };
 
-
 export const getImageURL = (e, setStateFunctionUrl, setDetails) => {
   const { name } = e.target;
   const file = e.target.files[0]; //filelist is an object carrying all details of file, .files[0] collects the value from key 0 (not array), and stores it in file
@@ -108,36 +110,65 @@ export const getImageURL = (e, setStateFunctionUrl, setDetails) => {
   if (file && (file.type === "image/jpeg" || file.type === "image/png")) {
     // You can also perform additional actions with the valid file
     const generatedUrl = URL.createObjectURL(file);
-    setStateFunctionUrl(generatedUrl);
-    setDetails((prev) => { return {...prev, [name]: file}})
+    if (setStateFunctionUrl) {
+      setStateFunctionUrl(generatedUrl);
+    }
+    setDetails((prev) => {
+      return { ...prev, [name]: file };
+    });
+  } else {
+    // Handle invalid file type
+    alert("Please select a valid JPEG or PNG file.");
+  }
+};
+export const getDocument = (e, setDetails) => {
+  const { name } = e.target;
+  const file = e.target.files[0]; //filelist is an object carrying all details of file, .files[0] collects the value from key 0 (not array), and stores it in file
+
+  const validTypes = [
+    "application/pdf",
+    "application/msword",
+    "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+  ];
+
+  if (validTypes.includes(file.type)) {
+    // You can also perform additional actions with the valid file
+    const generatedUrl = URL.createObjectURL(file);
+    setDetails(file);
   } else {
     // Handle invalid file type
     alert("Please select a valid JPEG or PNG file.");
   }
 };
 
-
 export const onTextChange = (e, details, setDetails) => {
   const { name, value } = e.target;
   setDetails({ ...details, [name]: value });
 };
 
-
 // Get the names of the months in an array
 export const monthNames = [
-  "January", "February", "March", "April", "May", "June",
-  "July", "August", "September", "October", "November", "December"
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
 ];
 
 export function getThreeMonths() {
   // Create a Date object for the current date
   const currentDate = new Date();
-  
+
   // Get the current month (0-11 where 0 is January and 11 is December)
   const currentMonth = currentDate.getMonth();
-  
-  
-  
+
   // Calculate the previous two months and handle wrapping around the year
   const previousMonth1 = (currentMonth - 1 + 12) % 12; // Still safe, but redundant
   const previousMonth2 = (currentMonth - 2 + 12) % 12; // Still safe, but redundant
@@ -145,30 +176,32 @@ export function getThreeMonths() {
   // More simplified approach:
   // const previousMonth1 = (currentMonth - 1) % 12;
   // const previousMonth2 = (currentMonth - 2) % 12;
-  
+
   // Get the names of the current month and the two previous months
   const months = [
-      monthNames[previousMonth2],
-      monthNames[previousMonth1],
-      monthNames[currentMonth]
+    monthNames[previousMonth2],
+    monthNames[previousMonth1],
+    monthNames[currentMonth],
   ];
-  
+
   return months;
 }
 
-
 export function toCamelCase(str) {
   return str
-      .toLowerCase()          // Convert the entire string to lowercase
-      .split(' ')             // Split the string into an array of words
-      .map((word, index) =>   // Map over each word
-          index === 0         // If it's the first word, keep it lowercase
-              ? word
-              : word.charAt(0).toUpperCase() + word.slice(1) // Capitalize first letter of other words
-      )
-      .join('');              // Join the words back into a single string
+    .toLowerCase() // Convert the entire string to lowercase
+    .split(" ") // Split the string into an array of words
+    .map(
+      (
+        word,
+        index // Map over each word
+      ) =>
+        index === 0 // If it's the first word, keep it lowercase
+          ? word
+          : word.charAt(0).toUpperCase() + word.slice(1) // Capitalize first letter of other words
+    )
+    .join(""); // Join the words back into a single string
 }
-
 
 export function generateDateRange() {
   const today = new Date();

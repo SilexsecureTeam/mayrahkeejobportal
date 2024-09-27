@@ -230,6 +230,20 @@ export const staffOptions = [
     icon: homeIcon,
     iconActive: homeIconActive,
   },
+  {
+    type: "verifications",
+    title: "Verifications",
+    route: "/staff/verifications",
+    icon: clipboardIcon,
+    iconActive: profileIconActive,
+  },
+  {
+    type: "resume",
+    title: "Resume",
+    route: "/staff/resume",
+    icon: profileIconResume,
+    iconActive: profileIconActive,
+  },
 ];
 
 export const staffUtilOptions = [
