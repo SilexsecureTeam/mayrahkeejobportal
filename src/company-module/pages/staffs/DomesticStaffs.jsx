@@ -13,7 +13,7 @@ function DomesticStaff() {
 
   useEffect(() => {
     const initData = async () => {
-      setLoading(true);
+      setLoading(true)
 
       try {
         const { data } = await client.get(
