@@ -1,5 +1,5 @@
 import React from "react";
-import { Switch } from '@headlessui/react'
+import { Switch } from "@headlessui/react";
 
 export default function DefaultSwitch({ enabled, setEnabled, onClick }) {
   return (

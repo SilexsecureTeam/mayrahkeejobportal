@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../../context/AuthContex";
 import { axiosClient } from "../../../services/axios-client";
 import { get, set } from "idb-keyval";
+import { StaffManagementContext } from "../../../context/StaffManagementModule";
 
 const PROFILE_DETAILS_KEY = "Staff Profile Detaials Database";
 
@@ -9,7 +10,9 @@ function ViewProfileDetails() {
   const { authDetails } = useContext(AuthContext);
   const client = axiosClient(authDetails?.token);
   const [loading, setLoading] = useState(false);
-  const [profileDetails, setProfileDetails] = useState();
+  const { profileDetails, getStaffProfile } = useContext(
+    StaffManagementContext
+  );
 
   const filterProfileDetails =
     profileDetails &&
@@ -32,28 +35,7 @@ function ViewProfileDetails() {
         currentKey !== "availability_status"
     );
 
-  useEffect(() => {
-    const initProfileDetails = async () => {
-      setLoading(true);
-      try {
-        const dataFromDB = await get(PROFILE_DETAILS_KEY);
-        if (dataFromDB) {
-          setProfileDetails(dataFromDB);
-          return;
-        }
-
-        const { data } = await client.get(
-          `/domesticStaff/get-staff/${authDetails.user.id}`
-        );
-        await set(PROFILE_DETAILS_KEY, data.data);
-        setProfileDetails(data.data);
-      } catch (error) {
-        FormatError(error, setError, "Profile Error");
-      }
-    };
-
-    initProfileDetails();
-  }, []);
+  
   return (
     <div className="w-full flex flex-col gap-10">
       <h1 className="text-xl font-semibold">Your Profile Information</h1>

@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 
 function ListingRow({ data, applicants }) {
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
   const navigateJobTypeDetails = () =>
     navigate(`/company/job-listing/type/${data.id}`, { state: { data:data, applicants: applicants } });

@@ -1,10 +1,9 @@
 import { useState } from "react";
-import ProfileForm from "../../components/home/ProfileForm";
-import ViewProfileDetails from "../../components/home/ViewProfileDetils";
+import ViewVerifications from "../../components/verifications/ViewVerifications";
 
-const options = ["View Profile", "Update Profile"];
+const options = ["Verification Records"];
 
-function Home() {
+function Verifications() {
   const [option, setOption] = useState(options[0]);
 
   return (
@@ -23,11 +22,10 @@ function Home() {
           </button>
         ))}
       </div>
-
       {option === options[0] ? (
-        <ViewProfileDetails />
+        <ViewVerifications />
       ) : option === options[1] ? (
-        <ProfileForm />
+        <div></div>
       ) : (
         <span>Page not found</span>
       )}
@@ -35,4 +33,4 @@ function Home() {
   );
 }
 
-export default Home;
+export default Verifications;
