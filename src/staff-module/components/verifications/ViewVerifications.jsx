@@ -55,7 +55,6 @@ function ViewVerifications() {
         currentKey == "medical_history_verification_status" ||
         currentKey == "police_report_verification_status" ||
         currentKey == "previous_employer_verification_status" ||
-        currentKey == "family_verification_status" ||
         currentKey == "availability_status"
     );
 

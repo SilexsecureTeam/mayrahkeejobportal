@@ -7,6 +7,7 @@ const options = ["View Profile", "Update Profile"];
 function Home() {
   const [option, setOption] = useState(options[0]);
 
+
   return (
     <div className="h-fit w-full py-5 px-2 md:px-12 gap-[15px] flex flex-col">
       <div className="w-full h-[45px] border-b flex gap-3">
