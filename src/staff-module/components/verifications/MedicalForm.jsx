@@ -1,11 +1,18 @@
 import { useForm } from "react-hook-form";
 import FormButton from "../../../components/FormButton";
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { FaRegFileLines } from "react-icons/fa6";
+import { onSuccess } from "../../../utils/notifications/OnSuccess";
+import { FormatError } from "../../../utils/formmaters";
+import { onFailure } from "../../../utils/notifications/OnFailure";
+import { AuthContext } from "../../../context/AuthContex";
+import { axiosClient } from "../../../services/axios-client";
 
 const formFields = ["hospital_name", "contact_detail"];
 
 function MedicalForm() {
+  const { authDetails } = useContext(AuthContext);
+  const client = axiosClient(authDetails?.token, true);
   const {
     register,
     handleSubmit,
@@ -36,8 +43,8 @@ function MedicalForm() {
     ) {
       // You can also perform additional actions with the valid file
       const generatedUrl = URL.createObjectURL(file);
-      const list = [...medicalFiles,  {file: file} ];
-    
+      const list = [...medicalFiles, { file: file }];
+
       // const files = list.map((current) => current.file);
       setMedicalFiles(list);
     } else {
@@ -46,12 +53,39 @@ function MedicalForm() {
     }
   };
 
+  const submitDetails = async (data) => {
+    console.log(medicalFiles[0])
+    setLoading(true);
+    try {
+      const response = await client.post("/domesticStaff/medical-history", {
+        ...data,
+        medical_report_docs: medicalFiles[0].file,
+        domestic_staff_id: authDetails.user.id,
+      });
+      console.log("Data", response.data);
+      onSuccess({
+        message: "Residence info uploaded",
+        success: "Submitted succesfully, awaiting review",
+      });
+    } catch (error) {
+      FormatError(error, setError, "Upload Failed");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (error.error && error.message) {
+      onFailure(error);
+    }
+  }, [error.error, error.message]);
+
   return (
     <div>
       <h1 className="text-xl font-semibold">Medical Reports</h1>
 
       <form
-        onSubmit={handleSubmit()}
+        onSubmit={handleSubmit(submitDetails)}
         className="grid grid-cols-2 gap-x-3 gap-y-5 p-2 w-full text-gray-600"
       >
         {formFields.map((currentKey) => {

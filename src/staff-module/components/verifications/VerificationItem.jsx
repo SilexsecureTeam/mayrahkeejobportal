@@ -12,10 +12,17 @@ function VerificationItem({ currentKey, profileDetails, updateTrackRecord }) {
   };
 
   return (
-    <div key={currentKey} className="flex gap-1 w-[50%] justify-between">
+    <>
+    {labelText === 'AVAILABILITY STATUS' ? <div key={currentKey} className="flex gap-1 w-[50%] justify-between">
       <label>{labelText}</label>
       <DefaultSwitch enabled={enabled} onClick={toogleIsOpen} />
-    </div>
+    </div> : 
+      <div key={currentKey} className="flex gap-1 w-[50%] justify-between">
+      <label>{labelText}</label>
+       {enabled ? <span className="text-green-500 font-semibold">Verified</span> : <span className="text-red-500 font-semibold">Unverified</span>}
+      </div>
+    }
+    </>
   );
 }
 

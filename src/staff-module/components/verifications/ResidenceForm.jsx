@@ -1,11 +1,17 @@
 import { useForm } from "react-hook-form";
 import FormButton from "../../../components/FormButton";
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Country, State, City } from "country-state-city";
+import { AuthContext } from "../../../context/AuthContex";
+import { axiosClient } from "../../../services/axios-client";
+import { FormatError } from "../../../utils/formmaters";
+import { onSuccess } from "../../../utils/notifications/OnSuccess";
 
-const formFields = ["home_address", "close_landmark"];
+const formFields = ["house_address", "close_landmark"];
 
 function ResidenceForm() {
+  const { authDetails } = useContext(AuthContext);
+  const client = axiosClient(authDetails?.token);
   const {
     register,
     handleSubmit,
@@ -25,12 +31,39 @@ function ResidenceForm() {
     error: "",
   });
 
+  const submitDetails = async (data) => {
+    setLoading(true);
+    try {
+      const response = await client.post("/domesticStaff/residential-status", {
+        ...data,
+        state: selectState.name,
+        local_gov: selectCity,
+        domestic_staff_id: authDetails.user.id,
+      });
+      console.log("Data", response.data);
+      onSuccess({
+        message: "Residence info uploaded",
+        success: "Submitted succesfully, awaiting review",
+      });
+    } catch (error) {
+      FormatError(error, setError, "Upload Failed");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (error.error && error.message) {
+      onFailure(error);
+    }
+  }, [error.error, error.message]);
+
   return (
     <div>
       <h1 className="text-xl font-semibold">Residence Details</h1>
 
       <form
-        onSubmit={handleSubmit()}
+        onSubmit={handleSubmit(submitDetails)}
         className="grid grid-cols-2 gap-x-3 gap-y-5 p-2 w-full text-gray-600"
       >
         <label className="flex flex-col justify-center gap-1">
@@ -67,6 +100,7 @@ function ResidenceForm() {
                 e.target.value
               );
               console.log(cities);
+              setSelectState(State.getStateByCode(e.target.value));
               setSelectCities(cities);
             }}
             className="p-1 border w-full focus:outline-none border-gray-900  rounded-md"
@@ -86,6 +120,9 @@ function ResidenceForm() {
           </span>
           <select
             name="local_gov"
+            onChange={(e) => {
+              setSelectCity(e.target.value);
+            }}
             className="p-1 border w-full focus:outline-none border-gray-900  rounded-md"
           >
             <option value="">-- select --</option>

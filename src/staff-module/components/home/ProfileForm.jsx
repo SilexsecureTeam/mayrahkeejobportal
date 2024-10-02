@@ -74,31 +74,31 @@ function ProfileForm() {
         onSubmit={handleSubmit(onSubmit)}
         className="grid grid-cols-2 gap-x-3 gap-y-5 p-2 w-full text-gray-600"
       >
-        {filterProfileDetails ? (
-          <>
-            {filterProfileDetails.map((currentKey) => {
-              const detail = profileDetails[currentKey];
-              const labelText = currentKey.replace(/_/g, " ").toUpperCase();
+          {filterProfileDetails ? (
+            <>
+              {filterProfileDetails.map((currentKey) => {
+                const detail = profileDetails[currentKey];
+                const labelText = currentKey.replace(/_/g, " ").toUpperCase();
 
-              const inputType = currentKey == "member_since" ? "date" : "text";
-              return (
-                <div className="flex flex-col gap-1">
-                  <label>{labelText}</label>
-                  <input
-                    className="p-1 border focus:outline-none border-gray-900  rounded-md"
-                    type={inputType}
-                    defaultValue={detail}
-                    {...register(currentKey)}
-                  />
-                </div>
-              );
-            })}
-            <FormButton loading={loading}>Update Profile</FormButton>
-          </>
-        ) : (
-          <span>Loading Data</span>
-        )}
-      </form>
+                const inputType = currentKey == "member_since" ? "date" : "text";
+                return (
+                  <div className="flex flex-col gap-1">
+                    <label>{labelText}</label>
+                    <input
+                      className="p-1 border focus:outline-none border-gray-900  rounded-md"
+                      type={inputType}
+                      defaultValue={detail}
+                      {...register(currentKey)}
+                    />
+                  </div>
+                );
+              })}
+              <FormButton loading={loading}>Update Profile</FormButton>
+            </>
+          ) : (
+            <span>Loading Data</span>
+          )}
+        </form>
     </div>
   );
 }

@@ -1,11 +1,18 @@
 import { useForm } from "react-hook-form";
 import FormButton from "../../../components/FormButton";
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Country, State, City } from "country-state-city";
+import { AuthContext } from "../../../context/AuthContex";
+import { axiosClient } from "../../../services/axios-client";
+import { FormatError, getImageURL } from "../../../utils/formmaters";
+import { onSuccess } from "../../../utils/notifications/OnSuccess";
+import { onFailure } from "../../../utils/notifications/OnFailure";
 
 const formFields = ["station_address"];
 
 function PoliceReport() {
+  const { authDetails } = useContext(AuthContext);
+  const client = axiosClient(authDetails?.token, true);
   const {
     register,
     handleSubmit,
@@ -18,19 +25,47 @@ function PoliceReport() {
   const [selectState, setSelectState] = useState();
   const [selectCity, setSelectCity] = useState();
   const [selectCities, setSelectCities] = useState();
-
+  const [file, setFile] = useState();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState({
     message: "",
     error: "",
   });
 
+  const submitDetails = async (data) => {
+    setLoading(true);
+    try {
+      const response = await client.post("/domesticStaff/police-report", {
+        ...data,
+        state: selectState.name,
+        lga: selectCity,
+        police_report_file: file,
+        domestic_staff_id: authDetails.user.id,
+      });
+      console.log("Data", response.data);
+      onSuccess({
+        message: "Residence info uploaded",
+        success: "Submitted succesfully, awaiting review",
+      });
+    } catch (error) {
+      FormatError(error, setError, "Upload Failed");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (error.error && error.message) {
+      onFailure(error);
+    }
+  }, [error.error, error.message]);
+
   return (
     <div>
       <h1 className="text-xl font-semibold">Police Report</h1>
 
       <form
-        onSubmit={handleSubmit()}
+        onSubmit={handleSubmit(submitDetails)}
         className="grid grid-cols-2 gap-x-3 gap-y-5 p-2 w-full text-gray-600"
       >
         <label className="flex flex-col justify-center gap-1">
@@ -67,6 +102,7 @@ function PoliceReport() {
                 e.target.value
               );
               console.log(cities);
+              setSelectState(State.getStateByCode(e.target.value));
               setSelectCities(cities);
             }}
             className="p-1 border w-full focus:outline-none border-gray-900  rounded-md"
@@ -85,6 +121,9 @@ function PoliceReport() {
             Local Governmennt
           </span>
           <select
+            onChange={(e) => {
+              setSelectCity(e.target.value);
+            }}
             name="local_gov"
             className="p-1 border w-full focus:outline-none border-gray-900  rounded-md"
           >
@@ -114,9 +153,13 @@ function PoliceReport() {
             </div>
           );
         })}
-         <div className="flex flex-col gap-1">
+        <div className="flex flex-col gap-1">
           <label>Upload Report</label>
           <input
+            onChange={(e) => {
+              const file = e.target.files[0];
+              setFile(file);
+            }}
             className="p-1 border focus:outline-none border-gray-900  rounded-md"
             type="file"
             accept=".pdf, .doc, .jpeg, .jpg"
