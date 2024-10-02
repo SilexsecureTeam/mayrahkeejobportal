@@ -8,18 +8,15 @@ import { onSuccess } from "../../../utils/notifications/OnSuccess";
 import { FormatError } from "../../../utils/formmaters";
 
 const formFields = [
-  "surname",
-  "first_name",
-  "mobile_phone",
-  "dob",
-  "email",
-  "occupation",
-  "residential_address",
-  "near_bus_stop",
-  "close_landmark",
+  "company_name",
+  "job_title",
+  "start_date",
+  "end_date",
+  "work_experience",
+  "reason_for_leaving",
 ];
 
-function GuarantorForm() {
+function WorkExperience() {
   const { authDetails } = useContext(AuthContext);
   const client = axiosClient(authDetails?.token);
   const {
@@ -37,13 +34,13 @@ function GuarantorForm() {
   const submitDetails = async (data) => {
     setLoading(true);
     try {
-      const response = await client.post("/domesticStaff/guarantor", {
+      const response = await client.post("/domesticStaff/previous-work-experience", {
         ...data,
         domestic_staff_id: authDetails.user.id,
       });
       console.log("Data", response.data);
       onSuccess({
-        message: "Guarantor uploaded",
+        message: "Experience uploaded",
         success: "Submitted succesfully, awaiting review",
       });
     } catch (error) {
@@ -61,29 +58,17 @@ function GuarantorForm() {
 
   return (
     <div>
-      <h1 className="text-xl font-semibold">Guarantor Details</h1>
+      <h1 className="text-xl font-semibold">Previous WOrk Experience</h1>
 
       <form
         onSubmit={handleSubmit(submitDetails)}
         className="grid grid-cols-2 gap-x-3 gap-y-5 p-2 w-full text-gray-600"
       >
-        <div className="flex flex-col gap-1">
-          <label>TITLE</label>
-          <select
-            className="p-1 border focus:outline-none border-gray-900  rounded-md"
-            defaultValue={formFields["title"]}
-            required
-            {...register("title")}
-          >
-            <option>MR</option>
-            <option>MRS</option>
-          </select>
-        </div>
         {formFields.map((currentKey) => {
           const detail = formFields[currentKey];
           const labelText = currentKey.replace(/_/g, " ").toUpperCase();
 
-          const inputType = currentKey == "dob" ? "date" : "text";
+          const inputType = currentKey == "start_date" || currentKey == "end_date" ? "date" : "text";
           return (
             <div className="flex flex-col gap-1">
               <label>{labelText}</label>
@@ -97,24 +82,11 @@ function GuarantorForm() {
             </div>
           );
         })}
-        <div className="flex flex-col gap-1">
-          <label>Religion</label>
-          <select
-            required
-            className="p-1 border focus:outline-none border-gray-900  rounded-md"
-            defaultValue={formFields["religion"]}
-            {...register("religion")}
-          >
-            <option>Christian</option>
-            <option>Muslim</option>
-            <option>Others</option>
-          </select>
-        </div>
-        <div></div>
-        <FormButton loading={loading}>Upload Garantor Details</FormButton>
+   
+        <FormButton loading={loading}>Upload Work Experience</FormButton>
       </form>
     </div>
   );
 }
 
-export default GuarantorForm;
+export default WorkExperience;
