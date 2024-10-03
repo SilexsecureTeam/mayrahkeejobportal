@@ -45,7 +45,7 @@ function Dashboard() {
 
   useEffect(() => {
     setAvailabiltyStatus(() => {
-      if (profileDetails["availability_status"]) {
+      if (profileDetails && profileDetails["availability_status"]) {
         return profileDetails["availability_status"] == "1" ? true : false;
       } else {
         return false;
@@ -151,7 +151,7 @@ function Dashboard() {
                 <p className="font-bold my-3">Records Status</p>
               </div>
               <div className="px-3 flex flex-col border-b justify-between items-start">
-                {filterVerificationDetails.map((currentKey) => {
+                {filterVerificationDetails?.map((currentKey) => {
                   const detail = profileDetails[currentKey];
                   const value = detail == "1" ? true : false;
                   const labelText = currentKey.replace(/_/g, " ").toUpperCase();
