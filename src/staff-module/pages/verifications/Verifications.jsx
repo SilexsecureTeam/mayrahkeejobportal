@@ -9,7 +9,7 @@ import WorkExperience from "../../components/verifications/WorkExperience";
 const options = [
   "Verification Status",
   "Guarantor",
-  "Resisdence",
+  "Residence",
   "Medical History",
   "Police Report",
   "Work Experience"
