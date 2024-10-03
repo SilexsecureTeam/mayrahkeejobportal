@@ -224,9 +224,16 @@ export const adminUtilOptions = [
 
 export const staffOptions = [
   {
+    type: "Home",
+    title: "Dashboard",
+    route: "/staff",
+    icon: homeIcon,
+    iconActive: homeIconActive,
+  },
+  {
     type: "profile",
     title: "Profile",
-    route: "/staff",
+    route: "/staff/profile",
     icon: homeIcon,
     iconActive: homeIconActive,
   },

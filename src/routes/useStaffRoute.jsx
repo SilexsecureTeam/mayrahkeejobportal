@@ -5,7 +5,7 @@ import { AuthContext } from "../context/AuthContex";
 import { clear } from "idb-keyval";
 import useCompanyProfile from "../hooks/useCompanyProfile";
 import StaffReducer from "../reducers/StaffReducer";
-import { StaffRouteContextProvider } from "../context/StaffRouteContextt";
+import { StaffRouteContextProvider } from "../context/StaffRouteContext";
 import { StaffManagementContextProvider } from "../context/StaffManagementModule";
 
 //Util Component
@@ -16,6 +16,7 @@ const SideBarItem = lazy(() =>
 );
 
 //pages
+const Dashboard = lazy(() => import("../staff-module/pages/dashboard/Dashboard"));
 const Home = lazy(() => import("../staff-module/pages/home/Home"));
 const Verifications = lazy(() =>
   import("../staff-module/pages/verifications/Verifications")
@@ -58,7 +59,7 @@ function useStaffRoute() {
 
   return (
     <>
-      {authDetails.token ? (
+      {authDetails?.token ? (
         <StaffManagementContextProvider>
           <StaffRouteContextProvider setSideBar={setSideBar}>
             <main className="h-screen w-screen relative flex">
@@ -100,8 +101,9 @@ function useStaffRoute() {
                 />
                 <div className="w-full  h-[92%] overflow-y-auto">
                   <Routes>
-                    <Route index element={<Home />} />
+                    <Route index element={<Dashboard />} />
                     {/* <Route path="*" element={<NotFound />} /> */}
+                    <Route path="profile" element={<Home />} />
                     <Route path="verifications" element={<Verifications />} />
                     <Route path="resume" element={<Resume />} />
                     <Route path="settings" element={<Settings />} />
