@@ -6,7 +6,7 @@ import { onFailure } from "../utils/notifications/OnFailure";
 function useRegistration(role) {
   const [regDetails, setRegDetails] = useState({
     first_name: "",
-    last_name: "",
+    surname: "",
     role: role,
     email: "",
     password: "",
@@ -14,6 +14,8 @@ function useRegistration(role) {
   });
 
   const [staffsRegDetails, setStaffsRegDetails] = useState({
+    first_name: "",
+    last_name: "",
     email: "",
     password: "",
     re_enter_password: "",
@@ -68,7 +70,7 @@ function useRegistration(role) {
               ...regDetails,
             };
 
-      if (staffsRegDetails.password !== staffsRegDetails.re_enter_password)
+      if (regDetails.password !== regDetails.re_enter_password)
         throw Error("Password Mismatch");
 
       const response = await client.post(`/${regDetails.role}/NewUser`, detail);

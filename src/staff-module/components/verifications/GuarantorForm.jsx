@@ -37,25 +37,7 @@ function GuarantorForm() {
     error: "",
   });
 
-  const garatorFields = () => {
-    const fields = [];
-    Object.keys(currentGurantor)?.map((current) => {
-      if (
-        current !== "id" &&
-        current !== "domestic_staff_id" &&
-        current !== "created_at" &&
-        current !== "updated_at"
-      ) {
-        fields.push(current);
-        return;
-      }
-    });
-
-    console.log(fields);
-    console.log(currentGurantor);
-
-    return fields;
-  };
+  
 
   const submitDetails = async (data) => {
     setIsLoading(true);
@@ -77,6 +59,26 @@ function GuarantorForm() {
     }
   };
 
+  const garatorFields = () => {
+    const fields = [];
+    Object.keys(currentGurantor)?.map((current) => {
+      if (
+        current !== "id" &&
+        current !== "domestic_staff_id" &&
+        current !== "created_at" &&
+        current !== "updated_at"
+      ) {
+        fields.push(current);
+        return;
+      }
+    });
+
+    console.log(fields);
+    console.log(currentGurantor);
+
+    return fields;
+  };
+  
   const getGarantor = async () => {
     setLoading(true);
     try {
@@ -88,6 +90,10 @@ function GuarantorForm() {
       setLoading(false);
     }
   };
+  
+  useEffect(() => {
+    getGarantor();
+  }, []);
 
   useEffect(() => {
     if (error.error && error.message) {
@@ -95,9 +101,6 @@ function GuarantorForm() {
     }
   }, [error.error, error.message]);
 
-  useEffect(() => {
-    getGarantor();
-  }, []);
 
   return (
     <div>
