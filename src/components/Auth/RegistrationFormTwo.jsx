@@ -276,6 +276,32 @@ function RegistrationFormTwo({ state, dispatch }) {
           onSubmit={handleOnSubmitStaff}
           className="flex flex-col w-full md:w-[65%] mt-[10px] items-center gap-[15px] md:gap-[5px] "
         >
+           <div className="h-[40px] w-full flex items-center pl-[10px] gap-[10px] rounded-md border-[1.5px]">
+            <img src={Person} className="h-[20px]" />
+            <input
+              name="first_name"
+              type="text"
+              value={staffsRegDetails.first_name}
+              onChange={onTextChangeStaff}
+              required
+              className="w-[80%] h-full placeholder:text-little text-sm bg-white/0 focus:bg-white/0  focus:outline-none text-gray-700 "
+              placeholder="Enter first name"
+            />
+          </div>
+
+          <div className="h-[40px] w-full flex items-center pl-[10px] gap-[10px] rounded-md border-[1.5px]">
+            <img src={Person} className="h-[20px]" />
+            <input
+              name="surname"
+              type="text"
+              value={staffsRegDetails.surname}
+              onChange={onTextChangeStaff}
+              required
+              className="w-[80%] h-full placeholder:text-little text-sm bg-white/0 focus:bg-white/0  focus:outline-none text-gray-700 "
+              placeholder="Enter last name"
+            />
+          </div>
+
           <div className="h-[40px] w-full flex items-center pl-[10px] gap-[10px] rounded-md border-[1.5px]">
             <img src={MessageOpen} className="h-[20px]" />
             <input
