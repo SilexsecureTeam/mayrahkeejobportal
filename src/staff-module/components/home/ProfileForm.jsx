@@ -5,7 +5,8 @@ import { useContext, useEffect, useState } from "react";
 import { axiosClient } from "../../../services/axios-client";
 import { AuthContext } from "../../../context/AuthContex";
 import { StaffManagementContext } from "../../../context/StaffManagementModule";
-import { onSuccess } from "../../../utils/notifications/OnSuccess";
+import { onSuccess, } from "../../../utils/notifications/OnSuccess";
+import { onFailure } from "../../../utils/notifications/OnFailure";
 import { FaExclamationCircle } from "react-icons/fa";
 import { MdCheckBox, MdCheckBoxOutlineBlank, MdClose } from "react-icons/md";
 
@@ -37,13 +38,18 @@ const field_sections = {
       name: "Age",
       type: "select",
       options: ["18 - 25", "26 - 30", "31 - 35", "36 - 40", "41 & Above"],
-      field_name: "employment_type",
+      field_name: "age",
     },
     {
       name: "Religion",
       type: "select",
       options: ["Christian", "Muslim", "Others"],
       field_name: "religion",
+    },
+    {
+      name: "Location",
+      type: "text",
+      field_name: "location",
     },
   ],
 
@@ -131,7 +137,7 @@ const field_sections = {
 
 const fields = [];
 
-function ProfileForm() {
+function ProfileForm({setToMain}) {
   const { authDetails } = useContext(AuthContext);
   const { profileDetails, getStaffProfile } = useContext(
     StaffManagementContext
@@ -155,14 +161,20 @@ function ProfileForm() {
     try {
       const response = await client.post(
         `/domesticStaff/update-profile/${authDetails.user.id}`,
-        { ...data }
+        { ...data, languages_spoken: selectedLanguages }
       );
       getStaffProfile();
       onSuccess({
         message: "Profile Success",
         success: "Profile Info updated succesfully",
       });
-    } catch (error) {}
+      setToMain()
+    } catch (error) {
+      onFailure({
+        error:'Failed to update',
+        message:'Something went wrong',
+      })
+    }
     setLoading(false);
   };
 
@@ -241,7 +253,7 @@ function ProfileForm() {
                           className="p-1 border focus:outline-none border-gray-900  rounded-md"
                           type={inputType}
                           defaultValue={detail}
-                          {...register(currentKey.name)}
+                          {...register(currentKey.field_name)}
                         >
                           <option>-- Select {currentKey.name} --</option>
                           {currentKey.options.map((current) => (
@@ -280,7 +292,7 @@ function ProfileForm() {
                           className="p-1 border focus:outline-none border-gray-900  rounded-md"
                           type={inputType}
                           defaultValue={detail}
-                          {...register(currentKey.name)}
+                          {...register(currentKey.field_name)}
                         >
                           <option>-- Select {currentKey.name} --</option>
                           {currentKey.options.map((current) => (
@@ -347,24 +359,22 @@ function ProfileForm() {
                   const detail = profileDetails[currentKey.field_name];
                   // const labelText = currentKey.replace(/_/g, " ").toUpperCase();
 
-                  const inputType =
-                    currentKey == "member_since" ? "date" : "text";
+                  ;
                   return (
                     <div className="flex flex-col gap-1">
                       <label>{currentKey.name}</label>
                       {currentKey.type !== "select" ? (
                         <input
                           className="p-1 border focus:outline-none border-gray-900  rounded-md"
-                          type={inputType}
+                          type={currentKey.type}
                           defaultValue={detail}
                           {...register(currentKey.field_name)}
                         />
                       ) : (
                         <select
                           className="p-1 border focus:outline-none border-gray-900  rounded-md"
-                          type={inputType}
                           defaultValue={detail}
-                          {...register(currentKey.name)}
+                          {...register(currentKey.field_name)}
                         >
                           <option>-- Select {currentKey.name} --</option>
                           {currentKey.options.map((current) => (

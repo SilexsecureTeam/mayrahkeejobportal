@@ -7,6 +7,7 @@ import useCompanyProfile from "../hooks/useCompanyProfile";
 import StaffReducer from "../reducers/StaffReducer";
 import { StaffRouteContextProvider } from "../context/StaffRouteContext";
 import { StaffManagementContextProvider } from "../context/StaffManagementModule";
+import StaffCard from "../components/staffs/StaffCard";
 
 //Util Component
 const NavBar = lazy(() => import("../staff-module/components/NavBar"));

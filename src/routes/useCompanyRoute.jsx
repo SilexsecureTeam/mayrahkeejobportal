@@ -28,6 +28,8 @@ import {
 } from "../context/CompanyRouteContext";
 import { ref, set } from "firebase/database";
 import { database } from "../utils/firebase";
+import StaffCard from "../components/staffs/StaffCard";
+import StaffInformation from "../staff-module/pages/verifications/StaffInformation";
 
 //Util Component
 const NavBar = lazy(() => import("../company-module/components/NavBar"));
@@ -207,6 +209,7 @@ function useCompanyRoute() {
                   <Route path="company-profile" element={<CompanyProfile />} />
                   <Route path="artisan" element={<Artisan />} />
                   <Route path="domestic-staffs" element={<DomesticStaffs />} />
+                  <Route path="staff/:category/:id" element={<StaffInformation />} />
 
                   <Route path="job-listing/*">
                     <Route
