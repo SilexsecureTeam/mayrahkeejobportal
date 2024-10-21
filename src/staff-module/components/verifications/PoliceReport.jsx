@@ -121,7 +121,7 @@ function PoliceReport() {
                 {currentKey == "police_report_file" ? (
                   <a
                     className="text-blue-300 underline"
-                    href={`${resourceUrl}/${value}`}
+                    href={`${resourceUrl}${value}`}
                   >
                     Document link
                   </a>

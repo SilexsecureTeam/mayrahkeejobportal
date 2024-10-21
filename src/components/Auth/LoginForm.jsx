@@ -41,13 +41,13 @@ function LoginForm({ rememberMe, toogleRememberMe }) {
   return (
     <div
       id="login-form"
-      className={`h-full w-full md:w-[65%] flex flex-col pt-[%] md:pt-[3%] items-center  bg-primaryColor md:bg-white md:rounded-md  px-[3%] py-[10px]`}
+      className={`h-full w-full md:w-[65%] flex flex-col pt-[%] md:pt-[3%] items-center  bg-primaryColor md:bg-white md:rounded-md   px-[3%] py-[10px]`}
     >
       <img src={mayrahkeeIcon} className="w-[60%]  md:hidden h-[15%] mt-[3%]" />
 
       <div
         id="login-section"
-        className="flex flex-col  w-[80%] md:w-[80%] gap-2  lg:w-[60%] mt-0 md:mt-0 h-[60%] items-center"
+        className="flex flex-col justify-between w-[80%] md:w-[80%] gap-2 md:mt-10  lg:w-[60%] mt-0  min-h-[60%] items-center"
       >
         <h3 className="font-bold text-2xl text-white md:text-black">
           Login to your Account
@@ -55,7 +55,7 @@ function LoginForm({ rememberMe, toogleRememberMe }) {
         <span className="font-meduim text-center w-[60%] md:w-[90%] text-gray-200 md:text-gray-400 text-[12px] md:text-[11px]">
           Explore/manage job different job oppurtunities
         </span>
-        <div className="grid grid-cols-2 w-full mt-[3%] gap-[10px] text-sm font-semibold">
+        <div className="grid grid-cols-2 w-full md:mt-10 gap-[10px] text-sm font-semibold">
           <button
             onClick={() => setRole("candidate")}
             className={`px-2 py-1 text-little ${
@@ -100,7 +100,7 @@ function LoginForm({ rememberMe, toogleRememberMe }) {
         <form
           onSubmit={handleOnSubmit}
           id="form-wrapper"
-          className="flex flex-col mt-[5%] w-full md:w-[95%] lg:w-[80%] gap-[15px] items-center "
+          className="flex flex-col mt-[5%] md:mt-10 w-full md:w-full lg:w-full gap-[15px] items-center "
         >
           <div className="h-[40px] w-full flex items-center bg-white md:bg-opacity-100 pl-[10px] gap-[10px] rounded-md border-[1.5px]">
             <img src={Person} className="h-[20px]" />
@@ -110,7 +110,7 @@ function LoginForm({ rememberMe, toogleRememberMe }) {
               value={loginDetails.email}
               onChange={onTextChange}
               required
-              className="w-[90%] h-full placeholder:text-little text-md md:bg-white/0 focus:bg-white/0 active:bg  focus:outline-none text-gray-700 "
+              className="w-full h-full placeholder:text-little text-md md:bg-white/0 focus:bg-white/0 active:bg  focus:outline-none text-gray-700 "
               placeholder="Enter email or phone"
             />
           </div>
@@ -176,16 +176,6 @@ function LoginForm({ rememberMe, toogleRememberMe }) {
             <span className=" ml-2  md:text-primaryColor">Sign up</span>
           </NavLink>{" "}
         </p>
-
-        <div className=" hidden bg-gray-200  p-2 pt-8 lg:block max-w-[50%] bottom-5 absolute ">
-          <NavLink
-            to="/"
-            className="font-semibold absolute left-[43%] top-0 hidden lg:block lg:mt-3  text-white md:text-gray-800"
-          >
-            How it works
-          </NavLink>{" "}
-          <HowItWorksSlider />
-        </div>
       </div>
     </div>
   );

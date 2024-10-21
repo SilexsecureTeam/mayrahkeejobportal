@@ -198,6 +198,7 @@ function SearchComponent({ subCategories, handleQuerySubmit }) {
         <div className="w-[50%]">
           <FormButton
             onClick={handleSubmit(async (data, event) => {
+            
               setLoading(true)
               console.log(data)
               let queryParams = "";

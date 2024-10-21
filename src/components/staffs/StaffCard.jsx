@@ -1,6 +1,6 @@
 import FormButton from "../FormButton";
 
-function StaffCard({ data, onClick }) {
+function StaffCard({ data, onClick, contract = false }) {
   return (
     <div className="min-h-fit flex gap-1 flex-col justify-between p-2 border min-w-fit">
       <div className="flex flex-col  gap-2">
@@ -33,10 +33,16 @@ function StaffCard({ data, onClick }) {
         </span>
       </div>
 
-      <div className="w-full flex mt-3">
-        <FormButton 
-        onClick={() => onClick( data)}
-        height="h-fit text-sm p-1">View More</FormButton>
+      <div className="w-full flex flex-col-reverse gap-2 mt-3">
+        <FormButton onClick={() => onClick(data)} height="h-fit text-sm p-1">
+          View More
+        </FormButton>
+
+        {contract && (
+          <FormButton onClick={() => onClick(data)} height="h-fit bg-[#25324b] text-sm p-1">
+            Sign
+          </FormButton>
+        )}
       </div>
     </div>
   );
