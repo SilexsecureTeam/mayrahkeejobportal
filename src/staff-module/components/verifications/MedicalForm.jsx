@@ -64,7 +64,7 @@ function MedicalForm() {
         domestic_staff_id: authDetails.user.id,
       });
       console.log("Data", response.data);
-      getCurrentRecord()
+      getCurrentRecord();
       onSuccess({
         message: "Residence info uploaded",
         success: "Submitted succesfully, awaiting review",
@@ -131,8 +131,13 @@ function MedicalForm() {
         <div className="grid grid-cols-2 gap-x-3 gap-y-5 p-2 w-full text-gray-600">
           {recordFields()?.map((currentKey) => {
             const value = currentRecord[currentKey];
-            const labelText = currentKey.replace(/_/g, " ").toUpperCase();
+            let labelText;
 
+            if (currentKey === "contact_detail") {
+              labelText = "CONTACT NUMBER";
+            } else {
+              labelText = currentKey.replace(/_/g, " ").toUpperCase();
+            }
             return (
               <div className="flex flex-col gap-1">
                 <label>{labelText}</label>
@@ -159,8 +164,13 @@ function MedicalForm() {
         >
           {formFields.map((currentKey) => {
             const detail = formFields[currentKey];
-            const labelText = currentKey.replace(/_/g, " ").toUpperCase();
+            let labelText;
 
+            if (currentKey === "contact_detail") {
+              labelText = "CONTACT NUMBER";
+            } else {
+              labelText = currentKey.replace(/_/g, " ").toUpperCase();
+            }
             const inputType = currentKey == "member_since" ? "date" : "text";
             return (
               <div className="flex flex-col gap-1">

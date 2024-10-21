@@ -43,7 +43,7 @@ function WorkExperience() {
           domestic_staff_id: authDetails.user.id,
         }
       );
-      getWorkExperiences()
+      getWorkExperiences();
       onSuccess({
         message: "Experience uploaded",
         success: "Submitted succesfully, awaiting review",
@@ -90,7 +90,13 @@ function WorkExperience() {
         >
           {formFields.map((currentKey) => {
             const detail = formFields[currentKey];
-            const labelText = currentKey.replace(/_/g, " ").toUpperCase();
+            let labelText;
+
+            if (currentKey === "company_name") {
+              labelText = currentKey.replace(/_/g, " ").toUpperCase() + ' / EMPLOYER NAME';
+            } else {
+              labelText = currentKey.replace(/_/g, " ").toUpperCase();
+            }
 
             const inputType =
               currentKey == "start_date" || currentKey == "end_date"

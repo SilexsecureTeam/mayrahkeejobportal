@@ -5,7 +5,7 @@ function FormButton({ children, loading, onClick, height = 'h-[45px]', width = '
   return onClick ? (
     <button
       onClick={onClick}
-      className={`text-little ${
+      className={`overflow-hidden text-little ${
         !loading
           ? "hover:text-[13px] hover:scale-105 duration-75"
           : "hover:text-little hover:scale-100 duration-75"
@@ -17,7 +17,7 @@ function FormButton({ children, loading, onClick, height = 'h-[45px]', width = '
   ) : (
     <button
       type="submit"
-      className={`text-small ${
+      className={`overflow-hidden text-small ${
         !loading
           ? "hover:text-[13px] hover:scale-105 duration-75"
           : "hover:text-little hover:scale-100 duration-75"

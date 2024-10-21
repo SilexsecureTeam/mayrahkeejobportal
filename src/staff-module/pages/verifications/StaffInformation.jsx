@@ -3,8 +3,8 @@ import { useLocation } from "react-router-dom";
 import { AuthContext } from "../../../context/AuthContex";
 import { axiosClient } from "../../../services/axios-client";
 import { onSuccess } from "../../../utils/notifications/OnSuccess";
-import { RiLoader2Fill } from "react-icons/ri";
 import { onFailure } from "../../../utils/notifications/OnFailure";
+import { RiLoader2Fill } from "react-icons/ri";
 
 function StaffInformation() {
   const location = useLocation();
@@ -13,10 +13,11 @@ function StaffInformation() {
   const [loading, setLoading] = useState(false);
   const { authDetails } = useContext(AuthContext);
   const client = axiosClient(authDetails.token);
+  const [cartItems, setCartItems] = useState(data.cartedItems);
 
   const filterProfileDetails =
-    data &&
-    Object.keys(data).filter(
+    data.staff &&
+    Object.keys(data.staff).filter(
       (currentKey) =>
         currentKey !== "created_at" &&
         currentKey !== "updated_at" &&
@@ -35,14 +36,41 @@ function StaffInformation() {
         currentKey !== "availability_status"
     );
 
+  const disableButton = () => {
+    const current = cartItems.find(
+      (item) => item.domestic_staff_id === data.staff.id
+    );
+
+    if (current) return true;
+
+    return false;
+  };
+
+
+  const updateCart = async () => {
+    try {
+      const { data } = await client.post("staff-cart/get", {
+        user_id: authDetails.user.id,
+        user_type: authDetails.user.role,
+      });
+      setCartItems(data.cart_items);
+    } catch (error) {
+      onFailure({
+        message: "soemthing went wrong",
+        error: "Error retriving carted items",
+      });
+    }
+  };
+
   const addToCart = async () => {
     setLoading(true);
     try {
       const response = await client.post("/staff-cart/add", {
         user_id: authDetails.user.id,
         user_type: authDetails.user.role,
-        domestic_staff_id: data.id,
+        domestic_staff_id: data.staff.id,
       });
+      const result = await updateCart();
       onSuccess({
         message: "User sucessfully added",
         success: "Domestic staff added to cart successfully",
@@ -52,7 +80,7 @@ function StaffInformation() {
         message: "Collection Failed",
         error: "Failed to add to collection",
       });
-      console.log(error)
+      console.log(error);
     } finally {
       setLoading(false);
     }
@@ -62,13 +90,21 @@ function StaffInformation() {
     <div className="w-full  px-12 flex  pt-5 flex-col gap-5">
       <div className="flex justify-between">
         <h1 className="text-xl font-semibold">
-          {data["first_name"]} {data["surname"]}'s Profile Information{" "}
+          {data.staff["first_name"]} {data.staff["surname"]}'s Profile
+          Information{" "}
         </h1>
         <button
+          disabled={disableButton()}
           onClick={addToCart}
-          className="p-1 flex gap-1 text-sm items-center hover:bg-yellow-500 border border-primaryColor"
+          className={`p-1 flex gap-1 text-sm items-center border border-primaryColor
+            ${
+              disableButton()
+                ? "bg-gray-500 text-white hover:bg-gray-400 cursor-not-allowed"
+                : "hover:bg-yellow-500"
+            }
+          `}
         >
-          Add to Collection
+          {disableButton() ? "Added to cart" : "Add to Collection"}
           {loading && <RiLoader2Fill className="animate-spin" />}
         </button>
       </div>
@@ -77,7 +113,7 @@ function StaffInformation() {
         <>
           <div className="grid grid-cols-2 gap-x-3 gap-y-5 p-2 w-full text-gray-600">
             {filterProfileDetails.map((currentKey) => {
-              const detail = data[currentKey];
+              const detail = data.staff[currentKey];
               const labelText = currentKey.replace(/_/g, " ").toUpperCase();
 
               return (

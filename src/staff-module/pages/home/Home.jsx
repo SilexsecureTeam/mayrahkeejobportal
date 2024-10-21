@@ -14,9 +14,9 @@ function Home() {
       <div className="w-full h-[45px] border-b flex gap-3">
         {options.map((current) => (
           <button
-            className={`h-full ${
+            className={`h-full p-2 ${
               option == current
-                ? "border-b border-primaryColor text-primaryColor"
+                ? "border-b bg-primaryColor font-semibold text-white text-bold"
                 : "border-0 text-gray-400"
             }`}
             onClick={() => setOption(current)}

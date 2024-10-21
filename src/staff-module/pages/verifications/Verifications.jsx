@@ -37,13 +37,13 @@ function Verifications() {
 
   return (
     <div className="h-fit w-full py-5 px-2 md:px-12 gap-[15px] flex flex-col">
-      <div className="w-full h-[45px] border-b flex ">
+      <div className="w-full h-[45px] border-b grid grid-cols-6 ">
         {options.map((current) => (
           <button
-            className={`h-full first:font-semibold first:tracking-wider px-3 border-r ${
+            className={`h-full p-2 ${
               option == current
-                ? "border-b border-primaryColor  text-primaryColor"
-                : "border-b-0 text-gray-400 border-gray-200"
+                ? "border-b bg-primaryColor font-semibold text-white text-bold"
+                : "border-0 text-gray-400"
             }`}
             onClick={() => setOption(current)}
           >
