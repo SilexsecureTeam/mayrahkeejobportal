@@ -27,6 +27,7 @@ const RegistrationRoute = lazy(() => import("./routes/useRegistrationRoute"));
 const ApplicantRoutes = lazy(() => import("./routes/useApplicantRoute"));
 const CompanyRoutes = lazy(() => import("./routes/useCompanyRoute"));
 const StaffRoutes = lazy(() => import("./routes/useStaffRoute"));
+const AdminRoutes = lazy(() => import("./routes/useAdminRoute"));
 
 //
 
@@ -66,6 +67,10 @@ function App() {
                               <Route
                                 path="/staff/*"
                                 element={<StaffRoutes />}
+                              />
+                              <Route
+                                path="/admin/*"
+                                element={<AdminRoutes />}
                               />
 
                               <Route
