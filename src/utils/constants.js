@@ -277,6 +277,40 @@ export const staffUtilOptions = [
   },
 ];
 
+export const adminOptions = [
+  {
+    type: "Home",
+    title: "Dashboard",
+    route: "/staff",
+    icon: homeIcon,
+    iconActive: homeIconActive,
+  }
+];
+
+export const adminnUtilOptions = [
+  {
+    type: "SETTINGS",
+    title: "Settings",
+    route: "/staff/settings",
+    icon: settingsIcon,
+    iconActive: settingsIconActive,
+  },
+  {
+    type: "HELP-CENTER",
+    title: "Help Center",
+    route: "/staff/help-center",
+    icon: helpIcon,
+    iconActive: helpIcon,
+  },
+  {
+    type: "LOG-OUT",
+    title: "Log Out",
+    route: "/",
+    icon: helpIcon,
+    iconActive: helpIcon,
+  },
+];
+
 export const registration_steps_keys = {
   create_account: {
     title: "User Registration",
