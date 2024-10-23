@@ -35,7 +35,6 @@ function CartedStaffs() {
     }
   };
 
-  console.log(cartItems)
   useEffect(() => {
     getCartItems();
   }, []);
@@ -61,7 +60,7 @@ function CartedStaffs() {
         </p>
       </div>
 
-      {cartItems.length > 0 && (
+      {(cartItems && cartItems.length > 0) && (
         <div className="flex flex-col gap-3 mt-5 w-full">
           
           <ul className="w-full grid grid-cols-3 gap-2">
@@ -70,7 +69,9 @@ function CartedStaffs() {
                 key={current?.id}
                 data={current}
                 onClick={navigateToStaff}
-                contract={true}
+                contract={getCartItems}
+                setCartItems={setCartItems}
+                cartItems={cartItems}
               />
             ))}
           </ul>

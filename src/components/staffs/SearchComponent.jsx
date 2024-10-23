@@ -17,7 +17,7 @@ function SearchComponent({ subCategories, handleQuerySubmit }) {
   const [byEducationalLevel, setByEducationalLevel] = useState(false);
   const [byAge, setByAge] = useState(false);
   const [byMaritalStatus, setByMaritalStatus] = useState(false);
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
 
   const toogleCategory = () => setByCategory(!byCategory);
   const toogleReligion = () => setByReligion(!byReligion);
@@ -92,7 +92,10 @@ function SearchComponent({ subCategories, handleQuerySubmit }) {
 
           <div className="flex items-center gap-2 text-lg">
             {byMaritalStatus ? (
-              <MdCheckBox className="cursor-pointer" onClick={toogleMaritalStatus} />
+              <MdCheckBox
+                className="cursor-pointer"
+                onClick={toogleMaritalStatus}
+              />
             ) : (
               <MdCheckBoxOutlineBlank
                 className="cursor-pointer"
@@ -180,17 +183,19 @@ function SearchComponent({ subCategories, handleQuerySubmit }) {
               {...register("marital_status")}
             >
               <option>-- Select Marital Status --</option>
-              {["Single", "Married", "Divorced", 'Widowed'].map((current) => (
+              {["Single", "Married", "Divorced", "Widowed"].map((current) => (
                 <option>{current}</option>
               ))}
             </select>
           </div>
         )}
-
-
       </div>
 
-      {!byCategory && !byEducationalLevel && !byReligion && !byAge && !byMaritalStatus ? (
+      {!byCategory &&
+      !byEducationalLevel &&
+      !byReligion &&
+      !byAge &&
+      !byMaritalStatus ? (
         <div className="w-full text-center text-red-300">
           Please select atleast one query method
         </div>
@@ -198,26 +203,25 @@ function SearchComponent({ subCategories, handleQuerySubmit }) {
         <div className="w-[50%]">
           <FormButton
             onClick={handleSubmit(async (data, event) => {
-            
-              setLoading(true)
-              console.log(data)
+              setLoading(true);
+              console.log(data);
               let queryParams = "";
-              if(data.age){
-                queryParams += `age=${data.age}&`
+              if (data.age) {
+                queryParams += `age=${data.age}&`;
               }
-              if(data.education){
-                queryParams += `education_level=${data.education}&`
+              if (data.education) {
+                queryParams += `education_level=${data.education}&`;
               }
-              if(data.marital_status){
-                queryParams += `marital_status=${data.marital_status}&`
+              if (data.marital_status) {
+                queryParams += `marital_status=${data.marital_status}&`;
               }
-              if(data.subcategory){
-                queryParams += `subcategory=${data.subcategory}&`
+              if (data.subcategory) {
+                queryParams += `subcategory=${data.subcategory}&`;
               }
-              if(data.religion){
-                queryParams += `religion=${data.religion}`
+              if (data.religion) {
+                queryParams += `religion=${data.religion}`;
               }
-              
+
               reset({
                 age: "",
                 education: "",
@@ -225,9 +229,11 @@ function SearchComponent({ subCategories, handleQuerySubmit }) {
                 subcategory: "",
                 religion: "",
               });
-              await handleQuerySubmit(queryParams)
-              setLoading(false)
-             
+              await handleQuerySubmit(
+                queryParams,
+                data.subcategory ? true : false
+              );
+              setLoading(false);
             })}
             loading={loading}
           >

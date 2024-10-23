@@ -150,14 +150,14 @@ export const utilOptions = [
   {
     type: "ARTISAN",
     title: "Artisan",
-    route: "/company/artisan",
+    route: "/applicant/artisan",
     icon: clipboardIcon,
     iconActive: profileIconActive,
   },
   {
     type: "STAFFS",
     title: "Domestic Staffs",
-    route: "/company/domestic-staffs",
+    route: "/applicant/domestic-staffs",
     icon: calanderIcon,
     iconActive: searchIconActive,
   },

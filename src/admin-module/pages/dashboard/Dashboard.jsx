@@ -66,11 +66,9 @@ function Dashboard() {
               <h4 className="font-bold text-2xl mb-2  ">
                 Welcome back, {authDetails?.user?.first_name}{" "}
                 {authDetails?.user?.surname}
-              </h4>
-              <p>
+              </h4><p>
                 Here a summary of your recent activities {generateDateRange()}
-              </p>
-            </div>
+              </p></div>
             <div>
               <button className="border p-2 hidden md:flex items-center">
                 {" "}
