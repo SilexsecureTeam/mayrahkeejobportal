@@ -8,6 +8,8 @@ import { clear } from "idb-keyval";
 import { ApplicantRouteContextProvider } from "../context/ApplicantRouteContext";
 import { ref, set } from "firebase/database";
 import { database } from "../utils/firebase";
+import StaffInformation from "../staff-module/pages/verifications/StaffInformation";
+import CartedStaffs from "../components/staffs/CartedStaffs";
 
 //Util Components
 const NavBar = lazy(() => import("../applicant-module/components/NavBar"));
@@ -40,6 +42,15 @@ const PublicProfile = lazy(() =>
 const MyResume = lazy(() =>
   import("../applicant-module/pages/resume/MyResume")
 );
+
+const Artisan = lazy(() =>
+  import("../applicant-module/pages/artisan/Artisan")
+);
+const DomesticStaffs = lazy(() =>
+  import("../applicant-module/pages/staffs/DomesticStaffs")
+);
+
+
 const ShortListedDetails = lazy(() =>
   import("../applicant-module/pages/shortlisted/ShortListedDetails")
 );
@@ -84,7 +95,6 @@ function useApplicantRoute() {
       isOnline: true,
       timeStamp: new Date().toDateString(),
     });
-
 
     window.addEventListener("unload", handleUnload);
 
@@ -152,6 +162,15 @@ function useApplicantRoute() {
                   path="browse-companies/:id"
                   element={<CompanyDetails />}
                 />
+
+                <Route path="artisan" element={<Artisan />} />
+                <Route path="domestic-staffs" element={<DomesticStaffs />} />
+                <Route
+                  path="staff/:category/:id"
+                  element={<StaffInformation />}
+                />
+                <Route path="staff/cart" element={<CartedStaffs />} />
+
                 <Route path="public-profile" element={<PublicProfile />} />
                 <Route path="setting" element={<Settings />} />
                 <Route path="my-resume" element={<MyResume />} />

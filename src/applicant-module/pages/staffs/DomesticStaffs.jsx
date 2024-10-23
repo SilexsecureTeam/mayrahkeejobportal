@@ -1,41 +1,40 @@
 import { useContext, useEffect, useState } from "react";
-import StaffLists from "../../../components/staffs/StaffLists";
-import ComingSoon from "../../components/ComingSoon";
 import { axiosClient } from "../../../services/axios-client";
 import { AuthContext } from "../../../context/AuthContex";
 import { onFailure } from "../../../utils/notifications/OnFailure";
+import { MdClose } from "react-icons/md";
 import SearchComponent from "../../../components/staffs/SearchComponent";
 import { FaExclamationCircle } from "react-icons/fa";
-import { MdClose } from "react-icons/md";
 import StaffCard from "../../../components/staffs/StaffCard";
-import { useNavigate } from "react-router-dom";
 import PopUpBox from "../../../components/PopUpBox";
 import FormButton from "../../../components/FormButton";
+import { useNavigate } from "react-router-dom";
 
-function Artisan() {
+function DomesticStaff() {
+  const navigate = useNavigate();
   const { authDetails } = useContext(AuthContext);
   const client = axiosClient(authDetails.token);
+  const [domesticStaffs, setDomesticStaffs] = useState();
   const [loading, setLoading] = useState();
   const [categories, setCategories] = useState([]);
   const [searchResult, setSearcResult] = useState([]);
-  const navigate = useNavigate();
   const [cartItems, setCartItems] = useState([]);
   const [conditions, setConditions] = useState(false);
   const [queryParams, setQueryParams] = useState();
 
-  const handleQuerySubmit = async (directParams) => {
-    setLoading(true);
+  const handleQuerySubmit = async (directParams = null) => {
     try {
-      if (!queryParams && !directParams) throw new Error("No Query option selected");
-
-      const dataToPost = (directParams && typeof directParams !== 'undefined') ? directParams : queryParams
+      setLoading(true);
+      if (!queryParams && !directParams)
+        throw new Error("No Query option selected");
       const { data } = await client.get(
-        `/domesticStaff/get-staff?staff_category=artisan&${dataToPost}`
+        `/domesticStaff/get-staff?staff_category=staff&${
+          directParams ? directParams : queryParams
+        }`
       );
       console.log(data);
       setSearcResult(data.domesticStaff);
     } catch (error) {
-      console.log(error)
       onFailure({
         message: "Artisan Error",
         error: "Failed to retrieve items/query is empty",
@@ -43,38 +42,37 @@ function Artisan() {
       setSearcResult([]);
     } finally {
       setLoading(false);
-      setConditions(false)
+      setConditions(false);
     }
   };
 
-
-  const handleCondition = (data, hasCategory) => {
-    if(hasCategory){
-      console.log('Data', data)
-      setConditions(true)
-      setQueryParams(data)
-    } else{
-      handleQuerySubmit(data)
-    }
-  }
-
   const navigateToStaff = (data) =>
-    navigate(`/company/staff/${categories.name}/${data.id}`, {
+    navigate(`/applicant/staff/${categories.name}/${data.id}`, {
       state: { data: { staff: data, cartedItems: cartItems } },
-    });
-
-  const navigateToCart = () =>
-    navigate(`/company/staff/cart`, {
-      state: { data: { items: cartItems, category: categories } },
     });
 
   const staffsToDisplay =
     searchResult.length > 0
       ? searchResult?.filter(
           (current) =>
-            current?.staff_category === "artisan" && current?.middle_name !== null
+            current?.staff_category === "staff" && current?.middle_name !== null
         )
       : [];
+
+  const handleCondition = (data, hasCategory) => {
+    if (hasCategory) {
+      console.log("Data", data);
+      setConditions(true);
+      setQueryParams(data);
+    } else {
+      handleQuerySubmit(data);
+    }
+  };
+
+  const navigateToCart = () =>
+    navigate(`/applicant/staff/cart`, {
+      state: { data: { items: cartItems, category: categories } },
+    });
 
   const getCartItems = async () => {
     try {
@@ -96,18 +94,16 @@ function Artisan() {
       });
     }
   };
-
   useEffect(() => {
     const initData = async () => {
       setLoading(true);
 
       try {
-        const { data } = await client.get("/staff-categories/1");
-        const response = await client.get("/staff-categories/1");
+        const { data } = await client.get("/staff-categories/2");
         setCategories(data.data);
       } catch (error) {
         onFailure({
-          message: "Artisan Error",
+          message: "Staff Error",
           error: "Failed to retrieve subcategories",
         });
       } finally {
@@ -138,7 +134,9 @@ function Artisan() {
             result in a breach of contract or legal consequences, depending on
             applicable labor laws.
           </p>
-          <FormButton onClick={() => handleQuerySubmit()} loading={loading}>Confirm and Search</FormButton>
+          <FormButton onClick={() => handleQuerySubmit()} loading={loading}>
+            Confirm and Search
+          </FormButton>
         </div>
       </PopUpBox>
       <div className="h-full w-full flex flex-col px-12 py-2 gap-[15px]">
@@ -174,7 +172,7 @@ function Artisan() {
           handleQuerySubmit={handleCondition}
         />
 
-        {staffsToDisplay.length > 0 ? (
+        {staffsToDisplay.length > 0 && (
           <div className="flex flex-col gap-3 mt-5">
             <span className="font-semibold text-yellow-600">
               Showing Search You Result
@@ -192,10 +190,10 @@ function Artisan() {
               ))}
             </ul>
           </div>
-        ) : <span className="text-md text-red-600 text-center">No Result from this search query</span>}
+        )}
       </div>
     </>
   );
 }
 
-export default Artisan;
+export default DomesticStaff;

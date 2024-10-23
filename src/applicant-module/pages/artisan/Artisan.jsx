@@ -1,6 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import StaffLists from "../../../components/staffs/StaffLists";
-import ComingSoon from "../../components/ComingSoon";
+
 import { axiosClient } from "../../../services/axios-client";
 import { AuthContext } from "../../../context/AuthContex";
 import { onFailure } from "../../../utils/notifications/OnFailure";
@@ -26,16 +25,20 @@ function Artisan() {
   const handleQuerySubmit = async (directParams) => {
     setLoading(true);
     try {
-      if (!queryParams && !directParams) throw new Error("No Query option selected");
+      if (!queryParams && !directParams)
+        throw new Error("No Query option selected");
 
-      const dataToPost = (directParams && typeof directParams !== 'undefined') ? directParams : queryParams
+      const dataToPost =
+        directParams && typeof directParams !== "undefined"
+          ? directParams
+          : queryParams;
       const { data } = await client.get(
         `/domesticStaff/get-staff?staff_category=artisan&${dataToPost}`
       );
       console.log(data);
       setSearcResult(data.domesticStaff);
     } catch (error) {
-      console.log(error)
+      console.log(error);
       onFailure({
         message: "Artisan Error",
         error: "Failed to retrieve items/query is empty",
@@ -43,28 +46,27 @@ function Artisan() {
       setSearcResult([]);
     } finally {
       setLoading(false);
-      setConditions(false)
+      setConditions(false);
     }
   };
 
-
   const handleCondition = (data, hasCategory) => {
-    if(hasCategory){
-      console.log('Data', data)
-      setConditions(true)
-      setQueryParams(data)
-    } else{
-      handleQuerySubmit(data)
+    if (hasCategory) {
+      console.log("Data", data);
+      setConditions(true);
+      setQueryParams(data);
+    } else {
+      handleQuerySubmit(data);
     }
-  }
+  };
 
   const navigateToStaff = (data) =>
-    navigate(`/company/staff/${categories.name}/${data.id}`, {
+    navigate(`/applicant/staff/${categories.name}/${data.id}`, {
       state: { data: { staff: data, cartedItems: cartItems } },
     });
 
   const navigateToCart = () =>
-    navigate(`/company/staff/cart`, {
+    navigate(`/applicant/staff/cart`, {
       state: { data: { items: cartItems, category: categories } },
     });
 
@@ -72,7 +74,8 @@ function Artisan() {
     searchResult.length > 0
       ? searchResult?.filter(
           (current) =>
-            current?.staff_category === "artisan" && current?.middle_name !== null
+            current?.staff_category === "artisan" &&
+            current?.middle_name !== null
         )
       : [];
 
@@ -90,6 +93,8 @@ function Artisan() {
         );
       }
     } catch (error) {
+      console.log(error);
+
       onFailure({
         message: "soemthing went wrong",
         error: "Error retriving carted items",
@@ -138,7 +143,9 @@ function Artisan() {
             result in a breach of contract or legal consequences, depending on
             applicable labor laws.
           </p>
-          <FormButton onClick={() => handleQuerySubmit()} loading={loading}>Confirm and Search</FormButton>
+          <FormButton onClick={() => handleQuerySubmit()} loading={loading}>
+            Confirm and Search
+          </FormButton>
         </div>
       </PopUpBox>
       <div className="h-full w-full flex flex-col px-12 py-2 gap-[15px]">
@@ -192,7 +199,11 @@ function Artisan() {
               ))}
             </ul>
           </div>
-        ) : <span className="text-md text-red-600 text-center">No Result from this search query</span>}
+        ) : (
+          <span className="text-md text-red-600 text-center">
+            No Result from this search query
+          </span>
+        )}
       </div>
     </>
   );
