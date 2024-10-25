@@ -8,6 +8,7 @@ import { axiosClient } from "../../services/axios-client";
 import { onSuccess } from "../../utils/notifications/OnSuccess";
 import { onFailure } from "../../utils/notifications/OnFailure";
 import { PaystackConsumer } from "react-paystack";
+import { useNavigate } from "react-router-dom";
 
 const PUBLIC_KEY = import.meta.env.VITE_TEST_PUBLIC_KEY;
 
@@ -24,6 +25,7 @@ function StaffCard({
   const [loading, setLoading] = useState(false);
   const [cartloading, setCartLoading] = useState(false);
   const client = axiosClient(authDetails?.token);
+  const navigate = useNavigate();
 
   const [open, setOpen] = useState(false);
 
@@ -43,7 +45,7 @@ function StaffCard({
         user_type: authDetails.user.role,
         domestic_staff_id: data.domestic_staff_id,
       });
-      contract();
+      await getCartItems();
       onSuccess({
         message: "Contract successful",
         success: "The Contract has been created",
@@ -142,7 +144,10 @@ function StaffCard({
         message: "User sucessfully added",
         success: "Domestic staff added to cart successfully",
       });
-      await getCartItems();
+
+      navigate(`/company/staff/staff/${data.id}`, {
+        state: { data: { staff: data, cartedItems: cartItems } },
+      });
     } catch (error) {
       onFailure({
         message: "Collection Failed",
@@ -203,37 +208,37 @@ function StaffCard({
           <span className="flex items-center gap-2 text-md font-semibold">
             Name:
             <span className="text-sm font-normal text-gray-500">
-              {getField('first_name')} {getField('surname')}
+              {getField("first_name")} {getField("surname")}
             </span>
           </span>
 
           <span className="flex gap-2 items-center text-md font-semibold">
             Age Range:
             <span className="text-sm font-normal text-gray-500">
-              {getField('age')} Years
+              {getField("age")} Years
             </span>
           </span>
 
           <span className="flex gap-2 items-center text-md font-semibold">
             Category:
             <span className="text-sm font-normal text-gray-500">
-              {getField('subcategory')}
+              {getField("subcategory")}
             </span>
           </span>
 
           <span className="flex gap-2 items-center text-md truncate font-semibold">
             Education:
             <span className="text-sm font-normal text-gray-500">
-              {getField('education_level')}
+              {getField("education_level")}
             </span>
           </span>
         </div>
 
         {!contract && (
           <div className="w-full flex flex-col-reverse gap-2">
-            {cartItems.find(
-              (current) => data.id === current.domestic_staff_id
-            ) ? (
+            {cartItems.find((current) => {
+              return data.id === current.domestic_staff_id;
+            }) ? (
               <div className="flex  flex-col gap-2 items-center">
                 <p className="flex items-center gap-2 p-2 text-md text-primaryColor">
                   {" "}

@@ -16,6 +16,7 @@ import {
   MdClose,
 } from "react-icons/md";
 import PopUpBox from "../../../components/PopUpBox";
+import { ImUpload2 } from "react-icons/im";
 
 const PROFILE_DETAILS_KEY = "Staff Profile Detaials Database";
 
@@ -152,8 +153,10 @@ function ProfileForm({ setToMain }) {
   const { profileDetails, getStaffProfile } = useContext(
     StaffManagementContext
   );
-  const [selectedLanguages, setSelectedLanguages] = useState([...profileDetails?.languages_spoken]);
-  const client = axiosClient(authDetails?.token);
+  const [selectedLanguages, setSelectedLanguages] = useState([
+    ...profileDetails?.languages_spoken,
+  ]);
+  const client = axiosClient(authDetails?.token, true);
   const {
     register,
     handleSubmit,
@@ -167,13 +170,15 @@ function ProfileForm({ setToMain }) {
   });
   const [isOpen, setIsOpen] = useState(false);
   const [otherLanguage, setOtherLanguage] = useState("");
+  const [file, setFile] = useState();
+  const [imageUrl, setImageUrl] = useState();
 
   const onSubmit = async (data) => {
     setLoading(true);
     try {
       const response = await client.post(
         `/domesticStaff/update-profile/${authDetails.user.id}`,
-        { ...data, languages_spoken: selectedLanguages }
+        { ...data, languages_spoken: selectedLanguages, profile_image: file,  job_type: 'something' }
       );
       getStaffProfile();
       onSuccess({
@@ -214,6 +219,16 @@ function ProfileForm({ setToMain }) {
 
   const toogleIsOpen = () => setIsOpen(!isOpen);
 
+  const handleImageChange = (event) => {
+    const imageFile = event.target.files[0];
+    if (imageFile) {
+      setFile(imageFile);
+      const url = URL.createObjectURL(imageFile);
+      console.log("url", url);
+      setImageUrl(url);
+    }
+  };
+
   return (
     <>
       <PopUpBox isOpen={isOpen}>
@@ -241,7 +256,7 @@ function ProfileForm({ setToMain }) {
                   message: "Please enter a value",
                 });
               }
-              setOtherLanguage('za')
+              setOtherLanguage("za");
             }}
           >
             Add Language
@@ -279,6 +294,42 @@ function ProfileForm({ setToMain }) {
             <>
               <div className="flex flex-col gap-5 border-b pb-4">
                 <h3 className="font-semibold text-lg">Primary Information</h3>
+                <div className="h-[100px] flex items-center overflow-hidden justify-center text-gray-500 border border-[#dee2e6] w-[100px] rounded-full">
+                  {imageUrl ? (
+                    <>
+                    <label
+                      htmlFor="profile-image"
+                      className="flex flex-col cursor-pointer items-center justify-center"
+                    >
+                      <span className="text-[12px]">Upload pic</span>
+                      <img src={imageUrl} className="h-full " />
+                    </label>
+                    <input
+                        type="file"
+                        id="profile-image"
+                        onChange={(e) => handleImageChange(e)}
+                        className="hidden"
+                      />
+                    </>
+                  ) : (
+                    <div>
+                      {" "}
+                      <label
+                        htmlFor="profile-image"
+                        className="flex flex-col cursor-pointer items-center justify-center"
+                      >
+                        <ImUpload2 size={20} />
+                        <span className="text-[12px]">Upload pic</span>
+                      </label>
+                      <input
+                        type="file"
+                        id="profile-image"
+                        onChange={(e) => handleImageChange(e)}
+                        className="hidden"
+                      />
+                    </div>
+                  )}
+                </div>
                 <div className="grid grid-cols-2 gap-x-3 gap-y-5">
                   {field_sections.primary.map((currentKey) => {
                     const detail = profileDetails[currentKey.field_name];
@@ -288,7 +339,10 @@ function ProfileForm({ setToMain }) {
                       currentKey == "member_since" ? "date" : "text";
                     return (
                       <div className="flex flex-col gap-1">
-                        <label>{currentKey.name}<span className="text-red-500 ml-1 ">*</span></label>
+                        <label>
+                          {currentKey.name}
+                          <span className="text-red-500 ml-1 ">*</span>
+                        </label>
                         {currentKey.type !== "select" ? (
                           <input
                             className="p-1 border focus:outline-none border-gray-900  rounded-md"
@@ -327,7 +381,10 @@ function ProfileForm({ setToMain }) {
                       currentKey == "member_since" ? "date" : "text";
                     return (
                       <div className="flex flex-col gap-1">
-                        <label>{currentKey.name}<span className="text-red-500 ml-1 ">*</span></label>
+                        <label>
+                          {currentKey.name}
+                          <span className="text-red-500 ml-1 ">*</span>
+                        </label>
                         {currentKey.type !== "select" ? (
                           <input
                             className="p-1 border focus:outline-none border-gray-900  rounded-md"
@@ -352,7 +409,10 @@ function ProfileForm({ setToMain }) {
                     );
                   })}
                   <div className="flex flex-col gap-2 pl-2">
-                    <label >Languages Spoken<span className="text-red-500 ml-1 ">*</span></label>
+                    <label>
+                      Languages Spoken
+                      <span className="text-red-500 ml-1 ">*</span>
+                    </label>
                     <div className="flex flex-col">
                       <div className="flex w-full justify-start gap-3">
                         {[
@@ -470,7 +530,10 @@ function ProfileForm({ setToMain }) {
 
                     return (
                       <div className="flex flex-col gap-1">
-                        <label>{currentKey.name}<span className="text-red-500 ml-1 ">*</span></label>
+                        <label>
+                          {currentKey.name}
+                          <span className="text-red-500 ml-1 ">*</span>
+                        </label>
                         {currentKey.type !== "select" ? (
                           <input
                             className="p-1 border focus:outline-none border-gray-900  rounded-md"
