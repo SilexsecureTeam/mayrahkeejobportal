@@ -65,7 +65,7 @@ function Artisan() {
 
   const navigateToCart = () =>
     navigate(`/company/staff/cart`, {
-      state: { data: { items: cartItems, category: categories } },
+      state: { data: { items: cartItems, category: categories, type: 'artisan' } },
     });
 
   const staffsToDisplay =

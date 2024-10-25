@@ -79,6 +79,7 @@ function Artisan() {
         )
       : [];
 
+  
   const getCartItems = async () => {
     try {
       const { data } = await client.post("staff-cart/get", {

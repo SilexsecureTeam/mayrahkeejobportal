@@ -73,7 +73,7 @@ function DomesticStaff() {
 
   const navigateToCart = () =>
     navigate(`/company/staff/cart`, {
-      state: { data: { items: cartItems, category: categories } },
+      state: { data: { items: cartItems, category: categories, type: 'staff' } },
     });
 
   const getCartItems = async () => {
@@ -85,7 +85,7 @@ function DomesticStaff() {
       if (data.cart_items) {
         setCartItems(
           data.cart_items.filter(
-            (current) => current.domestic_staff.staff_category === "artisan"
+            (current) => current.domestic_staff.staff_category === "staff"
           )
         );
       }

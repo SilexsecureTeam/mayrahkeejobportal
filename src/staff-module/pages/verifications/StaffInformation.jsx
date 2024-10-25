@@ -15,9 +15,10 @@ function StaffInformation() {
   const client = axiosClient(authDetails.token);
   const [cartItems, setCartItems] = useState(data.cartedItems);
 
+  console.log(data.staff)
   const filterProfileDetails =
     data.staff &&
-    Object.keys(data.staff).filter(
+    Object.keys(data.staff.domestic_staff).filter(
       (currentKey) =>
         currentKey !== "created_at" &&
         currentKey !== "updated_at" &&
@@ -90,30 +91,17 @@ function StaffInformation() {
     <div className="w-full  px-12 flex  pt-5 flex-col gap-5">
       <div className="flex justify-between">
         <h1 className="text-xl font-semibold">
-          {data.staff["first_name"]} {data.staff["surname"]}'s Profile
+          {data.staff.domestic_staff["first_name"]} {data.staff.domestic_staff["surname"]}'s Profile
           Information{" "}
         </h1>
-        <button
-          disabled={disableButton()}
-          onClick={addToCart}
-          className={`p-1 flex gap-1 text-sm items-center border border-primaryColor
-            ${
-              disableButton()
-                ? "bg-gray-500 text-white hover:bg-gray-400 cursor-not-allowed"
-                : "hover:bg-yellow-500"
-            }
-          `}
-        >
-          {disableButton() ? "Added to cart" : "Add to Collection"}
-          {loading && <RiLoader2Fill className="animate-spin" />}
-        </button>
+     
       </div>
 
       {data && (
         <>
           <div className="grid grid-cols-2 gap-x-3 gap-y-5 p-2 w-full text-gray-600">
             {filterProfileDetails.map((currentKey) => {
-              const detail = data.staff[currentKey];
+              const detail = data.staff.domestic_staff[currentKey];
               const labelText = currentKey.replace(/_/g, " ").toUpperCase();
 
               return (

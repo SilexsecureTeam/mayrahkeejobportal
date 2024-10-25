@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../../context/AuthContex";
-import { axiosClient } from "../../../services/axios-client";
+import { axiosClient, resourceUrl } from "../../../services/axios-client";
 import { get, set } from "idb-keyval";
 import { StaffManagementContext } from "../../../context/StaffManagementModule";
 
@@ -35,10 +35,13 @@ function ViewProfileDetails() {
         currentKey !== "availability_status"
     );
 
-  
+    console.log(`${resourceUrl}${profileDetails['profile_image']}`)
   return (
     <div className="w-full flex flex-col gap-10">
       <h1 className="text-xl font-semibold">Your Profile Information</h1>
+      <div className="h-[100px] flex items-center overflow-hidden justify-center text-gray-500 border border-[#dee2e6] w-[100px] rounded-full">
+        <img src={`${resourceUrl}${profileDetails['profile_image']}`} className="h-full" />
+      </div>
 
       {profileDetails ? (
         <>
