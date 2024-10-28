@@ -9,7 +9,7 @@ import { onFailure } from "../../utils/notifications/OnFailure";
 
 function CartedStaffs() {
   const location = useLocation();
-  const {data} = location.state  
+  const { data } = location.state;
   const navigate = useNavigate();
   const { authDetails } = useContext(AuthContext);
   const client = axiosClient(authDetails.token);
@@ -26,9 +26,13 @@ function CartedStaffs() {
         user_id: authDetails.user.id,
         user_type: authDetails.user.role,
       });
-      setCartItems( data.cart_items.filter(
-        (current) => current.domestic_staff.staff_category === location.state.data.type
-      ));
+      setCartItems(
+        data.cart_items.filter(
+          (current) =>
+            current.domestic_staff.staff_category === location.state.data.type
+        )
+      );
+    
     } catch (error) {
       onFailure({
         message: "soemthing went wrong",
@@ -62,9 +66,8 @@ function CartedStaffs() {
         </p>
       </div>
 
-      {(cartItems && cartItems.length > 0) && (
+      {cartItems && cartItems.length > 0 && (
         <div className="flex flex-col gap-3 mt-5 w-full">
-          
           <ul className="w-full grid grid-cols-3 gap-2">
             {cartItems.map((current) => (
               <StaffCard

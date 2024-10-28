@@ -41,8 +41,7 @@ function ViewProfileDetails() {
       <h1 className="text-xl font-semibold">Your Profile Information</h1>
       <div className="h-[100px] flex items-center overflow-hidden justify-center text-gray-500 border border-[#dee2e6] w-[100px] rounded-full">
         <img src={`${resourceUrl}${profileDetails['profile_image']}`} className="h-full" />
-      </div>
-
+     </div>
       {profileDetails ? (
         <>
           <div className="grid grid-cols-2 gap-x-3 gap-y-5 p-2 w-full text-gray-600">
