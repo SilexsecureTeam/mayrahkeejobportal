@@ -4,7 +4,7 @@ import PopUpBox from "../PopUpBox";
 import { useForm } from "react-hook-form";
 import { MdCheck, MdClose } from "react-icons/md";
 import { AuthContext } from "../../context/AuthContex";
-import { axiosClient } from "../../services/axios-client";
+import { axiosClient, resourceUrl } from "../../services/axios-client";
 import { onSuccess } from "../../utils/notifications/OnSuccess";
 import { onFailure } from "../../utils/notifications/OnFailure";
 import { PaystackConsumer } from "react-paystack";
@@ -203,8 +203,22 @@ function StaffCard({
           </FormButton>
         </div>
       </PopUpBox>
-      <div className="min-h-fit flex gap-1 flex-col justify-between p-2 border min-w-fit">
-        <div className="flex flex-col  gap-2">
+      <div className="min-h-fit flex gap-2 shadow-sm  rounded-lg flex-col justify-between px-3 py-2 border min-w-fit">
+        {getField("profile_image") ? (
+          <img
+            src={`${resourceUrl}${getField("profile_image")}`}
+            className="h-[100px] place-self-center w-[100px] rounded-full "
+            alt=""
+          />
+        ) : (
+          <img
+            src={`/placeholder.png`}
+            className="h-[100px] bg-gray-300 place-self-center w-[100px] rounded-full "
+            alt=""
+          />
+        )}
+
+        <div className="flex flex-col items-center gap-2  ">
           <span className="flex items-center gap-2 text-md font-semibold">
             Name:
             <span className="text-sm font-normal text-gray-500">
