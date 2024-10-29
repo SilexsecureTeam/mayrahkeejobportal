@@ -10,7 +10,7 @@ function SideBar({ children, authDetails, toogleIsOpen, isMenuOpen }) {
 
   return (
     <>
-      <aside className="w-[18%] hidden relative h-full items-center bg-secondaryColor px-2 pb-2 md:flex flex-col justify-end">
+      <aside className="w-[18%] min-w-[200px] hidden relative h-full items-center bg-secondaryColor px-2 pb-2 md:flex flex-col justify-end">
         <img src={mainLogoTwo} className="w-[80%]" />
         <nav className="h-[92%] w-full flex flex-col justify-start gap-[20px] divide-y-2">
           {children[0]}
@@ -28,9 +28,9 @@ function SideBar({ children, authDetails, toogleIsOpen, isMenuOpen }) {
       </div>
 
         {/* user info  */}
-        <div className="absolute bottom-3 left-3 flex gap-[5px]  items-center">
+        <div className="max-w-full absolute bottom-3 pl-3 flex gap-[5px]  items-center">
         
-          <div className="flex-col flex">
+          <div className="w-1/5 flex-1 flex flex-col">
             <span className="text-secondaryColor text-sm">
               {`${authDetails?.user?.first_name} ${authDetails?.user?.last_name}`}
             </span>
@@ -40,7 +40,7 @@ function SideBar({ children, authDetails, toogleIsOpen, isMenuOpen }) {
           </div>
           <img
             // src={`${resourceUrl}/${details?.logo_image}`}
-            className="h-[45px] w-[45px] rounded-full bg-secondaryColor"
+            className="flex-shrink-0 h-[45px] w-[45px] rounded-full bg-secondaryColor max-[1200px]:mt-[-30px] transition-all duration-500"
           />
         </div>
       </aside>
@@ -68,8 +68,8 @@ function SideBar({ children, authDetails, toogleIsOpen, isMenuOpen }) {
         </nav>
 
         {/* Green slide */}
-        <div class="absolute bottom-0 left-0 w-full h-32 overflow-hidden">
-          <div class="w-[120%] h-full relative bg-primaryColor transform -rotate-12 origin-bottom-right" />
+        <div className="absolute bottom-0 left-0 w-full h-32 overflow-hidden">
+          <div className="w-[120%] h-full relative bg-primaryColor transform -rotate-12 origin-bottom-right" />
         </div>
 
         {/* user info  */}
