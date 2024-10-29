@@ -1,0 +1,76 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.epilogue {
+  font-family: "epilogue", sans-serif !important;
+}
+
+.fair_clash {
+  font-family: "Playfair Display", serif;
+}
+
+.inter_font {
+  font-family: "Inter", sans-serif !important;
+}
+
+.prime_text {
+  color: #0f5a02 !important;
+}
+
+.thin_scroll_bar{
+  scrollbar-width:thin;
+}
+
+.no_scroll_bar{
+  scrollbar-width:none;
+}
+
+.prime_bg {
+  background-color: #025a34 !important;
+}
+
+.recent_added:nth-child(odd) {
+  background-color: #47aa491a;
+}
+
+.checkbox[type="checkbox"] {
+  accent-color: #0f5a02 !important;
+}
+
+.radio[type="radio"] {
+  accent-color: #0f5a02 !important;
+}
+
+.green_btn {
+  background-color: #025a34;
+}
+
+.job_header {
+  background-image: url("./assets/pngs/details-header.png");
+  background-size: cover;
+}
+
+.bg_layout{
+  background-image: url("./assets/pngs/profile-bg.png");
+  background-size: cover;
+}
+
+.flip_y{
+  transform: rotateX(3.142rad);
+}
+
+.flip_x{
+  transform: rotateY(3.142rad);
+}
+
+
+.contact_card{
+  background-image: url("./assets/pngs/Contact-us-bg.png");
+}
+
+.company-textarea{
+  width: 100% !important;
+  background-color: #0f5a02;
+  color: red;
+}

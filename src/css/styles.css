@@ -1,0 +1,33 @@
+.list-item:nth-child(1) {
+    @apply bg-blue-500 text-white;
+}
+
+.list-item:nth-child(2) {
+    @apply bg-green-500 text-white;
+}
+.list-item:nth-child(3) {
+    @apply bg-amber-500 text-white;
+}
+
+.list-item:nth-child(4) {
+    @apply bg-red-500;
+}
+.list-item:nth-child(5) {
+    @apply bg-blue-500 text-white;
+}
+
+.list-item:nth-child(6) {
+    @apply bg-red-500 text-white;
+}
+
+
+/* Chidldre */
+.list-item-parent:nth-child(1) .child {
+    @apply bg-blue-500;
+}
+.list-item-parent:nth-child(2) .child {
+    @apply bg-green-500;
+}
+.list-item-parent:nth-child(3) .child {
+    @apply bg-amber-500;
+}
