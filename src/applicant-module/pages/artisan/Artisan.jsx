@@ -128,7 +128,7 @@ function Artisan() {
   return (
     <>
       <PopUpBox isOpen={conditions}>
-        <div className="w-[40%] h-fit text-gray-500 p-5 items-center flex flex-col gap-4 bg-white">
+        <div className="w-[90%] md:w-[40%] md:h-fit text-gray-500 p-5 items-center flex flex-col gap-4 bg-white">
           <MdClose
             className="text-2xl place-self-end cursor-pointer"
             onClick={() => setConditions(!conditions)}
@@ -149,9 +149,9 @@ function Artisan() {
           </FormButton>
         </div>
       </PopUpBox>
-      <div className="h-full w-full flex flex-col px-12 py-2 gap-[15px]">
+      <div className="h-full w-full flex flex-col px-5 md:px-8 lg:px-12 py-2 gap-[15px]">
         <div className="flex w-full justify-between items-center gap-1">
-          <div className="flex flex-col gap-2 bg-green-100 pr-5 p-2 w-fit">
+          <div className="flex flex-col gap-2 bg-green-100 pr-5 p-2 w-[90%] md:w-fit text-xs md:text-sm">
             <div className="flex w-full justify-between items-center">
               <span className="flex gap-2 items-center text-green-700">
                 Welcome to our artisan hub <FaExclamationCircle />

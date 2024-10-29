@@ -72,8 +72,8 @@ function CartedStaffs() {
   }, []);
 
   return (
-    <div className="w-full  px-12 flex  pt-5 flex-col gap-5">
-      <div className="flex flex-col gap-2 bg-green-100 pr-5 p-2 w-fit">
+    <div className="w-full px-5 md:px-8 lg:px-12 flex  pt-5 flex-col gap-5">
+      <div className="flex flex-col gap-2 bg-green-100 pr-5 p-2 w-fit text-xs md:text-sm">
         <div className="flex w-full justify-between items-center">
           <span className="flex gap-2 items-center text-green-700">
             Here are a list of your carted staffs

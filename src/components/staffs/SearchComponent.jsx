@@ -36,11 +36,11 @@ function SearchComponent({ subCategories, handleQuerySubmit }) {
   return (
     <div className="w-full p-4 bg-[#AFB6AE1A] h-fit flex flex-col gap-5">
       <div className="flex flex-col gap-3">
-        <span className="text-md font-semibold">
+        <span className="text-sm md:text-md font-semibold">
           Select the queries you will want to search by
         </span>
         <div className="flex flex-wrap justify-start gap-3 border-b pb-2 text-gray-400 w-full mt-2">
-          <div className="flex items-center gap-2 text-xl md:text-lg leading-none">
+          <div className="flex items-center gap-2 text-sm sm:text-xl md:text-lg leading-none">
             {byCategory ? (
               <MdCheckBox className="cursor-pointer flex-shrink-0" onClick={toogleCategory} />
             ) : (
@@ -52,7 +52,7 @@ function SearchComponent({ subCategories, handleQuerySubmit }) {
             Category
           </div>
 
-          <div className="flex items-center gap-2 text-xl md:text-lg leading-none">
+          <div className="flex items-center gap-2 text-sm sm:text-xl md:text-lg leading-none">
             {byEducationalLevel ? (
               <MdCheckBox
                 className="cursor-pointer flex-shrink-0"
@@ -67,7 +67,7 @@ function SearchComponent({ subCategories, handleQuerySubmit }) {
             Education Level
           </div>
 
-          <div className="flex items-center gap-2 text-xl md:text-lg leading-none">
+          <div className="flex items-center gap-2 text-sm sm:text-xl md:text-lg leading-none">
             {byAge ? (
               <MdCheckBox className="cursor-pointer flex-shrink-0" onClick={toogleAge} />
             ) : (
@@ -78,7 +78,7 @@ function SearchComponent({ subCategories, handleQuerySubmit }) {
             )}
             Age Range
           </div>
-          <div className="flex items-center gap-2 text-xl md:text-lg leading-none">
+          <div className="flex items-center gap-2 text-sm sm:text-xl md:text-lg leading-none">
             {byReligion ? (
               <MdCheckBox className="cursor-pointer flex-shrink-0" onClick={toogleReligion} />
             ) : (
@@ -90,7 +90,7 @@ function SearchComponent({ subCategories, handleQuerySubmit }) {
             Religion
           </div>
 
-          <div className="flex items-center gap-2 text-xl md:text-lg leading-none">
+          <div className="flex items-center gap-2 text-sm sm:text-xl md:text-lg leading-none">
             {byMaritalStatus ? (
               <MdCheckBox
                 className="cursor-pointer flex-shrink-0"
