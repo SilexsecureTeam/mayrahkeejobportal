@@ -25,7 +25,7 @@ const JobDetails = () => {
     return (
         <div className="w-full h-full text-[#25324b]">
             {/* Header Section */}
-            <div className="p-6 border-b mb-8">
+            <div className="sticky top-0 p-6 border-b mb-8">
                 <div className="p-6 bg-white border rounded-md">
                     <div className="flex gap-2 flex-wrap justify-between items-center">
                         {/* Left Section: Job Info */}
