@@ -142,9 +142,9 @@ function DomesticStaff() {
           </FormButton>
         </div>
       </PopUpBox>
-      <div className="h-full w-full flex flex-col px-12 py-2 gap-[15px]">
-        <div className="flex w-full justify-between items-center">
-          <div className="flex flex-col gap-2 bg-green-100 pr-5 p-2 w-fit">
+         <div className="h-full w-full flex flex-col px-5 md:px-8 lg:px-12 py-2 gap-[15px]">
+        <div className="flex w-full justify-between items-center gap-1">
+          <div className="flex flex-col gap-2 bg-green-100 pr-5 p-2 w-[90%] md:w-fit text-xs md:text-sm">
             <div className="flex w-full justify-between items-center">
               <span className="flex gap-2 items-center text-green-700">
                 Welcome to our artisan hub <FaExclamationCircle />
@@ -162,11 +162,10 @@ function DomesticStaff() {
             </p>
           </div>
 
-          <button
+         <button
             onClick={navigateToCart}
-            className="border p-2 h-fit border-primaryColor text-sm hover:bg-primaryColor hover:text-white"
           >
-            View Carted Staffs
+            <p className="relative cursor-pointer flex item-center"><FaShoppingCart size="24" /> <span className="absolute top-[-15px] right-0 w-max h-max px-1 rounded-full bg-red-700 text-white text-xs">{cartItems.length || 0}</span></p>
           </button>
         </div>
 
