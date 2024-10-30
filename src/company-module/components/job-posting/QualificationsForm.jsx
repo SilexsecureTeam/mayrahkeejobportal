@@ -36,7 +36,7 @@ function QualificationsForm({ jobUtils }) {
     <div className="flex flex-col md:flex-row gap-[15%] border-b py-2 ">
       <div className="flex flex-col w-full md:max-w-[25%] w-full gap-[10px]">
         <h3 className="text-gray-700 text-sm font-semibold">Required Qualifications</h3>
-        <span className="text-little text-gray-400 w-full md:w-auto">
+        <span className="text-little text-gray-400 w-full md:w-auto mb-2 md:mb-0">
           Add required qualifications for the job
         </span>
       </div>
