@@ -7,7 +7,7 @@ function DescriptionItem({ data, jobUtils }) {
 
   return (
     <div className="flex flex-col md:flex-row border-b py-2 min-h-[170px]">
-      <div className="flex flex-col min-w-[25%] max-w-[25%] gap-[10px]">
+      <div className="flex flex-col w-full min-w-[25%] md:max-w-[25%] gap-[10px]">
         <h3 className="text-gray-700 text-sm font-semibold">{data.title}</h3>
         <span className="text-little text-gray-400">{data.desc}</span>
       </div>
