@@ -154,7 +154,7 @@ function SearchComponent({ subCategories, handleQuerySubmit }) {
         )}
 
         {byMaritalStatus && (
-          <div className="flex flex-col">
+          <div className="flex flex-col truncate">
             <label>Select Marital Status</label>
             <select
               className="p-1 border focus:outline-none border-gray-900 rounded-md"
