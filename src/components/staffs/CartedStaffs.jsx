@@ -93,10 +93,13 @@ function CartedStaffs() {
       </div>
 
       {/* Shopping Cart */}
-      <div className="flex flex-col md:flex-row gap-8">
+
+{cartItems.length !== 0 ?
+      (<div className="flex flex-col md:flex-row gap-8">
 
         <div className="w-full min-w-72 md:w-2/3 bg-white p-6">
           <h2 className="text-lg font-bold mb-4">Shopping Cart</h2>
+
           <p className="text-sm text-gray-600 mb-4">Showing {cartItems.length} staffs you added</p>
 
           <div className="mb-4">
@@ -168,7 +171,7 @@ function CartedStaffs() {
             Checkout
           </button>
         </div>
-      </div>
+      </div>):(<h2 className="text-lg font-bold mb-4">Cart Empty</h2>)}
 
       {cartItems && cartItems.length > 0 && (
         <div className="flex flex-col gap-3 mt-5 w-full">
