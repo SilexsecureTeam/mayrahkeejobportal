@@ -5,13 +5,12 @@ import { axiosClient } from "../../../services/axios-client";
 import { AuthContext } from "../../../context/AuthContex";
 import { onFailure } from "../../../utils/notifications/OnFailure";
 import SearchComponent from "../../../components/staffs/SearchComponent";
-import { FaExclamationCircle } from "react-icons/fa";
+import { FaExclamationCircle,FaShoppingCart } from "react-icons/fa";
 import { MdClose } from "react-icons/md";
 import StaffCard from "../../../components/staffs/StaffCard";
 import { useNavigate } from "react-router-dom";
 import PopUpBox from "../../../components/PopUpBox";
 import FormButton from "../../../components/FormButton";
-import {FaShoppingCart} from 'react-icon/fa'
 
 function Artisan() {
   const { authDetails } = useContext(AuthContext);
