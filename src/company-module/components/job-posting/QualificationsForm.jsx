@@ -23,9 +23,9 @@ function QualificationsForm({ jobUtils }) {
 
   const qualificationList = jobUtils?.details?.qualification?.map((current, index) => {
     return (
-      <li className="border py-[3px] flex gap-[5px] px-1 text-little text-white bg-primaryColor/80">
+      <li className="relative border py-[3px] flex px-1 text-little text-white bg-primaryColor/80 truncate">
         {current}
-        <IoIosCloseCircleOutline onClick={() => removeQualification(index)} className="text-lg cursor-pointer text-red-800" />
+        <IoIosCloseCircleOutline onClick={() => removeQualification(index)} className="absolute top-1 right-1 text-lg cursor-pointer text-red-800" />
       </li>
     );
   });
