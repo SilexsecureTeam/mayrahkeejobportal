@@ -162,11 +162,10 @@ function Artisan() {
             </p>
           </div>
 
-          <button
+         <button
             onClick={navigateToCart}
-            className="border p-2 h-fit border-primaryColor text-sm hover:bg-primaryColor hover:text-white"
           >
-            View Carted Staffs
+            <p className="relative cursor-pointer flex item-center"><FaShoppingCart size="24" /> <span className="absolute top-[-15px] right-0 w-max h-max px-1 rounded-full bg-red-700 text-white text-xs">{cartItems.length || 0}</span></p>
           </button>
         </div>
 
@@ -180,7 +179,8 @@ function Artisan() {
             <span className="font-semibold text-yellow-600">
               Showing Search You Result
             </span>
-            <ul className="w-full grid grid-cols-3 gap-2">
+           <ul className="w-full grid grid-cols-responsive gap-4">
+          
               {staffsToDisplay?.map((current) => (
                 <StaffCard
                   key={current?.id}
