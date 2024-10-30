@@ -11,6 +11,7 @@ import StaffCard from "../../../components/staffs/StaffCard";
 import { useNavigate } from "react-router-dom";
 import PopUpBox from "../../../components/PopUpBox";
 import FormButton from "../../../components/FormButton";
+import {FaShoppingCart} from 'react-icon/fa'
 
 function Artisan() {
   const { authDetails } = useContext(AuthContext);
