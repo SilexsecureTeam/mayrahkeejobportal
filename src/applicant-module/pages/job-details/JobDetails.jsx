@@ -59,7 +59,7 @@ const JobDetails = () => {
             </div>
 
             {/* Main Content */}
-            <div className="flex flex-col md:flex-row px-6">
+            <div className="flex flex-col md:flex-row px-6 min-h-full">
                 {/* Left Column */}
                 <div className="w-full md:w-4/5 pr-4">
                     <div className="mb-6">
