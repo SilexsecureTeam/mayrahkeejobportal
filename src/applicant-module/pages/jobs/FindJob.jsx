@@ -114,7 +114,7 @@ function FindJob() {
                     </div>
                   </div>
                 </div>
-                <div className="max-h-[75vh] overflow-y-auto thin_scroll_bar">
+                <div className="min-h-full overflow-y-auto thin_scroll_bar">
                   {getAllJobs.data && (
                     <div>
                       {isGrid ? (
