@@ -27,7 +27,7 @@ const JobDetails = () => {
             {/* Header Section */}
             <div className="p-6 border-b mb-8">
                 <div className="p-6 bg-white border rounded-md">
-                    <div className="flex justify-between items-center">
+                    <div className="flex flex-wrap justify-between items-center">
                         {/* Left Section: Job Info */}
                         <div className="flex items-start space-x-4">
                             <img src={headerImg} alt="Header Logo" className="w-20" />
@@ -56,7 +56,7 @@ const JobDetails = () => {
             </div>
 
             {/* Main Content */}
-            <div className="flex px-6">
+            <div className="flex flex-col md:flex-row px-6">
                 {/* Left Column */}
                 <div className="w-full md:w-4/5 pr-4">
                     <div className="mb-6">
