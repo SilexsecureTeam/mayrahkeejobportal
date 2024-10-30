@@ -151,7 +151,7 @@ function DomesticStaff() {
               <button className=" group hover:bg-red-500 hover:text-white p-1 text-red-600 text-md flex justify-between items-center ">
                 Close
                 <MdClose className="" />
-              </button>
+              </button>  
             </div>
 
             <p>
