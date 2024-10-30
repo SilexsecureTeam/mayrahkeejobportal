@@ -25,7 +25,10 @@ const JobDetails = () => {
     return (
         <div className="w-full h-full text-[#25324b]">
             {/* Header Section */}
-            <div className="sticky top-0 bg-white z-100 p-6 border-b mb-8">
+            <div
+                className="sticky top-0 bg-white z-50 p-6 border-b mb-8 shadow-md"
+                style={{ position: 'sticky', zIndex: 1000 }}
+            >
                 <div className="p-6 bg-white border rounded-md">
                     <div className="flex gap-2 flex-wrap justify-between items-center">
                         {/* Left Section: Job Info */}
@@ -45,10 +48,10 @@ const JobDetails = () => {
                             <button className="p-2 rounded-full border hover:bg-gray-100">
                                 <BsShare />
                             </button>
-                            <JobApplicationForm 
-                                job={job} 
-                                getResumeById={getResumeById.data} 
-                                hasApplied={state?.hasApplied} 
+                            <JobApplicationForm
+                                job={job}
+                                getResumeById={getResumeById.data}
+                                hasApplied={state?.hasApplied}
                             />
                         </div>
                     </div>
@@ -85,7 +88,10 @@ const JobDetails = () => {
                     <h4 className="font-bold mb-2">About this role</h4>
                     <div className="bg-gray-100 p-4 rounded-md mb-6">
                         <div className="relative h-2 bg-gray-300 rounded-full mb-2">
-                            <div className="absolute top-0 left-0 h-2 bg-green-500 rounded-full" style={{ width: '50%' }}></div>
+                            <div
+                                className="absolute top-0 left-0 h-2 bg-green-500 rounded-full"
+                                style={{ width: '50%' }}
+                            ></div>
                         </div>
                         <p className="text-sm">
                             <b>5 applied</b> of 10 capacity
