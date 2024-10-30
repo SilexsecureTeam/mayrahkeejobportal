@@ -1,20 +1,18 @@
 import { Helmet } from "react-helmet";
 import { CiSearch } from "react-icons/ci";
 import { GrLocation } from "react-icons/gr";
-import { FaChevronDown } from "react-icons/fa";
 import ChecksCategory from "./components/ChecksCategory";
-import { BsGrid, BsGridFill } from "react-icons/bs";
 import { useState, useContext, useEffect } from "react";
-import JobGridCard from "./components/JobGridCard";
 import JobCard from "./components/JobCard";
-import { ResourceContext } from "../../../context/ResourceContext";
+import { TbLayoutList, TbLayoutListFilled } from "react-icons/tb";
 import { useMemo } from "react";
 import CustomPagination from "../../../components/CustomPagination";
+import { ResourceContext } from "../../../context/ResourceContext";
 
 const PageSize = 3;
 
 function FindJob() {
-  const { getAllJobs, setGetAllJobs, getAllApplications } = useContext(ResourceContext);
+  const { getAllJobs, setGetAllJobs, getAllApplications, setGetAllApplications } = useContext(ResourceContext);
   const [isGrid, setIsGrid] = useState(false);
   const [salaryRange, setSalaryRange] = useState('');
   const [employmentType, setEmploymentType] = useState('');
@@ -22,23 +20,20 @@ function FindJob() {
   const [jobLevel, setJobLevel] = useState('');
 
   useEffect(() => {
-    setGetAllJobs((prev) => ({
-      ...prev, isDataNeeded: true,
-    }));
-  }, [setGetAllJobs]);
+    setGetAllJobs((prev) => ({ ...prev, isDataNeeded: true }));
+  }, []);
 
   useEffect(() => {
-    setGetAllApplications((prev) => ({
-      ...prev, isDataNeeded: true,
-    }));
-  }, [setGetAllApplications]);
+    setGetAllApplications((prev) => ({ ...prev, isDataNeeded: true }));
+  }, []);
 
   const filteredData = getAllJobs.data?.filter((job) => {
     const salaryFigures = job.min_salary?.split(".")[0];
     const salaryInRange = salaryRange ? salaryFigures >= salaryRange : true;
     const matchesEmploymentType = employmentType ? job.type?.toLowerCase().includes(employmentType?.toLowerCase()) : true;
     const matchesCategory = category ? job.search_keywords?.toLowerCase().includes(category?.toLowerCase()) : true;
-    const matchesJobLevel = jobLevel ? job.career_level?.toLowerCase() === jobLevel?.toLocaleLowerCase() : true;
+    const matchesJobLevel = jobLevel ? job.career_level?.toLowerCase() === jobLevel?.toLowerCase() : true;
+
     return salaryInRange && matchesEmploymentType && matchesCategory && matchesJobLevel;
   });
 
@@ -60,75 +55,71 @@ function FindJob() {
       <Helmet>
         <title>Dashboard | Find Job</title>
       </Helmet>
-      <div className="h-full text-[#25324b] p-8 text-sm w-full">
+      <div className="h-full text-[#25324b] p-4 md:p-8 text-sm w-full">
         <div className="px-3 py-5 border mb-2 flex flex-col md:flex-row">
-          <div className="relative border-b py-1 px-6 mx-4 w-full md:w-[35%]">
+          <div className="relative border-b py-1 px-6 mx-4 w-full md:w-[35%] mb-4 md:mb-0">
             <input type="text" placeholder="Search messages" className="pl-[10px] focus:outline-none w-full" />
             <span className="absolute text-primary top-0 left-0 p-2">
               <CiSearch size={20} />
             </span>
           </div>
-          <div className="relative border-b py-1 px-6 mx-4 w-full md:w-[35%]">
+          <div className="relative border-b py-1 px-6 mx-4 w-full md:w-[35%] mb-4 md:mb-0">
             <input type="text" placeholder="Search messages" className="pl-[10px] focus:outline-none w-full" />
             <span className="absolute text-primary top-0 left-0 p-2">
               <GrLocation size={20} />
             </span>
           </div>
-          <button className="bg-green-700 text-white py-2 px-6 hover:bg-green-900 font-medium">Search</button>
+          <button className="bg-green-700 text-white py-2 px-6 hover:bg-green-900 font-medium w-full md:w-auto">
+            Search
+          </button>
         </div>
         <p>Popular: UI Designer, UX Researcher, Android, Admin</p>
         <div className="my-6 flex flex-col md:flex-row">
           <div className="w-full md:w-[25%]">
-            <div className="checks_container pr-5">
-              <div className="mb-4">
-                <ChecksCategory
-                  setSalaryRange={setSalaryRange}
-                  setEmploymentType={setEmploymentType}
-                  setCategory={setCategory}
-                  setJobLevel={setJobLevel}
-                />
-              </div>
+            <div className="checks_container pr-5 mb-4">
+              <ChecksCategory
+                setSalaryRange={setSalaryRange}
+                setEmploymentType={setEmploymentType}
+                setCategory={setCategory}
+                setJobLevel={setJobLevel}
+              />
             </div>
           </div>
           <div className="w-full md:w-[75%]">
-            <div>
-              <h4 className="font-bold text-base">All Jobs</h4>
-              <div className="flex justify-between mb-6">
+            <h4 className="font-bold text-base">All Jobs</h4>
+            <div className="flex justify-between mb-6">
+              <div>
+                <p>Showing {getAllJobs.data?.length} results</p>
+              </div>
+              <div className="flex">
+                <div className="border px-2">
+                  <button onClick={() => setIsGrid(true)} className="bg-gray-200 rounded p-1 mx-3">
+                    {isGrid ? <BsGridFill className="prime_text" /> : <BsGrid />}
+                  </button>
+                  <button onClick={() => setIsGrid(false)} className="bg-gray-200 rounded p-1">
+                    {isGrid ? <TbLayoutList /> : <TbLayoutListFilled className="prime_text" />}
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div className="max-h-[75vh] overflow-y-auto thin_scroll_bar">
+              {getAllJobs.data && (
                 <div>
-                  <p>Showing {getAllJobs.data?.length} results</p>
+                  {isGrid ? (
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                      {currentTableData?.map((job) => (
+                        <JobGridCard key={job.id} job={job} />
+                      ))}
+                    </div>
+                  ) : (
+                    <div>
+                      {currentTableData?.map((job) => (
+                        <JobCard getAllApplications={getAllApplications?.data} key={job.id} job={job} />
+                      ))}
+                    </div>
+                  )}
                 </div>
-                <div className="flex">
-                  <div className="border-l px-2">
-                    <button onClick={() => setIsGrid(true)} className="bg-gray-200 rounded p-1 mx-3">
-                      {isGrid ? <BsGridFill className="prime_text" /> : <BsGrid />}
-                    </button>
-                    <button onClick={() => setIsGrid(false)} className="bg-gray-200 rounded p-1">
-                      {isGrid ? <TbLayoutList /> : <TbLayoutListFilled className="prime_text" />}
-                    </button>
-                  </div>
-                </div>
-              </div>
-              <div className="max-h-[75vh] overflow-y-auto thin_scroll_bar">
-                {getAllJobs.data && (
-                  <div>
-                    {isGrid ? (
-                      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                        {currentTableData?.map((job) => (
-                          <JobGridCard key={job.id} job={job} />
-                        ))}
-                      </div>
-                    ) : (
-                      <div>
-                        {currentTableData?.map((job) => (
-                          <JobCard
-                            getAllApplications={getAllApplications?.data}
-                            key={job.id} job={job} />
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                )}
-              </div>
+              )}
             </div>
             {getAllJobs.data && (
               <div className="mt-5">
@@ -141,7 +132,7 @@ function FindJob() {
                     currentPage={currentPage}
                     totalCount={filteredData?.length}
                     pageSize={PageSize}
-                    onPageChange={page => setCurrentPage(page)} 
+                    onPageChange={page => setCurrentPage(page)}
                   />
                 </div>
               </div>
