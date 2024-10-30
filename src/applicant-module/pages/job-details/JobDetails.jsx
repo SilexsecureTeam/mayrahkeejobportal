@@ -99,27 +99,27 @@ const JobDetails = () => {
                     </div>
 
                     <div className="space-y-3 border-b pb-4">
-                        <div className="flex justify-between">
+                        <div className="flex flex-wrap justify-between gap-2">
                             <p>Apply Before</p>
                             <p className="font-medium">{job.application_deadline_date}</p>
                         </div>
-                        <div className="flex justify-between">
+                        <div className="flex flex-wrap justify-between gap-2">
                             <p>Job Posted On</p>
                             <p className="font-medium">{postedDate.toLocaleDateString()}</p>
                         </div>
-                        <div className="flex justify-between">
+                        <div className="flex flex-wrap justify-between gap-2">
                             <p>Email</p>
                             <p className="font-medium">{job.email}</p>
                         </div>
-                        <div className="flex justify-between">
+                        <div className="flex flex-wrap justify-between gap-2">
                             <p>Job Type</p>
                             <p className="font-medium">{job.type}</p>
                         </div>
-                        <div className="flex justify-between">
+                        <div className="flex flex-wrap justify-between gap-2">
                             <p>Salary Type</p>
                             <p className="font-medium">{job.salary_type}</p>
                         </div>
-                        <div className="flex justify-between">
+                        <div className="flex flex-wrap justify-between gap-2">
                             <p>Currency</p>
                             <p className="font-medium">{job.currency}</p>
                         </div>
