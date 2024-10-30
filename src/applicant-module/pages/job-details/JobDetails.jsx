@@ -23,7 +23,7 @@ const JobDetails = () => {
     const keywordArr = job.search_keywords?.split(',');
 
     return (
-        <div className="w-full h-full text-[#25324b]">
+        <div className="w-full min-h-full text-[#25324b]">
             {/* Header Section */}
             <div
                 className="sticky top-0 bg-white z-50 p-6 border-b mb-8 shadow-md"
