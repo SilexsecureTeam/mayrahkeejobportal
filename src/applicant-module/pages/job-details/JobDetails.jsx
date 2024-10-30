@@ -109,7 +109,7 @@ const JobDetails = () => {
                         </div>
                         <div className="flex flex-wrap justify-between gap-2">
                             <p>Email</p>
-                            <p className="font-medium">{job.email}</p>
+                            <p className="font-medium break-words">{job.email}</p>
                         </div>
                         <div className="flex flex-wrap justify-between gap-2">
                             <p>Job Type</p>
