@@ -173,10 +173,10 @@ function CartedStaffs() {
         </div>
       </div>):(<h2 className="text-lg font-bold mb-4">Cart Empty</h2>)}
 
-      {cartItems && cartItems.length > 0 && (
+      {cartItems && cartItems.length !== 0 && (
         <div className="flex flex-col gap-3 mt-5 w-full">
           <ul className="w-full grid grid-cols-responsive gap-4">
-            {cartItems.map((current) => (
+            {cartItems?.map((current) => (
               <StaffCard
                 key={current?.id}
                 data={current}
