@@ -3,7 +3,11 @@ import CustomizedCheckbox from './CustomizedCheckbox'
 import { FaChevronDown, FaChevronUp } from 'react-icons/fa'
 
 const SalaryCategory = ({ setSalaryRange }) => {
+<<<<<<< HEAD
     const [close, setClose] = useState(true)
+=======
+    const [close, setClose] = useState(false)
+>>>>>>> afowebdev
     return (
         <div>
             <div className="mb-5">

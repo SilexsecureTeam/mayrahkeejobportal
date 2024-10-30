@@ -80,7 +80,7 @@ function useApplicantRoute() {
 
     const onlineStatusRef = ref(
       database,
-      "online-status/" + `candidate-${authDetails.user.id}`
+      "online-status/" + `candidate-${authDetails?.user.id}`
     );
 
     const handleUnload = () => {
@@ -104,7 +104,7 @@ function useApplicantRoute() {
     };
   }, []);
 
-  return authDetails.user.role === "candidate" ? (
+  return authDetails?.user.role === "candidate" ? (
     <ApplicantRouteContextProvider setSideBar={setSideBar}>
       <main className="h-screen w-screen  flex">
         <ResourceContextProvider>

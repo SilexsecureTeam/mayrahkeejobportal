@@ -7,15 +7,6 @@ import BasicJobInput from "./BasicJobInput";
 import QualificationsForm from "./QualificationsForm";
 import SelectorInput from "./SelectorInput";
 
-// {
-//   id: 4,
-//   name: "introduction_video_url",
-//   label: "Introduction Video url",
-//   type: "text",
-//   placeholder: "e.g https://writerposition.com",
-//   prompt: 'Here you enter job video url'
-// },
-
 const basic_inputs = [
   {
     id: 1,
@@ -39,9 +30,8 @@ const basic_inputs = [
     label: "Application Age Limit",
     type: "number",
     placeholder: "e.g 18",
-    prompt: "Here you input prefered average age (years)",
+    prompt: "Here you input preferred average age (years)",
   },
-
   {
     id: 4,
     name: "application_deadline_date",
@@ -80,7 +70,7 @@ const basic_inputs = [
     label: "Minimum years of Experience",
     type: "number",
     placeholder: "e.g 2 years",
-    prompt: "Here you specify experiece in years",
+    prompt: "Here you specify experience in years",
   },
 ];
 
@@ -176,15 +166,13 @@ function BasicInformation({ setCurrentStep, data, jobUtils }) {
 
   const getPhotoURL = (e) => {
     const { name } = e.target;
-    const file = e.target.files[0]; //filelist is an object carrying all details of file, .files[0] collects the value from key 0 (not array), and stores it in file
+    const file = e.target.files[0];
 
     if (file && (file.type === "image/jpeg" || file.type === "image/png")) {
-      // You can also perform additional actions with the valid file
       const generatedUrl = URL.createObjectURL(file);
       setPhotoUrl(generatedUrl);
       jobUtils.setDetails({ ...jobUtils.details, [name]: file });
     } else {
-      // Handle invalid file type
       alert("Please select a valid JPEG or PNG file.");
     }
   };
@@ -199,32 +187,28 @@ function BasicInformation({ setCurrentStep, data, jobUtils }) {
   }, [selectedCurrency, selectedGender, selectedSalary]);
 
   return (
-    <div className="flex w-full flex-col p-2">
+    <div className="flex flex-col w-full p-4 gap-4">
       {/* Basic Info */}
-      <div className="flex flex-col gap-[15px] border-b pb-2">
-        <h3 className="text-gray-700 text-sm font-semibold">
-          Basic Information
-        </h3>
-        <span className="text-little text-gray-400">
+      <div className="flex flex-col gap-4 border-b pb-2">
+        <h3 className="text-gray-700 text-lg font-semibold">Basic Information</h3>
+        <span className="text-sm text-gray-400">
           This Information will be displayed publicly
         </span>
       </div>
 
       {/* Featured Image */}
-      <div className="flex gap-[15%] items-center border-b py-2 text-little ">
-        <div className="flex flex-col w-full max-w-[25%] gap-[10px]">
-          <h3 className="text-gray-700 text-sm font-semibold">
-            Featured Image
-          </h3>
-          <span className="text-little text-gray-400">
+      <div className="flex flex-col sm:flex-row gap-4 items-center border-b py-4">
+        <div className="flex flex-col w-full sm:max-w-[25%] gap-2">
+          <h3 className="text-gray-700 text-sm font-semibold">Featured Image</h3>
+          <span className="text-xs text-gray-400">
             Here you upload image for job
           </span>
         </div>
 
-        <div className="flex flex-col gap-[3px] ">
+        <div className="flex flex-col gap-2 items-center">
           <label
             htmlFor="photo_url"
-            className="text-little text-primaryColor hover:underline cursor-pointer"
+            className="text-sm text-primaryColor hover:underline cursor-pointer"
           >
             Upload
           </label>
@@ -233,7 +217,7 @@ function BasicInformation({ setCurrentStep, data, jobUtils }) {
               <img
                 src={photoUrl}
                 alt=""
-                className="h-full w-full object-cover bg-red-300"
+                className="h-full w-full object-cover"
               />
             )}
             <input
@@ -242,37 +226,35 @@ function BasicInformation({ setCurrentStep, data, jobUtils }) {
               name="featured_image"
               type="file"
               className="hidden"
-              placeholder={data.placeholder}
             />
           </div>
-
-          <span className="text-[10px] text-gray-400">Only Jpeg or png</span>
+          <span className="text-xs text-gray-400">Only JPEG or PNG</span>
         </div>
       </div>
 
       {/* Basic Inputs */}
       {basic_inputs.map((current) => (
-        <BasicJobInput data={current} jobUtils={jobUtils} />
+        <BasicJobInput key={current.id} data={current} jobUtils={jobUtils} />
       ))}
 
       {/* Employment Types */}
-      <div className="flex gap-[15%] border-b py-2 ">
-        <div className="flex flex-col gap-[10px] w-full max-w-[25%]">
+      <div className="flex flex-col sm:flex-row gap-4 border-b py-4">
+        <div className="flex flex-col gap-2 w-full sm:max-w-[25%]">
           <h3 className="text-gray-700 text-sm font-semibold">
             Type of Employment
           </h3>
-          <span className="text-little text-gray-400">
+          <span className="text-xs text-gray-400">
             You can select multiple types of employment
           </span>
         </div>
 
-        <div className="flex flex-col gap-[3px] ">
-          {job_types.map((current, index) => (
+        <div className="flex flex-col gap-2">
+          {job_types.map((current) => (
             <JobTypeItem
+              key={current.id}
               selectedType={selectedType}
               toogleSelectedType={toogleSelectedType}
               data={current}
-              key={index}
               jobUtils={jobUtils}
             />
           ))}
@@ -287,7 +269,7 @@ function BasicInformation({ setCurrentStep, data, jobUtils }) {
         key={1}
         data={{
           label: "Gender",
-          prompt: "Here you select prefered Gender",
+          prompt: "Here you select preferred Gender",
           name: "gender",
         }}
         listData={genderData}
@@ -323,22 +305,22 @@ function BasicInformation({ setCurrentStep, data, jobUtils }) {
       />
 
       {/* Salary */}
-      <div className="flex gap-[15%]  border-b py-2 ">
-        <div className="flex flex-col max-w-[25%] w-full gap-[10px]">
+      <div className="flex flex-col sm:flex-row gap-4 border-b py-4">
+        <div className="flex flex-col gap-2 sm:max-w-[25%] w-full">
           <h3 className="text-gray-700 text-sm font-semibold">Salary</h3>
-          <span className="text-little text-gray-400">
+          <span className="text-xs text-gray-400">
             Please specify the estimated salary range for the role. *You can
-            leave this blank
+            leave this blank.
           </span>
         </div>
 
-        <div className="flex flex-col gap-[20px] justify-center w-[20%]">
-          <div className="flex items-center text-little text-gray-700 justify-between">
-            <span className="border p-1 ">
+        <div className="flex flex-col w-full sm:w-[50%] gap-4">
+          <div className="flex items-center justify-between">
+            <span className="border p-1">
               {FormatPrice(jobUtils.details.min_salary)}
             </span>
             <span>to</span>
-            <span className="border p-1 ">
+            <span className="border p-1">
               {FormatPrice(jobUtils.details.max_salary)}
             </span>
           </div>
@@ -364,7 +346,7 @@ function BasicInformation({ setCurrentStep, data, jobUtils }) {
 
       <button
         onClick={() => setCurrentStep(data[1])}
-        className="p-2 place-self-end mt-[10px] font-semibold w-fit text-little bg-primaryColor text-white"
+        className="p-2 place-self-end mt-4 font-semibold w-fit text-sm bg-primaryColor text-white"
       >
         Next Step
       </button>

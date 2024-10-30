@@ -58,7 +58,11 @@ function Application() {
       <Helmet>
         <title>Dashboard | My Application </title>
       </Helmet>
+<<<<<<< HEAD
       <div className="h-full p-8 w-full text-sm text-primary">
+=======
+      <div className="h-full p-8 px-5 md:px-8 w-full text-sm text-primary">
+>>>>>>> afowebdev
         <div className="text-sm">
           <div className="flex justify-between align-center">
             <div className="">
@@ -66,7 +70,11 @@ function Application() {
               <p>Here is what’s happening with your job search applications from {generateDateRange()}</p>
             </div>
             <div>
+<<<<<<< HEAD
               <button className="border p-2 flex items-center hover:bg-gray-100">{generateDateRange()}  <RiCalendarEventLine className="ml-2 prime_text" size={15} /></button>
+=======
+              <button className="border p-2 flex items-center hover:bg-gray-100 text-xs md:text-sm">{generateDateRange()}  <RiCalendarEventLine className="ml-2 prime_text" size={15} /></button>
+>>>>>>> afowebdev
             </div>
           </div>
           <div className="my-6">
@@ -91,6 +99,7 @@ function Application() {
               </div>
             )}
           </div>
+<<<<<<< HEAD
           <div className="flex border-b mb-6">
             <button
               onClick={() => handleView("all")}
@@ -112,6 +121,29 @@ function Application() {
               className={`mx-2 p-2 hover:text-gray-500 ${view === "hired" ? "border-b-2 border-green-600 font-medium" : ""}`}>Hired (0)</button>
           </div>
           <div className="flex justify-between items-center">
+=======
+          <div className="flex border-b mb-6 min-w-full overflow-auto">
+            <button
+              onClick={() => handleView("all")}
+              className={`mx-2 p-2 hover:text-gray-500 ${view === "all" ? "sticky left-0 bg-gray-200 border-b-2 border-green-600 font-medium" : ""}`}>All ({allApplications?.length})</button>
+            <button
+              onClick={() => handleView("review")}
+              className={`mx-2 p-2 hover:text-gray-500 ${view === "review" ? "sticky left-0 bg-gray-200 border-b-2 border-green-600 font-medium" : ""}`}>In Review ({pendingReview?.length})</button>
+            <button
+              onClick={() => handleView("interview")}
+              className={`mx-2 p-2 hover:text-gray-500 ${view === "interview" ? "sticky left-0 bg-gray-200 border-b-2 border-green-600 font-medium" : ""}`}>shortlisted ({pendingInterview?.length})</button>
+            <button
+              onClick={() => handleView("assesment")}
+              className={`mx-2 p-2 hover:text-gray-500 ${view === "assesment" ? "sticky left-0 bg-gray-200 border-b-2 border-green-600 font-medium" : ""}`}>interview (0)</button>
+            <button
+              onClick={() => handleView("offered")}
+              className={`mx-2 p-2 hover:text-gray-500 ${view === "offered" ? "sticky left-0 bg-gray-200 border-b-2 border-green-600 font-medium" : ""}`}>Offered (0)</button>
+            <button
+              onClick={() => handleView("hired")}
+              className={`mx-2 p-2 hover:text-gray-500 ${view === "hired" ? "sticky left-0 bg-gray-200 border-b-2 border-green-600 font-medium" : ""}`}>Hired (0)</button>
+          </div>
+          <div className="flex flex-wrap justify-between items-center">
+>>>>>>> afowebdev
             <p className="font-bold">Applications {view}</p>
             <div className="flex items-start">
               <div className="">

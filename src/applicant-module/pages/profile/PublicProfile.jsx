@@ -39,17 +39,28 @@ function PublicProfile() {
       <Helmet>
         <title>Dashboard | Public Profile </title>
       </Helmet>
+<<<<<<< HEAD
       <div className="h-full w-full p-8">
         <div className="flex">
           <div className="md:w-[70%]">
+=======
+      <div className="h-full w-full p-8 px-5 md:px-8">
+        <div className="flex flex-wrap">
+          <div className="w-full md:w-2/3">
+>>>>>>> afowebdev
             <div className="border">
               <div className="bg_layout p-4 h-[150px]" style={{ backgroundImage: bgImage}}>
                 <div className="flex justify-end text-white">
                   {/* <button className="p-1 border border-white hover:text-gray-200"><FaRegEdit /></button> */}
                 </div>
               </div>
+<<<<<<< HEAD
               <div className="p-4 flex">
                 <div className="mr-5">
+=======
+              <div className="p-4 flex flex-wrap md:flex-nowrap">
+                <div className="">
+>>>>>>> afowebdev
                   <div className="-mt-[50%] size-[120px] bg-gray-30">
                     <img src={`${IMAGE_URL}/${candidate?.profile}`} className=" ring-white ring-4 rounded-full " alt="profile image" />
                   </div>
@@ -140,7 +151,11 @@ function PublicProfile() {
               </div>
             </div>
           </div>
+<<<<<<< HEAD
           <div className="md:w-[30%] px-3">
+=======
+          <div className="w-full md:w-1/3 px-3">
+>>>>>>> afowebdev
             <div className="border p-2 mb-4">
               <div className="flex justify-between">
                 <p className="font-bold ">Additional Details</p>

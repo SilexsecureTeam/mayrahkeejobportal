@@ -203,103 +203,106 @@ function StaffCard({
           </FormButton>
         </div>
       </PopUpBox>
+      <div className="relative pt-[50px] my-[50px] min-h-fit flex gap-2 shadow-[0_0_2px_#ccc] rounded-lg flex-col justify-between p-3 md:p-5 border">
+        {getField("profile_image") ? (
+          <img
+            src={`${resourceUrl}${getField("profile_image")}`}
+            className="absolute left-0 right-0 mx-auto top-[-50px] h-[100px] place-self-center w-[100px] rounded-full "
+            alt=""
+          />
+        ) : (
+          <img
+            src={`/placeholder.png`}
+            className="absolute left-0 right-0 mx-auto top-[-50px] h-[100px] bg-gray-300 place-self-center w-[100px] rounded-full "
+            alt=""
+          />
+        )}
 
-      <div className="flex flex-col  justify-end relative pt-12 mb-5">
-        <div className="absolute top-16 left-[35%]">
-          {getField("profile_image") ? (
-            <img
-              src={`${resourceUrl}${getField("profile_image")}`}
-              className="h-[80px] place-self-center w-[80px] rounded-full "
-              alt=""
-            />
-          ) : (
-            <img
-              src={`/placeholder.png`}
-              className="h-[80px] bg-gray-300 place-self-center w-[80px] rounded-full "
-              alt=""
-            />
-          )}
+        <div className="flex flex-col gap-2 py-2 mt-[50px]">
+          <span className="flex items-center gap-2 text-md font-semibold">
+            Name:
+            <span className="text-sm font-normal text-gray-500">
+              {getField("first_name")} {getField("surname")}
+            </span>
+          </span>
+
+          <span className="flex gap-2 items-center text-md font-semibold">
+            Age Range:
+            <span className="text-sm font-normal text-gray-500">
+              {getField("age")} Years
+            </span>
+          </span>
+
+          <span className="flex gap-2 items-center text-md font-semibold">
+            Category:
+            <span className="text-sm font-normal text-gray-500">
+              {getField("subcategory")}
+            </span>
+          </span>
+
+          <span className="flex gap-2 items-center text-md truncate font-semibold">
+            Education:
+            <span className="text-sm font-normal text-gray-500">
+              {getField("education_level")}
+            </span>
+          </span>
         </div>
-        <div className="min-h-[85%] flex bg-gray-50 gap-2 shadow-sm  rounded-lg flex-col justify-between px-3 py-2 pt-12 mt-16 border min-w-fit">
-          <div className="flex flex-col items-center gap-2  ">
-            <span className="flex items-center min-w-[80%] justify-between gap-2 text-md font-semibold">
-              Name:
-              <span className="text-sm font-normal text-start w-[50%] text-gray-500">
-                {getField("first_name")} {getField("surname")}
-              </span>
-            </span>
 
-            <span className="flex gap-2 min-w-[80%] justify-between items-center text-md font-semibold">
-              Age Range:
-              <span className="text-sm font-normal text-start w-[50%] text-gray-500">
-                {getField("age")} Years
-              </span>
-            </span>
-
-            <span className="flex gap-2 min-w-[80%] justify-between items-center text-md font-semibold">
-              Category:
-              <span className="text-sm font-normal text-start w-[50%] text-gray-500">
-                {getField("subcategory")}
-              </span>
-            </span>
-
-            <span className="flex gap-2 min-w-[60%] justify-between items-center text-md truncate font-semibold">
-              Education:
-              <span className="text-sm font-normal text-gray-500">
-                {getField("education_level")}
-              </span>
-            </span>
-          </div>
-
-          {!contract && (
-            <div className="w-full flex  flex-col-reverse gap-2">
-              {cartItems.find((current) => {
-                return data.id === current.domestic_staff_id;
-              }) ? (
-                <div className="flex  flex-col gap-2 items-center">
-                  <p className="flex items-center gap-2 p-2 text-md text-primaryColor">
-                    {" "}
-                    <MdCheck /> Aready in Cart
-                  </p>
-                  <FormButton
-                    loading={cartloading}
-                    onClick={removeFromCart}
-                    height="h-fit bg-red-500 text-sm py-3 rounded-none"
-                  >
-                    Remove from cart
-                  </FormButton>
-                </div>
-              ) : (
-                <div className="flex  flex-col gap-2 items-center">
-                  <p className="flex items-center gap-2 p-2 text-md text-primaryColor">
-                    {" "}
-                    N10,000
-                  </p>
-                  <FormButton
-                    loading={cartloading}
-                    onClick={addToCart}
-                    height="h-fit text-sm py-3 rounded-none px-1"
-                  >
-                    Add to Cart
-                  </FormButton>
-                </div>
-              )}
-            </div>
-          )}
-          {contract && (
-            <PaystackConsumer {...config(handleSuccess)}>
-              {({ initializePayment }) => (
+        {!contract && (
+          <div className="w-full flex flex-col gap-2">
+            {cartItems.find((current) => {
+              return data.id === current.domestic_staff_id;
+            }) ? (
+              <div className="flex  flex-col gap-2 items-center">
+                {/* <p className="flex items-center gap-2 p-2 text-md text-primaryColor">
+                  {" "}
+                  <MdCheck /> Aready in Cart
+                </p> */}
+                <FormButton
+                height="h-fit text-sm p-2 bg-[#47AA49]"
+              >
+                Amount: NGN {'5,000'}
+              </FormButton>
+             
                 <FormButton
                   loading={cartloading}
-                  height="h-fit text-sm p-1"
-                  onClick={initializePayment}
+                  onClick={removeFromCart}
+                  height="h-fit bg-red-500 text-sm p-2"
                 >
-                  Sign
+                  Remove from cart
                 </FormButton>
-              )}
-            </PaystackConsumer>
-          )}
-        </div>
+              </div>
+            ) : (
+              <>
+              <FormButton
+                height="h-fit text-sm p-2 bg-[#47AA49]"
+              >
+                Amount: NGN {'5,000'}
+              </FormButton>
+              <FormButton
+                loading={cartloading}
+                onClick={addToCart}
+                height="h-fit text-sm p-2"
+              >
+                Add to Cart
+              </FormButton>
+              </>
+            )}
+          </div>
+        )}
+        {contract && (
+          <PaystackConsumer {...config(handleSuccess)}>
+            {({ initializePayment }) => (
+              <FormButton
+                loading={cartloading}
+                height="h-fit text-sm p-1"
+                onClick={initializePayment}
+              >
+                Sign
+              </FormButton>
+            )}
+          </PaystackConsumer>
+        )}
       </div>
     </>
   );
