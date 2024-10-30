@@ -27,7 +27,7 @@ const JobDetails = () => {
             {/* Header Section */}
             <div className="p-6 border-b mb-8">
                 <div className="p-6 bg-white border rounded-md">
-                    <div className="flex flex-wrap justify-between items-center">
+                    <div className="flex gap-2 flex-wrap justify-between items-center">
                         {/* Left Section: Job Info */}
                         <div className="flex items-start space-x-4">
                             <img src={headerImg} alt="Header Logo" className="w-20" />
