@@ -9,10 +9,10 @@ function ListingRow({ data, applicants }) {
   return (
     <tr
       onClick={navigateJobTypeDetails}
-      className="border-b cursor-pointer odd:bg-black odd:text-white hover:bg-primaryColor hover:text-white  text-little"
+      className="border-b cursor-pointer odd:bg-[#e7efe6] hover:bg-green-200 text-gray-700  text-little"
     >
       <td className="text-center py-[5px]">
-        <div className="flex justify-center items-center gap-[5px]">
+        <div className="flex justify-center font-semibold items-center gap-[5px]">
           <span>{data.job_title}</span>
         </div>
       </td>
