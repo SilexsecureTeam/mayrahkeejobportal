@@ -6,9 +6,9 @@ function PostingHeader({ currentStep, jobSteps, setCurrentStep }) {
     <div className="w-full flex flex-col gap-[10px]">
       <h2 className="text-md font-bold">Post a Job</h2>
 
-      <ul className="border p-2 w-full flex justify-between  items-center">
+      <ul className="border p-2 w-full flex justify-between items-center">
         <li
-          className={`flex items-center jus w-[30%] gap-[10px] ${
+          className={`flex items-center md:w-[30%] gap-[10px] ${
             currentStep.id === jobSteps[0].id
               ? "text-primaryColor"
               : "text-gray-400"
@@ -34,7 +34,7 @@ function PostingHeader({ currentStep, jobSteps, setCurrentStep }) {
         </li>
         <hr className="h-[70%] w-[1px] bg-gray-200" />
         <li
-          className={`flex items-center pl-[5px] w-[30%] gap-[10px] ${
+          className={`flex items-center pl-[5px] md:w-[30%] gap-[10px] ${
             currentStep.id === jobSteps[1].id
               ? "text-primaryColor"
               : "text-gray-400"
