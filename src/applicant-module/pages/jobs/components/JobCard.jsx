@@ -39,7 +39,7 @@ const JobCard = ({ newApplicant, job, getAllApplications }) => {
                 <div className="mt-4 md:mt-0 flex items-center">
                     <button
                         disabled={hasApplied}
-                        className={`w-full md:w-[150px] py-2 text-white rounded-md transition-colors ${
+                        className={`w-full md:w-[150px] p-2 text-white rounded-md transition-colors ${
                             hasApplied
                                 ? 'bg-gray-400 cursor-not-allowed'
                                 : 'bg-green-700 hover:bg-green-900'
