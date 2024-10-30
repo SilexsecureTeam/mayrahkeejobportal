@@ -6,7 +6,7 @@ import { AuthContext } from "../../../context/AuthContex";
 import { onFailure } from "../../../utils/notifications/OnFailure";
 import { MdClose } from "react-icons/md";
 import SearchComponent from "../../../components/staffs/SearchComponent";
-import { FaExclamationCircle } from "react-icons/fa";
+import { FaExclamationCircle, FaShoppingCart } from "react-icons/fa";
 import StaffCard from "../../../components/staffs/StaffCard";
 import PopUpBox from "../../../components/PopUpBox";
 import FormButton from "../../../components/FormButton";
