@@ -13,7 +13,7 @@ import MarketPlace from "./marketplace/MarketPlace";
 
 function CartedStaffs() {
   const location = useLocation();
-  const { data } = location?.state ? location.data : {data: null};
+  const { data } = location?.state ? location?.state : {data: null};
   const navigate = useNavigate();
   const { authDetails } = useContext(AuthContext);
   const client = axiosClient(authDetails.token);
