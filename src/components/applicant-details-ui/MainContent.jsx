@@ -26,40 +26,36 @@ const MainContent = ({ workExperience }) => {
       <div className="border-b mb-4">
         <nav className="flex space-x-8 text-gray-700 overflow-x-auto">
           {/* Update active tab when each link is clicked */}
-          
+
           <a
             href="#"
             onClick={() => setActiveTab("Applicant Profile")}
-            className={`pb-2 ${
-              activeTab === "Applicant Profile" ? "font-semibold border-b-2 border-green-500" : ""
-            }`}
+            className={`pb-2 ${activeTab === "Applicant Profile" ? "font-semibold border-b-2 border-green-500" : ""
+              }`}
           >
             Applicant Profile
           </a>
           <a
             href="#"
             onClick={() => setActiveTab("Guarantors")}
-            className={`pb-2 ${
-              activeTab === "Guarantors" ? "font-semibold border-b-2 border-green-500" : ""
-            }`}
+            className={`pb-2 ${activeTab === "Guarantors" ? "font-semibold border-b-2 border-green-500" : ""
+              }`}
           >
             Guarantors
           </a>
           <a
             href="#"
             onClick={() => setActiveTab("Medical History")}
-            className={`pb-2 ${
-              activeTab === "Medical History" ? "font-semibold border-b-2 border-green-500" : ""
-            }`}
+            className={`pb-2 ${activeTab === "Medical History" ? "font-semibold border-b-2 border-green-500" : ""
+              }`}
           >
             Medical History
           </a>
           <a
             href="#"
             onClick={() => setActiveTab("Police Report")}
-            className={`pb-2 ${
-              activeTab === "Police Report" ? "font-semibold border-b-2 border-green-500" : ""
-            }`}
+            className={`pb-2 ${activeTab === "Police Report" ? "font-semibold border-b-2 border-green-500" : ""
+              }`}
           >
             Police Report
           </a>
@@ -82,16 +78,16 @@ const MainContent = ({ workExperience }) => {
         <div className="space-y-3">
           {workExperience.map((job, index) => (
             <div className={`${index !== 0 && "border-t border-gray-300"} flex gap-2 pt-3`} key={index}>
-            <TbBriefcase2 size="24" className="flex-shrink-0 mr-2" />
+              <TbBriefcase2 size="24" className="flex-shrink-0 mr-2" />
               <section>
-              <h5 className="font-semibold">{job.title}</h5>
-              <p className="text-gray-500">
-                {job.company} • {job.startDate} - {job.endDate}
-              </p>
-              <p className="text-gray-600 mt-2">{job.description}</p>
-              <button className="text-gray-800 underline font-medium mt-2">Show more</button>
-                          </section>
-              </div>
+                <h5 className="font-semibold">{job.title}</h5>
+                <p className="text-gray-500">
+                  {job.company} • {job.startDate} - {job.endDate}
+                </p>
+                <p className="text-gray-600 mt-2">{job.description}</p>
+                <button className="text-gray-800 underline font-medium mt-2">Show more</button>
+              </section>
+            </div>
           ))}
         </div>
       </section>
