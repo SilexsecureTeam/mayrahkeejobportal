@@ -7,10 +7,9 @@ const JobLevelCategory = ({ setJobLevel }) => {
     return (
         <div>
             <div className="mb-5">
-                <div className="flex justify-between">
+                <div onClick={() => setClose(!close)} className="flex justify-between cursor-pointer">
                     <p className="font-bold">Job Level</p>
                     <button
-                        onClick={() => setClose(!close)}
                     >{close ? <FaChevronUp /> : <FaChevronDown />}</button>
                 </div>
                 {close && (

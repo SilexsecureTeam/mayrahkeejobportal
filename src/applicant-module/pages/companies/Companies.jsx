@@ -59,20 +59,20 @@ function Companies() {
         <title>Dashboard | Browse Companies </title>
       </Helmet>
       <div className="h-full text-[#25324b] p-4 md:p-8 text-sm w-full">
-        <div className="px-3 py-5 border mb-2 flex flex-col md:flex-row">
-          <div className="relative border-b py-1 px-6 mx-4 w-full md:w-[35%]">
+        <div className="px-3 py-5 border mb-2 flex flex-col items-center md:flex-row">
+          <div className="flex items-center relative border-b py-2 px-6 mx-4 w-full md:w-[35%]">
             <input type="text" placeholder="Company title or keyword" className="pl-[10px] focus:outline-none w-full" />
             <span className="absolute text-primary top-0 left-0 p-2">
               <CiSearch size={20} />
             </span>
           </div>
-          <div className="relative border-b py-1 px-6 mx-4 w-full md:w-[35%]">
+          <div className="flex items-center relative border-b py-2 px-6 mx-4 w-full md:w-[35%]">
             <input type="text" placeholder="Florence, Italy" className="pl-[10px] focus:outline-none w-full" />
             <span className="absolute text-primary top-0 left-0 p-2">
               <GrLocation size={20} />
             </span>
           </div>
-          <button className="bg-green-700 text-white py-2 px-6 hover:bg-green-900 font-medium mt-2 md:mt-0">Search</button>
+          <button className="self-start bg-green-700 text-white py-2 px-6 hover:bg-green-900 font-medium mt-2 md:mt-0">Search</button>
         </div>
         <p>Popular: Twitter, Microsoft, Apple, Facebook</p>
         <div className="my-6">
@@ -113,9 +113,9 @@ function Companies() {
                   </div>
                 </div>
                 {getAllCompanies.data && (
-                  <div className="max-h-[75vh] overflow-y-auto thin_scroll_bar">
+                  <div className="min-h-full overflow-y-auto thin_scroll_bar">
                     {isGrid ? (
-                      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                         {currentTableData?.map((company) => (
                           <CompanyGridCard key={company.id} company={company} newApplicant={newApplicant} />
                         ))}

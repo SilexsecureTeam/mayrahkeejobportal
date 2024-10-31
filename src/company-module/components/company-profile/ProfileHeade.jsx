@@ -22,9 +22,9 @@ function ProfileHeader({ children, isOpen, setIsOpen, details }) {
 
   return (
     <div className="w-full h-[50vh] md:h-[25%] border flex flex-col md:flex-row">
-      <div className="w-[10%] flex items-center justify-center relative">
+      <div className="w-fit mx-2 flex items-center justify-center relative">
         <img
-          className="h-[80px] w-[80px] rounded-full"
+          className="max-h-[80px] max-w-[80px] rounded-full"
           src={details?.logo_image ? `${resourceUrl}/${details?.logo_image}` : wheelIcon}
         />
       </div>

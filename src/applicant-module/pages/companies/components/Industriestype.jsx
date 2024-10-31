@@ -7,10 +7,9 @@ const Insdustriestype = ({ setIndustry }) => {
     return (
         <div>
             <div className="mb-5">
-                <div className="flex justify-between">
-                    <p className="font-bold">Indusries</p>
+                <div onClick={() => setClose(!close)} className="cursor-pointer flex justify-between">
+                    <p className="font-bold">Industries</p>
                     <button
-                        onClick={() => setClose(!close)}
                     >{close ? <FaChevronUp /> : <FaChevronDown />}</button>
                 </div>
                 {close && (

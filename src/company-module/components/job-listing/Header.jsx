@@ -1,6 +1,6 @@
 function Header({ options, currentOption, setCurrentOption }) {
   return (
-    <div className=" w-full justify-between gap-[10px] border-b flex flex-col">
+    <div className="w-full justify-between gap-[10px] border-b flex flex-col">
       <div className="flex w-full justify-between ">
         <div className="flex flex-col gap-[5px]">
           <h1 className="font-semibold">Social Media Assistant</h1>
@@ -14,7 +14,7 @@ function Header({ options, currentOption, setCurrentOption }) {
         </button>
       </div>
 
-      <ul className="flex gap-[10px] ">
+      <ul className="flex flex-wrap gap-[10px] ">
         {options.map((current) => (
           <li
             onClick={() => setCurrentOption(current)}
