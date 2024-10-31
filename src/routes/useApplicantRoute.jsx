@@ -10,6 +10,7 @@ import { ref, set } from "firebase/database";
 import { database } from "../utils/firebase";
 import StaffInformation from "../staff-module/pages/verifications/StaffInformation";
 import CartedStaffs from "../components/staffs/CartedStaffs";
+import ApplicantDetails from "../components/applicant-details-ui/ApplicantDetails";
 
 //Util Components
 const NavBar = lazy(() => import("../applicant-module/components/NavBar"));
@@ -49,7 +50,9 @@ const Artisan = lazy(() =>
 const DomesticStaffs = lazy(() =>
   import("../applicant-module/pages/staffs/DomesticStaffs")
 );
-
+const SuccessPage=lazy(() =>
+  import("../components/SuccessPage")
+);
 
 const ShortListedDetails = lazy(() =>
   import("../applicant-module/pages/shortlisted/ShortListedDetails")
@@ -165,6 +168,12 @@ function useApplicantRoute() {
 
                 <Route path="artisan" element={<Artisan />} />
                 <Route path="domestic-staffs" element={<DomesticStaffs />} />
+                
+                {/* testing routes */}
+                <Route path="success" element={<SuccessPage />} />
+                <Route path="applicant-detail" element={<ApplicantDetails />} />
+
+
                 <Route
                   path="staff/:category/:id"
                   element={<StaffInformation />}
