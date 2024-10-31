@@ -2,24 +2,24 @@ import { useState } from "react";
 import ApplicantsList from "./ApplicantsList";
 import ApplicantsGrid from "./ApplicantsGrid";
 
-function Applicants({ applicants }) {
+function Applicants({applicants}) {
   const [view, setView] = useState("grid");
 
   return (
-    <div className="p-2 flex flex-col w-full gap-[10px]">
-      <div className="flex flex-col gap-2 md:flex-row justify-between items-center">
-        <span className="w-full text-sm md:text-base">Total Applicants: {applicants.length}</span>
+    <div className="p-1 flex flex-col w-full gap-[10px]">
+      <div className="flex justify-between items-center">
+        <span>Total Applicants: 19</span>
 
-        <div className="w-full flex flex-col md:flex-row gap-[10px]">
+        <div className="flex gap-[10px]">
           <input
-            className="py-1 px-2 border text-sm md:text-base"
+            className="py-1 px-2 border text-sm"
             placeholder="Search Applicant"
           />
 
-          <div className="p-1 bg-primaryColor flex justify-between gap-[3px]">
+          <div className="p-1 bg-primaryColor justify-between gap-[3px] flex">
             <button
               onClick={() => setView("grid")}
-              className={`h-full p-1 text-sm md:text-base ${
+              className={`h-full p-1 text-little ${
                 view === "grid"
                   ? "bg-primaryColor text-white"
                   : "bg-white text-gray-700"
@@ -29,7 +29,7 @@ function Applicants({ applicants }) {
             </button>
             <button
               onClick={() => setView("table")}
-              className={`h-full p-1 text-sm md:text-base ${
+              className={`h-full p-1 text-little ${
                 view === "table"
                   ? "bg-primaryColor text-white"
                   : "bg-white text-gray-700"

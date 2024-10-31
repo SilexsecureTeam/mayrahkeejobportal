@@ -7,7 +7,7 @@ function GridRow({ data, applicants }) {
   );
 
   return (
-    <div className="flex min-h-32 flex-col border px-2 py-1 gap-[20px] h-fit">
+    <div className="flex flex-col border px-2 py-1 gap-[20px] h-fit">
       <div
         className={`"w-full items-center border border-t-[2px] ${data.border_color}  justify-between text-little flex p-1`}
       >

@@ -7,9 +7,10 @@ const CompanySizeType = ({setCompanySize}) => {
     return (
         <div>
             <div className="mb-5">
-                <div onClick={() => setClose(!close)} className="cursor-pointer flex justify-between">
+                <div className="flex justify-between">
                     <p className="font-bold">Company Size</p>
                     <button
+                        onClick={() => setClose(!close)}
                     >{close ? <FaChevronUp /> : <FaChevronDown />}</button>
                 </div>
                 {close && (

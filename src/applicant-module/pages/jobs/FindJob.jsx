@@ -65,13 +65,13 @@ function FindJob() {
       </Helmet>
       <div className="h-full text-[#25324b] p-4 md:p-8 text-sm w-full">
         <div className="px-3 py-5 border mb-2 flex flex-col md:flex-row">
-          <div className="flex items-center relative border-b py-1 px-4 md:px-6 mx-4 w-full md:w-[35%] mb-2 md:mb-0">
+          <div className="relative border-b py-1 px-4 md:px-6 mx-4 w-full md:w-[35%] mb-2 md:mb-0">
             <input type="text" placeholder="Search messages" className="pl-[10px] focus:outline-none w-full" />
             <span className="absolute text-primary top-0 left-0 p-2">
               <CiSearch size={20} />
             </span>
           </div>
-          <div className="flex items-center relative border-b py-1 px-4 md:px-6 mx-4 w-full md:w-[35%] mb-2 md:mb-0">
+          <div className="relative border-b py-1 px-4 md:px-6 mx-4 w-full md:w-[35%] mb-2 md:mb-0">
             <input type="text" placeholder="Location" className="pl-[10px] focus:outline-none w-full" />
             <span className="absolute text-primary top-0 left-0 p-2">
               <GrLocation size={20} />

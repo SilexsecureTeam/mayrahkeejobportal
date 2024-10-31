@@ -1,5 +1,6 @@
 import GridRow from "./GridRow";
 
+
 const stages = [
   {
     id: 1,
@@ -16,14 +17,13 @@ const stages = [
     name: 'rejected',
     border_color: 'border-[#5cbbff]'
   }
-];
+]
 
-function ApplicantsGrid({ applicants }) {
+
+function ApplicantsGrid({applicants}) {
   return (
-    <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-      {stages.map(current => (
-        <GridRow key={current.id} applicants={applicants} data={current} />
-      ))}
+    <div className="w-full  grid grid-cols-3 gap-[20px] ">
+      {stages.map(current => <GridRow key={current.id} applicants={applicants} data={current}/>)}
     </div>
   );
 }
