@@ -73,8 +73,8 @@ function SideBar({
         </nav>
 
         {/* Green slide */}
-        <div class="absolute bottom-0 left-0 w-full h-32 overflow-hidden">
-          <div class="w-[120%] h-full relative bg-primaryColor transform -rotate-12 origin-bottom-right" />
+        <div className="absolute bottom-0 left-0 w-full h-32 overflow-hidden">
+          <div className="w-[120%] h-full relative bg-primaryColor transform -rotate-12 origin-bottom-right" />
         </div>
 
         {/* user info  */}

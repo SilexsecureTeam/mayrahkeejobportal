@@ -8,10 +8,10 @@ function NavBar({ state, toogleIsOpen, isOpen }) {
             onClick={toogleIsOpen}
             className="text-primarycolor md:hidden text-3xl"
           />
-      <h1 className="font-semibold text-xl">{state.title}</h1>
+      <h1 className="font-semibold text-[18px] md:text-xl leading-none">{state.title}</h1>
 
       <div className="flex justify-between items-center gap-3 pr-5">
-        <a href="https://mayrahkeeafrica.vercel.app/" className="border px-[5px] py-[3px] text-sm border-primaryColor text-primaryColor">Go to E-Learning</a>
+        <a href="https://mayrahkeeafrica.vercel.app/" className="flex-shrink-0 border px-[5px] py-[3px] text-sm border-primaryColor text-primaryColor">Go to E-Learning</a>
         <img src={verifiedIcon} className="h-[25px]"/>
       </div>
     </nav>

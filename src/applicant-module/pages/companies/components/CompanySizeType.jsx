@@ -3,7 +3,7 @@ import CustomizedCheckbox from '../../jobs/components/CustomizedCheckbox'
 import { FaChevronDown, FaChevronUp } from 'react-icons/fa'
 
 const CompanySizeType = ({setCompanySize}) => {
-    const [close, setClose] = useState(true)
+    const [close, setClose] = useState(false)
     return (
         <div>
             <div className="mb-5">
