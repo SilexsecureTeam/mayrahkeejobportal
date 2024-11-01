@@ -6,7 +6,7 @@ function Applicants({ applicants }) {
   const [view, setView] = useState("grid");
 
   return (
-    <div className="p-2 flex flex-col w-full gap-2">
+    <div className="py-2 flex flex-col w-full gap-2">
       <div className="w-full flex flex-wrap justify-between items-center gap-2">
         <span className="text-center w-full sm:w-auto">Total Applicants: 19</span>
 
