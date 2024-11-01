@@ -20,12 +20,12 @@ const CompanyDetails = () => {
 
     return (
         <div className="h-full text-[#25324b] w-full">
-            <div className='p-6 border-b mb-8'>
+            <div className='py-6 border-b mb-8'>
                 <div className="job_header p-6">
                     <div className="p-3 bg-white border">
                         <div className="flex justify-between items-center">
                             <div className="flex">
-                                <img src={headerImg} width={80} alt={`${job.company_name} logo`} />
+                                <img src={headerImg} className="object-cover" width={80} alt={`${job.company_name} logo`} />
                                 <div className="ml-3">
                                     <p className="text-base mb-4 font-bold">{job.company_name}</p>
                                     <p className="mb-3">· {job.location} · {job.type}</p>
@@ -40,10 +40,10 @@ const CompanyDetails = () => {
                 <button
                     onClick={() => navigate("/applicant/browse-companies")}
                     className='mt-4 flex items-center'>
-                    <FaArrowLeft size={20} className="mr-1" /> Back to Companies
+                    <FaArrowLeft size={20} className="mr-1" />
                 </button>
                 <div className="my-10">
-                    <div className="flex flex-col md:flex-row px-10">
+                    <div className="flex flex-col md:flex-row px-5 md:px-10">
                         <div className="w-full md:w-[80%] pr-4">
                             <div className="mb-6">
                                 <h4 className='font-bold mb-4'>Address:</h4>
@@ -54,7 +54,7 @@ const CompanyDetails = () => {
                                 <p dangerouslySetInnerHTML={{ __html: job.company_profile }} />
                             </div>
                         </div>
-                        <div className="w-full md:w-[20%] md:pl-4">
+                        <div className="w-full md:w-1/3 md:pl-4">
                             <h4 className="font-bold mb-4">More Information</h4>
                             <div className="text-sm p-2 bg-gray-100 mb-6">
                                 <div className="flex my-4 bg-gray-300">
@@ -63,19 +63,19 @@ const CompanyDetails = () => {
                                 <p><b>5 applied</b> of 10 capacity</p>
                             </div>
                             <div className="my-6 border-b">
-                                <div className="flex my-3 justify-between">
+                                <div className="flex flex-wrap my-3 justify-between">
                                     <p>Website:</p>
                                     <p className="font-medium">{job.profile_url}</p>
                                 </div>
-                                <div className="flex my-3 justify-between">
+                                <div className="flex flex-wrap my-3 justify-between">
                                     <p>Ref No:</p>
                                     <p className="font-medium">{job.rc_number}</p>
                                 </div>
-                                <div className="flex my-3 justify-between">
+                                <div className="flex flex-wrap my-3 justify-between">
                                     <p>Network:</p>
                                     <p className="font-medium">{job.network}</p>
                                 </div>
-                                <div className="flex my-3 justify-between">
+                                <div className="flex flex-wrap my-3 justify-between">
                                     <p>Founded:</p>
                                     <p className="font-medium">{job.year_of_incorporation}</p>
                                 </div>
@@ -83,17 +83,17 @@ const CompanyDetails = () => {
                                     <p>Email:</p>
                                     <p className="font-medium break-words">{job.email}</p>
                                 </div>
-                                <div className="flex my-3 justify-between">
+                                <div className="flex flex-wrap my-3 justify-between">
                                     <p>Sector:</p>
                                     <p className="font-medium">{job.sector}</p>
                                 </div>
-                                <div className="flex my-3 justify-between">
+                                <div className="flex flex-wrap my-3 justify-between">
                                     <p>Socials:</p>
                                     {job.social_media?.map((social, index) => (
                                         <Link key={index} to={social.url} className="font-medium">{social.name}</Link>
                                     ))}
                                 </div>
-                                <div className="flex my-3 justify-between">
+                                <div className="flex flex-wrap my-3 justify-between">
                                     <p>Currency:</p>
                                     <p className="font-medium">{job.currency}</p>
                                 </div>
