@@ -21,8 +21,8 @@ function Applicants({ applicants }) {
               onClick={() => setView("grid")}
               className={`h-full p-2 text-little ${
                 view === "grid"
-                  ? "bg-primaryColor text-white"
-                  : "bg-white text-gray-700"
+                 ? "bg-white text-gray-700"
+                  : "bg-primaryColor text-white"
               }`}
             >
               Pipeview
@@ -31,8 +31,8 @@ function Applicants({ applicants }) {
               onClick={() => setView("table")}
               className={`h-full p-2 text-little ${
                 view === "table"
-                  ? "bg-primaryColor text-white"
-                  : "bg-white text-gray-700"
+                  ? "bg-white text-gray-700"
+                  : "bg-primaryColor text-white"
               }`}
             >
               Tableview
