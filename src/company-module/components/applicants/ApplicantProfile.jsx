@@ -4,7 +4,7 @@ function ApplicantProfile({data, applicant}) {
       <div className="w-[80%] flex flex-col">
         <h3 className="font-semibold text-sm px-2">Personal Info</h3>
 
-        <ul className="grid grid-cols-3 text-black gap-y-2 px-2 mt-[3px]">
+        <ul className="grid grid-cols-2 md:grid-cols-3 text-black gap-y-2 px-2 mt-[3px]">
           <li className="flex flex-col">
             <span className="text-gray-800 text-sm">Full Name</span>
             <span className="font-semibold text-little">
