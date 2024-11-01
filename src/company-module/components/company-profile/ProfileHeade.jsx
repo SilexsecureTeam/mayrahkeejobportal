@@ -65,7 +65,7 @@ function ProfileHeader({ children, isOpen, setIsOpen, details }) {
         </div>
 
         {/* Attributes Section */}
-        <ul className="grid grid-cols-2 md:grid-cols-4 w-full gap-4 p-4 border-t border-gray-200">
+        <ul className="flex flex-wrap w-full gap-4 p-4 border-t border-gray-200">
           {children}
         </ul>
       </div>
