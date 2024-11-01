@@ -7,10 +7,10 @@ function Applicants({applicants}) {
 
   return (
     <div className="p-1 flex flex-col w-full gap-[10px]">
-      <div className="flex justify-between items-center">
+      <div className="flex flex-wrap justify-between items-center gap-2">
         <span>Total Applicants: 19</span>
 
-        <div className="flex gap-[10px]">
+        <div className="flex flex-wrap gap-[10px]">
           <input
             className="py-1 px-2 border text-sm"
             placeholder="Search Applicant"
