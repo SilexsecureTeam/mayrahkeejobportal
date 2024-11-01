@@ -12,11 +12,11 @@ function Applicants({ applicants }) {
 
         <div className="flex flex-wrap justify-center items-center gap-2 w-full sm:w-auto">
           <input
-            className="py-1 px-2 border text-sm"
+            className="py-2 px-2 border text-sm"
             placeholder="Search Applicant"
           />
 
-          <div className="p-1 bg-primaryColor flex justify-between gap-2">
+          <div className="w-full md:w-maxp-1 bg-primaryColor flex justify-between gap-2">
             <button
               onClick={() => setView("grid")}
               className={`h-full p-2 text-little ${
