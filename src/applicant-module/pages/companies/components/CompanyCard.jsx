@@ -17,7 +17,7 @@ const CompanyCard = ({ company, newApplicant }) => {
             <p className="font-bold">{company.company_name}</p>
             <p className="my-1">{company.location}</p>
             <p className="my-1">{company.address}</p>
-            <div className="flex flex-wrap">
+            <div className="flex flex-wrap gap-2">
               <button className="mx-2 py-1 px-2 rounded-full hover:bg-white bg-green-100 text-green-700 border">
                 Company size: {company.company_size}
               </button>
