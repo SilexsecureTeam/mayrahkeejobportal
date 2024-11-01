@@ -16,13 +16,13 @@ function Applicants({ applicants }) {
             placeholder="Search Applicant"
           />
 
-          <div className="w-full md:w-max p-1 bg-primaryColor flex justify-between gap-2">
+          <div className="p-1 bg-primaryColor flex justify-between gap-2">
             <button
               onClick={() => setView("grid")}
               className={`h-full p-2 text-little ${
                 view === "grid"
-                 ? "bg-white text-gray-700"
-                  : "bg-primaryColor text-white"
+                 ? "bg-primaryColor text-white"
+                  : "bg-white text-gray-700"
               }`}
             >
               Pipeview
@@ -31,8 +31,8 @@ function Applicants({ applicants }) {
               onClick={() => setView("table")}
               className={`h-full p-2 text-little ${
                 view === "table"
-                  ? "bg-white text-gray-700"
-                  : "bg-primaryColor text-white"
+                  ? "bg-primaryColor text-white"
+                  : "bg-white text-gray-700"
               }`}
             >
               Tableview
