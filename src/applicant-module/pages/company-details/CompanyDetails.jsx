@@ -1,3 +1,4 @@
+
 import React from 'react';
 import headerImg from "../../../assets/pngs/detail-logo.png";
 import { BsShare } from 'react-icons/bs';
@@ -130,7 +131,8 @@ const CompanyDetails = () => {
                                 </div>
                                 <h6 className="font-bold mb-3">{perk.title}</h6>
                                 <p>{perk.desc}</p>
-                            </div>
+                       
+     </div>
                         </div>
                     ))}
                 </div>
