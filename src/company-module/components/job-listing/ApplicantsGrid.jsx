@@ -22,7 +22,7 @@ const stages = [
 
 function ApplicantsGrid({applicants}) {
   return (
-    <div className="min-w-full min-h-28 overflow-x-auto grid grid-cols-1 md:grid-cols-3 gap-[20px] ">
+    <div className="min-w-full min-h-32 overflow-x-auto grid grid-cols-1 md:grid-cols-3 gap-[20px] ">
       {stages.map(current => <GridRow key={current.id} applicants={applicants} data={current}/>)}
     </div>
   );
