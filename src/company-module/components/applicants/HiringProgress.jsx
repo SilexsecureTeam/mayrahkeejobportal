@@ -121,7 +121,7 @@ function HiringProgress({ data, applicant, toogleInterview }) {
         {stages.map((current) => (
           <li
           
-            className={`w-[24%] flex uppercase items-center border font-semibold justify-center py-2 text-[11px] ${getbgcolor(
+            className={`max-w-24 flex uppercase items-center border font-semibold justify-center py-2 text-[11px] ${getbgcolor(
               current.name
             )}`}
           >
