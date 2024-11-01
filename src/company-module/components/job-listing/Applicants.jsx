@@ -8,7 +8,7 @@ function Applicants({ applicants }) {
   return (
     <div className="py-2 flex flex-col w-full gap-2">
       <div className="w-full flex flex-wrap justify-between items-center gap-2">
-        <span className="text-center w-full sm:w-auto">Total Applicants: 19</span>
+        <span className="text-center w-full sm:w-auto">Total Applicants: {applicants.length || 0}</span>
 
         <div className="flex flex-wrap justify-center items-center gap-2 w-full sm:w-auto">
           <input
