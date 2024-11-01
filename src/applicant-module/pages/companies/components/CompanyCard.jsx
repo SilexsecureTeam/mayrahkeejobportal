@@ -8,7 +8,7 @@ const CompanyCard = ({company, newApplicant }) => {
         <div
             onClick={() => navigate("/applicant/browse-companies/id", { state: { company: company} })}
             className="border cursor-pointer hover:shadow-inner my-4 p-4">
-            <div className="flex justify-between">
+            <div className="flex flex-wrap md:flex-nowrap gap-y-2 justify-between">
                 <div className="flex">
                     <div>
                         <img src={newApplicant} width={50} alt="" />
@@ -17,7 +17,7 @@ const CompanyCard = ({company, newApplicant }) => {
                         <p><b>{company.company_name}</b></p>
                         <p className="my-3">{company.location}</p>
                         <p className="my-3">{company.address}</p>
-                        <div className="flex">
+                        <div className="flex flex-wrap gap-2">
                             <button className="mx-2 py-1 px-2 rounded-full hover:bg-white  bg-green-100 text-green-700 border">Company size: {company.company_size}</button>
                             <button className="mx-2 py-1 px-2 border-yellow-500 rounded-full hover:bg-yellow-100 text-yellow-500 border">{company.sector}</button>
                             <button className="mx-2 py-1 px-2 border-green-500 rounded-full hover:bg-green-100 text-green-500 border">Since: {company.year_of_incorporation}</button>
