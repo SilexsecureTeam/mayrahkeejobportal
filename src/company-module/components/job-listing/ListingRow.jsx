@@ -43,7 +43,7 @@ function ListingRow({ data, applicants }) {
 
       <td>
         <div className="flex w-full justify-center py-[10px] items-center">
-          <button className="py-[2px] px-[5px] w-[80%] text-little border border-primaryColor rounded-[30px] text-center font-semibold">
+          <button className="py-[2px] px-[5px] min-w-[80%] text-little border border-primaryColor rounded-[30px] text-center font-semibold">
             {data?.type}
           </button>
         </div>
