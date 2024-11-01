@@ -119,7 +119,7 @@ function JobDetails({ data, jobUtils }) {
               </ul>
             </div>
 
-            <div className="flex items-center justify-between pt-2 border-t">
+            <div className="flex flex-wrap items-center justify-between pt-2 border-t">
               <div className="flex flex-col">
                 <span className="font-semibold text-sm">Office Address</span>
                 <span className="text-sm">{data?.office_address}</span>
