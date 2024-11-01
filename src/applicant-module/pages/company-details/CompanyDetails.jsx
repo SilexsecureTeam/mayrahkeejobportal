@@ -39,7 +39,7 @@ const CompanyDetails = () => {
                 </div>
                 <button
                     onClick={() => navigate("/applicant/browse-companies")}
-                    className='mt-4 flex items-center'>
+                    className='mt-4 flex items-center px-10'>
                     <FaArrowLeft size={20} className="mr-1" /> 
                 </button>
                 <div className="my-10">
