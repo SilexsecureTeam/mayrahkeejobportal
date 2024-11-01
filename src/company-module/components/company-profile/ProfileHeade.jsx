@@ -18,7 +18,7 @@ function ProfileHeader({ children, isOpen, setIsOpen, details }) {
   console.log(`${resourceUrl}/${details?.logo_image}`);
 
   return (
-    <div className="w-full h-fit bg-black border flex flex-col md:flex-row items-center md:items-start">
+    <div className="w-full h-auto border flex flex-col md:flex-row items-center md:items-start">
       {/* Profile Image Section */}
       <div className="w-full md:w-[10%] flex items-center justify-center relative p-4 md:p-0">
         <img
