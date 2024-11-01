@@ -16,7 +16,7 @@ function Applicants({ applicants }) {
             placeholder="Search Applicant"
           />
 
-          <div className="w-full md:w-maxp-1 bg-primaryColor flex justify-between gap-2">
+          <div className="w-full md:w-max p-1 bg-primaryColor flex justify-between gap-2">
             <button
               onClick={() => setView("grid")}
               className={`h-full p-2 text-little ${
