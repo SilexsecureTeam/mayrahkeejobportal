@@ -21,10 +21,10 @@ function ProfileHeader({ children, isOpen, setIsOpen, details }) {
   console.log(`${resourceUrl}/${details?.logo_image}`)
 
   return (
-    <div className="w-full h-[50vh] md:h-[25%] border flex flex-col md:flex-row items-center">
-      <div className="flex-shrink-0 flex items-center justify-center relative">
+    <div className="w-full h-[50vh] md:h-[25%] border flex flex-col md:flex-row">
+      <div className="w-[10%] flex items-center justify-center relative">
         <img
-          className="h-[80px] w-[80px] rounded-full mx-2"
+          className="h-[80px] w-[80px] rounded-full"
           src={details?.logo_image ? `${resourceUrl}/${details?.logo_image}` : wheelIcon}
         />
       </div>
