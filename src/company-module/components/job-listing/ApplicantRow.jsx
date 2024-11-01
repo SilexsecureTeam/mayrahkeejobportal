@@ -40,7 +40,7 @@ function ApplicantRow({data}) {
 
       <td>
         <div className="items-center flex justify-center py-[5px]">
-          <button onClick={navigateToApplicantDetails} className="text-xs md:text-inherit font-semibold border-white bg-gray-800 text-white px-2 py-[3px] border ">
+          <button onClick={navigateToApplicantDetails} className="text-xs md:text-inherit font-semibold border-white bg-gray-800 text-white p-2 border ">
             See Application
           </button>
         </div>
