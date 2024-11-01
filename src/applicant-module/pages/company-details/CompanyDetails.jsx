@@ -20,7 +20,8 @@ const CompanyDetails = () => {
 
     return (
         <div className="h-full text-[#25324b] w-full">
-<div className="sticky top-0 job_header p-6">
+            <div className='py-6 border-b mb-8'>
+                <div className="sticky top-0 job_header p-6">
                     <div className="p-3 bg-white border">
                         <div className="flex justify-between items-center">
                             <div className="flex">
@@ -36,8 +37,6 @@ const CompanyDetails = () => {
                         </div>
                     </div>
                 </div>
-            <div className='py-6 border-b mb-8'>
-                
                 <button
                     onClick={() => navigate("/applicant/browse-companies")}
                     className='mt-4 flex items-center px-5 md:px-10'>
