@@ -20,12 +20,12 @@ const CompanyDetails = () => {
 
     return (
         <div className="h-full text-[#25324b] w-full">
-            <div className='p-6 border-b mb-8'>
+            <div className='py-6 border-b mb-8'>
                 <div className="sticky top-0 job_header p-6">
                     <div className="p-3 bg-white border">
                         <div className="flex justify-between items-center">
                             <div className="flex">
-                                <img src={headerImg} width={80} alt={`${job.company_name} logo`} />
+                                <img src={headerImg} className="object-cover" width={80} alt={`${job.company_name} logo`} />
                                 <div className="ml-3">
                                     <p className="text-base mb-4 font-bold">{job.company_name}</p>
                                     <p className="mb-3">· {job.location} · {job.type}</p>
