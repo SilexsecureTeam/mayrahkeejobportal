@@ -31,7 +31,7 @@ const CompanyDetails = () => {
                                     <p className="mb-3">· {job.location} · {job.type}</p>
                                 </div>
                             </div>
-                            <button className="border-r mr-5">
+                            <button className="md:border-r md:mr-5">
                                 <BsShare />
                             </button>
                         </div>
