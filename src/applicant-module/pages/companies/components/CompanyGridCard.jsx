@@ -19,7 +19,7 @@ const CompanyGridCard = ({ newApplicant, company}) => {
                     <p><b>{company.company_name}</b></p>
                     <p className="mb-2">{company.location}</p>
                     <p className="mb-2">{company.address}</p>
-                    <div className="flex flex-wra items-start my-6">
+                    <div className="flex flex-wrap items-start my-6">
                         <button className="mr-2 mt-2 py-1 px-2 border-green-500 rounded-full hover:bg-green-100 text-green-700 border text-nowrap">{company.sector}</button>
                         <button className="mr-2 mt-2 py-1 px-2 rounded-full bg-green-100 hover:bg-white text-green-700 border text-nowrap">{company.network}</button>
                     </div>

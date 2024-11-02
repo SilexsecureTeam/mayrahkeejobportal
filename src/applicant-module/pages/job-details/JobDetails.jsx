@@ -26,8 +26,7 @@ const JobDetails = () => {
         <div className="w-full min-h-full text-[#25324b]">
             {/* Header Section */}
             <div
-                className="sticky top-0 bg-white z-50 p-6 border-b mb-8 shadow-md"
-                style={{ position: 'sticky', zIndex: 1000 }}
+                className="sticky top-0 bg-white z-10 p-6 border-b mb-8 shadow-md"
             >
                 <div className="p-6 bg-white border rounded-md">
                     <div className="flex gap-2 flex-wrap justify-between items-center">
