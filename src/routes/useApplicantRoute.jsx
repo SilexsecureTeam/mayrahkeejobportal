@@ -11,7 +11,8 @@ import { database } from "../utils/firebase";
 import StaffInformation from "../staff-module/pages/verifications/StaffInformation";
 import CartedStaffs from "../components/staffs/CartedStaffs";
 import ApplicantDetails from "../components/applicant-details-ui/ApplicantDetails";
-
+import AllApplication from "../components/applicant-details-ui/AllApplication";
+import Application from "../components/applicant-details-ui/Application";
 //Util Components
 const NavBar = lazy(() => import("../applicant-module/components/NavBar"));
 const SideBar = lazy(() => import("../applicant-module/components/SideBar"));
@@ -172,6 +173,8 @@ function useApplicantRoute() {
                 {/* testing routes */}
                 <Route path="success" element={<SuccessPage />} />
                 <Route path="applicant-detail" element={<ApplicantDetails />} />
+                <Route path="application-detail" element={<AllApplication />} />
+                <Route path="application-detail/:id" element={<Application />} />
 
 
                 <Route

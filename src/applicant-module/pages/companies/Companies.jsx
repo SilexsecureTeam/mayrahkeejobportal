@@ -113,7 +113,7 @@ function Companies() {
                   </div>
                 </div>
                 {getAllCompanies.data && (
-                  <div className="min-h-full-h-[75vh] overflow-y-auto thin_scroll_bar">
+                  <div className="min-h-full overflow-y-auto thin_scroll_bar">
                     {isGrid ? (
                       <div className="grid grid-cols-responsive gap-4">
                         {currentTableData?.map((company) => (
