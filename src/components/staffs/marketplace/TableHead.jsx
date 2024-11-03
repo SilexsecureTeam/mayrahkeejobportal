@@ -7,7 +7,7 @@ function TableHead({children}) {
           <th className="px-2 md:px-4 py-5 text-start">Name</th>
           <th className="px-2 md:px-4 py-1 text-start">Position</th>
           <th className="px-2 md:px-4 py-1 text-start">Age</th>
-          <th className="px-2 md:px-4 py-1 text-start">Experience</th>
+          <th className="px-2 md:px-4 py-1 text-start">Employment Type</th>
           <th className="px-2 md:px-4 py-1 text-start">Salary</th>
           <th className="px-2 md:px-4 py-1 text-start">Start Date</th>
         </tr>

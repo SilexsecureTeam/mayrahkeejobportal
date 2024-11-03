@@ -58,7 +58,9 @@ function MarketPlace() {
 
       <TableHead>
         {contractItems.length > 0 &&
-          contractItems.map((current) => <TableRow data={current} />)}
+          contractItems
+            .filter((current) => current.middle_name).reverse()
+            .map((current) => <TableRow key={current.id} data={current} />)}
       </TableHead>
     </div>
   );
