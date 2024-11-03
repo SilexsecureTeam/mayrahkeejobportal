@@ -2,6 +2,8 @@ import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContex";
 import { axiosClient } from "../services/axios-client";
+import { onFailure } from "../utils/notifications/OnFailure";
+import { onSuccess } from "../utils/notifications/OnSuccess";
 const PUBLIC_KEY = import.meta.env.VITE_TEST_PUBLIC_KEY;
 
 function useCart() {
@@ -9,8 +11,8 @@ function useCart() {
   const client = axiosClient(authDetails?.token);
   const navigate = useNavigate();
 
-  const config = (handleSuccess, data, getCartItems) => {
-    const priceInKobo = Number(1000) * 100;
+  const config = (handleSuccess, data, getCartItems, total) => {
+    const priceInKobo = total * 100;
     const onClose = () => {
       onFailure({
         message: "Payment Sucessful",
@@ -57,7 +59,51 @@ function useCart() {
       });
     }
   };
-  return { config, handleSuccess };
+
+  const addToCart = async (getCartItems, data) => {
+
+    try {
+      const response = await client.post("/staff-cart/add", {
+        user_id: authDetails.user.id,
+        user_type: authDetails.user.role,
+        domestic_staff_id: data.id,
+      });
+      onSuccess({
+        message: "User sucessfully added",
+        success: "Domestic staff added to cart successfully",
+      });
+      await getCartItems()
+    } catch (error) {
+      onFailure({
+        message: "Collection Failed",
+        error: "Failed to add to collection",
+      });
+      console.log(error);
+    } 
+
+  };
+
+  const removeFromCart = async (getCartItems, data) => {
+    try {
+      const response = await client.post("/staff-cart/remove", {
+        user_id: authDetails.user.id,
+        user_type: authDetails.user.role,
+        domestic_staff_id: data.domestice_staff_id,
+      });
+      onSuccess({
+        message: "User sucessfully added",
+        success: "Domestic staff added to cart successfully",
+      });
+      await getCartItems()
+    } catch (error) {
+      onFailure({
+        message: "Cart Failed",
+        error: "Failed to remove staff from cart",
+      });
+    }
+  };
+
+  return { config, handleSuccess, addToCart, removeFromCart };
 }
 
 export default useCart;

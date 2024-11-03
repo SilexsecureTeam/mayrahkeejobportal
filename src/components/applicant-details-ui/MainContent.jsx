@@ -1,7 +1,10 @@
 import React, { useState } from "react";
 import { TbBriefcase2 } from "react-icons/tb";
+import Garantor from "./subcontents/Garantor";
+import MedicalHistory from "./subcontents/MedicalHistory";
+import PoliceRecord from "./subcontents/PoliceRecord";
 
-const MainContent = ({ workExperience }) => {
+const MainContent = ({ workExperience, staff }) => {
   // State to keep track of the active tab
   const [activeTab, setActiveTab] = useState("Guarantors");
 
@@ -9,13 +12,13 @@ const MainContent = ({ workExperience }) => {
   const renderContent = () => {
     switch (activeTab) {
       case "Guarantors":
-        return <p>Guarantors section content here...</p>;
+        return <Garantor staff={staff}/>;
       case "Applicant Profile":
         return <p>Applicant Profile content here...</p>;
       case "Medical History":
-        return <p>Medical History content here...</p>;
+        return <MedicalHistory staff={staff}/>;
       case "Police Report":
-        return <p>Police Report content here...</p>;
+        return <PoliceRecord staff={staff}/>;
       default:
         return null;
     }
@@ -63,7 +66,7 @@ const MainContent = ({ workExperience }) => {
       </div>
 
       {/* Display content based on active tab */}
-      <section className="border p-6 rounded-lg mb-6 h-64">
+      <section className="border p-6 rounded-lg mb-6 min-h-64">
         {renderContent()}
       </section>
 
