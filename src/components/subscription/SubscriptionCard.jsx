@@ -16,7 +16,7 @@ function SubscriptionCard({ data, subUtils, setIsOpen }) {
   };
 
   return (
-    <li className="w-[25%] duration-75 hover:scale-105 cursor-pointer rounded-[10px] group has-[h3]:border-[2px]  flex flex-col items-center justify-between  px-2 py-2 h-[90%] even:border even:bg-primaryColor even:text-white odd:text-primaryColor odd:border-primaryColor">
+    <li className="duration-75 hover:scale-105 cursor-pointer rounded-[10px] group has-[h3]:border-[2px]  flex flex-col items-center justify-between  p-3 h-80 even:border even:bg-primaryColor even:text-white odd:text-primaryColor odd:border-primaryColor">
       <div className="flex flex-col items-center h-full">
         <h3 className="font-semibold group-odd:border-primaryColor text-center group-even:border-white w-[60%] rounded-[5px] py-1 border text-md">
           {data.title}

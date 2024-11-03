@@ -3,7 +3,7 @@ import Chart from "react-apexcharts";
 import { FiUser } from "react-icons/fi";
 import { BsArrowDown } from "react-icons/bs";
 import { FaCalendarAlt, FaCloudUploadAlt, FaFileExport, FaPlus, FaRegListAlt, FaSearch, FaTag } from "react-icons/fa";
-import { AiOutlineGoogle } from 'react-icons/ai'
+import google from '../../assets/pngs/google.png'
 import RoundChart from "./RoundChart";
 import img from '../../assets/specialist-office.jpg'
 const AllApplication = () => {
@@ -139,7 +139,7 @@ const AllApplication = () => {
                         </div>
                     </div>
                     <div className="overflow-x-auto w-full">
-                        <table className=" md:table-fixed w-full md:min-w-full overflow-x-auto mt-4 bg-white rounded-md shadow">
+                        <table className="w-full md:min-w-full overflow-x-auto mt-4 bg-white rounded-md shadow">
                             <thead>
                                 <tr className="border-b">
                                     <th className="p-4 text-left text-sm md:text-base">Name</th>
@@ -152,22 +152,22 @@ const AllApplication = () => {
                             </thead>
                             <tbody>
                                 <tr key={offer.id} className="border-b">
-                                    <td className="p-4 whitespace-nowrap flex gap-2 items-center text-sm md:text-base">
+                                    <td className="p-4 flex gap-2 items-center text-sm md:text-base">
                                         <img src={img} className="w-10 h-10 rounded-full object-cover" alt="Profile" />
                                         {offer.name}
                                     </td>
-                                    <td className="p-4 whitespace-nowrap text-sm md:text-base">{offer.position}</td>
-                                    <td className="p-4 whitespace-nowrap text-sm md:text-base">{offer.age}</td>
-                                    <td className="p-4 whitespace-nowrap text-sm md:text-base">{offer.experience}</td>
-                                    <td className="p-4 whitespace-nowrap text-sm md:text-base">{offer.salary}</td>
-                                    <td className="p-4 whitespace-nowrap text-sm md:text-base">{offer.date}</td>
+                                    <td className="p-4 text-sm md:text-base">{offer.position}</td>
+                                    <td className="p-4 text-sm md:text-base">{offer.age}</td>
+                                    <td className="p-4 text-sm md:text-base">{offer.experience}</td>
+                                    <td className="p-4 text-sm md:text-base">{offer.salary}</td>
+                                    <td className="p-4 text-sm md:text-base">{offer.date}</td>
                                 </tr>
 
                             </tbody>
                         </table>
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <div className="min-h-40 md:col-span-2 p-4 bg-white flex flex-col">
+                        <div className="min-h-40 md:col-span-2 p-4 bg-white flex flex-col rounded-md">
                             <section className="flex gap-2 items-center">
                                 <img src={img} className="w-20 h-20 rounded-full object-cover" alt="Profile" />
                                 <div>
@@ -178,27 +178,27 @@ const AllApplication = () => {
                             <form className="grid grid-cols-2 gap-2 gap-y-4 md:gap-y-8 py-4 md:py-8 text-xs md:text-sm">
                                 <label>
                                     First name
-                                    <input className="w-full p-2 bg-gray-100 placeholder:text-gray-400 rounded-md border-1 border-gray-50" placeholder="Kame" type="text" />
+                                    <input className="w-full p-2 mt-2 bg-gray-100 placeholder:text-gray-400 rounded-md border-[1px] border-gray-300" placeholder="Kame" type="text" />
                                 </label>
                                 <label>
                                     Last name
-                                    <input className="w-full p-2 bg-gray-100 placeholder:text-gray-400 rounded-md border-1 border-gray-50" placeholder="Williamson" type="text" />
+                                    <input className="w-full p-2 mt-2 bg-gray-100 placeholder:text-gray-400 rounded-md border-[1px] border-gray-300" placeholder="Williamson" type="text" />
                                 </label>
                                 <label>
                                     email Address
-                                    <input className="w-full p-2 bg-gray-100 placeholder:text-gray-400 rounded-md border-1 border-gray-50" placeholder="kamewillamson@gmail.com" type="text" />
+                                    <input className="w-full p-2 mt-2 bg-gray-100 placeholder:text-gray-400 rounded-md border-[1px] border-gray-300" placeholder="kamewillamson@gmail.com" type="text" />
                                 </label>
                                 <label>
                                     Date of birth
-                                    <input className="w-full p-2 bg-gray-100 placeholder:text-gray-400 rounded-md border-1 border-gray-50" placeholder="25/01/2001" type="text" />
+                                    <input className="w-full p-2 mt-2 bg-gray-100 placeholder:text-gray-400 rounded-md border-[1px] border-gray-300" placeholder="25/01/2001" type="text" />
                                 </label>
                                 <label>
                                     City
-                                    <input className="w-full p-2 bg-gray-100 placeholder:text-gray-400 rounded-md border-1 border-gray-50" placeholder="Abuja, Nigeria" type="text" />
+                                    <input className="w-full p-2 mt-2 bg-gray-100 placeholder:text-gray-400 rounded-md border-[1px] border-gray-300" placeholder="Abuja, Nigeria" type="text" />
                                 </label>
                                 <label>
                                     Postal Code
-                                    <input className="w-full p-2 bg-gray-100 placeholder:text-gray-400 rounded-md border-1 border-gray-50" placeholder="87532" type="text" />
+                                    <input className="w-full p-2 mt-2 bg-gray-100 placeholder:text-gray-400 rounded-md border-[1px] border-gray-300" placeholder="87532" type="text" />
                                 </label>
                             </form>
                             <button className="self-end px-8 py-1 rounded-md bg-[#47AA49] text-white">Next</button>
@@ -222,7 +222,7 @@ const AllApplication = () => {
                             </div>
 
                             <div className="min-h-20 my-4 bg-white rounded-md p-4 flex flex-col gap-4 justify-center">
-                                <p className="flex justify-between items-center"><AiOutlineGoogle size="24" /> <span className="px-4 py-1 bg-purple-300 text-purple-500 font-medium rounded-md text-xs">Completed</span></p>
+                                <p className="flex justify-between items-center"><img src={google} alt="google" className='w-20' /> <span className="px-4 py-1 bg-purple-300 text-purple-500 font-medium rounded-md text-xs">Completed</span></p>
                                 <small className="w-[80%]">Use google to sign in to your account.<a href="#" className="no-underline text-purple-500">Click to learn more</a></small>
                             </div>
 
