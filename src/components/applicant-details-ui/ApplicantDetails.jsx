@@ -76,12 +76,12 @@ const ApplicantDetails = () => {
           <ApplicantHeader username={staff.first_name} />
           <div className="flex gap-4 flex-col lg:flex-row">
             <ApplicantProfileCard userData={staff} />
-            <MainContent workExperience={workExperience} />
+            <MainContent workExperience={workExperience} staff={staff} />
           </div>
         </>
       ) : (
-        <div className="h-full w-full flex text-3xl text-primaryColor flex-col items-center justify-center gap-3">
-          <PiSpinnerGap />
+        <div className="h-screen w-full flex text-3xl text-primaryColor  flex-col items-center justify-center gap-3">
+          <PiSpinnerGap className="animate-spin" />
           <span className="text-sm">Fetching data....</span>
         </div>
       )}

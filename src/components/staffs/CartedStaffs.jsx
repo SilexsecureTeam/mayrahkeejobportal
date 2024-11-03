@@ -13,12 +13,12 @@ import MarketPlace from "./marketplace/MarketPlace";
 
 function CartedStaffs() {
   const location = useLocation();
-  const { data } = location?.state ? location?.state : {data: null};
+  const { data } = location?.state ? location?.state : { data: null };
   const navigate = useNavigate();
   const { authDetails } = useContext(AuthContext);
   const client = axiosClient(authDetails.token);
   const [cartItems, setCartItems] = useState(data?.items || []);
-  const { config, handleSuccess } = useCart();
+  const { config, handleSuccess, addToCart, removeFromCart } = useCart();
 
   // cart ui logic
   const [selectedItems, setSelectedItems] = useState([]);
@@ -55,10 +55,10 @@ function CartedStaffs() {
         user_id: authDetails.user.id,
         user_type: authDetails.user.role,
       });
-      if(data.cart_items){
+      if (data.cart_items) {
         setCartItems(data.cart_items);
-      }else{
-        setCartItems([])
+      } else {
+        setCartItems([]);
       }
       // setCartItems(
       //   data.cart_items.filter(
@@ -75,31 +75,16 @@ function CartedStaffs() {
   };
 
   //contract items from api
-  const getContractItems = async () => {
-    try {
-      const { data } = await client.post("/contracts/details", {
-        user_id: authDetails.user.id,
-        user_type: authDetails.user.role,
-      });
-    
-      if(data.contracts){
-        setContractItems(data.contracts);
-      }else{
-        setContractItems([])
-      }
-      // setCartItems(
-      //   data.cart_items.filter(
-      //     (current) =>
-      //       current.domestic_staff.staff_category === location.state.data.type
-      //   )
-      // );
-    } catch (error) {
-      onFailure({
-        message: "soemthing went wrong",
-        error: "Error retriving carted items",
-      });
-    }
-  };
+   const handleAddToCart = async (data) => {
+      await addToCart(getCartItems, data)
+   }
+
+   const handleRemoveCart = async (data) => {
+      await removeFromCart(getCartItems,data)
+   }
+
+  // 
+
 
   useEffect(() => {
     getCartItems();
@@ -219,11 +204,18 @@ function CartedStaffs() {
                 </span>
               </li>
             </ul>
-            <PaystackConsumer {...config(handleSuccess, selectedItems, getCartItems)}>
+            <PaystackConsumer
+              {...config(handleSuccess, selectedItems, getCartItems, 2000 * selectedItems.length + 100)}
+            >
               {({ initializePayment }) => (
                 <button
-                  className="w-full bg-black font-semibold text-white py-3 rounded-full mt-6"
+                  className={`${
+                    selectedItems.length > 0
+                      ? "opacity-100 cursor-pointer"
+                      : "opacity-50 cursor-not-allowed"
+                  } w-full bg-black font-semibold text-white py-3 rounded-full mt-6`}
                   height="h-fit text-sm p-1"
+                  disabled={selectedItems.length > 0 ? false : true}
                   onClick={initializePayment}
                 >
                   Checkout
@@ -236,9 +228,10 @@ function CartedStaffs() {
         <h2 className="text-lg font-bold mb-4">Cart Empty</h2>
       )}
 
-
       {/* Contract Details & Market place*/}
-      <MarketPlace/>
+      <MarketPlace 
+        handleAddToCart={handleAddToCart}
+      />
     </div>
   );
 }
