@@ -1,88 +1,95 @@
 import { Helmet } from "react-helmet";
-import { RiCalendarEventLine } from "react-icons/ri";
-import { useContext, useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-// import UseAdminManagement from "../../../hooks/useAdminManagement";
-// import CandidateChart from "./CandidateChart"; 
-import { generateDateRange } from "../../../../utils/formmaters";
-import { AuthContext } from "../../../../context/AuthContex";
-import { AdminRouteContext } from "../../../../context/AdminRouteContext";
-import UseAdminManagement from "../../../../hooks/useAdminManagement";
-// import CandidateChart from './../../candidate/CandidateChart';
+import { FaPlus } from "react-icons/fa6";
 
-function Candidate() {
-  const { authDetails } = useContext(AuthContext);
-  const { setSideBar } = useContext(AdminRouteContext);
-  const { getCandidates } = UseAdminManagement();
+const countryData = {
+  USA: { symbol: "$", logo: "usa-logo-url" },
+  UK: { symbol: "£", logo: "uk-logo-url" },
+  EU: { symbol: "€", logo: "eu-logo-url" },
+  // Add more countries as needed
+};
 
-  const [candidateCount, setCandidateCount] = useState(0);
-  const [pending, setPending] = useState(0);
+function AddCurrency() {
+  const [countryName, setCountryName] = useState("");
+  const [currencySymbol, setCurrencySymbol] = useState("");
+  const [logo, setLogo] = useState("");
+  const navigate = useNavigate();
 
   useEffect(() => {
-    (async () => {
-      const candidates = await getCandidates();
-      console.log("candidate" + candidates);
-      setCandidateCount(candidates.length);
-      const pendingCandidates = candidates.filter(candid => candid.status === 'pending');
-      setPending(pendingCandidates.length);
-    })();
-  }, []);
+    if (countryName && countryData[countryName]) {
+      setCurrencySymbol(countryData[countryName].symbol);
+      setLogo(countryData[countryName].logo);
+    } else {
+      setCurrencySymbol("");
+      setLogo("");
+    }
+  }, [countryName]);
 
-  const navigate = useNavigate();
-  const navigateToPage = (route, index) => {
-    navigate(route);
-    setSideBar(index);
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // Add logic to handle form submission
+    console.log("Currency Added:", { countryName, currencySymbol, logo });
+    navigate("/currencies");
   };
 
   return (
     <>
       <Helmet>
-        <title>Admin| Dashboard</title>
+        <title>Add Currency</title>
       </Helmet>
-      <div className="h-full p-6 w-full text-sm text-gray-800" >
-        <div className="text-sm">
-          <div className="flex justify-between">
-            <div className="">
-              <h4 className="font-bold text-2xl mb-2">
-                Welcome back, {authDetails?.user?.first_name}{" "}
-                {authDetails?.user?.surname}
-              </h4>
-              <p>
-                Here a summary of your recent activities {generateDateRange()}
-              </p>
-            </div>
-            <div>
-              <button className="border p-2 hidden md:flex items-center">
-                {generateDateRange()}
-                <RiCalendarEventLine className="ml-2" size={15} />
-              </button>
-            </div>
+      <div className="h-full p-6 w-full text-sm text-gray-800">
+        <h2 className="text-2xl font-bold mb-4">Add New Currency</h2>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div>
+            <label className="block text-sm font-medium text-gray-700">Country Name</label>
+            <select
+              value={countryName}
+              onChange={(e) => setCountryName(e.target.value)}
+              className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+              required
+            >
+              <option value="">Select a country</option>
+              {Object.keys(countryData).map((country) => (
+                <option key={country} value={country}>
+                  {country}
+                </option>
+              ))}
+            </select>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6 p-4">
-            <div className="bg-green-500 text-white p-4 rounded-md flex flex-col items-start">
-              <h3 className="text-xl font-bold">{pending}</h3>
-              <p>In Review</p>
-            </div>
-            <div className="bg-yellow-500 text-white p-4 rounded-md flex flex-col items-start">
-              <h3 className="text-xl font-bold">-10%</h3>
-              <p>Interviewed</p>
-            </div>
-            <div className="bg-blue-700 text-white p-4 rounded-md flex flex-col items-start">
-              <h3 className="text-xl font-bold">2</h3>
-              <p>Shortlisted</p>
-            </div>
-            <div className="bg-cyan-950 text-white p-4 rounded-md flex flex-col items-start">
-              <h3 className="text-xl font-bold">{candidateCount}</h3>
-              <p>Total Jobs Applied</p>
-            </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700">Currency Symbol</label>
+            <input
+              type="text"
+              value={currencySymbol}
+              onChange={(e) => setCurrencySymbol(e.target.value)}
+              className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+              required
+              readOnly
+            />
           </div>
-          <div className="mt-8">
-            {/* <CandidateChart /> */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700">Logo URL</label>
+            <input
+              type="text"
+              value={logo}
+              onChange={(e) => setLogo(e.target.value)}
+              className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+              required
+              readOnly
+            />
           </div>
-        </div>
+          <button
+            type="submit"
+            className="flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700"
+          >
+            <FaPlus className="mr-2" />
+            Add Currency
+          </button>
+        </form>
       </div>
     </>
   );
 }
 
-export default Candidate;
+export default AddCurrency;
