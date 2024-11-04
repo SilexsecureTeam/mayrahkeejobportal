@@ -296,14 +296,14 @@ export const adminOptions = [
     type: "Artisan",
     title: "Artisan",
     route: "/admin/artisan",
-    icon: homeIcon,
+    icon: clipboardIcon,
     iconActive: homeIconActive,
   }, 
   {
     type: "Domestic Staff",
     title: "Domestic Staff",
     route: "/admin/domestic-staff",
-    icon: homeIcon,
+    icon: calanderIcon,
     iconActive: homeIconActive,
   },
   {
