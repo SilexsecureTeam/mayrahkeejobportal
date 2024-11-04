@@ -42,7 +42,7 @@ function ApplicantRow({ data }) {
           <StatusCard
             name={data.status}
             icon={MdCheckCircle}
-            color={"bg-[#9B5DE5]"}
+            color={"bg-[#00008B]"}
             iconColor="text-white"
           />
         );
@@ -52,7 +52,7 @@ function ApplicantRow({ data }) {
             name={data.status}
             icon={GiVideoConference}
             color={"bg-lightblue"}
-            iconColor="text-blue-100"
+            iconColor="text-blue-50"
           />
         );
       case stages[3].name.split("/")[0]:

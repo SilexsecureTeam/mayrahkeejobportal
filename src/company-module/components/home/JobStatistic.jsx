@@ -1,48 +1,53 @@
-import React from 'react';
-import Chart from 'react-apexcharts';
+import { BarChart } from "@mantine/charts";
+import "@mantine/core/styles.css";
+import classes from "../../../css/charts.module.css";
+import {
+  getThreeMonths,
+  monthNames,
+  toCamelCase,
+} from "../../../utils/formmaters";
+import { useState } from "react";
 
-const JobStatistics = () => {
-  const pieOptions = {
-    labels: ['Finished Training', 'Chapter A', 'Chapter B', 'Haven\'t Started Yet'],
-    colors: ['#2B8F3A', '#FDC5C7', '#C6A7E7', '#34A853'],
-    legend: {
-      position: 'bottom',
-      fontSize: '14px',
-      labels: { colors: '#000' },
-    },
+const data = [
+  { month: "January", Smartphones: 1200, Laptops: 900, Tablets: 200 },
+  { month: "February", Smartphones: 1900, Laptops: 1200, Tablets: 400 },
+  { month: "March", Smartphones: 400, Laptops: 1000, Tablets: 200 },
+];
+
+const options = ["Overview", "No of job Posted", "Approved Applications"];
+
+function JobStatistic({ applicants, byCategory }) {
+  const [active, setActive] = useState(options[0]);
+  const data1 = () => {
+    const threeMonths = getThreeMonths();
+
+    const applicantByMonth = [];
+
+    threeMonths.map((currentMonth) => {
+      const monthApplicants = applicants.filter(
+        (current) =>
+          monthNames[new Date(current.created_at).getMonth()] == currentMonth
+      );
+
+      const applicantByMonthCat = {};
+      Object.keys(byCategory).map((current) => {
+        const catApps = monthApplicants.filter(
+          (currentApp) => currentApp.job_id == byCategory[current][0].job_id
+        );
+        const key = toCamelCase(byCategory[current][0].job_title);
+        applicantByMonthCat[key] = catApps.length;
+      });
+
+      applicantByMonth.push({
+        month: currentMonth,
+        ...applicantByMonthCat,
+      });
+    });
+
+    console.log("Result", ...applicantByMonth);
+
+    return applicantByMonth;
   };
-
-  const pieSeries = [34, 22, 7, 20]; // Example data for the pie chart
-
-  const barOptions = {
-    chart: {
-      id: 'active-workers',
-      stacked: true,
-      toolbar: { show: false },
-    },
-    xaxis: {
-      categories: ['3 Jun', '4 Jun', '5 Jun', '6 Jun', '7 Jun', '8 Jun', '9 Jun', '10 Jun'],
-      labels: { style: { colors: '#666', fontSize: '12px' } },
-    },
-    yaxis: {
-      labels: { style: { colors: '#666', fontSize: '12px' } },
-    },
-    colors: ['#34A853', '#B0C4DE'],
-    legend: {
-      show: false,
-    },
-  };
-
-  const barSeries = [
-    {
-      name: 'Completed Training',
-      data: [100, 200, 150, 250, 300, 200, 220, 270],
-    },
-    {
-      name: 'Ongoing Training',
-      data: [300, 200, 250, 200, 100, 150, 180, 130],
-    },
-  ];
 
   return (
     <div className="border min-h-screen w-full md:w-[80%]">
@@ -56,55 +61,62 @@ const JobStatistics = () => {
            </div>
                     {/* Filters */}
 
-           <div className="w-max flex justify-between p-1 bg-green-100">
-             <button className="px-6 py-[4px] bg-white text-primaryColor font-bold text-sm">
-               Week
-             </button>
-             <button className="px-6 py-[4px] text-primaryColor font-bold text-sm">
-               Month
-             </button>
-             <button className="px-6 py-[4px] text-primaryColor font-bold text-sm">
-               Year
-             </button>
-           </div>
-         </div>
-        {/* Tabs */}
-        
-          <div className="my-2 flex gap-4 w-full overflow-x-auto text-little">
-          <button className={`${true ? "border-b-[2px] border-primaryColor text-primaryColor": "text-gray-500"} pb-2 cursor-pointer w-fit font-semibold`}>
-            Overview
-          </button>
-          <button className={`${false ? "border-b-[2px] border-primaryColor text-primaryColor": "text-gray-500"} pb-2 cursor-pointer w-fit font-semibold`}>
-            No of Job Posted
-          </button>
-          <button className={`${false ? "border-b-[2px] border-primaryColor text-primaryColor": "text-gray-500"} pb-2 cursor-pointer w-fit font-semibold`}>
-            Approved Application
-          </button>
-          <button className={`${false ? "border-b-[2px] border-primaryColor text-primaryColor": "text-gray-500"} pb-2 cursor-pointer w-fit font-semibold`}>
-            Rejected Application
-          </button>
-          <button className={`${false ? "border-b-[2px] border-primaryColor text-primaryColor": "text-gray-500"} pb-2 cursor-pointer w-fit font-semibold`}>
-            Onboard Applicant
-          </button>
-          </div>
-
-        {/* Charts */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {/* Pie Chart */}
-          <div className="bg-white p-4 shadow rounded-lg border">
-            <h2 className="text-center text-gray-600 mb-4">Chapter Wise Status</h2>
-            <Chart options={pieOptions} series={pieSeries} type="pie" width="100%" />
-          </div>
-
-          {/* Bar Chart */}
-          <div className="bg-white p-4 shadow rounded-lg border">
-            <div className="flex justify-between items-center mb-4">
-              <h2 className="text-gray-600">Last 14 Days Active Workers In Training</h2>
-              <span className="text-gray-500 text-sm">Last 14 Days</span>
-            </div>
-            <Chart options={barOptions} series={barSeries} type="bar" width="100%" />
-          </div>
+          {/* <div className="w-[35%] flex justify-between p-1 bg-gray-400 h-[80%]">
+            <button className="w-[30%] bg-white hover:scale-105 duration-75 text-black font-semibold text-little">
+              Week
+            </button>
+            <button className="w-[30%] bg-white hover:scale-105 duration-75 text-black font-semibold text-little">
+              Month
+            </button>
+            <button className="w-[30%] bg-white hover:scale-105 duration-75 text-black font-semibold text-little">
+              Year
+            </button>
+          </div> */}
         </div>
+
+        <div className="flex gap-5 border-b">
+          {options.map((current) => (
+            <h3
+              onClick={() => setActive(current)}
+              className={`text-little py-1 border-b cursor-pointer ${
+                active === current ? "border-primaryColor" : ""
+              } w-fit  font-semibold`}
+            >
+              {current}
+            </h3>
+          ))}
+        </div>
+      </div>
+
+      <div className="w-full p-2  items-end flex h-fit">
+        {active === options[0] && (
+          <BarChart
+            data={data}
+            h={150}
+            w={500}
+            dataKey="month"
+            classNames={{
+              root: classes.bar_root,
+              bar: classes.bar,
+              grid: classes.grid,
+              //  container: classes.container,
+              tooltip: classes.tooltip,
+              tooltipBody: classes.tooltipBody,
+              tooltipItem: classes.tooltipItem,
+              tooltipItemBody: classes.tooltipItemBody,
+            }}
+            className="text-little "
+            series={[
+              { name: "Smartphones", color: "violet.6" },
+              { name: "Laptops", color: "blue.6" },
+              { name: "Tablets", color: "teal.6" },
+            ]}
+          />
+        )}
+
+        {(active === options[1] || active === options[2])  && (
+          <span>Nothing to display</span>
+        )}
       </div>
     </div>
   );
