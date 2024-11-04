@@ -1,13 +1,7 @@
 import { Helmet } from "react-helmet";
-import {
-  FaArrowTrendUp,
-  FaPlus,
-} from "react-icons/fa6";
-import { FiUsers } from "react-icons/fi";
 import { RiCalendarEventLine } from "react-icons/ri";
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { BsStopwatch } from "react-icons/bs";
 // import UseAdminManagement from "../../../hooks/useAdminManagement";
 // import CandidateChart from "./CandidateChart"; 
 import { generateDateRange } from "../../../../utils/formmaters";
