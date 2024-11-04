@@ -3,7 +3,7 @@ import { TabMenu } from 'primereact/tabmenu';
 import { useNavigate } from 'react-router-dom';
 import { FaPlus } from 'react-icons/fa';
 import CurrencyTable from './currencyTable';
-import CurrencyDetails from './currencyDetails';
+import CurrencyDetails from './CurrencyDetails';
 // import { ProductService } from './service/ProductService';
 
 const sampleData1 = [
