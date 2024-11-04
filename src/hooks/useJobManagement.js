@@ -35,6 +35,7 @@ function useJobManagement() {
     office_address: "",
     location: "",
     maps_location: "",
+    number_of_participants: 10
   });
   const [jobList, setJobList] = useState([]);
   const [applicantJobs, setApplicantJobs] = useState([]);
