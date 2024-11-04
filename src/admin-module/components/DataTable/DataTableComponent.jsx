@@ -40,19 +40,20 @@ const DataTableComponent = ({ data, name, heading, isLoading }) => {
 
   const renderHeader = () => {
     return (
-      <div className="flex justify-between">
+      <div className="flex flex-col sm:flex-row justify-between items-center gap-2">
         <Button
           type="button"
           icon={<RiFilterOffLine className="mr-3" />}
           label="Clear"
           outlined
           onClick={clearFilter}
+          className="w-full sm:w-auto"
         />
-        <span className="p-input-icon-left">
+        <span className="p-input-icon-left w-full sm:w-auto">
           <FaSearch className="ml-2 text-gray-500" />
           <InputText
             value={globalFilterValue}
-            className="pl-8"
+            className="pl-8 w-full sm:w-auto"
             onChange={onGlobalFilterChange}
             placeholder="Keyword Search"
           />
@@ -126,8 +127,18 @@ const DataTableComponent = ({ data, name, heading, isLoading }) => {
           className="mr-2"
           onClick={(e) => editData(e, rowData)}
         />
+        <button
+          type="button"
+          className="bg-green-500 px-4 py-2 text-white"
+          onClick={() => handleViewDetails(rowData)}
+        >View</button>
       </div>
     );
+  };
+
+  const handleViewDetails = (rowData) => {
+    const id = name === "domestic-staff" && rowData.staffid ? rowData.staffid : rowData.id;
+    navigate(`/admin/${name}/details/${id}`);
   };
 
   const editDialogFooter = (
@@ -150,10 +161,6 @@ const DataTableComponent = ({ data, name, heading, isLoading }) => {
   const header = renderHeader();
 
   const navigate = useNavigate();
-  const handleRowClick = (e) => {
-    const id = name === "domestic-staff" && e.data.staffid ? e.data.staffid : e.data.id; // Use domestic_id for domestic-staff, otherwise use id
-    navigate(`/admin/${name}/details/${id}`);
-  };
 
   const htmlBodyTemplate = (rowData) => {
     return <div dangerouslySetInnerHTML={{ __html: rowData.profile }} />;
@@ -189,8 +196,8 @@ const DataTableComponent = ({ data, name, heading, isLoading }) => {
           currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
           paginatorTemplate="CurrentPageReport FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown"
           rowsPerPageOptions={[5, 10, 20, 50]}
-          onRowClick={handleRowClick}
           rowClassName="cursor-pointer"
+          className="w-full sm:w-auto"
         >
           {heading?.map(
             (head, index) =>
@@ -215,7 +222,7 @@ const DataTableComponent = ({ data, name, heading, isLoading }) => {
           <Column
             body={actionBodyTemplate}
             exportable={false}
-            style={{ width: "6em" }}
+            style={{ width: "10em" }}
           />
         </DataTable>
       </div>
@@ -252,10 +259,7 @@ const DataTableComponent = ({ data, name, heading, isLoading }) => {
             className="!w-full"
           />
         )}
-
-       
       </Dialog>
-
     </>
   );
 };
