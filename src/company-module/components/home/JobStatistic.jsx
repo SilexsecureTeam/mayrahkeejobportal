@@ -50,16 +50,15 @@ function JobStatistic({ applicants, byCategory }) {
   };
 
   return (
-    <div className="border min-h-screen w-full md:w-[80%]">
-      <div className="h-max border-b px-2 justify-between pt-1 flex flex-col">
-      <div className="w-full justify-between flex">
-           <div className="flex flex-col">
-             <h3 className="font-bold text-xl">Job Statistics</h3>
-             <span className=" text-gray-400 text-little">
-               Showing Jobstatistic Jul 19-25
-             </span>
-           </div>
-                    {/* Filters */}
+    <div className="border h-fit md:h-full w-full md:w-[65%]  ">
+      <div className="h-[28%] border-b px-2 justify-between pt-1 flex flex-col">
+        <div className="w-full justify-between flex">
+          <div className="flex flex-col">
+            <h3 className="font-semibold text-sm">Job Statistics</h3>
+            <span className=" text-gray-400 text-little">
+              Showing Jobstatistic Jul 19-25
+            </span>
+          </div>
 
           {/* <div className="w-[35%] flex justify-between p-1 bg-gray-400 h-[80%]">
             <button className="w-[30%] bg-white hover:scale-105 duration-75 text-black font-semibold text-little">
@@ -120,6 +119,6 @@ function JobStatistic({ applicants, byCategory }) {
       </div>
     </div>
   );
-};
+}
 
-export default JobStatistics;
+export default JobStatistic;
