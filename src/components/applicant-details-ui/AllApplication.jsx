@@ -140,7 +140,7 @@ const AllApplication = () => {
                         </div>
                     </div>
                     <div className="overflow-x-auto w-full">
-                        <table className=" md:table-fixed w-full md:min-w-full overflow-x-auto mt-4 bg-white rounded-md shadow">
+                        <table className="w-full md:min-w-full overflow-x-auto mt-4 bg-white rounded-md shadow">
                             <thead>
                                 <tr className="border-b">
                                     <th className="p-4 text-left text-sm md:text-base">Name</th>
@@ -159,15 +159,15 @@ const AllApplication = () => {
                                     // Repeat as necessary
                                 ].map((offer, index) => (
                                     <tr onClick={navigate(`/applicant/application-detail/${offer.id}`)} key={index} className="border-b">
-                                        <td className="p-4 whitespace-nowrap flex gap-2 items-center text-sm md:text-base">
+                                        <td className="p-4 flex gap-2 items-center text-sm md:text-base">
                                             <img src={img} className="w-10 h-10 rounded-full object-cover" alt="Profile" />
                                             {offer.name}
                                         </td>
-                                        <td className="p-4 whitespace-nowrap text-sm md:text-base">{offer.position}</td>
-                                        <td className="p-4 whitespace-nowrap text-sm md:text-base">{offer.age}</td>
-                                        <td className="p-4 whitespace-nowrap text-sm md:text-base">{offer.experience}</td>
-                                        <td className="p-4 whitespace-nowrap text-sm md:text-base">{offer.salary}</td>
-                                        <td className="p-4 whitespace-nowrap text-sm md:text-base">{offer.date}</td>
+                                        <td className="p-4text-sm md:text-base">{offer.position}</td>
+                                        <td className="p-4text-sm md:text-base">{offer.age}</td>
+                                        <td className="p-4text-sm md:text-base">{offer.experience}</td>
+                                        <td className="p-4text-sm md:text-base">{offer.salary}</td>
+                                        <td className="p-4text-sm md:text-base">{offer.date}</td>
                                     </tr>
                                 ))}
                             </tbody>

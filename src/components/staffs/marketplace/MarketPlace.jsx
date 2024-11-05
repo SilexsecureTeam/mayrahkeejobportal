@@ -6,12 +6,30 @@ import TableRow from "./TableRow";
 
 const navOptions = ["Active Contracts", "Market Place"];
 
-function MarketPlace() {
+function MarketPlace({handleAddToCart}) {
   const { authDetails } = useContext(AuthContext);
   const client = axiosClient(authDetails.token);
   const [activeOption, setActiveOption] = useState(navOptions[0]);
 
   const [contractItems, setContractItems] = useState([]);
+  const [marketList, setMarketList] = useState([]);
+
+  const getMarketList = async () => {
+    try {
+      const { data } = await client.get("/domesticStaff/get-staff");
+
+      if (data.domesticStaff) {
+        setMarketList(data.domesticStaff);
+      } else {
+        setMarketList([]);
+      }
+    } catch (error) {
+      onFailure({
+        message: "soemthing went wrong",
+        error: "Error retriving carted items",
+      });
+    }
+  };
 
   const getContractItems = async () => {
     try {
@@ -35,10 +53,11 @@ function MarketPlace() {
 
   useEffect(() => {
     getContractItems();
+    getMarketList();
   }, []);
 
   return (
-    <div className="w-full space-y-8  ">
+    <div className="w-full space-y-8 pb-5">
       <nav className="flex bg-gray-50 gap-5 px-2">
         {navOptions.map((current) => (
           <a
@@ -56,10 +75,25 @@ function MarketPlace() {
         ))}
       </nav>
 
-      <TableHead>
-        {contractItems.length > 0 &&
-          contractItems.map((current) => <TableRow data={current} />)}
-      </TableHead>
+      {activeOption === navOptions[0] && (
+        <TableHead>
+          {contractItems.length > 0 &&
+            contractItems
+              .filter((current) => current.middle_name)
+              .reverse()
+              .map((current) => <TableRow key={current.id} data={current} />)}
+        </TableHead>
+      )}
+      {activeOption === navOptions[1] && (
+        <TableHead isMarket={true} >
+          {marketList.length > 0 &&
+            marketList
+              .filter((current) => current.middle_name)
+              .map((current) => (
+                <TableRow isMarket={true} key={current.id} data={current} handleAddToCart={handleAddToCart} />
+              ))}
+        </TableHead>
+      )}
     </div>
   );
 }

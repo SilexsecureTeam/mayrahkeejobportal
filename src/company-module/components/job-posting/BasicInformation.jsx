@@ -17,14 +17,6 @@ const basic_inputs = [
     prompt: "Here you input the company email",
   },
   {
-    id: 2,
-    name: "sector",
-    label: "Sector",
-    type: "text",
-    placeholder: "e.g IT",
-    prompt: "Here you input the job sector",
-  },
-  {
     id: 3,
     name: "preferred_age",
     label: "Application Age Limit",
@@ -53,7 +45,7 @@ const basic_inputs = [
     name: "location",
     label: "Location",
     type: "text",
-    placeholder: "e.g 11.023 20.345",
+    placeholder: "e.g wuse 11",
     prompt: "Here you insert the longitude and latitude",
   },
   {
@@ -111,6 +103,80 @@ const genderData = [
     name: "Female",
   },
 ];
+const jobSectors = [
+  {
+    id: 1,
+    name: "Agriculture",
+    subsections: [
+      { id: 1.1, name: "Crop Production" },
+      { id: 1.2, name: "Animal Husbandry" },
+      { id: 1.3, name: "Agricultural Technology" },
+    ],
+  },
+  {
+    id: 2,
+    name: "Oil and gas",
+    subsections: [
+      { id: 2.1, name: "Exploration" },
+      { id: 2.2, name: "Extraction" },
+      { id: 2.3, name: "Refining" },
+    ],
+  },
+  {
+    id: 3,
+    name: "Manufacturing",
+    subsections: [
+      { id: 3.1, name: "Textiles" },
+      { id: 3.2, name: "Electronics" },
+      { id: 3.3, name: "Automobiles" },
+    ],
+  },
+  {
+    id: 4,
+    name: "Information and communications",
+    subsections: [
+      { id: 4.1, name: "Software Development" },
+      { id: 4.2, name: "Network Administration" },
+      { id: 4.3, name: "Cybersecurity" },
+    ],
+  },
+  {
+    id: 5,
+    name: "Information Technology",
+    subsections: [
+      { id: 5.1, name: "Cloud Computing" },
+      { id: 5.2, name: "Data Science" },
+      { id: 5.3, name: "IT Support" },
+    ],
+  },
+  {
+    id: 6,
+    name: "Construction",
+    subsections: [
+      { id: 6.1, name: "Residential" },
+      { id: 6.2, name: "Commercial" },
+      { id: 6.3, name: "Infrastructure" },
+    ],
+  },
+  {
+    id: 7,
+    name: "Services",
+    subsections: [
+      { id: 7.1, name: "Hospitality" },
+      { id: 7.2, name: "Consulting" },
+      { id: 7.3, name: "Customer Support" },
+    ],
+  },
+  {
+    id: 8,
+    name: "HealthCare",
+    subsections: [
+      { id: 8.1, name: "Clinical Services" },
+      { id: 8.2, name: "Research" },
+      { id: 8.3, name: "Public Health" },
+    ],
+  },
+];
 
 const salaryTypeData = [
   {
@@ -155,9 +221,13 @@ function BasicInformation({ setCurrentStep, data, jobUtils }) {
   const [selectedType, setSelectedType] = useState();
   const [currentQualification, setCurrentQualification] = useState("");
   const [selectedGender, setSelectedGender] = useState(genderData[0]);
+  const [selectedSector, setSelectedSector] = useState(jobSectors[0]);
+  const [selectedSubSector, setSelectedSubSector] = useState();
+  const [subSectorList, setSubSectorList] = useState(jobSectors[0].subsections);
   const [selectedSalary, setSelectedSalary] = useState(salaryTypeData[1]);
   const [selectedCurrency, setSelectedCurrency] = useState(currencyData[0]);
   const [photoUrl, setPhotoUrl] = useState();
+  const [minimumPrice, setMinimumPrice] = useState(0);
 
   const toogleSelectedType = (selected) => {
     setSelectedType(selected);
@@ -178,28 +248,47 @@ function BasicInformation({ setCurrentStep, data, jobUtils }) {
   };
 
   useEffect(() => {
+    setSubSectorList(selectedSector.subsections);
+  }, [selectedSector]);
+
+  useEffect(() => {
+    setSelectedSubSector(subSectorList[0]);
+  }, [subSectorList]);
+
+  useEffect(() => {
     jobUtils.setDetails({
       ...jobUtils.details,
       ["gender"]: selectedGender.name,
       ["salary_type"]: selectedSalary.name,
       ["currency"]: selectedCurrency.name,
+      ["sector"]: selectedSector.name,
+      ["subsector"]: selectedSubSector?.name,
     });
-  }, [selectedCurrency, selectedGender, selectedSalary]);
+  }, [
+    selectedCurrency,
+    selectedGender,
+    selectedSalary,
+    selectedSector,
+    selectedSubSector,
+  ]);
 
   return (
     <div className="flex flex-col w-full p-4 gap-4">
       {/* Basic Info */}
       <div className="flex flex-col gap-4 border-b pb-2">
-        <h3 className="text-gray-700 text-lg font-semibold">Basic Information</h3>
+        <h3 className="text-gray-700 text-lg font-semibold">
+          Basic Information
+        </h3>
         <span className="text-sm text-gray-400">
           This Information will be displayed publicly
         </span>
       </div>
-
       {/* Featured Image */}
       <div className="flex flex-col sm:flex-row gap-4 items-center border-b py-4">
         <div className="flex flex-col w-full sm:max-w-[25%] gap-2">
-          <h3 className="text-gray-700 text-sm font-semibold">Featured Image</h3>
+          <h3 className="text-gray-700 text-sm font-semibold">
+            Featured Image
+          </h3>
           <span className="text-xs text-gray-400">
             Here you upload image for job
           </span>
@@ -231,12 +320,37 @@ function BasicInformation({ setCurrentStep, data, jobUtils }) {
           <span className="text-xs text-gray-400">Only JPEG or PNG</span>
         </div>
       </div>
+      {/* Dropdown Options */}
+      <SelectorInput
+        key={1}
+        data={{
+          label: "Sector",
+          prompt: "Here you input the job sector",
+          name: "sector",
+        }}
+        listData={jobSectors}
+        jobUtils={jobUtils}
+        selected={selectedSector}
+        setSelected={setSelectedSector}
+      />
 
+      {/* Dropdown Options */}
+      <SelectorInput
+        key={4}
+        data={{
+          label: "Sub-Sector",
+          prompt: "Here you select subsector based on the job sector",
+          name: "sector",
+        }}
+        listData={subSectorList}
+        jobUtils={jobUtils}
+        selected={selectedSubSector}
+        setSelected={setSelectedSubSector}
+      />
       {/* Basic Inputs */}
       {basic_inputs.map((current) => (
         <BasicJobInput key={current.id} data={current} jobUtils={jobUtils} />
       ))}
-
       {/* Employment Types */}
       <div className="flex flex-col sm:flex-row gap-4 border-b py-4">
         <div className="flex flex-col gap-2 w-full sm:max-w-[25%]">
@@ -260,10 +374,8 @@ function BasicInformation({ setCurrentStep, data, jobUtils }) {
           ))}
         </div>
       </div>
-
       {/* Job Title */}
       <QualificationsForm jobUtils={jobUtils} />
-
       {/* Dropdown Options */}
       <SelectorInput
         key={1}
@@ -277,7 +389,6 @@ function BasicInformation({ setCurrentStep, data, jobUtils }) {
         selected={selectedGender}
         setSelected={setSelectedGender}
       />
-
       <SelectorInput
         key={2}
         data={{
@@ -290,7 +401,6 @@ function BasicInformation({ setCurrentStep, data, jobUtils }) {
         selected={selectedSalary}
         setSelected={setSelectedSalary}
       />
-
       <SelectorInput
         key={3}
         data={{
@@ -303,7 +413,6 @@ function BasicInformation({ setCurrentStep, data, jobUtils }) {
         selected={selectedCurrency}
         setSelected={setSelectedCurrency}
       />
-
       {/* Salary */}
       <div className="flex flex-col sm:flex-row gap-4 border-b py-4">
         <div className="flex flex-col gap-2 sm:max-w-[25%] w-full">
@@ -315,6 +424,21 @@ function BasicInformation({ setCurrentStep, data, jobUtils }) {
         </div>
 
         <div className="flex flex-col w-full sm:w-[50%] gap-4">
+          <div className="w-fit flex flex-col">
+            <label htmlFor="">Min value</label>
+            <input
+              className="border p-1"
+              type="number"
+              defaultValue={0}
+              onChange={(e) => {
+                setMinimumPrice(Number(e.target.value));
+                jobUtils.setDetails({
+                  ...jobUtils.details,
+                  min_salary: FormatPrice(e.target.value),
+                });
+              }}
+            />
+          </div>
           <div className="flex items-center justify-between">
             <span className="border p-1">
               {FormatPrice(jobUtils.details.min_salary)}
@@ -326,8 +450,8 @@ function BasicInformation({ setCurrentStep, data, jobUtils }) {
           </div>
 
           <RangeSlider
-            min={0}
-            max={100000}
+            min={minimumPrice}
+            max={minimumPrice + 100000}
             step={500}
             defaultValue={[
               jobUtils.details.min_salary,
@@ -343,7 +467,6 @@ function BasicInformation({ setCurrentStep, data, jobUtils }) {
           />
         </div>
       </div>
-
       <button
         onClick={() => setCurrentStep(data[1])}
         className="p-2 place-self-end mt-4 font-semibold w-fit text-sm bg-primaryColor text-white"
