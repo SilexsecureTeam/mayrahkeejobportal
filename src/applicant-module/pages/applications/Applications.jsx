@@ -112,7 +112,7 @@ function Application() {
               className={`mx-2 p-2 hover:text-gray-500 ${view === "hired" ? "sticky left-0 bg-gray-200 border-b-2 border-green-600 font-medium" : ""}`}>Hired (0)</button>
           </div>
           <div className="flex flex-wrap justify-between items-center">
-            <p className="font-bold">{view} Applications</p>
+            <p className="font-bold capitalize">{view} Applications</p>
             <div className="flex items-start">
               <div className="">
                 <div className="relative border h-full py-1 px-6 mb-4">
