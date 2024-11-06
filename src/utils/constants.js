@@ -65,7 +65,7 @@ export const applicantOptions = [
   },
   {
     type: "FIND-JOB",
-    title: "Find Job",
+    title: "Find A Job",
     route: "/applicant/find-job",
     icon: searchIcon,
     iconActive: searchIconActive,
