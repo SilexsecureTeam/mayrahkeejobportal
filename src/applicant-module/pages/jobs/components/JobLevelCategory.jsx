@@ -43,12 +43,33 @@ const JobLevelCategory = ({ setJobLevel }) => {
                                 name: "CareerLevel",
                                 id: "Senior"
                             }} />
+    <CustomizedCheckbox
+                            setSelectedValue={setJobLevel} values={{
+                                label: "Management",
+                                value: "Management",
+                                name: "CareerLevel",
+                                id: "Management"
+                            }} />
+    <CustomizedCheckbox
+                            setSelectedValue={setJobLevel} values={{
+                                label: "Executive",
+                                value: "Executive",
+                                name: "CareerLevel",
+                                id: "Executive"
+                            }} />
                         <CustomizedCheckbox
                             setSelectedValue={setJobLevel} values={{
                                 label: "Director",
                                 value: "Director",
                                 name: "CareerLevel",
                                 id: "Director"
+                            }} />
+    <CustomizedCheckbox
+                            setSelectedValue={setJobLevel} values={{
+                                label: "BOD",
+                                value: "BOD",
+                                name: "CareerLevel",
+                                id: "BOD"
                             }} />
                         <CustomizedCheckbox
                             setSelectedValue={setJobLevel} values={{
