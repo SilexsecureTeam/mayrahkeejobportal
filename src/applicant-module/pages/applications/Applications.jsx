@@ -103,7 +103,7 @@ function Application() {
               className={`mx-2 p-2 hover:text-gray-500 ${view === "interview" ? "sticky left-0 bg-gray-200 border-b-2 border-green-600 font-medium" : ""}`}>shortlisted ({pendingInterview?.length})</button>
             <button
               onClick={() => handleView("assesment")}
-              className={`mx-2 p-2 hover:text-gray-500 ${view === "assesment" ? "sticky left-0 bg-gray-200 border-b-2 border-green-600 font-medium" : ""}`}>interview (0)</button>
+              className={`mx-2 p-2 hover:text-gray-500 ${view === "assesment" ? "sticky left-0 bg-gray-200 border-b-2 border-green-600 font-medium" : ""}`}>interviewed (0)</button>
             <button
               onClick={() => handleView("offered")}
               className={`mx-2 p-2 hover:text-gray-500 ${view === "offered" ? "sticky left-0 bg-gray-200 border-b-2 border-green-600 font-medium" : ""}`}>Offered (0)</button>
