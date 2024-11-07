@@ -42,7 +42,7 @@ function PublicProfile() {
                 <div className="mt-[-70px]">
                   <img
                     src={candidate?.profile ? `${IMAGE_URL}/${candidate.profile}` : 'https://via.placeholder.com/150'}
-                    className="w-24 h-24 md:w-32 md:h-32 ring-4 ring-white rounded-full object-cover"
+                    className="max-w-24 max-h-24 md:w-32 md:h-32 ring-4 ring-white rounded-full object-cover"
                     alt="profile"
                   />
                 </div>
