@@ -285,7 +285,7 @@ const BasicInfo = ({ setIsOpen }) => {
   console.log(candidate);
 
   return (
-    <div className="text-[#515B6F] text-base">
+    <div className="w-full overflow-x-hidden text-[#515B6F] text-base">
       <div className="my-4">
         <div className="flex flex-wrap gap-2 items-center pb-6 border-b">
           <div className="w-full md:w-1/3 pr-5">
@@ -307,7 +307,7 @@ const BasicInfo = ({ setIsOpen }) => {
             </div>
             <label
               htmlFor="image"
-              className="min-h-32 min-w-96 cursor-pointer bg-green-50 border-2 border-green-500 border-dashed p-5 rounded"
+              className="min-h-32 w-full md:min-w-96 cursor-pointer bg-green-50 border-2 border-green-500 border-dashed p-5 rounded"
             >
               <div className="text-center">
                 <div className="flex justify-center">
@@ -343,7 +343,7 @@ const BasicInfo = ({ setIsOpen }) => {
                     <div className="font-medium w-full md:w-2/6 text-slate-900">
                       <p>Personal Information</p>
                     </div>
-                    <div className="w-4/6">
+                    <div className="w-full md:w-4/6">
                       <div className="mb-4">
                         <label className="block">
                           <span className="block text-sm font-medium text-slate-700">
