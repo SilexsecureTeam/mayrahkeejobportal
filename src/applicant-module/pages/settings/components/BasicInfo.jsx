@@ -285,17 +285,17 @@ const BasicInfo = ({ setIsOpen }) => {
   console.log(candidate);
 
   return (
-    <div className="w-full overflow-x-hidden text-[#515B6F] text-base">
+    <div className="w-full text-[#515B6F] text-base">
       <div className="my-4">
         <div className="flex flex-wrap gap-2 items-center pb-6 border-b">
-          <div className="w-full md:w-1/3 pr-5">
+          <div className="max-w-full md:w-1/3 pr-5">
             <p className="font-medium mb-2 text-slate-950">Profile Photo</p>
             <p>
               This image will be shown publicly as your profile picture, it will
               help recruiters recognize you!
             </p>
           </div>
-          <div className="flex-1 flex items-center flex-wrap gap-2 justify-center">
+          <div className="flex items-center flex-wrap gap-2 justify-center">
             <div className="size-[100px]  ring-green-200 ring-4 rounded-full bg-gray-300 mx-5">
               <div className="">
                 <img
@@ -498,7 +498,7 @@ const BasicInfo = ({ setIsOpen }) => {
                     <div className="font-medium w-full md:w-2/6 text-slate-900">
                       <p>Professional Details</p>
                     </div>
-                    <div className="w-4/6">
+                    <div className="w-full md:w-4/6">
                       <div className="grid grid-cols-2 gap-4">
                         <div className="">
                           <label className="block">
@@ -663,7 +663,7 @@ const BasicInfo = ({ setIsOpen }) => {
                                         </label>
                                     </div> */}
                 </div>
-                <div className="border-b mb-8 py-6">
+                <div className="w-full border-b mb-8 py-6">
                   <div className="flex flex-col md:flex-row">
                     <div className="font-medium w-full md:w-2/6 text-slate-900">
                       <p>Contact Details</p>
