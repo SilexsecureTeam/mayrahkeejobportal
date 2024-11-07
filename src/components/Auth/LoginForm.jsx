@@ -43,7 +43,7 @@ function LoginForm({ rememberMe, toogleRememberMe }) {
       id="login-form"
       className={`h-full w-full md:w-[65%] flex flex-col pt-[%] md:pt-[3%] items-center  bg-primaryColor md:bg-white md:rounded-md   px-[3%] py-[10px]`}
     >
-      <img src={mayrahkeeIcon} className="w-[60%]  md:hidden h-[15%] mt-[3%]" />
+      <img src={mayrahkeeIcon} className="w-72 md:hidden mt-[3%]" />
 
       <div
         id="login-section"
@@ -53,7 +53,7 @@ function LoginForm({ rememberMe, toogleRememberMe }) {
           Login to your Account
         </h3>
         <span className="font-meduim text-center w-[60%] md:w-[90%] text-gray-200 md:text-gray-400 text-[12px] md:text-[11px]">
-          Explore/manage job different job oppurtunities
+          Explore & manage job different job opportunities 
         </span>
         <div className="grid grid-cols-2 w-full md:mt-10 gap-[10px] text-sm font-semibold">
           <button

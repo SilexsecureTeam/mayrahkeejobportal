@@ -96,14 +96,14 @@ function Application() {
               onClick={() => handleView("all")}
               className={`mx-2 p-2 hover:text-gray-500 ${view === "all" ? "sticky left-0 bg-gray-200 border-b-2 border-green-600 font-medium" : ""}`}>All ({allApplications?.length})</button>
             <button
-              onClick={() => handleView("review")}
-              className={`mx-2 p-2 hover:text-gray-500 ${view === "review" ? "sticky left-0 bg-gray-200 border-b-2 border-green-600 font-medium" : ""}`}>In Review ({pendingReview?.length})</button>
+              onClick={() => handleView("reviewed")}
+              className={`mx-2 p-2 hover:text-gray-500 ${view === "reviewed" ? "sticky left-0 bg-gray-200 border-b-2 border-green-600 font-medium" : ""}`}>In Review ({pendingReview?.length})</button>
             <button
-              onClick={() => handleView("interview")}
-              className={`mx-2 p-2 hover:text-gray-500 ${view === "interview" ? "sticky left-0 bg-gray-200 border-b-2 border-green-600 font-medium" : ""}`}>shortlisted ({pendingInterview?.length})</button>
+              onClick={() => handleView("interviewed")}
+              className={`mx-2 p-2 hover:text-gray-500 ${view === "interviewed" ? "sticky left-0 bg-gray-200 border-b-2 border-green-600 font-medium" : ""}`}>shortlisted ({pendingInterview?.length})</button>
             <button
-              onClick={() => handleView("assesment")}
-              className={`mx-2 p-2 hover:text-gray-500 ${view === "assesment" ? "sticky left-0 bg-gray-200 border-b-2 border-green-600 font-medium" : ""}`}>interview (0)</button>
+              onClick={() => handleView("assessed")}
+              className={`mx-2 p-2 hover:text-gray-500 ${view === "assessed" ? "sticky left-0 bg-gray-200 border-b-2 border-green-600 font-medium" : ""}`}>interviewed (0)</button>
             <button
               onClick={() => handleView("offered")}
               className={`mx-2 p-2 hover:text-gray-500 ${view === "offered" ? "sticky left-0 bg-gray-200 border-b-2 border-green-600 font-medium" : ""}`}>Offered (0)</button>
@@ -112,7 +112,7 @@ function Application() {
               className={`mx-2 p-2 hover:text-gray-500 ${view === "hired" ? "sticky left-0 bg-gray-200 border-b-2 border-green-600 font-medium" : ""}`}>Hired (0)</button>
           </div>
           <div className="flex flex-wrap justify-between items-center">
-            <p className="font-bold">Applications {view}</p>
+            <p className="font-bold capitalize">{view} Applications</p>
             <div className="flex items-start">
               <div className="">
                 <div className="relative border h-full py-1 px-6 mb-4">
@@ -142,10 +142,10 @@ function Application() {
             {view === "all" && allApplications?.map((app, index) => (
               <AllApplicants key={app.id} app={app} index={index} />
             ))}
-            {view === "review" && pendingReview?.map((app, index) => (
+            {view === "reviewed" && pendingReview?.map((app, index) => (
               <AllApplicants key={app.id} app={app} index={index} />
             ))}
-            {view === "interview" && pendingInterview?.map((app, index) => (
+            {view === "interviewed" && pendingInterview?.map((app, index) => (
               <AllShortlistedApplicants key={app.id} app={app} index={index} />
             ))}
           </div>

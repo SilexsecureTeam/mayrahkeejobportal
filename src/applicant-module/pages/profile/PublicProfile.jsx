@@ -1,12 +1,7 @@
 import { Helmet } from "react-helmet";
-import { CiFlag1, CiInstagram, CiTwitter } from "react-icons/ci";
+import { CiFlag1, CiInstagram } from "react-icons/ci";
 import { FaRegEdit } from "react-icons/fa";
-import { GrLanguage, GrLocation } from "react-icons/gr";
-import { IoMdAdd } from "react-icons/io";
-import twitter from "../../../assets/pngs/twitter-icon.png"
-import thread from "../../../assets/pngs/thread.png"
-import eduIcon from "../../../assets/pngs/edu-icon.png"
-import eduIcon2 from "../../../assets/pngs/edu-icon2.png"
+import { GrLocation } from "react-icons/gr";
 import { MdOutlineEmail, MdOutlinePhoneIphone } from "react-icons/md";
 import { IoLanguageOutline } from "react-icons/io5";
 import { useContext, useEffect } from "react";
@@ -16,175 +11,132 @@ import { ResourceContext } from "../../../context/ResourceContext";
 import { BASE_URL, IMAGE_URL } from "../../../utils/base";
 
 function PublicProfile() {
-
   const { getCandidate, setGetCandidate } = useContext(ResourceContext);
-  const { authDetails, userUpdate } = useContext(AuthContext);
-  const user = authDetails?.user
+  const { authDetails } = useContext(AuthContext);
+  const user = authDetails?.user;
 
   useEffect(() => {
-    setGetCandidate((prev) => {
-      return {
-        ...prev, isDataNeeded: true
-      }
-    })
-  }, [])
+    setGetCandidate((prev) => ({
+      ...prev, isDataNeeded: true
+    }));
+  }, []);
 
-  const candidate = getCandidate.data?.details
-  console.log(getCandidate.data)
-  console.log(userUpdate)
+  const candidate = getCandidate.data?.details;
   const bgImage = candidate?.background_profile ? `url('${IMAGE_URL}/${candidate?.background_profile}')` : "";
-  console.log(bgImage)
+
   return (
     <>
       <Helmet>
-        <title>Dashboard | Public Profile </title>
+        <title>Dashboard | Public Profile</title>
       </Helmet>
-      <div className="h-full w-full p-8 px-5 md:px-8">
-        <div className="flex flex-wrap">
-          <div className="w-full md:w-2/3">
-            <div className="border">
-              <div className="bg_layout p-4 h-[150px]" style={{ backgroundImage: bgImage}}>
+      <div className="h-full w-full p-4 sm:p-8">
+        <div className="flex flex-wrap md:flex-nowrap">
+          <div className="w-full lg:w-2/3 mb-4 lg:mb-0">
+            <div className="border rounded-lg overflow-hidden">
+              <div className="bg_layout p-4 h-[150px] bg-cover" style={{ backgroundImage: bgImage }}>
                 <div className="flex justify-end text-white">
                   {/* <button className="p-1 border border-white hover:text-gray-200"><FaRegEdit /></button> */}
                 </div>
               </div>
-              <div className="p-4 flex flex-wrap md:flex-nowrap">
-                <div className="">
-                  <div className="-mt-[50%] size-[120px] bg-gray-30">
-                    <img src={`${IMAGE_URL}/${candidate?.profile}`} className=" ring-white ring-4 rounded-full " alt="profile image" />
-                  </div>
+              <div className="p-4 flex">
+                <div className="mt-[-70px]">
+                  <img
+                    src={candidate?.profile ? `${IMAGE_URL}/${candidate.profile}` : 'https://via.placeholder.com/150'}
+                    className="w-24 h-24 md:w-32 md:h-32 ring-4 ring-white rounded-full object-cover"
+                    alt="profile"
+                  />
                 </div>
-                <div className="w-full flex justify-between">
-                  <div className="">
-                    <h4 className="font-bold mb-4">{candidate?.full_name}</h4>
-                    <div className="text-[#7C8493]">
-                      <p>{candidate?.preferred_job_role} <b className="text-black ml-2"></b></p>
-                      <div className="my-3 flex">
-                        <span className="mr-3">
-                          <GrLocation />
-                        </span>
-                        <span className="">{candidate?.state}, {candidate?.country}</span>
-                      </div>
-                      <p><b>Address :</b> <span className="ml-2">{candidate?.contact_address}</span></p>
-                      <div className="flex justify-between">
-                        <p><b>Educational Qualification</b></p>
-                        <p>{candidate?.educational_qualification?.toUpperCase()}</p>
-                      </div>
-                      <button className="p-2 mt-5 flex bg-green-100 hover:bg-green-200 text-green-900 items-center rounded">
-                        <span className="mr-2">
-                          <CiFlag1 />
-                        </span>
-                        OPEN FOR OPPORTUNITIES
-                      </button>
-                    </div>
-                  </div>
-                  <div className="">
-                    <UpdateCandidateProfile />
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="border my-4">
-              <div className="p-4">
-                <div className="flex justify-between">
-                  <p className="font-bold">About Me</p>
-                  {/* <button className="p-1 border border-green-500 text-green-700 hover:text-gray-600"><FaRegEdit /></button> */}
-                </div>
-                <div className="my-3 text-[#515B6F]">
-                  <p className="my-3">{candidate?.personal_profile} </p>
-                </div>
-              </div>
-            </div>
-            <div className="border my-4">
-              <div className="p-4">
-                <div className="flex justify-between">
-                  <p className="font-bold">Experience</p>
-                  {/* <button className="p-1 border border-green-500   text-green-700 hover:text-gray-600"><IoMdAdd /></button> */}
-                </div>
-                <div className="  divide-y">
-                  <div className="py-6 text-sm text-[#515B6F]">
-                    <div className="flex justify-b">
-                      {/* {candidate?.experience} */}
-                      <p dangerouslySetInnerHTML={{ __html: candidate?.experience }} />
-                    </div>
-                  </div>
 
+                <div className="flex-1 mt-4 md:mt-0 md:ml-4">
+                  <h4 className="text-lg font-bold">{candidate?.full_name}</h4>
+                  <div className="text-sm text-gray-600 mt-2">
+                    <p>{candidate?.preferred_job_role}</p>
+                    <div className="flex items-center mt-2">
+                      <GrLocation className="mr-2" />
+                      <span>{candidate?.state}, {candidate?.country}</span>
+                    </div>
+                    <p className="mt-2"><b>Address:</b> {candidate?.contact_address}</p>
+                    <p className="mt-2"><b>Educational Qualification:</b> {candidate?.educational_qualification?.toUpperCase()}</p>
+                  </div>
+                  <button className="mt-5 px-4 py-2 flex items-center bg-green-100 hover:bg-green-200 text-green-900 rounded">
+                    <CiFlag1 className="mr-2" />
+                    OPEN FOR OPPORTUNITIES
+                  </button>
+                </div>
+                <div className="mt-4 md:mt-0">
+                  <UpdateCandidateProfile />
                 </div>
               </div>
             </div>
-            <div className="border my-4">
-            </div>
-            <div className="border my-4">
+            <div className="border rounded-lg mt-4">
               <div className="p-4">
-                <div className="flex justify-between">
-                  <p className="font-bold mb-4">Keyword</p>
-                  {/* <button className="p-1 border border-green-500 text-green-700 hover:text-gray-600"><IoMdAdd /></button> */}
+                <p className="font-bold">About Me</p>
+                <p className="text-sm text-gray-600 mt-3">{candidate?.personal_profile}</p>
+              </div>
+            </div>
+            <div className="border rounded-lg mt-4">
+              <div className="p-4">
+                <p className="font-bold">Experience</p>
+                <div className="text-sm text-gray-600 mt-3">
+                  <p dangerouslySetInnerHTML={{ __html: candidate?.experience }} />
                 </div>
+              </div>
+            </div>
+            <div className="border rounded-lg mt-4">
+              <div className="p-4">
+                <p className="font-bold mb-4">Keywords</p>
                 <div className="flex flex-wrap">
-                  <button className="p-2 m-2 flex bg-green-100 hover:bg-green-200 text-green-900 items-center rounded">
-                    Communication
-                  </button>
-                  <button className="p-2 m-2 flex bg-green-100 hover:bg-green-200 text-green-900 items-center rounded">
-                    Analytics
-                  </button>
-                  <button className="p-2 m-2 flex bg-green-100 hover:bg-green-200 text-green-900 items-center rounded">
-                    Facebook Ads
-                  </button>
-                  <button className="p-2 m-2 flex bg-green-100 hover:bg-green-200 text-green-900 items-center rounded">
-                    Content Planning
-                  </button>
-                  <button className="p-2 m-2 flex bg-green-100 hover:bg-green-200 text-green-900 items-center rounded">
-                    Community Manager
-                  </button>
+                  {['Communication', 'Analytics', 'Facebook Ads', 'Content Planning', 'Community Manager'].map((keyword) => (
+                    <button key={keyword} className="p-2 m-1 bg-green-100 hover:bg-green-200 text-green-900 rounded">
+                      {keyword}
+                    </button>
+                  ))}
                 </div>
               </div>
             </div>
           </div>
-          <div className="w-full md:w-1/3 px-3">
-            <div className="border p-2 mb-4">
-              <div className="flex justify-between">
-                <p className="font-bold ">Additional Details</p>
-                <button className="p-1 border border-green-500   text-green-700 hover:text-gray-600"><FaRegEdit /></button>
-              </div>
-              <div className="my-3 flex text-[#7C8493]">
-                <span className="mr-2"><MdOutlineEmail />                </span>
-                <div className="">
+          <div className="w-full lg:w-1/3 px-0 lg:px-4">
+            <div className="border rounded-lg p-4 mb-4">
+              <p className="font-bold">Additional Details</p>
+              <div className="flex items-center text-gray-600 mt-3">
+                <MdOutlineEmail className="mr-2" />
+                <div>
                   <p>Email</p>
                   <p>{user?.email}</p>
                 </div>
               </div>
-              <div className="my-3 flex text-[#7C8493]">
-                <span className="mr-2"><MdOutlinePhoneIphone />                </span>
-                <div className="">
+              <div className="flex items-center text-gray-600 mt-3">
+                <MdOutlinePhoneIphone className="mr-2" />
+                <div>
                   <p>Phone</p>
                   <p>{candidate?.phone_number}</p>
                 </div>
               </div>
-              <div className="my-3 flex text-[#7C8493]">
-                <span className="mr-2"><IoLanguageOutline />                </span>
-                <div className="">
+              <div className="flex items-center text-gray-600 mt-3">
+                <IoLanguageOutline className="mr-2" />
+                <div>
                   <p>Language</p>
                   <p>{candidate?.languages}</p>
                 </div>
               </div>
-            </div>
-            <div className="border p-2 mb-4">
-              <div className="flex justify-between">
-                <p className="font-bold ">Social Links</p>
-                <button className="p-1 border border-green-500   text-green-700 hover:text-gray-600"><FaRegEdit /></button>
-              </div>
-              {
-                candidate?.social_media_handle?.map((social) => (
-                  <div key={social.url} className="my-3 flex text-[#7C8493]">
-                    <span className="mr-2"><CiInstagram />                </span>
-                    <div className="">
-                      <p>{social.network}</p>
-                      <p className="text-green-700">{social.url}</p>
-                    </div>
+            </div><div className="border rounded-lg p-4">
+              <p className="font-bold">Social Links</p>
+              {candidate?.social_media_handle?.map((social) => (
+                <div key={social.url} className="flex items-center text-gray-600 mt-3">
+                  <div className="w-full">
+                    <p className="font-medium">{social.network}</p>
+                    <a
+                      href={social.url}
+                      className="text-green-700 cursor-pointer w-full block truncate"
+                      style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}
+                    >
+                      {social.url}
+                    </a>
                   </div>
-                ))
-              }
+                </div>
+              ))}
             </div>
+
           </div>
         </div>
       </div>

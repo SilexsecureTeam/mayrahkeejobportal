@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { TbPhoto } from "react-icons/tb";
 import DynamicExperienceForm from "./DynamicExperienceForm";
 import SocialsForm from "./SocialsForm";
-import { BASE_URL } from "../../../../utils/base";
+import { BASE_URL, IMAGE_URL } from "../../../../utils/base";
 // import UiSelect from '../../../components/general/UiSelect'
 import axios from "axios";
 import { IoCheckboxSharp } from "react-icons/io5";
@@ -61,7 +61,7 @@ const BasicInfo = ({ setIsOpen }) => {
   const [details, setDetails] = useState({
     candidate_id: user.id ? user.id : "",
     // full_name: user.full_name ? user.full_name : "",
-    profile: null,
+    profile: candidate?.profile || null,
     full_name: user.first_name ? ` ${user.first_name} ${user.last_name}` : "",
     date_of_birth: candidate?.date_of_birth ? candidate?.date_of_birth : "",
     gender: candidate.gender ? candidate?.gender : "",
@@ -287,20 +287,20 @@ const BasicInfo = ({ setIsOpen }) => {
   return (
     <div className="text-[#515B6F] text-base">
       <div className="my-4">
-        <div className="flex items-cente pb-6 border-b">
-          <div className="w-1/3 pr-5">
+        <div className="flex flex-wrap gap-2 items-center pb-6 border-b">
+          <div className="w-full md:w-1/3 pr-5">
             <p className="font-medium mb-2 text-slate-950">Profile Photo</p>
             <p>
               This image will be shown publicly as your profile picture, it will
               help recruiters recognize you!
             </p>
           </div>
-          <div className="flex items-center">
+          <div className="flex-1 flex items-center flex-wrap gap-2 justify-center">
             <div className="size-[100px]  ring-green-200 ring-4 rounded-full bg-gray-300 mx-5">
               <div className="">
                 <img
                   className="w-[100px] h-[100px] rounded-full"
-                  src={profileImageUrl}
+                  src={profileImageUrl ? profileImageUrl : `${IMAGE_URL}/${candidate.profile}`}
                   alt=""
                 />
               </div>
@@ -339,8 +339,8 @@ const BasicInfo = ({ setIsOpen }) => {
             <form onSubmit={handleSubmit}>
               <div className=" md:w-">
                 <div className="border-b py-6">
-                  <div className="flex">
-                    <div className="font-medium w-2/6 text-slate-900">
+                  <div className="flex flex-col md:flex-row gap-2">
+                    <div className="font-medium w-full md:w-2/6 text-slate-900">
                       <p>Personal Information</p>
                     </div>
                     <div className="w-4/6">
@@ -494,8 +494,8 @@ const BasicInfo = ({ setIsOpen }) => {
                   </div>
                 </div>
                 <div className="border-b py-6">
-                  <div className="flex">
-                    <div className="font-medium w-2/6 text-slate-900">
+                  <div className="flex flex-col md:flex-row gap-2">
+                    <div className="font-medium w-full md:w-2/6 text-slate-900">
                       <p>Professional Details</p>
                     </div>
                     <div className="w-4/6">
@@ -664,8 +664,8 @@ const BasicInfo = ({ setIsOpen }) => {
                                     </div> */}
                 </div>
                 <div className="border-b mb-8 py-6">
-                  <div className="flex">
-                    <div className="font-medium w-2/6 text-slate-900">
+                  <div className="flex flex-col md:flex-row">
+                    <div className="font-medium w-full md:w-2/6 text-slate-900">
                       <p>Contact Details</p>
                     </div>
                     <div className="w-4/6">
@@ -769,7 +769,7 @@ const BasicInfo = ({ setIsOpen }) => {
                                                             className="mt-1 block p-1 focus:outline-none w-full border" />
                                                     </label>
                                                 </div> */}
-                        <div className="">
+                        <div className="col-span-2">
                           <SocialsForm
                             experiences={socialHandles}
                             setExperiences={setSocialHandles}

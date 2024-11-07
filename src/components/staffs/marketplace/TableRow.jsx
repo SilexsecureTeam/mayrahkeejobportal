@@ -21,7 +21,7 @@ function TableRow({ data, isMarket = false, handleAddToCart }) {
   return (
     <tr className="border-b cursor-pointer hover:bg-gray-50 py-5 text-gray-700  text-little">
       <td className="text-center">
-        <div className="flex justify-start  pl-5 py-3 font-semibold items-center gap-3">
+        <div className="flex justify-start pl-5 py-3 font-semibold items-center gap-3">
           <img
             className="h-[50px] w-[50px] rounded-full"
             src={
