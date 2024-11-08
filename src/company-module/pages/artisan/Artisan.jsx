@@ -150,24 +150,10 @@ function Artisan() {
             result in a breach of contract or legal consequences, depending on
             applicable labor laws..
           </p>
-          <div
-            onClick={() => setTerms(!terms)}
-            className="flex cursor-pointer items-center gap-3"
-          >
-            {terms ? (
-              <MdCheck size={20} className="text-primaryColor" />
-            ) : (
-              <MdCheckBoxOutlineBlank size={20} />
-            )}
-            <span>I accept the terms and conditions</span>
-          </div>
+    
           <FormButton
             onClick={() => {
-              if (terms) {
-                handleQuerySubmit();
-              } else{
-                onFailure({message: 'Terms and Condtions', error: 'Please agree to the terms by cliking the check box'})
-              }
+              handleQuerySubmit();
             }}
             loading={loading}
           >
