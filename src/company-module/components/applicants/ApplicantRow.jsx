@@ -5,12 +5,17 @@ import { AiFillClockCircle } from "react-icons/ai";
 import { MdCheck, MdCheckCircle, MdCheckCircleOutline } from "react-icons/md";
 import { GiVideoConference } from "react-icons/gi";
 import { IoMdCloseCircle } from "react-icons/io";
+import { useContext } from "react";
+import { AuthContext } from "../../../context/AuthContex";
 
 function ApplicantRow({ data }) {
   const navigate = useNavigate();
+  const authDetails = useContext(AuthContext)
+  const role = authDetails.user.role === "employer" ? "company" : "applicant";
+
 
   const navigateToApplicantDetails = () =>
-    navigate(`/company/applicants/detail/${data.id}`, { state: { data } });
+    navigate(`/${role}/applicants/detail/${data.id}`, { state: { data } });
 
   const getBorderColor = () => {
     switch (data.status) {

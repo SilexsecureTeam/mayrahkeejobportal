@@ -11,6 +11,10 @@ function useCart() {
   const client = axiosClient(authDetails?.token);
   const navigate = useNavigate();
 
+  const navigateToApplicantDetails = () =>
+    navigate(`/company/applicants/detail/${data.id}`, { state: { data } });
+
+
   const config = (handleSuccess, data, getCartItems, total) => {
     const priceInKobo = total * 100;
     const onClose = () => {
@@ -41,9 +45,10 @@ function useCart() {
           reference: reference.reference,
         });
       });
-
+      const role = authDetails.user.role === "employer" ? "company" : "applicant";
       await Promise.all(response);
       await getCartItems();
+      navigate(`/${role}/staff/success`, {state: {data}});
       onSuccess({
         message: "User sucessfully added",
         success: "Domestic staff added to cart successfully",
@@ -61,7 +66,6 @@ function useCart() {
   };
 
   const addToCart = async (getCartItems, data) => {
-
     try {
       const response = await client.post("/staff-cart/add", {
         user_id: authDetails.user.id,
@@ -72,15 +76,14 @@ function useCart() {
         message: "User sucessfully added",
         success: "Domestic staff added to cart successfully",
       });
-      await getCartItems()
+      await getCartItems();
     } catch (error) {
       onFailure({
         message: "Collection Failed",
         error: "Failed to add to collection",
       });
       console.log(error);
-    } 
-
+    }
   };
 
   const removeFromCart = async (getCartItems, data) => {
@@ -94,7 +97,7 @@ function useCart() {
         message: "User sucessfully added",
         success: "Domestic staff added to cart successfully",
       });
-      await getCartItems()
+      await getCartItems();
     } catch (error) {
       onFailure({
         message: "Cart Failed",

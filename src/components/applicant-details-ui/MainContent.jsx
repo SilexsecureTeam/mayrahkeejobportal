@@ -1,12 +1,17 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { TbBriefcase2 } from "react-icons/tb";
 import Garantor from "./subcontents/Garantor";
 import MedicalHistory from "./subcontents/MedicalHistory";
 import PoliceRecord from "./subcontents/PoliceRecord";
+import useStaff from "../../hooks/useStaff";
 
-const MainContent = ({ workExperience, staff }) => {
+const MainContent = ({ staff }) => {
   // State to keep track of the active tab
   const [activeTab, setActiveTab] = useState("Guarantors");
+
+  const [workExperience, setWorkExperience] = useState([])
+  const { getWorkExperience } = useStaff();
+
 
   // Function to render the content based on active tab
   const renderContent = () => {
@@ -23,6 +28,18 @@ const MainContent = ({ workExperience, staff }) => {
         return null;
     }
   };
+
+  useEffect(() => {
+    const initData = async () => {
+      const result = await getWorkExperience(staff.id);
+      if (result) {
+        setWorkExperience(result);
+      }
+    };
+
+    initData();
+  }, []);
+
 
   return (
     <main className="w-full shadow-[0_0_2px_#999] md:w-3/4 p-6">
@@ -74,12 +91,10 @@ const MainContent = ({ workExperience, staff }) => {
       <section>
         <h4 className="text-xl font-semibold mb-4">Work experience</h4>
         <div className="flex space-x-4 text-gray-600 mb-4">
-          <span className="border-b-2 border-black pb-1">Paid experience</span>
-          <span>Volunteer experience</span>
-          <span>Other experience</span>
+          <span className="border-b-2 border-black pb-1">All experience</span>
         </div>
         <div className="space-y-3">
-          {workExperience.map((job, index) => (
+          {workExperience.length > 0 ? workExperience.map((job, index) => (
             <div className={`${index !== 0 && "border-t border-gray-300"} flex gap-2 pt-3`} key={index}>
               <TbBriefcase2 size="24" className="flex-shrink-0 mr-2" />
               <section>
@@ -91,7 +106,9 @@ const MainContent = ({ workExperience, staff }) => {
                 <button className="text-gray-800 underline font-medium mt-2">Show more</button>
               </section>
             </div>
-          ))}
+          )) :
+           <span>No work experience found</span>
+        }
         </div>
       </section>
     </main>

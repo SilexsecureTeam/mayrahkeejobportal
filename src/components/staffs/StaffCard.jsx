@@ -9,6 +9,7 @@ import { onSuccess } from "../../utils/notifications/OnSuccess";
 import { onFailure } from "../../utils/notifications/OnFailure";
 import { PaystackConsumer } from "react-paystack";
 import { useNavigate } from "react-router-dom";
+import { FormatPrice } from "../../utils/formmaters";
 
 const PUBLIC_KEY = import.meta.env.VITE_TEST_PUBLIC_KEY;
 
@@ -166,6 +167,59 @@ function StaffCard({
     }
   };
 
+  const getVerificationComp = (status, name) => {
+    let utils = {
+      icon: "",
+      name: "",
+      bg: "",
+    };
+    switch (name) {
+      case "police":
+        utils = {
+          icon: "/police-icon.png",
+          name: `Police - ${status ? "( Verfied )" : "( Unverfied )"}`,
+          bg: `${status ? "bg-[#47AA49]" : "bg-[#AB3335]"}`,
+        };
+        break;
+      case "residence":
+        utils = {
+          icon: "/residence-icon.png",
+          name: `Residence - ${status ? "( Verfied )" : "( Unverfied )"}`,
+          bg: `${status ? "bg-[#47AA49]" : "bg-[#AB3335]"}`,
+        };
+        break;
+      case "garantor":
+        utils = {
+          icon: "/garantor-icon.png",
+          name: `Garantor - ${status ? "( Verfied )" : "( Unverfied )"}`,
+          bg: `${status ? "bg-[#47AA49]" : "bg-[#AB3335]"}`,
+        };
+        break;
+      case "medical":
+        utils = {
+          icon: "/medical-icon.png",
+          name: `Medical - ${status ? "( Verfied )" : "( Unverfied )"}`,
+          bg: `${status ? "bg-[#47AA49]" : "bg-[#AB3335]"}`,
+        };
+        break;
+    }
+
+    return (
+      <span
+        className={`w-full py-2 flex items-center px-3 gap-4 text-white ${utils.bg}`}
+      >
+        <img src={utils.icon} className="h-[20px]" />
+        {utils.name}
+      </span>
+    );
+  };
+
+  const userVerified =
+    data.residence_verification_status &&
+    data.garantor_verification_status &&
+    data.police_report_verification_status &&
+    data.medical_history_verification_status;
+
   return (
     <>
       <PopUpBox isOpen={open}>
@@ -203,7 +257,7 @@ function StaffCard({
           </FormButton>
         </div>
       </PopUpBox>
-      <div className="relative pt-[50px] my-[50px] min-h-fit flex gap-2 shadow-[0_0_2px_#ccc] rounded-lg flex-col justify-between p-3 md:p-5 border">
+      <div className="relative pt-[50px] bg-white my-[50px] min-h-fit flex gap-2 shadow-[0_0_2px_#ccc] rounded-lg flex-col justify-between px-3 md:p-10 border">
         {getField("profile_image") ? (
           <img
             src={`${resourceUrl}${getField("profile_image")}`}
@@ -218,34 +272,60 @@ function StaffCard({
           />
         )}
 
+        {<img
+          src={userVerified ? `/verified-badge.png` : '/unverified-badge.png'}
+          className="absolute right-[10px] mx-auto top-[10px] h-[30px]  place-self-center  rounded-full "
+          alt=""
+        />}
         <div className="flex flex-col gap-2 py-2 mt-[50px]">
-          <span className="flex items-center gap-2 text-md font-semibold">
+          <span className="flex items-center justify-between gap-2 text-md font-semibold">
             Name:
-            <span className="text-sm font-normal text-gray-500">
+            <span className="text-sm w-[60%] text-start font-normal text-gray-500">
               {getField("first_name")} {getField("surname")}
             </span>
           </span>
 
-          <span className="flex gap-2 items-center text-md font-semibold">
+          <span className="flex gap-2 items-center justify-between text-md font-semibold">
             Age Range:
-            <span className="text-sm font-normal text-gray-500">
+            <span className="text-sm w-[60%] text-start font-normal text-gray-500">
               {getField("age")} Years
             </span>
           </span>
 
-          <span className="flex gap-2 items-center text-md font-semibold">
+          <span className="flex gap-2 items-center justify-between text-md font-semibold">
             Category:
-            <span className="text-sm font-normal text-gray-500">
+            <span className="text-sm w-[60%] text-start font-normal text-gray-500">
               {getField("subcategory")}
             </span>
           </span>
 
-          <span className="flex gap-2 items-center text-md truncate font-semibold">
+          <span className="flex gap-2 items-center justify-between text-md truncate font-semibold">
             Education:
-            <span className="text-sm font-normal text-gray-500">
+            <span className="text-sm w-[60%] text-start font-normal text-gray-500">
               {getField("education_level")}
             </span>
           </span>
+
+          <span className="flex gap-2 items-center justify-between text-md truncate font-semibold">
+            <img src="/price-tag.png" className="w-[30px]" />
+            Professional Fees:
+            <span className="text-sm w-[60%] text-start font-normal text-gray-500">
+              {FormatPrice(10000)}
+            </span>
+          </span>
+        </div>
+
+        <div className="flex w-full gap-2 flex-col my-3">
+          {getVerificationComp(
+            data.police_report_verification_status,
+            "police"
+          )}
+          {getVerificationComp(data.garantor_verification_status, "garantor")}
+          {getVerificationComp(data.residence_verification_status, "residence")}
+          {getVerificationComp(
+            data.medical_history_verification_status,
+            "medical"
+          )}
         </div>
 
         {!contract && (
@@ -253,55 +333,25 @@ function StaffCard({
             {cartItems.find((current) => {
               return data.id === current.domestic_staff_id;
             }) ? (
-              <div className="flex  flex-col gap-2 items-center">
-                {/* <p className="flex items-center gap-2 p-2 text-md text-primaryColor">
-                  {" "}
-                  <MdCheck /> Aready in Cart
-                </p> */}
-                <FormButton
-                height="h-fit text-sm p-2 bg-[#47AA49]"
-              >
-                Amount: NGN {'5,000'}
-              </FormButton>
-             
-                <FormButton
-                  loading={cartloading}
-                  onClick={removeFromCart}
-                  height="h-fit bg-red-500 text-sm p-2"
-                >
-                  Remove from cart
-                </FormButton>
-              </div>
-            ) : (
-              <>
-              <FormButton
-                height="h-fit text-sm p-2 bg-[#47AA49]"
-              >
-                Amount: NGN {'5,000'}
-              </FormButton>
               <FormButton
                 loading={cartloading}
-                onClick={addToCart}
-                height="h-fit text-sm p-2"
+                onClick={removeFromCart}
+                width="h-fit bg-red-500 border border-black text-black bg-white text-sm py-2"
               >
-                Add to Cart
+                Remove from cart
               </FormButton>
+            ) : (
+              <>
+                <FormButton
+                  loading={cartloading}
+                  onClick={addToCart}
+                  width="h-fit text-sm py-2 border border-black text-black bg-white"
+                >
+                  Add to Cart
+                </FormButton>
               </>
             )}
           </div>
-        )}
-        {contract && (
-          <PaystackConsumer {...config(handleSuccess)}>
-            {({ initializePayment }) => (
-              <FormButton
-                loading={cartloading}
-                height="h-fit text-sm p-1"
-                onClick={initializePayment}
-              >
-                Sign
-              </FormButton>
-            )}
-          </PaystackConsumer>
         )}
       </div>
     </>

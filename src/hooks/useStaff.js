@@ -5,7 +5,13 @@ import { axiosClient } from "../services/axios-client";
 import { onFailure } from "../utils/notifications/OnFailure";
 import { onSuccess } from "../utils/notifications/OnSuccess";
 
+
+
 function useStaff() {
+  const ContractStatus = {
+    accept: 'Accept',
+    reject: 'Reject'
+  }
   const { authDetails } = useContext(AuthContext);
   const client = axiosClient(authDetails?.token);
   const navigate = useNavigate();
@@ -49,6 +55,7 @@ function useStaff() {
       return [];
     }
   };
+
   //To get Police Records
   const getPoliceDetails = async (staffId) => {
     try {
@@ -70,7 +77,38 @@ function useStaff() {
     }
   };
 
-  return { getGarantorDetails, getMedicalDetails, getPoliceDetails };
+  //To get Work Experience
+  const getWorkExperience = async (staffId) => {
+    try {
+      const { data } = await client.get(
+        `/domesticStaff/previous-work-experience/${staffId}`
+      );
+
+      if (data.PreviousWorkExperience) {
+        return data.PreviousWorkExperience;
+      }
+      return [];
+    } catch (error) {
+      return [];
+    }
+  };
+
+  //To get Work Experience
+  const updateContractStatus = async (staff, status ) => {
+    try {
+      const { data } = await client.post(
+        `/domesticStaff/update-profile/${staff.id}`,{
+          ...staff,
+          contract_status: status === ContractStatus.accept ? 1 : 2 
+        }
+      );
+     return true;
+    } catch (error) {
+      return false;
+    }
+  };
+
+  return { ContractStatus, getGarantorDetails, getMedicalDetails, getPoliceDetails, getWorkExperience, updateContractStatus };
 }
 
 export default useStaff;
