@@ -63,7 +63,7 @@ const Settings = lazy(() =>
   import("../applicant-module/pages/settings/Settings")
 );
 const HelpCenter = lazy(() =>
-  import("../applicant-module/pages/help-center/HelpCenter")
+  import("../pages/HelpCenter")
 );
 
 function useApplicantRoute() {
