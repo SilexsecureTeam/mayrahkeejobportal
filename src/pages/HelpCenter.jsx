@@ -1,28 +1,23 @@
-import React from "react";
+import { useState } from "react";
 
 const HelpCenter = () => {
+  const [loading, setLoading] = useState(true);
+
+  const handleLoad = () => {
+    setLoading(false);
+  };
+
   return (
     <div className="font-sans">
-      {/* Header */}
-      <header className="bg-white p-4 flex justify-between items-center shadow-md">
-        <img src="/path-to-logo.png" alt="Mayrahkee Logo" className="h-10" />
-        <nav className="flex items-center space-x-4">
-          <a href="/" className="text-gray-700 hover:text-green-600">
-            Home
-          </a>
-          <a href="/about" className="text-gray-700 hover:text-green-600">
-            About
-          </a>
-          <a href="/contact" className="text-gray-700 hover:text-green-600">
-            Contact
-          </a>
-        </nav>
-      </header>
-
       {/* Map Section */}
       <div className="relative">
+        {loading && (
+          <div className="absolute inset-0 flex items-center justify-center bg-gray-100 opacity-75">
+            <span className="text-xl font-semibold">Loading...</span>
+          </div>
+        )}
         <iframe
-          src="https://www.google.com/maps/embed?pb=..."
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3939.902209623298!2d7.492578774728237!3d9.066242988074365!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x104e0aacaa3e08c1%3A0xd8f86cb7f35f8c5a!2sNICON%20Plaza%2C%20Abuja!5e0!3m2!1sen!2sng!4v1699588764189!5m2!1sen!2sng"
           width="100%"
           height="450"
           style={{ border: 0 }}
@@ -30,6 +25,7 @@ const HelpCenter = () => {
           loading="lazy"
           title="Location Map"
           className="w-full"
+          onLoad={handleLoad}
         ></iframe>
       </div>
 

@@ -81,7 +81,7 @@ function MarketPlace({handleAddToCart}) {
             contractItems
               .filter((current) => current.middle_name)
               .reverse()
-              .map((current) => <TableRow key={current.id} data={current} />)}
+              .map((current, index) => <TableRow key={current.id + index} data={current} />)}
         </TableHead>
       )}
       {activeOption === navOptions[1] && (
@@ -89,8 +89,8 @@ function MarketPlace({handleAddToCart}) {
           {marketList.length > 0 &&
             marketList
               .filter((current) => current.middle_name)
-              .map((current) => (
-                <TableRow isMarket={true} key={current.id} data={current} handleAddToCart={handleAddToCart} />
+              .map((current, index) => (
+                <TableRow isMarket={true} key={current.id + index} data={current} handleAddToCart={handleAddToCart} />
               ))}
         </TableHead>
       )}
