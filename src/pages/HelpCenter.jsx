@@ -32,19 +32,19 @@ const HelpCenter = () => {
       </div>
 
       {/* Contact Information */}
-      <div className="bg-gray-100 py-10 px-6 text-center grid grid-cols-1 sm:grid-cols-3 gap-6">
-        <div>
-          <div className="text-blue-500 text-3xl my-2"><img src={location} width="50" /></div>
+      <div className="bg-gray-100 py-10 px-6 text-center grid grid-cols-1 sm:grid-cols-3 gap-6 justify-center">
+        <div className="flex flex-col items-center" >
+          <img src={location} className="w-30 my-2" />
           <h3 className="font-semibold text-black">Address</h3>
           <p className="text-gray-500 font-bold">6th Floor, NICON Plaza 242 Muhammadu Buhari Way, Central Business District, Abuja.</p>
         </div>
-        <div>
-          <div className="text-blue-500 text-3xl my-2"><img src={telephone} width="50" /></div>
+        <div className="flex flex-col items-center">
+         <img src={telephone} className="w-30 my-2" />
           <h3 className="font-semibold text-black">Call Us</h3>
           <p className="text-gray-500 font-bold">+234(0)80 788 74748</p>
         </div>
-        <div>
-          <div className="text-blue-500 text-3xl my-2"><img src={email} width="50" /></div>
+        <div className="flex flex-col items-center">
+          <img src={email} className="w-30 my-2" />
           <h3 className="font-semibold text-gray-700">Email</h3>
           <p className="text-gray-500 font-bold">support@mayrahkeeafrica.com</p>
         </div>
@@ -96,7 +96,7 @@ const HelpCenter = () => {
 
       {/* Footer */}
       <footer className="bg-green-600 text-white py-6 mt-6">
-        <div className="max-w-4xl px-4 flex flex-col md:flex-row justify-between gap-2 leading-4">
+        <div className="max-w-4xl px-4 flex flex-col md:flex-row justify-between gap-2 leading-8">
           <div>
             <h4 className="font-bold text-lg mb-1">Mayrahkee</h4>
             <p>Call us: +234(0)80 788 74748</p>
