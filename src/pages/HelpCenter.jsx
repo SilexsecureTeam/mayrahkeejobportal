@@ -98,14 +98,14 @@ const HelpCenter = () => {
       {/* Footer */}
     <footer className="relative bg-green-600 text-white py-6 mt-6">
       {/* Layered Background */}
-      <div className="-rotate-6 absolute inset-x-0 top-0 h-16 bg-green-700 transform -translate-y-1/2"></div>
-      <div className="-rotate-6 absolute inset-x-0 top-4 h-12 bg-green-800 transform -translate-y-1/2"></div>
-      <div className="-rotate-6 absolute inset-x-0 top-8 h-8 bg-green-900 transform -translate-y-1/2"></div>
+      <div className="-rotate-5 absolute inset-x-0 top-0 h-16 bg-green-200 transform -translate-y-1/2"></div>
+      <div className="absolute inset-x-0 top-4 h-12 bg-green-400 transform -translate-y-1/2"></div>
+ <div className="rotate-5 absolute inset-x-0 top-4 h-12 bg-green-600 transform -translate-y-1/2"></div>
 
       {/* Footer Content */}
       <div className="relative max-w-4xl mx-auto px-4 flex flex-col md:flex-row justify-between gap-2 leading-10">
         <div>
-          <img src="/path-to-logo.png" alt="Logo" className="w-40 my-2" /> {/* Replace with actual logo path */}
+          <img src={logo} alt="Logo" className="w-40 my-2" />
           <p>Call us: +234(0)80 788 74748</p>
           <p>6th Floor, NICON Plaza 242 Muhammadu Buhari Way, Central Business District, Abuja.</p>
           <a href="mailto:support@mayrahkeeafrica.com" className="text-inherit no-underline">
