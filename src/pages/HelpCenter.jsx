@@ -96,9 +96,9 @@ const HelpCenter = () => {
 
       {/* Footer */}
       <footer className="bg-green-600 text-white py-6 mt-6">
-        <div className="max-w-4xl px-4 flex flex-col md:flex-row justify-between gap-2">
+        <div className="max-w-4xl px-4 flex flex-col md:flex-row justify-between gap-2 leading-4">
           <div>
-            <h4 className="font-bold text-lg mb-2">Mayrahkee</h4>
+            <h4 className="font-bold text-lg mb-1">Mayrahkee</h4>
             <p>Call us: +234(0)80 788 74748</p>
 <p>6th Floor, NICON Plaza 242 Muhammadu Buhari Way,Central Business District, Abuja.</p>
 <a href="mailto:support@mayrahkeeafrica.com" className="text-inherit no-underline">support@mayrahkeeafrica.com</a>
