@@ -32,49 +32,49 @@ const HelpCenter = () => {
       </div>
 
       {/* Contact Information */}
-      <div className="bg-gray-100 py-10 px-6 text-center grid grid-cols-1 sm:grid-cols-3 gap-6 justify-center">
+      <div className="py-10 px-6 text-center grid grid-cols-1 sm:grid-cols-3 gap-6 justify-center">
         <div className="flex flex-col items-center" >
           <img src={location} className="w-30 my-2" />
-          <h3 className="font-semibold text-black">Address</h3>
-          <p className="text-gray-500 font-bold">6th Floor, NICON Plaza 242 Muhammadu Buhari Way, Central Business District, Abuja.</p>
+          <h3 className="font-semibold text-black text-xl">Address</h3>
+          <p className="text-gray-500 font-bold text-sm">6th Floor, NICON Plaza 242 Muhammadu Buhari Way, Central Business District, Abuja.</p>
         </div>
         <div className="flex flex-col items-center">
          <img src={telephone} className="w-30 my-2" />
-          <h3 className="font-semibold text-black">Call Us</h3>
-          <p className="text-gray-500 font-bold">+234(0)80 788 74748</p>
+          <h3 className="font-semibold text-black text-xl">Call Us</h3>
+          <p className="text-sm text-gray-500 font-bold">+234(0)80 788 74748</p>
         </div>
         <div className="flex flex-col items-center">
           <img src={email} className="w-30 my-2" />
-          <h3 className="font-semibold text-gray-700">Email</h3>
-          <p className="text-gray-500 font-bold">support@mayrahkeeafrica.com</p>
+          <h3 className="font-semibold text-gray-700 text-xl">Email</h3>
+          <p className="text-sm text-gray-500 font-bold">support@mayrahkeeafrica.com</p>
         </div>
       </div>
 
       {/* Contact Form */}
-      <div className="py-10 px-6 bg-white w-[95%] border rounded sm:max-w-lg mx-auto shadow-md">
+      <div className="py-10 px-6 bg-white w-[90%] border rounded sm:max-w-lg mx-auto">
         <h3 className="text-xl font-semibold mb-6">Leave A Message</h3>
         <form className="space-y-4">
           <div className="flex gap-4 flex-col md:flex-row">
             <input
               type="text"
               placeholder="Name"
-              className="bg-green-50 w-full md:w-1/2 p-2 border rounded"
+              className="bg-gray-50 w-full md:w-1/2 p-2 border rounded"
             />
             <input
               type="email"
               placeholder="Email"
-              className="bg-green-50 w-full md:w-1/2 p-2 border rounded"
+              className="bg-gray-50 w-full md:w-1/2 p-2 border rounded"
             />
           </div>
           <input
             type="text"
             placeholder="Subject"
-            className="bg-green-50 w-full p-2 border rounded"
+            className="bg-gray-50 w-full p-2 border rounded"
           />
           <textarea
             placeholder="Comment"
             rows="4"
-            className="bg-green-50 w-full p-2 border rounded"
+            className="bg-gray-50 w-full p-2 border rounded"
           ></textarea>
           <button
             type="submit"
@@ -86,7 +86,7 @@ const HelpCenter = () => {
       </div>
 
       {/* Recruiting Section */}
-      <div className="w-[95%] mx-auto p-8 bg-blue-100 mt-6 border rounded">
+      <div className="w-[90%] mx-auto p-8 bg-blue-100 mt-6 border rounded">
         <h3 className="text-xl text-gray-800 font-semibold mb-2">Recruiting?</h3>
         <p className="text-gray-600 mb-4">Advertise your jobs to millions of monthly users and search 15.8 million CVs in our database.</p>
         <button className="bg-green-600 text-white py-2 px-4 rounded hover:bg-green-700">
@@ -96,7 +96,7 @@ const HelpCenter = () => {
 
       {/* Footer */}
       <footer className="bg-green-600 text-white py-6 mt-6">
-        <div className="max-w-4xl px-4 flex flex-col md:flex-row justify-between gap-2 leading-8">
+        <div className="max-w-4xl px-4 flex flex-col md:flex-row justify-between gap-2 leading-10">
           <div>
             <h4 className="font-bold text-lg mb-1">Mayrahkee</h4>
             <p>Call us: +234(0)80 788 74748</p>
