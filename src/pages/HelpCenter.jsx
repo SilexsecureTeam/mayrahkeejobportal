@@ -98,9 +98,9 @@ const HelpCenter = () => {
       {/* Footer */}
       <footer className="relative bg-green-600 text-white py-6 mt-6">
 {/* Layered Background */}
-      <div className="-rotate-5 absolute inset-x-0 top-0 h-12 bg-green-700"></div>
-      <div className="-rotate-5 absolute inset-x-0 top-4 h-10 bg-green-800"></div>
-      <div className="-rotate-5 absolute inset-x-0 top-8 h-8 bg-green-900"></div>
+      <div className="-rotate-25 absolute inset-x-0 top-0 h-12 bg-green-700"></div>
+      <div className="-rotate-25 absolute inset-x-0 top-4 h-10 bg-green-800"></div>
+      <div className="-rotate-25 absolute inset-x-0 top-8 h-8 bg-green-900"></div>
 
 
         <div className="max-w-4xl px-4 flex flex-col md:flex-row justify-between gap-2 leading-10">
