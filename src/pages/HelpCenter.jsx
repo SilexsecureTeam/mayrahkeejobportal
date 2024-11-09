@@ -2,6 +2,7 @@ import { useState } from "react";
 import telephone from '../assets/smartphone.jpg'
 import email from '../assets/email.jpg'
 import location from '../assets/image-address.jpg'
+import logo from '../assets/Mayrahkee_Africa_Logo_White.png'
 const HelpCenter = () => {
   const [loading, setLoading] = useState(true);
 
@@ -51,7 +52,7 @@ const HelpCenter = () => {
       </div>
 
       {/* Contact Form */}
-      <div className="py-10 px-6 bg-white w-[90%] border rounded sm:max-w-lg mx-auto">
+      <div className="py-10 px-6 bg-white w-[90%] border rounded mx-auto">
         <h3 className="text-xl font-semibold mb-6">Leave A Message</h3>
         <form className="space-y-4">
           <div className="flex gap-4 flex-col md:flex-row">
@@ -98,7 +99,7 @@ const HelpCenter = () => {
       <footer className="bg-green-600 text-white py-6 mt-6">
         <div className="max-w-4xl px-4 flex flex-col md:flex-row justify-between gap-2 leading-10">
           <div>
-            <h4 className="font-bold text-lg mb-1">Mayrahkee</h4>
+            <img src={logo} className="w-40 my-2" />
             <p>Call us: +234(0)80 788 74748</p>
 <p>6th Floor, NICON Plaza 242 Muhammadu Buhari Way,Central Business District, Abuja.</p>
 <a href="mailto:support@mayrahkeeafrica.com" className="text-inherit no-underline">support@mayrahkeeafrica.com</a>
