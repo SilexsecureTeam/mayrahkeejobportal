@@ -33,50 +33,50 @@ const HelpCenter = () => {
       <div className="bg-gray-100 py-10 px-6 text-center grid grid-cols-1 sm:grid-cols-3 gap-6">
         <div>
           <div className="text-blue-500 text-3xl mb-2">📍</div>
-          <h3 className="font-semibold text-gray-700">Address</h3>
-          <p>6th Floor, NICON Plaza, Abuja</p>
+          <h3 className="font-semibold text-black">Address</h3>
+          <p className="text-gray-500 font-bold">6th Floor, NICON Plaza 242 Muhammadu Buhari Way, Central Business District, Abuja.</p>
         </div>
         <div>
           <div className="text-blue-500 text-3xl mb-2">📞</div>
-          <h3 className="font-semibold text-gray-700">Call Us</h3>
-          <p>+234(0)80 788 74748</p>
+          <h3 className="font-semibold text-black">Call Us</h3>
+          <p className="text-gray-500 font-bold">+234(0)80 788 74748</p>
         </div>
         <div>
           <div className="text-blue-500 text-3xl mb-2">✉️</div>
           <h3 className="font-semibold text-gray-700">Email</h3>
-          <p>support@mayrahkeeafrica.com</p>
+          <p className="text-gray-500 font-bold">support@mayrahkeeafrica.com</p>
         </div>
       </div>
 
       {/* Contact Form */}
-      <div className="py-10 px-6 bg-white max-w-lg mx-auto shadow-md">
+      <div className="py-10 px-6 bg-white w-[95%] border rounded sm:max-w-lg mx-auto shadow-md">
         <h3 className="text-xl font-semibold mb-6">Leave A Message</h3>
         <form className="space-y-4">
-          <div className="flex space-x-4">
+          <div className="flex space-x-4 flex-col md:flex-row">
             <input
               type="text"
               placeholder="Name"
-              className="w-1/2 p-2 border rounded"
+              className="bg-green-100 w-1/2 p-2 border rounded"
             />
             <input
               type="email"
               placeholder="Email"
-              className="w-1/2 p-2 border rounded"
+              className="bg-green-100 w-1/2 p-2 border rounded"
             />
           </div>
           <input
             type="text"
             placeholder="Subject"
-            className="w-full p-2 border rounded"
+            className="bg-green-100 w-full p-2 border rounded"
           />
           <textarea
             placeholder="Comment"
             rows="4"
-            className="w-full p-2 border rounded"
+            className="bg-green-100 w-full p-2 border rounded"
           ></textarea>
           <button
             type="submit"
-            className="w-full bg-green-600 text-white py-2 rounded hover:bg-green-700"
+            className="bg-green-600 text-white py-3 px-8 rounded hover:bg-green-700"
           >
             Send Message
           </button>
@@ -84,9 +84,9 @@ const HelpCenter = () => {
       </div>
 
       {/* Recruiting Section */}
-      <div className="py-8 bg-blue-100 text-center mt-6">
-        <h3 className="text-lg font-semibold mb-2">Recruiting?</h3>
-        <p className="mb-4">Advertise your jobs to millions of monthly users...</p>
+      <div className="w-[95%] p-8 bg-blue-100 mt-6 border rounded">
+        <h3 className="text-xl text-gray-800 font-semibold mb-2">Recruiting?</h3>
+        <p className="text-gray-600 mb-4">Advertise your jobs to millions of monthly users and search 15.8 million CVs in our database.</p>
         <button className="bg-green-600 text-white py-2 px-4 rounded hover:bg-green-700">
           Start Recruiting Now
         </button>
@@ -94,10 +94,12 @@ const HelpCenter = () => {
 
       {/* Footer */}
       <footer className="bg-green-700 text-white py-6 mt-6">
-        <div className="max-w-4xl mx-auto px-4 text-center md:text-left flex flex-col md:flex-row justify-between">
+        <div className="max-w-4xl px-4 text-center md:text-left flex flex-col md:flex-row justify-between">
           <div>
             <h4 className="font-bold text-lg mb-2">Mayrahkee</h4>
             <p>Call us: +234(0)80 788 74748</p>
+<p>6th Floor, NICON Plaza 242 Muhammadu Buhari Way,Central Business District, Abuja.</p>
+<a href="mailto:support@mayrahkeeafrica.com" className="text-inherit no-underline">support@mayrahkeeafrica.com</a>
           </div>
           <div className="mt-4 md:mt-0">
             <h4 className="font-bold text-lg mb-2">About us</h4>
@@ -105,6 +107,18 @@ const HelpCenter = () => {
               <li>
                 <a href="/about" className="hover:underline">
                   About Us
+                </a>
+<a href="/about" className="hover:underline">
+                  FAQ
+                </a>
+<a href="/about" className="hover:underline">
+                  Terms & Conditions
+                </a>
+<a href="/about" className="hover:underline">
+                  Blog
+                </a>
+<a href="/about" className="hover:underline">
+                  Contact Us
                 </a>
               </li>
               <li>
