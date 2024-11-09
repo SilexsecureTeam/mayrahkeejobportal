@@ -1,5 +1,7 @@
 import { useState } from "react";
-
+import telephone from '../assets/smartphone.jpg'
+import email from '../assets/email.jpg'
+import location from '../assets/image-address.jpg'
 const HelpCenter = () => {
   const [loading, setLoading] = useState(true);
 
@@ -32,17 +34,17 @@ const HelpCenter = () => {
       {/* Contact Information */}
       <div className="bg-gray-100 py-10 px-6 text-center grid grid-cols-1 sm:grid-cols-3 gap-6">
         <div>
-          <div className="text-blue-500 text-3xl my-2">📍</div>
+          <div className="text-blue-500 text-3xl my-2"><img src={location} width="50" /></div>
           <h3 className="font-semibold text-black">Address</h3>
           <p className="text-gray-500 font-bold">6th Floor, NICON Plaza 242 Muhammadu Buhari Way, Central Business District, Abuja.</p>
         </div>
         <div>
-          <div className="text-blue-500 text-3xl my-2">📞</div>
+          <div className="text-blue-500 text-3xl my-2"><img src={telephone} width="50" /></div>
           <h3 className="font-semibold text-black">Call Us</h3>
           <p className="text-gray-500 font-bold">+234(0)80 788 74748</p>
         </div>
         <div>
-          <div className="text-blue-500 text-3xl my-2">✉️</div>
+          <div className="text-blue-500 text-3xl my-2"><img src={email} width="50" /></div>
           <h3 className="font-semibold text-gray-700">Email</h3>
           <p className="text-gray-500 font-bold">support@mayrahkeeafrica.com</p>
         </div>
