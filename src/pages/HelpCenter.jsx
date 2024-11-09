@@ -108,22 +108,25 @@ const HelpCenter = () => {
                 <a href="/about" className="hover:underline">
                   About Us
                 </a>
-<a href="/about" className="hover:underline">
-                  FAQ
-                </a>
-<a href="/about" className="hover:underline">
-                  Terms & Conditions
-                </a>
-<a href="/about" className="hover:underline">
-                  Blog
-                </a>
-<a href="/about" className="hover:underline">
-                  Contact Us
-                </a>
               </li>
               <li>
                 <a href="/faq" className="hover:underline">
                   FAQ
+                </a>
+              </li>
+<li>
+                <a href="/faq" className="hover:underline">
+                  Terms & Conditions
+                </a>
+              </li>
+<li>
+                <a href="/faq" className="hover:underline">
+                  Blog
+                </a>
+              </li>
+<li>
+                <a href="/faq" className="hover:underline">
+                  Contact Us
                 </a>
               </li>
             </ul>
