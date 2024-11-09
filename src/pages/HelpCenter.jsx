@@ -52,7 +52,7 @@ const HelpCenter = () => {
       <div className="py-10 px-6 bg-white w-[95%] border rounded sm:max-w-lg mx-auto shadow-md">
         <h3 className="text-xl font-semibold mb-6">Leave A Message</h3>
         <form className="space-y-4">
-          <div className="flex space-x-4 gap-y-2 flex-col md:flex-row">
+          <div className="flex gap-4 flex-col md:flex-row">
             <input
               type="text"
               placeholder="Name"
