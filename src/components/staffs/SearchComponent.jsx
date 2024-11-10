@@ -214,6 +214,9 @@ const toogleGender = () => setByGender(!byGender);
               if (data.age) {
                 queryParams += `age=${data.age}&`;
               }
+if (data.gender) {
+                queryParams += `gender=${data.gender}&`;
+              }
               if (data.education) {
                 queryParams += `education_level=${data.education}&`;
               }
