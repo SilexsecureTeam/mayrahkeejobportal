@@ -40,11 +40,12 @@ function PublicProfile() {
               </div>
               <div className="p-4 flex-col md: flex-row">
                 <div className="mt-[-70px]">
-                  <img
-                    src={candidate?.profile ? `${IMAGE_URL}/${candidate.profile}` : 'https://via.placeholder.com/150'}
-                    className="w-24 h-24 md:w-32 md:h-32 ring-4 ring-white rounded-[50%] "
-                    alt="profile"
-                  />
+<img 
+  src={candidate?.profile ? `${IMAGE_URL}/${candidate.profile}` : 'https://via.placeholder.com/150'} 
+  className="w-24 h-24 md:w-32 md:h-32 object-cover rounded-full ring-4 ring-white" 
+  alt="profile" 
+/>
+
                 </div>
 
                 <div className="flex-1 mt-4 md:mt-0 md:ml-4">
