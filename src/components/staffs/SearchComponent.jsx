@@ -103,7 +103,7 @@ const toogleGender = () => setByGender(!byGender);
               className="p-1 border focus:outline-none border-gray-900 rounded-md"
               {...register("subcategory")}
             >
-              <option>-- Select Subcategory --</option>
+              <option selected>-- Select Subcategory --</option>
               {subCategories?.map((current) => (
                 <option key={current.id}>{current.name}</option>
               ))}
@@ -117,7 +117,7 @@ const toogleGender = () => setByGender(!byGender);
               className="p-1 border focus:outline-none border-gray-900 rounded-md"
               {...register("education")}
             >
-              <option>-- Select Education Level--</option>
+              <option selected>-- Select Education Level--</option>
               {[
                 "Primary School Certificate",
                 "Secondary School Certificate",
@@ -138,7 +138,7 @@ const toogleGender = () => setByGender(!byGender);
               className="p-1 border focus:outline-none border-gray-900 rounded-md"
               {...register("age")}
             >
-              <option>-- Select Age Range--</option>
+              <option selected>-- Select Age Range--</option>
               {["18 - 25", "26 - 30", "31 - 35", "36 - 40", "41 & Above"].map(
                 (current) => (
                   <option key={current}>{current}</option>
@@ -154,7 +154,7 @@ const toogleGender = () => setByGender(!byGender);
               className="p-1 border focus:outline-none border-gray-900 rounded-md"
               {...register("gender")}
             >
-              <option>-- Select Gender--</option>
+              <option selected>-- Select Gender--</option>
               {["Male", "Female"].map(
                 (current) => (
                   <option key={current}>{current}</option>
@@ -171,7 +171,7 @@ const toogleGender = () => setByGender(!byGender);
               className="p-1 border focus:outline-none border-gray-900 rounded-md"
               {...register("religion")}
             >
-              <option>-- Select Religion --</option>
+              <option selected>-- Select Religion --</option>
               {["Christian", "Muslim", "Others"].map((current) => (
                 <option key={current}>{current}</option>
               ))}
@@ -186,7 +186,7 @@ const toogleGender = () => setByGender(!byGender);
               className="p-1 border focus:outline-none border-gray-900 rounded-md"
               {...register("marital_status")}
             >
-              <option>-- Select Marital Status --</option>
+              <option selected>-- Select Marital Status --</option>
               {["Single", "Married", "Divorced", "Widowed"].map((current) => (
                 <option key={current}>{current}</option>
               ))}
