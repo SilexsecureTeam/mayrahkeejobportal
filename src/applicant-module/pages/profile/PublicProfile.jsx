@@ -1,3 +1,4 @@
+
 import { Helmet } from "react-helmet";
 import { CiFlag1, CiInstagram } from "react-icons/ci";
 import { FaRegEdit } from "react-icons/fa";
@@ -39,16 +40,14 @@ function PublicProfile() {
                 </div>
               </div>
               <div className="p-4 flex flex-col md: flex-row">
-           
-<div className="flex-shrink-0">
-  <div className="overflow-hidden rounded-full w-24 h-24 md:w-32 md:h-32">
-    <img 
-      src={candidate?.profile ? `${IMAGE_URL}/${candidate.profile}` : '(link unavailable)'} 
-      className="object-cover w-full h-full" 
-      alt="profile" 
-    />
-  </div>
-</div>
+                <div className="flex-shrink-0 mt-[-70px]">
+<img 
+  src={candidate?.profile ? `${IMAGE_URL}/${candidate.profile}` : 'https://via.placeholder.com/150'} 
+  className="w-24 h-24 md:w-32 md:h-32 object-cover rounded-full ring-4 ring-white" 
+  alt="profile" 
+/>
+
+                </div>
 
                 <div className="flex-1 mt-4 md:mt-0 md:ml-4">
                   <h4 className="text-lg font-bold">{candidate?.full_name}</h4>
