@@ -100,7 +100,7 @@ const HelpCenter = () => {
       {/* Layered Background */}
       <div className="absolute inset-x-0 top-[-10px] h-12 bg-[#50b850] transform -skew-y-3"></div>
       <div className="absolute inset-x-0 top-[10px] h-10 bg-[#77c377] transform skew-y-3"></div>
- <div className="absolute inset-x-0 top-0 h-8 bg-[#35a835] transform -skew-y-3"></div>
+ <div className="absolute inset-x-0 top-0 h-8 bg-[#35a835] transform"></div>
 
      
       {/* Footer Content */}
