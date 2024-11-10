@@ -43,7 +43,7 @@ function LoginForm({ rememberMe, toogleRememberMe }) {
       id="login-form"
       className={`h-full w-full md:w-[65%] flex flex-col pt-[%] md:pt-[3%] items-center  bg-primaryColor md:bg-white md:rounded-md   px-[3%] py-[10px]`}
     >
-      <img src={mayrahkeeIcon} className="w-72 md:hidden mt-[3%]" />
+      <img src={mayrahkeeIcon} className="w-60 md:hidden mt-[3%]" />
 
       <div
         id="login-section"
