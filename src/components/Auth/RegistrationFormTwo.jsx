@@ -30,11 +30,11 @@ const genders = [
   },
 ];
 
-function RegistrationFormTwo({ state, dispatch }) {
+function RegistrationFormTwo({ state, dispatch, role, setRole }) {
   const [isTrained, setIsTrained] = useState(false);
   const [gender, setGender] = useState(genders[0]);
   const client = axiosClient();
-  const [role, setRole] = useState();
+ 
   const [showPassword, setShowPassword] = useState(true);
   const [showPasswordReenter, setShowPasswordReenter] = useState(true);
   const [subCategories, setSubCategories] = useState();
@@ -89,6 +89,7 @@ function RegistrationFormTwo({ state, dispatch }) {
   };
 
   useEffect(() => {
+    console.log(role)
     const getSubCategories = async () => {
       if (role == "artisan") {
         const { data } = await client.get("/staff-categories/1");
@@ -105,9 +106,6 @@ function RegistrationFormTwo({ state, dispatch }) {
     getSubCategories();
   }, [role]);
 
-  useEffect(() => {
-    setRole("candidate");
-  }, []);
 
   return (
     <div className="md:w-[50%] w-full px-[5%] pt-[10px] flex flex-col  items-center">
@@ -197,6 +195,7 @@ function RegistrationFormTwo({ state, dispatch }) {
               type="email"
               value={regDetails.email}
               onChange={onTextChange}
+              
               required
               className="w-[80%] h-full placeholder:text-little text-little bg-white/0 focus:bg-white/0  focus:outline-none text-gray-700 "
               placeholder="Email"

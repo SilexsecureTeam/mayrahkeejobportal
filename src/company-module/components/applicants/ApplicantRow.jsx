@@ -11,7 +11,7 @@ import { AuthContext } from "../../../context/AuthContex";
 function ApplicantRow({ data }) {
   const navigate = useNavigate();
   const authDetails = useContext(AuthContext)
-  const role = authDetails.user.role === "employer" ? "company" : "applicant";
+  const role = authDetails?.user?.role === "employer" ? "company" : "applicant";
 
 
   const navigateToApplicantDetails = () =>
