@@ -199,6 +199,7 @@ const toogleGender = () => setByGender(!byGender);
       !byEducationalLevel &&
       !byReligion &&
       !byAge &&
+      !byGender &&
       !byMaritalStatus ? (
         <div className="w-full text-center text-red-300">
           Please select at least one query method
