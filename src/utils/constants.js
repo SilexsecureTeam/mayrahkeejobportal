@@ -30,6 +30,8 @@ import MessageActive from "../assets/pngs/message-active.png";
 import PersonCaptured from "../assets/pngs/person-captured.png";
 import PersonWithBoard from "../assets/pngs/person-with-board.png";
 import Camera from "../assets/pngs/camera.png";
+import verify from "../assets/pngs/approved.png";
+import upload from "../assets/pngs/document-icon.png";
 
 // Company Profile details
 import fireIcon from "../assets/pngs/fire-icon.png";
@@ -334,8 +336,8 @@ export const registration_steps_keys = {
   complete_verification: {
     title: "Complete Verifications",
     desc: "Verify your details",
-    activeIcon: PersonWithBoard,
-    inactiveIcon: PersonWithBoard,
+    activeIcon: verify,
+    inactiveIcon: verify,
   },
   upload_resume: {
     title: "Upload Resume",
@@ -366,8 +368,8 @@ candidate:{
   upload_resume: {
     title: "Upload CV",
     desc: "Back up your profile with a standard resume",
-    activeIcon: Camera,
-    inactiveIcon: Camera,
+    activeIcon: upload,
+    inactiveIcon: upload,
   },
   apply_for_job: {
     title: "Apply For Job",
@@ -429,14 +431,14 @@ staff:{
   complete_verification: {
     title: "Complete Verifications",
     desc: "Verify your details",
-    activeIcon: PersonWithBoard,
-    inactiveIcon: PersonWithBoard,
+    activeIcon: verify,
+    inactiveIcon: verify,
   },
   upload_resume: {
     title: "Upload Resume",
     desc: "Back up your profile with a standard resume",
-    activeIcon: Camera,
-    inactiveIcon: Camera,
+    activeIcon: upload,
+    inactiveIcon: upload,
   }
 }};
 

@@ -5,14 +5,9 @@ import useStaffRoute from "../../routes/useStaffRoute";
 import { useState, useEffect } from "react";
 
 function RegistrationProgress({ state, dispatch, role }) {
-  const [last, setLast] = useState("");
-  const keys = Object.keys(registrationType(role));
-  const lastKey = keys[keys.length - 1];
-  const lastStep = registrationType(role)[lastKey];
 
-  useEffect(() => {
-    setLast(lastStep?.title);
-  }, [role]);
+  const keys = Object.keys(registrationType(role));
+
 
   const getSteps = () => {
     return keys.map((key, index) => {
@@ -25,9 +20,8 @@ function RegistrationProgress({ state, dispatch, role }) {
         <li key={currentStep?.title} className={`w-full flex `}>
           <div className="flex flex-col items-center w-[25%]">
             <div
-              className={`bg-white rounded-md p-[15px] ${
-                isSelected && "border-2 border-gray-800 transition duration-1000"
-              }`}
+              className={`bg-white rounded-md p-[15px] ${isSelected && "border-2 border-gray-800 transition duration-1000"
+                }`}
             >
               <img className="h-[25px] w-[25px]" src={icon} />
             </div>

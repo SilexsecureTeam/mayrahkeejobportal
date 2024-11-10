@@ -20,7 +20,7 @@ function ListingRow({ data, applicants }) {
       <td>
         <div className="flex w-full justify-center py-[10px] items-center">
           <button className="py-[2px] px-[5px] border w-[80%] text-little border-primaryColor rounded-[30px] text-center font-semibold">
-            Live
+            Open
           </button>
         </div>
       </td>
@@ -56,7 +56,7 @@ function ListingRow({ data, applicants }) {
       </td>
       <td>
         <div className="flex w-full justify-center py-[10px] items-center">
-          <span className="text-little font-semibold">{data.gender}</span>
+          <span className="text-little font-semibold">{data?.gender?.toLowerCase() !=="any" ? data.gender: "Not A Criteria"}</span>
         </div>
       </td>
       {/* 
