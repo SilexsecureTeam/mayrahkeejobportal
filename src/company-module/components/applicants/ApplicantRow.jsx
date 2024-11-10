@@ -88,7 +88,7 @@ function ApplicantRow({ data }) {
       className={`"border-b  odd:bg-[#e7efe6] odd:text-black   hover:bg-green-200 duration-100 text-little`}
     >
       <td className="text-center py-[5px]">
-        <div className="flex justify-center items-center gap-[5px]">
+        <div className="capitalize flex justify-center items-center gap-[5px]">
           <span>{data.full_name}</span>
         </div>
       </td>
@@ -101,7 +101,7 @@ function ApplicantRow({ data }) {
       <td>
         <div className="flex items-center justify-center">
           <button
-            className={`py-[2px] px-[5px] text-[10px] min-w-[80%] tracking-wider uppercase  rounded-[30px] text-center font-semibold`}
+            className={`py-[2px] px-[5px] text-[10px] min-w-[80%] tracking-wider capitalize rounded-[30px] text-center font-semibold`}
           >
             {getStatusComponent()}
           </button>
