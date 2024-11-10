@@ -96,45 +96,45 @@ const HelpCenter = () => {
       </div>
 
       {/* Footer */}
-       <footer className="relative bg-[#35a835] text-white py-6 mt-10">
-      {/* Layered Background */}
-      <div className="absolute inset-x-0 top-[-10px] h-12 bg-[#50b850] transform -skew-y-3"></div>
- <div className="absolute inset-x-0 top-0 h-8 bg-[#35a835] transform"></div>
-      <div className="absolute inset-x-0 top-[10px] h-10 bg-[#77c377] transform skew-y-3"></div>
+      <footer className="relative bg-[#35a835] text-white py-6 mt-10">
+  {/* Layered Background */}
+  <div className="absolute inset-x-0 top-[-10px] h-12 bg-gradient-to-r from-[#50b850] to-transparent transform -skew-y-6"></div>
+  <div className="absolute inset-x-0 top-0 h-8 bg-gradient-to-r from-[#35a835] to-transparent transform -skew-y-6"></div>
+  <div className="absolute inset-x-0 top-[10px] h-10 bg-gradient-to-r from-[#77c377] to-transparent transform -skew-y-6"></div>
 
-     
-      {/* Footer Content */}
-      <div className="relative max-w-4xl mx-auto px-4 flex flex-col md:flex-row justify-between gap-2 leading-10">
-        <div>
-          <img src={logo} alt="Logo" className="w-40 my-2" />
-          <p>Call us: +234(0)80 788 74748</p>
-          <p>6th Floor, NICON Plaza 242 Muhammadu Buhari Way, Central Business District, Abuja.</p>
-          <a href="mailto:support@mayrahkeeafrica.com" className="text-inherit no-underline">
-            support@mayrahkeeafrica.com
-          </a>
-        </div>
-        <div className="mt-4 md:mt-0">
-          <h4 className="font-bold text-lg mb-2">About us</h4>
-          <ul>
-            <li>
-              <a href="/about" className="hover:underline">About Us</a>
-            </li>
-            <li>
-              <a href="/faq" className="hover:underline">FAQ</a>
-            </li>
-            <li>
-              <a href="/terms" className="hover:underline">Terms & Conditions</a>
-            </li>
-            <li>
-              <a href="/blog" className="hover:underline">Blog</a>
-            </li>
-            <li>
-              <a href="/contact" className="hover:underline">Contact Us</a>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </footer>
+  {/* Footer Content */}
+  <div className="relative max-w-4xl mx-auto px-4 flex flex-col md:flex-row justify-between gap-2 leading-10">
+    <div>
+      <img src={logo} alt="Logo" className="w-40 my-2" />
+      <p>Call us: +234(0)80 788 74748</p>
+      <p>6th Floor, NICON Plaza 242 Muhammadu Buhari Way, Central Business District, Abuja.</p>
+      <a href="mailto:support@mayrahkeeafrica.com" className="text-inherit no-underline">
+        support@mayrahkeeafrica.com
+      </a>
+    </div>
+    <div className="mt-4 md:mt-0">
+      <h4 className="font-bold text-lg mb-2">About us</h4>
+      <ul>
+        <li>
+          <a href="/about" className="hover:underline">About Us</a>
+        </li>
+        <li>
+          <a href="/faq" className="hover:underline">FAQ</a>
+        </li>
+        <li>
+          <a href="/terms" className="hover:underline">Terms & Conditions</a>
+        </li>
+        <li>
+          <a href="/blog" className="hover:underline">Blog</a>
+        </li>
+        <li>
+          <a href="/contact" className="hover:underline">Contact Us</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</footer>
+
     </div>
   );
 };
