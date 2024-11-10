@@ -14,12 +14,14 @@ function SearchComponent({ subCategories, handleQuerySubmit }) {
   const [byReligion, setByReligion] = useState(false);
   const [byEducationalLevel, setByEducationalLevel] = useState(false);
   const [byAge, setByAge] = useState(false);
+const [byGender, setByGender] = useState(false);
   const [byMaritalStatus, setByMaritalStatus] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const toogleCategory = () => setByCategory(!byCategory);
   const toogleReligion = () => setByReligion(!byReligion);
   const toogleAge = () => setByAge(!byAge);
+const toogleGender = () => setByGender(!byGender);
   const toogleMaritalStatus = () => setByMaritalStatus(!byMaritalStatus);
   const toogleEducationalLevel = () =>
     setByEducationalLevel(!byEducationalLevel);
@@ -63,6 +65,14 @@ function SearchComponent({ subCategories, handleQuerySubmit }) {
               <MdCheckBoxOutlineBlank className="flex-shrink-0" />
             )}
             <span>Age Range</span>
+          </div>
+  <div className="flex items-center gap-2 text-sm md:text-xl leading-none cursor-pointer" onClick={toogleGender}>
+            {byGender ? (
+              <MdCheckBox className="flex-shrink-0" />
+            ) : (
+              <MdCheckBoxOutlineBlank className="flex-shrink-0" />
+            )}
+            <span>Gender</span>
           </div>
 
           <div className="flex items-center gap-2 text-sm md:text-xl leading-none cursor-pointer" onClick={toogleReligion}>
@@ -130,6 +140,22 @@ function SearchComponent({ subCategories, handleQuerySubmit }) {
             >
               <option>-- Select Age Range--</option>
               {["18 - 25", "26 - 30", "31 - 35", "36 - 40", "41 & Above"].map(
+                (current) => (
+                  <option key={current}>{current}</option>
+                )
+              )}
+            </select>
+          </div>
+        )}
+ {byGender && (
+          <div className="flex flex-col">
+            <label>Gender</label>
+            <select
+              className="p-1 border focus:outline-none border-gray-900 rounded-md"
+              {...register("gender")}
+            >
+              <option>-- Select Gender--</option>
+              {["Male", "Female"].map(
                 (current) => (
                   <option key={current}>{current}</option>
                 )
@@ -206,6 +232,7 @@ function SearchComponent({ subCategories, handleQuerySubmit }) {
                 marital_status: "",
                 subcategory: "",
                 religion: "",
+                gender:"" 
               });
               await handleQuerySubmit(
                 queryParams,
