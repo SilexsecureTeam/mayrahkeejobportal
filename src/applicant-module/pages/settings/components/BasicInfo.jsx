@@ -80,7 +80,7 @@ const BasicInfo = ({ setIsOpen }) => {
     work_experience: candidate.work_experience
       ? candidate?.work_experience
       : "",
-    languages: candidate.languages ? candidate?.languages : "",
+    languages: candidate.languages ? candidate?.languages : [],
     salary_type: candidate.salary_type ? candidate?.salary_type : "",
     salary: candidate.salary ? candidate?.salary : "",
     categories: candidate.categories ? candidate?.categories : "",
@@ -175,6 +175,11 @@ const BasicInfo = ({ setIsOpen }) => {
         };
       });
     }
+
+if(name === "languages" ){
+  const selectedLanguages = Array.from(e.target.selectedOptions, (option) => option.value);
+  setDetails((prevDetails) => ({ ...prevDetails, languages: selectedLanguages }));
+}
     setDetails((prev) => {
       return {
         ...prev,
@@ -536,26 +541,25 @@ const BasicInfo = ({ setIsOpen }) => {
                         
                           </label>
                         </div>
-                        <div className="">
-                          <label className="block">
-                            <span className="block text-sm font-medium text-slate-700 mb-1">
-                              Language
-                            </span>
-                            <select
-                              value={details.languages}
-                              name="languages"
-                              onChange={handleOnChange}
-                              className="border w-full focus:outline-none p-2 pb-1"
-                            >
-                              <option value="">-- select --</option>
-                              <option value="english">English</option>
-                              <option value="french">French</option>
-                              <option value="hausa">Hausa </option>
-                              <option value="yaruba">Yaruba</option>
-                              <option value="igbo">Igbo</option>
-                            </select>
-                          </label>
-                        </div>
+                      <div className="">
+  <label className="block">
+    <span className="block text-sm font-medium text-slate-700 mb-1"> Language </span>
+    <select 
+      multiple 
+      value={details.languages} 
+      name="languages" 
+      onChange={handleOnChange} 
+      className="border w-full focus:outline-none p-2 pb-1"
+    >
+      <option value="">-- select --</option>
+      <option value="english">English</option>
+      <option value="french">French</option>
+      <option value="hausa">Hausa </option>
+      <option value="yaruba">Yaruba</option>
+      <option value="igbo">Igbo</option>
+    </select>
+  </label>
+</div>
                         <div className="">
                           <label className="block">
                             <span className="block text-sm font-medium text-slate-700 mb-1">
