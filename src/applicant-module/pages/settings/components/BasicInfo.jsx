@@ -305,8 +305,8 @@ const BasicInfo = ({ setIsOpen }) => {
                 />
               </div>
             </div>
-            <label
-              htmlFor="image"
+            <section
+              
               className="min-h-32 w-[90%] md:min-w-96 cursor-pointer bg-green-50 border-2 border-green-500 border-dashed p-5 rounded"
             >
               <div className="text-center">
@@ -331,7 +331,7 @@ const BasicInfo = ({ setIsOpen }) => {
                   className="invisible "
                 />
               </div>
-            </label>
+            </section>
           </div>
         </div>
         <div className="update_form py-6">
