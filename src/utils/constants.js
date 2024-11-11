@@ -32,6 +32,7 @@ import PersonWithBoard from "../assets/pngs/person-with-board.png";
 import Camera from "../assets/pngs/camera.png";
 import verify from "../assets/pngs/approved.png";
 import upload from "../assets/pngs/document-icon.png";
+import ApplyForJob from "../assets/JOB APPLIED FOR.png";
 
 // Company Profile details
 import fireIcon from "../assets/pngs/fire-icon.png";
@@ -374,8 +375,8 @@ candidate:{
   apply_for_job: {
     title: "Apply For Job",
     desc: "Get a suitable job to invest your skill",
-    activeIcon: PersonWithBoard,
-    inactiveIcon: PersonWithBoard,
+    activeIcon: ApplyForJob,
+    inactiveIcon: ApplyForJob,
   },
 },
 employer:{ create_account: {
