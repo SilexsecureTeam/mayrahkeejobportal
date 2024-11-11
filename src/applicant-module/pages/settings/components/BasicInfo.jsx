@@ -80,7 +80,7 @@ const BasicInfo = ({ setIsOpen }) => {
     work_experience: candidate.work_experience
       ? candidate?.work_experience
       : "",
-    languages: candidate.languages ? candidate?.languages : [],
+    languages: candidate.languages ? candidate?.languages : "",
     salary_type: candidate.salary_type ? candidate?.salary_type : "",
     salary: candidate.salary ? candidate?.salary : "",
     categories: candidate.categories ? candidate?.categories : "",
@@ -174,12 +174,10 @@ const BasicInfo = ({ setIsOpen }) => {
           // [name]: name === 'cv' ? files[0] : value,
         };
       });
+    }else if (type === "select-multiple") {
+      const selectedLanguages = Array.from(e.target.selectedOptions, (option) => option.value);
+      setDetails((prevDetails) => ({ ...prevDetails, languages: selectedLanguages.join(",") }));
     }
-
-if(name === "languages" ){
-  const selectedLanguages = Array.from(e.target.selectedOptions, (option) => option.value);
-  setDetails((prevDetails) => ({ ...prevDetails, languages: selectedLanguages }));
-}
     setDetails((prev) => {
       return {
         ...prev,
@@ -546,7 +544,7 @@ if(name === "languages" ){
     <span className="block text-sm font-medium text-slate-700 mb-1"> Language </span>
     <select 
       multiple 
-      value={details.languages} 
+      value={details.languages ? details.languages.split(",") : []}
       name="languages" 
       onChange={handleOnChange} 
       className="border w-full focus:outline-none p-2 pb-1"
