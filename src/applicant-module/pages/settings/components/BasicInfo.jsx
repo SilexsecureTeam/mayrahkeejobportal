@@ -180,11 +180,8 @@ useEffect(() => {
           // [name]: name === 'cv' ? files[0] : value,
         };
       });
-    }else if (name === "languages") {
-      const selectedLanguageOptions = Array.from(e.target.selectedOptions, (option) => option.value);
-setSelectedLanguages(selectedLanguageOptions)
-      setDetails((prevDetails) => ({ ...prevDetails, languages: selectedLanguageOptions.join(",") }));
     }
+
     setDetails((prev) => {
       return {
         ...prev,
@@ -193,6 +190,12 @@ setSelectedLanguages(selectedLanguageOptions)
         // [name]: name === 'cv' ? files[0] : value,
       };
     });
+
+if (name === "languages") {
+      const selectedLanguageOptions = Array.from(e.target.selectedOptions, (option) => option.value);
+setSelectedLanguages(selectedLanguageOptions)
+      setDetails((prevDetails) => ({ ...prevDetails, languages: selectedLanguageOptions.join(",") }));
+    }
     setErrorMsg(null);
   };
 
