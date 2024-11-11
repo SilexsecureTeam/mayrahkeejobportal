@@ -4,7 +4,7 @@ import {
   intialProfileState,
 } from "../reducers/RegistrationReducer";
 import RegistrationProgress from "../components/Auth/RegistrationProgress";
-import { lazy, useContext, useReducer } from "react";
+import { lazy, useEffect, useState, useReducer } from "react";
 import { Route, Routes } from "react-router-dom";
 
 const RegistrationFormTwo = lazy(() =>
@@ -16,7 +16,11 @@ const EmailVerification = lazy(() =>
 
 function useRegistrationRoute() {
   const [state, dispatch] = useReducer(RegistrationReducer, intialProfileState);
-
+  const [role, setRole] = useState();
+  
+  useEffect(() => {
+    setRole("candidate");
+  }, []);
   return (
     <>
       <Helmet>
@@ -24,13 +28,13 @@ function useRegistrationRoute() {
       </Helmet>
       <main className="w-screen h-screen flex">
         <div className="w-[50%] md:block hidden  h-screen">
-          <RegistrationProgress state={state} dispatch={dispatch} />
+          <RegistrationProgress state={state} dispatch={dispatch} role={role} />
         </div>
 
         <Routes>
           <Route
             index
-            element={<RegistrationFormTwo state={state} dispatch={dispatch} />}
+            element={<RegistrationFormTwo state={state} dispatch={dispatch} role={role} setRole={setRole} />}
           />
           <Route
             path="email_verification"

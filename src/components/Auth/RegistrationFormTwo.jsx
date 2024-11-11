@@ -7,7 +7,7 @@ import Card from "../../assets/pngs/card-icon.png";
 import Padlock from "../../assets/pngs/padlock.png";
 import { IoMdCheckbox } from "react-icons/io";
 import { MdCheckBoxOutlineBlank } from "react-icons/md";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import FormButton from "../../components/FormButton";
 import useRegistration from "../../hooks/useRegistration";
 import { onSuccess } from "../../utils/notifications/OnSuccess";
@@ -30,11 +30,11 @@ const genders = [
   },
 ];
 
-function RegistrationFormTwo({ state, dispatch }) {
+function RegistrationFormTwo({ state, dispatch, role, setRole }) {
   const [isTrained, setIsTrained] = useState(false);
   const [gender, setGender] = useState(genders[0]);
   const client = axiosClient();
-  const [role, setRole] = useState();
+ 
   const [showPassword, setShowPassword] = useState(true);
   const [showPasswordReenter, setShowPasswordReenter] = useState(true);
   const [subCategories, setSubCategories] = useState();
@@ -89,6 +89,7 @@ function RegistrationFormTwo({ state, dispatch }) {
   };
 
   useEffect(() => {
+    console.log(role)
     const getSubCategories = async () => {
       if (role == "artisan") {
         const { data } = await client.get("/staff-categories/1");
@@ -105,9 +106,6 @@ function RegistrationFormTwo({ state, dispatch }) {
     getSubCategories();
   }, [role]);
 
-  useEffect(() => {
-    setRole("candidate");
-  }, []);
 
   return (
     <div className="md:w-[50%] w-full px-[5%] pt-[10px] flex flex-col  items-center">
@@ -115,6 +113,7 @@ function RegistrationFormTwo({ state, dispatch }) {
 
       <div className="flex flex-col items-center gap-[8px] w-full md:w-[60%]">
         <h1 className="font-semibold text-[25px]">Create Account</h1>
+        <Link to='/' className="cursor-pointer hover:underline text-gray-600 font-medium text-sm">Already have an account? <span className='text-green-400 font-bold'>Login</span></Link>
         <div className="grid grid-cols-2 w-full mt-[3%] gap-[10px] text-sm font-semibold">
           <button
             onClick={() => setRole("candidate")}
@@ -197,6 +196,7 @@ function RegistrationFormTwo({ state, dispatch }) {
               type="email"
               value={regDetails.email}
               onChange={onTextChange}
+              
               required
               className="w-[80%] h-full placeholder:text-little text-little bg-white/0 focus:bg-white/0  focus:outline-none text-gray-700 "
               placeholder="Email"

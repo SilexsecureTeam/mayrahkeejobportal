@@ -1,5 +1,11 @@
 import { registration_steps_keys } from "../utils/constants";
 
+export function registrationType(type){
+  if(type){ 
+    return registration_steps_keys[type]
+  }else{return registration_steps_keys["candidate"]}
+}
+
 export const intialProfileState = registration_steps_keys.create_account
 
 export function RegistrationReducer(state, action) {

@@ -40,10 +40,11 @@ function JobType() {
   };
 
   
-  console.log(currentJob)
+ 
   useEffect(() => {
+    console.log(location?.state?.data)
     if (location?.state?.data !== null) {
-      setCurrentJob(location.state.data);
+      setCurrentJob(location?.state?.data);
     } else {
       console.log(jobUtils.jobList);
       jobUtils.getJobById(id, setCurrentJob);
@@ -58,7 +59,7 @@ function JobType() {
       setAllApplicants(currentApplicants);
     }
   }, []);
-
+  console.log(currentJob)
   return (
     currentJob && (
       <>
@@ -67,6 +68,7 @@ function JobType() {
             options={options}
             currentOption={currentOption}
             setCurrentOption={setCurrentOption}
+            job={currentJob}
           />
 
           {allApplicants && getComponent()}
