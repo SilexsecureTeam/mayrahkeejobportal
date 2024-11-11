@@ -26,6 +26,8 @@ const BasicInfo = ({ setIsOpen }) => {
   const [selectState, setSelectState] = useState();
   const [selectCity, setSelectCity] = useState();
   const [countryInfo, setCountryInfo] = useState();
+const [selectedLanguages, setSelectedLanguages] = useState([]);
+
 
   const countries = Country.getAllCountries();
   const states = State.getAllStates();
@@ -54,7 +56,11 @@ const BasicInfo = ({ setIsOpen }) => {
       };
     });
   };
-
+useEffect(() => {
+    if (candidate.languages) {
+      setSelectedLanguages(candidate.languages.split(","));
+    }
+  }, [candidate.languages]);
   const [profileImageUrl, setProfileImageUrl] = useState(
     user.image ? user.image : null
   );
@@ -544,7 +550,7 @@ const BasicInfo = ({ setIsOpen }) => {
     <span className="block text-sm font-medium text-slate-700 mb-1"> Language </span>
     <select 
       multiple 
-      value={details.languages ? details.languages.split(",") : []}
+      value={selectedLanguages}
       name="languages" 
       onChange={handleOnChange} 
       className="border w-full focus:outline-none p-2 pb-1"
