@@ -86,7 +86,7 @@ useEffect(() => {
     work_experience: candidate.work_experience
       ? candidate?.work_experience
       : "",
-    languages: candidate.languages ? candidate?.languages : "",
+    languages: selectedLanguages,
     salary_type: candidate.salary_type ? candidate?.salary_type : "",
     salary: candidate.salary ? candidate?.salary : "",
     categories: candidate.categories ? candidate?.categories : "",
