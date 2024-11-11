@@ -57,10 +57,10 @@ const [selectedLanguages, setSelectedLanguages] = useState([]);
     });
   };
 useEffect(() => {
-    if (candidate.languages) {
-      setSelectedLanguages(candidate.languages.split(","));
+    if (candidate?.languages) {
+      setSelectedLanguages(candidate?.languages?.split(","));
     }
-  }, [candidate.languages]);
+  }, [candidate?.languages]);
   const [profileImageUrl, setProfileImageUrl] = useState(
     user.image ? user.image : null
   );
@@ -180,9 +180,10 @@ useEffect(() => {
           // [name]: name === 'cv' ? files[0] : value,
         };
       });
-    }else if (type === "select-multiple") {
-      const selectedLanguages = Array.from(e.target.selectedOptions, (option) => option.value);
-      setDetails((prevDetails) => ({ ...prevDetails, languages: selectedLanguages.join(",") }));
+    }else if (name === "languages") {
+      const selectedLanguageOptions = Array.from(e.target.selectedOptions, (option) => option.value);
+setSelectedLanguages(selectedLanguageOptions)
+      setDetails((prevDetails) => ({ ...prevDetails, languages: selectedLanguageOptions.join(",") }));
     }
     setDetails((prev) => {
       return {
