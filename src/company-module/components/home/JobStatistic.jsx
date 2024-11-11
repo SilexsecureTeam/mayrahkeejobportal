@@ -74,8 +74,8 @@ function JobStatistic({ applicants, byCategory }) {
         </div>
 
         <div className="flex gap-5 border-b">
-          {options.map((current) => (
-            <h3
+          {options.map((current, index) => (
+            <h3 key={index}
               onClick={() => setActive(current)}
               className={`text-little py-1 border-b cursor-pointer ${
                 active === current ? "border-primaryColor" : ""
