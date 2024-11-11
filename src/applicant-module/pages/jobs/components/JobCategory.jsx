@@ -8,7 +8,7 @@ const JobCategory = ({setCategory}) => {
         <div>
             <div className="mb-5">
                 <div className="flex justify-between">
-                    <p className="font-bold">Categories</p>
+                    <p className="font-bold">Sector</p>
                     <button
                         onClick={() => setClose(!close)}
                     >{close ? <FaChevronUp /> : <FaChevronDown />}</button>
