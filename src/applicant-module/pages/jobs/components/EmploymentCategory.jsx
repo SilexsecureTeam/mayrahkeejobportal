@@ -63,6 +63,14 @@ const EmploymentCategory = ({ setEmploymentType }) => {
                                 id: "Contract",
                                 name: "employmentType"
                             }} />
+     <CustomizedCheckbox
+                            setSelectedValue={setEmploymentType}
+                            values={{
+                                label: "Hybrid",
+                                value: "Hybrid",
+                                id: "Hybrid",
+                                name: "employmentType"
+                            }} />
                     </div>
                 )}
             </div>

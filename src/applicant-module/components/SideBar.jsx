@@ -1,11 +1,21 @@
-import React, { useContext } from "react";
+import React, { useContext,useEffect } from "react";
 import mainLogo from "../../assets/svgs/main-logo.svg";
 import mainLogoTwo from "../../assets/pngs/main-logo-icon.png";
 import { MdClose } from "react-icons/md";
 import { resourceUrl } from "../../services/axios-client";
+import { ResourceContext } from "../../context/ResourceContext";
+import { IMAGE_URL } from "../../utils/base";
 
 function SideBar({ children, authDetails, toogleIsOpen, isMenuOpen }) {
+  const { getCandidate, setGetCandidate } = useContext(ResourceContext);
+  
+  useEffect(() => {
+    setGetCandidate((prev) => ({
+      ...prev, isDataNeeded: true
+    }));
+  }, []);
 
+  const candidate = getCandidate.data?.details;
   // const {} = useContext()
 
   return (
@@ -39,8 +49,8 @@ function SideBar({ children, authDetails, toogleIsOpen, isMenuOpen }) {
             </span>
           </div>
           <img
-            // src={`${resourceUrl}/${details?.logo_image}`}
-            className="flex-shrink-0 h-[45px] w-[45px] rounded-full bg-secondaryColor max-[1200px]:mt-[-30px] transition-all duration-500"
+             src={candidate?.profile ? `${IMAGE_URL}/${candidate.profile}` : 'https://via.placeholder.com/150'}
+            className="flex-shrink-0 h-[45px] w-[45px] rounded-full bg-secondaryColor max-[1200px]:mt-[-30px] transition-all duration-500 object-cover"
           />
         </div>
       </aside>
@@ -84,8 +94,8 @@ function SideBar({ children, authDetails, toogleIsOpen, isMenuOpen }) {
             </span>
           </div>
           <img
-            // src={`${resourceUrl}/${details?.logo_image}`}
-            className="h-[45px] w-[45px] rounded-full bg-primaryColor"
+          src={candidate?.profile ? `${IMAGE_URL}/${candidate.profile}` : 'https://via.placeholder.com/150'}
+            className="h-[45px] w-[45px] rounded-full bg-primaryColor object-cover"
           />
         </div>
       </aside>

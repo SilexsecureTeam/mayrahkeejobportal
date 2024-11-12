@@ -12,7 +12,7 @@ function SubscriptionPlans({ subUtils, setIsOpen }) {
         Best Subscription plans for Mayraykee
       </p>
 
-      <ul className="flex-1 grid grid-cols-1 md:grid-cols-2 gap-5 w-[95%] mt-[3%] overflow-y-auto">
+      <ul className="max-h-96 grid grid-cols-1 md:grid-cols-responsive2 items-stretch gap-5 w-[95%] mt-[3%] overflow-y-auto">
         {subUtils?.packages?.map((current) => (
           <SubscriptionCard
             setIsOpen={setIsOpen}

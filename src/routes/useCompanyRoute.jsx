@@ -82,7 +82,7 @@ const Settings = lazy(() =>
   import("../company-module/pages/settings/Settings")
 );
 
-const HelpCenter = lazy(() => import("../company-module/pages/help/Help"));
+const HelpCenter = lazy(() => import("../pages/HelpCenter"));
 
 const NotFound = lazy(() => import("../company-module/pages/404"));
 

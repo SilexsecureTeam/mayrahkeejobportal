@@ -56,7 +56,7 @@ function JobStatistic({ applicants, byCategory }) {
           <div className="flex flex-col">
             <h3 className="font-semibold text-sm">Job Statistics</h3>
             <span className=" text-gray-400 text-little">
-              Showing Jobstatistic Jul 19-25
+              Showing Job Statics  {data[0]?.month.slice(0,3)} - {data[data.length-1]?.month.slice(0,3)}
             </span>
           </div>
 
@@ -74,8 +74,8 @@ function JobStatistic({ applicants, byCategory }) {
         </div>
 
         <div className="flex gap-5 border-b">
-          {options.map((current) => (
-            <h3
+          {options.map((current, index) => (
+            <h3 key={index}
               onClick={() => setActive(current)}
               className={`text-little py-1 border-b cursor-pointer ${
                 active === current ? "border-primaryColor" : ""
