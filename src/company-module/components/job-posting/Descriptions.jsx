@@ -51,15 +51,37 @@ const basic_inputs = [
 const careerData = [
   {
     id: 1,
-    name: "Entry Level",
+    name: "Internship",
   },
   {
     id: 2,
-    name: "Mid Level",
+    name: "Management Trainee ",
   },
   {
     id: 3,
-    name: "Senoir Level",
+    name: "Entry level",
+  },{
+    id: 4,
+    name: "Intermediate level",
+  },
+  {
+    id: 5,
+    name: "Middle level",
+  },
+  {
+    id: 6,
+    name: "Senior level",
+  },{
+    id: 7,
+    name: "Management level",
+  },
+  {
+    id: 8,
+    name: "Executive ",
+  },
+  {
+    id: 9,
+    name: "Board of Directors",
   },
 ];
 
