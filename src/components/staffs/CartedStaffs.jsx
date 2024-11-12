@@ -1,5 +1,5 @@
 import { FaExclamationCircle } from "react-icons/fa";
-import { MdClose } from "react-icons/md";
+import { MdCheck, MdCheckBoxOutlineBlank, MdClose } from "react-icons/md";
 import { useLocation, useNavigate } from "react-router-dom";
 import StaffCard from "./StaffCard";
 import { useContext, useEffect, useState } from "react";
@@ -10,6 +10,8 @@ import { FormatPrice } from "../../utils/formmaters";
 import { PaystackConsumer } from "react-paystack";
 import useCart from "../../hooks/useCart";
 import MarketPlace from "./marketplace/MarketPlace";
+import PopUpBox from "../PopUpBox";
+import FormButton from "../FormButton";
 
 function CartedStaffs() {
   const location = useLocation();
@@ -19,6 +21,8 @@ function CartedStaffs() {
   const client = axiosClient(authDetails.token);
   const [cartItems, setCartItems] = useState(data?.items || []);
   const { config, handleSuccess, addToCart, removeFromCart } = useCart();
+  const [conditions, setConditions] = useState(false);
+  const [terms, setTerms] = useState(false);
 
   // cart ui logic
   const [selectedItems, setSelectedItems] = useState([]);
@@ -75,164 +79,227 @@ function CartedStaffs() {
   };
 
   //contract items from api
-   const handleAddToCart = async (data) => {
-      await addToCart(getCartItems, data)
-   }
+  const handleAddToCart = async (data) => {
+    await addToCart(getCartItems, data);
+  };
 
-   const handleRemoveCart = async (data) => {
-      await removeFromCart(getCartItems,data)
-   }
+  const handleRemoveCart = async (data) => {
+    await removeFromCart(getCartItems, data);
+  };
 
-  // 
-
+  //
 
   useEffect(() => {
     getCartItems();
   }, []);
 
   return (
-    <div className="w-full px-5 md:px-8 lg:px-12 flex  pt-5 flex-col gap-5">
-      <div className="flex flex-col gap-2 bg-green-100 pr-5 p-2 w-fit text-xs md:text-sm">
-        <div className="flex w-full justify-between items-center">
-          <span className="flex gap-2 items-center text-green-700">
-            Here are a list of your carted staffs
-            <FaExclamationCircle />
-          </span>
+    <>
+      <PopUpBox isOpen={conditions}>
+        <div className="w-[90%] md:w-[40%] md:h-fit text-gray-500 p-5 items-center flex flex-col gap-4 bg-white">
+          <MdClose
+            className="text-2xl place-self-end cursor-pointer"
+            onClick={() => setConditions(!conditions)}
+          />
+          <h1>Terms and Conditions</h1>
+          <p className="text-sm">
+            This agreement acknowledges that the employer may only assign tasks
+            that are directly related to the designated role of the employee.
+            Artisan must only perform duties as outlined within the scope of
+            their specific role, whether as a housekeeper, driver, or other
+            position. Any tasks outside these roles require mutual agreement
+            between the employer and the employee. Violation of this policy may
+            result in a breach of contract or legal consequences, depending on
+            applicable labor laws..
+          </p>
+          <div
+            onClick={() => setTerms(!terms)}
+            className="flex cursor-pointer items-center gap-3"
+          >
+            {terms ? (
+              <MdCheck size={20} className="text-primaryColor" />
+            ) : (
+              <MdCheckBoxOutlineBlank size={20} />
+            )}
+            <span>I accept the terms and conditions</span>
+          </div>
+          <PaystackConsumer
+            {...config(
+              handleSuccess,
+              selectedItems,
+              getCartItems,
+              2000 * selectedItems.length + 100
+            )}
+          >
+            {({ initializePayment }) => (
+              <FormButton
+                onClick={() => {
+                  if (terms) {
+                    initializePayment();
+                  } else {
+                    onFailure({
+                      message: "Terms and Condtions",
+                      error:
+                        "Please agree to the terms by cliking the check box",
+                    });
+                  }
+                }}
+              >
+                Checkout
+              </FormButton>
+            )}
+          </PaystackConsumer>
+        </div>
+      </PopUpBox>
+      <div className="w-full px-5 md:px-8 lg:px-12 flex  pt-5 flex-col gap-5">
+        <div className="flex flex-col gap-2 bg-green-100 pr-5 p-2 w-fit text-xs md:text-sm">
+          <div className="flex w-full justify-between items-center">
+            <span className="flex gap-2 items-center text-green-700">
+              Here are a list of your carted staffs
+              <FaExclamationCircle />
+            </span>
 
-          <button className=" group hover:bg-red-500 hover:text-white p-1 text-red-600 text-md flex justify-between items-center ">
-            Close
-            <MdClose className="" />
-          </button>
+            <button className=" group hover:bg-red-500 hover:text-white p-1 text-red-600 text-md flex justify-between items-center ">
+              Close
+              <MdClose className="" />
+            </button>
+          </div>
+
+          <p>
+            Here you can sign a contract with any artisan of your choice. Click
+            on sign to sign them or view to view thier details
+          </p>
         </div>
 
-        <p>
-          Here you can sign a contract with any artisan of your choice. Click on
-          sign to sign them or view to view thier details
-        </p>
-      </div>
+        {/* Shopping Cart */}
+        {cartItems.length !== 0 ? (
+          <div className="flex flex-col md:flex-row gap-8">
+            <div className="w-full min-w-72 md:w-2/3 bg-white p-6">
+              <h2 className="text-lg font-bold mb-4">Shopping Cart</h2>
 
-      {/* Shopping Cart */}
-      {cartItems.length !== 0 ? (
-        <div className="flex flex-col md:flex-row gap-8">
-          <div className="w-full min-w-72 md:w-2/3 bg-white p-6">
-            <h2 className="text-lg font-bold mb-4">Shopping Cart</h2>
+              <p className="text-sm text-gray-600 mb-4">
+                Showing {cartItems.length} staffs you added
+              </p>
 
-            <p className="text-sm text-gray-600 mb-4">
-              Showing {cartItems.length} staffs you added
-            </p>
+              <div className="mb-4">
+                <input
+                  type="checkbox"
+                  id="selectAll"
+                  checked={allSelected}
+                  onChange={handleSelectAll}
+                  className="mr-2 cursor-pointer"
+                />
+                <label htmlFor="selectAll" className="text-gray-700">
+                  Select All{" "}
+                  <span className="text-gray-500">({cartItems.length})</span>
+                </label>
+              </div>
 
-            <div className="mb-4">
-              <input
-                type="checkbox"
-                id="selectAll"
-                checked={allSelected}
-                onChange={handleSelectAll}
-                className="mr-2 cursor-pointer"
-              />
-              <label htmlFor="selectAll" className="text-gray-700">
-                Select All{" "}
-                <span className="text-gray-500">({cartItems.length})</span>
-              </label>
-            </div>
-
-            {/* Cart Items */}
-            <div className="space-y-6">
-              {cartItems?.map((item, index) => (
-                <div
-                  key={index}
-                  className="flex items-center border-b pb-4 border-gray-200"
-                >
-                  <input
-                    checked={selectedItems.includes(item)}
-                    onChange={() => handleItemSelect(item)}
-                    type="checkbox"
-                    className="mr-4 cursor-pointer"
-                  />
-                  <div className="flex-grow flex gap-2 items-center">
-                    <img
-                      src={`/placeholder.png`}
-                      className="h-[80px] bg-gray-300 place-self-center w-[80px]"
-                      alt=""
+              {/* Cart Items */}
+              <div className="space-y-6">
+                {cartItems?.map((item, index) => (
+                  <div
+                    key={index}
+                    className="flex items-center border-b pb-4 border-gray-200"
+                  >
+                    <input
+                      checked={selectedItems.includes(item)}
+                      onChange={() => {
+                        console.log(item);
+                        if (item.domestic_staff.availability_status === '1') {
+                          handleItemSelect(item);
+                        } else {
+                          onFailure({
+                            message: "Availabilty status",
+                            error:
+                              "Only available staffs can be checked out.",
+                          });
+                        }
+                      }}
+                      type="checkbox"
+                      className="mr-4 cursor-pointer"
                     />
-                    <section>
-                      <p className="text-xs uppercase text-gray-500">
-                        {item?.domestic_staff?.subcategory}
-                      </p>
-                      <p className="text-base font-medium capitalize">
-                        {`${item?.domestic_staff?.surname} ${item?.domestic_staff?.first_name} ${item?.domestic_staff?.middle_name}` ||
-                          "Python Programming - From Basics to Advanced Level"}
-                      </p>
-                      <p className="text-sm text-gray-700">
-                        {FormatPrice(2000)}
-                      </p>
-                    </section>
+                    <div className="flex-grow flex gap-2 items-center">
+                      <img
+                        src={`/placeholder.png`}
+                        className="h-[80px] bg-gray-300 place-self-center w-[80px]"
+                        alt=""
+                      />
+                      <section className="w-full">
+                        <p className="text-xs flex gap-5 w-full justify-between  uppercase text-gray-500">
+                          {item?.domestic_staff?.subcategory}
+                          <span className={`text-md ${item.domestic_staff.availability_status === '1' ? 'text-green-600' : 'text-red-600'}`}>{item.domestic_staff.availability_status === '1' ? 'Available' : 'Unavailable' }</span>
+                        </p>
+                        <p className="text-base font-medium capitalize">
+                          {`${item?.domestic_staff?.surname} ${item?.domestic_staff?.first_name} ${item?.domestic_staff?.middle_name}` ||
+                            "Python Programming - From Basics to Advanced Level"}
+                        </p>
+                        <p className="text-sm text-gray-700">
+                          {FormatPrice(2000)}
+                        </p>
+                      </section>
+                    </div>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
+            </div>
+
+            {/* Order Summary */}
+            <div className="w-full min-w-[250px] h-fit md:w-1/3 bg-white border border-black p-6 rounded shadow">
+              <h2 className="text-lg font-bold mb-4">Order Summary</h2>
+              <ul className="space-y-2 mb-6">
+                {selectedItems?.map((item) => (
+                  <li key={item.id} className="flex justify-between text-sm">
+                    <span className="capitalize">
+                      {`${item?.domestic_staff?.subcategory} - ${item?.domestic_staff?.surname} ${item?.domestic_staff?.first_name}` ||
+                        "Python Programming - From Basics to Advanced Level"}
+                    </span>
+                    <span>{FormatPrice(2000)}</span>
+                  </li>
+                ))}
+              </ul>
+              <ul className="border-t pt-4">
+                <li className="flex justify-between text-sm mb-2">
+                  <span>Total Price (Item)</span>
+                  <span>{FormatPrice(2000 * selectedItems.length)}</span>
+                </li>
+                <li className="flex justify-between text-sm mb-2">
+                  <span>Tax Fee</span>
+                  <span>{selectedItems.length > 0 ? FormatPrice(100) : 0}</span>
+                </li>
+                <li className="flex justify-between font-bold text-lg">
+                  <span>Grand Total</span>
+                  <span>
+                    {selectedItems.length > 0
+                      ? FormatPrice(2000 * selectedItems.length + 100)
+                      : 0}
+                  </span>
+                </li>
+              </ul>
+              <button
+                className={`${
+                  selectedItems.length > 0
+                    ? "opacity-100 cursor-pointer"
+                    : "opacity-50 cursor-not-allowed"
+                } w-full bg-black font-semibold text-white py-3 rounded-full mt-6`}
+                height="h-fit text-sm p-1"
+                disabled={selectedItems.length > 0 ? false : true}
+                onClick={() => {
+                  setConditions(!conditions);
+                }}
+              >
+                Checkout
+              </button>
             </div>
           </div>
+        ) : (
+          <h2 className="text-lg font-bold mb-4">Cart Empty</h2>
+        )}
 
-          {/* Order Summary */}
-          <div className="w-full min-w-[250px] h-fit md:w-1/3 bg-white border border-black p-6 rounded shadow">
-            <h2 className="text-lg font-bold mb-4">Order Summary</h2>
-            <ul className="space-y-2 mb-6">
-              {selectedItems?.map((item) => (
-                <li key={item.id} className="flex justify-between text-sm">
-                  <span className="capitalize">
-                    {`${item?.domestic_staff?.subcategory} - ${item?.domestic_staff?.surname} ${item?.domestic_staff?.first_name}` ||
-                      "Python Programming - From Basics to Advanced Level"}
-                  </span>
-                  <span>{FormatPrice(2000)}</span>
-                </li>
-              ))}
-            </ul>
-            <ul className="border-t pt-4">
-              <li className="flex justify-between text-sm mb-2">
-                <span>Total Price (Item)</span>
-                <span>{FormatPrice(2000 * selectedItems.length)}</span>
-              </li>
-              <li className="flex justify-between text-sm mb-2">
-                <span>Tax Fee</span>
-                <span>{selectedItems.length > 0 ? FormatPrice(100) : 0}</span>
-              </li>
-              <li className="flex justify-between font-bold text-lg">
-                <span>Grand Total</span>
-                <span>
-                  {selectedItems.length > 0
-                    ? FormatPrice(2000 * selectedItems.length + 100)
-                    : 0}
-                </span>
-              </li>
-            </ul>
-            <PaystackConsumer
-              {...config(handleSuccess, selectedItems, getCartItems, 2000 * selectedItems.length + 100)}
-            >
-              {({ initializePayment }) => (
-                <button
-                  className={`${
-                    selectedItems.length > 0
-                      ? "opacity-100 cursor-pointer"
-                      : "opacity-50 cursor-not-allowed"
-                  } w-full bg-black font-semibold text-white py-3 rounded-full mt-6`}
-                  height="h-fit text-sm p-1"
-                  disabled={selectedItems.length > 0 ? false : true}
-                  onClick={initializePayment}
-                >
-                  Checkout
-                </button>
-              )}
-            </PaystackConsumer>
-          </div>
-        </div>
-      ) : (
-        <h2 className="text-lg font-bold mb-4">Cart Empty</h2>
-      )}
-
-      {/* Contract Details & Market place*/}
-      <MarketPlace 
-        handleAddToCart={handleAddToCart}
-      />
-    </div>
+        {/* Contract Details & Market place*/}
+        <MarketPlace handleAddToCart={handleAddToCart} />
+      </div>
+    </>
   );
 }
 

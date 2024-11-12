@@ -4,8 +4,14 @@ import { AuthContext } from "../context/AuthContex";
 import { axiosClient } from "../services/axios-client";
 import { onFailure } from "../utils/notifications/OnFailure";
 import { onSuccess } from "../utils/notifications/OnSuccess";
+import { FormatError } from "../utils/formmaters";
+import { StaffManagementContext } from "../context/StaffManagementModule";
 
 function useStaff() {
+  const ContractStatus = {
+    accept: "Accept",
+    reject: "Reject",
+  };
   const { authDetails } = useContext(AuthContext);
   const client = axiosClient(authDetails?.token);
   const navigate = useNavigate();
@@ -49,6 +55,7 @@ function useStaff() {
       return [];
     }
   };
+
   //To get Police Records
   const getPoliceDetails = async (staffId) => {
     try {
@@ -70,7 +77,79 @@ function useStaff() {
     }
   };
 
-  return { getGarantorDetails, getMedicalDetails, getPoliceDetails };
+  //To get Work Experience
+  const getWorkExperience = async (staffId) => {
+    try {
+      const { data } = await client.get(
+        `/domesticStaff/previous-work-experience/${staffId}`
+      );
+
+      if (data.PreviousWorkExperience) {
+        return data.PreviousWorkExperience;
+      }
+      return [];
+    } catch (error) {
+      return [];
+    }
+  };
+
+  //To get Work Experience
+  const updateContractStatus = async (staff, status, setStaff) => {
+    try {
+      const { data } = await client.post(
+        `/domesticStaff/update-profile/${staff.id}`,
+        {
+          contract_status: status === ContractStatus.accept ? '1' : '2',
+        }
+      );
+      setStaff(data.data)
+    if(ContractStatus.accept === status){
+      onSuccess({
+        message: 'Contract Status',
+        success: 'You have completed this a contract'
+      })
+    } else{
+      onSuccess({
+        message: 'Contract Status',
+        success: 'You have rejected this staff'
+      })
+    }
+      return true;
+    } catch (error) {
+      return false;
+    }
+  };
+
+  //availabilit status => 1 for available, 0 for not
+  const updateAvailabilityStatus = async (staffId, status) => {
+  const { getStaffProfile } = useContext(StaffManagementContext);
+
+    console.log("status", status);
+    try {
+      const result = await client.post(
+        `/domesticStaff/update-profile/${staffId}`,
+        { availability_status: status }
+      );
+      await getStaffProfile();
+      return true;
+    } catch (error) {
+      onFailure({
+        message: "Error",
+        error: "Could not update your status",
+      });
+      return false;
+    }
+  };
+
+  return {
+    ContractStatus,
+    getGarantorDetails,
+    getMedicalDetails,
+    getPoliceDetails,
+    getWorkExperience,
+    updateContractStatus,
+    updateAvailabilityStatus,
+  };
 }
 
 export default useStaff;
