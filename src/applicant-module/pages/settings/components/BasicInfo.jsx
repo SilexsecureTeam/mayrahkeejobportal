@@ -1,3 +1,4 @@
+
 import React, { useContext, useEffect, useState } from "react";
 import { TbPhoto } from "react-icons/tb";
 import DynamicExperienceForm from "./DynamicExperienceForm";
@@ -732,15 +733,14 @@ setSelectedLanguages(selectedLanguageOptions)
                             >
                               <option value="">-- select --</option>
 
-selectStates?.map((each) => (
+{selectStates?.map((each) => (
   <option 
-    key={each.isoCode} 
+    key={each.name} 
     value={each.isoCode}
   >
-    {each?.name?.toLowerCase().match('abuja') ? 'FCT' : each.name}
+    {each?.name.toLowerCase().includes('abuja') ? 'FCT' : each.name}
   </option>
-))
-
+))}
                             </select>
                           </label>
                         </div>
