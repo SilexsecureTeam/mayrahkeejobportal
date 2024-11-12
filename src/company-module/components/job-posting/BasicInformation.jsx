@@ -96,7 +96,7 @@ id: 6,
 const genderData = [
   {
     id: 1,
-    name: "Any",
+    name: "Not A Criteria",
   },
   {
     id: 2,
