@@ -2,7 +2,7 @@ import React from "react";
 import mayrahkeeIcon from "../../assets/pngs/mayrakee-icon.png";
 import interviewIcon from "../../assets/svgs/interview-icon.svg";
 import managerAttireIcon from "../../assets/manager-business-attire.jpg";
-import mainLogoTwo from "../../assets/jpg/happy-couple-of-african-american-business-partners-2023-11-27-05-18-22-utc.jpg";
+import mainLogoTwo from "../../assets/happy-couple-of-african-american-business-partners-2023-11-27-05-18-22-utc.jpg";
 
 function SideCard() {
   return (
