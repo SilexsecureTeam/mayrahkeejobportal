@@ -299,7 +299,7 @@ setSelectedLanguages(selectedLanguageOptions)
   console.log(candidate);
 
   return (
-    <div className="w-full text-[#515B6F] text-base">
+    <div className="max-w-full text-[#515B6F] text-base overflow-x-hidden">
       <div className="my-4">
         <div className="max-w-full flex flex-wrap gap-2 items-center pb-6 border-b">
           <div className="max-w-full md:w-1/3 pr-5">
@@ -321,7 +321,7 @@ setSelectedLanguages(selectedLanguageOptions)
             </div>
             <label
               htmlFor="image"
-              className="min-h-32 w-[80%] md:min-w-96 cursor-pointer bg-green-50 border-2 border-green-500 border-dashed p-3 md:p-5 rounded"
+              className="min-h-32 w-[90%] md:min-w-96 cursor-pointer bg-green-50 border-2 border-green-500 border-dashed p-3 md:p-5 rounded"
             >
               <div className="text-center">
                 <div className="flex justify-center">
@@ -735,8 +735,8 @@ setSelectedLanguages(selectedLanguageOptions)
 
 {selectStates?.map((each) => (
   <option 
-    key={each.name} 
-    value={each.isoCode}
+    key={each.isoCode} 
+    value={each.name}
   >
     {each?.name.toLowerCase().includes('abuja') ? 'FCT' : each.name}
   </option>
