@@ -300,7 +300,7 @@ setSelectedLanguages(selectedLanguageOptions)
   return (
     <div className="w-full text-[#515B6F] text-base">
       <div className="my-4">
-        <div className="flex flex-wrap gap-2 items-center pb-6 border-b">
+        <div className="max-w-full flex flex-wrap gap-2 items-center pb-6 border-b">
           <div className="max-w-full md:w-1/3 pr-5">
             <p className="font-medium mb-2 text-slate-950">Profile Photo</p>
             <p>
@@ -680,7 +680,7 @@ setSelectedLanguages(selectedLanguageOptions)
                     <div className="font-medium w-full md:w-2/6 text-slate-900">
                       <p>Contact Details</p>
                     </div>
-                    <div className="w-4/6">
+                    <div className="w-full md:w-4/6">
                       <div className="mb-4">
                         <label className="block">
                           <span className="block text-sm font-medium text-slate-700">
