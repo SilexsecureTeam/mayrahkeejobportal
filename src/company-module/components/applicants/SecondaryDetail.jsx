@@ -5,7 +5,7 @@ import HiringProgress from "./HiringProgress";
 // import IntervieweSchedule from "./InterviewerSchedule";
 
 const options = [
-  "Applicant Profile",
+  "Applicant's Profile",
   "Resume",
   "Hiring Progress"
 ];
