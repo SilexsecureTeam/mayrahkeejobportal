@@ -708,11 +708,11 @@ setSelectedLanguages(selectedLanguageOptions)
                               onChange={handleOnChange}
                               className="border w-full focus:outline-none p-2 pb-1"
                             >
-                              <option value="">-- select --</option>
+                              <option disabled value="">-- select --</option>
                               {countries.map((country) => (
                                 <option
-                                  key={country.isoCode}
-                                  value={country.isoCode}
+                               selected={details?.country === country.isoCode}   key={country.isoCode}
+                                  value={country.name}
                                 >
                                   {country.name}
                                 </option>
@@ -731,12 +731,13 @@ setSelectedLanguages(selectedLanguageOptions)
                               onChange={handleOnChange}
                               className="border w-full focus:outline-none p-2 pb-1"
                             >
-                              <option value="">-- select --</option>
+                              <option disabled value="">-- select --</option>
 
 {selectStates?.map((each) => (
   <option 
     key={each.isoCode} 
     value={each.name}
+selected={details?.state === each.name}
   >
     {each?.name.toLowerCase().includes('abuja') ? 'FCT' : each.name}
   </option>
