@@ -708,11 +708,11 @@ setSelectedLanguages(selectedLanguageOptions)
                               onChange={handleOnChange}
                               className="border w-full focus:outline-none p-2 pb-1"
                             >
-                              <option disabled value="">-- select --</option>
+                              <option value="">-- select --</option>
                               {countries.map((country) => (
                                 <option
-                               selected={details.country === country.name&&"selected" }   key={country.isoCode}
-                                  value={country.name}
+                               selected={details.country === country.isoCode&&"selected" }   key={country.isoCode}
+                                  value={country.isoCode}
                                 >
                                   {country.name}
                                 </option>
@@ -731,13 +731,13 @@ setSelectedLanguages(selectedLanguageOptions)
                               onChange={handleOnChange}
                               className="border w-full focus:outline-none p-2 pb-1"
                             >
-                              <option disabled value="">-- select --</option>
+                              <option value="">-- select --</option>
 
 {selectStates?.map((each) => (
   <option 
     key={each.isoCode} 
-    value={each.name}
-selected={details?.state === each.name&&"selected" }
+    value={each.isoCode}
+selected={details?.state === each.isoCode&&"selected" }
   >
     {each?.name.toLowerCase().includes('abuja') ? 'FCT' : each.name}
   </option>
@@ -756,10 +756,10 @@ selected={details?.state === each.name&&"selected" }
                               onChange={handleOnChange}
                               className="border w-full focus:outline-none p-2 pb-1"
                             >
-                              <option disabled value="">-- select --</option>
+                              <option value="">-- select --</option>
                               {selectCity?.map((city) => (
                                 <option key={city.name} value={city.name}
-selected={details?.local_gov === city.name&&"selected" }>
+selected={details?.local_gov === city.isoCode&&"selected" }>
                                   {city.name}
                                 </option>
                               ))}
