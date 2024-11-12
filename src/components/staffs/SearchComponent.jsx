@@ -3,7 +3,7 @@ import FormButton from "../FormButton";
 import { MdCheckBox, MdCheckBoxOutlineBlank } from "react-icons/md";
 import { useState } from "react";
 
-function SearchComponent({ subCategories, handleQuerySubmit }) {
+function SearchComponent({ subCategories, handleQuerySubmit,title="Select Subcategory" }) {
   const {
     register,
     handleSubmit,
@@ -103,7 +103,7 @@ const toogleGender = () => setByGender(!byGender);
               className="p-1 border focus:outline-none border-gray-900 rounded-md"
               {...register("subcategory")}
             >
-              <option selected>-- Select Artisan's Specialized Position --</option>
+              <option selected>-- {title} --</option>
               {subCategories?.map((current) => (
                 <option key={current.id}>{current.name}</option>
               ))}
