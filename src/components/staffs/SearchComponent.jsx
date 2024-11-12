@@ -1,4 +1,4 @@
-uimport { useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import FormButton from "../FormButton";
 import { MdCheckBox, MdCheckBoxOutlineBlank } from "react-icons/md";
 import { useState } from "react";
