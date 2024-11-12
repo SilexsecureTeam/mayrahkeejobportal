@@ -734,10 +734,10 @@ setSelectedLanguages(selectedLanguageOptions)
 
 selectStates?.map((each) => (
   <option 
-    key={each.name} 
+    key={each.isoCode} 
     value={each.isoCode}
   >
-    {each.name.toLowerCase().includes('abuja') ? 'FCT' : each.name}
+    {each?.name?.toLowerCase().match('abuja') ? 'FCT' : each.name}
   </option>
 ))
 
