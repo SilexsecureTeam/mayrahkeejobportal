@@ -708,7 +708,7 @@ setSelectedLanguages(selectedLanguageOptions)
                               onChange={handleOnChange}
                               className="border w-full focus:outline-none p-2 pb-1"
                             >
-                              <option selected disabled value="">-- select --</option>
+                              <option disabled value="">-- select --</option>
                               {countries.map((country) => (
                                 <option
                                selected={details?.country === country.isoCode}   key={country.isoCode}
@@ -731,7 +731,7 @@ setSelectedLanguages(selectedLanguageOptions)
                               onChange={handleOnChange}
                               className="border w-full focus:outline-none p-2 pb-1"
                             >
-                              <option selected disabled value="">-- select --</option>
+                              <option disabled value="">-- select --</option>
 
 {selectStates?.map((each) => (
   <option 
@@ -756,7 +756,7 @@ selected={details?.state === each.name}
                               onChange={handleOnChange}
                               className="border w-full focus:outline-none p-2 pb-1"
                             >
-                              <option selected  disabled value="">-- select --</option>
+                              <option disabled value="">-- select --</option>
                               {selectCity?.map((city) => (
                                 <option key={city.name} value={city.name}>
 selected={details.local_gov === city.name}
