@@ -228,6 +228,7 @@ function BasicInformation({ setCurrentStep, data, jobUtils }) {
   const [selectedCurrency, setSelectedCurrency] = useState(currencyData[0]);
   const [photoUrl, setPhotoUrl] = useState();
   const [minimumPrice, setMinimumPrice] = useState(0);
+  const [jobList, setJobList] = useState()
 
   const toogleSelectedType = (selected) => {
     setSelectedType(selected);

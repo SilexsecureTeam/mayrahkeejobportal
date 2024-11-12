@@ -4,14 +4,14 @@ import { AuthContext } from "../context/AuthContex";
 import { axiosClient } from "../services/axios-client";
 import { onFailure } from "../utils/notifications/OnFailure";
 import { onSuccess } from "../utils/notifications/OnSuccess";
-
-
+import { FormatError } from "../utils/formmaters";
+import { StaffManagementContext } from "../context/StaffManagementModule";
 
 function useStaff() {
   const ContractStatus = {
-    accept: 'Accept',
-    reject: 'Reject'
-  }
+    accept: "Accept",
+    reject: "Reject",
+  };
   const { authDetails } = useContext(AuthContext);
   const client = axiosClient(authDetails?.token);
   const navigate = useNavigate();
@@ -94,21 +94,40 @@ function useStaff() {
   };
 
   //To get Work Experience
-  const updateContractStatus = async (staff, status ) => {
+  const updateContractStatus = async (staff, status, setStaff) => {
     try {
       const { data } = await client.post(
-        `/domesticStaff/update-profile/${staff.id}`,{
-          ...staff,
-          contract_status: status === ContractStatus.accept ? 1 : 2 
+        `/domesticStaff/update-profile/${staff.id}`,
+        {
+          contract_status: status === ContractStatus.accept ? '1' : '2',
         }
       );
-     return true;
+      setStaff(data.data)
+    if(ContractStatus.accept === status){
+      onSuccess({
+        message: 'Contract Status',
+        success: 'You have completed this a contract'
+      })
+    } else{
+      onSuccess({
+        message: 'Contract Status',
+        success: 'You have rejected this staff'
+      })
+    }
+      return true;
     } catch (error) {
       return false;
     }
   };
 
-  return { ContractStatus, getGarantorDetails, getMedicalDetails, getPoliceDetails, getWorkExperience, updateContractStatus };
+  return {
+    ContractStatus,
+    getGarantorDetails,
+    getMedicalDetails,
+    getPoliceDetails,
+    getWorkExperience,
+    updateContractStatus,
+  };
 }
 
 export default useStaff;
