@@ -735,7 +735,7 @@ setSelectedLanguages(selectedLanguageOptions)
 {selectStates?.map((each) => (
   <option 
     key={each.isoCode} 
-    value={each.isoCode}
+    value={each.name}
   >
     {each?.name.toLowerCase().includes('abuja') ? 'FCT' : each.name}
   </option>
@@ -756,7 +756,7 @@ setSelectedLanguages(selectedLanguageOptions)
                             >
                               <option value="">-- select --</option>
                               {selectCity?.map((city) => (
-                                <option key={city.name} value={city.name}>
+                                <option key={city.isoCode} value={city.name}>
                                   {city.name}
                                 </option>
                               ))}
