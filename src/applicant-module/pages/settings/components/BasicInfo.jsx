@@ -731,11 +731,16 @@ setSelectedLanguages(selectedLanguageOptions)
                               className="border w-full focus:outline-none p-2 pb-1"
                             >
                               <option value="">-- select --</option>
-                              {selectStates?.map((each) => (
-                                <option key={each.name} value={each.isoCode}>
-                                  {each.name}
-                                </option>
-                              ))}
+
+selectStates?.map((each) => (
+  <option 
+    key={each.name} 
+    value={each.isoCode}
+  >
+    {each.name.toLowerCase() === 'abuja federal capital territory' ? 'FCT' : each.name}
+  </option>
+))
+
                             </select>
                           </label>
                         </div>
