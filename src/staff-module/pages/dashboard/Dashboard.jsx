@@ -16,7 +16,7 @@ import { StaffRouteContext } from "../../../context/StaffRouteContext";
 import { useNavigate } from "react-router-dom";
 import { StaffManagementContext } from "../../../context/StaffManagementModule";
 import DefaultSwitch from "../../../components/DefaultSwitch";
-import useStaff from "../../../hooks/useStaff";
+import useStaffUser from "../../../hooks/useStaffUser";
 
 function Dashboard() {
   const { authDetails } = useContext(AuthContext);
@@ -27,7 +27,7 @@ function Dashboard() {
 
   const [availablityStatus, setAvailabiltyStatus] = useState();
   const [loading, setloading] = useState(false);
-  const { updateAvailabilityStatus } = useStaff();
+  const { updateAvailabilityStatus } = useStaffUser();
 
   const filterVerificationDetails =
     profileDetails &&

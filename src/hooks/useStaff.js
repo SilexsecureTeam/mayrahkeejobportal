@@ -120,27 +120,6 @@ function useStaff() {
     }
   };
 
-  //availabilit status => 1 for available, 0 for not
-  const updateAvailabilityStatus = async (staffId, status) => {
-  const { getStaffProfile } = useContext(StaffManagementContext);
-
-    console.log("status", status);
-    try {
-      const result = await client.post(
-        `/domesticStaff/update-profile/${staffId}`,
-        { availability_status: status }
-      );
-      await getStaffProfile();
-      return true;
-    } catch (error) {
-      onFailure({
-        message: "Error",
-        error: "Could not update your status",
-      });
-      return false;
-    }
-  };
-
   return {
     ContractStatus,
     getGarantorDetails,
@@ -148,7 +127,6 @@ function useStaff() {
     getPoliceDetails,
     getWorkExperience,
     updateContractStatus,
-    updateAvailabilityStatus,
   };
 }
 

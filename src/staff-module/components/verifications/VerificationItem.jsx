@@ -1,16 +1,16 @@
 import { useState } from "react";
 import DefaultSwitch from "../../../components/DefaultSwitch";
 import { useEffect } from "react";
-import useStaff from "../../../hooks/useStaff";
 import { AuthContext } from "../../../context/AuthContex";
 import { useContext } from "react";
+import useStaffUser from "../../../hooks/useStaffUser";
 
 function VerificationItem({ currentKey, profileDetails, updateTrackRecord }) {
   const detail = profileDetails[currentKey];
   const { authDetails } = useContext(AuthContext);
   const [enabled, setEnabled] = useState(detail == "1" ? true : false);
   const labelText = currentKey.replace(/_/g, " ").toUpperCase();
-  const { updateAvailabilityStatus } = useStaff();
+  const { updateAvailabilityStatus } = useStaffUser();
   const [loading, setloading] = useState(false);
 
 
