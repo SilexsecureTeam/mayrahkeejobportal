@@ -711,7 +711,7 @@ setSelectedLanguages(selectedLanguageOptions)
                               <option value="">-- select --</option>
                               {countries.map((country) => (
                                 <option
-                               selected={details.country === country.isoCode&&"selected" }   key={country.isoCode}
+                               selected={details.country === country.isoCode &&"selected" }   key={country.isoCode}
                                   value={country.isoCode}
                                 >
                                   {country.name}
@@ -737,7 +737,7 @@ setSelectedLanguages(selectedLanguageOptions)
   <option 
     key={each.isoCode} 
     value={each.isoCode}
-selected={details?.state === each.isoCode&&"selected" }
+selected={details?.state === each.isoCode &&"selected" }
   >
     {each?.name.toLowerCase().includes('abuja') ? 'FCT' : each.name}
   </option>
@@ -759,7 +759,7 @@ selected={details?.state === each.isoCode&&"selected" }
                               <option value="">-- select --</option>
                               {selectCity?.map((city) => (
                                 <option key={city.name} value={city.name}
-selected={details?.local_gov === city.isoCode&&"selected" }>
+selected={details?.local_gov === city.isoCode &&"selected" }>
                                   {city.name}
                                 </option>
                               ))}
