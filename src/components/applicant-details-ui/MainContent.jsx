@@ -18,8 +18,6 @@ const MainContent = ({ staff }) => {
     switch (activeTab) {
       case "Guarantors":
         return <Garantor staff={staff}/>;
-      case "Applicant Profile":
-        return <p>Applicant Profile content here...</p>;
       case "Medical History":
         return <MedicalHistory staff={staff}/>;
       case "Police Report":
@@ -46,15 +44,6 @@ const MainContent = ({ staff }) => {
       <div className="border-b mb-4">
         <nav className="flex space-x-8 text-gray-700 overflow-x-auto">
           {/* Update active tab when each link is clicked */}
-
-          <a
-            href="#"
-            onClick={() => setActiveTab("Applicant Profile")}
-            className={`pb-2 ${activeTab === "Applicant Profile" ? "font-semibold border-b-2 border-green-500" : ""
-              }`}
-          >
-            Applicant Profile
-          </a>
           <a
             href="#"
             onClick={() => setActiveTab("Guarantors")}

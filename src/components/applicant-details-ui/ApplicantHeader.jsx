@@ -3,11 +3,13 @@ import useStaff from "../../hooks/useStaff";
 import { onFailure } from "../../utils/notifications/OnFailure";
 import { PiSpinnerGap } from "react-icons/pi";
 
-const ApplicantHeader = ({ staff }) => {
+const ApplicantHeader = ({ staff, setStaff }) => {
   const { ContractStatus, updateContractStatus } = useStaff();
   const [acceptLoading, setAcceptLoading] = useState(false);
   const [rejectLoading, setRejectLoading] = useState(false);
 
+
+  console.log(staff)
   return (
     <header className="text-white p-4 flex flex-wrap gap-5 items-center justify-between">
       <section>
@@ -27,52 +29,60 @@ const ApplicantHeader = ({ staff }) => {
         </nav>
       </section>
 
-      <div className="flex space-x-4">
-        <button
-          onClick={async () => {
-            setAcceptLoading(true);
-            const result = await updateContractStatus(
-              staff,
-              ContractStatus.accept
-            );
-            setAcceptLoading(false);
-            if (result) {
-            } else {
-              onFailure({ message: "Update Error", error: "Could not hire" });
-            }
-          }}
-          className="bg-green-600 relative text-white px-4 py-1 rounded overflow-hidden"
-        >
-          Accepted
-          {acceptLoading && (
-            <div className="absolute left-0 top-0 z-[999] bg-gray-50/50 w-full h-full flex items-center justify-center">
-              <PiSpinnerGap className="text-lg text animate-spin text-black" />
-            </div>
-          )}
-        </button>
-        <button
-          onClick={async () => {
-            setRejectLoading(true);
-            const result = await updateContractStatus(
-              staff.id,
-              ContractStatus.reject
-            );
-            if (result) {
-              setRejectLoading(false);
-            } else {
-              onFailure({ message: "Update Error", error: "Could not hire" });
-            }
-          }}
-          className="bg-red-600 relative overflow-hidden text-white px-4 py-1 rounded"
-        >
-          Rejected
-          {rejectLoading && (
-            <div className="absolute left-0 top-0 z-[999] bg-gray-50/50 w-full h-full flex items-center justify-center">
-              <PiSpinnerGap className="text-lg text animate-spin text-black" />
-            </div>
-          )}
-        </button>
-      </div>
+      { staff.contract_status !== '1' ?
+        <div className="flex space-x-4">
+          <button
+            onClick={async () => {
+              setAcceptLoading(true);
+              const result = await updateContractStatus(
+                staff,
+                ContractStatus.accept,
+                setStaff
+              );
+              setAcceptLoading(false);
+              if (result) {
+              } else {
+                onFailure({ message: "Update Error", error: "Could not hire" });
+              }
+            }}
+            className="bg-green-600 relative text-white px-4 py-1 rounded overflow-hidden"
+          >
+            Accepted
+            {acceptLoading && (
+              <div className="absolute left-0 top-0 z-[999] bg-gray-50/50 w-full h-full flex items-center justify-center">
+                <PiSpinnerGap className="text-lg text animate-spin text-black" />
+              </div>
+            )}
+          </button>
+          <button
+            onClick={async () => {
+              setRejectLoading(true);
+              const result = await updateContractStatus(
+                staff,
+                ContractStatus.reject,
+                setStaff
+              );
+              if (result) {
+                setRejectLoading(false);
+              } else {
+                onFailure({ message: "Update Error", error: "Could not hire" });
+              }
+            }}
+            className="bg-red-600 relative overflow-hidden text-white px-4 py-1 rounded"
+          >
+            Rejected
+            {rejectLoading && (
+              <div className="absolute left-0 top-0 z-[999] bg-gray-50/50 w-full h-full flex items-center justify-center">
+                <PiSpinnerGap className="text-lg text animate-spin text-black" />
+              </div>
+            )}
+          </button>
+        </div>
+        :
+        <div className="">
+         
+        </div>
+      }
     </header>
   );
 };
