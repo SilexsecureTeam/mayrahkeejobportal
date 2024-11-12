@@ -737,7 +737,7 @@ setSelectedLanguages(selectedLanguageOptions)
     key={each.isoCode} 
     value={each.name}
   >
-    {each?.name.toLowerCase().includes('abuja') ? 'FCT' : each.name}
+    { each.name}
   </option>
 ))}
                             </select>
