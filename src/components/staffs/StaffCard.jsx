@@ -13,14 +13,7 @@ import { FormatPrice } from "../../utils/formmaters";
 
 const PUBLIC_KEY = import.meta.env.VITE_TEST_PUBLIC_KEY;
 
-function StaffCard({
-  data,
-  onClick,
-  contract = null,
-  cartItems,
-  setCartItems,
-  getCartItems,
-}) {
+function StaffCard({ data, contract = null, cartItems, getCartItems }) {
   const { register, handleSubmit } = useForm();
   const { authDetails } = useContext(AuthContext);
   const [loading, setLoading] = useState(false);
@@ -272,11 +265,13 @@ function StaffCard({
           />
         )}
 
-        {<img
-          src={userVerified ? `/verified-badge.png` : '/unverified-badge.png'}
-          className="absolute right-[10px] mx-auto top-[10px] h-[30px]  place-self-center  rounded-full "
-          alt=""
-        />}
+        {
+          <img
+            src={userVerified ? `/verified-badge.png` : "/unverified-badge.png"}
+            className="absolute right-[10px] mx-auto top-[10px] h-[30px]  place-self-center  rounded-full "
+            alt=""
+          />
+        }
         <div className="flex flex-col gap-2 py-2 mt-[50px]">
           <span className="flex items-center justify-between gap-2 text-md font-semibold">
             Name:
@@ -296,6 +291,32 @@ function StaffCard({
             Category:
             <span className="text-sm w-[60%] text-start font-normal text-gray-500">
               {getField("subcategory")}
+            </span>
+          </span>
+
+          {/* <span className="flex gap-2 items-center justify-between text-md truncate font-semibold">
+            Gender:
+            <span className="text-sm w-[60%] text-start font-normal text-gray-500">
+              {getField("gender")}
+            </span>
+          </span> */}
+
+          <span className="flex gap-2 items-center justify-between text-md font-semibold">
+            Religion:
+            <span className="text-sm w-[60%] text-start font-normal text-gray-500">
+              {getField("religion")}
+            </span>
+          </span>
+
+          <span className="flex gap-2 items-center justify-between text-md truncate font-semibold">
+            Langages:
+            <span className="text-sm w-[60%] flex text-start font-normal text-gray-500">
+              {getField("languages_spoken").map((current) => (
+                <span className="group">
+                  {current}
+                  <span className="group-last:hidden">, </span>
+                </span>
+              ))}
             </span>
           </span>
 
