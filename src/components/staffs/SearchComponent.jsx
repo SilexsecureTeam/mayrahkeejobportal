@@ -123,7 +123,7 @@ const toogleGender = () => setByGender(!byGender);
                 "Secondary School Certificate",
                 "Diploma",
                 "Degree",
-                "None",
+                "Not A Criteria",
               ].map((current) => (
                 <option key={current}>{current}</option>
               ))}
@@ -139,7 +139,7 @@ const toogleGender = () => setByGender(!byGender);
               {...register("age")}
             >
               <option selected>-- Select Age Range--</option>
-              {["18 - 25", "26 - 30", "31 - 35", "36 - 40", "41 - 45","46 - 50","51 - 55","56 - 60","61 - 65"].map(
+              {["18 - 25", "26 - 30", "31 - 35", "36 - 40", "41 - 45","46 - 50","51 - 55","56 - 60","61 - 65","Not A Criteria"].map(
                 (current) => (
                   <option key={current}>{current}</option>
                 )
@@ -155,7 +155,7 @@ const toogleGender = () => setByGender(!byGender);
               {...register("gender")}
             >
               <option selected>-- Select Gender--</option>
-              {["Male", "Female"].map(
+              {["Male", "Female", "Not A Criteria"].map(
                 (current) => (
                   <option key={current}>{current}</option>
                 )
@@ -172,7 +172,7 @@ const toogleGender = () => setByGender(!byGender);
               {...register("religion")}
             >
               <option selected>-- Select Religion --</option>
-              {["Christian", "Muslim", "Others"].map((current) => (
+              {["Christian", "Muslim", "Others", "Not A Criteria"].map((current) => (
                 <option key={current}>{current}</option>
               ))}
             </select>
@@ -187,7 +187,7 @@ const toogleGender = () => setByGender(!byGender);
               {...register("marital_status")}
             >
               <option selected>-- Select Marital Status --</option>
-              {["Single", "Married", "Divorced", "Widow","Widower"].map((current) => (
+              {["Single", "Married", "Divorced", "Widow","Widower", "Not A Criteria"].map((current) => (
                 <option key={current}>{current}</option>
               ))}
             </select>
