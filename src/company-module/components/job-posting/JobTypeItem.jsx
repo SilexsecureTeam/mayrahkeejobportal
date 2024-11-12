@@ -4,7 +4,7 @@ import {
   MdOutlineCheckBox,
 } from "react-icons/md";
 
-function JobTypeItem({data, jobUtils, selectedType, toogleSelectedType}) {
+function JobTypeItem({data,  selectedType, toogleSelectedType}) {
   
 
   return (

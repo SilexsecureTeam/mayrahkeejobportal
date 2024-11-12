@@ -49,6 +49,30 @@ function useJobManagement() {
     setDetails({ ...details, [name]: value });
   };
 
+  const getEmployentTypes = async () => {
+    try {
+      const response = await client.get(`/employment-types`);
+      return response.data
+    } catch (error) {
+      FormatError(error, setError, "Employement types Error");
+      return []
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  const getCurrencies = async () => {
+    try {
+      const response = await client.get(`/currencies`);
+      return response.data
+    } catch (error) {
+      FormatError(error, setError, "Currency Error");
+      return []
+    } finally {
+      setLoading(false);
+    }
+  }
+
   const addJob = async (handleSuccess) => {
     setLoading(true);
     try {
@@ -99,7 +123,6 @@ function useJobManagement() {
     try {
       const response = await client.get("/job");
       await set(JOB_MANAGEMENT_Key, response.data);
-      setJobList(response.data);
     } catch (error) {
       FormatError(error);
     } finally {
@@ -170,7 +193,9 @@ function useJobManagement() {
     deleteJob,
     deactivateJob,
     getJobById,
-    getJobsByApplicant
+    getJobsByApplicant,
+    getEmployentTypes,
+    getCurrencies
 
   };
 }
