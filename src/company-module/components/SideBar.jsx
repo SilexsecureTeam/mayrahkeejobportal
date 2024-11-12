@@ -4,6 +4,7 @@ import mainLogoTwo from "../../assets/pngs/main-logo-icon.png";
 import useCompanyProfile from "../../hooks/useCompanyProfile";
 import { resourceUrl } from "../../services/axios-client";
 import { MdClose } from "react-icons/md";
+import wheelIcon from "../../assets/pngs/wheel-icon-black.png";
 
 function SideBar({
   children,
@@ -13,7 +14,6 @@ function SideBar({
   isMenuOpen,
 }) {
   const { details } = companyHookProps;
-
   return (
     <>
       <aside className="w-[18%] hidden  h-full items-center bg-secondaryColor px-2 pb-2 md:flex flex-col justify-end">
@@ -29,8 +29,8 @@ function SideBar({
         </nav>
 
         {/* Green slide */}
-        <div class="absolute bottom-0 left-0 w-full h-40 overflow-hidden">
-          <div class="w-[500px] h-full relative bg-primaryColor transform -rotate-12 origin-bottom-right" />
+        <div className="absolute bottom-0 left-0 w-full h-40 overflow-hidden">
+          <div className="w-[500px] h-full relative bg-primaryColor transform -rotate-12 origin-bottom-right" />
         </div>
 
         {/* user info  */}
@@ -79,10 +79,11 @@ function SideBar({
 
         {/* user info  */}
         <div className="absolute bottom-3 left-10 flex gap-[5px]  items-center">
-          <img
-            src={`${resourceUrl}/${details?.logo_image}`}
-            className="h-[35px] w-[35px] rounded-full bg-secondaryColor"
-          />
+        <img
+          className="h-[80px] w-[80px] md:h-[100px] md:w-[100px] rounded-full object-cover"
+          src={details?.logo_image ? `${resourceUrl}/${details?.logo_image}` : wheelIcon}
+          alt="Profile"
+        />
           <div className="flex-col flex">
             <span className="text-secondaryColor text-sm">
               {authDetails?.user?.name}

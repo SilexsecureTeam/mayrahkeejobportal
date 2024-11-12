@@ -13,7 +13,7 @@ function JobItem({ data }) {
     <div 
     onClick={() => {
       setSideBar(4);
-      navigate(`/company/job-listing/type/${data.id}`);
+      navigate(`/company/job-listing/type/${data.id}`,{state:{data: data, applicants:null}});
     }}
     className="flex flex-col  w-[180px] cursor-pointer hover:scale-105 duration-100  max-w-[180px]  border justify-between h-full p-2">
       <div className="flex justify-between  items-center">

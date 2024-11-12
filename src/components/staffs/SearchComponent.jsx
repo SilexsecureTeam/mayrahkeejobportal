@@ -14,12 +14,14 @@ function SearchComponent({ subCategories, handleQuerySubmit }) {
   const [byReligion, setByReligion] = useState(false);
   const [byEducationalLevel, setByEducationalLevel] = useState(false);
   const [byAge, setByAge] = useState(false);
+const [byGender, setByGender] = useState(false);
   const [byMaritalStatus, setByMaritalStatus] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const toogleCategory = () => setByCategory(!byCategory);
   const toogleReligion = () => setByReligion(!byReligion);
   const toogleAge = () => setByAge(!byAge);
+const toogleGender = () => setByGender(!byGender);
   const toogleMaritalStatus = () => setByMaritalStatus(!byMaritalStatus);
   const toogleEducationalLevel = () =>
     setByEducationalLevel(!byEducationalLevel);
@@ -64,6 +66,14 @@ function SearchComponent({ subCategories, handleQuerySubmit }) {
             )}
             <span>Age Range</span>
           </div>
+  <div className="flex items-center gap-2 text-sm md:text-xl leading-none cursor-pointer" onClick={toogleGender}>
+            {byGender ? (
+              <MdCheckBox className="flex-shrink-0" />
+            ) : (
+              <MdCheckBoxOutlineBlank className="flex-shrink-0" />
+            )}
+            <span>Gender</span>
+          </div>
 
           <div className="flex items-center gap-2 text-sm md:text-xl leading-none cursor-pointer" onClick={toogleReligion}>
             {byReligion ? (
@@ -93,7 +103,7 @@ function SearchComponent({ subCategories, handleQuerySubmit }) {
               className="p-1 border focus:outline-none border-gray-900 rounded-md"
               {...register("subcategory")}
             >
-              <option>-- Select Subcategory --</option>
+              <option selected>-- Select Subcategory --</option>
               {subCategories?.map((current) => (
                 <option key={current.id}>{current.name}</option>
               ))}
@@ -107,7 +117,7 @@ function SearchComponent({ subCategories, handleQuerySubmit }) {
               className="p-1 border focus:outline-none border-gray-900 rounded-md"
               {...register("education")}
             >
-              <option>-- Select Education Level--</option>
+              <option selected>-- Select Education Level--</option>
               {[
                 "Primary School Certificate",
                 "Secondary School Certificate",
@@ -128,8 +138,24 @@ function SearchComponent({ subCategories, handleQuerySubmit }) {
               className="p-1 border focus:outline-none border-gray-900 rounded-md"
               {...register("age")}
             >
-              <option>-- Select Age Range--</option>
+              <option selected>-- Select Age Range--</option>
               {["18 - 25", "26 - 30", "31 - 35", "36 - 40", "41 & Above"].map(
+                (current) => (
+                  <option key={current}>{current}</option>
+                )
+              )}
+            </select>
+          </div>
+        )}
+ {byGender && (
+          <div className="flex flex-col">
+            <label>Gender</label>
+            <select
+              className="p-1 border focus:outline-none border-gray-900 rounded-md"
+              {...register("gender")}
+            >
+              <option selected>-- Select Gender--</option>
+              {["Male", "Female"].map(
                 (current) => (
                   <option key={current}>{current}</option>
                 )
@@ -145,7 +171,7 @@ function SearchComponent({ subCategories, handleQuerySubmit }) {
               className="p-1 border focus:outline-none border-gray-900 rounded-md"
               {...register("religion")}
             >
-              <option>-- Select Religion --</option>
+              <option selected>-- Select Religion --</option>
               {["Christian", "Muslim", "Others"].map((current) => (
                 <option key={current}>{current}</option>
               ))}
@@ -160,7 +186,7 @@ function SearchComponent({ subCategories, handleQuerySubmit }) {
               className="p-1 border focus:outline-none border-gray-900 rounded-md"
               {...register("marital_status")}
             >
-              <option>-- Select Marital Status --</option>
+              <option selected>-- Select Marital Status --</option>
               {["Single", "Married", "Divorced", "Widowed"].map((current) => (
                 <option key={current}>{current}</option>
               ))}
@@ -173,6 +199,7 @@ function SearchComponent({ subCategories, handleQuerySubmit }) {
       !byEducationalLevel &&
       !byReligion &&
       !byAge &&
+      !byGender &&
       !byMaritalStatus ? (
         <div className="w-full text-center text-red-300">
           Please select at least one query method
@@ -186,6 +213,9 @@ function SearchComponent({ subCategories, handleQuerySubmit }) {
               let queryParams = "";
               if (data.age) {
                 queryParams += `age=${data.age}&`;
+              }
+if (data.gender) {
+                queryParams += `gender=${data.gender}&`;
               }
               if (data.education) {
                 queryParams += `education_level=${data.education}&`;
@@ -206,6 +236,7 @@ function SearchComponent({ subCategories, handleQuerySubmit }) {
                 marital_status: "",
                 subcategory: "",
                 religion: "",
+                gender:"" 
               });
               await handleQuerySubmit(
                 queryParams,

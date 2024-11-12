@@ -10,13 +10,12 @@ import { AuthContext } from "../../../context/AuthContex";
 
 function ApplicantRow({ data }) {
   const navigate = useNavigate();
-  const authDetails = useContext(AuthContext)
-  const role = authDetails.user.role === "employer" ? "company" : "applicant";
+  const {authDetails} = useContext(AuthContext)
+  const role = authDetails?.user?.role === "employer" ? "company" : "applicant";
 
 
-  const navigateToApplicantDetails = () =>
-    navigate(`/${role}/applicants/detail/${data.id}`, { state: { data } });
-
+  const navigateToApplicantDetails = () =>{navigate(`/${role}/applicants/detail/${data?.id}`, { state: { data } });}
+    
   const getBorderColor = () => {
     switch (data.status) {
       case stages[0].name:
@@ -33,13 +32,14 @@ function ApplicantRow({ data }) {
   };
 
   const getStatusComponent = () => {
-    switch (data.status) {
+    switch (data?.status) {
       case stages[0].name:
         return (
           <StatusCard
-            name={data.status}
+            name={data?.status}
             icon={AiFillClockCircle}
-            color={"bg-lightorange"}
+            color={"bg-[#FFF6E9] text-red-300"}
+            iconColor="text-red-300"
           />
         );
       case stages[1].name:
@@ -47,7 +47,7 @@ function ApplicantRow({ data }) {
           <StatusCard
             name={data.status}
             icon={MdCheckCircle}
-            color={"bg-[#9B5DE5]"}
+            color={"bg-[#164CA9] text-white"}
             iconColor="text-white"
           />
         );
@@ -56,8 +56,8 @@ function ApplicantRow({ data }) {
           <StatusCard
             name={data.status}
             icon={GiVideoConference}
-            color={"bg-lightblue"}
-            iconColor="text-blue-100"
+            color={"bg-[#FFCD68] text-black"}
+            iconColor="text-blue-50"
           />
         );
       case stages[3].name.split("/")[0]:
@@ -65,7 +65,7 @@ function ApplicantRow({ data }) {
           <StatusCard
             name={data.status}
             icon={MdCheckCircle}
-            color={"bg-green-500"}
+            color={"bg-[#47AA49] text-white"}
             iconColor="text-blue-100"
           />
         );
@@ -74,12 +74,12 @@ function ApplicantRow({ data }) {
           <StatusCard
             name={data.status}
             icon={IoMdCloseCircle}
-            color={"bg-red-500"}
+            color={"bg-[#B22234] text-white"}
             iconColor="text-red-100"
           />
         );
       default:
-        return "Not found";
+        return "Not Found";
     }
   };
 
@@ -88,7 +88,7 @@ function ApplicantRow({ data }) {
       className={`"border-b  odd:bg-[#e7efe6] odd:text-black   hover:bg-green-200 duration-100 text-little`}
     >
       <td className="text-center py-[5px]">
-        <div className="flex justify-center items-center gap-[5px]">
+        <div className="capitalize flex justify-center items-center gap-[5px]">
           <span>{data.full_name}</span>
         </div>
       </td>
@@ -101,7 +101,7 @@ function ApplicantRow({ data }) {
       <td>
         <div className="flex items-center justify-center">
           <button
-            className={`py-[2px] px-[5px] text-[10px] min-w-[80%] tracking-wider uppercase  rounded-[30px] text-center font-semibold`}
+            className={`py-[2px] px-[5px] text-[10px] min-w-[80%] tracking-wider capitalize rounded-[30px] text-center font-semibold`}
           >
             {getStatusComponent()}
           </button>

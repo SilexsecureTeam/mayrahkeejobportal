@@ -45,6 +45,7 @@ const SocialsGroup = ({ index,
                                     <option value="twitter">Twitter</option>
                                     <option value="linkedIn">LinkedIn</option>
                                     <option value="dribble">Dribble</option>
+<option value="instagram">Instagram</option>
                                 </select>
                             </label>
                         </div>

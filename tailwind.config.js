@@ -4,7 +4,9 @@ module.exports = {
   theme: {
     extend: {
       gridTemplateColumns:{
-        'responsive': 'repeat(auto-fill, minmax(300px, 1fr))'
+        'responsive': 'repeat(auto-fill, minmax(300px, 1fr))',
+        'responsive2': 'repeat(auto-fill, minmax(250px, 1fr))'
+      
       },
       colors: {
         primaryColor: "#0f5a02",

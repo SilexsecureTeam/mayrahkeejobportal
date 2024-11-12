@@ -6,6 +6,7 @@ import {
   monthNames,
   toCamelCase,
 } from "../../../utils/formmaters";
+import { useState } from "react";
 
 const data = [
   { month: "January", Smartphones: 1200, Laptops: 900, Tablets: 200 },
@@ -13,7 +14,10 @@ const data = [
   { month: "March", Smartphones: 400, Laptops: 1000, Tablets: 200 },
 ];
 
+const options = ["Overview", "No of job Posted", "Approved Applications"];
+
 function JobStatistic({ applicants, byCategory }) {
+  const [active, setActive] = useState(options[0]);
   const data1 = () => {
     const threeMonths = getThreeMonths();
 
@@ -52,7 +56,7 @@ function JobStatistic({ applicants, byCategory }) {
           <div className="flex flex-col">
             <h3 className="font-semibold text-sm">Job Statistics</h3>
             <span className=" text-gray-400 text-little">
-              Showing Jobstatistic Jul 19-25
+              Showing Job Statics  {data[0]?.month.slice(0,3)} - {data[data.length-1]?.month.slice(0,3)}
             </span>
           </div>
 
@@ -69,34 +73,49 @@ function JobStatistic({ applicants, byCategory }) {
           </div> */}
         </div>
 
-        <h3 className="text-little border-b w-fit border-primaryColor font-semibold">
-          Overview
-        </h3>
+        <div className="flex gap-5 border-b">
+          {options.map((current, index) => (
+            <h3 key={index}
+              onClick={() => setActive(current)}
+              className={`text-little py-1 border-b cursor-pointer ${
+                active === current ? "border-primaryColor" : ""
+              } w-fit  font-semibold`}
+            >
+              {current}
+            </h3>
+          ))}
+        </div>
       </div>
 
       <div className="w-full p-2  items-end flex h-fit">
-        <BarChart
-          data={data}
-          h={150}
-          w={500}
-          dataKey="month"
-          classNames={{
-            root: classes.bar_root,
-            bar: classes.bar,
-            grid: classes.grid,
-            //  container: classes.container,
-            tooltip: classes.tooltip,
-            tooltipBody: classes.tooltipBody,
-            tooltipItem: classes.tooltipItem,
-            tooltipItemBody: classes.tooltipItemBody,
-          }}
-          className="text-little "
-          series={[
-            { name: "Smartphones", color: "violet.6" },
-            { name: "Laptops", color: "blue.6" },
-            { name: "Tablets", color: "teal.6" },
-          ]}
-        />
+        {active === options[0] && (
+          <BarChart
+            data={data}
+            h={150}
+            w={500}
+            dataKey="month"
+            classNames={{
+              root: classes.bar_root,
+              bar: classes.bar,
+              grid: classes.grid,
+              //  container: classes.container,
+              tooltip: classes.tooltip,
+              tooltipBody: classes.tooltipBody,
+              tooltipItem: classes.tooltipItem,
+              tooltipItemBody: classes.tooltipItemBody,
+            }}
+            className="text-little "
+            series={[
+              { name: "Smartphones", color: "violet.6" },
+              { name: "Laptops", color: "blue.6" },
+              { name: "Tablets", color: "teal.6" },
+            ]}
+          />
+        )}
+
+        {(active === options[1] || active === options[2])  && (
+          <span>Nothing to display</span>
+        )}
       </div>
     </div>
   );
