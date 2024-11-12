@@ -737,7 +737,7 @@ selectStates?.map((each) => (
     key={each.name} 
     value={each.isoCode}
   >
-    {each.name.toLowerCase() === 'abuja federal capital territory' ? 'FCT' : each.name}
+    {each.name.toLowerCase().includes('abuja') ? 'FCT' : each.name}
   </option>
 ))
 
