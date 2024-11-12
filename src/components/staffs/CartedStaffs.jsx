@@ -206,7 +206,7 @@ function CartedStaffs() {
                       checked={selectedItems.includes(item)}
                       onChange={() => {
                         console.log(item);
-                        if (item.availability_status) {
+                        if (item.domestic_staff.availability_status === '1') {
                           handleItemSelect(item);
                         } else {
                           onFailure({
@@ -225,9 +225,10 @@ function CartedStaffs() {
                         className="h-[80px] bg-gray-300 place-self-center w-[80px]"
                         alt=""
                       />
-                      <section>
-                        <p className="text-xs uppercase text-gray-500">
+                      <section className="w-full">
+                        <p className="text-xs flex gap-5 w-full justify-between  uppercase text-gray-500">
                           {item?.domestic_staff?.subcategory}
+                          <span className={`text-md ${item.domestic_staff.availability_status === '1' ? 'text-green-600' : 'text-red-600'}`}>{item.domestic_staff.availability_status === '1' ? 'Available' : 'Unavailable' }</span>
                         </p>
                         <p className="text-base font-medium capitalize">
                           {`${item?.domestic_staff?.surname} ${item?.domestic_staff?.first_name} ${item?.domestic_staff?.middle_name}` ||
