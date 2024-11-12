@@ -308,7 +308,7 @@ setSelectedLanguages(selectedLanguageOptions)
               help recruiters recognize you!
             </p>
           </div>
-          <div className="flex items-center flex-wrap gap-2 justify-center">
+          <div className="w-full flex items-center flex-wrap gap-2">
             <div className="size-[100px]  ring-green-200 ring-4 rounded-full bg-gray-300 mx-5">
               <div className="">
                 <img
