@@ -87,6 +87,10 @@ const job_types = [
     id: 5,
     name: "Contract",
   },
+{
+id: 6,
+    name: "Hybrid",
+}
 ];
 
 const genderData = [
