@@ -1,4 +1,4 @@
-import { useForm } from "react-hook-form";
+uimport { useForm } from "react-hook-form";
 import FormButton from "../FormButton";
 import { MdCheckBox, MdCheckBoxOutlineBlank } from "react-icons/md";
 import { useState } from "react";
@@ -98,12 +98,12 @@ const toogleGender = () => setByGender(!byGender);
       <div className="w-full grid grid-cols-2 text-gray-500 gap-x-3 gap-y-5">
         {byCategory && (
           <div className="flex flex-col">
-            <label>Select Category</label>
+            <label>Category</label>
             <select
               className="p-1 border focus:outline-none border-gray-900 rounded-md"
               {...register("subcategory")}
             >
-              <option selected>-- Select Subcategory --</option>
+              <option selected>-- Select Artisan's Specialized Position --</option>
               {subCategories?.map((current) => (
                 <option key={current.id}>{current.name}</option>
               ))}
@@ -112,12 +112,12 @@ const toogleGender = () => setByGender(!byGender);
         )}
         {byEducationalLevel && (
           <div className="flex flex-col truncate">
-            <label>Select Education Level</label>
+            <label>Literacy Level</label>
             <select
               className="p-1 border focus:outline-none border-gray-900 rounded-md"
               {...register("education")}
             >
-              <option selected>-- Select Education Level--</option>
+              <option selected>-- Select Minimum level of Education--</option>
               {[
                 "Primary School Certificate",
                 "Secondary School Certificate",
@@ -139,7 +139,7 @@ const toogleGender = () => setByGender(!byGender);
               {...register("age")}
             >
               <option selected>-- Select Age Range--</option>
-              {["18 - 25", "26 - 30", "31 - 35", "36 - 40", "41 & Above"].map(
+              {["18 - 25", "26 - 30", "31 - 35", "36 - 40", "41 - 45","46 - 50","51 - 55","56 - 60","61 - 65"].map(
                 (current) => (
                   <option key={current}>{current}</option>
                 )
@@ -166,7 +166,7 @@ const toogleGender = () => setByGender(!byGender);
 
         {byReligion && (
           <div className="flex flex-col">
-            <label>Select Religion</label>
+            <label>Religion</label>
             <select
               className="p-1 border focus:outline-none border-gray-900 rounded-md"
               {...register("religion")}
@@ -181,13 +181,13 @@ const toogleGender = () => setByGender(!byGender);
 
         {byMaritalStatus && (
           <div className="flex flex-col truncate">
-            <label>Select Marital Status</label>
+            <label>Marital Status</label>
             <select
               className="p-1 border focus:outline-none border-gray-900 rounded-md"
               {...register("marital_status")}
             >
               <option selected>-- Select Marital Status --</option>
-              {["Single", "Married", "Divorced", "Widowed"].map((current) => (
+              {["Single", "Married", "Divorced", "Widow","Widower"].map((current) => (
                 <option key={current}>{current}</option>
               ))}
             </select>
