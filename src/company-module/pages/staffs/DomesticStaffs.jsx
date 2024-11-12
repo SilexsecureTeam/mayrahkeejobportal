@@ -170,6 +170,7 @@ function DomesticStaff() {
         <SearchComponent
           subCategories={categories.subcategories}
           handleQuerySubmit={handleCondition}
+          title="Domestic Staff Position" 
         />
 
         {staffsToDisplay.length > 0 && (
