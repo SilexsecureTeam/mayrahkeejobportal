@@ -320,7 +320,7 @@ setSelectedLanguages(selectedLanguageOptions)
             </div>
             <label
               htmlFor="image"
-              className="min-h-32 w-72 md:min-w-96 cursor-pointer bg-green-50 border-2 border-green-500 border-dashed p-3 md:p-5 rounded"
+              className="min-h-32 w-68 md:min-w-96 cursor-pointer bg-green-50 border-2 border-green-500 border-dashed p-3 md:p-5 rounded"
             >
               <div className="text-center">
                 <div className="flex justify-center">
