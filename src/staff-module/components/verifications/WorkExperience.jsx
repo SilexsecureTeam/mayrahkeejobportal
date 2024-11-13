@@ -93,7 +93,7 @@ function WorkExperience() {
             let labelText;
 
             if (currentKey === "company_name") {
-              labelText = currentKey.replace(/_/g, " ").toUpperCase() + ' / EMPLOYER'S NAME';
+              labelText = currentKey.replace(/_/g, " ").toUpperCase() + ' / EMPLOYER\'S NAME';
             } else {
               labelText = currentKey.replace(/_/g, " ").toUpperCase();
             }
