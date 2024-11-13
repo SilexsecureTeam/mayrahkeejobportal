@@ -39,7 +39,7 @@ function ViewProfileDetails() {
     console.log(`${resourceUrl}${profileDetails?.profile_image}`)
   return (
     <div className="w-full flex flex-col gap-10">
-      <h1 className="text-xl font-semibold">Your Profile Information</h1>
+      <h1 className="text-xl text-green-700 font-semibold">Your Profile Information</h1>
       <div className="h-[100px] flex items-center overflow-hidden justify-center text-gray-500 border border-[#dee2e6] w-[100px] rounded-full">
         <img src={`${resourceUrl}${profileDetails?.profile_image}`} className="h-full" />
      </div>
