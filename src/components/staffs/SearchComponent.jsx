@@ -3,7 +3,7 @@ import FormButton from "../FormButton";
 import { MdCheckBox, MdCheckBoxOutlineBlank } from "react-icons/md";
 import { useState } from "react";
 
-function SearchComponent({ subCategories, handleQuerySubmit,title="Subcategory" }) {
+function SearchComponent({ subCategories, handleQuerySubmit, title = "Subcategory" }) {
   const {
     register,
     handleSubmit,
@@ -14,14 +14,14 @@ function SearchComponent({ subCategories, handleQuerySubmit,title="Subcategory" 
   const [byReligion, setByReligion] = useState(false);
   const [byEducationalLevel, setByEducationalLevel] = useState(false);
   const [byAge, setByAge] = useState(false);
-const [byGender, setByGender] = useState(false);
+  const [byGender, setByGender] = useState(false);
   const [byMaritalStatus, setByMaritalStatus] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const toogleCategory = () => setByCategory(!byCategory);
   const toogleReligion = () => setByReligion(!byReligion);
   const toogleAge = () => setByAge(!byAge);
-const toogleGender = () => setByGender(!byGender);
+  const toogleGender = () => setByGender(!byGender);
   const toogleMaritalStatus = () => setByMaritalStatus(!byMaritalStatus);
   const toogleEducationalLevel = () =>
     setByEducationalLevel(!byEducationalLevel);
@@ -66,7 +66,7 @@ const toogleGender = () => setByGender(!byGender);
             )}
             <span>Age Range</span>
           </div>
-  <div className="flex items-center gap-2 text-sm md:text-xl leading-none cursor-pointer" onClick={toogleGender}>
+          <div className="flex items-center gap-2 text-sm md:text-xl leading-none cursor-pointer" onClick={toogleGender}>
             {byGender ? (
               <MdCheckBox className="flex-shrink-0" />
             ) : (
@@ -139,7 +139,7 @@ const toogleGender = () => setByGender(!byGender);
               {...register("age")}
             >
               <option selected>-- Select Age Range--</option>
-              {["18 - 25", "26 - 30", "31 - 35", "36 - 40", "41 - 45","46 - 50","51 - 55","56 - 60","61 - 65","Not A Criteria"].map(
+              {["18 - 25", "26 - 30", "31 - 35", "36 - 40", "41 - 45", "46 - 50", "51 - 55", "56 - 60", "61 - 65", "Not A Criteria"].map(
                 (current) => (
                   <option key={current}>{current}</option>
                 )
@@ -147,7 +147,7 @@ const toogleGender = () => setByGender(!byGender);
             </select>
           </div>
         )}
- {byGender && (
+        {byGender && (
           <div className="flex flex-col">
             <label>Gender</label>
             <select
@@ -172,9 +172,16 @@ const toogleGender = () => setByGender(!byGender);
               {...register("religion")}
             >
               <option selected>-- Select Religion --</option>
-              {["Christian", "Muslim", "Others", "Not A Criteria"].map((current) => (
-                <option key={current}>{current}</option>
-              ))}
+              {["Christianity",
+                "Islam",
+                "Bahai",
+                "Odinani",
+                "Ifa",
+                "Isho",
+                "Kwagh-hir",
+                "Malamism", "Not A Criteria"].map((current) => (
+                  <option key={current}>{current}</option>
+                ))}
             </select>
           </div>
         )}
@@ -187,7 +194,7 @@ const toogleGender = () => setByGender(!byGender);
               {...register("marital_status")}
             >
               <option selected>-- Select Marital Status --</option>
-              {["Single", "Married", "Divorced", "Widow","Widower", "Not A Criteria"].map((current) => (
+              {["Single", "Married", "Divorced", "Widow", "Widower", "Not A Criteria"].map((current) => (
                 <option key={current}>{current}</option>
               ))}
             </select>
@@ -196,11 +203,11 @@ const toogleGender = () => setByGender(!byGender);
       </div>
 
       {!byCategory &&
-      !byEducationalLevel &&
-      !byReligion &&
-      !byAge &&
-      !byGender &&
-      !byMaritalStatus ? (
+        !byEducationalLevel &&
+        !byReligion &&
+        !byAge &&
+        !byGender &&
+        !byMaritalStatus ? (
         <div className="w-full text-center text-red-300">
           Please select at least one query method
         </div>
@@ -214,7 +221,7 @@ const toogleGender = () => setByGender(!byGender);
               if (data.age) {
                 queryParams += `age=${data.age}&`;
               }
-if (data.gender) {
+              if (data.gender) {
                 queryParams += `gender=${data.gender}&`;
               }
               if (data.education) {
@@ -236,7 +243,7 @@ if (data.gender) {
                 marital_status: "",
                 subcategory: "",
                 religion: "",
-                gender:"" 
+                gender: ""
               });
               await handleQuerySubmit(
                 queryParams,
