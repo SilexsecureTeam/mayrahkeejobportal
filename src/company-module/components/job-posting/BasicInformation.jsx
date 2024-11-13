@@ -6,6 +6,7 @@ import { FormatPrice } from "../../../utils/formmaters";
 import BasicJobInput from "./BasicJobInput";
 import QualificationsForm from "./QualificationsForm";
 import SelectorInput from "./SelectorInput";
+import useJobManagement from "../../../hooks/useJobManagement";
 
 const basic_inputs = [
   {
@@ -221,6 +222,7 @@ const currencyData = [
 ];
 
 function BasicInformation({ setCurrentStep, data, jobUtils }) {
+  const { getEmployentTypes, getCurrencies } = useJobManagement();
   const [salaryRange, setSalaryRange] = useState([5000, 22000]);
   const [selectedType, setSelectedType] = useState();
   const [currentQualification, setCurrentQualification] = useState("");
@@ -229,9 +231,11 @@ function BasicInformation({ setCurrentStep, data, jobUtils }) {
   const [selectedSubSector, setSelectedSubSector] = useState();
   const [subSectorList, setSubSectorList] = useState(jobSectors[0].subsections);
   const [selectedSalary, setSelectedSalary] = useState(salaryTypeData[1]);
-  const [selectedCurrency, setSelectedCurrency] = useState(currencyData[0]);
   const [photoUrl, setPhotoUrl] = useState();
   const [minimumPrice, setMinimumPrice] = useState(0);
+  const [employementList, setEmployementList] = useState([]);
+  const [currencyList, setCurrencyList] = useState([]);
+  const [selectedCurrency, setSelectedCurrency] = useState();
 
   const toogleSelectedType = (selected) => {
     setSelectedType(selected);
@@ -252,19 +256,30 @@ function BasicInformation({ setCurrentStep, data, jobUtils }) {
   };
 
   useEffect(() => {
+    const initData = async () => {
+      const employementListResult = await getEmployentTypes();
+      const currencyResult = await getCurrencies();
+      setEmployementList(employementListResult);
+      setCurrencyList(currencyResult);
+    };
+
+    initData();
     setSubSectorList(selectedSector.subsections);
   }, [selectedSector]);
 
   useEffect(() => {
     setSelectedSubSector(subSectorList[0]);
-  }, [subSectorList]);
+    if (currencyList.length > 0) {
+      setSelectedCurrency(currencyList[0]);
+    }
+  }, [subSectorList, currencyList]);
 
   useEffect(() => {
     jobUtils.setDetails({
       ...jobUtils.details,
       ["gender"]: selectedGender.name,
       ["salary_type"]: selectedSalary.name,
-      ["currency"]: selectedCurrency.name,
+      ["currency"]: selectedCurrency?.name,
       ["sector"]: selectedSector.name,
       ["subsector"]: selectedSubSector?.name,
     });
@@ -367,7 +382,7 @@ function BasicInformation({ setCurrentStep, data, jobUtils }) {
         </div>
 
         <div className="flex flex-col gap-2">
-          {job_types.map((current) => (
+          {employementList.map((current) => (
             <JobTypeItem
               key={current.id}
               selectedType={selectedType}
@@ -412,7 +427,7 @@ function BasicInformation({ setCurrentStep, data, jobUtils }) {
           prompt: "Here you select the currency",
           name: "currency",
         }}
-        listData={currencyData}
+        listData={currencyList}
         jobUtils={jobUtils}
         selected={selectedCurrency}
         setSelected={setSelectedCurrency}
@@ -445,11 +460,11 @@ function BasicInformation({ setCurrentStep, data, jobUtils }) {
           </div>
           <div className="flex items-center justify-between">
             <span className="border p-1">
-              {FormatPrice(jobUtils.details.min_salary)}
+              {selectedCurrency?.code} {FormatPrice(jobUtils.details.min_salary, true)}
             </span>
             <span>to</span>
             <span className="border p-1">
-              {FormatPrice(jobUtils.details.max_salary)}
+            {selectedCurrency?.code} {FormatPrice(jobUtils.details.max_salary, true)}
             </span>
           </div>
 

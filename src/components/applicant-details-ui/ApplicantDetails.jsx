@@ -73,7 +73,7 @@ const ApplicantDetails = () => {
     <div className="p-5 bg-white min-h-screen text-gray-900">
       {staff ? (
         <>
-          <ApplicantHeader staff={staff} />
+          <ApplicantHeader staff={staff} setStaff={setStaff} />
           <div className="flex gap-4 flex-col lg:flex-row">
             <ApplicantProfileCard userData={staff} />
             <MainContent workExperience={workExperience} staff={staff} />

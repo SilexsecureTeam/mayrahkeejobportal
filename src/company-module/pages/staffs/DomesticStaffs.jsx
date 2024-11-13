@@ -125,7 +125,7 @@ function DomesticStaff() {
             className="text-2xl place-self-end cursor-pointer"
             onClick={() => setConditions(!conditions)}
           />
-          <h1>Terms for compliance</h1>
+           <h1>Job Descriptions</h1>
           <p className="text-sm">
             This agreement acknowledges that the employer may only assign tasks
             that are directly related to the designated role of the employee.
@@ -134,7 +134,7 @@ function DomesticStaff() {
             position. Any tasks outside these roles require mutual agreement
             between the employer and the employee. Violation of this policy may
             result in a breach of contract or legal consequences, depending on
-            applicable labor laws.
+            applicable labor laws..
           </p>
           <FormButton onClick={() => handleQuerySubmit()} loading={loading}>
             Confirm and Search

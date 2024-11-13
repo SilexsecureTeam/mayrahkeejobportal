@@ -16,6 +16,7 @@ import { StaffRouteContext } from "../../../context/StaffRouteContext";
 import { useNavigate } from "react-router-dom";
 import { StaffManagementContext } from "../../../context/StaffManagementModule";
 import DefaultSwitch from "../../../components/DefaultSwitch";
+import useStaffUser from "../../../hooks/useStaffUser";
 
 function Dashboard() {
   const { authDetails } = useContext(AuthContext);
@@ -25,6 +26,8 @@ function Dashboard() {
   );
 
   const [availablityStatus, setAvailabiltyStatus] = useState();
+  const [loading, setloading] = useState(false);
+  const { updateAvailabilityStatus } = useStaffUser();
 
   const filterVerificationDetails =
     profileDetails &&
@@ -44,13 +47,11 @@ function Dashboard() {
   };
 
   useEffect(() => {
-    setAvailabiltyStatus(() => {
-      if (profileDetails && profileDetails["availability_status"]) {
-        return profileDetails["availability_status"] == "1" ? true : false;
-      } else {
-        return false;
-      }
-    });
+    if(profileDetails && profileDetails["availability_status"] === '1'){
+     setAvailabiltyStatus(true)
+    } else{
+      setAvailabiltyStatus(false)
+    }
   }, []);
 
   return (
@@ -185,7 +186,19 @@ function Dashboard() {
               <p className="font-bold text-base">Availability Status</p>
               <DefaultSwitch
                 enabled={availablityStatus}
-                onClick={() => setAvailabiltyStatus(!availablityStatus)}
+                // disabled={loading}
+                onClick={async () => {
+                  console.log('clicked')
+                  setloading(true);
+                  const result = await updateAvailabilityStatus(
+                    authDetails.user.id,
+                    availablityStatus ? "0" : "1"
+                  );
+                  if (result) {
+                    setAvailabiltyStatus(!availablityStatus);
+                  }
+                  setloading(false);
+                }}
               />
             </div>
             <div className="p-3 h-[30vh] overflow-y-auto no_scroll_bar">

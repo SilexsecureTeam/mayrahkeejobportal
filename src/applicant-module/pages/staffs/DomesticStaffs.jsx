@@ -47,7 +47,7 @@ function DomesticStaff() {
   };
 
   const navigateToStaff = (data) =>
-    navigate(`/applicant/staff/${categories.name}/${data.id}`, {
+    navigate(`/company/staff/${categories.name}/${data.id}`, {
       state: { data: { staff: data, cartedItems: cartItems } },
     });
 
@@ -70,8 +70,8 @@ function DomesticStaff() {
   };
 
   const navigateToCart = () =>
-    navigate(`/applicant/staff/cart`, {
-      state: { data: { items: cartItems, category: categories } },
+    navigate(`/company/staff/cart`, {
+      state: { data: { items: cartItems, category: categories, type: 'staff' } },
     });
 
   const getCartItems = async () => {
@@ -83,7 +83,7 @@ function DomesticStaff() {
       if (data.cart_items) {
         setCartItems(
           data.cart_items.filter(
-            (current) => current.domestic_staff.staff_category === "artisan"
+            (current) => current.domestic_staff.staff_category === "staff"
           )
         );
       }
@@ -118,12 +118,12 @@ function DomesticStaff() {
   return (
     <>
       <PopUpBox isOpen={conditions}>
-        <div className="w-[90%] md:w-[40%] md:h-fit text-gray-500 p-5 items-center flex flex-col gap-4 bg-white">
+        <div className="w-[40%] h-fit text-gray-500 p-5 items-center flex flex-col gap-4 bg-white">
           <MdClose
             className="text-2xl place-self-end cursor-pointer"
             onClick={() => setConditions(!conditions)}
           />
-          <h1>Terms for compliance</h1>
+           <h1>Job Descriptions</h1>
           <p className="text-sm">
             This agreement acknowledges that the employer may only assign tasks
             that are directly related to the designated role of the employee.
@@ -132,7 +132,7 @@ function DomesticStaff() {
             position. Any tasks outside these roles require mutual agreement
             between the employer and the employee. Violation of this policy may
             result in a breach of contract or legal consequences, depending on
-            applicable labor laws.
+            applicable labor laws..
           </p>
           <FormButton onClick={() => handleQuerySubmit()} loading={loading}>
             Confirm and Search
@@ -146,11 +146,10 @@ function DomesticStaff() {
               <span className="flex gap-2 items-center text-green-700">
                 Welcome to our artisan hub <FaExclamationCircle />
               </span>
-
               <button className=" group hover:bg-red-500 hover:text-white p-1 text-red-600 text-md flex justify-between items-center ">
                 Close
                 <MdClose className="" />
-              </button>
+              </button>  
             </div>
 
             <p>
