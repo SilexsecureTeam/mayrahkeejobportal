@@ -351,7 +351,7 @@ if (!profileDetails) return null;
                     // const labelText = currentKey.replace(/_/g, " ").toUpperCase();
 
                     const inputType =
-                      currentKey == "member_since" ? "date" : "text";
+                      currentKey == "member_since" ? "date" : type;
                     return (
                       <div className="flex flex-col gap-1">
                         <label>
@@ -359,15 +359,7 @@ if (!profileDetails) return null;
                           <span className="text-red-500 ml-1 ">*</span>
                         </label>
                         {currentKey.type !== "select" ? (
-inputType==="number"?
-             <input
-               className="p-1 border focus:outline-none border-gray-900  rounded-md"
-                            type={inputType}
-                            inputMode="numeric"
-                            defaultValue={detail}
-                            {...register(currentKey.field_name)}
-                          />         
-:<input
+<input
                             className="p-1 border focus:outline-none border-gray-900  rounded-md"
                             type={inputType}
                             defaultValue={detail}
