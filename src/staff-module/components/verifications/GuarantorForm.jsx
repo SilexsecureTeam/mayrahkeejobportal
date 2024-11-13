@@ -171,9 +171,15 @@ function GuarantorForm() {
               defaultValue={formFields["religion"]}
               {...register("religion")}
             >
-              <option>Christian</option>
-              <option>Muslim</option>
-              <option>Others</option>
+    <option>Christianity</option>
+    <option>Islam</option>
+    <option>Traditional Religion</option>
+    <option>Hinduism</option>
+    <option>Buddhism</option>
+    <option>Sikhism</option>
+    <option>Judaism</option>
+    <option>Baha'i</option>
+    <option>Others</option>
             </select>
           </div>
           <div></div>
