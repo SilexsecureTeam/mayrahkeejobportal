@@ -174,26 +174,37 @@ const [selectedLanguages, setSelectedLanguages] = useState(profileDetails?.langu
   const [imageUrl, setImageUrl] = useState();
 
   const onSubmit = async (data) => {
-    setLoading(true);
-    try {
-      const response = await client.post(
-        `/domesticStaff/update-profile/${authDetails.user.id}`,
-        { ...data, languages_spoken: selectedLanguages, profile_image: file,  job_type: 'something' }
-      );
-      getStaffProfile();
-      onSuccess({
-        message: "Profile Success",
-        success: "Profile Info updated succesfully",
-      });
-      setToMain();
-    } catch (error) {
-      onFailure({
-        error: "Failed to update",
-        message: "Something went wrong",
-      });
-    }
-    setLoading(false);
-  };
+  setLoading(true);
+  
+  // Filter out placeholder values from select fields
+  const filteredData = Object.fromEntries(
+    Object.entries(data).filter(([key, value]) => value && value !== `-- Select ${key} --`)
+  );
+
+  try {
+    const response = await client.post(
+      `/domesticStaff/update-profile/${authDetails.user.id}`,
+      {
+        ...filteredData,
+        languages_spoken: selectedLanguages,
+        profile_image: file,
+        job_type: 'something'
+      }
+    );
+    getStaffProfile();
+    onSuccess({
+      message: "Profile Success",
+      success: "Profile Info updated successfully",
+    });
+    setToMain();
+  } catch (error) {
+    onFailure({
+      error: "Failed to update",
+      message: "Something went wrong",
+    });
+  }
+  setLoading(false);
+};
 
 
 // Guard clause to prevent rendering before profileDetails is loaded
@@ -418,7 +429,7 @@ if (!profileDetails) return null;
                       <span className="text-red-500 ml-1 ">*</span>
                     </label>
                     <div className="flex flex-col">
-                      <div className="flex w-full justify-start gap-3">
+                      <div className="flex flex-wrap w-full justify-start gap-3">
                         {[
                           "English",
                           "Hausa",
