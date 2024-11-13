@@ -67,10 +67,37 @@ const basic_inputs = [
   },
 ];
 
+const job_types = [
+  {
+    id: 1,
+    name: "Full Time",
+  },
+  {
+    id: 2,
+    name: "Part Time",
+  },
+  {
+    id: 3,
+    name: "Remote",
+  },
+  {
+    id: 4,
+    name: "Internship",
+  },
+  {
+    id: 5,
+    name: "Contract",
+  },
+{
+id: 6,
+    name: "Hybrid",
+}
+];
+
 const genderData = [
   {
     id: 1,
-    name: "Any",
+    name: "Not A Criteria",
   },
   {
     id: 2,

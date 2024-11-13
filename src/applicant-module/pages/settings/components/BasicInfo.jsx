@@ -1,3 +1,4 @@
+
 import React, { useContext, useEffect, useState } from "react";
 import { TbPhoto } from "react-icons/tb";
 import DynamicExperienceForm from "./DynamicExperienceForm";
@@ -26,6 +27,8 @@ const BasicInfo = ({ setIsOpen }) => {
   const [selectState, setSelectState] = useState();
   const [selectCity, setSelectCity] = useState();
   const [countryInfo, setCountryInfo] = useState();
+const [selectedLanguages, setSelectedLanguages] = useState([]);
+
 
   const countries = Country.getAllCountries();
   const states = State.getAllStates();
@@ -54,7 +57,11 @@ const BasicInfo = ({ setIsOpen }) => {
       };
     });
   };
-
+useEffect(() => {
+    if (candidate?.languages) {
+      setSelectedLanguages(candidate?.languages?.split(","));
+    }
+  }, [candidate?.languages]);
   const [profileImageUrl, setProfileImageUrl] = useState(
     user.image ? user.image : null
   );
@@ -80,7 +87,7 @@ const BasicInfo = ({ setIsOpen }) => {
     work_experience: candidate.work_experience
       ? candidate?.work_experience
       : "",
-    languages: candidate.languages ? candidate?.languages : "",
+    languages: selectedLanguages,
     salary_type: candidate.salary_type ? candidate?.salary_type : "",
     salary: candidate.salary ? candidate?.salary : "",
     categories: candidate.categories ? candidate?.categories : "",
@@ -175,6 +182,7 @@ const BasicInfo = ({ setIsOpen }) => {
         };
       });
     }
+
     setDetails((prev) => {
       return {
         ...prev,
@@ -183,6 +191,12 @@ const BasicInfo = ({ setIsOpen }) => {
         // [name]: name === 'cv' ? files[0] : value,
       };
     });
+
+if (name === "languages") {
+      const selectedLanguageOptions = Array.from(e.target.selectedOptions, (option) => option.value);
+setSelectedLanguages(selectedLanguageOptions)
+      setDetails((prevDetails) => ({ ...prevDetails, languages: selectedLanguageOptions.join(",") }));
+    }
     setErrorMsg(null);
   };
 
@@ -285,9 +299,9 @@ const BasicInfo = ({ setIsOpen }) => {
   console.log(candidate);
 
   return (
-    <div className="w-full text-[#515B6F] text-base">
+    <div className="max-w-full text-[#515B6F] text-base overflow-x-hidden">
       <div className="my-4">
-        <div className="flex flex-wrap gap-2 items-center pb-6 border-b">
+        <div className="max-w-full flex flex-wrap gap-2 items-center pb-6 border-b">
           <div className="max-w-full md:w-1/3 pr-5">
             <p className="font-medium mb-2 text-slate-950">Profile Photo</p>
             <p>
@@ -295,7 +309,7 @@ const BasicInfo = ({ setIsOpen }) => {
               help recruiters recognize you!
             </p>
           </div>
-          <div className="flex items-center flex-wrap gap-2 justify-center">
+          <div className="w-full flex justify-center items-center flex-wrap gap-2">
             <div className="size-[100px]  ring-green-200 ring-4 rounded-full bg-gray-300 mx-5">
               <div className="">
                 <img
@@ -307,7 +321,7 @@ const BasicInfo = ({ setIsOpen }) => {
             </div>
             <label
               htmlFor="image"
-              className="min-h-32 w-72 md:min-w-96 cursor-pointer bg-green-50 border-2 border-green-500 border-dashed p-3 md:p-5 rounded"
+              className="min-h-32 w-[90%] md:min-w-96 cursor-pointer bg-green-50 border-2 border-green-500 border-dashed p-3 md:p-5 rounded"
             >
               <div className="text-center">
                 <div className="flex justify-center">
@@ -536,26 +550,25 @@ const BasicInfo = ({ setIsOpen }) => {
                         
                           </label>
                         </div>
-                        <div className="">
-                          <label className="block">
-                            <span className="block text-sm font-medium text-slate-700 mb-1">
-                              Language
-                            </span>
-                            <select
-                              value={details.languages}
-                              name="languages"
-                              onChange={handleOnChange}
-                              className="border w-full focus:outline-none p-2 pb-1"
-                            >
-                              <option value="">-- select --</option>
-                              <option value="english">English</option>
-                              <option value="french">French</option>
-                              <option value="hausa">Hausa </option>
-                              <option value="yaruba">Yaruba</option>
-                              <option value="igbo">Igbo</option>
-                            </select>
-                          </label>
-                        </div>
+                      <div className="">
+  <label className="block">
+    <span className="block text-sm font-medium text-slate-700 mb-1"> Language </span>
+    <select 
+      multiple 
+      value={selectedLanguages}
+      name="languages" 
+      onChange={handleOnChange} 
+      className="border w-full focus:outline-none p-2 pb-1"
+    >
+      <option value="">-- select --</option>
+      <option value="english">English</option>
+      <option value="french">French</option>
+      <option value="hausa">Hausa </option>
+      <option value="yaruba">Yaruba</option>
+      <option value="igbo">Igbo</option>
+    </select>
+  </label>
+</div>
                         <div className="">
                           <label className="block">
                             <span className="block text-sm font-medium text-slate-700 mb-1">
@@ -668,7 +681,7 @@ const BasicInfo = ({ setIsOpen }) => {
                     <div className="font-medium w-full md:w-2/6 text-slate-900">
                       <p>Contact Details</p>
                     </div>
-                    <div className="w-4/6">
+                    <div className="w-full md:w-4/6">
                       <div className="mb-4">
                         <label className="block">
                           <span className="block text-sm font-medium text-slate-700">
@@ -697,9 +710,8 @@ const BasicInfo = ({ setIsOpen }) => {
                             >
                               <option value="">-- select --</option>
                               {countries.map((country) => (
-                                <option
-                                  key={country.isoCode}
-                                  value={country.isoCode}
+                                <option key={country.isoCode}
+                                  value={country.name}
                                 >
                                   {country.name}
                                 </option>
@@ -719,11 +731,15 @@ const BasicInfo = ({ setIsOpen }) => {
                               className="border w-full focus:outline-none p-2 pb-1"
                             >
                               <option value="">-- select --</option>
-                              {selectStates?.map((each) => (
-                                <option key={each.name} value={each.isoCode}>
-                                  {each.name}
-                                </option>
-                              ))}
+
+{selectStates?.map((each) => (
+  <option 
+    key={each.isoCode} 
+    value={each.name}
+  >
+    { each.name}
+  </option>
+))}
                             </select>
                           </label>
                         </div>
@@ -740,7 +756,7 @@ const BasicInfo = ({ setIsOpen }) => {
                             >
                               <option value="">-- select --</option>
                               {selectCity?.map((city) => (
-                                <option key={city.name} value={city.name}>
+                                <option key={city.isoCode} value={city.name}>
                                   {city.name}
                                 </option>
                               ))}

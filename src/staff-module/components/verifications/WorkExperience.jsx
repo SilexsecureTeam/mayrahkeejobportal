@@ -81,7 +81,7 @@ function WorkExperience() {
 
   return (
     <div>
-      <h1 className="text-xl font-semibold">Previous Work Experience</h1>
+      <h1 className="text-xl font-semibold text-green-700">Previous Work Experience</h1>
 
       {
         <form
@@ -93,7 +93,7 @@ function WorkExperience() {
             let labelText;
 
             if (currentKey === "company_name") {
-              labelText = currentKey.replace(/_/g, " ").toUpperCase() + ' / EMPLOYER NAME';
+              labelText = currentKey.replace(/_/g, " ").toUpperCase() + ' / EMPLOYER\'S NAME';
             } else {
               labelText = currentKey.replace(/_/g, " ").toUpperCase();
             }
@@ -138,7 +138,7 @@ function WorkExperience() {
               </div>
               <div className="flex flex-col gap-1">
                 <label className="gap-3 font-semibold text-lg pl-6">
-                  Reason for Leaving
+                  Reason for Leaving Previous Job
                 </label>
                 <label className="pl-6">{current["reason_for_leaving"]}</label>
               </div>

@@ -194,6 +194,7 @@ function Artisan() {
         <SearchComponent
           subCategories={categories.subcategories}
           handleQuerySubmit={handleCondition}
+          title="Artisan's Specialized Position" 
         />
 
         {staffsToDisplay.length > 0 ? (
