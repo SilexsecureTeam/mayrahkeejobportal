@@ -6,7 +6,7 @@ import { AuthContext } from "../../../context/AuthContex";
 import { onFailure } from "../../../utils/notifications/OnFailure";
 import { onSuccess } from "../../../utils/notifications/OnSuccess";
 import { FormatError } from "../../../utils/formmaters";
-import { FaEdit } from "react-icons/fa";  // Importing the pencil icon from react-icons
+import { FaEdit } from "react-icons/fa";
 
 const formFields = [
   "surname",
@@ -18,6 +18,7 @@ const formFields = [
   "residential_address",
   "near_bus_stop",
   "close_landmark",
+  "religion",  // Ensure religion is part of formFields
 ];
 
 function GuarantorForm() {
@@ -69,7 +70,7 @@ function GuarantorForm() {
       const { data } = await client.get(`/domesticStaff/guarantor/${authDetails.user.id}`);
       setCurrentGarantor(data.guarantor[0]);
       if (data.guarantor[0]) {
-        formFields.forEach((field) => setValue(field, data.guarantor[0][field]));
+        formFields.forEach((field) => setValue(field, data.guarantor[0][field] || "")); // Set value for all fields
       }
     } catch (error) {
       FormatError(error, setError, "Retrieval Failed");
@@ -96,7 +97,7 @@ function GuarantorForm() {
           <FaEdit
             onClick={toggleEditMode}
             className="text-blue-600 cursor-pointer"
-            size={20} // Adjust size as needed
+            size={20}
           />
         )}
       </div>
@@ -132,19 +133,37 @@ function GuarantorForm() {
           {formFields.map((currentKey) => {
             const labelText = currentKey.replace(/_/g, " ").toUpperCase();
             const inputType = currentKey === "dob" ? "date" : "text";
+
             return (
               <div className="flex flex-col gap-1" key={currentKey}>
                 <label>{labelText}</label>
-                <input
-                  className="p-1 border focus:outline-none border-gray-900 rounded-md"
-                  type={inputType}
-                  required
-                  {...register(currentKey)}
-                />
+                {currentKey === "religion" ? (
+                  <select
+                    className="p-1 border focus:outline-none border-gray-900 rounded-md"
+                    required
+                    {...register(currentKey)}
+                  >
+                    <option value="Christianity">Christianity</option>
+                    <option value="Islam">Islam</option>
+                    <option value="Traditional Religion">Traditional Religion</option>
+                    <option value="Hinduism">Hinduism</option>
+                    <option value="Buddhism">Buddhism</option>
+                    <option value="Sikhism">Sikhism</option>
+                    <option value="Judaism">Judaism</option>
+                    <option value="Baha'i">Baha'i</option>
+                    <option value="Others">Others</option>
+                  </select>
+                ) : (
+                  <input
+                    className="p-1 border focus:outline-none border-gray-900 rounded-md"
+                    type={inputType}
+                    required
+                    {...register(currentKey)}
+                  />
+                )}
               </div>
             );
           })}
-          {/* Flex container for buttons */}
           <div className="flex gap-4 col-span-2 justify-between">
             <FormButton loading={isLoading}>Save Changes</FormButton>
             <button
