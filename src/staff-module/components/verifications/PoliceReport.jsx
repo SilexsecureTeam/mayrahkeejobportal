@@ -101,7 +101,7 @@ function PoliceReport() {
 
   return (
     <div>
-      <h1 className="text-xl font-semibold">Police Report</h1>
+      <h1 className="text-xl font-semibold text-green-700">Police Report</h1>
 
       {typeof currentRecord == "undefined" && loading && (
         <div className="flex flex-col items-start justify-center h-full w-full">
