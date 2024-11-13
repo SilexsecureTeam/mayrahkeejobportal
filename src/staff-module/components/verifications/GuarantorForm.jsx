@@ -21,38 +21,62 @@ const formFields = [
 
 function GuarantorForm() {
   const { authDetails } = useContext(AuthContext);
+
   const [currentGurantor, setCurrentGarantor] = useState();
   const [isLoading, setIsLoading] = useState(false);
   const client = axiosClient(authDetails?.token);
-
-  const { register, handleSubmit, setValue, formState: { errors } } = useForm();
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm();
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState({ message: "", error: "" });
+  const [error, setError] = useState({
+    message: "",
+    error: "",
+  });
+
+
 
   const submitDetails = async (data) => {
     setIsLoading(true);
     try {
-      const endpoint = currentGurantor
-        ? `/domesticStaff/guarantor/${currentGurantor.id}`
-        : "/domesticStaff/guarantor";
-      const method = currentGurantor ? "put" : "post";
-      
-      const response = await client[method](endpoint, {
+      const response = await client.post("/domesticStaff/guarantor", {
         ...data,
         domestic_staff_id: authDetails.user.id,
       });
-      
       console.log("Data", response.data);
-      getGarantor();
+      getGarantor()
       onSuccess({
-        message: "Guarantor details saved",
-        success: currentGurantor ? "Updated successfully" : "Submitted successfully",
+        message: "Guarantor uploaded",
+        success: "Submitted succesfully, awaiting review",
       });
     } catch (error) {
-      FormatError(error, setError, currentGurantor ? "Update Failed" : "Upload Failed");
+      FormatError(error, setError, "Upload Failed");
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const garatorFields = () => {
+    const fields = [];
+    Object.keys(currentGurantor)?.map((current) => {
+      if (
+        current !== "id" &&
+        current !== "domestic_staff_id" &&
+        current !== "created_at" &&
+        current !== "updated_at"
+      ) {
+        fields.push(current);
+        return;
+      }
+    });
+
+    console.log(fields);
+    console.log(currentGurantor);
+
+    return fields;
   };
 
   const getGarantor = async () => {
@@ -60,11 +84,6 @@ function GuarantorForm() {
     try {
       const { data } = await client.get(`/domesticStaff/guarantor/${authDetails.user.id}`);
       setCurrentGarantor(data.guarantor[0]);
-
-      // Pre-fill the form if editing
-      if (data.guarantor[0]) {
-        formFields.forEach(field => setValue(field, data.guarantor[0][field]));
-      }
     } catch (error) {
       FormatError(error, setError, "Retrieval Failed");
     } finally {
@@ -82,16 +101,33 @@ function GuarantorForm() {
     }
   }, [error.error, error.message]);
 
+
   return (
     <div>
       <h1 className="text-xl font-semibold text-green-700">Guarantor Details</h1>
-      {loading && (
+      {typeof currentGurantor == "undefined" && loading && (
         <div className="flex flex-col items-start justify-center h-full w-full">
           <span>Fetching data...</span>
         </div>
       )}
 
-      {(!loading || currentGurantor) && (
+      {typeof currentGurantor !== "undefined" && (
+        <div className="grid grid-cols-2 gap-x-3 gap-y-5 p-2 w-full text-gray-600">
+          {garatorFields()?.map((currentKey) => {
+            const value = currentGurantor[currentKey];
+            const labelText = currentKey.replace(/_/g, " ").toUpperCase();
+
+            return (
+              <div className="flex flex-col gap-1">
+                <label>{labelText}</label>
+                <label>{value}</label>
+              </div>
+            );
+          })}
+        </div>
+      )}
+
+      {typeof currentGurantor === "undefined" && !loading && (
         <form
           onSubmit={handleSubmit(submitDetails)}
           className="grid grid-cols-2 gap-x-3 gap-y-5 p-2 w-full text-gray-600"
@@ -100,6 +136,7 @@ function GuarantorForm() {
             <label>TITLE</label>
             <select
               className="p-1 border focus:outline-none border-gray-900  rounded-md"
+              defaultValue={formFields["title"]}
               required
               {...register("title")}
             >
@@ -108,41 +145,45 @@ function GuarantorForm() {
               <option>Others</option>
             </select>
           </div>
-          
-          {formFields.map((currentKey) => (
-            <div className="flex flex-col gap-1" key={currentKey}>
-              <label>{currentKey.replace(/_/g, " ").toUpperCase()}</label>
-              <input
-                className="p-1 border focus:outline-none border-gray-900  rounded-md"
-                type={currentKey === "dob" ? "date" : "text"}
-                required
-                {...register(currentKey)}
-              />
-            </div>
-          ))}
-          
+          {formFields.map((currentKey) => {
+            const detail = formFields[currentKey];
+            const labelText = currentKey.replace(/_/g, " ").toUpperCase();
+
+            const inputType = currentKey == "dob" ? "date" : "text";
+            return (
+              <div className="flex flex-col gap-1">
+                <label>{labelText}</label>
+                <input
+                  className="p-1 border focus:outline-none border-gray-900  rounded-md"
+                  type={inputType}
+                  required
+                  defaultValue={detail}
+                  {...register(currentKey)}
+                />
+              </div>
+            );
+          })}
           <div className="flex flex-col gap-1">
             <label>Religion</label>
             <select
               required
               className="p-1 border focus:outline-none border-gray-900  rounded-md"
+              defaultValue={formFields["religion"]}
               {...register("religion")}
             >
-              <option>Christianity</option>
-              <option>Islam</option>
-              <option>Traditional Religion</option>
-              <option>Hinduism</option>
-              <option>Buddhism</option>
-              <option>Sikhism</option>
-              <option>Judaism</option>
-              <option>Baha'i</option>
-              <option>Others</option>
+    <option>Christianity</option>
+    <option>Islam</option>
+    <option>Traditional Religion</option>
+    <option>Hinduism</option>
+    <option>Buddhism</option>
+    <option>Sikhism</option>
+    <option>Judaism</option>
+    <option>Baha'i</option>
+    <option>Others</option>
             </select>
           </div>
           <div></div>
-          <FormButton loading={isLoading}>
-            {currentGurantor ? "Update Guarantor Details" : "Upload Guarantor Details"}
-          </FormButton>
+          <FormButton loading={isLoading}>Upload Garantor Details</FormButton>
         </form>
       )}
     </div>
