@@ -247,7 +247,7 @@ if (!profileDetails) return null;
   return (
     <>
       <PopUpBox isOpen={isOpen}>
-        <div className="w-[30%] p-3 gap-3 rounded-lg  flex flex-col bg-white">
+        <div className="w-[300px] p-3 gap-3 rounded-lg  flex flex-col bg-white">
           <MdClose
             onClick={toogleIsOpen}
             className="place-self-end text-lg cursor-pointer"
@@ -388,47 +388,50 @@ if (!profileDetails) return null;
                   Professional Information
                 </h3>
                 <div className="grid grid-cols-2 gap-x-3 gap-y-5">
-                  {field_sections.professional.map((currentKey) => {
-                    const detail = profileDetails[currentKey.field_name];
-                    // const labelText = currentKey.replace(/_/g, " ").toUpperCase();
+                  {field_sections.professional.map((currentKey, index) => {
+  const detail = profileDetails[currentKey.field_name];
+  const inputType = currentKey.field_name === "member_since" ? "date" : "text";
+  return (
+    <div className="flex flex-col gap-1" key={index}>
+      <label>
+        {currentKey.name}
+        <span className="text-red-500 ml-1">*</span>
+      </label>
+      {currentKey.type !== "select" ? (
+        currentKey.type === "number" ? (
+          <input
+            className="p-1 border focus:outline-none border-gray-900 rounded-md"
+            type="number"
+            defaultValue={detail}
+            {...register(currentKey.field_name)}
+          />
+        ) : (
+          <input
+            className="p-1 border focus:outline-none border-gray-900 rounded-md"
+            type={inputType}
+            defaultValue={detail}
+            {...register(currentKey.field_name)}
+          />
+        )
+      ) : (
+        <select
+          className="p-1 border focus:outline-none border-gray-900 rounded-md"
+          defaultValue={detail}
+          {...register(currentKey.field_name)}
+        >
+          <option value="">-- Select {currentKey.name} --</option>
+          {currentKey.options &&
+            currentKey.options.map((current, optionIndex) => (
+              <option key={optionIndex} value={current}>
+                {current}
+              </option>
+            ))}
+        </select>
+      )}
+    </div>
+  );
+})}
 
-                    const inputType =
-                      currentKey == "member_since" ? "date" : "text";
-                    return (
-                      <div className="flex flex-col gap-1">
-                        <label>
-                          {currentKey.name}
-                          <span className="text-red-500 ml-1 ">*</span>
-                        </label>
-                        {currentKey.type !== "select" ? (
-                currentKey.type === "number"?
-  <input
-                            className="p-1 border focus:outline-none border-gray-900  rounded-md"
-                            type="number" 
-                            defaultValue={detail}
-                            {...register(currentKey.field_name)}
-                          />      :    <input
-                            className="p-1 border focus:outline-none border-gray-900  rounded-md"
-                            type={inputType}
-                            defaultValue={detail}
-                            {...register(currentKey.field_name)}
-                          />
-                        ) : (
-                          <select
-                            className="p-1 border focus:outline-none border-gray-900  rounded-md"
-                            type={inputType}
-                            defaultValue={detail}
-                            {...register(currentKey.field_name)}
-                          >
-                            <option value="" >-- Select {currentKey.name} --</option>
-                            {currentKey.options.map((current) => (
-                              <option>{current}</option>
-                            ))}
-                          </select>
-                        )}
-                      </div>
-                    );
-                  })}
                   <div className="flex flex-col gap-2 pl-2">
                     <label>
                       Languages Spoken
