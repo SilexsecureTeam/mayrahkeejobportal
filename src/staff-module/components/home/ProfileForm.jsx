@@ -33,7 +33,7 @@ const field_sections = {
       field_name: "surname",
     },
     {
-      name: "Middlename",
+      name: "Middle name",
       type: "text",
       field_name: "middle_name",
     },
@@ -361,7 +361,7 @@ if (!profileDetails) return null;
                             defaultValue={detail}
                             {...register(currentKey.field_name)}
                           >
-                            <option>-- Select {currentKey.name} --</option>
+                            <option value="">-- Select {currentKey.name} --</option>
                             {currentKey.options.map((current) => (
                               <option>{current}</option>
                             ))}
@@ -403,7 +403,7 @@ if (!profileDetails) return null;
                             defaultValue={detail}
                             {...register(currentKey.field_name)}
                           >
-                            <option>-- Select {currentKey.name} --</option>
+                            <option value="" >-- Select {currentKey.name} --</option>
                             {currentKey.options.map((current) => (
                               <option>{current}</option>
                             ))}
@@ -551,7 +551,7 @@ if (!profileDetails) return null;
                             defaultValue={detail}
                             {...register(currentKey.field_name)}
                           >
-                            <option>-- Select {currentKey.name} --</option>
+                            <option value="" >-- Select {currentKey.name} --</option>
                             {currentKey.options.map((current) => (
                               <option>{current}</option>
                             ))}
