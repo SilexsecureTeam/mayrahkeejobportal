@@ -32,7 +32,8 @@ function ViewProfileDetails() {
         currentKey !== "contact_information" &&
         currentKey !== "subcategory" &&
         currentKey !== "resume" &&
-        currentKey !== "availability_status"
+        currentKey !== "availability_status" &&
+        currentKey !== "job_type"
     );
 
     console.log(`${resourceUrl}${profileDetails?.profile_image}`)
