@@ -6,6 +6,7 @@ import { AuthContext } from "../../../context/AuthContex";
 import { onFailure } from "../../../utils/notifications/OnFailure";
 import { onSuccess } from "../../../utils/notifications/OnSuccess";
 import { FormatError } from "../../../utils/formmaters";
+import { FaEdit } from "react-icons/fa";  // Importing the pencil icon from react-icons
 
 const formFields = [
   "surname",
@@ -89,8 +90,17 @@ function GuarantorForm() {
 
   return (
     <div>
-      <h1 className="text-xl font-semibold text-green-700">Guarantor Details</h1>
-      
+      <div className="flex justify-between items-center mb-4">
+        <h1 className="text-xl font-semibold text-green-700">Guarantor Details</h1>
+        {!isEditMode && (
+          <FaEdit
+            onClick={toggleEditMode}
+            className="text-blue-600 cursor-pointer"
+            size={20} // Adjust size as needed
+          />
+        )}
+      </div>
+
       {loading && (
         <div className="flex flex-col items-start justify-center h-full w-full">
           <span>Fetching data...</span>
@@ -99,7 +109,6 @@ function GuarantorForm() {
 
       {currentGurantor && !isEditMode && (
         <div>
-          <button onClick={toggleEditMode} className="mb-4 text-blue-600">Edit</button>
           <div className="grid grid-cols-2 gap-x-3 gap-y-5 p-2 w-full text-gray-600">
             {garatorFields().map((currentKey) => {
               const value = currentGurantor[currentKey];
