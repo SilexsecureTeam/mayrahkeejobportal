@@ -13,7 +13,7 @@ export const stats_cards_dummies = [
     },
     {
         id: 2,
-        title: 'Matches Live',
+        title: 'Active Candidates',
         bg_color: 'bg-[#504a4a]',
         value: 0
     },

@@ -41,8 +41,9 @@ function JobListing() {
             </thead>
 
             <tbody>
-              {jobUtils?.jobList
-                .map((current) => {
+              {jobUtils?.jobList.sort((a, b)=>{
+return new Date(a.created_at) - new Date(b.created_at);
+}).map((current) => {
                   const jobApplicants = applicants?.filter(
                     (currentApplicant) => current.id === currentApplicant.job_id
                   );

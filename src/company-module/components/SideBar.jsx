@@ -35,10 +35,7 @@ function SideBar({
 
         {/* user info  */}
         <div className="absolute bottom-3 left-3 flex gap-[5px]  items-center">
-          <img
-            src={`${resourceUrl}/${details?.logo_image}`}
-            className="h-[35px] w-[35px] rounded-full bg-secondaryColor"
-          />
+          
           <div className="flex-col flex">
             <span className="text-secondaryColor text-sm">
               {authDetails?.user?.name}
@@ -47,6 +44,10 @@ function SideBar({
               {authDetails?.user?.email}
             </span>
           </div>
+<img
+            src={`${resourceUrl}/${details?.logo_image}`}
+            className="h-[35px] w-[35px] rounded-full bg-secondaryColor"
+          />
         </div>
       </aside>
 
@@ -79,11 +80,7 @@ function SideBar({
 
         {/* user info  */}
         <div className="absolute bottom-3 left-10 flex gap-[5px]  items-center">
-        <img
-          className="h-[80px] w-[80px] md:h-[100px] md:w-[100px] rounded-full object-cover"
-          src={details?.logo_image ? `${resourceUrl}/${details?.logo_image}` : wheelIcon}
-          alt="Profile"
-        />
+       
           <div className="flex-col flex">
             <span className="text-secondaryColor text-sm">
               {authDetails?.user?.name}
@@ -92,6 +89,11 @@ function SideBar({
               {authDetails?.user?.email}
             </span>
           </div>
+ <img
+          className="h-[80px] w-[80px] md:h-[100px] md:w-[100px] rounded-full object-cover"
+          src={details?.logo_image ? `${resourceUrl}/${details?.logo_image}` : wheelIcon}
+          alt="Profile"
+        />
         </div>
       </aside>
     </>
