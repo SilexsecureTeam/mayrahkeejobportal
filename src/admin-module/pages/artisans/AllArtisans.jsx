@@ -20,7 +20,7 @@ function AllArtisans() {
     })();
   }, []); // Dependency array ensures this runs only when getEmployers changes
 
-  const heading = ["ID", "Name", "Email", "Subcategory", "Job", "Employment Status", "YOE", "Current Salary", "Expected Salary", "Location"];
+  const heading = ["ID", "Name", "Email", "Subcategory", "Job", "Status", "YOE", "Current Salary", "Expected Salary", "Location"];
   const data = artisans.map(artisan => ({
     [heading[0].toLowerCase()]: artisan.id,
     [heading[1].toLowerCase()]: artisan.first_name + " " + (artisan.middle_name === null || artisan.middle_name === 'null' ? '' : artisan.middle_name) + " " + artisan.surname,
@@ -37,7 +37,7 @@ function AllArtisans() {
   return (
     <div className="mx-14 mt-10">
       <Button label="Back" className="mb-4" outlined onClick={() => window.history.back()} icon={<FaArrowLeftLong className="me-4" />} />
-      <h2 className="text-black border-b border-gray-500 text-2xl font-bold mt-10">Employers</h2>
+      <h2 className="text-black border-b border-gray-500 text-2xl font-bold mt-10">Artisans</h2>
       <DataTableComponent heading={heading} data={data} loading={loading} name="artisan" />
     </div>
   );

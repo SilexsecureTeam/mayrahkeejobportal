@@ -320,6 +320,34 @@ export const adminOptions = [
     icon: homeIcon,
     iconActive: homeIconActive,
   },
+  {
+    type: "Guarantors",
+    title: "Gurarantors",
+    route: "/admin/guarantors",
+    icon: homeIcon,
+    iconActive: homeIconActive,
+  },
+  {
+    type: "Medical Histories",
+    title: "Medical Histories",
+    route: "/admin/medical-histories",
+    icon: homeIcon,
+    iconActive: homeIconActive,
+  },
+  {
+    type: "Police Reports",
+    title: "Police Reports",
+    route: "/admin/police-reports",
+    icon: homeIcon,
+    iconActive: homeIconActive,
+  },
+  {
+    type: "Medical Histories",
+    title: "Medical Histories",
+    route: "/admin/medical-histories",
+    icon: homeIcon,
+    iconActive: homeIconActive,
+  },
  
 ];
 

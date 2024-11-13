@@ -84,7 +84,7 @@ const CandidateDetails = () => {
         View NIN Slip (PDF)
       </a>
     ) : (
-      <img src={url} alt="NIN Slip" className="mt-2" />
+      <img src={url} alt="NIN Slip" className="mt-2 w-40 h-40 rounded-xl" />
     );
   };
 

@@ -5,7 +5,7 @@ import { Paginator } from "primereact/paginator";
 import { FaArrowLeftLong, FaGlobe, FaLinkedin } from "react-icons/fa6";
 import { useParams } from "react-router-dom";
 import { FaFileAlt } from "react-icons/fa";
-import CardDetails from "../../components/Card/CardDetails";
+import { Dialog } from "primereact/dialog";
 
 function AppliedJobs() {
   const { loading, jobsAppliedToEmployerId } = UseAdminManagement();
@@ -13,11 +13,12 @@ function AppliedJobs() {
   const { id } = useParams();
   const [first, setFirst] = useState(0);
   const [rows, setRows] = useState(2);
+  const [resumeContent, setResumeContent] = useState(null);
+  const [isModalVisible, setIsModalVisible] = useState(false);
 
   useEffect(() => {
     (async () => {
       const data = await jobsAppliedToEmployerId(id);
-      console.log(data);
       if (data) {
         setEmployers(data);
       } else {
@@ -31,55 +32,115 @@ function AppliedJobs() {
     setRows(event.rows);
   };
 
+  const handleResumeClick = (event, resumePath) => {
+    event.preventDefault();
+    setResumeContent(`https://dash.mayrahkeeafrica.com/resumes/${resumePath}`);
+    setIsModalVisible(true);
+  };
+
+  const closeModal = () => {
+    setIsModalVisible(false);
+    setResumeContent(null);
+  };
+
   return (
-    <div className="mx-14 mt-10">
+    <div className="max-w-screen-lg mx-auto mt-10 px-4 sm:px-6 lg:px-8">
       <Button
         label="Back"
-        className="mb-4"
+        className="mb-6"
         outlined
         onClick={() => window.history.back()}
         icon={<FaArrowLeftLong className="me-4" />}
       />
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {employers.slice(first, first + rows).map((employer) => (
-          <CardDetails
-            key={employer.id}
-            title={employer.job_title}
-            description={employer.job_description}
-            details={[
-              { label: "Name", value: employer.full_name },
-              { label: "Email", value: employer.email },
-              { label: "Phone number", value: employer.phone_number },
-              { label: "Status", value: employer.status },
-            ]}
-            socialMedia={[
-              employer.linkedin_url && {
-                label: "LinkedIn",
-                url: employer.linkedin_url,
-                icon: <FaLinkedin className="inline mr-2 text-lg" />,
-              },
-              employer.portfolio_url && {
-                label: "Portfolio",
-                url: employer.portfolio_url,
-                icon: <FaGlobe className="inline mr-2" />,
-              },
-              employer.resume_path && {
-                label: "Resume",
-                url: employer.resume_path,
-                icon: <FaFileAlt className="inline mr-2" />,
-              },
-            ].filter(Boolean)}
+      <h2 className="text-3xl font-extrabold text-gray-800 mb-8">Applied Jobs</h2>
+      {employers.length === 0 ? (
+        <div className="text-center text-gray-500">
+          <h2 className="text-xl font-bold">No applied jobs</h2>
+        </div>
+      ) : (
+        <>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {employers.slice(first, first + rows).map((employer) => (
+              <div
+                key={employer.id}
+                className="bg-white p-6 rounded-lg shadow-md border border-gray-200"
+              >
+                {/* Job Title and Description */}
+                <div className="mb-4">
+                  <h3 className="text-2xl font-bold text-gray-800">{employer.job_title}</h3>
+                  <p className="text-gray-500 mb-2">{employer.job_description}</p>
+                </div>
+
+                {/* Applicant Information */}
+                <div className="mb-4 border-t pt-4">
+                  <h4 className="text-lg font-semibold text-gray-700">Applicant Information</h4>
+                  <p className="text-gray-600"><strong>Name:</strong> {employer.full_name}</p>
+                  <p className="text-gray-600"><strong>Email:</strong> {employer.email}</p>
+                  <p className="text-gray-600"><strong>Phone Number:</strong> {employer.phone_number}</p>
+                  <p className="text-gray-600"><strong>Status:</strong> {employer.status}</p>
+                </div>
+
+                {/* Social Media and Links */}
+                <div className="border-t pt-4">
+                  <h4 className="text-lg font-semibold text-gray-700">Media and Links</h4>
+                  <div className="flex space-x-4 mt-2">
+                    {employer.linkedin_url && (
+                      <a
+                        href={employer.linkedin_url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-blue-600 hover:text-blue-800"
+                      >
+                        <FaLinkedin className="text-2xl" />
+                      </a>
+                    )}
+                    {employer.portfolio_url && (
+                      <a
+                        href={employer.portfolio_url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-blue-600 hover:text-blue-800"
+                      >
+                        <FaGlobe className="text-2xl" />
+                      </a>
+                    )}
+                    {employer.resume_path && (
+                      <a
+                        href="#"
+                        onClick={(event) => handleResumeClick(event, employer.resume_path)}
+                        className="text-blue-600 hover:text-blue-800"
+                      >
+                        <FaFileAlt className="text-2xl" />
+                      </a>
+                    )}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+          <Paginator
+            first={first}
+            rows={rows}
+            totalRecords={employers.length}
+            rowsPerPageOptions={[2, 4, 6]}
+            onPageChange={onPageChange}
+            className="mt-6"
           />
+        </>
+      )}
+      <Dialog
+        header="Resume"
+        visible={isModalVisible}
+        onHide={closeModal}
+        style={{ width: '50vw' }}
+        breakpoints={{ '960px': '75vw', '641px': '100vw' }}
+      >
+        {resumeContent && (resumeContent.endsWith(".pdf") ? (
+          <iframe src={resumeContent} width="100%" height="500px" />
+        ) : (
+          <img src={resumeContent} alt="Resume" className="w-full h-auto" />
         ))}
-      </div>
-      <Paginator
-        first={first}
-        rows={rows}
-        totalRecords={employers.length}
-        rowsPerPageOptions={[2, 4, 6]}
-        onPageChange={onPageChange}
-        className="mt-4"
-      />
+      </Dialog>
     </div>
   );
 }

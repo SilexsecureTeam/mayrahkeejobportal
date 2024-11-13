@@ -27,12 +27,12 @@ const CurrencyTable = ({ title, currencies, selectedCurrencies, setSelectedCurre
     return (
         <div className="card">
             <h2>{title}</h2>
-            <DataTable value={currencies} selectionMode="checkbox" selection={selectedCurrencies} onSelectionChange={(e) => setSelectedCurrencies(e.value)} dataKey="id" tableStyle={{ minWidth: '50rem' }}>
-                <Column selectionMode="multiple" headerStyle={{ width: '3rem' }}></Column>
+            <DataTable value={currencies} selectionMode={title !== "Overview" ? "checkbox" : null} selection={selectedCurrencies} onSelectionChange={(e) => setSelectedCurrencies(e.value)} dataKey="id" tableStyle={{ minWidth: '50rem' }}>
+                {title !== "Overview" && <Column selectionMode="multiple" headerStyle={{ width: '3rem' }}></Column>}
                 <Column field="flag" header="Flag" body={flagBodyTemplate}></Column>
                 <Column field="code" header="Code"></Column>
                 <Column field="symbol" header="Symbol"></Column>
-                <Column header="Actions" body={actionBodyTemplate}></Column>
+                {title !== "Overview" && <Column header="Actions" body={actionBodyTemplate}></Column>}
             </DataTable>
         </div>
     );

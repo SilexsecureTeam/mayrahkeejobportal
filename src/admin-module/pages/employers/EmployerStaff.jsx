@@ -12,21 +12,20 @@ const EmployerStaff = () => {
   const { getEmployerDomesticStaff, loading } = UseAdminManagement();
 
   useEffect(() => {
-    (() => {
+    (async () => {
       try {
-        getEmployerDomesticStaff(id).then((data) => {
+        const data = await getEmployerDomesticStaff(id);
         if (data) {
           setStaffDetails(data);
         } else {
           console.error("No data received");
         }
-      });
-    } catch (error) {
-      console.error("Error fetching staff details:", error);
-      setError(error);
-    }
-  })();
-}, []);
+      } catch (error) {
+        console.error("Error fetching staff details:", error);
+        setError(error);
+      }
+    })();
+  }, []);
 
   if (!staffDetails.length) {
     return <div>No staff details found</div>;
@@ -34,8 +33,8 @@ const EmployerStaff = () => {
 
   const heading = ["ID", "Staff Name", "Start Date", "End Date", "Status", "StaffID"];
   
-  
-  const data = staffDetails.map(staff => ({
+  const data = staffDetails.map((staff, index) => ({
+    key: `${staff.id}-${index}`, // Ensure unique keys
     [heading[0].toLowerCase()]: staff.id,
     [heading[1].toLowerCase()]: staff.staff_name, 
     [heading[2].toLowerCase()]: staff.start_date,
@@ -47,7 +46,7 @@ const EmployerStaff = () => {
   return (
     <div className="mx-14 mt-10 mb-24">
       <Button label="Back" className="mb-4" outlined onClick={() => window.history.back()} icon={<FaArrowLeftLong className="me-4" />} />
-      <h2 className="text-black border-b border-gray-500 text-2xl font-bold mt-10">Domestic Staffs</h2>
+      <h2 className="text-black border-b border-gray-500 text-2xl font-bold mt-10">Employer's Staffs</h2>
       <DataTableComponent heading={heading} data={data} loading={loading} name="domestic-staff" />
     </div>
   );

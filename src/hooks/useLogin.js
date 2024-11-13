@@ -29,7 +29,7 @@ function useLogin(role) {
     setLoading(true);
 
     try {
-      if (role === "candidate" || role == "employer") {
+      if (role === "candidate" || role == "employer" || role == "admin") {
         const response = await client.post(`/${role}/login`, loginDetails);
         setAuthDetails({
           token: response.data.token,

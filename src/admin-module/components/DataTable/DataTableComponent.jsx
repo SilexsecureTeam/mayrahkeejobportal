@@ -7,6 +7,10 @@ import {
   FaCheck,
   FaSearch,
   FaTimes,
+  FaExclamationCircle,
+  FaCheckCircle,
+  FaTimesCircle,
+  FaPauseCircle,
 } from "react-icons/fa";
 import { RiFilterOffLine } from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
@@ -167,8 +171,35 @@ const DataTableComponent = ({ data, name, heading, isLoading }) => {
   };
 
   const statusBodyTemplate = (rowData) => {
+    let statusClass = "";
+    let statusIcon = null;
+
+    switch (rowData.status) {
+      case "pending":
+        statusClass = "bg-yellow-100 text-yellow-800";
+        statusIcon = <FaExclamationCircle className="mr-2" />;
+        break;
+      case "approved":
+        statusClass = "bg-green-500 text-white";
+        statusIcon = <FaCheckCircle className="mr-2" />;
+        break;
+      case "rejected":
+        statusClass = "bg-red-500 text-white";
+        statusIcon = <FaTimesCircle className="mr-2" />;
+        break;
+      case "suspended":
+        statusClass = "bg-orange-500 text-white";
+        statusIcon = <FaPauseCircle className="mr-2" />;
+        break;
+      default:
+        statusClass = "bg-yellow-800 text-yellow-100";
+        statusIcon = <FaExclamationCircle className="mr-2" />;
+        break;
+    }
+
     return (
-      <span className={`bg-gray-500 text-white px-3 py-1 rounded-lg`}>
+      <span className={`flex items-center px-3 py-1 rounded-lg ${statusClass}`}>
+        {statusIcon}
         {rowData.status}
       </span>
     );
@@ -180,6 +211,13 @@ const DataTableComponent = ({ data, name, heading, isLoading }) => {
     { status: "Rejected", code: "rejected" },
     { status: "Suspended", code: "suspended" },
   ];
+
+  const rowClassName = (rowData, { rowIndex }) => {
+    return {
+      'bg-gray-100': rowIndex % 2 === 0,
+      'bg-white': rowIndex % 2 !== 0,
+    };
+  };
 
   return (
     <>
@@ -196,7 +234,7 @@ const DataTableComponent = ({ data, name, heading, isLoading }) => {
           currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
           paginatorTemplate="CurrentPageReport FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown"
           rowsPerPageOptions={[5, 10, 20, 50]}
-          rowClassName="cursor-pointer"
+          rowClassName={rowClassName}
           className="w-full sm:w-auto"
         >
           {heading?.map(

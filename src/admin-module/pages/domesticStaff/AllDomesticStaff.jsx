@@ -20,7 +20,7 @@ function AllDomesticStaff() {
   }, []);
   
 
-  const heading = ["ID", "Name", "Email", "Subcategory", "Job", "Employment Status", "YOE", "Current Salary", "Expected Salary", "Location"];
+  const heading = ["ID", "Name", "Email", "Subcategory", "Job", "Status", "YOE", "Current Salary", "Expected Salary", "Location"];
   const data = domesticStaff.map(staff => ({
     [heading[0].toLowerCase()]: staff.id,
     [heading[1].toLowerCase()]: staff.first_name + " " + (staff.middle_name === null || staff.middle_name === 'null' ? '' : staff.middle_name) + " " + staff.surname,

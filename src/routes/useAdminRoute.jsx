@@ -24,6 +24,9 @@ import AddCategory from "../admin-module/pages/settings/Sectors/AddCategory";
 import Currency from "../admin-module/pages/settings/Currency/curremcy";
 import AddCurrency from "../admin-module/pages/settings/Currency/AddCurrency";
 import JobListing from "../admin-module/pages/Jobs/JobListing";
+import AllGuarantors from "../admin-module/pages/guarantors/AllGuarantors";
+import AllMedicalHistories from "../admin-module/pages/medical-history/medicalHistory";
+import AllPoliceReports from "../admin-module/pages/police-report/policeReport";
 
 //Util Component
 const NavBar = lazy(() => import("../admin-module/components/NavBar"));
@@ -200,7 +203,11 @@ function useAdminRoute() {
                       <Route path="candidate/:id/staffs" element={<CandidateStaff />}>
                       </Route>
                       <Route path="job-listing" element={<JobListing />}>
+                     
                       </Route>
+                      <Route path="guarantors" element={<AllGuarantors />}></Route>
+                      <Route path="medical-histories" element={<AllMedicalHistories />}></Route>
+                      <Route path="police-reports" element={<AllPoliceReports />}></Route>
                       {/* <Route path="" element={<DataTable/>} />  */}
                       {/* <Route path="*" element={<NotFound />} /> */}
                     </Routes>

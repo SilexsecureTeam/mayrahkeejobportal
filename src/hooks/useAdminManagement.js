@@ -6,6 +6,7 @@ import axios from "axios";
 import { BASE_URL } from "../utils/base";
 import { user } from './../utils/dummies';
 import MainAxios from "../services/axios-main";
+import AddCurrency from './../admin-module/pages/settings/Currency/AddCurrency';
 
 const PROFILE_DETAILS_KEY = "Admin Profile Detaials Database";
 
@@ -116,7 +117,7 @@ function UseAdminManagement() {
   const updateStatus = async (data) => {
     try {
       setLoading(true);
-      const response = await client.post(`/update-status/`, data);
+      const response = await client.post("/update-status/", data);
       return response.data;
     } catch (error) {
       console.error("Error updating status:", error);
@@ -183,7 +184,6 @@ function UseAdminManagement() {
     }
   }
 
-
   const getEmployerDomesticStaff = async (id) => {
     try {
       setLoading(true);
@@ -194,7 +194,11 @@ function UseAdminManagement() {
       const data = response.data.contracts;
       const updatedData = await Promise.all(data.map(async (contract) => {
         const staff = await getStaffById(contract.domestic_staff_id);
-        contract.staff_name = staff.data.name;
+        if (staff && staff.data) {
+          contract.staff_name = staff.data.name;
+        } else {
+          contract.staff_name = 'Unknown'; // or any default value
+        }
         return contract;
       }));
       return updatedData;
@@ -203,8 +207,9 @@ function UseAdminManagement() {
     } finally {
       setLoading(false);
     }
-  }
+  };
 
+  
   const getCandidateDomesticStaff = async (id) => {
     try {
       setLoading(true);
@@ -245,6 +250,38 @@ function UseAdminManagement() {
     }
   }
 
+
+
+  const getStaffReport = async (reportType) => {
+    try {
+      setLoading(true);
+      const response = await client.get(BASE_URL + "/domesticStaff/" + reportType)
+      const data = await response.data;
+      return data;
+    } catch (error) {
+      console.error("Error fetching report:", error);
+      return null;
+    } finally {
+      setLoading(false);
+    }
+  };
+
+
+const AddFormCurrency = async(currencyData)=>{
+  try {
+    setLoading(true);
+    const response = await client.post("/currencies", currencyData);
+    return response.data;
+  } catch (error) {
+    console.error("Error adding currency:", error);
+    return null;
+  } finally {
+    setLoading(false);
+  }
+}
+
+
+
   return {
     loading,
     profileDetails,
@@ -262,6 +299,8 @@ function UseAdminManagement() {
     getEmployerDomesticStaff,
     getCandidateDomesticStaff,
     getStaffReportById,
+    getStaffReport,
+    AddFormCurrency
   };
 }
 
