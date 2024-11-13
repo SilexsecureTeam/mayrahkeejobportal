@@ -471,7 +471,7 @@ if (!profileDetails) return null;
                           );
                         })}
                       </div>
-                      <div className="flex w-full justify-start gap-3">
+                      <div className="flex flex-wrap w-full justify-start gap-3">
                         {selectedLanguages
                           .filter((current) => {
                             const found = [
