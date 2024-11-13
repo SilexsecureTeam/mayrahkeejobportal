@@ -524,12 +524,12 @@ function ProfileForm({ setToMain }) {
               <div className="flex flex-col gap-5 border-b pb-4">
                 <h3 className="font-semibold text-lg">Secondary Information</h3>
                 <div className="grid grid-cols-2 gap-x-3 gap-y-5">
-                  {field_sections.secondary.map((currentKey) => {
+                  {field_sections.secondary.map((currentKey, index) => {
                     const detail = profileDetails[currentKey.field_name];
                     // const labelText = currentKey.replace(/_/g, " ").toUpperCase();
 
                     return (
-                      <div className="flex flex-col gap-1">
+                      <div key={index} className="flex flex-col gap-1">
                         <label>
                           {currentKey.name}
                           <span className="text-red-500 ml-1 ">*</span>

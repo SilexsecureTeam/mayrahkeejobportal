@@ -35,22 +35,22 @@ function ViewProfileDetails() {
         currentKey !== "availability_status"
     );
 
-    console.log(`${resourceUrl}${profileDetails['profile_image']}`)
+    console.log(`${resourceUrl}${profileDetails?.profile_image}`)
   return (
     <div className="w-full flex flex-col gap-10">
       <h1 className="text-xl font-semibold">Your Profile Information</h1>
       <div className="h-[100px] flex items-center overflow-hidden justify-center text-gray-500 border border-[#dee2e6] w-[100px] rounded-full">
-        <img src={`${resourceUrl}${profileDetails['profile_image']}`} className="h-full" />
+        <img src={`${resourceUrl}${profileDetails?.profile_image}`} className="h-full" />
      </div>
       {profileDetails ? (
         <>
           <div className="grid grid-cols-2 gap-x-3 gap-y-5 p-2 w-full text-gray-600">
-            {filterProfileDetails.map((currentKey) => {
+            {filterProfileDetails.map((currentKey, index) => {
               const detail = profileDetails[currentKey];
               const labelText = currentKey.replace(/_/g, " ").toUpperCase();
 
               return (
-                <div className="flex flex-col gap-1">
+                <div key={index} className="flex flex-col gap-1">
                   <label>{labelText}</label>
                   <span className="font-semibold">{detail}</span>
                 </div>
