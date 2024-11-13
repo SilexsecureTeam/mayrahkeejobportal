@@ -104,7 +104,7 @@ function GuarantorForm() {
 
   return (
     <div>
-      <h1 className="text-xl font-semibold">Guarantor Details</h1>
+      <h1 className="text-xl font-semibold text-green-700">Guarantor Details</h1>
       {typeof currentGurantor == "undefined" && loading && (
         <div className="flex flex-col items-start justify-center h-full w-full">
           <span>Fetching data...</span>
