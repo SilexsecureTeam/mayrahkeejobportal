@@ -153,9 +153,9 @@ function ProfileForm({ setToMain }) {
   const { profileDetails, getStaffProfile } = useContext(
     StaffManagementContext
   );
-  const [selectedLanguages, setSelectedLanguages] = useState([
-    ...profileDetails?.languages_spoken,
-  ]);
+  // Initialize selectedLanguages with an empty array if languages_spoken is undefined
+const [selectedLanguages, setSelectedLanguages] = useState(profileDetails?.languages_spoken || []);
+
   const client = axiosClient(authDetails?.token, true);
   const {
     register,
@@ -195,8 +195,12 @@ function ProfileForm({ setToMain }) {
     setLoading(false);
   };
 
+
+// Guard clause to prevent rendering before profileDetails is loaded
+if (!profileDetails) return null;
+
   const filterProfileDetails =
-    profileDetails &&
+    profileDetails ?
     Object.keys(profileDetails)?.filter(
       (currentKey) =>
         currentKey !== "created_at" &&
@@ -215,7 +219,7 @@ function ProfileForm({ setToMain }) {
         currentKey !== "resume" &&
         currentKey !== "availability_status" &&
         currentKey !== "employment_type"
-    );
+    ):[];
 
   const toogleIsOpen = () => setIsOpen(!isOpen);
 
