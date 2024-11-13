@@ -197,7 +197,7 @@ function ProfileForm({ setToMain }) {
 
   const filterProfileDetails =
     profileDetails &&
-    Object.keys(profileDetails).filter(
+    Object.keys(profileDetails)?.filter(
       (currentKey) =>
         currentKey !== "created_at" &&
         currentKey !== "updated_at" &&
@@ -331,7 +331,7 @@ function ProfileForm({ setToMain }) {
                   )}
                 </div>
                 <div className="grid grid-cols-2 gap-x-3 gap-y-5">
-                  {field_sections.primary.map((currentKey) => {
+                  {field_sections.primary?.map((currentKey) => {
                     const detail = profileDetails[currentKey.field_name];
                     // const labelText = currentKey.replace(/_/g, " ").toUpperCase();
 
