@@ -81,7 +81,7 @@ function WorkExperience() {
 
   return (
     <div>
-      <h1 className="text-xl font-semibold">Previous Work Experience</h1>
+      <h1 className="text-xl font-semibold text-green-700">Previous Work Experience</h1>
 
       {
         <form
