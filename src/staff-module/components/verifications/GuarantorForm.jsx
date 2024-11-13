@@ -144,8 +144,17 @@ function GuarantorForm() {
               </div>
             );
           })}
-          <FormButton loading={isLoading}>Save Changes</FormButton>
-          <button type="button" onClick={toggleEditMode} className="text-red-600">Cancel</button>
+          {/* Flex container for buttons */}
+          <div className="flex gap-4 col-span-2 justify-between">
+            <FormButton loading={isLoading}>Save Changes</FormButton>
+            <button
+              type="button"
+              onClick={toggleEditMode}
+              className="text-red-600 border border-red-600 rounded-md p-1"
+            >
+              Cancel
+            </button>
+          </div>
         </form>
       )}
     </div>
