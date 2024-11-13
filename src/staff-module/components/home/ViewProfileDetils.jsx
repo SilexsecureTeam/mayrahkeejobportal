@@ -52,7 +52,7 @@ function ViewProfileDetails() {
               return (
                 <div key={index} className="flex flex-col gap-1">
                   <label>{labelText}</label>
-                  <span className="font-semibold">{detail}</span>
+                  <span className="font-semibold">{detail ? detail : null}</span>
                 </div>
               );
             })}
