@@ -9,7 +9,7 @@ import { FormatError } from "../../../utils/formmaters";
 import { FaEdit } from "react-icons/fa";
 
 const formFields = [
-  "title",    
+  "title",    // Add the title field here
   "surname",
   "first_name",
   "mobile_phone",
@@ -19,7 +19,7 @@ const formFields = [
   "residential_address",
   "near_bus_stop",
   "close_landmark",
-  "religion",
+  "religion",  // Ensure religion is part of formFields
 ];
 
 function GuarantorForm() {
@@ -111,14 +111,14 @@ function GuarantorForm() {
 
       {currentGurantor && !isEditMode && (
         <div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-3 gap-y-5 p-2 w-full text-gray-600">
+          <div className="grid grid-cols-2 gap-x-3 gap-y-5 p-2 w-full text-gray-600">
             {garatorFields().map((currentKey) => {
               const value = currentGurantor[currentKey];
               const labelText = currentKey.replace(/_/g, " ").toUpperCase();
               return (
                 <div className="flex flex-col gap-1" key={currentKey}>
                   <label>{labelText}</label>
-                  <label className="break-words">{value}</label> {/* Added break-words for email overflow */}
+                  <label className="text-wrap" >{value}</label>
                 </div>
               );
             })}
@@ -129,7 +129,7 @@ function GuarantorForm() {
       {isEditMode && (
         <form
           onSubmit={handleSubmit(submitDetails)}
-          className="grid grid-cols-1 sm:grid-cols-2 gap-x-3 gap-y-5 p-2 w-full text-gray-600"
+          className="grid grid-cols-2 gap-x-3 gap-y-5 p-2 w-full text-gray-600"
         >
           {formFields.map((currentKey) => {
             const labelText = currentKey.replace(/_/g, " ").toUpperCase();
