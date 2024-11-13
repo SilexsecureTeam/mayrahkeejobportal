@@ -401,7 +401,13 @@ if (!profileDetails) return null;
                           <span className="text-red-500 ml-1 ">*</span>
                         </label>
                         {currentKey.type !== "select" ? (
-                          <input
+                currentKey.type === "number"?
+  <input
+                            className="p-1 border focus:outline-none border-gray-900  rounded-md"
+                            type="number" 
+                            defaultValue={detail}
+                            {...register(currentKey.field_name)}
+                          />      :    <input
                             className="p-1 border focus:outline-none border-gray-900  rounded-md"
                             type={inputType}
                             defaultValue={detail}
