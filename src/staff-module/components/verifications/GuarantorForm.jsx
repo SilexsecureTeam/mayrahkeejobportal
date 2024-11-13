@@ -9,6 +9,7 @@ import { FormatError } from "../../../utils/formmaters";
 import { FaEdit } from "react-icons/fa";
 
 const formFields = [
+  "title",    // Add the title field here
   "surname",
   "first_name",
   "mobile_phone",
@@ -27,7 +28,7 @@ function GuarantorForm() {
   const [isLoading, setIsLoading] = useState(false);
   const [isEditMode, setIsEditMode] = useState(false);
   const client = axiosClient(authDetails?.token);
-  const { register, handleSubmit, setValue } = useForm();
+  const { register, handleSubmit, setValue, watch } = useForm();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState({ message: "", error: "" });
 
@@ -70,7 +71,7 @@ function GuarantorForm() {
       const { data } = await client.get(`/domesticStaff/guarantor/${authDetails.user.id}`);
       setCurrentGarantor(data.guarantor[0]);
       if (data.guarantor[0]) {
-        formFields.forEach((field) => setValue(field, data.guarantor[0][field] || "")); // Set value for all fields
+        formFields.forEach((field) => setValue(field, data.guarantor[0][field] || "")); // Set value for all fields, including 'title'
       }
     } catch (error) {
       FormatError(error, setError, "Retrieval Failed");
@@ -151,6 +152,16 @@ function GuarantorForm() {
                     <option value="Sikhism">Sikhism</option>
                     <option value="Judaism">Judaism</option>
                     <option value="Baha'i">Baha'i</option>
+                    <option value="Others">Others</option>
+                  </select>
+                ) : currentKey === "title" ? (
+                  <select
+                    className="p-1 border focus:outline-none border-gray-900 rounded-md"
+                    required
+                    {...register(currentKey)}
+                  >
+                    <option value="MR">MR</option>
+                    <option value="MRS">MRS</option>
                     <option value="Others">Others</option>
                   </select>
                 ) : (
