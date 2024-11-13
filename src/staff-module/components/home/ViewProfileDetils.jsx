@@ -44,7 +44,7 @@ function ViewProfileDetails() {
      </div>
       {profileDetails ? (
         <>
-          <div className="grid grid-cols-2 gap-x-3 gap-y-5 p-2 w-full text-gray-600">
+          <div className="grid grid-cols-2 gap-x-3 gap-y-5 p-2 w-full text-gray-600 break-words">
             {filterProfileDetails.map((currentKey, index) => {
               const detail = profileDetails[currentKey];
               const labelText = currentKey.replace(/_/g, " ").toUpperCase();
