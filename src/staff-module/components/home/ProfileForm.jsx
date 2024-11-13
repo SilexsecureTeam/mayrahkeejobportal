@@ -351,7 +351,7 @@ if (!profileDetails) return null;
                     // const labelText = currentKey.replace(/_/g, " ").toUpperCase();
 
                     const inputType =
-                      currentKey == "member_since" ? "date" : type;
+                      currentKey == "member_since" ? "date" : "text" ;
                     return (
                       <div className="flex flex-col gap-1">
                         <label>
