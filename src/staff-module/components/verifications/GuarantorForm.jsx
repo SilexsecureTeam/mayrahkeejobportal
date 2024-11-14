@@ -118,7 +118,7 @@ function GuarantorForm() {
               return (
                 <div className="flex flex-col gap-1" key={currentKey}>
                   <label>{labelText}</label>
-                  <label>{value}</label>
+                  <label className="text-wrap" >{value}</label>
                 </div>
               );
             })}
