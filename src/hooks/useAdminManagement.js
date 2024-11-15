@@ -112,20 +112,21 @@ function UseAdminManagement() {
     }
   }
 
-
-
-  const updateStatus = async (data) => {
-    try {
-      setLoading(true);
-      const response = await client.post("/update-status/", data);
-      return response.data;
-    } catch (error) {
-      console.error("Error updating status:", error);
-      return null;
-    } finally {
-      setLoading(false);
-    }
-  }
+  
+    const updateStatus = async (data) => {
+      try {
+        setLoading(true);
+        const response = await MainAxios.post("update-status", data);
+        return response.data;
+      } catch (error) {
+        console.error('Error updating status:', error);
+        return null;
+      } finally {
+        setLoading(false);
+      }
+    };
+  
+    
 
 
   const getCandidates = async () => {

@@ -107,14 +107,14 @@ const {getEmployers,getCandidates,getArtisans,getDomesticStaff } = UseAdminManag
               smallText="+2% Increase Ad-hoc staff at duty posts"
               smallTextIcon={<FaArrowTrendUp />}
             />
-            <DashboardCard
+            {/* <DashboardCard
               leftIcon={<BsStopwatch />}
               title={jobLearningCount}
               subtitle="E-learning"
               smallText="+3% increase than yesterday"
               smallTextIcon={<FaArrowTrendDown />}
               smallTextIconColor="text-red-500"
-            />
+            /> */}
             <DashboardCard
               leftIcon={<BsStopwatch />}
               title="5000"

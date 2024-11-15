@@ -38,7 +38,7 @@ function AllArtisans() {
     <div className="mx-14 mt-10">
       <Button label="Back" className="mb-4" outlined onClick={() => window.history.back()} icon={<FaArrowLeftLong className="me-4" />} />
       <h2 className="text-black border-b border-gray-500 text-2xl font-bold mt-10">Artisans</h2>
-      <DataTableComponent heading={heading} data={data} loading={loading} name="artisan" />
+      <DataTableComponent heading={heading} data={data} loading={loading} name="artisan" allowEdit={true} />
     </div>
   );
 }

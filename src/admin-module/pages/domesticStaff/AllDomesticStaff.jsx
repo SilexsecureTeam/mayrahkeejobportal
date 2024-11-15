@@ -51,6 +51,7 @@ function AllDomesticStaff() {
         data={data}
         loading={loading}
         name="domestic-staff"
+        allowEdit={true}
       />
     </div>
   );

@@ -81,24 +81,23 @@ const DataTableComponent = ({ data, name, heading, isLoading, allowEdit }) => {
 
   const updateSelectedData = async () => {
     if (!selectedData) {
-      console.error("selectedData is null or undefined");
-      toast.error("An error occurred. Please try again");
+      console.error('selectedData is null or undefined');
+      toast.error('An error occurred. Please try again');
       return;
     }
-
-    const formData = new FormData();
-    formData.append("id", selectedData.id);
-    formData.append("status", selectedData.status);
-    if (name === "domestic-staff" || name === "artisan") {
-      formData.append("type", "staff");
-    } else {
-      formData.append("type", name);
-    }
-
+  
+    const formData = {
+      id: selectedData.id,
+      status: selectedData.status,
+      type: name === 'domestic-staff' || name === 'artisan' ? 'domestic' : name,
+    };
+  
+    console.log('Updating status with data:', formData);
+  
     toast.promise(
       updateStatus(formData)
         .then((res) => {
-          if (res.status === 200) {
+          if (res) {
             setEditDialog(false);
             setDataState(
               dataState.map((d) =>
@@ -110,13 +109,14 @@ const DataTableComponent = ({ data, name, heading, isLoading, allowEdit }) => {
             return Promise.reject();
           }
         })
-        .catch(() => {
+        .catch((error) => {
+          console.error('Error updating status:', error);
           return Promise.reject();
         }),
       {
-        pending: "Updating status...",
-        success: "Status updated successfully",
-        error: "An error occurred while updating status",
+        pending: 'Updating status...',
+        success: 'Status updated successfully',
+        error: 'An error occurred while updating status',
       }
     );
   };
@@ -145,9 +145,9 @@ const DataTableComponent = ({ data, name, heading, isLoading, allowEdit }) => {
   };
 
   const handleViewDetails = (rowData) => {
-    const id =
-      name === "domestic-staff" && rowData.staffid ? rowData.staffid : rowData.id;
-    navigate(`/admin/${name}/details/${id}`);
+    const id = rowData.id;
+    const routeName = name === 'artisan' ? 'artisan' : name;
+    navigate(`/admin/${routeName}/details/${id}`);
   };
 
   const editDialogFooter = (
@@ -214,7 +214,7 @@ const DataTableComponent = ({ data, name, heading, isLoading, allowEdit }) => {
     { status: "Pending", code: "pending" },
     { status: "Approved", code: "approved" },
     { status: "Rejected", code: "rejected" },
-    { status: "Suspended", code: "suspended" },
+    { status: "Suspend", code: "suspend" },
   ];
 
   const rowClassName = (rowData, { rowIndex }) => {

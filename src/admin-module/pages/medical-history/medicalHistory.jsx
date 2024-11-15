@@ -37,7 +37,7 @@ function AllMedicalHistories() {
     <div className="mx-14 mt-10">
       <Button label="Back" className="mb-4" outlined onClick={() => window.history.back()} icon={<FaArrowLeftLong className="me-4" />} />
       <h2 className="text-black border-b border-gray-500 text-2xl font-bold mt-10">Medical Histories</h2>
-      <DataTableComponent heading={heading} data={data} loading={loading} name="domestic-staff" allowEdit={false} />
+      <DataTableComponent heading={heading} data={data} loading={loading} name="domestic-staff" allowEdit={true} />
     </div>
   );
 }
