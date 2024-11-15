@@ -16,7 +16,7 @@ function SideBar({
   const { details } = companyHookProps;
   return (
     <>
-      <aside className="w-[18%] hidden  h-full items-center bg-secondaryColor px-2 pb-2 md:flex flex-col justify-end">
+      <aside className="w-[18%] min-w-[200px] hidden  h-full items-center bg-secondaryColor px-2 pb-2 md:flex flex-col justify-end">
         <img src={mainLogoTwo} className="w-[80%]" />
         <nav className="h-[92%] w-full flex flex-col justify-start gap-[20px] divide-y-2">
           {children[0]}
@@ -46,7 +46,7 @@ function SideBar({
           </div>
 <img
             src={`${resourceUrl}/${details?.logo_image}`}
-            className="h-[35px] w-[35px] rounded-full bg-secondaryColor"
+            className="h-[40px] w-[40px] rounded-full bg-secondaryColor"
           />
         </div>
       </aside>
@@ -54,7 +54,7 @@ function SideBar({
       <aside
         className={`${
           isMenuOpen ? "left-0" : "left-[-100%]"
-        } w-[70%] absolute z-[999] h-screen items-center bg-secondaryColor px-2 pb-2 flex flex-col`}
+        } w-[70%] sm:w-[300px] absolute z-[999] h-screen items-center bg-secondaryColor px-2 pb-2 flex flex-col`}
       >
         <div className="flex items-center gap-[10px]">
           <MdClose
@@ -79,9 +79,8 @@ function SideBar({
         </div>
 
         {/* user info  */}
-        <div className="absolute bottom-3 left-10 flex gap-[5px]  items-center">
-       
-          <div className="flex-col flex">
+        <div className="absolute bottom-3 right-4 flex gap-3  items-center">
+        <div className="flex-col flex">
             <span className="text-secondaryColor text-sm">
               {authDetails?.user?.name}
             </span>
@@ -89,11 +88,11 @@ function SideBar({
               {authDetails?.user?.email}
             </span>
           </div>
- <img
-          className="h-[80px] w-[80px] md:h-[100px] md:w-[100px] rounded-full object-cover"
-          src={details?.logo_image ? `${resourceUrl}/${details?.logo_image}` : wheelIcon}
-          alt="Profile"
-        />
+          <img
+          src={details?.logo_image ? `${resourceUrl}/${details?.logo_image }` : 'https://via.placeholder.com/150'}
+            className="h-[45px] w-[45px] rounded-full bg-primaryColor object-cover"
+          /> 
+        
         </div>
       </aside>
     </>

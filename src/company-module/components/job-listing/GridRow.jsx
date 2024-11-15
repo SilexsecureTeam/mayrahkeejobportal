@@ -7,6 +7,7 @@ function GridRow({ data, applicants }) {
   );
 
   return (
+    currentApplicants &&
     <div className="flex flex-col min-h-28 border px-2 py-1 gap-[20px] h-fit">
       <div
         className={`"w-full items-center border border-t-[2px] ${data.border_color}  justify-between text-little flex p-1`}
@@ -20,8 +21,8 @@ function GridRow({ data, applicants }) {
       </div>
 
       <ul className="flex flex-col w-full gap-[10px] items-center justify-between">
-        {currentApplicants.length > 0 ? currentApplicants?.map((current) => (
-          <ApplicantCard data={current} />
+        {currentApplicants.length > 0 ? currentApplicants?.map((current,index) => (
+          <ApplicantCard key={index} data={current} />
         )) : <span className="text-little"> No Applicants</span>}
       </ul>
     </div>

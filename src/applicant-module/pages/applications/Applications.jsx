@@ -65,9 +65,9 @@ function Application() {
               <h4 className=" font-semibold text-2xl mb-5">Keep it up, {authDetails.user?.first_name}</h4>
               <p>Here is what’s happening with your job search applications from {generateDateRange()}</p>
             </div>
-            <div>
+            {/* <div>
               <button className="border p-2 flex items-center hover:bg-gray-100 text-xs md:text-sm">{generateDateRange()}  <RiCalendarEventLine className="ml-2 prime_text" size={15} /></button>
-            </div>
+            </div> */}
           </div>
           <div className="my-6">
             {closeNote && (
