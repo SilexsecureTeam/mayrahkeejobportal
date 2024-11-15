@@ -1,17 +1,14 @@
 import React, { useState } from "react";
 import MainLogo from "../../assets/svgs/main-logo.svg";
-import Padlock from "../../assets/pngs/padlock.png";
-import Person from "../../assets/pngs/person.png";
 import { NavLink } from "react-router-dom";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 
-function AdminLoginForm({ rememberMe, toogleRememberMe }) {
-  const [loginDetails, setLoginDetails] = useState({ email: "", password: "" });
+function AdminLoginForm({ rememberMe, toogleRememberMe, handleOnSubmit, setLoginDetails }) {
   const [showPassword, setShowPassword] = useState(false);
 
   const onTextChange = (e) => {
     const { name, value } = e.target;
-    setLoginDetails({ ...loginDetails, [name]: value });
+    setLoginDetails((prevDetails) => ({ ...prevDetails, [name]: value }));
   };
 
   return (
@@ -19,54 +16,53 @@ function AdminLoginForm({ rememberMe, toogleRememberMe }) {
       <div className="flex justify-center mb-4">
         <img src={MainLogo} alt="Main Logo" className="h-12" />
       </div>
-      <div className="bg-green-900 p-12 rounded-md shadow-md w-full max-w-md">
-
-        <h1 className="text-center text-white py-4">Welcome back Admin!</h1>
-        <div className="mb-4">
-          <div className="flex items-center bg-white p-2 rounded-md border">
-            <input
-              name="email"
-              type="text"
-              value={loginDetails.email}
-              onChange={onTextChange}
-              required
-              className="w-full bg-transparent focus:outline-none"
-              placeholder="Enter email"
-            />
-          </div>
-        </div>
-        <div className="mb-4">
-          <div className="flex items-center bg-white p-2 rounded-md border">
-            <input
-              name="password"
-              type={showPassword ? "text" : "password"}
-              value={loginDetails.password}
-              onChange={onTextChange}
-              required
-              className="w-full bg-transparent focus:outline-none"
-              placeholder="Enter password"
-            />
-            {showPassword ? (
-              <FaEyeSlash
-                className="cursor-pointer text-gray-600"
-                onClick={() => setShowPassword(!showPassword)}
+      <div className="bg-green-900 p-16 rounded-md shadow-md w-full max-w-lg">
+        <h1 className="text-center text-white py-4 text-2xl">Welcome back Admin!</h1>
+        <form onSubmit={handleOnSubmit}>
+          <div className="mb-6">
+            <div className="flex items-center bg-white p-3 rounded-md border">
+              <input
+                name="email"
+                type="text"
+                onChange={onTextChange}
+                required
+                className="w-full bg-transparent focus:outline-none"
+                placeholder="Enter email"
               />
-            ) : (
-              <FaEye
-                className="cursor-pointer text-gray-600"
-                onClick={() => setShowPassword(!showPassword)}
-              />
-            )}
+            </div>
           </div>
-        </div>
-        <div className=" text-right  mb-4">
-          <NavLink to="/forgot-password" className="text-sm hover:underline text-white">
-            Forgot Password?
-          </NavLink>
-        </div>
-        <button className="w-full bg-green-600 text-white p-2 rounded-md hover:bg-green-700">
-          Login
-        </button>
+          <div className="mb-6">
+            <div className="flex items-center bg-white p-3 rounded-md border">
+              <input
+                name="password"
+                type={showPassword ? "text" : "password"}
+                onChange={onTextChange}
+                required
+                className="w-full bg-transparent focus:outline-none"
+                placeholder="Enter password"
+              />
+              {showPassword ? (
+                <FaEyeSlash
+                  className="cursor-pointer text-gray-600"
+                  onClick={() => setShowPassword(!showPassword)}
+                />
+              ) : (
+                <FaEye
+                  className="cursor-pointer text-gray-600"
+                  onClick={() => setShowPassword(!showPassword)}
+                />
+              )}
+            </div>
+          </div>
+          <div className="text-right mb-6">
+            <NavLink to="/admin/forget-pwd" className="text-sm hover:underline text-white">
+              Forgot Password?
+            </NavLink>
+          </div>
+          <button type="submit" className="w-full bg-green-600 text-white p-3 rounded-md hover:bg-green-700">
+            Login
+          </button>
+        </form>
       </div>
     </div>
   );

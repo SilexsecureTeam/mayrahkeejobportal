@@ -14,13 +14,13 @@ import {
 } from "react-icons/fa";
 import { RiFilterOffLine } from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
-import { BiPencil, BiTrash } from "react-icons/bi";
+import { BiPencil } from "react-icons/bi";
 import { Dialog } from "primereact/dialog";
 import UseAdminManagement from "../../../hooks/useAdminManagement";
 import { toast } from "react-toastify";
 import { Dropdown } from "primereact/dropdown";
 
-const DataTableComponent = ({ data, name, heading, isLoading }) => {
+const DataTableComponent = ({ data, name, heading, isLoading, allowEdit }) => {
   const [globalFilterValue, setGlobalFilterValue] = useState("");
   const [editDialog, setEditDialog] = useState(false);
   const [selectedData, setSelectedData] = useState(null);
@@ -124,24 +124,29 @@ const DataTableComponent = ({ data, name, heading, isLoading }) => {
   const actionBodyTemplate = (rowData) => {
     return (
       <div className="flex justify-center">
-        <Button
-          type="button"
-          icon={<BiPencil className="mr-2 text-lg" />}
-          outlined
-          className="mr-2"
-          onClick={(e) => editData(e, rowData)}
-        />
+        {allowEdit && (
+          <Button
+            type="button"
+            icon={<BiPencil className="mr-2 text-lg" />}
+            outlined
+            className="mr-2"
+            onClick={(e) => editData(e, rowData)}
+          />
+        )}
         <button
           type="button"
           className="bg-green-500 px-4 py-2 text-white"
           onClick={() => handleViewDetails(rowData)}
-        >View</button>
+        >
+          View
+        </button>
       </div>
     );
   };
 
   const handleViewDetails = (rowData) => {
-    const id = name === "domestic-staff" && rowData.staffid ? rowData.staffid : rowData.id;
+    const id =
+      name === "domestic-staff" && rowData.staffid ? rowData.staffid : rowData.id;
     navigate(`/admin/${name}/details/${id}`);
   };
 
@@ -214,8 +219,8 @@ const DataTableComponent = ({ data, name, heading, isLoading }) => {
 
   const rowClassName = (rowData, { rowIndex }) => {
     return {
-      'bg-gray-100': rowIndex % 2 === 0,
-      'bg-white': rowIndex % 2 !== 0,
+      "bg-gray-100": rowIndex % 2 === 0,
+      "bg-white": rowIndex % 2 !== 0,
     };
   };
 
@@ -265,7 +270,7 @@ const DataTableComponent = ({ data, name, heading, isLoading }) => {
         </DataTable>
       </div>
 
-      {/*Edit Dialog */}
+      {/* Edit Dialog */}
       <Dialog
         maximizable
         visible={editDialog}

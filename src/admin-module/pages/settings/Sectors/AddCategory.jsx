@@ -1,21 +1,50 @@
 import React, { useState } from 'react';
 import ToggleCheckBox from './../../../components/checkbox/checkbox';
+import UseAdminManagement from '../../../../hooks/useAdminManagement';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { useNavigate } from 'react-router-dom';
 
 function AddCategory() {
-    const [category, setCategory] = useState('');
-    const [department, setDepartment] = useState('');
+    const [sector, setSector] = useState('');
     const [enableSubcategory, setEnableSubcategory] = useState(false);
-    const [subdepartment, setSubdepartment] = useState('');
+    const [subsectors, setSubsectors] = useState(['']);
+    const [loading, setLoading] = useState(false);
+    const { createSectorWithSubsectors } = UseAdminManagement();
+    const navigate = useNavigate();
 
-    const handleCategoryChange = (e) => setCategory(e.target.value);
-    const handleDepartmentChange = (e) => setDepartment(e.target.value);
+    const handleSectorChange = (e) => setSector(e.target.value);
     const handleEnableSubcategoryChange = (e) => setEnableSubcategory(e.value);
-    const handleSubdepartmentChange = (e) => setSubdepartment(e.target.value);
+    const handleSubsectorChange = (index, value) => {
+        const newSubsectors = [...subsectors];
+        newSubsectors[index] = value;
+        setSubsectors(newSubsectors);
+    };
+    const handleAddSubsector = () => setSubsectors([...subsectors, '']);
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        // Handle form submission
-        console.log({ category, department, enableSubcategory, subdepartment });
+        setLoading(true);
+        try {
+            const sectorData = { name: sector };
+            const result = await createSectorWithSubsectors(sectorData, subsectors);
+            console.log(result);
+            
+            if (result) {
+                toast.success('Sector and subsectors created successfully');
+                console.log('Sector and subsectors created successfully', result);
+                setTimeout(() => {
+                    navigate('/admin/settings/sectors');
+                }, 2000); // Delay navigation by 2 seconds
+            } else {
+                toast.error('Failed to create sector and subsectors');
+            }
+        } catch (error) {
+            toast.error('Error creating sector and subsectors');
+            console.error('Error creating sector and subsectors:', error);
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (
@@ -23,46 +52,48 @@ function AddCategory() {
             <h2 className="text-2xl font-bold mb-4">Add Category</h2>
             <form onSubmit={handleSubmit}>
                 <div className="mb-4">
-                    <label className="block text-gray-700">Select Category Name</label>
-                    <select value={category} onChange={handleCategoryChange} className="w-full px-3 py-2 border rounded-md">
-                        <option value="">Select a category Name</option>
-                        <option value="Category 1">Category 1</option>
-                        <option value="Category 2">Category 2</option>
-                        <option value="Category 3">Category 3</option>
-                    </select>
-                </div>
-                <div className="mb-4">
-                    <label className="block text-gray-700">Create Department</label>
+                    <label className="block text-gray-700">Input Sector Name</label>
                     <input
                         type="text"
-                        value={department}
-                        onChange={handleDepartmentChange}
+                        value={sector}
+                        onChange={handleSectorChange}
                         className="w-full px-3 py-2 border rounded-md"
-                        placeholder="Enter department name"
+                        placeholder="Enter sector name"
                     />
                 </div>
                 <div className="mb-4">
                     <label className="block text-gray-700">Enable Subcategory</label>
                     <p className="text-gray-500 text-sm">
-                        If a category has a subcategory, use this button to activate it.
+                        If a sector has a subcategory, use this button to activate it.
                     </p>
                     <ToggleCheckBox checked={enableSubcategory} onChange={(e) => setEnableSubcategory(e.value)} />
                 </div>
                 {enableSubcategory && (
                     <div className="mb-4">
-                        <label className="block text-gray-700">Select Subdepartment</label>
-                        <select value={subdepartment} onChange={handleSubdepartmentChange} className="w-full px-3 py-2 border rounded-md">
-                            <option value="">Select a subdepartment</option>
-                            <option value="Subdepartment 1">Subdepartment 1</option>
-                            <option value="Subdepartment 2">Subdepartment 2</option>
-                            <option value="Subdepartment 3">Subdepartment 3</option>
-                        </select>
+                        <label className="block text-gray-700">Input Sub Sectors</label>
+                        {subsectors.map((subsector, index) => (
+                            <div key={index} className="flex items-center mb-2">
+                                <input
+                                    type="text"
+                                    value={subsector}
+                                    onChange={(e) => handleSubsectorChange(index, e.target.value)}
+                                    className="w-full px-3 py-2 border rounded-md"
+                                    placeholder="Enter sub sector name"
+                                />
+                            </div>
+                        ))}
+                        <button type="button" onClick={handleAddSubsector} className="bg-blue-500 text-white px-4 py-2 rounded-md mt-2">
+                            Add Sub Sector
+                        </button>
                     </div>
                 )}
                 <div className="flex justify-end">
-                    <button type="submit" className="bg-green-500 text-white px-4 py-2 rounded-md">Create category</button>
+                    <button type="submit" className="bg-green-500 text-white px-4 py-2 rounded-md" disabled={loading}>
+                        {loading ? 'Creating...' : 'Create category'}
+                    </button>
                 </div>
             </form>
+            <ToastContainer />
         </div>
     );
 }

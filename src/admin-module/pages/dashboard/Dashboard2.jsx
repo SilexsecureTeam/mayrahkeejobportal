@@ -128,9 +128,9 @@ function Dashboard2() {
           </div>
         </div>
 
-        <div className="mt-5 !mb-32">
+        {/* <div className="mt-5 !mb-32">
           <DashboardChart />
-        </div>
+        </div> */}
       </div>
     </>
   );

@@ -27,6 +27,11 @@ import JobListing from "../admin-module/pages/Jobs/JobListing";
 import AllGuarantors from "../admin-module/pages/guarantors/AllGuarantors";
 import AllMedicalHistories from "../admin-module/pages/medical-history/medicalHistory";
 import AllPoliceReports from "../admin-module/pages/police-report/policeReport";
+import AdminLogin from "../pages/AdminLogin";
+import AdminForgotPassword from "../pages/AdminForgotPassword";
+import AdminResetPwd from "../components/AdminAuth/AdminResetPwd";
+import AdminRegistrationForm from "../components/AdminAuth/AdminSIgnupForm";
+import AdminLogout from "../components/AdminAuth/AdminLogout";
 
 //Util Component
 const NavBar = lazy(() => import("../admin-module/components/NavBar"));
@@ -150,6 +155,11 @@ function useAdminRoute() {
                 <div className="w-full  h-[92%] overflow-y-auto">
                   <PrimeReactProvider value={{ unstyled: true, pt: Tailwind }}>
                     <Routes>
+                      <Route path="login" element={<AdminLogin />} />
+                      <Route path="logout" element={<AdminLogout />} />
+                      <Route path="reset-pwd" element={<AdminResetPwd />} />
+                      <Route path="register" element={<AdminRegistrationForm />} />
+                      <Route path="forget-pwd" element={<AdminForgotPassword />} />
                       <Route index element={<Dashboard />} />
                       <Route path="employers" element={<Employers />}></Route>
                       <Route path="employers/all" element={<AllEmployers />} />

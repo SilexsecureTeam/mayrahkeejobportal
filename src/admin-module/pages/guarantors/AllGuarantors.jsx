@@ -9,7 +9,7 @@ function AllGuarantors() {
   const [guarantors, setGuarantors] = useState([]);
 
   useEffect(() => {
-    ( async () => {
+    (async () => {
       const data = await getStaffReport("guarantor");
       console.log("Fetched Data:", data); // Log the fetched data
       
@@ -38,7 +38,7 @@ function AllGuarantors() {
     <div className="mx-14 mt-10">
       <Button label="Back" className="mb-4" outlined onClick={() => window.history.back()} icon={<FaArrowLeftLong className="me-4" />} />
       <h2 className="text-black border-b border-gray-500 text-2xl font-bold mt-10">Guarantors</h2>
-      <DataTableComponent heading={heading} data={data} loading={loading} name="domestic-staff" />
+      <DataTableComponent heading={heading} data={data} loading={loading} name="domestic-staff" allowEdit={false} />
     </div>
   );
 }

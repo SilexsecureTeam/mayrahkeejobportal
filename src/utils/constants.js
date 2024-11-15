@@ -48,6 +48,17 @@ import bubblesIcon from "../assets/pngs/bubbles-icon.png";
 import loopIcon from "../assets/pngs/loop-icon.png";
 import pathscriptIcon from "../assets/pngs/pathscript-icon.png";
 
+//Admin Icons
+import artisanIcon from "../assets/pngs/Admin-Dashboard/Artisan.png";
+import domesticIcon from "../assets/pngs/Admin-Dashboard/domestic-work (1).png";
+import domesticActiveIcon from "../assets/pngs/Admin-Dashboard/domestic-work.png";
+import policeIcon from "../assets/pngs/Admin-Dashboard/police-report.png";
+import jobsIcon from "../assets/pngs/Admin-Dashboard/Jobs.png";
+import guarantorIcon from "../assets/pngs/Admin-Dashboard/guarantor.png";
+import medicalIcon from "../assets/pngs/Admin-Dashboard/health-check.png";
+import badgeIcon from "../assets/pngs/Admin-Dashboard/badge.png";
+import todoIcon from "../assets/pngs/Admin-Dashboard/to-do-list.png";
+
 export const applicantOptions = [
   {
     type: "DASHBOARD",
@@ -296,57 +307,50 @@ export const adminOptions = [
     type: "Artisan",
     title: "Artisan",
     route: "/admin/artisan",
-    icon: clipboardIcon,
-    iconActive: clipboardIcon,
+    icon: artisanIcon,
+    iconActive: artisanIcon,
   }, 
   {
     type: "Domestic Staff",
     title: "Domestic Staff",
     route: "/admin/domestic-staff",
-    icon: calanderIcon,
-    iconActive: calanderIcon,
+    icon: domesticIcon,
+    iconActive: domesticActiveIcon,
   },
   {
     type: "Candidates",
     title: "Candidates",
     route: "/admin/candidates",
-    icon: homeIcon,
+    icon: todoIcon,
     iconActive: homeIconActive,
   },
   {
     type: "Job Listing",
     title: "Job Listing",
     route: "/admin/job-listing",
-    icon: homeIcon,
-    iconActive: homeIconActive,
+    icon: jobsIcon,
+    iconActive: jobsIcon,
   },
   {
     type: "Guarantors",
     title: "Gurarantors",
     route: "/admin/guarantors",
-    icon: homeIcon,
-    iconActive: homeIconActive,
+    icon: guarantorIcon,
+    iconActive: guarantorIcon,
   },
   {
     type: "Medical Histories",
     title: "Medical Histories",
     route: "/admin/medical-histories",
-    icon: homeIcon,
-    iconActive: homeIconActive,
+    icon: medicalIcon,
+    iconActive: medicalIcon,
   },
   {
     type: "Police Reports",
     title: "Police Reports",
     route: "/admin/police-reports",
-    icon: homeIcon,
-    iconActive: homeIconActive,
-  },
-  {
-    type: "Medical Histories",
-    title: "Medical Histories",
-    route: "/admin/medical-histories",
-    icon: homeIcon,
-    iconActive: homeIconActive,
+    icon: policeIcon,
+    iconActive: policeIcon,
   },
  
 ];
@@ -369,7 +373,7 @@ export const adminnUtilOptions = [
   {
     type: "LOG-OUT",
     title: "Log Out",
-    route: "/",
+    route: "/admin/logout",
     icon: helpIcon,
     iconActive: helpIcon,
   },

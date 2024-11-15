@@ -1,34 +1,53 @@
-import React, { useEffect, useState } from "react";
-import LoginForm from "../components/Auth/LoginForm";
-import LoginOne from "../assets/pngs/login-image2.png";
+import React, { useContext, useState } from "react";
 import { Helmet } from "react-helmet";
-import SideCard from "../components/Auth/SideCard";
 import { useNavigate } from "react-router-dom";
 import AdminLoginForm from "../components/AdminAuth/AdminLoginForm";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import UseAdminManagement from "../hooks/useAdminManagement";
+import { AuthContext } from "../context/AuthContex";
 
 function AdminLogin() {
   const [rememberMe, setRememberMe] = useState(false);
   const [loginDetails, setLoginDetails] = useState({
-    email_phone: "",
+    email: "",
     password: "",
   });
-
+  const { adminLogin } = UseAdminManagement();
+  const { setAuthDetails } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   const toogleRememberMe = () => setRememberMe(!rememberMe);
 
-  const handleOnSubmit = (e) => {
+  const handleOnSubmit = async (e) => {
     e.preventDefault();
-    console.log(loginDetails);
+    try {
+      const response = await adminLogin(loginDetails);
+      console.log("Response:", response);
+      
+      if (response) {
+        toast.success("Login successful!");
+        setAuthDetails({
+          token: response.token,
+          user: response.user,
+        });
+        navigate("/admin/");
+      } else {
+        toast.error("Incorrect credentials");
+      }
+    } catch (error) {
+      toast.error("An error occurred during login");
+      console.error("Error details:", error);
+    }
   };
-
 
   return (
     <>
       <Helmet>
         <title>Admin Login Page</title>
       </Helmet>
-      <main className={` `}>
-
+      <ToastContainer />
+      <main className="">
         <AdminLoginForm
           rememberMe={rememberMe}
           toogleRememberMe={toogleRememberMe}

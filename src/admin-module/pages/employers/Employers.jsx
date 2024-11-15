@@ -109,10 +109,10 @@ function Employers() {
             {/* /> */}
           </div>
         </div>
-
+{/* 
         <div className="mt-5 !mb-32">
           <DashboardChart />
-        </div>
+        </div> */}
       </div>
     </>
   );

@@ -1,8 +1,5 @@
 import { Helmet } from "react-helmet";
-import docsIcon from "../../../assets/pngs/doc-vector.png";
-import chatsIcon from "../../../assets/pngs/multiple-chat.png";
 import {
-  FaArrowRightLong,
   FaArrowTrendDown,
   FaArrowTrendUp,
   FaPlus,
@@ -13,34 +10,23 @@ import { generateDateRange } from "../../../utils/formmaters";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../../context/AuthContex";
 import { useNavigate } from "react-router-dom";
-import { StaffManagementContext } from "../../../context/StaffManagementModule";
-import DefaultSwitch from "../../../components/DefaultSwitch";
 import { AdminRouteContext } from "../../../context/AdminRouteContext";
-import { AdminManagementContext } from "../../../context/AdminManagementModule";
 import DashboardCard from "../../components/dashboard/DashboardCards";
 import { BsStopwatch } from "react-icons/bs";
 import { TbCalendarClock } from "react-icons/tb";
 import DashboardChart from "../../components/dashboard/DashboardChart";
+import UseAdminManagement from "../../../hooks/useAdminManagement";
 
 function Dashboard() {
   const { authDetails } = useContext(AuthContext);
   const { setSideBar } = useContext(AdminRouteContext);
-  const { profileDetails, getAdminProfile } = useContext(
-    AdminManagementContext
-  );
+const {getEmployers,getCandidates,getArtisans,getDomesticStaff } = UseAdminManagement()
 
-  const [availablityStatus, setAvailabiltyStatus] = useState();
-
-  const filterVerificationDetails =
-    profileDetails &&
-    Object.keys(profileDetails).filter(
-      (currentKey) =>
-        currentKey == "guarantor_verification_status" ||
-        currentKey == "residence_verification_status" ||
-        currentKey == "medical_history_verification_status" ||
-        currentKey == "police_report_verification_status" ||
-        currentKey == "previous_employer_verification_status"
-    );
+  const [employersCount, setEmployersCount] = useState(0);
+  const [candidatesCount, setCandidatesCount] = useState(0);
+  const [artisansCount, setArtisansCount] = useState(0);
+  const [domesticStaffCount, setDomesticStaffCount] = useState(0);
+  const [jobLearningCount, setJobLearningCount] = useState(0);
 
   const navigate = useNavigate();
   const navigateToPage = (route, index) => {
@@ -49,13 +35,22 @@ function Dashboard() {
   };
 
   useEffect(() => {
-    setAvailabiltyStatus(() => {
-      if (profileDetails && profileDetails["availability_status"]) {
-        return profileDetails["availability_status"] == "1" ? true : false;
-      } else {
-        return false;
-      }
-    });
+    (async () => {
+      const employers = await getEmployers();
+      setEmployersCount(employers.length);
+
+      const candidates = await getCandidates();
+      setCandidatesCount(candidates.length);
+
+      const artisans = await getArtisans();
+      setArtisansCount(artisans.length);
+
+      const domesticStaff = await getDomesticStaff();
+      setDomesticStaffCount(domesticStaff.length);
+
+      const jobLearning = await getJobLearning();
+      setJobLearningCount(jobLearning.length);
+    })();
   }, []);
 
   return (
@@ -86,35 +81,35 @@ function Dashboard() {
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-6 p-4">
             <DashboardCard
               leftIcon={<BsStopwatch />}
-              title="42"
-              subtitle="Corperate candidate"
+              title={candidatesCount}
+              subtitle="Corporate Candidates"
               smallText="2% Increase Ad-hoc staff at duty posts"
               smallTextIcon={<FaPlus />}
             />
             <DashboardCard
               leftIcon={<FiUsers />}
-              title="452"
-              subtitle="Corperate Employers"
+              title={employersCount}
+              subtitle="Corporate Employers"
               smallText="2 new Ad-hoc staff added"
               smallTextIcon={<FaPlus />}
             />
             <DashboardCard
               leftIcon={<BsStopwatch />}
-              title="30"
+              title={artisansCount}
               subtitle="Artisans"
               smallText="-10% Less Duty Pst"
               smallTextIcon={<FaArrowTrendUp />}
             />
             <DashboardCard
               leftIcon={<TbCalendarClock />}
-              title="42"
+              title={domesticStaffCount}
               subtitle="Domestic Staff"
               smallText="+2% Increase Ad-hoc staff at duty posts"
               smallTextIcon={<FaArrowTrendUp />}
             />
             <DashboardCard
               leftIcon={<BsStopwatch />}
-              title="627"
+              title={jobLearningCount}
               subtitle="E-learning"
               smallText="+3% increase than yesterday"
               smallTextIcon={<FaArrowTrendDown />}
@@ -129,8 +124,6 @@ function Dashboard() {
             />
           </div>
         </div>
-
-       
       </div>
     </>
   );

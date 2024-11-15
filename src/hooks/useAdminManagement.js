@@ -209,7 +209,7 @@ function UseAdminManagement() {
     }
   };
 
-  
+
   const getCandidateDomesticStaff = async (id) => {
     try {
       setLoading(true);
@@ -267,20 +267,233 @@ function UseAdminManagement() {
   };
 
 
-const AddFormCurrency = async(currencyData)=>{
-  try {
-    setLoading(true);
-    const response = await client.post("/currencies", currencyData);
-    return response.data;
-  } catch (error) {
-    console.error("Error adding currency:", error);
-    return null;
-  } finally {
-    setLoading(false);
+  const getCurrencies = async () => {
+    try {
+      setLoading(true);
+      const response = await client.get("/currencies");
+      return response.data;
+    } catch (error) {
+      console.error("Error fetching currencies:", error);
+      return (error);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  const AddFormCurrency = async (currencyData) => {
+    try {
+      setLoading(true);
+      console.log("Sending currency data to API:", currencyData);
+      const response = await client.post("/currencies", currencyData);
+      return response.data;
+    } catch (error) {
+      console.error("Error adding currency:", error);
+      return null;
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const deleteCurrencyById = async (id) => {
+    try {
+      setLoading(true);
+      const response = await client.delete(`/currencies/${id}`);
+      return response.data;
+    }
+    catch (error) {
+      console.error("Error deleting currency:", error);
+      return null;
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  const getSectors = async () => {
+    try {
+      setLoading(true);
+      const response = await client.get("/sectors");
+      const sectors = response.data.data;
+      console.log(sectors);
+      // Fetch subcategories for each sector
+      const sectorsWithSubcategories = await Promise.all(
+        sectors.map(async (sector) => {
+          const subResponse = await client.get(`/sub-sectors/${sector.id}`);
+          return {
+            ...sector,
+            subcategories: subResponse.data.data,
+          };
+        })
+      );
+
+      return sectorsWithSubcategories;
+    } catch (error) {
+      console.error("Error fetching sectors:", error);
+      return null;
+    } finally {
+      setLoading(false);
+    }
+  };
+
+
+  const createSector = async (sector) => {
+    try {
+      setLoading(true);
+      const response = await client.post("/sectors", sector);
+      return response.data;
+    } catch (error) {
+      console.error("Error creating sector:", error);
+      return null;
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const createSubsector = async (subsector) => {
+    try {
+      const response = await client.post("/sub-sectors", subsector);
+      return response.data;
+    } catch (error) {
+      console.error("Error creating subsector:", error);
+      return null;
+    }
+  };
+
+  const createSectorWithSubsectors = async (sector, subsectors) => {
+    try {
+      setLoading(true);
+      const createdSector = await createSector(sector);
+      if (createdSector && createdSector.data) {
+        const sectorId = createdSector.data.id;
+        const subSectorPromises = subsectors.map(subsector => {
+          return createSubsector({ name: subsector, sector_id: sectorId });
+        });
+        const createdSubsectors = await Promise.all(subSectorPromises);
+        return { sector: createdSector, subsectors: createdSubsectors };
+      }
+      return null;
+    } catch (error) {
+      console.error("Error creating sector and subsectors:", error);
+      return null;
+    } finally {
+      setLoading(false);
+    }
+  };
+
+
+  const deleteSectorById = async (id) => {
+    try {
+      setLoading(true);
+      const response = await client.delete(`/sectors/${id}`);
+      return response.data;
+    } catch (error) {
+      console.error("Error deleting sector:", error);
+      return null;
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const deleteSubsectorById = async (id) => {
+    try {
+      setLoading(true);
+      const response = await client.delete(`/sub-sectors/${id}`);
+      return response.data;
+    } catch (error) {
+      console.error("Error deleting subsector:", error);
+      return null;
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  const adminLogin = async (data) => {
+    try {
+      setLoading(true);
+      const response = await client.post("/admin/login", data);
+      return response.data;
+    } catch (error) {
+      console.error("Error logging in:", error);
+      return null;
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const AdminLogout = async () => {
+    try {
+      setLoading(true);
+      const response = await client.post("/admin/logout");
+      return response.status;
+    } catch (error) {
+      console.error('Error', error.status);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const AdminRegistration = async (data) => {
+    console.log("data",data);
+    
+    try {
+      setLoading(true)
+      const response = await client.post('/admin/register', data)
+      console.log("response registration",response);
+      return response
+      
+    } catch (error) {
+      if (error.status === 400) {
+        return error.response
+      }
+      console.error('Error in registration', error.status)
+    }
+    finally {
+      setLoading(false)
+    }
+  }
+
+const AdminChangePwd = async (data)=>{
+  try{
+    setLoading(true)
+    const response = await client.post('/changePassword', data)
+    return response.data
+  }
+  catch(error){
+    console.error('Error', error.message)
+  }
+  finally{
+    setLoading(false)
   }
 }
 
+const AdminForgotPwd = async (data)=>{
+  try{
+    setLoading(true)
+    const response = await client.post('/forgotten-password', data)
+    console.log("response",response);
+    return response.status
+  }
+  catch(error){
+    console.error('Error', error)
+    return error
+  } 
+  finally{
+    setLoading(false)
+  }
+}
 
+  const AdminResetPwd = async (data)=>{
+    try{
+      setLoading(true)
+      const response = await client.post('/etPassword', data)
+      return response.data
+    }
+    catch(error){
+      console.error('Error', error.message)
+    }
+    finally{
+      setLoading(false)
+    }
+  }
 
   return {
     loading,
@@ -300,7 +513,21 @@ const AddFormCurrency = async(currencyData)=>{
     getCandidateDomesticStaff,
     getStaffReportById,
     getStaffReport,
-    AddFormCurrency
+    AddFormCurrency,
+    getSectors,
+    createSector,
+    createSubsector,
+    createSectorWithSubsectors,
+    deleteSectorById,
+    deleteSubsectorById,
+    getCurrencies,
+    deleteCurrencyById,
+    adminLogin,
+    AdminLogout,
+    AdminRegistration,
+    AdminChangePwd,
+    AdminForgotPwd,
+    AdminResetPwd,
   };
 }
 
