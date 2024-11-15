@@ -4,7 +4,7 @@ import { Helmet } from "react-helmet";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import UseAdminManagement from "../hooks/useAdminManagement";
-
+import MainLogo from "../assets/svgs/main-logo.svg";
 function AdminForgotPassword() {
   const [email, setEmail] = useState("");
   const { AdminForgotPwd } = UseAdminManagement();
@@ -38,9 +38,9 @@ function AdminForgotPassword() {
       <ToastContainer />
       <div className="flex flex-col items-center justify-center min-h-screen px-4">
         <div className="flex justify-center mb-4">
-          {/* <img src={MainLogo} alt="Main Logo" className="h-12" /> */}
+          <img src={MainLogo} alt="Main Logo" className="h-12" />
         </div>
-        <div className="bg-green-900 p-8 md:p-12 rounded-md shadow-md w-full max-w-md">
+        <div className="bg-[#0F5A02] p-8 md:p-12 rounded-md shadow-md w-full max-w-md">
           <h1 className="text-center text-white py-4 text-2xl">
             Forgot Password
           </h1>

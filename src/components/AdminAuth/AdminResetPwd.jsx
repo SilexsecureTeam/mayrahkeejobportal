@@ -4,7 +4,7 @@ import { Helmet } from "react-helmet";
 import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-
+import MainLogo from "../../assets/svgs/main-logo.svg";
 function AdminResetPwd() {
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
@@ -35,9 +35,9 @@ function AdminResetPwd() {
       <ToastContainer />
       <div className="flex flex-col items-center justify-center min-h-screen px-4">
         <div className="flex justify-center mb-4">
-          {/* <img src={MainLogo} alt="Main Logo" className="h-12" /> */}
+          <img src={MainLogo} alt="Main Logo" className="h-12" />
         </div>
-        <div className="bg-green-900 p-8 md:p-12 rounded-md shadow-md w-full max-w-md">
+        <div className="bg-[#0F5A02] p-8 md:p-12 rounded-md shadow-md w-full max-w-md">
           <h1 className="text-center text-white py-4 text-2xl">Change Password</h1>
           <form onSubmit={handleOnSubmit}>
             <div className="mb-6">
@@ -109,7 +109,7 @@ function AdminResetPwd() {
                 )}
               </div>
             </div>
-            <button type="submit" className="w-full bg-green-600 text-white p-3 rounded-md hover:bg-green-700">
+            <button type="submit" className="w-full bg-[#47AA49] text-white p-3 rounded-md hover:bg-green-700">
               Change Password
             </button>
           </form>
