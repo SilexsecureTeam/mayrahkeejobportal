@@ -290,7 +290,7 @@ export const staffUtilOptions = [
 
 export const adminOptions = [
   {
-    type: "Home",
+    type: "Dashboard",
     title: "Home",
     route: "/admin",
     icon: homeIcon,
@@ -362,13 +362,6 @@ export const adminnUtilOptions = [
     route: "/admin/settings",
     icon: settingsIcon,
     iconActive: settingsIconActive,
-  },
-  {
-    type: "HELP-CENTER",
-    title: "Help Center",
-    route: "/admin/help-center",
-    icon: helpIcon,
-    iconActive: helpIcon,
   },
   {
     type: "LOG-OUT",
