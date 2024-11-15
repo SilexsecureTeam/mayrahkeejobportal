@@ -81,10 +81,10 @@ function Home() {
 
           {/* <img src={calanderTest} className="w-[12%] h-[35px] object-contain" /> */}
 
-          <div className="px-1 py-1 border hidden md:flex cursor-pointer gap-[10px] h-fit text-little items-center">
+          {/* <div className="px-1 py-1 border hidden md:flex cursor-pointer gap-[10px] h-fit text-little items-center">
             <span>{new Date().toLocaleDateString()}</span>
             <GrSchedules className="text-primaryColor text-sm" />
-          </div>
+          </div> */}
         </div>
 
         {/* Second Row */}

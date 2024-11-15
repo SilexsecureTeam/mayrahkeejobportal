@@ -20,9 +20,9 @@ function ProfileHeader({ children, isOpen, setIsOpen, details }) {
   return (
     <div className="w-full h-auto border flex flex-col md:flex-row items-center md:items-start">
       {/* Profile Image Section */}
-      <div className="w-full md:w-[10%] flex items-center justify-center relative p-4 md:p-0">
+      <div className="w-full md:w-fit flex items-center justify-center relative p-4 md:my-2">
         <img
-          className="h-[80px] w-[80px] md:h-[100px] md:w-[100px] rounded-full object-cover"
+          className="h-[80px] w-[80px] rounded-full object-cover"
           src={details?.logo_image ? `${resourceUrl}/${details?.logo_image}` : wheelIcon}
           alt="Profile"
         />

@@ -1,6 +1,6 @@
 function HeaderAttribute({ data }) {
   return (
-    <div className="flex items-center truncate gap-[5px]">
+    data.content &&<div className="flex items-center truncate gap-[5px]">
       <div className="h-[30px] items-center flex">
       {<data.icon />}
       </div>

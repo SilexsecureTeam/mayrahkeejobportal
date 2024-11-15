@@ -152,16 +152,23 @@ function CartedStaffs() {
         </div>
       </PopUpBox>
       <div className="w-full px-5 md:px-8 lg:px-12 flex  pt-5 flex-col gap-5">
-        <div className="flex flex-col gap-2 bg-green-100 pr-5 p-2 w-fit text-xs md:text-sm">
+
+        <div
+          id="content"
+          className="flex flex-col gap-2 bg-green-100 pr-5 p-2 w-[90%] md:w-fit text-xs md:text-sm"
+        >
           <div className="flex w-full justify-between items-center">
             <span className="flex gap-2 items-center text-green-700">
               Here are a list of your carted staffs
               <FaExclamationCircle />
             </span>
 
-            <button className=" group hover:bg-red-500 hover:text-white p-1 text-red-600 text-md flex justify-between items-center ">
+            <button
+              onClick={() => document.getElementById('content').classList.add('hidden')}
+              className="group hover:bg-red-500 hover:text-white p-1 text-red-600 text-md flex justify-between items-center"
+            >
               Close
-              <MdClose className="" />
+              <MdClose />
             </button>
           </div>
 
@@ -228,7 +235,7 @@ function CartedStaffs() {
                       <section className="w-full">
                         <p className="text-xs flex gap-5 w-full justify-between  uppercase text-gray-500">
                           {item?.domestic_staff?.subcategory}
-                          <span className={`text-md ${item.domestic_staff.availability_status === '1' ? 'text-green-600' : 'text-red-600'}`}>{item.domestic_staff.availability_status === '1' ? 'Available' : 'Unavailable' }</span>
+                          <span className={`text-md ${item.domestic_staff.availability_status === '1' ? 'text-green-600' : 'text-red-600'}`}>{item.domestic_staff.availability_status === '1' ? 'Available' : 'Unavailable'}</span>
                         </p>
                         <p className="text-base font-medium capitalize">
                           {`${item?.domestic_staff?.surname} ${item?.domestic_staff?.first_name} ${item?.domestic_staff?.middle_name}` ||
@@ -277,11 +284,10 @@ function CartedStaffs() {
                 </li>
               </ul>
               <button
-                className={`${
-                  selectedItems.length > 0
+                className={`${selectedItems.length > 0
                     ? "opacity-100 cursor-pointer"
                     : "opacity-50 cursor-not-allowed"
-                } w-full bg-black font-semibold text-white py-3 rounded-full mt-6`}
+                  } w-full bg-black font-semibold text-white py-3 rounded-full mt-6`}
                 height="h-fit text-sm p-1"
                 disabled={selectedItems.length > 0 ? false : true}
                 onClick={() => {

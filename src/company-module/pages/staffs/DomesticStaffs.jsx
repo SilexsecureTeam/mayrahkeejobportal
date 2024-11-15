@@ -30,8 +30,7 @@ function DomesticStaff() {
       if (!queryParams && !directParams)
         throw new Error("No Query option selected");
       const { data } = await client.get(
-        `/domesticStaff/get-staff?staff_category=staff&${
-          directParams ? directParams : queryParams
+        `/domesticStaff/get-staff?staff_category=staff&${directParams ? directParams : queryParams
         }`
       );
       console.log(data);
@@ -56,9 +55,9 @@ function DomesticStaff() {
   const staffsToDisplay =
     searchResult.length > 0
       ? searchResult?.filter(
-          (current) =>
-            current?.staff_category === "staff" && current?.middle_name !== null
-        )
+        (current) =>
+          current?.staff_category === "staff" && current?.middle_name !== null
+      )
       : [];
 
   const handleCondition = (data, hasCategory) => {
@@ -120,12 +119,12 @@ function DomesticStaff() {
   return (
     <>
       <PopUpBox isOpen={conditions}>
-        <div className="w-[40%] h-fit text-gray-500 p-5 items-center flex flex-col gap-4 bg-white">
+        <div className="w-[300px] md:w-[400px] h-fit text-gray-500 p-5 items-center flex flex-col gap-4 bg-white">
           <MdClose
             className="text-2xl place-self-end cursor-pointer"
             onClick={() => setConditions(!conditions)}
           />
-           <h1>Job Descriptions</h1>
+          <h1>Job Descriptions</h1>
           <p className="text-sm">
             This agreement acknowledges that the employer may only assign tasks
             that are directly related to the designated role of the employee.
@@ -142,36 +141,47 @@ function DomesticStaff() {
         </div>
       </PopUpBox>
       <div className="h-full w-full flex flex-col px-5 md:px-8 lg:px-12 py-2 gap-[15px]">
-        <div className="flex w-full justify-between items-center gap-1">
-          <div className="flex flex-col gap-2 bg-green-100 pr-5 p-2 w-[90%] md:w-fit text-xs md:text-sm">
-            <div className="flex w-full justify-between items-center">
-              <span className="flex gap-2 items-center text-green-700">
-                Welcome to our artisan hub <FaExclamationCircle />
-              </span>
-              <button className=" group hover:bg-red-500 hover:text-white p-1 text-red-600 text-md flex justify-between items-center ">
-                Close
-                <MdClose className="" />
-              </button>  
+        <div className="flex w-full justify-between items-start gap-1">
+          <section className="flex flex-col gap-y-5">
+
+            <div
+              id="content"
+              className="flex flex-col gap-2 bg-green-100 pr-5 p-2 w-[90%] md:w-fit text-xs md:text-sm"
+            >
+              <div className="flex w-full justify-between items-center">
+                <span className="flex gap-2 items-center text-green-700">
+                  Welcome to our domestic staffs hub <FaExclamationCircle />
+                </span>
+
+                <button
+                  onClick={() => document.getElementById('content').classList.add('hidden')}
+                  className="group hover:bg-red-500 hover:text-white p-1 text-red-600 text-md flex justify-between items-center"
+                >
+                  Close
+                  <MdClose />
+                </button>
+              </div>
+
+              <p>
+                Here you can search for any domestic staff of your choice. Fill in the
+                query parameters to begin your search.
+              </p>
             </div>
 
-            <p>
-              Here you can search for any artisan of your choice. Fill in the
-              query parameters to begin your search
-            </p>
-          </div>
+            <SearchComponent
+              subCategories={categories.subcategories}
+              handleQuerySubmit={handleCondition}
+              title="Domestic Staff Position"
+            />
+          </section>
 
-          <button
+          <button className="my-5"
             onClick={navigateToCart}
           >
             <p className="relative cursor-pointer flex item-center"><FaShoppingCart size="24" /> <span className="absolute top-[-15px] right-0 w-max h-max px-1 rounded-full bg-red-700 text-white text-xs">{cartItems.length || 0}</span></p>
           </button>
         </div>
 
-        <SearchComponent
-          subCategories={categories.subcategories}
-          handleQuerySubmit={handleCondition}
-          title="Domestic Staff Position" 
-        />
 
         {staffsToDisplay.length > 0 && (
           <div className="flex flex-col gap-3 mt-5">

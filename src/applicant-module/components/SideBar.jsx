@@ -38,7 +38,7 @@ function SideBar({ children, authDetails, toogleIsOpen, isMenuOpen }) {
       </div>
 
         {/* user info  */}
-        <div className="max-w-full absolute bottom-3 pl-3 flex gap-[5px]  items-center">
+        <div className="max-w-full absolute bottom-3 pl-2 flex gap-[5px]  items-center">
         
           <div className="w-1/5 flex-1 flex flex-col">
             <span className="text-secondaryColor text-sm">
@@ -58,7 +58,7 @@ function SideBar({ children, authDetails, toogleIsOpen, isMenuOpen }) {
       <aside
         className={`${
           isMenuOpen ? "left-0" : "left-[-100%]"
-        } w-[70%] absolute z-[999] h-screen items-center bg-secondaryColor px-2 pb-2 flex flex-col`}
+        } w-[300px] absolute z-[999] h-screen items-center bg-secondaryColor px-2 pb-2 flex flex-col`}
       >
         <div className="flex items-center gap-[10px]">
           <MdClose
@@ -83,7 +83,7 @@ function SideBar({ children, authDetails, toogleIsOpen, isMenuOpen }) {
         </div>
 
         {/* user info  */}
-        <div className="absolute bottom-3 left-10 flex gap-[5px]  items-center">
+        <div className="absolute bottom-3 right-4 flex gap-3  items-center">
          
           <div className="flex-col flex">
             <span className="text-secondaryColor text-sm">

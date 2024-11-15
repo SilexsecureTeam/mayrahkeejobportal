@@ -33,7 +33,7 @@ function JobType() {
   const getComponent = () => {
     switch (currentOption.id) {
       case options[0].id:
-        return <Applicants data={currentJob} applicants={applicants} />;
+        return <Applicants data={currentJob} applicants={allApplicants} />;
       case options[1].id:
         return <JobDetails data={currentJob} jobUtils={jobUtils} />;
     }
@@ -65,6 +65,7 @@ function JobType() {
       <>
         <div className="w-full px-4 md:px-8 lg:px-12 py-5 flex flex-col gap-[20px]">
           <Header
+            applicants={allApplicants}
             options={options}
             currentOption={currentOption}
             setCurrentOption={setCurrentOption}

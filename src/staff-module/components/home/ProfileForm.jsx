@@ -509,7 +509,7 @@ if (!profileDetails) return null;
                               return true;
                             }
                           })
-                          .map((current) => {
+                          .map((current, idx) => {
                             let index;
                             const isSelected = selectedLanguages?.find(
                               (currentSelected, i) => {
@@ -518,7 +518,7 @@ if (!profileDetails) return null;
                               }
                             );
                             return (
-                              <div className="text-lg cursor-pointer flex items-center w-fit">
+                              <div key={idx} className="text-lg cursor-pointer flex items-center w-fit">
                                 <MdCheckBox
                                   onClick={() => {
                                     if (current !== "Others") {
