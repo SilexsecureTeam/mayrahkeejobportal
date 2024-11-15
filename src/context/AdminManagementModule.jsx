@@ -20,17 +20,22 @@ export const AdminManagementContextProvider = ({ children }) => {
     getArtisans,
     getEmployers,
   } = UseAdminManagement();
-  const { authDetails } = useContext(AuthContext);
+  const { authDetails, setAuthDetails } = useContext(AuthContext);
 
   const navigate = useNavigate();
   const location = window.location.pathname;
-  
-  if (!authDetails && location !== "/admin/login" && location !== "/admin/register" && location !== "/admin/forget-pwd" && location !== "/admin/reset-pwd" && location !== "/admin/logout") {
-    useEffect(() => {
+
+  useEffect(() => {
+    if (!authDetails && location !== "/admin/login" && location !== "/admin/register" && location !== "/admin/forget-pwd" && location !== "/admin/reset-pwd" && location !== "/admin/logout") {
       toast.error("You are not authorized to view this page. Please login");
       navigate("/admin/login");
-    }, []);
-  }
+    }
+  }, [authDetails, location, navigate]);
+
+  const handleLogout = () => {
+    setAuthDetails(null);
+    navigate("/admin/login");
+  };
 
   return (
     <AdminManagementContext.Provider
@@ -41,6 +46,7 @@ export const AdminManagementContextProvider = ({ children }) => {
         profileDetails,
         getArtisans,
         getEmployers,
+        handleLogout,
       }}
     >
       {children}
