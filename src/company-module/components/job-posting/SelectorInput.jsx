@@ -26,7 +26,7 @@ function SelectorInput({ data, listData, jobUtils, selected, setSelected }) {
             setSelected={setSelected}
           />
 
-          <span className="text-[10px] text-gray-400">Select an option</span>
+          <span className="text-xs text-gray-400">Select an option</span>
         </div>
       </div>
     )

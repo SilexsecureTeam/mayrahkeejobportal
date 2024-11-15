@@ -88,10 +88,10 @@ const job_types = [
     id: 5,
     name: "Contract",
   },
-{
-id: 6,
+  {
+    id: 6,
     name: "Hybrid",
-}
+  }
 ];
 
 const genderData = [
@@ -259,7 +259,7 @@ function BasicInformation({ setCurrentStep, data, jobUtils }) {
     const initData = async () => {
       const employementListResult = await getEmployentTypes();
       const currencyResult = await getCurrencies();
-      setEmployementList(employementListResult);
+      setEmployementList(job_types);
       setCurrencyList(currencyResult);
     };
 
@@ -441,38 +441,56 @@ function BasicInformation({ setCurrentStep, data, jobUtils }) {
             leave this blank.
           </span>
         </div>
-
         <div className="flex flex-col w-full sm:w-[50%] gap-4">
-          <div className="w-fit flex flex-col">
-            <label htmlFor="">Min value</label>
-            <input
-              className="border p-1"
-              type="number"
-              defaultValue={0}
-              onChange={(e) => {
-                setMinimumPrice(Number(e.target.value));
-                jobUtils.setDetails({
-                  ...jobUtils.details,
-                  min_salary: FormatPrice(e.target.value),
-                });
-              }}
-            />
-          </div>
           <div className="flex items-center justify-between">
-            <span className="border p-1">
-              {selectedCurrency?.code} {FormatPrice(jobUtils.details.min_salary, true)}
-            </span>
+            <div className="flex flex-col">
+              <label className="text-sm font-semibold">Min Value</label>
+              <div className="p-1 border border-gray-400">
+                <span className="mx-1">{selectedCurrency?.code}</span>
+                <input
+                  type="number"
+                  className="w-24 ring-0 outline-0"
+                  value={jobUtils.details.min_salary || ""}
+                  onChange={(e) => {
+                    const minSalary = Number(e.target.value);
+                    if (minSalary <= jobUtils.details.max_salary) {
+                      jobUtils.setDetails({
+                        ...jobUtils.details,
+                        min_salary: minSalary,
+                      });
+                    }
+                  }}
+                />
+              </div>
+            </div>
             <span>to</span>
-            <span className="border p-1">
-            {selectedCurrency?.code} {FormatPrice(jobUtils.details.max_salary, true)}
-            </span>
+            <div className="flex flex-col">
+              <label className="text-sm font-semibold">Max Value</label>
+              <div className="p-1 border border-gray-400">
+                <span className="mx-1">{selectedCurrency?.code}</span>
+                <input
+                  type="number"
+                  className="w-24 ring-0 outline-0"
+                  value={jobUtils.details.max_salary || ""}
+                  onChange={(e) => {
+                    const maxSalary = Number(e.target.value);
+                    if (maxSalary >= jobUtils.details.min_salary) {
+                      jobUtils.setDetails({
+                        ...jobUtils.details,
+                        max_salary: maxSalary,
+                      });
+                    }
+                  }}
+                />
+              </div>
+            </div>
           </div>
-
+          {/* 
           <RangeSlider
             min={minimumPrice}
             max={minimumPrice + 100000}
             step={500}
-            defaultValue={[
+            value={[
               jobUtils.details.min_salary,
               jobUtils.details.max_salary,
             ]}
@@ -483,8 +501,9 @@ function BasicInformation({ setCurrentStep, data, jobUtils }) {
                 max_salary: range[1],
               });
             }}
-          />
+          /> */}
         </div>
+
       </div>
       <button
         onClick={() => setCurrentStep(data[1])}

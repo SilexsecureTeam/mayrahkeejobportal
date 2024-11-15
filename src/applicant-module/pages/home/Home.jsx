@@ -149,13 +149,13 @@ function Home() {
                 {generateDateRange()}
               </p>
             </div>
-            <div>
+            {/* <div>
               <button className="border p-2 hidden md:flex items-center">
                 {" "}
                 {generateDateRange()}
                 <RiCalendarEventLine className="ml-2 " size={15} />
               </button>
-            </div>
+            </div> */}
           </div>
           <div className="md:flex-row flex-col flex  mt-8 gap-2">
             <div className=" w-full md:w-[17%]  flex justify-between md:flex-col ">

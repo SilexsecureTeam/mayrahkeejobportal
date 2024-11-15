@@ -41,20 +41,20 @@ function JobListing() {
             </thead>
 
             <tbody>
-              {jobUtils?.jobList.sort((a, b)=>{
-return new Date(a.created_at) - new Date(b.created_at);
-}).map((current) => {
-                  const jobApplicants = applicants?.filter(
-                    (currentApplicant) => current.id === currentApplicant.job_id
-                  );
-                  return (
-                    <ListingRow
-                      applicants={jobApplicants}
-                      data={current}
-                      key={current.id}
-                    />
-                  );
-                })
+              {jobUtils?.jobList.sort((a, b) => {
+                return new Date(a.created_at) - new Date(b.created_at);
+              }).map((current) => {
+                const jobApplicants = applicants?.filter(
+                  (currentApplicant) => current.id === currentApplicant.job_id
+                );
+                return (
+                  <ListingRow
+                    applicants={jobApplicants}
+                    data={current}
+                    key={current.id}
+                  />
+                );
+              })
                 .reverse()}
             </tbody>
           </table>
