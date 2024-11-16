@@ -47,7 +47,7 @@ function Application() {
   // Apply view-specific filtering and randomness
   const filteredApplications = (() => {
     let applications = filterByKeyword || [];
-    if(view){
+    if(view !== "all"){
       applications = applications.filter((app) => app.status === view);
     }
     return randomizedApplications.length ? randomizedApplications : applications;
