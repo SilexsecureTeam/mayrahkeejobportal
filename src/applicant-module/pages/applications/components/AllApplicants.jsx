@@ -1,3 +1,4 @@
+
 import { useContext, useEffect, useState } from "react";
 import { Helmet } from "react-helmet";
 import { MdClose } from "react-icons/md";
@@ -17,19 +18,13 @@ function Application() {
   const [view, setView] = useState("all");
   const [appFilter, setAppFilter] = useState("");
   const [randomizedApplications, setRandomizedApplications] = useState([]);
-  const [loading, setLoading] = useState(true);  // Added loading state
 
   useEffect(() => {
     setGetAllApplications((prev) => ({
       ...prev,
       isDataNeeded: true,
     }));
-
-    // Wait for the data to be set before updating loading state
-    if (getAllApplications?.data) {
-      setLoading(false);
-    }
-  }, [getAllApplications]);
+  }, []);
 
   // Clear randomized list on view change
   useEffect(() => {
@@ -70,10 +65,6 @@ function Application() {
     if(status === "all") return filterByKeyword.length;
     return filterByKeyword?.filter((app) => app.status === status).length || 0;
   };
-
-  if (loading) {
-    return <div>Loading...</div>;  // Loading state to prevent blank page
-  }
 
   return (
     <>
