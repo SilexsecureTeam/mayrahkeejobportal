@@ -93,24 +93,26 @@ function Application() {
             </div>
           </div>
           {closeNote && (
-            <div className="my-6 p-4 relative bg-[#47AA491A]">
-                <div className="md:w-4/5">
-                  <div className="flex">
-                    <div className="">
-                      <img src={noticeImg} alt="" />
-                    </div>
-                    <div className="ml-3">
-                      <p className="font-bold">New Feature</p>
-                      <p>You can request a follow-up 7 days after applying for a job if the application status is in review. Only one follow-up is allowed per job.
-                      </p>
-                    </div>
+            <div className="my-6 p-4 relative bg-[#47AA491A] my-6">
+              <div className="md:w-4/5">
+                <div className="flex">
+                  <img src={noticeImg} alt="Notice" />
+                  <div className="ml-3">
+                    <p className="font-bold">New Feature</p>
+                    <p>
+                      You can request a follow-up 7 days after applying for a job if the
+                      application status is in review. Only one follow-up is allowed per job.
+                    </p>
                   </div>
                 </div>
-                <button
-                  onClick={() => setCloseNote(false)}
-                  className="absolute top-0 right-0 p-2 hover:bg-green-200"><MdClose size={20} />
-                </button>
               </div>
+              <button
+                onClick={() => setCloseNote(false)}
+                className="absolute top-0 right-0 p-2 hover:bg-green-200"
+              >
+                <MdClose size={20} />
+              </button>
+            </div>
           )}
           <div className="flex border-b mb-6 min-w-full overflow-auto">
             {[
