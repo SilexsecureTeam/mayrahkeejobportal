@@ -36,9 +36,9 @@ function Resume({ data, applicant }) {
   };
 
   useEffect(() => {
-    getResume(data?.resume_id, setResume);
+    getResume(applicant?.candidate_id, setResume);
   }, []);
-
+console.log(resume)
   return (
     resume && (
       <>
@@ -46,7 +46,7 @@ function Resume({ data, applicant }) {
           <div className="flex flex-col w-full items-center">
             <h3 className="mb-[10px] tracking-wide flex flex-col items-center text-smd font-semibold">
               {resume.title}
-              <a href={`${resourceUrl}/public/${resume.resume_path}`} className="text-little font-normal hover:underline text-primaryColor">link to file</a>
+              {resume.resume_path ? <a href={`${resourceUrl}${resume.resume_path}`} className="text-little font-normal hover:underline text-primaryColor">link to file</a> : <p>No file Uploaded</p>}
             </h3>
 
             <ul className="flex flex-col text-black gap-[10px] text-sm w-full">
