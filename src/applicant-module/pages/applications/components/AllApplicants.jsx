@@ -93,7 +93,7 @@ function Application() {
             </div>
           </div>
           {closeNote && (
-            <div className="my-6 p-4 relative bg-[#47AA491A] my-6">
+            <div className="p-4 relative bg-[#47AA491A] my-6">
               <div className="md:w-4/5">
                 <div className="flex">
                   <img src={noticeImg} alt="Notice" />
@@ -133,28 +133,6 @@ function Application() {
                 {label} ({getStatusCount(key)})
               </button>
             ))}
-          </div>
-          <div className="flex flex-wrap justify-between items-center">
-            <p className="font-bold capitalize">{view} Applications</p>
-            <div className="flex items-start">
-              <div className="relative border h-full py-1 px-6 mb-4">
-                <input
-                  type="text"
-                  placeholder="Search"
-                  onChange={(e) => setAppFilter(e.target.value)}
-                  className="pl-[10px] focus:outline-none w-full"
-                />
-                <span className="absolute text-primary top-0 left-0 p-2">
-                  <CiSearch />
-                </span>
-              </div>
-              <button
-                onClick={randomizeApplications}
-                className="border px-2 py-1 mx-2 flex items-center hover:bg-gray-100"
-              >
-                <BsFilter className="mx-2 prime_text" size={20} /> Filter
-              </button>
-            </div>
           </div>
           <div className="my-3 flex flex-col items-stretch min-w-full overflow-x-auto">
             {view === "shortlist"
