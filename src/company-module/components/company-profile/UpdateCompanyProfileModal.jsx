@@ -1,6 +1,6 @@
 import { IoMdCloseCircle } from "react-icons/io";
 import { getImageURL } from "../../../utils/formmaters";
-import wheelIcon from "../../../assets/pngs/wheel-icon-black.png";
+//import wheelIcon from "../../../assets/pngs/wheel-icon-black.png";
 import {
   FaRegEdit,
   FaFacebook,
@@ -13,7 +13,7 @@ import BasicInput from "./BasicInput";
 import SocialMediaInput from "./SocialMediaInput";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import useCompanyProfile from "../../../hooks/useCompanyProfile";
+//import useCompanyProfile from "../../../hooks/useCompanyProfile";
 import FormButton from "../../../components/FormButton";
 import { resourceUrl } from "../../../services/axios-client";
 
@@ -180,7 +180,7 @@ function UpdateCompanyProfileModal({
   useEffect(() => {
     setTimeout(() => {
       if (
-        details.beenRetreived === retrievalState.notRetrieved &&
+        details?.beenRetreived === retrievalState?.notRetrieved &&
         onInit
       ) {
      
@@ -189,7 +189,7 @@ function UpdateCompanyProfileModal({
         setIsOpen(false);
       }
     }, 1000);
-  }, [details.beenRetreived]);
+  }, [details?.beenRetreived]);
 
   return (
     isOpen && (
@@ -249,7 +249,7 @@ function UpdateCompanyProfileModal({
                 <div className="flex flex-col gap-[3px] mb-[35px] w-full text-gray-400 justify-between ">
                   <ReactQuill
                     placeholder="Enter company details...."
-                    value={details.company_profile}
+                    value={details?.company_profile}
                     onChange={(text) =>
                       setDetails({ ...details, company_profile: text })
                     }
@@ -273,8 +273,8 @@ function UpdateCompanyProfileModal({
                   type="file"
                 />
                 <div className="w-full min-h-[100px] flex gap-[3px] items-start border-dashed p-2 border overscroll-x-auto">
-                  {campaignPhotos?.map((current) => (
-                    <img
+                  {campaignPhotos?.map((current, idx) => (
+                    <img key={idx}
                       className="h-[80px] w-[80px] border"
                       src={current.url}
                     />
@@ -293,9 +293,10 @@ function UpdateCompanyProfileModal({
                 <div className="w-full border border-dashed p-2 grid grid-cols-3 gap-[3px]">
                   {social_media_inputs.map((current) => (
                     <SocialMediaInput
-                      id={current.id}
+                    key={current?.id}
+                      id={current?.id}
                       data={current}
-                      socials={details.social_media}
+                      socials={details?.social_media}
                       setSocials={setDetails}
                     />
                   ))}
@@ -314,7 +315,7 @@ function UpdateCompanyProfileModal({
         </div>
       </div>
     )
-  );
+  )
 }
 
 export default UpdateCompanyProfileModal;

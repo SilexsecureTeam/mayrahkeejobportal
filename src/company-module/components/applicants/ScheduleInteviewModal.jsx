@@ -79,7 +79,7 @@ function ScheduleInterviewModal({
 
   return (
     isOpen && (
-      <div className="h-full z-10 w-full text-gray-400 text-little flex justify-center items-center bg-gray-600/70 fixed top-0 left-0">
+      <div className="h-full z-10 w-full text-gray-600 text-little flex justify-center items-center bg-gray-600/70 fixed top-0 left-0">
         <div className=" w-[90%] md:w-[40%] h-fit p-3 flex flex-col  rounded-[10px]  bg-white border">
           <IoMdCloseCircle
             onClick={() => setIsOpen(false)}
@@ -92,7 +92,7 @@ function ScheduleInterviewModal({
 
             <form
               onSubmit={(e) => handleOnSubmit(e, selected, meetingId)}
-              className="flex flex-col w-full gap-[10px]"
+              className="flex flex-col w-full gap-[10px] text-gray-800"
             >
               <BasicInput
                 data={fields[0]}

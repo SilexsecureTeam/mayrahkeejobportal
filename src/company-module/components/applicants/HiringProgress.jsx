@@ -119,7 +119,7 @@ function HiringProgress({ data, applicant, toogleInterview }) {
 
       <ul className="w-full px-2 flex justify-between">
         {stages.map((current) => (
-          <li
+          <li key={current?.id}
           
             className={`min-w-[24%] flex uppercase items-center border font-semibold justify-center py-2 text-[11px] ${getbgcolor(
               current.name

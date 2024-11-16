@@ -1,58 +1,76 @@
 import { useContext, useEffect, useState } from "react";
 import { Helmet } from "react-helmet";
-import { MdClose, MdMoreHoriz, MdOutlineChevronLeft, MdOutlineChevronRight } from "react-icons/md";
-import { RiCalendarEventLine } from "react-icons/ri";
-import noticeImg from "../../../assets/pngs/notice-icon.png"
+import { MdClose } from "react-icons/md";
 import { CiSearch } from "react-icons/ci";
 import { BsFilter } from "react-icons/bs";
-import newApplicant from "../../../assets/pngs/applicant-logo1.png"
-import newApplicant2 from "../../../assets/pngs/applicant-Logo2.png"
-import newApplicant3 from "../../../assets/pngs/applicant-logo3.png"
-import Pagination from "../../components/Pagination";
+import noticeImg from "../../../assets/pngs/notice-icon.png";
 import { ResourceContext } from "../../../context/ResourceContext";
-import AllApplicants from "./components/AllApplicants";
 import { AuthContext } from "../../../context/AuthContex";
+import AllApplicants from "./components/AllApplicants";
 import AllShortlistedApplicants from "./components/AllShortlistedApplication";
-// import ApplicantModal from "../../../components/ApplicantModal";
 
 function Application() {
   const { getAllApplications, setGetAllApplications } = useContext(ResourceContext);
   const { authDetails } = useContext(AuthContext);
 
-  const [closeNote, setCloseNote] = useState(true)
-  const [view, setView] = useState("all")
-  const [appFilter, setAppFilter] = useState("")
+  const [closeNote, setCloseNote] = useState(true);
+  const [view, setView] = useState("all");
+  const [appFilter, setAppFilter] = useState("");
+  const [randomizedApplications, setRandomizedApplications] = useState([]);
 
-  const handleView = (type) => setView(type);
-  function generateDateRange() {
+  useEffect(() => {
+    setGetAllApplications((prev) => ({
+      ...prev,
+      isDataNeeded: true,
+    }));
+  }, []);
+
+  // Clear randomized list on view change
+  useEffect(() => {
+    setRandomizedApplications([]);
+  }, [view]);
+
+  const generateDateRange = () => {
     const today = new Date();
     const oneWeekLater = new Date(today);
     oneWeekLater.setDate(today.getDate() + 7);
 
-    // Format dates as "Month Day, Year"
-    const formattedStartDate = today.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
-    const formattedEndDate = oneWeekLater.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+    return `${today.toLocaleDateString("en-US", { month: "short", day: "numeric" })} - 
+            ${oneWeekLater.toLocaleDateString("en-US", { month: "short", day: "numeric" })}`;
+  };
 
-    return `${formattedStartDate} - ${formattedEndDate}.`;
-  }
+  // Filter by search keyword
+  const filterByKeyword = getAllApplications.data?.filter((item) =>
+    item.job_title?.toLowerCase().includes(appFilter.toLowerCase())
+  );
 
-  useEffect(() => {
-    setGetAllApplications((prev) => {
-      return {
-        ...prev, isDataNeeded: true
-      }
-    })
-  }, [])
+  // Apply view-specific filtering and randomness
+  const filteredApplications = (() => {
+    let applications = filterByKeyword || [];
+    if (view === "reviewed") {
+      applications = applications.filter((app) => app.status === "in-review");
+    } else if (view === "interviewed") {
+      applications = applications.filter((app) => app.status === "shortlist");
+    } else if (view === "declined") {
+      applications = applications.filter((app) => app.status === "declined");
+    } else if (view === "hired") {
+      applications = applications.filter((app) => app.status === "hired");
+    }
+    return randomizedApplications.length ? randomizedApplications : applications;
+  })();
 
-  const filterByKeyword = getAllApplications.data?.filter((item) => (
-    item.job_title?.toLowerCase().includes(appFilter)
-  ))
+  // Randomize applications
+  const randomizeApplications = () => {
+    const randomized = [...filteredApplications].sort(() => Math.random() - 0.5);
+    setRandomizedApplications(randomized);
+  };
 
-  const allApplications = filterByKeyword
-  const pendingReview = allApplications?.filter((app) => app.status === "in-review")
-  const pendingInterview = allApplications?.filter((app) => app.status === "shortlist")
+  // Get count based on status
+  const getStatusCount = (status) => {
+    if(status === "all") return filterByKeyword.length;
+    return filterByKeyword?.filter((app) => app.status === status).length || 0;
+  };
 
-  console.log(filterByKeyword)
   return (
     <>
       <Helmet>
@@ -61,95 +79,93 @@ function Application() {
       <div className="h-full p-8 px-5 md:px-8 w-full text-sm text-primary">
         <div className="text-sm">
           <div className="flex justify-between align-center">
-            <div className="">
-              <h4 className=" font-semibold text-2xl mb-5">Keep it up, {authDetails.user?.first_name}</h4>
-              <p>Here is what’s happening with your job search applications from {generateDateRange()}</p>
+            <div>
+              <h4 className="font-semibold text-2xl mb-5">
+                Keep it up, {authDetails.user?.first_name}
+              </h4>
+              <p>
+                Here is what’s happening with your job search applications from{" "}
+                {generateDateRange()}
+              </p>
             </div>
-            {/* <div>
-              <button className="border p-2 flex items-center hover:bg-gray-100 text-xs md:text-sm">{generateDateRange()}  <RiCalendarEventLine className="ml-2 prime_text" size={15} /></button>
-            </div> */}
           </div>
           <div className="my-6">
             {closeNote && (
               <div className="p-4 relative bg-[#47AA491A]">
                 <div className="md:w-4/5">
                   <div className="flex">
-                    <div className="">
-                      <img src={noticeImg} alt="" />
+                    <div>
+                      <img src={noticeImg} alt="Notice" />
                     </div>
                     <div className="ml-3">
                       <p className="font-bold">New Feature</p>
-                      <p>You can request a follow-up 7 days after applying for a job if the application status is in review. Only one follow-up is allowed per job.
+                      <p>
+                        You can request a follow-up 7 days after applying for a job if the
+                        application status is in review. Only one follow-up is allowed per job.
                       </p>
                     </div>
                   </div>
                 </div>
                 <button
                   onClick={() => setCloseNote(false)}
-                  className="absolute top-0 right-0 p-2 hover:bg-green-200"><MdClose size={20} />
+                  className="absolute top-0 right-0 p-2 hover:bg-green-200"
+                >
+                  <MdClose size={20} />
                 </button>
               </div>
             )}
           </div>
           <div className="flex border-b mb-6 min-w-full overflow-auto">
-            <button
-              onClick={() => handleView("all")}
-              className={`mx-2 p-2 hover:text-gray-500 ${view === "all" ? "sticky left-0 bg-gray-200 border-b-2 border-green-600 font-medium" : ""}`}>All ({allApplications?.length})</button>
-            <button
-              onClick={() => handleView("reviewed")}
-              className={`mx-2 p-2 hover:text-gray-500 ${view === "reviewed" ? "sticky left-0 bg-gray-200 border-b-2 border-green-600 font-medium" : ""}`}>In Review ({pendingReview?.length})</button>
-            <button
-              onClick={() => handleView("interviewed")}
-              className={`mx-2 p-2 hover:text-gray-500 ${view === "interviewed" ? "sticky left-0 bg-gray-200 border-b-2 border-green-600 font-medium" : ""}`}>shortlisted ({pendingInterview?.length})</button>
-            <button
-              onClick={() => handleView("assessed")}
-              className={`mx-2 p-2 hover:text-gray-500 ${view === "assessed" ? "sticky left-0 bg-gray-200 border-b-2 border-green-600 font-medium" : ""}`}>interviewed (0)</button>
-            <button
-              onClick={() => handleView("offered")}
-              className={`mx-2 p-2 hover:text-gray-500 ${view === "offered" ? "sticky left-0 bg-gray-200 border-b-2 border-green-600 font-medium" : ""}`}>Offered (0)</button>
-            <button
-              onClick={() => handleView("hired")}
-              className={`mx-2 p-2 hover:text-gray-500 ${view === "hired" ? "sticky left-0 bg-gray-200 border-b-2 border-green-600 font-medium" : ""}`}>Hired (0)</button>
+            {[
+              { label: "All", key: "all" },
+              { label: "In Review", key: "reviewed" },
+              { label: "Interview", key: "interview" },
+              { label: "Shortlisted", key: "shortlist" },
+              { label: "Declined", key: "declined" },
+              { label: "Hired", key: "hired" },
+            ].map(({ label, key }) => (
+              <button
+                key={key}
+                onClick={() => setView(key)}
+                className={`mx-2 p-2 hover:text-gray-500 ${
+                  view === key ? "sticky left-0 bg-gray-200 border-b-2 border-green-600 font-medium" : ""
+                }`}
+              >
+                {label} ({getStatusCount(key)})
+              </button>
+            ))}
           </div>
           <div className="flex flex-wrap justify-between items-center">
             <p className="font-bold capitalize">{view} Applications</p>
             <div className="flex items-start">
-              <div className="">
-                <div className="relative border h-full py-1 px-6 mb-4">
-                  <input type="text" placeholder="Search" onChange={(e) => setAppFilter(e.target.value)} className="pl-[10px] focus:outline-none w-full" />
-                  <span className="absolute text-primary top-0 left-0 p-2">
-                    <CiSearch />
-                  </span>
-                </div>
+              <div className="relative border h-full py-1 px-6 mb-4">
+                <input
+                  type="text"
+                  placeholder="Search"
+                  onChange={(e) => setAppFilter(e.target.value)}
+                  className="pl-[10px] focus:outline-none w-full"
+                />
+                <span className="absolute text-primary top-0 left-0 p-2">
+                  <CiSearch />
+                </span>
               </div>
-              <button className="border px-2 py-1 mx-2 flex items-center hover:bg-gray-100"><BsFilter className="mx-2 prime_text" size={20} /> Filter</button>
-            </div>
-          </div>
-          <div className="flex border-b items-center">
-            <div className="flex justify-between py-3 px-2 w-[25%]">
-              <span>#</span>
-              <p className="w-3/4">Company Name</p>
-            </div>
-            <div className="flex py-3 px-2 w-3/6">
-              <p className="w-[60%]">Roles</p>
-              <p className="w-[40%]">Date Applied</p>
-            </div>
-            <div className="flex py-3 px-2 w-[25%]">
-              <p>Status</p>
+              <button
+                onClick={randomizeApplications}
+                className="border px-2 py-1 mx-2 flex items-center hover:bg-gray-100"
+              >
+                <BsFilter className="mx-2 prime_text" size={20} /> Filter
+              </button>
             </div>
           </div>
           <div className="my-3">
-            {view === "all" && allApplications?.map((app, index) => (
-              <AllApplicants key={app.id} app={app} index={index} />
-            ))}
-            {view === "reviewed" && pendingReview?.map((app, index) => (
-              <AllApplicants key={app.id} app={app} index={index} />
-            ))}
-            {view === "interviewed" && pendingInterview?.map((app, index) => (
-              <AllShortlistedApplicants key={app.id} app={app} index={index} />
-            ))}
+            {view !== "all"
+              ? filteredApplications.map((app, index) => (
+                  <AllShortlistedApplicants key={app.id} app={app} index={index} />
+                ))
+              : filteredApplications.map((app, index) => (
+                  <AllApplicants key={app.id} app={app} index={index} />
+                ))}
           </div>
-          {/* <Pagination /> */}
         </div>
       </div>
     </>
