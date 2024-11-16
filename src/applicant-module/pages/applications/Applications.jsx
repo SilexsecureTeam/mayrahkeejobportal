@@ -1,3 +1,4 @@
+
 import { useContext, useEffect, useState } from "react";
 import { Helmet } from "react-helmet";
 import { MdClose } from "react-icons/md";
@@ -23,19 +24,9 @@ function Application() {
       ...prev,
       isDataNeeded: true,
     }));
-    fetchApplications();
   }, []);
 
-  const fetchApplications = async () => {
-    try {
-      const response = await fetch("/api/applications"); // Replace with actual API
-      const data = await response.json();
-      setGetAllApplications({ data, isDataNeeded: false });
-    } catch (error) {
-      console.error("Error fetching applications:", error);
-    }
-  };
-
+  // Clear randomized list on view change
   useEffect(() => {
     setRandomizedApplications([]);
   }, [view]);
@@ -44,67 +35,81 @@ function Application() {
     const today = new Date();
     const oneWeekLater = new Date(today);
     oneWeekLater.setDate(today.getDate() + 7);
+
     return `${today.toLocaleDateString("en-US", { month: "short", day: "numeric" })} - 
             ${oneWeekLater.toLocaleDateString("en-US", { month: "short", day: "numeric" })}`;
   };
 
+  // Filter by search keyword
   const filterByKeyword = getAllApplications?.data?.filter((item) =>
     item?.job_title?.toLowerCase().includes(appFilter.toLowerCase())
   );
 
+  // Apply view-specific filtering and randomness
   const filteredApplications = (() => {
     let applications = filterByKeyword || [];
-    if (view !== "all") {
+    if(view !== "all"){
       applications = applications?.filter((app) => app.status === view);
     }
     return randomizedApplications.length ? randomizedApplications : applications;
   })();
 
+  // Randomize applications
   const randomizeApplications = () => {
     const randomized = [...filteredApplications].sort(() => Math.random() - 0.5);
     setRandomizedApplications(randomized);
   };
 
+  // Get count based on status
   const getStatusCount = (status) => {
-    if (status === "all") return filterByKeyword?.length || 0;
+    if(status === "all") return filterByKeyword.length;
     return filterByKeyword?.filter((app) => app.status === status).length || 0;
   };
 
   return (
     <>
       <Helmet>
-        <title>Dashboard | My Application</title>
+        <title>Dashboard | My Application </title>
       </Helmet>
       <div className="h-full p-8 px-5 md:px-8 w-full text-sm text-primary">
         <div className="text-sm">
-          <h4 className="font-semibold text-2xl mb-5">
-            Keep it up, {authDetails.user?.first_name}
-          </h4>
-          <p>
-            Here is what’s happening with your job search applications from {generateDateRange()}
-          </p>
-          {closeNote && (
-            <div className="p-4 relative bg-[#47AA491A] mt-4">
-              <div className="md:w-4/5">
-                <div className="flex">
-                  <img src={noticeImg} alt="" />
-                  <div className="ml-3">
-                    <p className="font-bold">New Feature</p>
-                    <p>
-                      You can request a follow-up 7 days after applying for a job if the application
-                      status is in review. Only one follow-up is allowed per job.
-                    </p>
+          <div className="flex justify-between align-center">
+            <div>
+              <h4 className="font-semibold text-2xl mb-5">
+                Keep it up, {authDetails.user?.first_name}
+              </h4>
+              <p>
+                Here is what’s happening with your job search applications from{" "}
+                {generateDateRange()}
+              </p>
+            </div>
+          </div>
+          <div className="my-6">
+            {closeNote && (
+              <div className="p-4 relative bg-[#47AA491A]">
+                <div className="md:w-4/5">
+                  <div className="flex">
+                    <div>
+                      <img src={noticeImg} alt="Notice" />
+                    </div>
+                    <div className="ml-3">
+                      <p className="font-bold">New Feature</p>
+                      <p>
+                        You can request a follow-up 7 days after applying for a job if the
+                        application status is in review. Only one follow-up is allowed per job.
+                      </p>
+                    </div>
                   </div>
                 </div>
+                <button
+                  onClick={() => setCloseNote(false)}
+                  className="absolute top-0 right-0 p-2 hover:bg-green-200"
+                >
+                  <MdClose size={20} />
+                </button>
               </div>
-              <button
-                onClick={() => setCloseNote(false)}
-                className="absolute top-0 right-0 p-2 hover:bg-green-200"
-              >
-                <MdClose size={20} />
-              </button>
-            </div>
-          )}
+            )}
+          </div>
           <div className="flex border-b mb-6 min-w-full overflow-auto">
             {[
               { label: "All", key: "all" },
@@ -118,47 +123,44 @@ function Application() {
                 key={key}
                 onClick={() => setView(key)}
                 className={`mx-2 p-2 hover:text-gray-500 ${
-                  view === key
-                    ? "sticky left-0 bg-gray-200 border-b-2 border-green-600 font-medium"
-                    : ""
+                  view === key ? "sticky left-0 bg-gray-200 border-b-2 border-green-600 font-medium" : ""
                 }`}
               >
                 {label} ({getStatusCount(key)})
               </button>
             ))}
           </div>
-          <div className="flex items-center gap-4 mb-4">
-            <div className="relative">
-              <input
-                type="text"
-                placeholder="Search..."
-                className="border border-gray-300 p-2 rounded-md focus:outline-none"
-                value={appFilter}
-                onChange={(e) => setAppFilter(e.target.value)}
-              />
-              <CiSearch className="absolute top-3 right-3 text-gray-500" size={20} />
+          <div className="flex flex-wrap justify-between items-center">
+            <p className="font-bold capitalize">{view} Applications</p>
+            <div className="flex items-start">
+              <div className="relative border h-full py-1 px-6 mb-4">
+                <input
+                  type="text"
+                  placeholder="Search"
+                  onChange={(e) => setAppFilter(e.target.value)}
+                  className="pl-[10px] focus:outline-none w-full"
+                />
+                <span className="absolute text-primary top-0 left-0 p-2">
+                  <CiSearch />
+                </span>
+              </div>
+              <button
+                onClick={randomizeApplications}
+                className="border px-2 py-1 mx-2 flex items-center hover:bg-gray-100"
+              >
+                <BsFilter className="mx-2 prime_text" size={20} /> Filter
+              </button>
             </div>
-            <button
-              onClick={randomizeApplications}
-              className="flex items-center bg-gray-200 p-2 rounded-md hover:bg-gray-300"
-            >
-              <BsFilter className="mr-2" />
-              Randomize
-            </button>
           </div>
-          {getAllApplications?.data ? (
-            <div className="my-3 flex flex-col items-stretch min-w-full overflow-x-auto">
-              {view === "shortlist"
-                ? filteredApplications.map((app, index) => (
-                    <AllShortlistedApplicants key={app.id} app={app} index={index} />
-                  ))
-                : filteredApplications.map((app, index) => (
-                    <AllApplicants key={app.id} app={app} index={index} />
-                  ))}
-            </div>
-          ) : (
-            <div className="my-6 text-center">Loading...</div>
-          )}
+          <div className="my-3 flex flex-col items-stretch min-w-full overflow-x-auto">
+            {view === "shortlist"
+              ? filteredApplications.map((app, index) => (
+                  <AllShortlistedApplicants key={app.id} app={app} index={index} />
+                ))
+              : filteredApplications.map((app, index) => (
+                  <AllApplicants key={app.id} app={app} index={index} />
+                ))}
+          </div>
         </div>
       </div>
     </>
