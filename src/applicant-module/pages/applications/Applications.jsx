@@ -96,7 +96,9 @@ function Application() {
             <div className="p-4 relative bg-[#47AA491A] my-6">
               <div className="md:w-4/5">
                 <div className="flex">
+<div>
                   <img src={noticeImg} alt="Notice" />
+</div>
                   <div className="ml-3">
                     <p className="font-bold">New Feature</p>
                     <p>
