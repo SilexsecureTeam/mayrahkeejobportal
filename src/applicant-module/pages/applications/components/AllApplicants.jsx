@@ -1,170 +1,63 @@
+import React from "react";
+import newApplicant from "../../../../assets/pngs/applicant-logo1.png";
+import { MdMoreHoriz } from "react-icons/md";
+import { stages } from "../../../../utils/constants";
+import { useNavigate } from "react-router-dom";
+import { onPrompt } from "../../../../utils/notifications/onPrompt";
 
-import { useContext, useEffect, useState } from "react";
-import { Helmet } from "react-helmet";
-import { MdClose } from "react-icons/md";
-import { CiSearch } from "react-icons/ci";
-import { BsFilter } from "react-icons/bs";
-import noticeImg from "../../../assets/pngs/notice-icon.png";
-import { ResourceContext } from "../../../context/ResourceContext";
-import { AuthContext } from "../../../context/AuthContex";
-import AllApplicants from "./components/AllApplicants";
-import AllShortlistedApplicants from "./components/AllShortlistedApplication";
+const AllApplicants = ({ app, index }) => {
+  const dateCreated = new Date(app?.created_at);
+  const navigate = useNavigate();
 
-function Application() {
-  const { getAllApplications, setGetAllApplications } = useContext(ResourceContext);
-  const { authDetails } = useContext(AuthContext);
-
-  const [closeNote, setCloseNote] = useState(true);
-  const [view, setView] = useState("all");
-  const [appFilter, setAppFilter] = useState("");
-  const [randomizedApplications, setRandomizedApplications] = useState([]);
-
-  useEffect(() => {
-    setGetAllApplications((prev) => ({
-      ...prev,
-      isDataNeeded: true,
-    }));
-  }, []);
-
-  // Clear randomized list on view change
-  useEffect(() => {
-    setRandomizedApplications([]);
-  }, [view]);
-
-  const generateDateRange = () => {
-    const today = new Date();
-    const oneWeekLater = new Date(today);
-    oneWeekLater.setDate(today.getDate() + 7);
-
-    return `${today.toLocaleDateString("en-US", { month: "short", day: "numeric" })} - 
-            ${oneWeekLater.toLocaleDateString("en-US", { month: "short", day: "numeric" })}`;
-  };
-
-  // Filter by search keyword
-  const filterByKeyword = getAllApplications?.data?.filter((item) =>
-    item?.job_title?.toLowerCase().includes(appFilter.toLowerCase())
-  );
-
-  // Apply view-specific filtering and randomness
-  const filteredApplications = (() => {
-    let applications = filterByKeyword || [];
-    if(view !== "all"){
-      applications = applications?.filter((app) => app.status === view);
+  const getBorderColor = () => {
+    switch (app.status) {
+      case stages[0].name:
+        return "text-lightorange border-lightorange";
+      case stages[1].name:
+        return "text-lightblue border-lightblue";
+      case stages[2].name:
+        return "text-darkblue border-darkblue";
+      case stages[3].name.split("/")[0]:
+        return "text-primaryColor border-primaryColor";
+      case stages[3].name.split("/")[1]:
+        return "text-red-600 border-red-600";
     }
-    return randomizedApplications.length ? randomizedApplications : applications;
-  })();
-
-  // Randomize applications
-  const randomizeApplications = () => {
-    const randomized = [...filteredApplications].sort(() => Math.random() - 0.5);
-    setRandomizedApplications(randomized);
   };
 
-  // Get count based on status
-  const getStatusCount = (status) => {
-    if(status === "all") return filterByKeyword.length;
-    return filterByKeyword?.filter((app) => app.status === status).length || 0;
+  const handleClick = () => {
+    if (app.status === stages[1].name) {
+      navigate(`/applicant/applications/${app.id}`, { state: { app: app } });
+    }else{
+        onPrompt("Awaiting Employer's action")
+    }
   };
 
   return (
-    <>
-      <Helmet>
-        <title>Dashboard | My Application </title>
-      </Helmet>
-      <div className="h-full p-8 px-5 md:px-8 w-full text-sm text-primary">
-        <div className="text-sm">
-          <div className="flex justify-between align-center">
-            <div>
-              <h4 className="font-semibold text-2xl mb-5">
-                Keep it up, {authDetails.user?.first_name}
-              </h4>
-              <p>
-                Here is what’s happening with your job search applications from{" "}
-                {generateDateRange()}
-              </p>
-            </div>
+    <div onClick={handleClick} className="flex recent_added items-center">
+      <div className="flex justify-between py-3 px-2 w-[25%]">
+        <span>{index + 1}</span>
+        <div className="w-3/4 flex items-center">
+          <div>
+            <img src={newApplicant} width={"40px"} alt="" />
           </div>
-          <div className="my-6">
-            {closeNote && (
-              <div className="p-4 relative bg-[#47AA491A]">
-                <div className="md:w-4/5">
-                  <div className="flex">
-                    <div>
-                      <img src={noticeImg} alt="Notice" />
-                    </div>
-                    <div className="ml-3">
-                      <p className="font-bold">New Feature</p>
-                      <p>
-                        You can request a follow-up 7 days after applying for a job if the
-                        application status is in review. Only one follow-up is allowed per job.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-                <button
-                  onClick={() => setCloseNote(false)}
-                  className="absolute top-0 right-0 p-2 hover:bg-green-200"
-                >
-                  <MdClose size={20} />
-                </button>
-              </div>
-            )}
-          </div>
-          <div className="flex border-b mb-6 min-w-full overflow-auto">
-            {[
-              { label: "All", key: "all" },
-              { label: "In Review", key: "reviewed" },
-              { label: "Interview", key: "interview" },
-              { label: "Shortlisted", key: "shortlist" },
-              { label: "Declined", key: "declined" },
-              { label: "Hired", key: "hired" },
-            ].map(({ label, key }) => (
-              <button
-                key={key}
-                onClick={() => setView(key)}
-                className={`mx-2 p-2 hover:text-gray-500 ${
-                  view === key ? "sticky left-0 bg-gray-200 border-b-2 border-green-600 font-medium" : ""
-                }`}
-              >
-                {label} ({getStatusCount(key)})
-              </button>
-            ))}
-          </div>
-          <div className="flex flex-wrap justify-between items-center">
-            <p className="font-bold capitalize">{view} Applications</p>
-            <div className="flex items-start">
-              <div className="relative border h-full py-1 px-6 mb-4">
-                <input
-                  type="text"
-                  placeholder="Search"
-                  onChange={(e) => setAppFilter(e.target.value)}
-                  className="pl-[10px] focus:outline-none w-full"
-                />
-                <span className="absolute text-primary top-0 left-0 p-2">
-                  <CiSearch />
-                </span>
-              </div>
-              <button
-                onClick={randomizeApplications}
-                className="border px-2 py-1 mx-2 flex items-center hover:bg-gray-100"
-              >
-                <BsFilter className="mx-2 prime_text" size={20} /> Filter
-              </button>
-            </div>
-          </div>
-          <div className="my-3 flex flex-col items-stretch min-w-full overflow-x-auto">
-            {view === "shortlist"
-              ? filteredApplications.map((app, index) => (
-                  <AllShortlistedApplicants key={app.id} app={app} index={index} />
-                ))
-              : filteredApplications.map((app, index) => (
-                  <AllApplicants key={app.id} app={app} index={index} />
-                ))}
-          </div>
+          <p className="ml-2">Company</p>
         </div>
       </div>
-    </>
+      <div className="flex py-3 px-2 w-3/6">
+        <p className="w-[60%]">{app.job_title}</p>
+        <p className="w-[40%]">{dateCreated.toDateString()}</p>
+      </div>
+      <div className="flex justify-between py-3 px-2 w-[25%]">
+        <div className="w-2/3">
+          <button
+            className={`border border-green-600 text-[12px] text-green-900 px-2 py-1 rounded-full uppercase ${getBorderColor()}`}
+          >
+            {app.status}
+          </button>
+        </div>
+      </div>
+    </div>
   );
-}
+};
 
-export default Application;
+export default AllApplicants;
