@@ -4,10 +4,10 @@ import linkedinIcon from "../../../assets/pngs/linkedin-icon.png";
 
 function PrimaryDetail({ data, applicant }) {
   const getSocials = () => {
-    const list = applicant?.social_media_handle.map((current) => {
+    const list = applicant?.social_media_handle.map((current, idx) => {
       if (current.network === "linkedIn") {
         return (
-          <a href="" className="w-full flex text-little gap-[5px] items-center">
+          <a key={idx} href="" className="w-full flex text-little gap-[5px] items-center">
             <img src={linkedinIcon} className="h-[15px]" />
             {current.url}
           </a>

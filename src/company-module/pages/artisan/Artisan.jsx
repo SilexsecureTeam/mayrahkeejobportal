@@ -162,26 +162,43 @@ function Artisan() {
         </div>
       </PopUpBox>
       <div className="h-full overflow-y-auto w-full flex flex-col px-5 md:px-8 lg:px-12 py-2 gap-[15px] bg-gray-100">
-        <div className="flex w-full justify-between items-center gap-1">
-          <div className="flex flex-col gap-2 bg-green-100 pr-5 p-2 w-[90%] md:w-fit text-xs md:text-sm">
-            <div className="flex w-full justify-between items-center">
-              <span className="flex gap-2 items-center text-green-700">
-                Welcome to our artisan hub <FaExclamationCircle />
-              </span>
+        <div className="flex w-full justify-between items-start gap-1">
+        <section className="flex flex-col gap-y-5">
+        <div
+      id="content"
+      className="flex flex-col gap-2 bg-green-100 pr-5 p-2 w-[90%] md:w-fit text-xs md:text-sm"
+    >
+      <div className="flex w-full justify-between items-center">
+        <span className="flex gap-2 items-center text-green-700">
+          Welcome to our artisan hub <FaExclamationCircle />
+        </span>
 
-              <button className=" group hover:bg-red-500 hover:text-white p-1 text-red-600 text-md flex justify-between items-center ">
-                Close
-                <MdClose className="" />
-              </button>
-            </div>
+        <button
+          onClick={() => document.getElementById('content').classList.add('hidden')}
+          className="group hover:bg-red-500 hover:text-white p-1 text-red-600 text-md flex justify-between items-center"
+        >
+          Close
+          <MdClose />
+        </button>
+      </div>
 
-            <p>
-              Here you can search for any artisan of your choice. Fill in the
-              query parameters to begin your search
-            </p>
-          </div>
+      <p>
+        Here you can search for any artisan of your choice. Fill in the
+        query parameters to begin your search.
+      </p>
+    </div>
 
-          <button onClick={navigateToCart}>
+
+
+        <SearchComponent
+          subCategories={categories.subcategories}
+          handleQuerySubmit={handleCondition}
+          title="Artisan's Specialized Position" 
+        />
+
+        </section>
+
+          <button className="my-5" onClick={navigateToCart}>
             <p className="relative cursor-pointer flex item-center">
               <FaShoppingCart size="24" />{" "}
               <span className="absolute top-[-15px] right-0 w-max h-max px-1 rounded-full bg-red-700 text-white text-xs">
@@ -191,11 +208,6 @@ function Artisan() {
           </button>
         </div>
 
-        <SearchComponent
-          subCategories={categories.subcategories}
-          handleQuerySubmit={handleCondition}
-          title="Artisan's Specialized Position" 
-        />
 
         {staffsToDisplay.length > 0 ? (
           <div className="flex flex-col gap-3 mt-5">

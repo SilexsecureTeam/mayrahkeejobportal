@@ -93,7 +93,7 @@ function ApplicantRow({ data }) {
         </div>
       </td>
       <td className="hidden md:block py-[10px]">
-        <div className="flex w-full justify-center items-center">
+        <div className="w-full  flex justify-center items-center gap-[5px]">
           {data.email}
         </div>
       </td>

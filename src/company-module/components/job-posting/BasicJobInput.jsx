@@ -12,10 +12,10 @@ function BasicJobInput({ data, jobUtils }) {
           onChange={jobUtils.onTextChange}
           name={data.name}
           type={data.type}
-          className="border focus:outline-none w-full py-1 px-2"
+          className="text-sm border focus:outline-none w-full p-2"
           placeholder={data.placeholder}
         />
-        <span className="text-[10px] text-gray-400">
+        <span className="text-xs text-gray-400">
           At least 80 characters
         </span>
       </div>
