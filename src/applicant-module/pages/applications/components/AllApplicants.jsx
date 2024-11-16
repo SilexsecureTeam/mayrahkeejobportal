@@ -33,7 +33,7 @@ const AllApplicants = ({ app, index }) => {
   };
 
   return (
-   <div onClick={handleClick} className="flex recent_added items-center">
+   <div onClick={handleClick} className="flex recent_added items-center min-w-full">
       <div className="flex justify-between py-3 px-2 w-[25%]">
         <span>{index + 1}</span>
         <div className="w-3/4 flex items-center">
