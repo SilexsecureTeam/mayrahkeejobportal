@@ -33,30 +33,27 @@ const AllApplicants = ({ app, index }) => {
   };
 
   return (
-    <div onClick={handleClick} className="flex recent_added items-center">
-      <div className="flex justify-between py-3 px-2 w-[25%]">
-        <span>{index + 1}</span>
-        <div className="w-3/4 flex items-center">
-          <div>
-            <img src={newApplicant} width={"40px"} alt="" />
-          </div>
-          <p className="ml-2">Company</p>
-        </div>
-      </div>
-      <div className="flex py-3 px-2 w-3/6">
-        <p className="w-[60%]">{app.job_title}</p>
-        <p className="w-[40%]">{dateCreated.toDateString()}</p>
-      </div>
-      <div className="flex justify-between py-3 px-2 w-[25%]">
-        <div className="w-2/3">
-          <button
-            className={`border border-green-600 text-[12px] text-green-900 px-2 py-1 rounded-full uppercase ${getBorderColor()}`}
-          >
-            {app.status}
-          </button>
-        </div>
-      </div>
+ 
+<div onClick={handleClick} className="grid grid-cols-3 gap-4 md:grid-cols-1 recent_added items-center">
+  <div className="md:flex md:justify-between py-3 px-2">
+    <span>{index + 1}</span>
+    <div className="flex items-center">
+      <img src={newApplicant} width={"40px"} alt="" />
+      <p className="ml-2">Company</p>
     </div>
+  </div>
+  <div className="md:flex md:justify-between py-3 px-2">
+    <p className="w-full md:w-[60%]">{app.job_title}</p>
+    <p className="w-full md:w-[40%] md:ml-2">{dateCreated.toDateString()}</p>
+  </div>
+  <div className="md:flex md:justify-between py-3 px-2">
+    <div className="w-full md:w-2/3">
+      <button className={`border border-green-600 text-[12px] text-green-900 px-2 py-1 rounded-full uppercase ${getBorderColor()}`}>
+        {app.status}
+      </button>
+    </div>
+  </div>
+</div>
   );
 };
 
