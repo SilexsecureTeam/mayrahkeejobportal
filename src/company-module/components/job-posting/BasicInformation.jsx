@@ -88,10 +88,10 @@ const job_types = [
     id: 5,
     name: "Contract",
   },
-{
-id: 6,
+  {
+    id: 6,
     name: "Hybrid",
-}
+  },
 ];
 
 const genderData = [
@@ -222,14 +222,16 @@ const currencyData = [
 ];
 
 function BasicInformation({ setCurrentStep, data, jobUtils }) {
-  const { getEmployentTypes, getCurrencies } = useJobManagement();
+  const { getEmployentTypes, getCurrencies, getSectors, getSubSectors } =
+    useJobManagement();
   const [salaryRange, setSalaryRange] = useState([5000, 22000]);
   const [selectedType, setSelectedType] = useState();
   const [currentQualification, setCurrentQualification] = useState("");
   const [selectedGender, setSelectedGender] = useState(genderData[0]);
-  const [selectedSector, setSelectedSector] = useState(jobSectors[0]);
+  const [selectedSector, setSelectedSector] = useState();
   const [selectedSubSector, setSelectedSubSector] = useState();
-  const [subSectorList, setSubSectorList] = useState(jobSectors[0].subsections);
+  const [subSectorList, setSubSectorList] = useState([]);
+  const [sectorList, setSectorList] = useState([]);
   const [selectedSalary, setSelectedSalary] = useState(salaryTypeData[1]);
   const [photoUrl, setPhotoUrl] = useState();
   const [minimumPrice, setMinimumPrice] = useState(0);
@@ -259,20 +261,26 @@ function BasicInformation({ setCurrentStep, data, jobUtils }) {
     const initData = async () => {
       const employementListResult = await getEmployentTypes();
       const currencyResult = await getCurrencies();
+      const sectorResut = await getSectors();
       setEmployementList(employementListResult);
       setCurrencyList(currencyResult);
+      setSectorList(sectorResut);
+      // setSelectedSector(sectorResut[0])
+      console.log('sector',sectorResut)
     };
 
     initData();
-    setSubSectorList(selectedSector.subsections);
-  }, [selectedSector]);
+  }, []);
 
   useEffect(() => {
     setSelectedSubSector(subSectorList[0]);
     if (currencyList.length > 0) {
       setSelectedCurrency(currencyList[0]);
     }
-  }, [subSectorList, currencyList]);
+    if (sectorList.length > 0) {
+      setSelectedSector(sectorList[0]);
+    }
+  }, [currencyList, sectorList]);
 
   useEffect(() => {
     jobUtils.setDetails({
@@ -280,7 +288,7 @@ function BasicInformation({ setCurrentStep, data, jobUtils }) {
       ["gender"]: selectedGender.name,
       ["salary_type"]: selectedSalary.name,
       ["currency"]: selectedCurrency?.name,
-      ["sector"]: selectedSector.name,
+      ["sector"]: selectedSector?.name,
       ["subsector"]: selectedSubSector?.name,
     });
   }, [
@@ -290,6 +298,24 @@ function BasicInformation({ setCurrentStep, data, jobUtils }) {
     selectedSector,
     selectedSubSector,
   ]);
+
+  useEffect(() => {
+    const initData = async () => {
+      if (selectedSector) {
+        const subSectorResult = await getSubSectors(selectedSector.id);
+        setSubSectorList(subSectorResult);
+      }
+    };
+
+    initData()
+  }, [selectedSector]);
+
+
+  useEffect(() => {
+    if (subSectorList.length > 0) {
+      setSelectedSubSector(subSectorList[0]);
+    }
+  }, [subSectorList])
 
   return (
     <div className="flex flex-col w-full p-4 gap-4">
@@ -347,7 +373,7 @@ function BasicInformation({ setCurrentStep, data, jobUtils }) {
           prompt: "Here you input the job sector",
           name: "sector",
         }}
-        listData={jobSectors}
+        listData={sectorList}
         jobUtils={jobUtils}
         selected={selectedSector}
         setSelected={setSelectedSector}
@@ -397,7 +423,7 @@ function BasicInformation({ setCurrentStep, data, jobUtils }) {
       <QualificationsForm jobUtils={jobUtils} />
       {/* Dropdown Options */}
       <SelectorInput
-        key={1}
+        key={2}
         data={{
           label: "Gender",
           prompt: "Here you select preferred Gender",
@@ -409,7 +435,7 @@ function BasicInformation({ setCurrentStep, data, jobUtils }) {
         setSelected={setSelectedGender}
       />
       <SelectorInput
-        key={2}
+        key={5}
         data={{
           label: "Salary Type",
           prompt: "Here you select how the job pays",
@@ -421,7 +447,7 @@ function BasicInformation({ setCurrentStep, data, jobUtils }) {
         setSelected={setSelectedSalary}
       />
       <SelectorInput
-        key={3}
+        key={6}
         data={{
           label: "Currency",
           prompt: "Here you select the currency",
@@ -460,11 +486,13 @@ function BasicInformation({ setCurrentStep, data, jobUtils }) {
           </div>
           <div className="flex items-center justify-between">
             <span className="border p-1">
-              {selectedCurrency?.code} {FormatPrice(jobUtils.details.min_salary, true)}
+              {selectedCurrency?.code}{" "}
+              {FormatPrice(jobUtils.details.min_salary, true)}
             </span>
             <span>to</span>
             <span className="border p-1">
-            {selectedCurrency?.code} {FormatPrice(jobUtils.details.max_salary, true)}
+              {selectedCurrency?.code}{" "}
+              {FormatPrice(jobUtils.details.max_salary, true)}
             </span>
           </div>
 
