@@ -47,14 +47,8 @@ function Application() {
   // Apply view-specific filtering and randomness
   const filteredApplications = (() => {
     let applications = filterByKeyword || [];
-    if (view === "reviewed") {
-      applications = applications.filter((app) => app.status === "in-review");
-    } else if (view === "interviewed") {
-      applications = applications.filter((app) => app.status === "shortlist");
-    } else if (view === "declined") {
-      applications = applications.filter((app) => app.status === "declined");
-    } else if (view === "hired") {
-      applications = applications.filter((app) => app.status === "hired");
+    if(view){
+      applications = applications.filter((app) => app.status === view);
     }
     return randomizedApplications.length ? randomizedApplications : applications;
   })();
