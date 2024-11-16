@@ -23,9 +23,19 @@ function Application() {
       ...prev,
       isDataNeeded: true,
     }));
+    fetchApplications();
   }, []);
 
-  // Clear randomized list on view change
+  const fetchApplications = async () => {
+    try {
+      const response = await fetch("/api/applications"); // Replace with actual API
+      const data = await response.json();
+      setGetAllApplications({ data, isDataNeeded: false });
+    } catch (error) {
+      console.error("Error fetching applications:", error);
+    }
+  };
+
   useEffect(() => {
     setRandomizedApplications([]);
   }, [view]);
@@ -34,41 +44,40 @@ function Application() {
     const today = new Date();
     const oneWeekLater = new Date(today);
     oneWeekLater.setDate(today.getDate() + 7);
-
     return `${today.toLocaleDateString("en-US", { month: "short", day: "numeric" })} - 
             ${oneWeekLater.toLocaleDateString("en-US", { month: "short", day: "numeric" })}`;
   };
 
-  // Filter by search keyword
   const filterByKeyword = getAllApplications?.data?.filter((item) =>
     item?.job_title?.toLowerCase().includes(appFilter.toLowerCase())
   );
 
-  // Apply view-specific filtering and randomness
   const filteredApplications = (() => {
     let applications = filterByKeyword || [];
-    if(view !== "all"){
+    if (view !== "all") {
       applications = applications?.filter((app) => app.status === view);
     }
     return randomizedApplications.length ? randomizedApplications : applications;
   })();
 
-  // Randomize applications
   const randomizeApplications = () => {
     const randomized = [...filteredApplications].sort(() => Math.random() - 0.5);
     setRandomizedApplications(randomized);
   };
 
-  // Get count based on status
   const getStatusCount = (status) => {
-    if(status === "all") return filterByKeyword.length;
+    if (status === "all") return filterByKeyword?.length || 0;
     return filterByKeyword?.filter((app) => app.status === status).length || 0;
   };
+
+  if (!getAllApplications?.data) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <>
       <Helmet>
-        <title>Dashboard | My Application </title>
+        <title>Dashboard | My Application</title>
       </Helmet>
       <div className="h-full p-8 px-5 md:px-8 w-full text-sm text-primary">
         <div className="text-sm">
@@ -83,32 +92,28 @@ function Application() {
               </p>
             </div>
           </div>
-          <div className="my-6">
-            {closeNote && (
-              <div className="p-4 relative bg-[#47AA491A]">
-                <div className="md:w-4/5">
-                  <div className="flex">
-                    <div>
-                      <img src={noticeImg} alt="Notice" />
-                    </div>
-                    <div className="ml-3">
-                      <p className="font-bold">New Feature</p>
-                      <p>
-                        You can request a follow-up 7 days after applying for a job if the
-                        application status is in review. Only one follow-up is allowed per job.
-                      </p>
-                    </div>
+          {closeNote && (
+            <div className="p-4 relative bg-[#47AA491A] my-6">
+              <div className="md:w-4/5">
+                <div className="flex">
+                  <img src={noticeImg} alt="Notice" />
+                  <div className="ml-3">
+                    <p className="font-bold">New Feature</p>
+                    <p>
+                      You can request a follow-up 7 days after applying for a job if the
+                      application status is in review. Only one follow-up is allowed per job.
+                    </p>
                   </div>
                 </div>
-                <button
-                  onClick={() => setCloseNote(false)}
-                  className="absolute top-0 right-0 p-2 hover:bg-green-200"
-                >
-                  <MdClose size={20} />
-                </button>
               </div>
-            )}
-          </div>
+              <button
+                onClick={() => setCloseNote(false)}
+                className="absolute top-0 right-0 p-2 hover:bg-green-200"
+              >
+                <MdClose size={20} />
+              </button>
+            </div>
+          )}
           <div className="flex border-b mb-6 min-w-full overflow-auto">
             {[
               { label: "All", key: "all" },
@@ -128,28 +133,6 @@ function Application() {
                 {label} ({getStatusCount(key)})
               </button>
             ))}
-          </div>
-          <div className="flex flex-wrap justify-between items-center">
-            <p className="font-bold capitalize">{view} Applications</p>
-            <div className="flex items-start">
-              <div className="relative border h-full py-1 px-6 mb-4">
-                <input
-                  type="text"
-                  placeholder="Search"
-                  onChange={(e) => setAppFilter(e.target.value)}
-                  className="pl-[10px] focus:outline-none w-full"
-                />
-                <span className="absolute text-primary top-0 left-0 p-2">
-                  <CiSearch />
-                </span>
-              </div>
-              <button
-                onClick={randomizeApplications}
-                className="border px-2 py-1 mx-2 flex items-center hover:bg-gray-100"
-              >
-                <BsFilter className="mx-2 prime_text" size={20} /> Filter
-              </button>
-            </div>
           </div>
           <div className="my-3 flex flex-col items-stretch min-w-full overflow-x-auto">
             {view === "shortlist"
