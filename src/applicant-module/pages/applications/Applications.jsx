@@ -40,15 +40,15 @@ function Application() {
   };
 
   // Filter by search keyword
-  const filterByKeyword = getAllApplications.data?.filter((item) =>
-    item.job_title?.toLowerCase().includes(appFilter.toLowerCase())
+  const filterByKeyword = getAllApplications?.data?.filter((item) =>
+    item?.job_title?.toLowerCase().includes(appFilter.toLowerCase())
   );
 
   // Apply view-specific filtering and randomness
   const filteredApplications = (() => {
     let applications = filterByKeyword || [];
     if(view !== "all"){
-      applications = applications.filter((app) => app.status === view);
+      applications = applications?.filter((app) => app.status === view);
     }
     return randomizedApplications.length ? randomizedApplications : applications;
   })();
