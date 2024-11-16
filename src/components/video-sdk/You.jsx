@@ -194,7 +194,7 @@ function You({ data, job, applicant }) {
                 if (authDetails.user.role === "employer") {
                   updateApplication();
                 } else {
-                  navigate(-1);
+                  navigate(-2);
                 }
               }}
             />
