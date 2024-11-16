@@ -158,7 +158,7 @@ function Application() {
             </div>
           </div>
           <div className="my-3">
-            {view !== "all"
+            {view === "shortlist"
               ? filteredApplications.map((app, index) => (
                   <AllShortlistedApplicants key={app.id} app={app} index={index} />
                 ))
