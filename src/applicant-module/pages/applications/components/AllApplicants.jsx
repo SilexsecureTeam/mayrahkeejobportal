@@ -17,18 +17,17 @@ function Application() {
   const [view, setView] = useState("all");
   const [appFilter, setAppFilter] = useState("");
   const [randomizedApplications, setRandomizedApplications] = useState([]);
-  const [loading, setLoading] = useState(true); // Add loading state
+  const [loading, setLoading] = useState(true);  // Added loading state
 
   useEffect(() => {
     setGetAllApplications((prev) => ({
       ...prev,
       isDataNeeded: true,
     }));
-  }, [setGetAllApplications]);
 
-  useEffect(() => {
+    // Wait for the data to be set before updating loading state
     if (getAllApplications?.data) {
-      setLoading(false); // Set loading to false once data is available
+      setLoading(false);
     }
   }, [getAllApplications]);
 
@@ -73,7 +72,7 @@ function Application() {
   };
 
   if (loading) {
-    return <div>Loading...</div>; // Show loading while data is being fetched
+    return <div>Loading...</div>;  // Loading state to prevent blank page
   }
 
   return (
