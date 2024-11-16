@@ -134,7 +134,29 @@ function Application() {
               </button>
             ))}
           </div>
-          {getAllApplications?.data ? (
+
+          <div className="flex items-center justify-between my-4">
+            <div className="flex items-center border rounded-lg px-3 py-2 w-full md:w-1/2">
+              <CiSearch size={20} />
+              <input
+                type="text"
+                value={appFilter}
+                onChange={(e) => setAppFilter(e.target.value)}
+                placeholder="Search applications"
+                className="border-0 outline-none pl-2 w-full"
+              />
+            </div>
+            <button
+              onClick={randomizeApplications}
+              className="bg-primary text-white rounded-lg px-4 py-2 ml-3"
+            >
+              Randomize
+            </button>
+          </div>
+
+          {getAllApplications.isDataNeeded ? (
+            <div className="my-6 text-center">Loading...</div>
+          ) : (
             <div className="my-3 flex flex-col items-stretch min-w-full overflow-x-auto">
               {view === "shortlist"
                 ? filteredApplications.map((app, index) => (
@@ -144,8 +166,6 @@ function Application() {
                     <AllApplicants key={app.id} app={app} index={index} />
                   ))}
             </div>
-          ) : (
-            <div className="my-6 text-center">Loading...</div>
           )}
         </div>
       </div>
