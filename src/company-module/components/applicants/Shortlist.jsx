@@ -36,10 +36,12 @@ function Shortlist({ data }) {
 
   useEffect(() => {
     const initInteview = async () => {
+      console.log(data)
       try {
-        const response = await client.get(`/interviews/${data.interview_id}`);
+        const response = await client.get(`/interviews/${data?.interview_id}`);
         setInterview(response.data.interview);
       } catch (error) {
+        console.log(error)
         FormatError(error, setError, "Intervew Error");
       }
     };

@@ -138,7 +138,7 @@ function useApplicationManagement() {
     setLoading(true);
     try {
       if (!resumeId) throw Error("Resume not attached");
-      const { data } = await client.get(`/resumeById/${resumeId}`);
+      const { data } = await client.get(`/myResumes/${resumeId}`);
       setResume(data[0]);
     } catch (error) {
       FormatError(error, setError, "Resume Error");
