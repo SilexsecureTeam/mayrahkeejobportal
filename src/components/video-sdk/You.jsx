@@ -118,7 +118,7 @@ function You({ data, job, applicant }) {
           </span>
         </div>
       )}
-      <div className="w-full h-full flex flex-col rounded-[10px]">
+      <div className="w-full h-full flex flex-col rounded-[10px] pb-40 md:pb-0">
         <audio ref={micRef} autoPlay playsInline muted={isLocal} />
         <div className="w-full min-h-[40%] overflow-hidden rounded-[10px]">
           {webcamOn ? (
