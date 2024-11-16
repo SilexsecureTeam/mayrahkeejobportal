@@ -83,26 +83,38 @@ function JobStatistic({ applicants, byCategory }) {
         };
 
       case "Interviewed Applicants":
-        return {
-          options: {
-            chart: { type: "donut", toolbar: { show: false } },
-            labels: chartData.categories,
-            colors: ["#FFA500", "#FFD700", "#FF4500"],
-            title: { text: "Interviewed Applicants by Job", style: { fontSize: "16px" } },
-          },
-          series: chartData.series,
-        };
+  return {
+    options: {
+      chart: { type: "donut", toolbar: { show: false } },
+      labels: chartData.categories,
+      colors: ["#FFA500", "#FFD700", "#FF4500"],
+      title: { text: "Interviewed Applicants by Job", style: { fontSize: "16px" } },
+      dataLabels: { enabled: false }, // Disable percentage display
+      legend: {
+        show: true,
+        formatter: (seriesName, opts) =>
+          `${seriesName}: ${opts.w.globals.series[opts.seriesIndex]}`, // Show real values in legend
+      },
+    },
+    series: chartData.series,
+  };
 
-      case "Onboarded Applicants":
-        return {
-          options: {
-            chart: { type: "donut", toolbar: { show: false } },
-            labels: chartData.categories,
-            colors: ["#32CD32", "#ADFF2F", "#7FFF00"],
-            title: { text: "Onboarded Applicants by Job", style: { fontSize: "16px" } },
-          },
-          series: chartData.series,
-        };
+case "Onboarded Applicants":
+  return {
+    options: {
+      chart: { type: "donut", toolbar: { show: false } },
+      labels: chartData.categories,
+      colors: ["#32CD32", "#ADFF2F", "#7FFF00"],
+      title: { text: "Onboarded Applicants by Job", style: { fontSize: "16px" } },
+      dataLabels: { enabled: false }, // Disable percentage display
+      legend: {
+        show: true,
+        formatter: (seriesName, opts) =>
+          `${seriesName}: ${opts.w.globals.series[opts.seriesIndex]}`, // Show real values in legend
+      },
+    },
+    series: chartData.series,
+  };
 
       default:
         return null;
