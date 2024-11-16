@@ -77,24 +77,17 @@ function Application() {
       </Helmet>
       <div className="h-full p-8 px-5 md:px-8 w-full text-sm text-primary">
         <div className="text-sm">
-          <div className="flex justify-between align-center">
-            <div>
-              <h4 className="font-semibold text-2xl mb-5">
-                Keep it up, {authDetails.user?.first_name}
-              </h4>
-              <p>
-                Here is what’s happening with your job search applications from{" "}
-                {generateDateRange()}
-              </p>
-            </div>
-          </div>
+          <h4 className="font-semibold text-2xl mb-5">
+            Keep it up, {authDetails.user?.first_name}
+          </h4>
+          <p>
+            Here is what’s happening with your job search applications from {generateDateRange()}
+          </p>
           {closeNote && (
-            <div className="p-4 relative bg-[#47AA491A]">
+            <div className="p-4 relative bg-[#47AA491A] mt-4">
               <div className="md:w-4/5">
                 <div className="flex">
-                  <div className="">
-                    <img src={noticeImg} alt="" />
-                  </div>
+                  <img src={noticeImg} alt="" />
                   <div className="ml-3">
                     <p className="font-bold">New Feature</p>
                     <p>
@@ -134,29 +127,26 @@ function Application() {
               </button>
             ))}
           </div>
-
-          <div className="flex items-center justify-between my-4">
-            <div className="flex items-center border rounded-lg px-3 py-2 w-full md:w-1/2">
-              <CiSearch size={20} />
+          <div className="flex items-center gap-4 mb-4">
+            <div className="relative">
               <input
                 type="text"
+                placeholder="Search..."
+                className="border border-gray-300 p-2 rounded-md focus:outline-none"
                 value={appFilter}
                 onChange={(e) => setAppFilter(e.target.value)}
-                placeholder="Search applications"
-                className="border-0 outline-none pl-2 w-full"
               />
+              <CiSearch className="absolute top-3 right-3 text-gray-500" size={20} />
             </div>
             <button
               onClick={randomizeApplications}
-              className="bg-primary text-white rounded-lg px-4 py-2 ml-3"
+              className="flex items-center bg-gray-200 p-2 rounded-md hover:bg-gray-300"
             >
+              <BsFilter className="mr-2" />
               Randomize
             </button>
           </div>
-
-          {getAllApplications.isDataNeeded ? (
-            <div className="my-6 text-center">Loading...</div>
-          ) : (
+          {getAllApplications?.data ? (
             <div className="my-3 flex flex-col items-stretch min-w-full overflow-x-auto">
               {view === "shortlist"
                 ? filteredApplications.map((app, index) => (
@@ -166,6 +156,8 @@ function Application() {
                     <AllApplicants key={app.id} app={app} index={index} />
                   ))}
             </div>
+          ) : (
+            <div className="my-6 text-center">Loading...</div>
           )}
         </div>
       </div>
