@@ -62,7 +62,7 @@ function Application() {
 
   // Get count based on status
   const getStatusCount = (status) => {
-    if(status === "all") return filterByKeyword.length;
+    if(status === "all") return filterByKeyword?.length;
     return filterByKeyword?.filter((app) => app.status === status).length || 0;
   };
 
@@ -138,6 +138,7 @@ function Application() {
                   type="text"
                   placeholder="Search"
                   onChange={(e) => setAppFilter(e.target.value)}
+                  value={appFilter}
                   className="pl-[10px] focus:outline-none w-full"
                 />
                 <span className="absolute text-primary top-0 left-0 p-2">
