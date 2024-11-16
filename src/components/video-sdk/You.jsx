@@ -146,7 +146,7 @@ function You({ data, job, applicant }) {
                 className="w-full object-cover bg-gray-400/10"
               />
               <span className=" bg-gray-500 absolute left-0 top-0 p-1 w-fit h-fit text-little text-white  px-2">
-                {data.displayName}
+                {applicant && applicant?.full_name}
               </span>
             </div>
           )}
