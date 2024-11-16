@@ -70,10 +70,6 @@ function Application() {
     return filterByKeyword?.filter((app) => app.status === status).length || 0;
   };
 
-  if (!getAllApplications?.data) {
-    return <div>Loading...</div>;
-  }
-
   return (
     <>
       <Helmet>
@@ -93,24 +89,28 @@ function Application() {
             </div>
           </div>
           {closeNote && (
-           <div className="p-4 relative bg-[#47AA491A]">
-                <div className="md:w-4/5">
-                  <div className="flex">
-                    <div className="">
-                      <img src={noticeImg} alt="" />
-                    </div>
-                    <div className="ml-3">
-                      <p className="font-bold">New Feature</p>
-                      <p>You can request a follow-up 7 days after applying for a job if the application status is in review. Only one follow-up is allowed per job.
-                      </p>
-                    </div>
+            <div className="p-4 relative bg-[#47AA491A]">
+              <div className="md:w-4/5">
+                <div className="flex">
+                  <div className="">
+                    <img src={noticeImg} alt="" />
+                  </div>
+                  <div className="ml-3">
+                    <p className="font-bold">New Feature</p>
+                    <p>
+                      You can request a follow-up 7 days after applying for a job if the application
+                      status is in review. Only one follow-up is allowed per job.
+                    </p>
                   </div>
                 </div>
-                <button
-                  onClick={() => setCloseNote(false)}
-                  className="absolute top-0 right-0 p-2 hover:bg-green-200"><MdClose size={20} />
-                </button>
               </div>
+              <button
+                onClick={() => setCloseNote(false)}
+                className="absolute top-0 right-0 p-2 hover:bg-green-200"
+              >
+                <MdClose size={20} />
+              </button>
+            </div>
           )}
           <div className="flex border-b mb-6 min-w-full overflow-auto">
             {[
@@ -125,22 +125,28 @@ function Application() {
                 key={key}
                 onClick={() => setView(key)}
                 className={`mx-2 p-2 hover:text-gray-500 ${
-                  view === key ? "sticky left-0 bg-gray-200 border-b-2 border-green-600 font-medium" : ""
+                  view === key
+                    ? "sticky left-0 bg-gray-200 border-b-2 border-green-600 font-medium"
+                    : ""
                 }`}
               >
                 {label} ({getStatusCount(key)})
               </button>
             ))}
           </div>
-          <div className="my-3 flex flex-col items-stretch min-w-full overflow-x-auto">
-            {view === "shortlist"
-              ? filteredApplications.map((app, index) => (
-                  <AllShortlistedApplicants key={app.id} app={app} index={index} />
-                ))
-              : filteredApplications.map((app, index) => (
-                  <AllApplicants key={app.id} app={app} index={index} />
-                ))}
-          </div>
+          {getAllApplications?.data ? (
+            <div className="my-3 flex flex-col items-stretch min-w-full overflow-x-auto">
+              {view === "shortlist"
+                ? filteredApplications.map((app, index) => (
+                    <AllShortlistedApplicants key={app.id} app={app} index={index} />
+                  ))
+                : filteredApplications.map((app, index) => (
+                    <AllApplicants key={app.id} app={app} index={index} />
+                  ))}
+            </div>
+          ) : (
+            <div className="my-6 text-center">Loading...</div>
+          )}
         </div>
       </div>
     </>
