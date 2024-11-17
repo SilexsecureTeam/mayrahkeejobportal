@@ -105,7 +105,7 @@ function ChatComponent({ selectedChat, setSelectedChat, applicationUtils }) {
         </div>
 
         {/* Chat Messages */}
-        <ul className="flex-1 flex w-full flex-col p-2 pb-28 overflow-y-auto">
+        <ul className="flex-1 flex w-full flex-col p-2 pb-20 overflow-y-auto">
           {messages &&
             messages.map((current, index) => {
               const getPositions = (sender) => {
