@@ -73,7 +73,7 @@ function ViewVerifications() {
 
   return (
     <div className="w-full flex flex-col gap-10">
-      <h1 className="text-xl font-semibold">Your Records status</h1>
+      <h1 className="text-xl font-semibold text-green-700">Your Records status</h1>
 
       {profileDetails ? (
         <div className="flex flex-col gap-5 w-full">
