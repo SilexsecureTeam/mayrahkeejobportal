@@ -65,12 +65,12 @@ function Meeting({ interview }) {
     if (authDetails.user.role === "employer") {
       getApplicant(interview.candidate_id, setApplicant);
     } else {
-      getJobById(interview.job_application_id, setJob);
+      getJobById(interview.employer_id, setJob);
     }
   }, []);
 
-  console.log(interview);
-
+  //console.log(interview);
+  //console.log(applicant);
   return (
     <>
       <div className="w-[95%] h-fit py-1 flex items-center justify-between px-8 bg-primaryColor/50 rounded-r-full rounded-l-full">

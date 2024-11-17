@@ -16,8 +16,10 @@ import { stages } from "../../utils/constants";
 import { onFailure } from "../../utils/notifications/OnFailure";
 import { LuLoader } from "react-icons/lu";
 import { ApplicationContext } from "../../context/ApplicationContext";
+import { IMAGE_URL } from "../../utils/base";
 
 function You({ data, job, applicant }) {
+
   const micRef = useRef(null);
   const { authDetails } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -53,7 +55,6 @@ function You({ data, job, applicant }) {
   const [isMicEnabled, setIsMicEnabled] = useState(false);
 
   // const toogleMic = () => setIsMicEnabled(!isMicEnabled);
-
   useEffect(() => {
     if (micRef.current) {
       if (micOn && micStream) {
@@ -99,14 +100,14 @@ function You({ data, job, applicant }) {
   };
 
   useEffect(() => {
-         if(typeof timeElapsed !== 'string' && !timeElapsed){
-            if(!loading){
-              leave();
-              navigate(`/company/applicants/detail/${application.id}`)
-            }
-         }
+    if (typeof timeElapsed !== 'string' && !timeElapsed) {
+      if (!loading) {
+        leave();
+        navigate(`/company/applicants/detail/${application.id}`)
+      }
+    }
   }, [loading, timeElapsed]);
-
+  console.log(job)
   return (
     <>
       {!timeElapsed && (
@@ -140,14 +141,21 @@ function You({ data, job, applicant }) {
               }}
             />
           ) : (
-            <div className="flex flex-col relative h-90 md:h-full rounded-[10px]">
+            <div className="flex flex-col relative md:h-full rounded-[10px]">
               <img
-                src="https://images.pexels.com/photos/6325968/pexels-photo-6325968.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+                src={
+                  job?.featured_image
+                    ? `${IMAGE_URL}/${job.featured_image}`
+                    : applicant?.profile
+                      ? `${IMAGE_URL}/${applicant.profile}`
+                      : "https://images.pexels.com/photos/6325968/pexels-photo-6325968.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+                }
                 className="w-full object-cover bg-gray-400/10"
               />
               <span className=" bg-gray-500 absolute left-0 top-0 p-1 w-fit h-fit text-little text-white  px-2">
-                {applicant && applicant?.full_name}
+                {applicant ? applicant?.full_name: job?.email}
               </span>
+
             </div>
           )}
         </div>
@@ -205,7 +213,9 @@ function You({ data, job, applicant }) {
         <div className="w-full md:flex flex-col h-max p-4 rounded-md bg-gray-950">
           {job && (
             <>
+            
               <span className="text-white font-semibold">Job Details</span>
+                
               <span className="text-white tracking-wider mt-3 flex justify-between w-full text-sm">
                 Title
                 <span>{job.job_title}</span>
@@ -223,6 +233,10 @@ function You({ data, job, applicant }) {
               <span className="text-white tracking-wider mt-3 flex justify-between w-full text-sm">
                 Qualifications <span>{job.qualification.length} needed</span>
               </span>
+              {/* <span className="text-white tracking-wider mt-3 flex justify-between w-full text-sm">
+                Contact Us
+                <span>{job.email}</span>
+              </span> */}
             </>
           )}
           {applicant && (

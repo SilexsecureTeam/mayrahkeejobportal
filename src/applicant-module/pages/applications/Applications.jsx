@@ -113,7 +113,7 @@ function Application() {
           <div className="flex border-b mb-6 min-w-full overflow-auto">
             {[
               { label: "All", key: "all" },
-              { label: "In Review", key: "reviewed" },
+              { label: "In Review", key: "in-review" },
               { label: "Interview", key: "interview" },
               { label: "Shortlisted", key: "shortlist" },
               { label: "Declined", key: "declined" },

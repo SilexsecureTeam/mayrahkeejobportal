@@ -10,7 +10,7 @@ import { onSuccess } from "../../../utils/notifications/OnSuccess";
 import DeleteDialog from "../../../components/DeleteDialog";
 import DefaultSwitch from "../../../components/DefaultSwitch";
 
-function JobDetails({ data, jobUtils }) {
+function JobDetails({ data, jobUtils, applicants }) {
   const [enabled, setEnabled] = useState(true);
   const [isDeleteOpen, setIsDeleteOpened] = useState(false);
 
@@ -144,7 +144,7 @@ function JobDetails({ data, jobUtils }) {
               <span className="font-semibold text-md">About this Role</span>
               <div className="text-sm gap-2 flex flex-col">
                 <span className="font-semibold p-2 bg-gray-100 text-center">
-                  5 applied of 10 capacity
+                  {applicants?.length} Applied
                 </span>
                 <span className="flex justify-between border-b border-dashed">
                   Job Posted on{" "}

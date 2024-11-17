@@ -35,7 +35,7 @@ function JobType() {
       case options[0].id:
         return <Applicants data={currentJob} applicants={allApplicants} />;
       case options[1].id:
-        return <JobDetails data={currentJob} jobUtils={jobUtils} />;
+        return <JobDetails data={currentJob} jobUtils={jobUtils} applicants={allApplicants} />;
     }
   };
 
