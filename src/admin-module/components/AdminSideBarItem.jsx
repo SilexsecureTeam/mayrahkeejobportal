@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 function AdminSideBarItem({ data, dispatch, state }) {
   const navigate = useNavigate();
+console.log(state,data);
 
   const navigateToPage = () => {
     if (data.type === "LOG-OUT") {

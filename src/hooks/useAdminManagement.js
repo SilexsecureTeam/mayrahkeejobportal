@@ -6,7 +6,7 @@ import axios from "axios";
 import { BASE_URL } from "../utils/base";
 import { user } from './../utils/dummies';
 import MainAxios from "../services/axios-main";
-import AddCurrency from './../admin-module/pages/settings/Currency/AddCurrency';
+// import AddCurrency from './../admin-module/pages/settings/Currency/AddCurrency';
 
 const PROFILE_DETAILS_KEY = "Admin Profile Detaials Database";
 
@@ -18,23 +18,23 @@ function UseAdminManagement() {
   const [selectedStatus, setSelectedStatus] = useState(null);
 
   const adminProfile = async () => {
-    // setLoading(true);
+    setLoading(true);
     // const { data } = await client.get(
     //   `/domesticStaff/get-staff/${authDetails.user.id}`
     // );
     // await set(PROFILE_DETAILS_KEY, data.data);
-    // setProfileDetails(data.data);
-    // setLoading(false);
+    setProfileDetails(authDetails.user); 
+    setLoading(false);
   };
 
   useEffect(() => {
     const initProfileDetails = async () => {
       try {
-        const dataFromDB = await get(PROFILE_DETAILS_KEY);
-        if (dataFromDB) {
-          setProfileDetails(dataFromDB);
-          return;
-        }
+        // const dataFromDB = await get(PROFILE_DETAILS_KEY);
+        // if (dataFromDB) {
+        //   setProfileDetails(dataFromDB);
+        //   return;
+        // }
         adminProfile();
       } catch (error) {
         console.error("Profile Error:", error);
@@ -288,6 +288,9 @@ function UseAdminManagement() {
       const response = await client.post("/currencies", currencyData);
       return response.data;
     } catch (error) {
+      if (error.status  === 500 ) {
+        return error.response
+      }
       console.error("Error adding currency:", error);
       return null;
     } finally {
@@ -432,9 +435,7 @@ function UseAdminManagement() {
     }
   };
 
-  const AdminRegistration = async (data) => {
-    console.log("data",data);
-    
+  const AdminRegistration = async (data) => {    
     try {
       setLoading(true)
       const response = await client.post('/admin/register', data)
@@ -443,7 +444,7 @@ function UseAdminManagement() {
       
     } catch (error) {
       if (error.status === 400) {
-        return error.response
+        return error
       }
       console.error('Error in registration', error.status)
     }

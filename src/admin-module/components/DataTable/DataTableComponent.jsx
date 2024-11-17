@@ -292,6 +292,8 @@ const DataTableComponent = ({ data, name, heading, isLoading, allowEdit }) => {
             ? "Change Status"
             : name === "artisan"
             ? "Edit Artisan"
+            : name === "job"
+            ? "Edit Job"
             : "Edit Domestic Staff"
         }
         modal

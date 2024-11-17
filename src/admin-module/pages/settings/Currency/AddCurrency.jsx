@@ -51,27 +51,28 @@ function AddCurrency() {
     try {
       const response = await AddFormCurrency(currencyData);
       console.log("Response:", response);
-      if (response) {
+      if (response.status === 201) {
         console.log("Currency Added:", response);
         toast.success("Currency added successfully!");
         setTimeout(() => {
           navigate("/admin/settings/currency");
         }, 2000); // Delay of 2 seconds before navigating
       } else {
-        toast.error("Failed to add currency");
+        
+        if (response && response.data && response.data.error) {
+          if (response.data.error.includes("The code has already been taken")) {
+            toast.error("Currency already exists");
+          } else {
+            setError(`Error adding currency: ${response.data.error}`);
+            toast.error(`Error adding currency: ${response.data.error}`);
+          }
+        } else {
+          setError(`Error adding currency`);
+          toast.error(`Error adding currency`);
+        }
       }
     } catch (err) {
-      if (err.response && err.response.data && err.response.data.error) {
-        if (err.response.data.error.includes("The code has already been taken")) {
-          toast.error("Currency already exists");
-        } else {
-          setError(`Error adding currency: ${err.response.data.error}`);
-          toast.error(`Error adding currency: ${err.response.data.error}`);
-        }
-      } else {
-        setError(`Error adding currency: ${err.message}`);
-        toast.error(`Error adding currency: ${err.message}`);
-      }
+      toast.error("An error occurred while adding currency");
       console.error("Error details:", err.response ? err.response.data : err.message);
     } finally {
       setLoading(false);

@@ -32,6 +32,7 @@ import AdminSideBar from "../admin-module/components/AdminSideBar";
 import AdminSideBarItem from "../admin-module/components/AdminSideBarItem";
 import JobDescriptionPage from "../admin-module/pages/Jobs/JobDescriptionPage";
 import AllJobs from "../admin-module/pages/Jobs/AllJobListing";
+import AdminReducer from "../reducers/AdminReducer";
 
 // Util Component
 const NavBar = lazy(() => import("../admin-module/components/NavBar"));
@@ -54,7 +55,8 @@ const DomesticStaffDetails = lazy(() => import("../admin-module/pages/domesticSt
 const Candidates = lazy(() => import("../admin-module/pages/candidate/Candidate"));
 
 function useAdminRoute() {
-  const [state, dispatch] = useReducer(StaffReducer, adminOptions[0]);
+  const path = useLocation().pathname;
+  const [state, dispatch] = useReducer(AdminReducer, adminOptions.find((option) => option.route === path));
   const { authDetails } = useContext(AuthContext);
   // const { changeTheme } = useContext(PrimeReactContext);
   const [isOpen, setIsOpen] = useState(false);
@@ -114,7 +116,7 @@ function useAdminRoute() {
                 >
                   <ul className="flex flex-col gap-[10px]">
                     {adminOptions.map((currentOption) => (
-                      <SideBarItem
+                      <AdminSideBarItem
                         key={currentOption.type}
                         data={currentOption}
                         dispatch={dispatch}

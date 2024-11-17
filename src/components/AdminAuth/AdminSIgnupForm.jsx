@@ -28,7 +28,7 @@ function AdminRegistrationForm() {
         toast.success("Registration successful!");
       } else {
         toast.error("Registration failed");
-        setError(response.data);
+        setError(response.response.data);
       }
     } catch (error) {
       toast.error("An error occurred during registration");
