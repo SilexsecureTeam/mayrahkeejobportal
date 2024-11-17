@@ -26,7 +26,7 @@ const Resume = lazy(() =>
   import("../staff-module/pages/resume/Resume")
 );
 const HelpCenter = lazy(() => import("../staff-module/pages/help-center/Help"));
-const Settings = lazy(() => import("../staff-module/pages/settings/Settings"));
+const Settings = lazy(() => import("../company-module/pages/settings/Settings"));
 
 function useStaffRoute() {
   const [state, dispatch] = useReducer(StaffReducer, staffOptions[0]);

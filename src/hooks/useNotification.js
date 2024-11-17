@@ -32,7 +32,7 @@ function useNotification(role) {
     try {
       const dataToSend = {
         user_id: authDetails.user.id,
-        user_type: authDetails.user.role,
+        user_type: authDetails.user.role || 'domestic',
         ...details,
       };
       const {data} = await client.patch(`/notification-settings`, dataToSend);
@@ -50,14 +50,17 @@ function useNotification(role) {
     try {
       const dataToSend = {
         user_id: authDetails?.user.id,
-        user_type: authDetails?.user.role,
+        user_type: authDetails?.user.role || 'domestic',
       };
       const {data} = await client.post(`/notification-settings`, dataToSend);
           
 
       setDetails({...data.settings[0]})
+      
+      return data.settings ? {...data.settings[0]} : {}
     } catch (e) {
       FormatError(e, setError, "Notification Error");
+      return {}
     } finally {
       setLoading(false);
     }
