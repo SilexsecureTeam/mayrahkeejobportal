@@ -73,6 +73,30 @@ function useJobManagement() {
     }
   }
 
+  const getSectors = async () => {
+    try {
+      const response = await client.get(`/sectors`);
+      return response.data.data
+    } catch (error) {
+      FormatError(error, setError, "Sector Error");
+      return []
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  const getSubSectors = async (sectorid) => {
+    try {
+      const response = await client.get(`/sub-sectors/${sectorid}`);
+      return response.data.data
+    } catch (error) {
+      FormatError(error, setError, "Sector Error");
+      return []
+    } finally {
+      setLoading(false);
+    }
+  }
+
   const addJob = async (handleSuccess) => {
     setLoading(true);
     try {
@@ -195,7 +219,9 @@ function useJobManagement() {
     getJobById,
     getJobsByApplicant,
     getEmployentTypes,
-    getCurrencies
+    getCurrencies,
+    getSectors,
+    getSubSectors
 
   };
 }

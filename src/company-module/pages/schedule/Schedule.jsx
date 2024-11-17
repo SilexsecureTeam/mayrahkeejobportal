@@ -48,10 +48,10 @@ function Schedule() {
             </thead>
 
             <tbody>
-              {/* {applicationUtils?.applicants &&
+              {applicationUtils?.applicants &&
                 applicationUtils?.applicants?.map((current) => (
                   <ApplicantRow key={current.id} data={current} />
-                ))} */}
+                ))}
             </tbody>
           </table>
         </div>

@@ -146,8 +146,14 @@ function UpdateCompanyProfileModal({
   const [displayPic, setDisplayPic] = useState("");
   const [socials, setSocials] = useState(["", "", "", ""]);
   const [companyProfile, setCompanyProfile] = useState();
-  const { details, setDetails, loading, onTextChange, updateCompanyProfile, retrievalState } =
-    companyHookProps;
+  const {
+    details,
+    setDetails,
+    loading,
+    onTextChange,
+    updateCompanyProfile,
+    retrievalState,
+  } = companyHookProps;
   const [campaignPhotos, setCampaignPhotos] = useState([
     ...details?.company_campaign_photos,
   ]);
@@ -159,10 +165,13 @@ function UpdateCompanyProfileModal({
     if (file && (file.type === "image/jpeg" || file.type === "image/png")) {
       // You can also perform additional actions with the valid file
       const generatedUrl = URL.createObjectURL(file);
+      if (campaignPhotos.length <= 0) return
       const list = [...campaignPhotos, { url: generatedUrl, file: file }];
       const files = list.map((current) => current.file);
-      setDetails({ ...details, [name]: files });
-      setCampaignPhotos(list);
+      if (list.length > 0) {
+        setDetails({ ...details, [name]: files });
+        setCampaignPhotos(list);
+      }
     } else {
       // Handle invalid file type
       alert("Please select a valid JPEG or PNG file.");
@@ -212,7 +221,11 @@ function UpdateCompanyProfileModal({
                 <div className="w-[20%] mt-[5px] flex items-start justify-start relative">
                   <img
                     className="h-[50px] w-[50px] rounded-full"
-                    src={displayPic ? displayPic : `${resourceUrl}/${details?.logo_image}`}
+                    src={
+                      displayPic
+                        ? displayPic
+                        : `${resourceUrl}/${details?.logo_image}`
+                    }
                   />
                   <input
                     id="displayPic"
