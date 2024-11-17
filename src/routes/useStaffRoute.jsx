@@ -15,7 +15,6 @@ const SideBar = lazy(() => import("../staff-module/components/SideBar"));
 const SideBarItem = lazy(() =>
   import("../staff-module/components//SideBarItem")
 );
-
 //pages
 const Dashboard = lazy(() => import("../staff-module/pages/dashboard/Dashboard"));
 const Home = lazy(() => import("../staff-module/pages/home/Home"));
