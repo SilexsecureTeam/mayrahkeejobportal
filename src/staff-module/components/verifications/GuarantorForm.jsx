@@ -118,7 +118,7 @@ function GuarantorForm() {
             const labelText = currentKey.replace(/_/g, " ").toUpperCase();
 
             return (
-              <div className="flex flex-col gap-1">
+              <div className="flex flex-col gap-1 break-all">
                 <label>{labelText}</label>
                 <label>{value}</label>
               </div>
