@@ -45,7 +45,13 @@ const EmployerStaff = () => {
 
   return (
     <div className="mx-14 mt-10 mb-24">
-      <Button label="Back" className="mb-4" outlined onClick={() => window.history.back()} icon={<FaArrowLeftLong className="me-4" />} />
+       <button
+          type="button"
+          onClick={() => window.history.back()}
+          className="flex items-center gap-2 outline outline-offset-5 outline-green-500 px-4 py-2 rounded text-green-500 hover:bg-green-100"
+        >
+       <FaArrowLeftLong className="me-4 text-green-500" />Back
+        </button>
       <h2 className="text-black border-b border-gray-500 text-2xl font-bold mt-10">Employer's Staffs</h2>
       <DataTableComponent heading={heading} data={data} loading={loading} name="domestic-staff" />
     </div>

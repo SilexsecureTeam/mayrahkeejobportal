@@ -7,6 +7,7 @@ import CurrencyDetails from './CurrencyDetails';
 import UseAdminManagement from '../../../../hooks/useAdminManagement';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { FaArrowLeftLong } from 'react-icons/fa6';
 
 export default function Currency() {
     const [currencies, setCurrencies] = useState([]);
@@ -54,6 +55,14 @@ export default function Currency() {
 
     return (
         <div className="card px-2">
+            <div className='px-8 py-5'><button
+                type="button"
+                onClick={() => window.history.back()}
+                className="flex items-center gap-2 outline outline-offset-5 outline-green-500 px-4 py-2 rounded text-green-500 hover:bg-green-100"
+            >
+                <FaArrowLeftLong className="me-4 text-green-500" />Back
+            </button>
+            </div>
             <ToastContainer />
             <div className="flex flex-col md:flex-row justify-between items-center mb-4 text-center md:text-left">
                 <h1 className="text-2xl font-bold mb-4 md:mb-0">Currency Management</h1>

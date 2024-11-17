@@ -45,14 +45,16 @@ const DataTableComponent = ({ data, name, heading, isLoading, allowEdit }) => {
   const renderHeader = () => {
     return (
       <div className="flex flex-col sm:flex-row justify-between items-center gap-2">
-        <Button
+        <div className="flex items-center gap-2 w-full sm:w-auto">
+        <button
           type="button"
-          icon={<RiFilterOffLine className="mr-3" />}
-          label="Clear"
-          outlined
           onClick={clearFilter}
-          className="w-full sm:w-auto"
-        />
+          className="flex items-center gap-2 bg-green-300 px-4 py-2 rounded text-white"
+        >
+          <RiFilterOffLine className="mr-2" /> Clear
+        </button>
+      </div>
+
         <span className="p-input-icon-left w-full sm:w-auto">
           <FaSearch className="ml-2 text-gray-500" />
           <InputText
@@ -123,15 +125,24 @@ const DataTableComponent = ({ data, name, heading, isLoading, allowEdit }) => {
 
   const actionBodyTemplate = (rowData) => {
     return (
-      <div className="flex justify-center">
+      <div className="flex justify-center space-x-2">
         {allowEdit && (
-          <Button
-            type="button"
-            icon={<BiPencil className="mr-2 text-lg" />}
-            outlined
-            className="mr-2"
-            onClick={(e) => editData(e, rowData)}
-          />
+          // <Button
+          //   type="button"
+          //   icon={<BiPencil className="mr-2 text-lg" />}
+          //   outlined
+          //   className="mr-2"
+          //   onClick={(e) => editData(e, rowData)}
+          // />
+         
+        <button
+          type="button"
+          onClick={(e) => editData(e, rowData)}
+          className="flex items-center gap-2 bg-green-500 px-4 py-2 rounded"
+        >
+         <BiPencil className="ml-2 text-lg text-white" />
+        </button>
+        
         )}
         <button
           type="button"

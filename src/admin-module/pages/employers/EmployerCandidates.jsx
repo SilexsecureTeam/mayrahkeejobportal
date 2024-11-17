@@ -48,13 +48,13 @@ const EmployerCandidates = () => {
 
   return (
     <div className="max-w-screen-lg mx-auto mt-10 px-4 sm:px-6 lg:px-8">
-      <Button
-        label="Back"
-        className="mb-6"
-        outlined
-        onClick={() => window.history.back()}
-        icon={<FaArrowLeftLong className="me-4" />}
-      />
+       <button
+          type="button"
+          onClick={() => window.history.back()}
+          className="flex items-center gap-2 outline outline-offset-5 outline-green-500 px-4 py-2 rounded text-green-500 hover:bg-green-100"
+        >
+       <FaArrowLeftLong className="me-4 text-green-500" />Back
+        </button>
       <h2 className="text-3xl font-extrabold text-gray-800 mb-8">Employer's Candidates</h2>
       {employers.length === 0 ? (
         <div className="text-center text-gray-500">

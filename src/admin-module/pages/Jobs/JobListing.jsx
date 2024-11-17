@@ -4,6 +4,8 @@ import { FaEye } from "react-icons/fa";
 import JobListingChart from "./JobListingChart";
 import { FaBriefcase } from "react-icons/fa6";
 import JobsUsageChart from "./JobsUsageChart";
+import { useNavigate } from "react-router-dom";
+
 
 const visitorsByCountry = [
   { country: "USA", flag: "🇺🇸", visitors: 1200 },
@@ -20,6 +22,11 @@ const visitorsByCountry = [
 ];
 
 function JobListing() {
+  const navigate = useNavigate();
+
+  const handleNavigate = () => {
+    navigate("/admin/jobs");
+  };
   return (
     <div className="p-4 flex flex-wrap gap-4">
       <div className="w-full md:w-3/5 lg:w-3/5 flex flex-col gap-4">
@@ -41,7 +48,10 @@ function JobListing() {
             </div>
           </div>
 
-          <div className="w-full md:w-1/2 lg:w-1/2 shadow-lg p-4 bg-white rounded-lg">
+          <div
+            className="w-full md:w-1/2 lg:w-1/2 shadow-lg p-4 bg-white rounded-lg hover:cursor-pointer hover:bg-green-200"
+            onClick={handleNavigate}
+          >
             <div className="flex justify-between items-center mb-4">
               <div>
                 <h2 className="text-md text-zinc-400">Total Applied</h2>

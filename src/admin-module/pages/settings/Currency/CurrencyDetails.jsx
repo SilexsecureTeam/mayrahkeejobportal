@@ -2,6 +2,7 @@ import React from 'react';
 
 const CurrencyDetails = ({ selectedCurrency, buttons }) => (
     <div className="card">
+        
         <h2>Currency Details</h2>
         {selectedCurrency ? (
             <div>

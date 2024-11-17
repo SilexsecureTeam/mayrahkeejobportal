@@ -21,7 +21,7 @@ const DashboardCard = ({
   };
 
   return (
-    <div className="bg-white border border-gray-200 h-60 hover:bg-green-500 hover:cursor-pointer" onClick={handleClick}>
+    <div className="bg-white border border-gray-200 h-60 hover:bg-green-500 hover:cursor-pointer hover:text-white" onClick={handleClick}>
       <div className={`flex items-start mt-10 px-10 justify-between gap-10`}>
         {rightIcon && <div className={`text-7xl text-green-500 `}>{rightIcon}</div>}
         <div>
@@ -35,7 +35,7 @@ const DashboardCard = ({
               >
                 {smallTextIcon}
               </span>
-              <span className="text-gray-400">{smallText}</span>
+              <span className="text-gray-600">{smallText}</span>
             </div>
           )}
         </div>

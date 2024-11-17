@@ -1,6 +1,7 @@
 import React from 'react';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
+import { FaArrowLeftLong } from 'react-icons/fa6';
 
 const CurrencyTable = ({ title, currencies, selectedCurrencies, setSelectedCurrencies, onDelete }) => {
     const actionBodyTemplate = (rowData) => {
@@ -24,6 +25,8 @@ const CurrencyTable = ({ title, currencies, selectedCurrencies, setSelectedCurre
     };
 
     return (
+          <>
+            
         <div className="card">
             <h2>{title}</h2>
             <DataTable value={currencies} selectionMode={title !== "Overview" ? "checkbox" : null} selection={selectedCurrencies} onSelectionChange={(e) => setSelectedCurrencies(e.value)} dataKey="id" tableStyle={{ minWidth: '50rem' }}>
@@ -33,7 +36,7 @@ const CurrencyTable = ({ title, currencies, selectedCurrencies, setSelectedCurre
                 <Column field="image" header="Image" body={flagBodyTemplate}></Column>
                 {title !== "Overview" && <Column header="Actions" body={actionBodyTemplate}></Column>}
             </DataTable>
-        </div>
+        </div></>
     );
 };
 

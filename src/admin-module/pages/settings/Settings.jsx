@@ -2,6 +2,7 @@ import { BsEye, BsGift, BsNewspaper, BsStopwatch } from "react-icons/bs";
 import SettingsCard from "../../components/Settings/SettingsCard";
 import { FaFile, FaPlus } from "react-icons/fa";
 import { BiLabel, BiShieldPlus } from "react-icons/bi";
+import { FiVolume } from "react-icons/fi";
 
 function Settings() {
     return (
@@ -36,7 +37,7 @@ function Settings() {
                     link=""
                      />
                 <SettingsCard
-                    rightIcon={<BsStopwatch />}
+                    rightIcon={<FiVolume />}
                     title="Notifications"
                     subtitle="Choose notification preferences and how you want to be contacted"
                     smallTextIcon={<FaPlus/>}

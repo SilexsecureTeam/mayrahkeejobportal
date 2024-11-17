@@ -55,7 +55,7 @@ function Artisan() {
   return (
     <>
       <Helmet>
-        <title>Admin| Dashboard</title>
+        <title>Admin| Artisans</title>
       </Helmet>
       <div className="h-full p-6 w-full text-sm text-gray-800">
         <div className="text-sm">

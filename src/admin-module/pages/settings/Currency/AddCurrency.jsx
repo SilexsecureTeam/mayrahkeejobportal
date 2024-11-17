@@ -7,6 +7,7 @@ import { countries, currencies } from 'country-data';
 import UseAdminManagement from "../../../../hooks/useAdminManagement";
 import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import { FaArrowLeftLong } from "react-icons/fa6";
 
 const countryOptions = Object.keys(countries).map(countryCode => ({
   value: countryCode,
@@ -83,6 +84,15 @@ function AddCurrency() {
         <title>Add Currency</title>
       </Helmet>
       <ToastContainer />
+      <div className='px-8 py-5'>
+        <button
+          type="button"
+          onClick={() => window.history.back()}
+          className="flex items-center gap-2 outline outline-offset-5 outline-green-500 px-4 py-2 rounded text-green-500 hover:bg-green-100"
+        >
+          <FaArrowLeftLong className="me-4 text-green-500" />Back
+        </button>
+      </div>
       <div className="h-full p-6 w-full text-sm text-gray-800 flex justify-center items-center">
         <form onSubmit={handleSubmit} className="space-y-4 shadow-lg p-6 rounded-md bg-white w-full max-w-lg">
           <h2 className="text-2xl font-bold mb-4">Add New Currency</h2>
@@ -110,7 +120,7 @@ function AddCurrency() {
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-700">Flag</label>
-            <img src={flag} alt="Country Flag" className="mt-1 block w-8 h-8 object-contain rounded-full"/>
+            <img src={flag} alt="Country Flag" className="mt-1 block w-8 h-8 object-contain rounded-full" />
           </div>
           <button
             type="submit"

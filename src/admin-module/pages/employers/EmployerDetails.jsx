@@ -37,7 +37,13 @@ const EmployerDetails = () => {
 
   return (
     <div className="p-4">
-      <Button label="Back" className="mb-4" outlined onClick={() => window.history.back()} icon={<FaArrowLeftLong className="me-4" />} />
+       <button
+          type="button"
+          onClick={() => window.history.back()}
+          className="flex items-center gap-2 outline outline-offset-5 outline-green-500 px-4 py-2 rounded text-green-500 hover:bg-green-100"
+        >
+       <FaArrowLeftLong className="me-4 text-green-500" />Back
+        </button>
       <div className="card mb-4">
         <TabMenu model={items} className="w-full" activeIndex={-1} />
       </div>

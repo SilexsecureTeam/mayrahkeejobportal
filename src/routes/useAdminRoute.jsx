@@ -6,7 +6,7 @@ import { clear } from "idb-keyval";
 import StaffReducer from "../reducers/StaffReducer";
 import { AdminManagementContextProvider } from "../context/AdminManagementModule";
 import { AdminRouteContextProvider } from "../context/AdminRouteContext";
-import { PrimeReactProvider } from "primereact/api";
+import { PrimeReactProvider, PrimeReactContext } from "primereact/api";
 import Tailwind from "primereact/passthrough/tailwind";
 import AllCandidate from "../admin-module/pages/candidate/AllCandidate";
 import CandidateDetails from "../admin-module/pages/candidate/CandidateDetails";
@@ -30,6 +30,8 @@ import AdminRegistrationForm from "../components/AdminAuth/AdminSIgnupForm";
 import AdminLogout from "../components/AdminAuth/AdminLogout";
 import AdminSideBar from "../admin-module/components/AdminSideBar";
 import AdminSideBarItem from "../admin-module/components/AdminSideBarItem";
+import JobDescriptionPage from "../admin-module/pages/Jobs/JobDescriptionPage";
+import AllJobs from "../admin-module/pages/Jobs/AllJobListing";
 
 // Util Component
 const NavBar = lazy(() => import("../admin-module/components/NavBar"));
@@ -54,6 +56,7 @@ const Candidates = lazy(() => import("../admin-module/pages/candidate/Candidate"
 function useAdminRoute() {
   const [state, dispatch] = useReducer(StaffReducer, adminOptions[0]);
   const { authDetails } = useContext(AuthContext);
+  // const { changeTheme } = useContext(PrimeReactContext);
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
@@ -89,6 +92,12 @@ function useAdminRoute() {
   ];
 
   const shouldHideNavBar = hideNavBarRoutes.includes(location.pathname);
+
+  // const handleThemeChange = (newTheme) => {
+  //   changeTheme('lara-light-blue', newTheme, 'theme-link', () => {
+  //     console.log(`Theme changed to ${newTheme}`);
+  //   });
+  // };
 
   return (
     <>
@@ -169,8 +178,11 @@ function useAdminRoute() {
                       <Route path="candidate/details/:id" element={<CandidateDetails />} />
                       <Route path="candidate/:id/staffs" element={<CandidateStaff />} />
                       <Route path="job-listing" element={<JobListing />} />
+                      <Route path="jobs" element={<AllJobs />} />
+                      <Route path="job/details/:id" element={<JobDescriptionPage />} />
                       <Route path="guarantors" element={<AllGuarantors />} />
                       <Route path="medical-histories" element={<AllMedicalHistories />} />
+                      
                       <Route path="police-reports" element={<AllPoliceReports />} />
                     </Routes>
                   </PrimeReactProvider>

@@ -496,6 +496,33 @@ const AdminForgotPwd = async (data)=>{
     }
   }
 
+  const getAllJobs = async ()=>{
+    try {
+      setLoading(true)
+      const response = await client.get("/job")
+      return response.data
+    } catch (error) {
+      console.error("error getting jobs",error)
+    }
+    finally{
+      setLoading(false)
+    }
+  }
+
+const getJobById = async (id)=>{
+  try{
+    setLoading(true)
+    const response= await client.get(`/job/${id}`)
+    return response.data
+  }
+  catch(error){
+    console.log('Error getting job by id',error)
+  }
+  finally{
+    setLoading(false)
+  }
+}
+
   return {
     loading,
     profileDetails,
@@ -529,6 +556,8 @@ const AdminForgotPwd = async (data)=>{
     AdminChangePwd,
     AdminForgotPwd,
     AdminResetPwd,
+    getAllJobs,
+    getJobById,
   };
 }
 
