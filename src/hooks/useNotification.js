@@ -53,7 +53,6 @@ function useNotification(role) {
         user_type: authDetails?.user.role || 'domestic',
       };
       const {data} = await client.post(`/notification-settings`, dataToSend);
-          
 
       setDetails({...data.settings[0]})
       
