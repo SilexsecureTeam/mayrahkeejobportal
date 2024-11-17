@@ -16,7 +16,6 @@ function UseAdminManagement() {
   const [profileDetails, setProfileDetails] = useState();
   const [loading, setLoading] = useState(false);
   const [selectedStatus, setSelectedStatus] = useState(null);
-
   const adminProfile = async () => {
     // setLoading(true);
     // const { data } = await client.get(
