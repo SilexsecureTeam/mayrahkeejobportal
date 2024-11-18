@@ -53,6 +53,7 @@ const AllDomesticStaff = lazy(() => import("../admin-module/pages/domesticStaff/
 const DomesticStaffDetails = lazy(() => import("../admin-module/pages/domesticStaff/DomesticStaffDetails"));
 const Candidates = lazy(() => import("../admin-module/pages/candidate/Candidate"));
 
+
 function useAdminRoute() {
   const [state, dispatch] = useReducer(StaffReducer, adminOptions[0]);
   const { authDetails } = useContext(AuthContext);
