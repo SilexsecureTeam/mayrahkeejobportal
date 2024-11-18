@@ -1,10 +1,7 @@
 import axios from "axios";
-import React from "react";
-import { useState } from "react";
-import { useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { BASE_URL } from "../../../utils/base";
-import { useContext } from "react";
 import { AuthContext } from "../../../context/AuthContex";
 
 const ShortListedDetails = () => {
@@ -21,35 +18,14 @@ const ShortListedDetails = () => {
         },
       })
       .then((response) => {
-        // console.log(response)
         setState(response.data.interview);
-        // onSuccess({
-        //     message: 'New Application',
-        //     success: response.data.message
-        // })
       })
       .catch((error) => {
         console.log(error);
-        if (error.response) {
-          setErrorMsg(error.response.data.message);
-        } else {
-          console.log(error);
-          setErrorMsg(error.message);
-        }
       });
   };
 
   const handleOnClick = () => {
-    // const interviewDate = new Date(interview.interview_date);
-    // const currentDate = new Date();
-    // if (interviewDate === currentDate) {
-    // } else {
-    //   onFailure({
-    //     message: "Interview Error",
-    //     error: "This interview is not scheduled for this time",
-    //   });
-    // }
-
     navigate("/interview-room", { state: { interview: newInterview } });
   };
 
@@ -57,69 +33,36 @@ const ShortListedDetails = () => {
     getInterviews(state.app?.interview_id, setNewInterview);
   }, []);
 
-  console.log("Interview", newInterview);
-
   const date = new Date(newInterview?.interview_date);
+
   return (
-    <div className="p-8">
-      <div className="h-full  w-full text-s text-primary">
-        <h4 className=" font-semibold text-2xl mb-5">
+    <div className="p-4 sm:p-6 md:p-8">
+      <div className="h-full w-full text-s text-primary">
+        <h4 className="font-semibold text-lg sm:text-xl md:text-2xl mb-5">
           Your Interview Information
         </h4>
 
-        <div className=" rounded w-[80%] border">
-          <div className="flex">
-            <div className="w-1/3 bg-lightorange p-4">
-              <p className="font-bold">Interviewer's Name:</p>
+        <div className="rounded w-full sm:w-[90%] md:w-[80%] border">
+          {[
+            { label: "Interview Name:", value: newInterview?.interviewer_name },
+            { label: "Interview Date:", value: date.toLocaleDateString() },
+            {
+              label: "Interview Time:",
+              value: newInterview?.interview_time || "not available",
+            },
+            { label: "Location:", value: newInterview?.location },
+            { label: "Note:", value: newInterview?.notes },
+            { label: "Meeting Id:", value: newInterview?.meeting_id },
+          ].map((item, index) => (
+            <div className="flex flex-col sm:flex-row" key={index}>
+              <div className="w-full sm:w-1/3 bg-lightorange p-4">
+                <p className="font-bold">{item.label}</p>
+              </div>
+              <div className="w-full sm:w-2/3 p-4">
+                <p>{item.value}</p>
+              </div>
             </div>
-            <div className="w-2/3 p-4">
-              <p>{newInterview?.interviewer_name}</p>
-            </div>
-          </div>
-          <div className="flex">
-            <div className="w-1/3 bg-lightorange p-4">
-              <p className="font-bold">Interview Date:</p>
-            </div>
-            <div className="w-2/3 p-4">
-              <p>{date.toLocaleDateString()}</p>
-            </div>
-          </div>
-          <div className="flex">
-            <div className="w-1/3 bg-lightorange p-4">
-              <p className="font-bold">Interview Time:</p>
-            </div>
-            <div className="w-2/3 p-4">
-              <p>
-                {newInterview?.interview_time
-                  ? newInterview.interview_time
-                  : "not available"}
-              </p>
-            </div>
-          </div>
-          <div className="flex">
-            <div className="w-1/3 bg-lightorange p-4">
-              <p className="font-bold">Location:</p>
-            </div>
-            <div className="w-2/3 p-4">
-              <p>{newInterview?.location}</p>
-            </div>
-          </div>
-          <div className="flex">
-            <div className="w-1/3 bg-lightorange p-4">
-              <p className="font-bold">Note:</p>
-            </div>
-            <div className="w-2/3 p-4">
-              <p>{newInterview?.notes}</p>
-            </div>
-          </div>
-          <div className="flex">
-            <div className="w-1/3 bg-lightorange p-4">
-              <p className="font-bold">Meeting Id:</p>
-            </div>
-            <div className="w-2/3 p-4 text-black">
-              <p>{newInterview?.meeting_id}</p>
-            </div>
-          </div>
+          ))}
         </div>
       </div>
 
@@ -128,9 +71,9 @@ const ShortListedDetails = () => {
       ) : (
         <button
           onClick={handleOnClick}
-          className=" flex border mt-5 hover:bg-primaryColor hover:text-white border-primaryColor p-2 text-little text-primaryColor"
+          className="flex w-full sm:w-auto border mt-5 hover:bg-primaryColor hover:text-white border-primaryColor p-2 text-sm sm:text-little text-primaryColor"
         >
-          Proceed to Inteview
+          Proceed to Interview
         </button>
       )}
     </div>
