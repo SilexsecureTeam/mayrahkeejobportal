@@ -1,9 +1,13 @@
 import { BsEye, BsGift, BsNewspaper, BsStopwatch } from "react-icons/bs";
 import SettingsCard from "../../components/Settings/SettingsCard";
-import { FaFile, FaPlus } from "react-icons/fa";
+import { FaFile, FaMoneyBill, FaPlus } from "react-icons/fa";
 import { BiLabel, BiShieldPlus } from "react-icons/bi";
 import { FiVolume } from "react-icons/fi";
-
+import { TbShieldHalf } from "react-icons/tb";
+import { HiOutlineMegaphone } from "react-icons/hi2";
+import { SiSimpleanalytics } from "react-icons/si";
+import { BsToggles } from "react-icons/bs";
+import { MdAttachMoney } from "react-icons/md";
 function Settings() {
     return (
         <>
@@ -16,14 +20,14 @@ function Settings() {
                     link="/admin/settings/sectors"
                      />
                 <SettingsCard
-                    rightIcon={<BiShieldPlus />}
+                    rightIcon={<TbShieldHalf />}
                     title="Login and Security"
                     subtitle="Update your password and secure your account"
                     smallTextIcon={<FaPlus/>}
                     link=""
                      />
                 <SettingsCard
-                    rightIcon={<BiLabel />}
+                    rightIcon={<FaMoneyBill />}
                     title="Payments & payouts"
                     subtitle="Review payments, payouts, coupons, and gift cards"
                     smallTextIcon={<FaPlus/>}
@@ -37,7 +41,7 @@ function Settings() {
                     link=""
                      />
                 <SettingsCard
-                    rightIcon={<FiVolume />}
+                    rightIcon={<HiOutlineMegaphone />}
                     title="Notifications"
                     subtitle="Choose notification preferences and how you want to be contacted"
                     smallTextIcon={<FaPlus/>}
@@ -51,21 +55,21 @@ function Settings() {
                     link=""
                      />
                 <SettingsCard
-                    rightIcon={<BsStopwatch />}
+                    rightIcon={<BsToggles />}
                     title="Global preferences"
                     subtitle="Set your default language, currency, and timezone"
                     smallTextIcon={<FaPlus/>}
                     link=""
                      />
                 <SettingsCard
-                    rightIcon={<BsStopwatch />}
+                    rightIcon={<MdAttachMoney />}
                     title="Manage Currency"
                     subtitle="Add a work email for business trip benefits"
                     smallTextIcon={<FaPlus/>}
                     link="/admin/settings/currency"
                      />
                 <SettingsCard
-                    rightIcon={<BsStopwatch />}
+                    rightIcon={<SiSimpleanalytics />}
                     title="Professional hosting tools"
                     subtitle="Get professional tools if you manage several properties on Airbnb"
                     smallTextIcon={<FaPlus/>}

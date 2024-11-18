@@ -16,8 +16,9 @@ function AdminSideBar({
     <>
       <aside className="w-[18%] hidden h-full items-center bg-secondaryColor px-2 pb-2 md:flex flex-col justify-start overflow-y-auto">
         <img src={mainLogoTwo} className="w-[80%] max-w-[150px] my-4" />
-        <img src="/src/assets/pngs/approved.png" alt="admin profile" className="h-[70px] w-[70px] rounded-full mb-4" />
-        <h1 className="pb-4 font-bold">{userName}</h1> {/* Display userName */}
+        <img src={authDetails?.user?.profile_image ?? "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQeD-zj7jRUxUFZ6zAIqvdnR2YPYRQHMi4Mvw&s"}
+         alt="admin profile" className="h-[70px] w-[70px] rounded-full object-cover mb-4" />
+        <h1 className="pb-4 font-bold">{authDetails?.user?.name}</h1> {/* Display userName */}
         <nav className="w-full flex flex-col justify-start gap-[20px] divide-y-2">
           {children[0]}
           <div className="flex flex-col gap-[5px] ">

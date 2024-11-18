@@ -20,7 +20,7 @@ import UseAdminManagement from "../../../hooks/useAdminManagement";
 function Dashboard() {
   const { authDetails } = useContext(AuthContext);
   const { setSideBar } = useContext(AdminRouteContext);
-const {getEmployers,getCandidates,getArtisans,getDomesticStaff } = UseAdminManagement()
+const {getEmployers,getCandidates,getArtisans,getDomesticStaff,getAllJobs } = UseAdminManagement()
 
   const [employersCount, setEmployersCount] = useState(0);
   const [candidatesCount, setCandidatesCount] = useState(0);
@@ -48,7 +48,7 @@ const {getEmployers,getCandidates,getArtisans,getDomesticStaff } = UseAdminManag
       const domesticStaff = await getDomesticStaff();
       setDomesticStaffCount(domesticStaff.length);
 
-      const jobLearning = await getJobLearning();
+      const jobLearning = await getAllJobs();
       setJobLearningCount(jobLearning.length);
     })();
   }, []);
@@ -117,7 +117,7 @@ const {getEmployers,getCandidates,getArtisans,getDomesticStaff } = UseAdminManag
             /> */}
             <DashboardCard
               leftIcon={<BsStopwatch />}
-              title="5000"
+              title={jobLearningCount}
               subtitle="Job Listing"
               smallText="10% Generated"
               smallTextIcon={<FaArrowTrendUp />}

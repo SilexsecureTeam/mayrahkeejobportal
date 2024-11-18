@@ -61,17 +61,9 @@ function AddCurrency() {
         toast.error("Failed to add currency");
       }
     } catch (err) {
-      if (err.response && err.response.data && err.response.data.error) {
-        if (err.response.data.error.includes("The code has already been taken")) {
+        if (err.status === 500) {
           toast.error("Currency already exists");
-        } else {
-          setError(`Error adding currency: ${err.response.data.error}`);
-          toast.error(`Error adding currency: ${err.response.data.error}`);
         }
-      } else {
-        setError(`Error adding currency: ${err.message}`);
-        toast.error(`Error adding currency: ${err.message}`);
-      }
       console.error("Error details:", err.response ? err.response.data : err.message);
     } finally {
       setLoading(false);
