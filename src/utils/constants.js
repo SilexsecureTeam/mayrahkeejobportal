@@ -51,6 +51,17 @@ import bubblesIcon from "../assets/pngs/bubbles-icon.png";
 import loopIcon from "../assets/pngs/loop-icon.png";
 import pathscriptIcon from "../assets/pngs/pathscript-icon.png";
 
+//Admin Icons
+import artisanIcon from "../assets/pngs/Admin-Dashboard/Artisan.png";
+import domesticIcon from "../assets/pngs/Admin-Dashboard/domestic-work (1).png";
+import domesticActiveIcon from "../assets/pngs/Admin-Dashboard/domestic-work.png";
+import policeIcon from "../assets/pngs/Admin-Dashboard/police-report.png";
+import jobsIcon from "../assets/pngs/Admin-Dashboard/Jobs.png";
+import guarantorIcon from "../assets/pngs/Admin-Dashboard/guarantor.png";
+import medicalIcon from "../assets/pngs/Admin-Dashboard/health-check.png";
+import badgeIcon from "../assets/pngs/Admin-Dashboard/badge.png";
+import todoIcon from "../assets/pngs/Admin-Dashboard/to-do-list.png";
+
 export const applicantOptions = [
   {
     type: "DASHBOARD",
@@ -282,12 +293,69 @@ export const staffUtilOptions = [
 
 export const adminOptions = [
   {
-    type: "Home",
-    title: "Dashboard",
-    route: "/staff",
+    type: "Dashboard",
+    title: "Home",
+    route: "/admin",
     icon: homeIcon,
     iconActive: homeIconActive,
-  }
+  },
+  {
+    type: "Employers",
+    title: "Employers",
+    route: "/admin/employers",
+    icon: peopleIcon,
+    iconActive: peopleIcon,
+  },
+  {
+    type: "Artisan",
+    title: "Artisan",
+    route: "/admin/artisan",
+    icon: artisanIcon,
+    iconActive: artisanIcon,
+  }, 
+  {
+    type: "Domestic Staff",
+    title: "Domestic Staff",
+    route: "/admin/domestic-staff",
+    icon: domesticIcon,
+    iconActive: domesticActiveIcon,
+  },
+  {
+    type: "Candidates",
+    title: "Candidates",
+    route: "/admin/candidates",
+    icon: todoIcon,
+    iconActive: homeIconActive,
+  },
+  {
+    type: "Job Listing",
+    title: "Job Listing",
+    route: "/admin/job-listing",
+    icon: jobsIcon,
+    iconActive: jobsIcon,
+  },
+  {
+    type: "Guarantors",
+    title: "Gurarantors",
+    route: "/admin/guarantors",
+    icon: guarantorIcon,
+    iconActive: guarantorIcon,
+  },
+  {
+    type: "Medical Histories",
+    title: "Medical Histories",
+    route: "/admin/medical-histories",
+    icon: medicalIcon,
+    iconActive: medicalIcon,
+  },
+  {
+    type: "Police Reports",
+    title: "Police Reports",
+    route: "/admin/police-reports",
+    icon: policeIcon,
+    iconActive: policeIcon,
+  },
+ 
 ];
 
 export const adminnUtilOptions = [
@@ -295,20 +363,14 @@ export const adminnUtilOptions = [
     type: "SETTINGS",
     title: "Settings",
     route: "/staff/settings",
+    route: "/admin/settings",
     icon: settingsIcon,
     iconActive: settingsIconActive,
   },
   {
-    type: "HELP-CENTER",
-    title: "Help Center",
-    route: "/staff/help-center",
-    icon: helpIcon,
-    iconActive: helpIcon,
-  },
-  {
     type: "LOG-OUT",
     title: "Log Out",
-    route: "/",
+    route: "/admin/logout",
     icon: helpIcon,
     iconActive: helpIcon,
   },

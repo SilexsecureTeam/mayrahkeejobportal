@@ -1,4 +1,5 @@
 import { Helmet } from "react-helmet";
+<<<<<<< HEAD
 import docsIcon from "../../../assets/pngs/doc-vector.png";
 import chatsIcon from "../../../assets/pngs/multiple-chat.png";
 import { FaArrowRightLong } from "react-icons/fa6";
@@ -9,18 +10,37 @@ import {
   MdOutlineRemoveRedEye,
 } from "react-icons/md";
 import { RiCalendarEventLine } from "react-icons/ri";
+=======
+import {
+  FaArrowTrendDown,
+  FaArrowTrendUp,
+  FaPlus,
+} from "react-icons/fa6";
+import { FiUsers } from "react-icons/fi";
+import { RiCalendarEventLine, RiFileUserFill } from "react-icons/ri";
+>>>>>>> 05fcba9ae1e82e443db1a4814162073e9cc5fe1f
 import { generateDateRange } from "../../../utils/formmaters";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../../context/AuthContex";
 import { useNavigate } from "react-router-dom";
+<<<<<<< HEAD
 import { StaffManagementContext } from "../../../context/StaffManagementModule";
 import DefaultSwitch from "../../../components/DefaultSwitch";
 import { AdminRouteContext } from "../../../context/AdminRouteContext";
 import { AdminManagementContext } from "../../../context/AdminManagementModule";
+=======
+import { AdminRouteContext } from "../../../context/AdminRouteContext";
+import DashboardCard from "../../components/dashboard/DashboardCards";
+import { BsStopwatch } from "react-icons/bs";
+import { TbCalendarClock } from "react-icons/tb";
+import DashboardChart from "../../components/dashboard/DashboardChart";
+import UseAdminManagement from "../../../hooks/useAdminManagement";
+>>>>>>> 05fcba9ae1e82e443db1a4814162073e9cc5fe1f
 
 function Dashboard() {
   const { authDetails } = useContext(AuthContext);
   const { setSideBar } = useContext(AdminRouteContext);
+<<<<<<< HEAD
   const { profileDetails, getAdminProfile } = useContext(
     AdminManagementContext
   );
@@ -37,6 +57,15 @@ function Dashboard() {
         currentKey == "police_report_verification_status" ||
         currentKey == "previous_employer_verification_status"
     );
+=======
+const {getEmployers,getCandidates,getArtisans,getDomesticStaff } = UseAdminManagement()
+
+  const [employersCount, setEmployersCount] = useState(0);
+  const [candidatesCount, setCandidatesCount] = useState(0);
+  const [artisansCount, setArtisansCount] = useState(0);
+  const [domesticStaffCount, setDomesticStaffCount] = useState(0);
+  const [jobLearningCount, setJobLearningCount] = useState(0);
+>>>>>>> 05fcba9ae1e82e443db1a4814162073e9cc5fe1f
 
   const navigate = useNavigate();
   const navigateToPage = (route, index) => {
@@ -45,6 +74,7 @@ function Dashboard() {
   };
 
   useEffect(() => {
+<<<<<<< HEAD
     setAvailabiltyStatus(() => {
       if (profileDetails && profileDetails["availability_status"]) {
         return profileDetails["availability_status"] == "1" ? true : false;
@@ -52,6 +82,24 @@ function Dashboard() {
         return false;
       }
     });
+=======
+    (async () => {
+      const employers = await getEmployers();
+      setEmployersCount(employers.length);
+
+      const candidates = await getCandidates();
+      setCandidatesCount(candidates.length);
+
+      const artisans = await getArtisans();
+      setArtisansCount(artisans.length);
+
+      const domesticStaff = await getDomesticStaff();
+      setDomesticStaffCount(domesticStaff.length);
+
+      const jobLearning = await getJobLearning();
+      setJobLearningCount(jobLearning.length);
+    })();
+>>>>>>> 05fcba9ae1e82e443db1a4814162073e9cc5fe1f
   }, []);
 
   return (
@@ -61,14 +109,26 @@ function Dashboard() {
       </Helmet>
       <div className="h-full p-6 w-full text-sm text-gray-800">
         <div className="text-sm">
+<<<<<<< HEAD
           <div className="flex justify-between ">
+=======
+          <div className="flex justify-between">
+>>>>>>> 05fcba9ae1e82e443db1a4814162073e9cc5fe1f
             <div className="">
               <h4 className="font-bold text-2xl mb-2  ">
                 Welcome back, {authDetails?.user?.first_name}{" "}
                 {authDetails?.user?.surname}
+<<<<<<< HEAD
               </h4><p>
                 Here a summary of your recent activities {generateDateRange()}
               </p></div>
+=======
+              </h4>
+              <p>
+                Here a summary of your recent activities {generateDateRange()}
+              </p>
+            </div>
+>>>>>>> 05fcba9ae1e82e443db1a4814162073e9cc5fe1f
             <div>
               <button className="border p-2 hidden md:flex items-center">
                 {" "}
@@ -77,6 +137,7 @@ function Dashboard() {
               </button>
             </div>
           </div>
+<<<<<<< HEAD
           <div className="md:flex-row flex-col flex justify-between  mt-8 gap-2">
             <div className=" w-full md:w-[23%]  flex justify-between md:flex-col ">
               <div className="pb-1 h-full md:w-full w-[45%] md:h-1/2">
@@ -205,6 +266,52 @@ function Dashboard() {
                 </div>
               </div>
             </div>
+=======
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-6 p-4">
+            <DashboardCard
+              leftIcon={<BsStopwatch />}
+              title={candidatesCount}
+              subtitle="Corporate Candidates"
+              smallText="2% Increase Ad-hoc staff at duty posts"
+              smallTextIcon={<FaPlus />}
+            />
+            <DashboardCard
+              leftIcon={<FiUsers />}
+              title={employersCount}
+              subtitle="Corporate Employers"
+              smallText="2 new Ad-hoc staff added"
+              smallTextIcon={<FaPlus />}
+            />
+            <DashboardCard
+              leftIcon={<BsStopwatch />}
+              title={artisansCount}
+              subtitle="Artisans"
+              smallText="-10% Less Duty Pst"
+              smallTextIcon={<FaArrowTrendUp />}
+            />
+            <DashboardCard
+              leftIcon={<TbCalendarClock />}
+              title={domesticStaffCount}
+              subtitle="Domestic Staff"
+              smallText="+2% Increase Ad-hoc staff at duty posts"
+              smallTextIcon={<FaArrowTrendUp />}
+            />
+            {/* <DashboardCard
+              leftIcon={<BsStopwatch />}
+              title={jobLearningCount}
+              subtitle="E-learning"
+              smallText="+3% increase than yesterday"
+              smallTextIcon={<FaArrowTrendDown />}
+              smallTextIconColor="text-red-500"
+            /> */}
+            <DashboardCard
+              leftIcon={<BsStopwatch />}
+              title="5000"
+              subtitle="Job Listing"
+              smallText="10% Generated"
+              smallTextIcon={<FaArrowTrendUp />}
+            />
+>>>>>>> 05fcba9ae1e82e443db1a4814162073e9cc5fe1f
           </div>
         </div>
       </div>
@@ -212,4 +319,8 @@ function Dashboard() {
   );
 }
 
+<<<<<<< HEAD
 export default Dashboard;
+=======
+export default Dashboard;
+>>>>>>> 05fcba9ae1e82e443db1a4814162073e9cc5fe1f

@@ -3,6 +3,10 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 
 function SideBarItem({ data, dispatch, state }) {
+<<<<<<< HEAD
+=======
+  
+>>>>>>> 05fcba9ae1e82e443db1a4814162073e9cc5fe1f
   const navigate = useNavigate();
 
   const navigateToPage = () => {
@@ -16,6 +20,10 @@ function SideBarItem({ data, dispatch, state }) {
     }
   };
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 05fcba9ae1e82e443db1a4814162073e9cc5fe1f
   return (
     <li
       onClick={navigateToPage}
@@ -23,12 +31,18 @@ function SideBarItem({ data, dispatch, state }) {
         state?.type === data?.type ? "bg-primaryColor" : "bg-none"
       }`}
     >
+<<<<<<< HEAD
 
+=======
+>>>>>>> 05fcba9ae1e82e443db1a4814162073e9cc5fe1f
       <img
         className="h-[20px] w-[20px]"
         src={state?.type === data?.type ? data.iconActive : data.icon}
       />
+<<<<<<< HEAD
       
+=======
+>>>>>>> 05fcba9ae1e82e443db1a4814162073e9cc5fe1f
       <span
         className={`${
           state?.type === data?.type ? "text-white" : "text-primary"

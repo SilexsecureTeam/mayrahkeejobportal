@@ -17,6 +17,8 @@ import { ChatContextProvider } from "./context/ChatContext";
 
 //Lazy imports of pages
 const Login = lazy(() => import("./pages/Login"));
+const AdminLogin = lazy(()=> import("./pages/AdminLogin"))
+const AdminOTP = lazy(()=> import("./components/AdminAuth/AdminOTP"))
 // const Registration = lazy(() => import("./pages/Registration"));
 const RegistrationTwo = lazy(() => import("./pages/RegistrationTwo"));
 const NotFound = lazy(() => import("./pages/404"));
@@ -47,6 +49,9 @@ function App() {
                           <SessionContextProvider>
                             <Routes>
                               <Route path="/" element={<Login />} />
+                              <Route path="/super/admin/login" element={<AdminLogin />} />
+                              <Route path="/super/admin/otp-verification" element={<AdminOTP />} />
+
                               {/* <Route path="/registration" element={<Registration />} /> */}
                               <Route path="*" element={<NotFound />} />
 
@@ -73,8 +78,6 @@ function App() {
                                 element={<AdminRoutes />}
                               />
 
-                             
-                                  
                               <Route
                                 path="/interview-room"
                                 element={<InterviewRoom />}
