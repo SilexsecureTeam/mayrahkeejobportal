@@ -74,3 +74,9 @@
   background-color: #0f5a02;
   color: red;
 }
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+}

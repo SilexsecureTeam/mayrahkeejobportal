@@ -29,13 +29,21 @@ function useLogin(role) {
     setLoading(true);
 
     try {
-      if (role === "candidate" || role == "employer") {
+      if (role === "candidate" || role == "employer" || role == "admin") {
         const response = await client.post(`/${role}/login`, loginDetails);
         setAuthDetails({
           token: response.data.token,
           user: response.data.user,
         });
-      } else {
+      }
+      // else if (role === "admin" ) {
+      //   const response = await client.post(`/${role}/login`, loginDetails);
+      //   setAuthDetails({
+      //     token: response.data.token,
+      //     user: response.data.user,
+      //   });
+      // } 
+      else {
         const response = await client.post(`/domesticStaff/login`, {
           email: loginDetails.email,
           password: loginDetails.password,
