@@ -56,7 +56,8 @@ const Candidates = lazy(() => import("../admin-module/pages/candidate/Candidate"
 
 function useAdminRoute() {
   const path = useLocation().pathname;
-  const [state, dispatch] = useReducer(AdminReducer, adminOptions.find((option) => option.route === path));
+  // const [state, dispatch] = useReducer(AdminReducer, adminOptions.find((option) => option.route === path));
+  const [state, dispatch] = useReducer(AdminReducer, adminOptions[0]);
   const { authDetails } = useContext(AuthContext);
   // const { changeTheme } = useContext(PrimeReactContext);
   const [isOpen, setIsOpen] = useState(false);
