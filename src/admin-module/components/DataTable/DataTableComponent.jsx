@@ -95,7 +95,7 @@ const DataTableComponent = ({ data, name, heading, isLoading, allowEdit }) => {
     };
   
     console.log('Updating status with data:', formData);
-  
+
     toast.promise(
       updateStatus(formData)
         .then((res) => {
