@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-function Settings() {
-    return ( <div>Settings</div> );
-=======
 import { BsEye, BsGift, BsNewspaper, BsStopwatch } from "react-icons/bs";
 import SettingsCard from "../../components/Settings/SettingsCard";
 import { FaFile, FaPlus } from "react-icons/fa";
@@ -86,7 +82,6 @@ function Settings() {
 
 
         </>);
->>>>>>> 05fcba9ae1e82e443db1a4814162073e9cc5fe1f
 }
 
 export default Settings;

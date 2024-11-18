@@ -27,13 +27,8 @@ function SideBar({
         </nav>
 
         {/* Green slide */}
-<<<<<<< HEAD
-        <div class="absolute bottom-0 left-0 w-full h-40 overflow-hidden">
-          <div class="w-[500px] h-full relative bg-primaryColor transform -rotate-12 origin-bottom-right" />
-=======
         <div className="absolute bottom-0 left-0 w-full h-40 overflow-hidden">
           <div className="w-[500px] h-full relative bg-primaryColor transform -rotate-12 origin-bottom-right" />
->>>>>>> 05fcba9ae1e82e443db1a4814162073e9cc5fe1f
         </div>
 
         {/* user info  */}
@@ -76,13 +71,8 @@ function SideBar({
         </nav>
 
         {/* Green slide */}
-<<<<<<< HEAD
-        <div class="absolute bottom-0 left-0 w-full h-32 overflow-hidden">
-          <div class="w-[120%] h-full relative bg-primaryColor transform -rotate-12 origin-bottom-right" />
-=======
         <div className="absolute bottom-0 left-0 w-full h-32 overflow-hidden">
           <div className="w-[120%] h-full relative bg-primaryColor transform -rotate-12 origin-bottom-right" />
->>>>>>> 05fcba9ae1e82e443db1a4814162073e9cc5fe1f
         </div>
 
         {/* user info  */}
