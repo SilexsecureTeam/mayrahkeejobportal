@@ -14,7 +14,7 @@ function AdminLogout() {
       
       if (response === 200) {
         toast.success("Logout successful!");
-        navigate("/login");
+        navigate("/admin/login");
         localStorage.removeItem("__auth_details");
       } else {
           toast.error("An error occurred during logout");

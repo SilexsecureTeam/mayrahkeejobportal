@@ -36,7 +36,7 @@ const MedicalReportDialog = ({ fetchData }) => {
   return (
     <div className="card flex flex-col r space-y-4">
       <button
-        className="card flex flex-col justify-center items-center space-y-4  bg-blue-300 px-3 py-3"
+        className="card flex flex-col justify-center items-center space-y-4  bg-green-500 px-3 py-3 text-white"
         onClick={handleOpen}
       >
         View Medical Report

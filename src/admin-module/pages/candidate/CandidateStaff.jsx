@@ -4,6 +4,7 @@ import { Button } from "primereact/button";
 import { FaArrowLeftLong } from "react-icons/fa6";
 import UseAdminManagement from "../../../hooks/useAdminManagement";
 import DataTableComponent from "../../components/DataTable/DataTableComponent";
+import { ClipLoader } from "react-spinners";
 
 const CandidateStaff = () => {
   const { id } = useParams();
@@ -28,6 +29,15 @@ const CandidateStaff = () => {
     })();
   }, [id]);
 
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <ClipLoader size={50} color={"#123abc"} loading={loading} />
+      </div>
+    );
+  }
+  
   if (!staffDetails.length) {
     return <div className="py-6"><h1 className="font-bold text-2xl">No staff details found</h1></div>;
   }

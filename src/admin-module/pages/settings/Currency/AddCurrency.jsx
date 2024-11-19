@@ -51,28 +51,19 @@ function AddCurrency() {
     try {
       const response = await AddFormCurrency(currencyData);
       console.log("Response:", response);
-      if (response.status === 201) {
+      if (response) {
         console.log("Currency Added:", response);
         toast.success("Currency added successfully!");
         setTimeout(() => {
           navigate("/admin/settings/currency");
         }, 2000); // Delay of 2 seconds before navigating
       } else {
-        
-        if (response && response.data && response.data.error) {
-          if (response.data.error.includes("The code has already been taken")) {
-            toast.error("Currency already exists");
-          } else {
-            setError(`Error adding currency: ${response.data.error}`);
-            toast.error(`Error adding currency: ${response.data.error}`);
-          }
-        } else {
-          setError(`Error adding currency`);
-          toast.error(`Error adding currency`);
-        }
+        toast.error("Failed to add currency");
       }
     } catch (err) {
-      toast.error("An error occurred while adding currency");
+        if (err.status === 500) {
+          toast.error("Currency already exists");
+        }
       console.error("Error details:", err.response ? err.response.data : err.message);
     } finally {
       setLoading(false);

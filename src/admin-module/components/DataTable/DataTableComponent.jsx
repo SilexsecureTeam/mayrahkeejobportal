@@ -46,14 +46,14 @@ const DataTableComponent = ({ data, name, heading, isLoading, allowEdit }) => {
     return (
       <div className="flex flex-col sm:flex-row justify-between items-center gap-2">
         <div className="flex items-center gap-2 w-full sm:w-auto">
-        <button
-          type="button"
-          onClick={clearFilter}
-          className="flex items-center gap-2 bg-green-300 px-4 py-2 rounded text-white"
-        >
-          <RiFilterOffLine className="mr-2" /> Clear
-        </button>
-      </div>
+          <button
+            type="button"
+            onClick={clearFilter}
+            className="flex items-center gap-2 bg-green-300 px-4 py-2 rounded text-white"
+          >
+            <RiFilterOffLine className="mr-2" /> Clear
+          </button>
+        </div>
 
         <span className="p-input-icon-left w-full sm:w-auto">
           <FaSearch className="ml-2 text-gray-500" />
@@ -87,13 +87,13 @@ const DataTableComponent = ({ data, name, heading, isLoading, allowEdit }) => {
       toast.error('An error occurred. Please try again');
       return;
     }
-  
+
     const formData = {
       id: selectedData.id,
       status: selectedData.status,
       type: name === 'domestic-staff' || name === 'artisan' ? 'domestic' : name,
     };
-  
+
     console.log('Updating status with data:', formData);
 
     toast.promise(
@@ -134,15 +134,15 @@ const DataTableComponent = ({ data, name, heading, isLoading, allowEdit }) => {
           //   className="mr-2"
           //   onClick={(e) => editData(e, rowData)}
           // />
-         
-        <button
-          type="button"
-          onClick={(e) => editData(e, rowData)}
-          className="flex items-center gap-2 bg-green-500 px-4 py-2 rounded"
-        >
-         <BiPencil className="ml-2 text-lg text-white" />
-        </button>
-        
+
+          <button
+            type="button"
+            onClick={(e) => editData(e, rowData)}
+            className="flex items-center gap-2 bg-green-500 px-4 py-2 rounded"
+          >
+            <BiPencil className="ml-2 text-lg text-white" />
+          </button>
+
         )}
         <button
           type="button"
@@ -163,18 +163,26 @@ const DataTableComponent = ({ data, name, heading, isLoading, allowEdit }) => {
 
   const editDialogFooter = (
     <>
-      <Button
+      {/* <Button
         label="Cancel"
         icon={<FaTimes className="mr-2" />}
         outlined
         onClick={() => setEditDialog(false)}
-      />
-      <Button
-        label="Save"
-        loading={loading}
-        icon={<FaCheck className="mr-2" />}
+      /> */}
+      <button
+        className="outline outline-green-700 px-2 py-2 flex items-center gap-2 text-green-700 rounded"
+        onClick={() => setEditDialog(false)}
+      >
+        <FaTimes className="mr-2" />
+        Cancel
+      </button>
+      <button
+        className="bg-green-800 px-2 py-2 flex items-center gap-2 text-white rounded"
         onClick={updateSelectedData}
-      />
+      >
+        <FaCheck className="mr-2" />
+        Save
+      </button>
     </>
   );
 
@@ -267,8 +275,8 @@ const DataTableComponent = ({ data, name, heading, isLoading, allowEdit }) => {
                     head.toLowerCase() === "profile"
                       ? htmlBodyTemplate
                       : head.toLowerCase() === "status"
-                      ? statusBodyTemplate
-                      : null
+                        ? statusBodyTemplate
+                        : null
                   }
                 />
               )
@@ -291,10 +299,10 @@ const DataTableComponent = ({ data, name, heading, isLoading, allowEdit }) => {
           name === "employer"
             ? "Change Status"
             : name === "artisan"
-            ? "Edit Artisan"
-            : name === "job"
-            ? "Edit Job"
-            : "Edit Domestic Staff"
+              ? "Edit Artisan"
+              : name === "job"
+                ? "Edit Job"
+                : "Edit Domestic Staff"
         }
         modal
         className="p-fluid overflow-y-auto"

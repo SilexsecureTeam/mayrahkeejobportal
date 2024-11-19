@@ -23,7 +23,7 @@ function UseAdminManagement() {
     //   `/domesticStaff/get-staff/${authDetails.user.id}`
     // );
     // await set(PROFILE_DETAILS_KEY, data.data);
-    setProfileDetails(authDetails.user); 
+    setProfileDetails(authDetails.user);
     setLoading(false);
   };
 
@@ -112,21 +112,21 @@ function UseAdminManagement() {
     }
   }
 
-  
-    const updateStatus = async (data) => {
-      try {
-        setLoading(true);
-        const response = await MainAxios.post("update-status", data);
-        return response.data;
-      } catch (error) {
-        console.error('Error updating status:', error);
-        return null;
-      } finally {
-        setLoading(false);
-      }
-    };
-  
-    
+
+  const updateStatus = async (data) => {
+    try {
+      setLoading(true);
+      const response = await MainAxios.post("update-status", data);
+      return response.data;
+    } catch (error) {
+      console.error('Error updating status:', error);
+      return null;
+    } finally {
+      setLoading(false);
+    }
+  };
+
+
 
 
   const getCandidates = async () => {
@@ -288,7 +288,7 @@ function UseAdminManagement() {
       const response = await client.post("/currencies", currencyData);
       return response.data;
     } catch (error) {
-      if (error.status  === 500 ) {
+      if (error.status === 500) {
         return error.response
       }
       console.error("Error adding currency:", error);
@@ -435,13 +435,13 @@ function UseAdminManagement() {
     }
   };
 
-  const AdminRegistration = async (data) => {    
+  const AdminRegistration = async (data) => {
     try {
       setLoading(true)
       const response = await client.post('/admin/register', data)
-      console.log("response registration",response);
+      console.log("response registration", response);
       return response
-      
+
     } catch (error) {
       if (error.status === 400) {
         return error
@@ -453,76 +453,106 @@ function UseAdminManagement() {
     }
   }
 
-const AdminChangePwd = async (data)=>{
-  try{
-    setLoading(true)
-    const response = await client.post('/changePassword', data)
-    return response.data
-  }
-  catch(error){
-    console.error('Error', error.message)
-  }
-  finally{
-    setLoading(false)
-  }
-}
-
-const AdminForgotPwd = async (data)=>{
-  try{
-    setLoading(true)
-    const response = await client.post('/forgotten-password', data)
-    console.log("response",response);
-    return response.status
-  }
-  catch(error){
-    console.error('Error', error)
-    return error
-  } 
-  finally{
-    setLoading(false)
-  }
-}
-
-  const AdminResetPwd = async (data)=>{
-    try{
+  const AdminChangePwd = async (data) => {
+    try {
       setLoading(true)
-      const response = await client.post('/etPassword', data)
+      const response = await client.post('/changePassword', data)
       return response.data
     }
-    catch(error){
+    catch (error) {
       console.error('Error', error.message)
     }
-    finally{
+    finally {
       setLoading(false)
     }
   }
 
-  const getAllJobs = async ()=>{
+  const AdminForgotPwd = async (data) => {
+    try {
+      setLoading(true)
+      const response = await client.post('/forgotten-password', data)
+      console.log("response", response);
+      return response.status
+    }
+    catch (error) {
+      console.error('Error', error)
+      return error
+    }
+    finally {
+      setLoading(false)
+    }
+  }
+
+  const AdminResetPwd = async (data) => {
+    try {
+      setLoading(true)
+      const response = await client.post('/etPassword', data)
+      return response.data
+    }
+    catch (error) {
+      console.error('Error', error.message)
+    }
+    finally {
+      setLoading(false)
+    }
+  }
+
+  const getAllJobs = async () => {
     try {
       setLoading(true)
       const response = await client.get("/job")
       return response.data
     } catch (error) {
-      console.error("error getting jobs",error)
+      console.error("error getting jobs", error)
     }
-    finally{
+    finally {
       setLoading(false)
     }
   }
 
-const getJobById = async (id)=>{
-  try{
-    setLoading(true)
-    const response= await client.get(`/job/${id}`)
-    return response.data
+  const getJobById = async (id) => {
+    try {
+      setLoading(true)
+      const response = await client.get(`/job/${id}`)
+      return response.data
+    }
+    catch (error) {
+      console.log('Error getting job by id', error)
+    }
+    finally {
+      setLoading(false)
+    }
   }
-  catch(error){
-    console.log('Error getting job by id',error)
+
+  const getSalaries = async () => {
+    try {
+      setLoading(true)
+      const response = await client.get('/salaries')
+      return response.data
+    }
+    catch (err) {
+      console.error('Error getting salaries', err)
+      return null
+    }
+    finally {
+      setLoading(false)
+    }
   }
-  finally{
-    setLoading(false)
-  }
-}
+
+
+
+  const deleteSalaryById = async (id) => {
+    try {
+      setLoading(true);
+      const response = await client.delete(`/salary/${id}`);
+      return response.data;
+    } catch (error) {
+      console.error("Error deleting sector:", error);
+      return null;
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return {
     loading,
@@ -559,6 +589,8 @@ const getJobById = async (id)=>{
     AdminResetPwd,
     getAllJobs,
     getJobById,
+    getSalaries,
+    deleteSalaryById,
   };
 }
 

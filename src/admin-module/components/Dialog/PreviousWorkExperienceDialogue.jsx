@@ -15,7 +15,7 @@ const PreviousWorkExperienceDialog = ({ fetchData }) => {
   return (
     <div className="card flex flex-col r space-y-4">
       {/* <Button label={buttonLabel} icon="pi pi-external-link" onClick={handleOpen} className="w-full bg-black" /> */}
-      <button className="card flex flex-col justofy-center items-center space-y-4  bg-blue-300 px-3 py-3" onClick={handleOpen}>View Previous Work Experience Report</button>
+      <button className="card flex flex-col justofy-center items-center space-y-4  bg-green-500 px-3 py-3 text-white" onClick={handleOpen}>View Previous Work Experience Report</button>
       <Dialog header="Previous Work Experience Report" visible={visible} style={{ width: '50vw' }} onHide={() => setVisible(false)}>
         {workExperience.length > 0 ? workExperience.map((experience, index) => (
           <div key={index} className="p-3 mb-3 border-b-2 rounded space-y-5">

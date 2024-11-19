@@ -35,7 +35,7 @@ const PoliceReportDialog = ({ fetchData }) => {
   return (
     <div className="card flex flex-col r space-y-4">
       {/* <Button label={buttonLabel} icon="pi pi-external-link" onClick={handleOpen} className="w-full bg-black" /> */}
-      <button className="card flex flex-col justify-center items-center space-y-4 bg-blue-300 px-3 py-3" onClick={handleOpen}>
+      <button className="card flex flex-col justify-center items-center space-y-4 bg-green-500 px-3 py-3 text-white" onClick={handleOpen}>
         View Police Report
       </button>
       <Dialog header="Police Report" visible={visible} style={{ width: '50vw' }} onHide={() => setVisible(false)}>

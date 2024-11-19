@@ -15,7 +15,7 @@ const GuarantorReportDialog = ({ fetchData }) => {
   return (
     <div className="card flex flex-col r space-y-4">
       {/* <Button label={buttonLabel} icon="pi pi-external-link" onClick={handleOpen} className="w-full bg-black" /> */}
-      <button className="card flex flex-col justofy-center items-center space-y-4  bg-blue-300 px-3 py-3" onClick={handleOpen}>View Guarantor Report</button>
+      <button className="card flex flex-col justofy-center items-center space-y-4  bg-green-500 px-3 py-3 text-white" onClick={handleOpen}>View Guarantor Report</button>
       <Dialog header="Guarantor Report" visible={visible} style={{ width: '50vw' }} onHide={() => setVisible(false)}>
         {guarantors.length > 0 ? guarantors.map((guarantor) => (
           <div key={guarantor.id} className="p-3 mb-3 border-b-2 space-y-5">

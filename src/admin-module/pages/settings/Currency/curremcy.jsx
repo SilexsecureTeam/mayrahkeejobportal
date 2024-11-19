@@ -20,7 +20,6 @@ export default function Currency() {
         const fetchData = async () => {
             try {
                 const data = await getCurrencies();
-                console.log(data)
                 if (data) {
                     setCurrencies(data);
                 } else {
