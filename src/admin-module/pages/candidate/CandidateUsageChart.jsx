@@ -2,7 +2,7 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { PieChart } from '@mui/x-charts/PieChart';
-import StackedBarChart from './CandidateChart';
+// import StackedBarChart from './CandidateChart';
 
 const valueFormatter = (value) => `${value}%`;
 
@@ -12,24 +12,19 @@ export default function CandidateUsageChart({ candidates }) {
 
   const candidateStages = [
     {
-      label: 'Applied',
-      value: candidates.filter(c => c.status === 'applied').length,
+      label: 'Approved',
+      value: candidates.filter(c => c.status === 'approved').length,
       color: 'green',
     },
     {
-      label: 'Shortlisted',
-      value: candidates.filter(c => c.status === 'shortlisted').length,
+      label: 'Rejected',
+      value: candidates.filter(c => c.status === 'rejected').length,
       color: 'red',
     },
     {
-      label: 'Interviewed',
-      value: candidates.filter(c => c.status === 'interviewed').length,
+      label: 'Suspended',
+      value: candidates.filter(c => c.status === 'suspend').length,
       color: 'blue',
-    },
-    {
-      label: 'In Review',
-      value: candidates.filter(c => c.status === 'in review').length,
-      color: 'orange',
     },
     {
       label: 'Pending',
@@ -49,7 +44,7 @@ export default function CandidateUsageChart({ candidates }) {
                 data: candidateStages,
                 innerRadius: radius,
                 arcLabel: (params) => params.label ?? '',
-                arcLabelMinAngle: 20,
+                arcLabelMinAngle: 30,
                 valueFormatter,
                 color: candidateStages.map(stage => stage.color),
               },
@@ -66,7 +61,7 @@ export default function CandidateUsageChart({ candidates }) {
           </Box>
         </Box>
         <Box className="w-full md:w-1/2 p-2">
-          <StackedBarChart />
+          {/* <StackedBarChart /> */}
         </Box>
       </Box>
     </Box>

@@ -6,6 +6,7 @@ import { FaArrowLeftLong, FaGlobe, FaLinkedin } from "react-icons/fa6";
 import { useParams } from "react-router-dom";
 import { FaFileAlt } from "react-icons/fa";
 import { Dialog } from "primereact/dialog";
+import { ClipLoader } from "react-spinners";
 
 function AppliedJobs() {
   const { loading, jobsAppliedToEmployerId } = UseAdminManagement();
@@ -26,6 +27,15 @@ function AppliedJobs() {
       }
     })();
   }, [id]);
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <ClipLoader size={50} color={"#123abc"} loading={loading} />
+      </div>
+    );
+  }
+
 
   const onPageChange = (event) => {
     setFirst(event.first);
@@ -48,7 +58,7 @@ function AppliedJobs() {
       <button
           type="button"
           onClick={() => window.history.back()}
-          className="flex items-center gap-2 outline outline-offset-5 outline-green-500 px-4 py-2 rounded text-green-500 hover:bg-green-100"
+          className="flex items-center gap-2 outline outline-offset-5 outline-green-500 px-4 py-2 rounded text-green-500 hover:bg-green-100 mb-3"
         >
        <FaArrowLeftLong className="me-4 text-green-500" />Back
         </button>

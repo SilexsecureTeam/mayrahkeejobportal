@@ -4,10 +4,12 @@ import UseAdminManagement from "../../../hooks/useAdminManagement";
 import { Button } from "primereact/button";
 import { FaLinkedin, FaGlobe, FaFileAlt } from "react-icons/fa";
 import { format } from "date-fns";
+import { FaArrowLeftLong } from "react-icons/fa6";
+import { ClipLoader } from "react-spinners";
 
 const JobDescriptionPage = () => {
     const { id } = useParams();
-    const { getJobById } = UseAdminManagement();
+    const {loading, getJobById } = UseAdminManagement();
     const [job, setJob] = useState(null);
 
     useEffect(() => {
@@ -21,18 +23,28 @@ const JobDescriptionPage = () => {
         })();
     }, [id]);
 
+
+    if (loading) {
+        return (
+          <div className="flex justify-center items-center h-screen">
+            <ClipLoader size={50} color={"#123abc"} loading={loading} />
+          </div>
+        );
+      }
+    
     if (!job) {
         return <div>Loading...</div>;
     }
 
     return (
         <div className="mx-auto mt-10 max-w-screen-lg px-4 sm:px-6 lg:px-8">
-            <Button
-                label="Back"
-                className="mb-6"
-                outlined
+            <button
+                type="button"
                 onClick={() => window.history.back()}
-            />
+                className="flex items-center gap-2 outline outline-offset-5 outline-green-500 px-4 py-2 rounded text-green-500 hover:bg-green-100"
+            >
+                <FaArrowLeftLong className="me-4 text-green-500" />Back
+            </button>
 
             <div className="bg-white p-6 rounded-lg shadow-md border border-gray-200">
                 <div className="mb-4">

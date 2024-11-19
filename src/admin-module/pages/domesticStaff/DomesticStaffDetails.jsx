@@ -64,22 +64,30 @@ const DomesticStaffDetails = () => {
 
             <div>
               <h2 className="text-gray-800 text-2xl font-bold mb-2">{data.name}</h2>
-              <h1 className="text-gray-400 text-sm">{data.email}</h1>
+              <h1 className="text-gray-400 text-sm">
+                <a href={`mailto:${data.email}`} className="text-gray-400 hover:underline">
+                  {data.email}
+                </a>
+              </h1>
             </div>
           </div>
 
           <div className="bg-gray-200 px-4 py-4 my-4">
             <div className="flex text-xs justify-between pb-3">
-              <p>Member Since</p>  <p>{data.member_since}</p>
+              <p className="font-bold">Member Since</p>  <p>{data.member_since}</p>
             </div>
-            <h1 className="text-sm">Current Salary: {data.current_salary}</h1>
-            <h1 className="text-sm">Expected Salary: {data.expected_salary}</h1>
+            <div className="flex">
+              <p className="text-sm font-bold">Current Salary:</p> <p className="text-sm ml-2">{data.current_salary}</p>
+            </div>
+            <div className="flex">
+              <p className="text-sm font-bold">Expected Salary:</p> <p className="text-sm ml-2">{data.expected_salary}</p>
+            </div>
           </div>
           <hr />
           <div className="text-md px-4 py-4">
             <h1 className="font-bold">Contact</h1>
             <div className="flex items-center space-x-2">
-              <span>Phone Number: {data.phone_number}</span>
+              <span className="font-bold">Phone Number:</span> <span>{data.phone_number}</span>
             </div>
           </div>
         </div>
@@ -87,20 +95,20 @@ const DomesticStaffDetails = () => {
         <div className="shadow-lg px-4 py-4 md:col-span-1.5">
           <div className="pb-4">
             <h1 className="font-bold">Details</h1>
-            <div className="text-sm px-4 py-4">
-              <h1>Staff Category: {data.staff_category}</h1>
-              <h1>Subcategory: {data.subcategory}</h1>
-              <h1>Employment Type: {data.employment_type}</h1>
-              <h1>Work Type: {data.work_type}</h1>
-              <h1>Work Days: {data.work_days}</h1>
-              <h1>Religion: {data.religion}</h1>
-              <h1>Location: {data.location}</h1>
-              <h1>Job Type: {data.job_type}</h1>
-              <h1>Years of Experience: {data.years_of_experience}</h1>
-              <h1>Education Level: {data.education_level}</h1>
-              <h1>Marital Status: {data.marital_status}</h1>
-              <h1>Languages Spoken: {data.languages_spoken?.join(", ")}</h1>
-              <h1>Status: {data.status}</h1>
+            <div className="text-sm px-4 py-4 grid grid-cols-2 gap-2">
+              <p className="text-sm font-bold">Staff Category:</p> <p className="text-sm">{data.staff_category}</p>
+              <p className="text-sm font-bold">Subcategory:</p> <p className="text-sm">{data.subcategory}</p>
+              <p className="text-sm font-bold">Employment Type:</p> <p className="text-sm">{data.employment_type}</p>
+              <p className="text-sm font-bold">Work Type:</p> <p className="text-sm">{data.work_type}</p>
+              <p className="text-sm font-bold">Work Days:</p> <p className="text-sm">{data.work_days}</p>
+              <p className="text-sm font-bold">Religion:</p> <p className="text-sm">{data.religion}</p>
+              <p className="text-sm font-bold">Location:</p> <p className="text-sm">{data.location}</p>
+              <p className="text-sm font-bold">Job Type:</p> <p className="text-sm">{data.job_type}</p>
+              <p className="text-sm font-bold">Years of Experience:</p> <p className="text-sm">{data.years_of_experience}</p>
+              <p className="text-sm font-bold">Education Level:</p> <p className="text-sm">{data.education_level}</p>
+              <p className="text-sm font-bold">Marital Status:</p> <p className="text-sm">{data.marital_status}</p>
+              <p className="text-sm font-bold">Languages Spoken:</p> <p className="text-sm">{data.languages_spoken?.join(", ")}</p>
+              <p className="text-sm font-bold">Status:</p> <p className="text-sm">{data.status}</p>
             </div>
           </div>
           <hr />

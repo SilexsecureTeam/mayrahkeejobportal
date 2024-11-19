@@ -38,7 +38,7 @@ function Settings() {
                     title="Manage Salary type"
                     subtitle="Manage taxpayer information and tax documents"
                     smallTextIcon={<FaPlus/>}
-                    link=""
+                    link="/admin/settings/salary"
                      />
                 <SettingsCard
                     rightIcon={<HiOutlineMegaphone />}

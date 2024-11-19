@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { ClipLoader } from "react-spinners";
 import { Card } from "primereact/card";
 import { Button } from "primereact/button";
-import { FaArrowLeftLong } from "react-icons/fa6";
+import { FaArrowLeftLong, FaFacebook, FaTwitter, FaLinkedin, FaInstagram, FaGlobe, FaXTwitter } from "react-icons/fa6";
 import { TabMenu } from "primereact/tabmenu";
 import UseAdminManagement from "../../../hooks/useAdminManagement";
 
@@ -10,6 +11,7 @@ const EmployerDetails = () => {
   const { id } = useParams();
   const { getEmployerById } = UseAdminManagement();
   const [employer, setEmployer] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     (async () => {
@@ -19,8 +21,17 @@ const EmployerDetails = () => {
       } else {
         console.error("No data received");
       }
+      setLoading(false);
     })();
   }, [id]);
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <ClipLoader size={50} color={"#123abc"} loading={loading} />
+      </div>
+    );
+  }
 
   if (!employer) {
     return <div>Employer not found</div>;
@@ -34,6 +45,14 @@ const EmployerDetails = () => {
     { label: 'Posted Jobs', icon: 'pi pi-briefcase', command: () => window.location.href = `/admin/employer/jobs/${id}` },
     { label: 'Applied Jobs', icon: 'pi pi-briefcase', command: () => window.location.href = `/admin/employer/applied-jobs/${id}` }
   ];
+
+  const getSocialMediaIcon = (url) => {
+    if (url.includes("facebook.com")) return <FaFacebook className="text-blue-600 text-xl" />;
+    if (url.includes("twitter.com")) return <FaXTwitter className="text-xl" />;
+    if (url.includes("linkedin.com")) return <FaLinkedin className="text-blue-700 text-xl" />;
+    if (url.includes("instagram.com")) return <FaInstagram className="text-pink-500 text-xl" />;
+    return <FaGlobe className="text-gray-600" />;
+  };
 
   return (
     <div className="p-4">
@@ -68,17 +87,23 @@ const EmployerDetails = () => {
 
           <div className="bg-gray-200 px-4 py-4 my-4">
             <div className="flex text-xs justify-between pb-3">
-              <p>Year of Incorporation</p>  <p>{details?.year_of_incorporation}</p>
+              <p className="font-bold">Year of Incorporation</p>  <p>{details?.year_of_incorporation}</p>
             </div>
-            <h1 className="text-sm">RC Number: {details?.rc_number}</h1>
-            <h1 className="text-sm">Company Size: {details?.company_size}</h1>
-            <h1 className="text-sm">Sector: {details?.sector}</h1>
+            <div className="flex">
+              <p className="text-sm font-bold">RC Number:</p> <p className="text-sm ml-2">{details?.rc_number}</p>
+            </div>
+            <div className="flex">
+              <p className="text-sm font-bold">Company Size:</p> <p className="text-sm ml-2">{details?.company_size}</p>
+            </div>
+            <div className="flex">
+              <p className="text-sm font-bold">Sector:</p> <p className="text-sm ml-2">{details?.sector}</p>
+            </div>
           </div>
           <hr />
           <div className="text-md px-4 py-4">
             <h1 className="font-bold">Contact</h1>
             <div className="flex items-center space-x-2">
-              <span>Phone Number: {details?.phone_number}</span>
+              <span className="font-bold">Phone Number:</span> <span>{details?.phone_number}</span>
             </div>
           </div>
         </div>
@@ -93,19 +118,26 @@ const EmployerDetails = () => {
           <hr />
           <h1 className="font-bold py-4">Details</h1>
           <div className="text-sm px-4 py-4">
-            <h1>Location: {details?.location}</h1>
-            <h1>Address: {details?.address}</h1>
-            <h1>Status: {candidateAuth.status}</h1>
+            <div className="flex">
+              <p className="text-sm font-bold">Location:</p> <p className="text-sm ml-2">{details?.location}</p>
+            </div>
+            <div className="flex">
+              <p className="text-sm font-bold">Address:</p> <p className="text-sm ml-2">{details?.address}</p>
+            </div>
+            <div className="flex">
+              <p className="text-sm font-bold">Status:</p> <p className="text-sm ml-2">{candidateAuth.status}</p>
+            </div>
           </div>
           <hr />
           <h1 className="font-bold py-4">Social Media</h1>
           <div className="text-sm px-4 py-4">
-            <ul>
+            <ul className="flex space-x-3">
               {details?.social_media?.map((link, index) => (
-                <li key={index}>
+                <li key={index} className="flex items-center space-x-2">
                   <a href={link} target="_blank" rel="noopener noreferrer">
-                    {link}
+                    {getSocialMediaIcon(link)}
                   </a>
+                
                 </li>
               ))}
             </ul>

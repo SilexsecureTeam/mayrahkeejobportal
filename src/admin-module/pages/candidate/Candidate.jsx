@@ -21,8 +21,9 @@ function Candidate() {
 
   const [candidateCount, setCandidateCount] = useState(0);
   const [pending, setPending] = useState(0);
-  const [interviewed, setInterviewed] = useState(0);
-  const [shortlisted, setShortlisted] = useState(0);
+  const [approved, setApproved] = useState(0);
+  const [rejected, setRejected] = useState(0);
+  const [suspended, setSuspended] = useState(0);
   const [candidates, setCandidates] = useState([]);
 
   useEffect(() => {
@@ -33,10 +34,12 @@ function Candidate() {
       setCandidateCount(candidates.length);
       const pendingCandidates = candidates.filter(candid => candid.status === 'pending');
       setPending(pendingCandidates.length);
-      const interviewedCandidates = candidates.filter(candid => candid.status === 'interviewed');
-      setInterviewed(interviewedCandidates.length);
-      const shortlistedCandidates = candidates.filter(candid => candid.status === 'shortlisted');
-      setShortlisted(shortlistedCandidates.length);
+      const approvedCandidates = candidates.filter(candid => candid.status === 'approved');
+      setApproved(approvedCandidates.length);
+      const rejectedCandidates = candidates.filter(candid => candid.status === 'rejected');
+      setRejected(rejectedCandidates.length);
+      const suspendedCandidates = candidates.filter(candid => candid.status === 'suspend');
+      setSuspended(suspendedCandidates.length);
     })();
   }, []);
 
@@ -53,23 +56,6 @@ function Candidate() {
       </Helmet>
       <div className="h-full p-6 w-full text-sm text-gray-800">
         <div className="text-sm">
-          <div className="flex justify-between">
-            <div className="">
-              <h4 className="font-bold text-2xl mb-2">
-                Welcome back, {authDetails?.user?.first_name}{" "}
-                {authDetails?.user?.surname}
-              </h4>
-              <p>
-                Here a summary of your recent activities {generateDateRange()}
-              </p>
-            </div>
-            <div>
-              <button className="border p-2 hidden md:flex items-center">
-                {generateDateRange()}
-                <RiCalendarEventLine className="ml-2" size={15} />
-              </button>
-            </div>
-          </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6 p-4">
             <div className="bg-orange-400 text-white px-4 py-12 rounded-md flex flex-col items-start cursor-pointer" onClick={() => navigate('/admin/candidates/all')}>
               <h3 className="text-xl font-bold">{candidateCount}</h3>
@@ -79,13 +65,17 @@ function Candidate() {
               <h3 className="text-xl font-bold">{pending}</h3>
               <p>Pending</p>
             </div>
-            <div className="bg-yellow-500 text-white px-4 py-12 rounded-md flex flex-col items-start">
-              <h3 className="text-xl font-bold">{interviewed}</h3>
-              <p>Interviewed</p>
+            <div className="bg-blue-500 text-white px-4 py-12 rounded-md flex flex-col items-start">
+              <h3 className="text-xl font-bold">{approved}</h3>
+              <p>Approved</p>
             </div>
-            <div className="bg-blue-700 text-white px-4 py-12 rounded-md flex flex-col items-start">
-              <h3 className="text-xl font-bold">{shortlisted}</h3>
-              <p>Shortlisted</p>
+            <div className="bg-red-500 text-white px-4 py-12 rounded-md flex flex-col items-start">
+              <h3 className="text-xl font-bold">{rejected}</h3>
+              <p>Rejected</p>
+            </div>
+            <div className="bg-yellow-500 text-white px-4 py-12 rounded-md flex flex-col items-start">
+              <h3 className="text-xl font-bold">{suspended}</h3>
+              <p>Suspended</p>
             </div>
             <div className="bg-cyan-950 text-white px-4 py-12 rounded-md flex flex-col items-start">
               <h3 className="text-xl font-bold">{candidateCount}</h3>

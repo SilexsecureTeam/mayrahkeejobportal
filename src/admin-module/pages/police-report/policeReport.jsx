@@ -24,7 +24,7 @@ function AllPoliceReports() {
   const heading = ["ID", "State","LGA", "Station Address", "Report File", "Status","StaffID"];
   
   const data = policereports.map(police => ({
-    [heading[0].toLowerCase()]: police.id,
+    [heading[0].toLowerCase()]: police.domestic_staff_id,
     [heading[1].toLowerCase()]: police.state,
     [heading[2].toLowerCase()]: police.lga,
     [heading[3].toLowerCase()]: police.station_address,

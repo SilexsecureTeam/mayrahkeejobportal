@@ -1,31 +1,33 @@
 import React, { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import UseAdminManagement from "../../hooks/useAdminManagement";
 import MainLogo from "../../assets/svgs/main-logo.svg";
+
 function AdminRegistrationForm() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const [password_confirmation, setPasswordConfirmation] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const { AdminRegistration } = UseAdminManagement();
   const [error, setError] = useState(null);
-
+const navigate = useNavigate()
   const handleOnSubmit = async (e) => {
     e.preventDefault();
-    if (password !== confirmPassword) {
+    if (password !== password_confirmation) {
       toast.error("Passwords do not match");
       return;
-    }
+  }
     try {
-      const response = await AdminRegistration({ name, email, password, confirmPassword });
+      const response = await AdminRegistration({ name, email, password, password_confirmation });
       console.log("Response:", response);
       if (response.status !== 400) {
         toast.success("Registration successful!");
+        navigate('/admin/')
       } else {
         toast.error("Registration failed");
         setError(response.data);
@@ -108,9 +110,9 @@ function AdminRegistrationForm() {
             <div className="mb-6">
               <div className="flex items-center bg-white p-3 rounded-md border">
                 <input
-                  name="confirmPassword"
+                  name="password_confirmation"
                   type={showPassword ? "text" : "password"}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  onChange={(e) => setPasswordConfirmation(e.target.value)}
                   required
                   className="w-full bg-transparent focus:outline-none"
                   placeholder="Confirm your password"
