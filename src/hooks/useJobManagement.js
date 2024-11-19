@@ -197,7 +197,7 @@ function useJobManagement() {
         if (storedValue !== undefined) {
           setJobList(storedValue);
         }
-        getJobsFromDB();
+        await getJobsFromDB();
       } catch (error) {
         FormatError(error, setError, "Index Error");
       }
