@@ -3,7 +3,7 @@ import CustomizedCheckbox from './CustomizedCheckbox'
 import { FaChevronDown, FaChevronUp } from 'react-icons/fa'
 
 const EmploymentCategory = ({ setEmploymentType }) => {
-    const [close, setClose] = useState(true)
+    const [close, setClose] = useState(false)
     return (
         <div>
             <div className="mb-5">
@@ -61,6 +61,14 @@ const EmploymentCategory = ({ setEmploymentType }) => {
                                 label: "Contract",
                                 value: "Contract",
                                 id: "Contract",
+                                name: "employmentType"
+                            }} />
+     <CustomizedCheckbox
+                            setSelectedValue={setEmploymentType}
+                            values={{
+                                label: "Hybrid",
+                                value: "Hybrid",
+                                id: "Hybrid",
                                 name: "employmentType"
                             }} />
                     </div>

@@ -40,7 +40,7 @@ function JobPosting() {
 
 
   return (
-    <div className="py-2 px-12 w-full h-full flex flex-col">
+    <div className="py-2 px-5 md:px-8 lg:px-12 w-full h-full flex flex-col">
       <PostingHeader
         jobSteps={job_steps}
         setCurrentStep={setCurrentStep}

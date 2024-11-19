@@ -3,16 +3,18 @@ import { useNavigate } from "react-router-dom";
 function ListingRow({ data, applicants }) {
   const navigate = useNavigate()
 
+ 
+
   const navigateJobTypeDetails = () =>
     navigate(`/company/job-listing/type/${data.id}`, { state: { data:data, applicants: applicants } });
 
   return (
     <tr
       onClick={navigateJobTypeDetails}
-      className="border-b cursor-pointer odd:bg-black odd:text-white hover:bg-primaryColor hover:text-white  text-little"
+      className="border-b cursor-pointer hover:bg-green-200 text-gray-700  text-little"
     >
       <td className="text-center py-[5px]">
-        <div className="flex justify-center items-center gap-[5px]">
+        <div className="flex justify-center font-semibold items-center gap-[5px]">
           <span>{data.job_title}</span>
         </div>
       </td>
@@ -20,7 +22,7 @@ function ListingRow({ data, applicants }) {
       <td>
         <div className="flex w-full justify-center py-[10px] items-center">
           <button className="py-[2px] px-[5px] border w-[80%] text-little border-primaryColor rounded-[30px] text-center font-semibold">
-            Live
+            Open
           </button>
         </div>
       </td>
@@ -43,7 +45,7 @@ function ListingRow({ data, applicants }) {
 
       <td>
         <div className="flex w-full justify-center py-[10px] items-center">
-          <button className="py-[2px] px-[5px] w-[80%] text-little border border-primaryColor rounded-[30px] text-center font-semibold">
+          <button className="py-[2px] px-[5px] min-w-[80%] text-little border border-primaryColor rounded-[30px] text-center font-semibold">
             {data?.type}
           </button>
         </div>
@@ -56,7 +58,7 @@ function ListingRow({ data, applicants }) {
       </td>
       <td>
         <div className="flex w-full justify-center py-[10px] items-center">
-          <span className="text-little font-semibold">{data.gender}</span>
+          <span className="text-little font-semibold">{data?.gender?.toLowerCase() !=="any" ? data.gender: "Not A Criteria"}</span>
         </div>
       </td>
       {/* 

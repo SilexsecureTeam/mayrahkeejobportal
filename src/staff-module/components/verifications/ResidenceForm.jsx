@@ -96,7 +96,7 @@ function ResidenceForm() {
 
   return (
     <div>
-      <h1 className="text-xl font-semibold">Residence Details</h1>
+      <h1 className="text-xl font-semibold text-green-700">Residence Details</h1>
 
       {typeof currentResidence == "undefined" && loading && (
         <div className="flex flex-col items-start justify-center h-full w-full">

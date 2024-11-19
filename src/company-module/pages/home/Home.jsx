@@ -6,7 +6,6 @@ import JobStatistic from "../../components/home/JobStatistic";
 import JobOpen from "../../components/home/JobOpen";
 import ApplicantSummary from "../../components/home/ApplicantSummary";
 import JobUpdates from "../../components/home/JobUpdates";
-import { GrSchedules } from "react-icons/gr";
 import useJobManagement from "../../../hooks/useJobManagement";
 import { useContext, useState } from "react";
 import { AuthContext } from "../../../context/AuthContex";
@@ -81,10 +80,10 @@ function Home() {
 
           {/* <img src={calanderTest} className="w-[12%] h-[35px] object-contain" /> */}
 
-          <div className="px-1 py-1 border hidden md:flex cursor-pointer gap-[10px] h-fit text-little items-center">
+          {/* <div className="px-1 py-1 border hidden md:flex cursor-pointer gap-[10px] h-fit text-little items-center">
             <span>{new Date().toLocaleDateString()}</span>
             <GrSchedules className="text-primaryColor text-sm" />
-          </div>
+          </div> */}
         </div>
 
         {/* Second Row */}
@@ -100,7 +99,7 @@ function Home() {
         </JobStatsAndSummary>
 
         {/* Fourth Row */}
-        <JobUpdates jobs={jobUtils.jobList} />
+        {applicants && <JobUpdates jobs={jobUtils.jobList} applicants={applicants} />}
       </div>
     </>
   );

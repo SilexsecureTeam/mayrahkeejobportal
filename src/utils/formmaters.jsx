@@ -21,8 +21,8 @@ export const highlightKeyword = (sentence, keyword) => {
   );
 };
 
-export const FormatPrice = (price) => {
-  return `N${price.toLocaleString(navigator.language, {
+export const FormatPrice = (price, removecode = false) => {
+  return `${!removecode ? '' : ''}${price.toLocaleString(navigator.language, {
     minmumFractionDigits: 0,
   })}`;
 };

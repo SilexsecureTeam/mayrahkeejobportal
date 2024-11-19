@@ -119,7 +119,7 @@ function MedicalForm() {
 
   return (
     <div>
-      <h1 className="text-xl font-semibold">Medical Reports</h1>
+      <h1 className="text-xl font-semibold text-green-700">Medical Reports</h1>
 
       {typeof currentRecord == "undefined" && loading && (
         <div className="flex flex-col items-start justify-center h-full w-full">

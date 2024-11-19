@@ -1,9 +1,13 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}", './node_modules/primereact/**/*.{js,ts,jsx,tsx}'],
-  darkMode: "class", // or 'media' or 'class'
+  content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
+      gridTemplateColumns:{
+        'responsive': 'repeat(auto-fill, minmax(300px, 1fr))',
+        'responsive2': 'repeat(auto-fill, minmax(250px, 1fr))'
+      
+      },
       colors: {
         primaryColor: "#0f5a02",
         secondaryColor: "#f8faf7",

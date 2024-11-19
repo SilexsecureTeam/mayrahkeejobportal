@@ -31,6 +31,7 @@ import { database } from "../utils/firebase";
 import StaffCard from "../components/staffs/StaffCard";
 import StaffInformation from "../staff-module/pages/verifications/StaffInformation";
 import CartedStaffs from "../components/staffs/CartedStaffs";
+import SuccessPage from "../components/SuccessPage";
 
 //Util Component
 const NavBar = lazy(() => import("../company-module/components/NavBar"));
@@ -71,6 +72,8 @@ const DomesticStaffs = lazy(() =>
   import("../company-module/pages/staffs/DomesticStaffs")
 );
 
+const StaffDetails = lazy(() => import('../components/applicant-details-ui/ApplicantDetails'))
+
 const JobPosting = lazy(() =>
   import("../company-module/pages/job-posting/JobPosting")
 );
@@ -79,7 +82,7 @@ const Settings = lazy(() =>
   import("../company-module/pages/settings/Settings")
 );
 
-const HelpCenter = lazy(() => import("../company-module/pages/help/Help"));
+const HelpCenter = lazy(() => import("../pages/HelpCenter"));
 
 const NotFound = lazy(() => import("../company-module/pages/404"));
 
@@ -210,9 +213,10 @@ function useCompanyRoute() {
                   <Route path="company-profile" element={<CompanyProfile />} />
                   <Route path="artisan" element={<Artisan />} />
                   <Route path="domestic-staffs" element={<DomesticStaffs />} />
-                  <Route path="staff/:category/:id" element={<StaffInformation />} />
+                  <Route path=":category/:id" element={<StaffDetails />} />
                   <Route path="staff/cart" element={<CartedStaffs />} />
-
+                  <Route path="staff/success" element={<SuccessPage/>}/>  
+                 
                   <Route path="job-listing/*">
                     <Route
                       index

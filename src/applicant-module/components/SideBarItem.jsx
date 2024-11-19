@@ -19,7 +19,7 @@ function SideBarItem({ data, dispatch, state }) {
   return (
     <li
       onClick={navigateToPage}
-      className={`cursor-pointer flex hover:bg-green-800 hover:text-white group gap-[10px] items-center  p-1 ${
+      className={`cursor-pointer flex gap-[10px] hover:bg-green-800 group items-center z-10 p-1 ${
         state?.type === data?.type ? "bg-primaryColor" : "bg-none"
       }`}
     >
