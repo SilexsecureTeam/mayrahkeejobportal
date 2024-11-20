@@ -34,7 +34,7 @@ function RegistrationForm({ acceptTerms, toogleAcceptTerms }) {
           Get more opportunities{" "}
         </h3>
         <span className="font-meduim text-center w-[80%] text-gray-400 text-[11px]">
-          Explore/manage job different job oppurtunities
+          Explore & manage job different job oppurtunities
         </span>
 
         <form

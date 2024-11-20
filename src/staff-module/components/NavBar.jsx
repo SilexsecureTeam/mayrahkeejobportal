@@ -2,15 +2,17 @@ import wheelIcon from "../../assets/pngs/wheel-icon.png";
 import { PiBellLight, PiBellRingingDuotone } from "react-icons/pi";
 import { useContext, useState } from "react";
 
-import { MdClose, MdMenu } from "react-icons/md";
+import {  MdMenu } from "react-icons/md";
+import { NotificationContext } from "../../context/NotificationContext";
+import { useEffect } from "react";
 
 function NavBar({ state, toogleIsOpen, isMenuOpen }) {
-  // const { notifications, getNotifications } = useContext(NotificationContext);
+  const { notifications, getNotifications } = useContext(NotificationContext);
   const [isOpen, setIsOpen] = useState(false);
 
-  // useEffect(() => {
-  //   getNotifications();
-  // }, []);
+  useEffect(() => {
+    getNotifications();
+  }, []);
   return (
     <>
       <nav className="w-full h-[8%] px-2 md:px-12 flex items-center justify-between bg-white">
@@ -24,10 +26,17 @@ function NavBar({ state, toogleIsOpen, isMenuOpen }) {
         </div>
 
         <div className="flex justify-end items-center pr-2 md:w-[25%] gap-[5px]">
-          <PiBellLight
-            onClick={() => setIsOpen(true)}
-            className="text-lg cursor-pointer"
-          />
+          {notifications?.length === 0 || !notifications ? (
+            <PiBellLight
+              onClick={() => setIsOpen(true)}
+              className="text-lg cursor-pointer"
+            />
+          ) : (
+            <PiBellRingingDuotone
+              onClick={() => setIsOpen(true)}
+              className="text-primaryColor cursor-pointer text-lg animate-bounce"
+            />
+          )}
         </div>
       </nav>
     </>

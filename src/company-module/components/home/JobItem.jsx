@@ -4,16 +4,22 @@ import { FormatPrice } from "../../../utils/formmaters";
 import ProgressBar from "../shared/ProgressBar";
 import { useContext } from "react";
 import { CompanyRouteContext } from "../../../context/CompanyRouteContext";
-function JobItem({ data }) {
+function JobItem({ data, applicants}) {
 
   const navigate = useNavigate()
   const {setSideBar} = useContext(CompanyRouteContext)
+
+  console.log('Applicants', applicants)
+
+  const jobApplicants = applicants?.filter(
+    (currentApplicant) => data.id === currentApplicant.job_id
+  );
 
   return (
     <div 
     onClick={() => {
       setSideBar(4);
-      navigate(`/company/job-listing/type/${data.id}`);
+      navigate(`/company/job-listing/type/${data.id}`,{state:{data: data, applicants:jobApplicants}});
     }}
     className="flex flex-col  w-[180px] cursor-pointer hover:scale-105 duration-100  max-w-[180px]  border justify-between h-full p-2">
       <div className="flex justify-between  items-center">

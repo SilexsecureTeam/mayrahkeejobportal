@@ -33,17 +33,18 @@ function JobType() {
   const getComponent = () => {
     switch (currentOption.id) {
       case options[0].id:
-        return <Applicants data={currentJob} applicants={applicants} />;
+        return <Applicants data={currentJob} applicants={allApplicants} />;
       case options[1].id:
-        return <JobDetails data={currentJob} jobUtils={jobUtils} />;
+        return <JobDetails data={currentJob} jobUtils={jobUtils} applicants={allApplicants} />;
     }
   };
 
   
-  console.log(currentJob)
+ 
   useEffect(() => {
+    console.log(location?.state?.data)
     if (location?.state?.data !== null) {
-      setCurrentJob(location.state.data);
+      setCurrentJob(location?.state?.data);
     } else {
       console.log(jobUtils.jobList);
       jobUtils.getJobById(id, setCurrentJob);
@@ -58,15 +59,17 @@ function JobType() {
       setAllApplicants(currentApplicants);
     }
   }, []);
-
+  console.log(currentJob)
   return (
     currentJob && (
       <>
-        <div className="w-full px-12 py-5 flex flex-col gap-[20px]">
+        <div className="w-full px-4 md:px-8 lg:px-12 py-5 flex flex-col gap-[20px]">
           <Header
+            applicants={allApplicants}
             options={options}
             currentOption={currentOption}
             setCurrentOption={setCurrentOption}
+            job={currentJob}
           />
 
           {allApplicants && getComponent()}

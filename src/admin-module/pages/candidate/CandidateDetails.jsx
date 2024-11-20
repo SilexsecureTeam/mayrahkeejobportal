@@ -70,6 +70,9 @@ const CandidateDetails = () => {
           <a href={handle.url} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">
             {label}
           </a>
+          <a href={handle.url} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">
+            {label}
+          </a>
         </div>
       );
     });
@@ -92,23 +95,23 @@ const CandidateDetails = () => {
 
   return (
     <div className="p-4">
-     <div className="flex sm:space-x-72 space-x-0 justify-between sm:justify-start">
+     <div className="flex pb-3  sm:space-x-72  space-x-0  justify-between sm:justify-start ">
      <button
-        type="button"
-        onClick={() => window.history.back()}
-        className="flex items-center gap-2 outline outline-offset-5 outline-green-500 px-4 py-2 rounded text-green-500 hover:bg-green-100 mb-5"
-      >
-        <FaArrowLeftLong className="me-4 text-green-500" />Back
-      </button>
-
+          type="button"
+          onClick={() => window.history.back()}
+          className="flex items-center gap-2 outline outline-offset-5 outline-green-500 px-4 py-2 rounded text-green-500 hover:bg-green-100"
+        >
+       <FaArrowLeftLong className="me-4 text-green-500" />Back
+        </button>
       <button
-        type="button"
-        onClick={handleViewContract}
-        className="flex items-center gap-2 bg-green-500 px-4 py-2 rounded text-white hover:bg-green-700 mb-5"
-      >
-        View Contract
-      </button>
+          type="button"
+          onClick={handleViewContract} 
+          className="flex items-center gap-2  bg-green-500 px-4 py-2 rounded text-white hover:bg-green-800"
+        >
+      View contract
+        </button>
      </div>
+      {/* <Button label="View Contract" className="mb-4 ml-4" onClick={handleViewContract} /> */}
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div className="shadow-lg px-4 py-4 md:col-span-1">
@@ -125,12 +128,23 @@ const CandidateDetails = () => {
 
             <div>
               <h2 className="text-gray-800 text-2xl font-bold mb-2">{data.full_name.toUpperCase()}</h2>
-              <h1 className="text-gray-400 text-sm">{data.preferred_job_role}</h1>
+              <h1 className="text-gray-400 text-sm">
+                <a href={`mailto:${data.email}`} className="text-gray-400 hover:underline">
+                  {data.email}
+                </a>
+              </h1>
             </div>
           </div>
 
           <div className="bg-gray-200 px-4 py-4 my-4">
             <div className="flex text-xs justify-between pb-3">
+              <p className="font-bold">Applied Jobs</p>  <p>{format(new Date(data.created_at), 'MMMM dd, yyyy')}</p>
+            </div>
+            <div className="flex">
+              <p className="text-sm font-bold">Categories:</p> <p className="text-sm ml-2">{data.categories}</p>
+            </div>
+            <div className="flex">
+              <p className="text-sm font-bold">Salary:</p> <p className="text-sm ml-2">{data.salary_type}</p>
               <p className="font-bold">Applied Jobs</p>  <p>{format(new Date(data.created_at), 'MMMM dd, yyyy')}</p>
             </div>
             <div className="flex">

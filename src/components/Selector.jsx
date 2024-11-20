@@ -22,7 +22,7 @@ function Selector({ data, selected, setSelected}) {
   };
 
   return (
-    <div className="w-full">
+    <div className="min-w-[300px]">
       <Combobox
         value={selected}
         onChange={(val) => {

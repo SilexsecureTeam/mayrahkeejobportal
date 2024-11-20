@@ -16,8 +16,8 @@ function SubscriptionCard({ data, subUtils, setIsOpen }) {
   };
 
   return (
-    <li className="w-[25%] duration-75 hover:scale-105 cursor-pointer rounded-[10px] group has-[h3]:border-[2px]  flex flex-col items-center justify-between  px-2 py-2 h-[90%] even:border even:bg-primaryColor even:text-white odd:text-primaryColor odd:border-primaryColor">
-      <div className="flex flex-col items-center h-full">
+    <li className="duration-75 cursor-pointer rounded-[10px] group has-[h3]:border-[2px]  flex flex-col items-center justify-between p-3 even:border even:bg-primaryColor even:text-white odd:text-primaryColor odd:border-primaryColor">
+      <div className="flex flex-col items-center h-max">
         <h3 className="font-semibold group-odd:border-primaryColor text-center group-even:border-white w-[60%] rounded-[5px] py-1 border text-md">
           {data.title}
         </h3>
@@ -31,16 +31,16 @@ function SubscriptionCard({ data, subUtils, setIsOpen }) {
         </span>
         {!showPerks ? (
           <>
-            <span className="mt-[3%] text-little">user/month</span>
-            <p className="mt-[10%] text-little text-center w-[90%] ">
+            <span className="mt-5 text-little">user/month</span>
+            <p className="my-5 text-little text-center w-[90%] ">
               {data.description}
             </p>
           </>
         ) : (
           <>
             <div className="flex flex-col px-2 h-[80%] text-[12px] items-start justify-center">
-              {data.permissions.map((current) => (
-                <div className="flex gap-2 font-semibold text-lig items-center w-full">
+              {data?.permissions.map((current, index) => (
+                <div key={index} className="flex gap-2 font-semibold text-lig items-center w-full">
                   <IoMdCheckmarkCircleOutline className="text-md" />
                   <span className="w-[90%]">{current}</span>
                 </div>

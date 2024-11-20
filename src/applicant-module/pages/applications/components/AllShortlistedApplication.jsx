@@ -19,7 +19,7 @@ const AllShortlistedApplicants = ({ app, index }) => {
     return (
         <div
             onClick={() => navigate(`/applicant/applications/${app.id}`, { state: { app: app } })}
-            className="flex cursor-pointer recent_added items-center" >
+            className="flex cursor-pointer recent_added items-center min-w-full" >
             <div className="flex justify-between py-3 px-2 w-[25%]">
                 <span>{index + 1}</span>
                 <div className="w-3/4 flex items-center">

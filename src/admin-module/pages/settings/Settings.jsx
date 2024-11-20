@@ -19,7 +19,7 @@ function Settings() {
                     title="Login and Security"
                     subtitle="Update your password and secure your account"
                     smallTextIcon={<FaPlus/>}
-                    link=""
+                    link="/admin/change-pwd"
                      />
                 <SettingsCard
                     rightIcon={<FaMoneyBill />}

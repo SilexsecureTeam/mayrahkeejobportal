@@ -3,12 +3,12 @@ import { useParams } from "react-router-dom";
 import UseAdminManagement from "../../../hooks/useAdminManagement";
 import { FaLinkedin, FaGlobe, FaFileAlt } from "react-icons/fa";
 import { format } from "date-fns";
-import { ClipLoader } from "react-spinners";
 import { FaArrowLeftLong } from "react-icons/fa6";
+import { ClipLoader } from "react-spinners";
 
 const JobDescriptionPage = () => {
     const { id } = useParams();
-    const { loading, getJobById } = UseAdminManagement();
+    const {loading, getJobById } = UseAdminManagement();
     const [job, setJob] = useState(null);
 
     useEffect(() => {
@@ -22,20 +22,22 @@ const JobDescriptionPage = () => {
         })();
     }, [id]);
 
+
     if (loading) {
         return (
-            <div className="flex justify-center items-center h-screen">
-                <ClipLoader size={50} color={"#123abc"} loading={loading} />
-            </div>
+          <div className="flex justify-center items-center h-screen">
+            <ClipLoader size={50} color={"#123abc"} loading={loading} />
+          </div>
         );
-    }
-
+      }
+    
     if (!job) {
         return <div>Loading...</div>;
     }
 
     return (
         <div className="mx-auto mt-10 max-w-screen-lg px-4 sm:px-6 lg:px-8">
+            
             <button
                 type="button"
                 onClick={() => window.history.back()}

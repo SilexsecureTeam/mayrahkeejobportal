@@ -11,7 +11,7 @@ const SectorDetails = ({ selectedProduct, buttons }) => (
                 <p><strong>Quantity:</strong> {selectedProduct.quantity}</p>
                 <div className="actions">
                     {buttons.includes('edit') && <button className="bg-blue-500 text-white px-2 py-2  mr-2">Edit</button>}
-                    {buttons.includes('delete') && <button className="bg-red-500 text-white px-2 py-2  mr-2">Delete</button>}
+                    {buttons.includes('delete') && <button className="bg-red-500 text-white px-2 py-2  mr-2 ">Delete</button>}
                     {buttons.includes('view') && <button className="bg-blue-500 text-white px-2 py-2  mr-2">View</button>}
                     {buttons.includes('download') && <button className="bg-yellow-500 text-white px-2 py-2 ">Download</button>}
                 </div>

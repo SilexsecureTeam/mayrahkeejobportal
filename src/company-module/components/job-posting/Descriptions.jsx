@@ -7,16 +7,16 @@ import FormButton from "../../../components/FormButton";
 const descriptions = [
   {
     id: 1,
-    title: "Job Description (required)",
+    title: "Responsibilities (required)",
     name: "job_description",
-    desc: "Job titles must be describe one position",
+    desc: "Job responsibilities must be describe by one position",
     placeholder: "Enter a job decription",
   },
   {
     id: 2,
-    title: "Experience",
+    title: "Qualifications",
     name: "experience",
-    desc: "Outline the experices reqyired for the Job",
+    desc: "Outline the experiences required for the Job",
     placeholder: "Begin to type...",
   },
 ];
@@ -51,15 +51,37 @@ const basic_inputs = [
 const careerData = [
   {
     id: 1,
-    name: "Entry Level",
+    name: "Internship",
   },
   {
     id: 2,
-    name: "Mid Level",
+    name: "Management Trainee ",
   },
   {
     id: 3,
-    name: "Senoir Level",
+    name: "Entry level",
+  },{
+    id: 4,
+    name: "Intermediate level",
+  },
+  {
+    id: 5,
+    name: "Middle level",
+  },
+  {
+    id: 6,
+    name: "Senior level",
+  },{
+    id: 7,
+    name: "Management level",
+  },
+  {
+    id: 8,
+    name: "Executive ",
+  },
+  {
+    id: 9,
+    name: "Board of Directors",
   },
 ];
 

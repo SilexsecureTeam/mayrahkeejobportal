@@ -33,7 +33,8 @@ import AdminSideBarItem from "../admin-module/components/AdminSideBarItem";
 import JobDescriptionPage from "../admin-module/pages/Jobs/JobDescriptionPage";
 import AllJobs from "../admin-module/pages/Jobs/AllJobListing";
 import AdminReducer from "../reducers/AdminReducer";
-import Salary from "../admin-module/pages/settings/Salary/Salaries";
+import Salaries from "../admin-module/pages/settings/Salary/Salaries";
+import AddSalary from "../admin-module/pages/settings/Salary/AddSalary";
 
 // Util Component
 const NavBar = lazy(() => import("../admin-module/components/NavBar"));
@@ -173,7 +174,8 @@ function useAdminRoute() {
                       <Route path="settings/sectors/categories" element={<AddCategory />} />
                       <Route path="settings/currency" element={<Currency />} />
                       <Route path="settings/currency/add" element={<AddCurrency />} />
-                      <Route path="settings/salary" element={<Salary />} />
+                      <Route path="settings/salary" element={<Salaries />} />
+                      <Route path="settings/salary/add" element={<AddSalary />} />
                       <Route path="help-center" element={<HelpCenter />} />
                       <Route path="artisan" element={<Artisan />} />
                       <Route path="artisans/all" element={<AllArtisans />} />

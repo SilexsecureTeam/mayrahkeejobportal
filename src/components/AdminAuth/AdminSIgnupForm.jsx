@@ -11,24 +11,23 @@ function AdminRegistrationForm() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [passwordConfirmation, setPasswordConfirmation] = useState("");
+  const [password_confirmation, setPasswordConfirmation] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const { AdminRegistration } = UseAdminManagement();
   const [error, setError] = useState(null);
-  const navigate = useNavigate()
-
+const navigate = useNavigate()
   const handleOnSubmit = async (e) => {
     e.preventDefault();
-    if (password !== passwordConfirmation) {
+    if (password !== password_confirmation) {
       toast.error("Passwords do not match");
       return;
-    }
+  }
     try {
-      const response = await AdminRegistration({ name, email, password, password_confirmation: passwordConfirmation });
+      const response = await AdminRegistration({ name, email, password, password_confirmation });
       console.log("Response:", response);
       if (response.status !== 400) {
         toast.success("Registration successful!");
-        navigate('/admin')
+        navigate('/admin/')
       } else {
         toast.error("Registration failed");
         setError(response.response.data);
@@ -112,7 +111,9 @@ function AdminRegistrationForm() {
               <div className="flex items-center bg-white p-3 rounded-md border">
                 <input
                   name="password_confirmation"
+                  name="password_confirmation"
                   type={showPassword ? "text" : "password"}
+                  onChange={(e) => setPasswordConfirmation(e.target.value)}
                   onChange={(e) => setPasswordConfirmation(e.target.value)}
                   required
                   className="w-full bg-transparent focus:outline-none"

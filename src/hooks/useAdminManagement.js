@@ -16,7 +16,6 @@ function UseAdminManagement() {
   const [profileDetails, setProfileDetails] = useState();
   const [loading, setLoading] = useState(false);
   const [selectedStatus, setSelectedStatus] = useState(null);
-
   const adminProfile = async () => {
     setLoading(true);
     // const { data } = await client.get(
@@ -286,10 +285,10 @@ function UseAdminManagement() {
       setLoading(true);
       console.log("Sending currency data to API:", currencyData);
       const response = await client.post("/currencies", currencyData);
-      return response.data;
+      return response;
     } catch (error) {
       if (error.status === 500) {
-        return error.response
+        return error
       }
       console.error("Error adding currency:", error);
       return null;
@@ -424,12 +423,20 @@ function UseAdminManagement() {
   };
 
   const AdminLogout = async () => {
+    // console.log(authDetails?.token);
+    
     try {
       setLoading(true);
-      const response = await client.post("/admin/logout");
+      const response = await axios.post(`${BASE_URL}/admin/logout`, {}, {
+        headers: {
+          Authorization: `${authDetails?.token}`
+        }
+      });
+      console.log("response", response.status);
+      
       return response.status;
     } catch (error) {
-      console.error('Error', error.status);
+      console.error('Error', error);
     } finally {
       setLoading(false);
     }
@@ -544,7 +551,7 @@ function UseAdminManagement() {
   const deleteSalaryById = async (id) => {
     try {
       setLoading(true);
-      const response = await client.delete(`/salary/${id}`);
+      const response = await client.delete(`/salaries/${id}`);
       return response.data;
     } catch (error) {
       console.error("Error deleting sector:", error);
@@ -553,6 +560,21 @@ function UseAdminManagement() {
       setLoading(false);
     }
   };
+
+const createSalary = async (data) => {
+  try {
+    setLoading(true)
+    const response = await client.post('/salaries', data)
+    return response.data
+  }
+  catch (err) {
+    console.error('Error creating salary', err)
+    return null
+  }
+  finally {
+    setLoading(false)
+  }
+}
 
   return {
     loading,
@@ -591,6 +613,7 @@ function UseAdminManagement() {
     getJobById,
     getSalaries,
     deleteSalaryById,
+    createSalary,
   };
 }
 

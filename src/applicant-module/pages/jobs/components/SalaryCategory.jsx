@@ -3,7 +3,7 @@ import CustomizedCheckbox from './CustomizedCheckbox'
 import { FaChevronDown, FaChevronUp } from 'react-icons/fa'
 
 const SalaryCategory = ({ setSalaryRange }) => {
-    const [close, setClose] = useState(true)
+    const [close, setClose] = useState(false)
     return (
         <div>
             <div className="mb-5">
@@ -17,10 +17,10 @@ const SalaryCategory = ({ setSalaryRange }) => {
                     <div className="">
                         {/* <CustomizedCheckbox
                             setSelectedValue={setSalaryRange} values={{
-                                label: "$700 - $1000",
-                                value: 700,
+                                label: "NGN7,000 - NGN10,000",
+                                value: 7000,
                                 name: "salaryLevel",
-                                id: "700"
+                                id: "7000"
                             }} /> */}
                         <CustomizedCheckbox
                             setSelectedValue={setSalaryRange} values={{
@@ -31,24 +31,24 @@ const SalaryCategory = ({ setSalaryRange }) => {
                             }} />
                         <CustomizedCheckbox
                             setSelectedValue={setSalaryRange} values={{
-                                label: "$1000 - $1500",
-                                value: 1000,
+                                label: "NGN10,000 - NGN15,000",
+                                value: 10000,
                                 name: "salaryLevel",
-                                id: "1000"
+                                id: "10000"
                             }} />
                         <CustomizedCheckbox
                             setSelectedValue={setSalaryRange} values={{
-                                label: "$1500 - $2000",
-                                value: 1500,
+                                label: "NGN15,000 - NGN20,000",
+                                value: 15000,
                                 name: "salaryLevel",
-                                id: "1500"
+                                id: "15000"
                             }} />
                         <CustomizedCheckbox
                             setSelectedValue={setSalaryRange} values={{
-                                label: "$3000 - Above",
-                                value: 3000,
+                                label: "NGN30,000 - Above",
+                                value: 30000,
                                 name: "salaryLevel",
-                                id: "3000"
+                                id: "30000"
                             }} />
                     </div>
                 )}

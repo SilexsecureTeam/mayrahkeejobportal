@@ -29,7 +29,6 @@ const CandidateStaff = () => {
     })();
   }, [id]);
 
-
   if (loading) {
     return (
       <div className="flex justify-center items-center h-screen">
@@ -37,7 +36,8 @@ const CandidateStaff = () => {
       </div>
     );
   }
-  
+
+
   if (!staffDetails.length) {
     return <div className="py-6"><h1 className="font-bold text-2xl">No staff details found</h1></div>;
   }

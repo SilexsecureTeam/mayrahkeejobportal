@@ -30,7 +30,7 @@ function NavBar({ state, toogleIsOpen, isMenuOpen }) {
           />
         <div className="flex items-center gap-[5px]">
           <img src={wheelIcon} className="h-[35px] md:block hidden w-[35px]" />
-          <h1 className="font-semibold text-xl tracking-wide">{state.title}</h1>
+          <h1 className="font-semibold text-[18px] md:text-xl leading-none">{state.title}</h1>
         </div>
 
         <div className="flex justify-end items-center pr-2 md:w-[25%] gap-[5px]">

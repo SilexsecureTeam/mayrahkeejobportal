@@ -25,7 +25,7 @@ function AllMedicalHistories() {
   const heading = ["ID", "Hospital Name", "Contact", "Document", "Status", "StaffID"];
   
   const data = medicals.map(medical => ({
-    [heading[0].toLowerCase()]: medical.id,
+    [heading[0].toLowerCase()]: medical.domestic_staff_id,
     [heading[1].toLowerCase()]: medical.hospital_name,
     [heading[2].toLowerCase()]: medical.contact_detail,
     [heading[3].toLowerCase()]: <img src={"https://dash.mayrahkeeafrica.com/"+medical.medical_report_docs} alt="document" className="w-28 h-28 rounded-lg"/>,

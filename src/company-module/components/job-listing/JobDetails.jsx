@@ -10,7 +10,7 @@ import { onSuccess } from "../../../utils/notifications/OnSuccess";
 import DeleteDialog from "../../../components/DeleteDialog";
 import DefaultSwitch from "../../../components/DefaultSwitch";
 
-function JobDetails({ data, jobUtils }) {
+function JobDetails({ data, jobUtils, applicants }) {
   const [enabled, setEnabled] = useState(true);
   const [isDeleteOpen, setIsDeleteOpened] = useState(false);
 
@@ -27,11 +27,7 @@ function JobDetails({ data, jobUtils }) {
   };
 
   useEffect(() => {
-    if (data?.status === "1") {
-      setEnabled(true);
-    } else {
-      setEnabled(false);
-    }
+    setEnabled(data?.status === "1");
   }, [data?.status]);
 
   return (
@@ -40,22 +36,22 @@ function JobDetails({ data, jobUtils }) {
         isOpen={isDeleteOpen}
         loading={jobUtils.loading}
         setIsOpen={setIsDeleteOpened}
-        title={"Job"}
+        title="Job"
         handleDelete={handleDelete}
       />
 
-      <div className="p-1 flex flex-col w-full gap-[15px]">
-        <div className="w-full border justify-between px-2 py-1 flex items-center ">
-          <div className="flex gap-[10px] items-center">
-            <div className="h-[50px] w-[50px] bg-gray-300" />
+      <div className="p-2 flex flex-col w-full gap-4">
+        <div className="w-full border flex flex-col md:flex-row justify-between px-2 py-1 items-center">
+          <div className="flex gap-3 items-center w-full md:w-auto">
+            <div className="h-12 w-12 bg-gray-300" />
 
             <div className="flex flex-col">
               <h3 className="font-bold text-lg">{data.job_title}</h3>
-              <span className="text-little">
+              <span className="text-sm">
                 Mail to:{" "}
                 <a
                   href={`mailto:${data.email}`}
-                  className="text-little text-primaryColor cursor-pointer hover:underline"
+                  className="text-primaryColor cursor-pointer hover:underline"
                 >
                   {data.email}
                 </a>
@@ -63,15 +59,15 @@ function JobDetails({ data, jobUtils }) {
             </div>
           </div>
 
-          <div className="w-[30%] flex gap-[10px]">
+          <div className="w-full md:w-1/3 flex gap-2 mt-2 md:mt-0">
             <button
               onClick={() => setIsDeleteOpened(true)}
-              className="px-1 py-1 w-[60px] flex text-little border items-center justify-center gap-[5px]"
+              className="px-1 py-1 flex text-sm border items-center justify-center gap-1 w-1/2 md:w-20"
             >
               <MdDeleteForever className="text-red-600" />
               Delete
             </button>
-            <button className="px-1 py-1 w-[60px] flex text-little border items-center justify-center gap-[5px]">
+            <button className="px-1 py-1 flex text-sm border items-center justify-center gap-1 w-1/2 md:w-20">
               <CiEdit className="text-primaryColor" />
               Edit
             </button>
@@ -79,163 +75,122 @@ function JobDetails({ data, jobUtils }) {
               enabled={enabled}
               setEnabled={setEnabled}
               onClick={() => {
-                if (!enabled) {
-                  jobUtils.deactivateJob(data, '1', () => {
-                     onSuccess({
-                      message: 'Status Updated',
-                      success: 'Job is now open'
-                     })
+                const newStatus = enabled ? '2' : '1';
+                jobUtils.deactivateJob(data, newStatus, () => {
+                  onSuccess({
+                    message: 'Status Updated',
+                    success: `Job is now ${enabled ? 'closed' : 'open'}`,
                   });
-                } else{
-                  jobUtils.deactivateJob(data, '2', () => {
-                    onSuccess({
-                     message: 'Status Updated',
-                     success: 'Job is now closed'
-                    })
-                 });
-                }
-                setEnabled(!enabled)
+                });
+                setEnabled(!enabled);
               }}
             />
           </div>
         </div>
 
-        <div className="w-full text-black ">
-          <div className="w-full flex justify-between">
-            {/* Descriptions e.t.c */}
-            <div className="w-[60%] flex flex-col gap-[10px]">
-              <div className="flex flex-col">
-                <span className="font-bold text-md">Job Description</span>
-                <div
-                  dangerouslySetInnerHTML={{ __html: data?.job_description }}
-                  className="text-little border border-dotted p-2"
-                />
-              </div>
-              <div className="flex flex-col">
-                <span className="font-semibold text-md">Experience Needed</span>
-                <div
-                  dangerouslySetInnerHTML={{ __html: data?.experience }}
-                  className=" text-little"
-                />
-              </div>
+        <div className="w-full text-black flex flex-col md:flex-row gap-4">
+          <div className="w-full md:w-3/5 flex flex-col gap-4">
+            <div className="flex flex-col">
+              <span className="font-bold text-md">Job Description</span>
+              <div
+                dangerouslySetInnerHTML={{ __html: data?.job_description }}
+                className="text-sm border border-dotted p-2"
+              />
+            </div>
+            <div className="flex flex-col">
+              <span className="font-semibold text-md">Experience Needed</span>
+              <div
+                dangerouslySetInnerHTML={{ __html: data?.experience }}
+                className="text-sm"
+              />
+            </div>
 
+            <div className="flex flex-col">
+              <span className="font-semibold text-md">
+                Qualifications and Skills
+              </span>
+              <ul className="flex flex-col gap-2 text-sm">
+                {data?.qualification?.map((current, index) => (
+                  <li key={index} className="flex items-center gap-2">
+                    <img src={blueTickIcon} className="h-4" alt="tick icon" />
+                    <span>{current}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div className="flex flex-wrap items-center justify-between pt-2 border-t">
               <div className="flex flex-col">
-                <span className="font-semibold text-md">
-                  Qualifications and Skills
+                <span className="font-semibold text-sm">Office Address</span>
+                <span className="text-sm">{data?.office_address}</span>
+              </div>
+              <div className="flex flex-col">
+                <span className="font-semibold text-sm">Intro Video URL</span>
+                <span className="text-sm text-primaryColor hover:underline cursor-pointer">
+                  {data?.introduction_video_url}
                 </span>
-                <ul className=" flex flex-col gap-[5px] text-little ">
-                  {data?.qualification?.map((current) => (
-                    <li className="flex items-center gap-[5px]">
-                      <img src={blueTickIcon} className="h-[15px] " />
-                      <span>{current}</span>
-                    </li>
-                  ))}
-                </ul>
               </div>
+              <div className="flex flex-col">
+                <span className="font-semibold text-sm">External URL</span>
+                <a className="text-sm text-primaryColor hover:underline cursor-pointer">
+                  {data?.external_url}
+                </a>
+              </div>
+            </div>
+          </div>
 
-              <div className="flex items-center justify-between pt-[5px] w-full border-t">
-                <div className="flex flex-col">
-                  <span className="font-semibold text-sm">Office Address</span>
-                  <span className="text-little">
-                    {data?.office_address}
+          <div className="flex flex-col gap-4 w-full md:w-2/5 pr-2">
+            <div className="flex flex-col">
+              <span className="font-semibold text-md">About this Role</span>
+              <div className="text-sm gap-2 flex flex-col">
+                <span className="font-semibold p-2 bg-gray-100 text-center">
+                  {applicants?.length} Applied
+                </span>
+                <span className="flex justify-between border-b border-dashed">
+                  Job Posted on{" "}
+                  <span>
+                    {new Date(data?.created_at).toLocaleDateString()}
                   </span>
-                </div>
-                <div className="flex flex-col">
-                  <span className="font-semibold text-sm">Intro Video Url</span>
-                  <span className="text-little hover:text-primaryColor hover:underline cursor-pointer">
-                    {data?.introduction_video_url}
+                </span>
+                <span className="flex justify-between border-b border-dashed">
+                  Job Deadline{" "}
+                  <span>
+                    {new Date(data?.application_deadline_date).toLocaleDateString()}
                   </span>
-                </div>
-                <div className="flex flex-col">
-                  <span className="font-semibold text-sm">External Url</span>
-                  <a className="text-little hover:text-primaryColor hover:underline cursor-pointer">
-                    {data?.external_url}
-                  </a>
-                </div>
+                </span>
+                {/* Additional job details */}
               </div>
             </div>
 
-            {/* About the role */}
-            <div className="flex flex-col justify- gap-[10px] pr-2">
-              <div className="flex flex-col">
-                <span className="font-semibold text-md">About this role</span>
-                <div className=" text-little  gap-[10px] flex flex-col">
-                  <span className="font-semibold text-md p-2 bg-gray-100 text-center">
-                    5 applied 0f 10 capacity
-                  </span>
-                  <span className=" text-md tgap-[10px] flex justify-between border-b border-dashed">
-                    Job Posted on{" "}
-                    <span className="">
-                      {new Date(data?.created_at).toLocaleDateString()}
-                    </span>
-                  </span>
-                  <span className=" text-md  gap-[10px] flex justify-between border-b border-dashed">
-                    Job deadline{" "}
-                    <span className="">
-                      {new Date(
-                        data?.application_deadline_date
-                      ).toLocaleDateString()}
-                    </span>
-                  </span>
+            <div className="h-px bg-gray-300 w-full" />
 
-                  <span className=" text-md  gap-[10px] flex justify-between border-b border-dashed">
-                    Job Type<span className="">{data?.type}</span>
+            <div className="flex flex-col">
+              <span className="font-semibold text-md">Search Keywords</span>
+              <div className="grid grid-cols-2 gap-2">
+                {data?.search_keywords?.split(",").map((keyword, index) => (
+                  <span
+                    key={index}
+                    className="text-sm py-1 px-2 text-amber-500 bg-amber-300 rounded-full text-center"
+                  >
+                    {keyword}
                   </span>
-
-                  <span className=" text-md gap-[10px] flex justify-between border-b border-dashed">
-                    Salary Type
-                    <span className="">{data?.salary_type}</span>
-                  </span>
-
-                  <span className=" text-md gap-[10px] flex justify-between border-b border-dashed">
-                    Salary Range
-                    <span className="">{`${FormatPrice(
-                      Number(data?.min_salary)
-                    )} - ${FormatPrice(Number(data?.max_salary))}`}</span>
-                  </span>
-                  <span className=" text-md gap-[10px] flex justify-between border-b border-dashed">
-                    Currency
-                    <span className="">{data?.currency}</span>
-                  </span>
-                  <span className=" text-md gap-[10px] flex justify-between border-b border-dashed">
-                    Sector
-                    <span className="">{data?.sector}</span>
-                  </span>
-                  <span className=" text-md gap-[10px] flex justify-between border-b border-dashed">
-                    Gender
-                    <span className="">{data?.gender}</span>
-                  </span>
-                  <span className=" text-md gap-[10px] flex justify-between border-b border-dashed">
-                    Age Range
-                    <span className="">{data?.preferred_age}</span>
-                  </span>
-                </div>
+                ))}
               </div>
+            </div>
 
-              <div className="h-[1px] bg-gray-300 w-full" />
+            <div className="h-px bg-gray-300 w-full" />
 
-              <div className="flex flex-col">
-                <span className="font-semibold text-md">Search Keywords</span>
-                <div className="grid grid-cols-2 gap-[10px]">
-                  {data?.search_keywords?.split(",").map((current) => (
-                    <span className=" text-little py-[2px] px-2 text-amber-500 rounded-[15px] bg-amber-300 text-center">
-                      {current}
-                    </span>
-                  ))}
-                </div>
-              </div>
-
-              <div className="h-[1px] bg-gray-300 w-full" />
-
-              <div className="flex flex-col">
-                <span className="font-semibold text-md">Socials</span>
-                <div className="grid grid-cols-2 gap-[10px]">
-                  {data?.qualification?.map((current) => (
-                    <span className=" text-little py-1 px-2 text-green-400  bg-green-200 text-center">
-                      {current}
-                    </span>
-                  ))}
-                </div>
+            <div className="flex flex-col">
+              <span className="font-semibold text-md">Socials</span>
+              <div className="grid grid-cols-2 gap-2">
+                {data?.qualification?.map((current, index) => (
+                  <span
+                    key={index}
+                    className="text-sm py-1 px-2 text-green-400 bg-green-200 rounded-full text-center"
+                  >
+                    {current}
+                  </span>
+                ))}
               </div>
             </div>
           </div>

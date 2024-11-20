@@ -35,6 +35,7 @@ function useJobManagement() {
     office_address: "",
     location: "",
     maps_location: "",
+    number_of_participants: 10
   });
   const [jobList, setJobList] = useState([]);
   const [applicantJobs, setApplicantJobs] = useState([]);
@@ -47,6 +48,54 @@ function useJobManagement() {
     const { name, value } = e.target;
     setDetails({ ...details, [name]: value });
   };
+
+  const getEmployentTypes = async () => {
+    try {
+      const response = await client.get(`/employment-types`);
+      return response.data
+    } catch (error) {
+      FormatError(error, setError, "Employement types Error");
+      return []
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  const getCurrencies = async () => {
+    try {
+      const response = await client.get(`/currencies`);
+      return response.data
+    } catch (error) {
+      FormatError(error, setError, "Currency Error");
+      return []
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  const getSectors = async () => {
+    try {
+      const response = await client.get(`/sectors`);
+      return response.data.data
+    } catch (error) {
+      FormatError(error, setError, "Sector Error");
+      return []
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  const getSubSectors = async (sectorid) => {
+    try {
+      const response = await client.get(`/sub-sectors/${sectorid}`);
+      return response.data.data
+    } catch (error) {
+      FormatError(error, setError, "Sector Error");
+      return []
+    } finally {
+      setLoading(false);
+    }
+  }
 
   const addJob = async (handleSuccess) => {
     setLoading(true);
@@ -98,7 +147,6 @@ function useJobManagement() {
     try {
       const response = await client.get("/job");
       await set(JOB_MANAGEMENT_Key, response.data);
-      setJobList(response.data);
     } catch (error) {
       FormatError(error);
     } finally {
@@ -149,7 +197,7 @@ function useJobManagement() {
         if (storedValue !== undefined) {
           setJobList(storedValue);
         }
-        getJobsFromDB();
+        await getJobsFromDB();
       } catch (error) {
         FormatError(error, setError, "Index Error");
       }
@@ -169,7 +217,11 @@ function useJobManagement() {
     deleteJob,
     deactivateJob,
     getJobById,
-    getJobsByApplicant
+    getJobsByApplicant,
+    getEmployentTypes,
+    getCurrencies,
+    getSectors,
+    getSubSectors
 
   };
 }

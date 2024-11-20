@@ -36,8 +36,9 @@ const EmployerStaff = () => {
     );
   }
 
+
   if (!staffDetails.length) {
-    return <div>No staff details found</div>;
+    return <div className="text-center flex justify-center item-center">No staff details found</div>;
   }
 
   const heading = ["ID", "Staff Name", "Start Date", "End Date", "Status", "StaffID"];

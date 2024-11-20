@@ -16,6 +16,7 @@ import {
   MdClose,
 } from "react-icons/md";
 import PopUpBox from "../../../components/PopUpBox";
+import { ImUpload2 } from "react-icons/im";
 
 const PROFILE_DETAILS_KEY = "Staff Profile Detaials Database";
 
@@ -32,7 +33,7 @@ const field_sections = {
       field_name: "surname",
     },
     {
-      name: "Middlename",
+      name: "Middle name",
       type: "text",
       field_name: "middle_name",
     },
@@ -152,8 +153,10 @@ function ProfileForm({ setToMain }) {
   const { profileDetails, getStaffProfile } = useContext(
     StaffManagementContext
   );
-  const [selectedLanguages, setSelectedLanguages] = useState([...profileDetails?.languages_spoken]);
-  const client = axiosClient(authDetails?.token);
+  // Initialize selectedLanguages with an empty array if languages_spoken is undefined
+const [selectedLanguages, setSelectedLanguages] = useState(profileDetails?.languages_spoken || []);
+
+  const client = axiosClient(authDetails?.token, true);
   const {
     register,
     handleSubmit,
@@ -167,32 +170,49 @@ function ProfileForm({ setToMain }) {
   });
   const [isOpen, setIsOpen] = useState(false);
   const [otherLanguage, setOtherLanguage] = useState("");
+  const [file, setFile] = useState();
+  const [imageUrl, setImageUrl] = useState();
 
   const onSubmit = async (data) => {
-    setLoading(true);
-    try {
-      const response = await client.post(
-        `/domesticStaff/update-profile/${authDetails.user.id}`,
-        { ...data, languages_spoken: selectedLanguages }
-      );
-      getStaffProfile();
-      onSuccess({
-        message: "Profile Success",
-        success: "Profile Info updated succesfully",
-      });
-      setToMain();
-    } catch (error) {
-      onFailure({
-        error: "Failed to update",
-        message: "Something went wrong",
-      });
-    }
-    setLoading(false);
-  };
+  setLoading(true);
+  
+  // Filter out placeholder values from select fields
+  const filteredData = Object.fromEntries(
+    Object.entries(data).filter(([key, value]) => value && value !== `-- Select ${key} --`)
+  );
+
+  try {
+    const response = await client.post(
+      `/domesticStaff/update-profile/${authDetails.user.id}`,
+      {
+        ...filteredData,
+        languages_spoken: selectedLanguages,
+        profile_image: file,
+        job_type: 'something'
+      }
+    );
+    getStaffProfile();
+    onSuccess({
+      message: "Profile Success",
+      success: "Profile Info updated successfully",
+    });
+    setToMain();
+  } catch (error) {
+    onFailure({
+      error: "Failed to update",
+      message: "Something went wrong",
+    });
+  }
+  setLoading(false);
+};
+
+
+// Guard clause to prevent rendering before profileDetails is loaded
+if (!profileDetails) return null;
 
   const filterProfileDetails =
-    profileDetails &&
-    Object.keys(profileDetails).filter(
+    profileDetails ?
+    Object.keys(profileDetails)?.filter(
       (currentKey) =>
         currentKey !== "created_at" &&
         currentKey !== "updated_at" &&
@@ -210,14 +230,24 @@ function ProfileForm({ setToMain }) {
         currentKey !== "resume" &&
         currentKey !== "availability_status" &&
         currentKey !== "employment_type"
-    );
+    ):[];
 
   const toogleIsOpen = () => setIsOpen(!isOpen);
+
+  const handleImageChange = (event) => {
+    const imageFile = event.target.files[0];
+    if (imageFile) {
+      setFile(imageFile);
+      const url = URL.createObjectURL(imageFile);
+      console.log("url", url);
+      setImageUrl(url);
+    }
+  };
 
   return (
     <>
       <PopUpBox isOpen={isOpen}>
-        <div className="w-[30%] p-3 gap-3 rounded-lg  flex flex-col bg-white">
+        <div className="w-[300px] p-3 gap-3 rounded-lg  flex flex-col bg-white">
           <MdClose
             onClick={toogleIsOpen}
             className="place-self-end text-lg cursor-pointer"
@@ -241,7 +271,7 @@ function ProfileForm({ setToMain }) {
                   message: "Please enter a value",
                 });
               }
-              setOtherLanguage('za')
+              setOtherLanguage("za");
             }}
           >
             Add Language
@@ -279,18 +309,57 @@ function ProfileForm({ setToMain }) {
             <>
               <div className="flex flex-col gap-5 border-b pb-4">
                 <h3 className="font-semibold text-lg">Primary Information</h3>
+                <div className="h-[100px] flex items-center overflow-hidden justify-center text-gray-500 border border-[#dee2e6] w-[100px] rounded-full">
+                  {imageUrl ? (
+                    <>
+                    <label
+                      htmlFor="profile-image"
+                      className="flex flex-col cursor-pointer items-center justify-center"
+                    >
+                      <span className="text-[12px]">Upload pic</span>
+                      <img src={imageUrl} className="h-full " />
+                    </label>
+                    <input
+                        type="file"
+                        id="profile-image"
+                        onChange={(e) => handleImageChange(e)}
+                        className="hidden"
+                      />
+                    </>
+                  ) : (
+                    <div>
+                      {" "}
+                      <label
+                        htmlFor="profile-image"
+                        className="flex flex-col cursor-pointer items-center justify-center"
+                      >
+                        <ImUpload2 size={20} />
+                        <span className="text-[12px]">Upload pic</span>
+                      </label>
+                      <input
+                        type="file"
+                        id="profile-image"
+                        onChange={(e) => handleImageChange(e)}
+                        className="hidden"
+                      />
+                    </div>
+                  )}
+                </div>
                 <div className="grid grid-cols-2 gap-x-3 gap-y-5">
-                  {field_sections.primary.map((currentKey) => {
+                  {field_sections.primary?.map((currentKey) => {
                     const detail = profileDetails[currentKey.field_name];
                     // const labelText = currentKey.replace(/_/g, " ").toUpperCase();
 
                     const inputType =
-                      currentKey == "member_since" ? "date" : "text";
+                      currentKey == "member_since" ? "date" : "text" ;
                     return (
                       <div className="flex flex-col gap-1">
-                        <label>{currentKey.name}<span className="text-red-500 ml-1 ">*</span></label>
+                        <label>
+                          {currentKey.name}
+                          <span className="text-red-500 ml-1 ">*</span>
+                        </label>
                         {currentKey.type !== "select" ? (
-                          <input
+<input
                             className="p-1 border focus:outline-none border-gray-900  rounded-md"
                             type={inputType}
                             defaultValue={detail}
@@ -303,7 +372,7 @@ function ProfileForm({ setToMain }) {
                             defaultValue={detail}
                             {...register(currentKey.field_name)}
                           >
-                            <option>-- Select {currentKey.name} --</option>
+                            <option value="">-- Select {currentKey.name} --</option>
                             {currentKey.options.map((current) => (
                               <option>{current}</option>
                             ))}
@@ -319,42 +388,57 @@ function ProfileForm({ setToMain }) {
                   Professional Information
                 </h3>
                 <div className="grid grid-cols-2 gap-x-3 gap-y-5">
-                  {field_sections.professional.map((currentKey) => {
-                    const detail = profileDetails[currentKey.field_name];
-                    // const labelText = currentKey.replace(/_/g, " ").toUpperCase();
+                  {field_sections.professional.map((currentKey, index) => {
+  const detail = profileDetails[currentKey.field_name];
+  const inputType = currentKey.field_name === "member_since" ? "date" : "text";
+  return (
+    <div className="flex flex-col gap-1" key={index}>
+      <label>
+        {currentKey.name}
+        <span className="text-red-500 ml-1">*</span>
+      </label>
+      {currentKey.type !== "select" ? (
+        currentKey.type === "number" ? (
+          <input
+            className="p-1 border focus:outline-none border-gray-900 rounded-md"
+            type="number"
+            defaultValue={detail}
+            {...register(currentKey.field_name)}
+          />
+        ) : (
+          <input
+            className="p-1 border focus:outline-none border-gray-900 rounded-md"
+            type={inputType}
+            defaultValue={detail}
+            {...register(currentKey.field_name)}
+          />
+        )
+      ) : (
+        <select
+          className="p-1 border focus:outline-none border-gray-900 rounded-md"
+          defaultValue={detail}
+          {...register(currentKey.field_name)}
+        >
+          <option value="">-- Select {currentKey.name} --</option>
+          {currentKey.options &&
+            currentKey.options.map((current, optionIndex) => (
+              <option key={optionIndex} value={current}>
+                {current}
+              </option>
+            ))}
+        </select>
+      )}
+    </div>
+  );
+})}
 
-                    const inputType =
-                      currentKey == "member_since" ? "date" : "text";
-                    return (
-                      <div className="flex flex-col gap-1">
-                        <label>{currentKey.name}<span className="text-red-500 ml-1 ">*</span></label>
-                        {currentKey.type !== "select" ? (
-                          <input
-                            className="p-1 border focus:outline-none border-gray-900  rounded-md"
-                            type={inputType}
-                            defaultValue={detail}
-                            {...register(currentKey.field_name)}
-                          />
-                        ) : (
-                          <select
-                            className="p-1 border focus:outline-none border-gray-900  rounded-md"
-                            type={inputType}
-                            defaultValue={detail}
-                            {...register(currentKey.field_name)}
-                          >
-                            <option>-- Select {currentKey.name} --</option>
-                            {currentKey.options.map((current) => (
-                              <option>{current}</option>
-                            ))}
-                          </select>
-                        )}
-                      </div>
-                    );
-                  })}
                   <div className="flex flex-col gap-2 pl-2">
-                    <label >Languages Spoken<span className="text-red-500 ml-1 ">*</span></label>
+                    <label>
+                      Languages Spoken
+                      <span className="text-red-500 ml-1 ">*</span>
+                    </label>
                     <div className="flex flex-col">
-                      <div className="flex w-full justify-start gap-3">
+                      <div className="flex flex-wrap w-full justify-start gap-3">
                         {[
                           "English",
                           "Hausa",
@@ -407,7 +491,7 @@ function ProfileForm({ setToMain }) {
                           );
                         })}
                       </div>
-                      <div className="flex w-full justify-start gap-3">
+                      <div className="flex flex-wrap w-full justify-start gap-3">
                         {selectedLanguages
                           .filter((current) => {
                             const found = [
@@ -425,7 +509,7 @@ function ProfileForm({ setToMain }) {
                               return true;
                             }
                           })
-                          .map((current) => {
+                          .map((current, idx) => {
                             let index;
                             const isSelected = selectedLanguages?.find(
                               (currentSelected, i) => {
@@ -434,7 +518,7 @@ function ProfileForm({ setToMain }) {
                               }
                             );
                             return (
-                              <div className="text-lg cursor-pointer flex items-center w-fit">
+                              <div key={idx} className="text-lg cursor-pointer flex items-center w-fit">
                                 <MdCheckBox
                                   onClick={() => {
                                     if (current !== "Others") {
@@ -464,13 +548,16 @@ function ProfileForm({ setToMain }) {
               <div className="flex flex-col gap-5 border-b pb-4">
                 <h3 className="font-semibold text-lg">Secondary Information</h3>
                 <div className="grid grid-cols-2 gap-x-3 gap-y-5">
-                  {field_sections.secondary.map((currentKey) => {
+                  {field_sections.secondary.map((currentKey, index) => {
                     const detail = profileDetails[currentKey.field_name];
                     // const labelText = currentKey.replace(/_/g, " ").toUpperCase();
 
                     return (
-                      <div className="flex flex-col gap-1">
-                        <label>{currentKey.name}<span className="text-red-500 ml-1 ">*</span></label>
+                      <div key={index} className="flex flex-col gap-1">
+                        <label>
+                          {currentKey.name}
+                          <span className="text-red-500 ml-1 ">*</span>
+                        </label>
                         {currentKey.type !== "select" ? (
                           <input
                             className="p-1 border focus:outline-none border-gray-900  rounded-md"
@@ -484,7 +571,7 @@ function ProfileForm({ setToMain }) {
                             defaultValue={detail}
                             {...register(currentKey.field_name)}
                           >
-                            <option>-- Select {currentKey.name} --</option>
+                            <option value="" >-- Select {currentKey.name} --</option>
                             {currentKey.options.map((current) => (
                               <option>{current}</option>
                             ))}

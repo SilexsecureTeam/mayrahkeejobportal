@@ -11,6 +11,7 @@ function Applicants() {
    useEffect(() => {
      applicationUtils.getApplicantsByEmployee()
    }, [])
+   console.log(applicationUtils?.applicants)
   return (
     <>
       <Helmet>

@@ -3,6 +3,7 @@ import { NotificationContext } from "../../../context/NotificationContext";
 import NotificationCard from "./NotificationCard";
 import FormButton from "../../../components/FormButton";
 import { onSuccess } from "../../../utils/notifications/OnSuccess";
+import { useState } from "react";
 
 const notificatioTypes = [
   {
@@ -23,11 +24,23 @@ const notificatioTypes = [
 ];
 
 function Notification() {
-  const { updateNotificationSetting, loading, details, getNotificationSetting, setDetails } =
-    useContext(NotificationContext);
+  const {
+    updateNotificationSetting,
+    loading,
+    details,
+    getNotificationSetting,
+    setDetails,
+  } = useContext(NotificationContext);
+
+  const [initialValues, setInitialValues] = useState({});
 
   useEffect(() => {
-    getNotificationSetting();
+    const initData = async () => {
+      const data = await getNotificationSetting();
+      setInitialValues(data);
+    };
+
+    initData();
   }, []);
 
   return (
@@ -36,6 +49,7 @@ function Notification() {
         <NotificationCard
           key={current.id}
           id={current.id}
+          initialValue={initialValues[current.id] ? true : false}
           details={details}
           setDetails={setDetails}
           title={current.name}

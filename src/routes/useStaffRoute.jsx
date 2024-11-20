@@ -15,7 +15,6 @@ const SideBar = lazy(() => import("../staff-module/components/SideBar"));
 const SideBarItem = lazy(() =>
   import("../staff-module/components//SideBarItem")
 );
-
 //pages
 const Dashboard = lazy(() => import("../staff-module/pages/dashboard/Dashboard"));
 const Home = lazy(() => import("../staff-module/pages/home/Home"));
@@ -26,7 +25,7 @@ const Resume = lazy(() =>
   import("../staff-module/pages/resume/Resume")
 );
 const HelpCenter = lazy(() => import("../staff-module/pages/help-center/Help"));
-const Settings = lazy(() => import("../staff-module/pages/settings/Settings"));
+const Settings = lazy(() => import("../company-module/pages/settings/Settings"));
 
 function useStaffRoute() {
   const [state, dispatch] = useReducer(StaffReducer, staffOptions[0]);

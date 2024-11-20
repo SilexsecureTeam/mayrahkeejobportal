@@ -24,7 +24,7 @@ function AllGuarantors() {
   const heading = ["ID", "Name","Email", "Occupation", "Residential Acdress", "DOB", "Status","StaffID"];
   
   const data = guarantors.map(guarantor => ({
-    [heading[0].toLowerCase()]: guarantor.id,
+    [heading[0].toLowerCase()]: guarantor.domestic_staff_id,
     [heading[1].toLowerCase()]: guarantor.title + " " + guarantor.surname +  " " + guarantor.first_name,
     [heading[2].toLowerCase()]: guarantor.email,
     [heading[3].toLowerCase()]: guarantor.occupation,

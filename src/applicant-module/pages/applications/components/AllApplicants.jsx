@@ -4,13 +4,14 @@ import { MdMoreHoriz } from "react-icons/md";
 import { stages } from "../../../../utils/constants";
 import { useNavigate } from "react-router-dom";
 import { onPrompt } from "../../../../utils/notifications/onPrompt";
+import { toast } from "react-toastify";
 
 const AllApplicants = ({ app, index }) => {
   const dateCreated = new Date(app?.created_at);
   const navigate = useNavigate();
 
   const getBorderColor = () => {
-    switch (app.status) {
+    switch (app?.status) {
       case stages[0].name:
         return "text-lightorange border-lightorange";
       case stages[1].name:
@@ -25,15 +26,19 @@ const AllApplicants = ({ app, index }) => {
   };
 
   const handleClick = () => {
-    if (app.status === stages[1].name) {
+    if (app?.status === stages[1].name) {
       navigate(`/applicant/applications/${app.id}`, { state: { app: app } });
-    }else{
-        onPrompt("Awaiting Employer's action")
+    } else if (app?.status === stages[3].name.split("/")[1]) {
+      toast.error("Unfortunately your application was declined")
+    } else if (app?.status === stages[3].name.split("/")[0]) {
+      toast.success("Congratulation!! \nYou have been hired")
+    } else {
+      onPrompt("Awaiting Employer's action")
     }
   };
 
   return (
-    <div onClick={handleClick} className="flex recent_added items-center">
+    <div onClick={handleClick} className="flex recent_added items-center min-w-full">
       <div className="flex justify-between py-3 px-2 w-[25%]">
         <span>{index + 1}</span>
         <div className="w-3/4 flex items-center">
@@ -52,7 +57,7 @@ const AllApplicants = ({ app, index }) => {
           <button
             className={`border border-green-600 text-[12px] text-green-900 px-2 py-1 rounded-full uppercase ${getBorderColor()}`}
           >
-            {app.status}
+            {app?.status}
           </button>
         </div>
       </div>

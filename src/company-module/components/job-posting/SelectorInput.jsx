@@ -2,16 +2,16 @@ import { useEffect } from "react";
 import Selector from "../../../components/Selector";
 
 function SelectorInput({ data, listData, jobUtils, selected, setSelected }) {
- 
   return (
-    <div className="flex gap-[15%] border-b py-2 text-little ">
-      <div className="flex flex-col min-w-[25%] gap-[10px]">
-        <h3 className="text-gray-700 text-sm font-semibold">{data.label}</h3>
-        <span className="text-little text-gray-400">{data.prompt}</span>
-      </div>
+    selected && (
+      <div className="flex gap-[15%] border-b py-2 text-little ">
+        <div className="flex flex-col min-w-[25%] gap-[10px]">
+          <h3 className="text-gray-700 text-sm font-semibold">{data.label}</h3>
+          <span className="text-little text-gray-400">{data.prompt}</span>
+        </div>
 
-      <div className="flex flex-col gap-[3px] ">
-        {/* <input
+        <div className="flex flex-col gap-[3px] ">
+          {/* <input
             value={jobUtils.details[data.name]}
             onChange={jobUtils.onTextChange}
             name={data.name}
@@ -20,15 +20,16 @@ function SelectorInput({ data, listData, jobUtils, selected, setSelected }) {
             placeholder={data.placeholder}
           /> */}
 
-        <Selector
-          data={listData}
-          selected={selected}
-          setSelected={setSelected}
-        />
+          <Selector
+            data={listData}
+            selected={selected}
+            setSelected={setSelected}
+          />
 
-        <span className="text-[10px] text-gray-400">Select an option</span>
+          <span className="text-xs text-gray-400">Select an option</span>
+        </div>
       </div>
-    </div>
+    )
   );
 }
 
