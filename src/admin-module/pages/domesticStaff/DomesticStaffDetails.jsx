@@ -11,7 +11,7 @@ import PreviousWorkExperienceDialog from "../../components/Dialog/PreviousWorkEx
 
 const DomesticStaffDetails = () => {
   const { id } = useParams();
-  const { getStaffById, getStaffReportById } = UseAdminManagement();
+  const {loading, getStaffById, getStaffReportById } = UseAdminManagement();
   const [artisan, setArtisan] = useState(null);
 
   useEffect(() => {
@@ -24,6 +24,15 @@ const DomesticStaffDetails = () => {
       }
     })();
   }, [id]);
+
+
+  //  if (loading) {
+  //   return (
+  //     <div className="flex justify-center items-center h-screen">
+  //       <h1 className="font-semibold">Loading...</h1>
+  //     </div>
+  //   );
+  // }
 
   const fetchReport = async (type, id) => {
     const data = await getStaffReportById(type, id);

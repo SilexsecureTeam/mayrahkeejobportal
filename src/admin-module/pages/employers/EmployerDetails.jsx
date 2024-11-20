@@ -22,8 +22,17 @@ const EmployerDetails = () => {
         console.error("No data received");
       }
       setLoading(false);
+      setLoading(false);
     })();
   }, [id]);
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <ClipLoader size={50} color={"#123abc"} loading={loading} />
+      </div>
+    );
+  }
 
   if (loading) {
     return (
@@ -81,12 +90,22 @@ const EmployerDetails = () => {
 
             <div>
               <h2 className="text-gray-800 text-2xl font-bold mb-2">{details?.company_name}</h2>
-              <h1 className="text-gray-400 text-sm">{candidateAuth.email}</h1>
+              <h1 className="text-gray-400 text-sm"><a href={`mailto:${candidateAuth.email}`}>{candidateAuth.email}</a></h1>
             </div>
           </div>
 
           <div className="bg-gray-200 px-4 py-4 my-4">
             <div className="flex text-xs justify-between pb-3">
+              <p className="font-bold">Year of Incorporation</p>  <p>{details?.year_of_incorporation}</p>
+            </div>
+            <div className="flex">
+              <p className="text-sm font-bold">RC Number:</p> <p className="text-sm ml-2">{details?.rc_number}</p>
+            </div>
+            <div className="flex">
+              <p className="text-sm font-bold">Company Size:</p> <p className="text-sm ml-2">{details?.company_size}</p>
+            </div>
+            <div className="flex">
+              <p className="text-sm font-bold">Sector:</p> <p className="text-sm ml-2">{details?.sector}</p>
               <p className="font-bold">Year of Incorporation</p>  <p>{details?.year_of_incorporation}</p>
             </div>
             <div className="flex">
@@ -127,6 +146,15 @@ const EmployerDetails = () => {
             <div className="flex">
               <p className="text-sm font-bold">Status:</p> <p className="text-sm ml-2">{candidateAuth.status}</p>
             </div>
+            <div className="flex">
+              <p className="text-sm font-bold">Location:</p> <p className="text-sm ml-2">{details?.location}</p>
+            </div>
+            <div className="flex">
+              <p className="text-sm font-bold">Address:</p> <p className="text-sm ml-2">{details?.address}</p>
+            </div>
+            <div className="flex">
+              <p className="text-sm font-bold">Status:</p> <p className="text-sm ml-2">{candidateAuth.status}</p>
+            </div>
           </div>
           <hr />
           <h1 className="font-bold py-4">Social Media</h1>
@@ -135,6 +163,7 @@ const EmployerDetails = () => {
               {details?.social_media?.map((link, index) => (
                 <li key={index} className="flex items-center space-x-2">
                   <a href={link} target="_blank" rel="noopener noreferrer">
+                    {getSocialMediaIcon(link)}
                     {getSocialMediaIcon(link)}
                   </a>
                 

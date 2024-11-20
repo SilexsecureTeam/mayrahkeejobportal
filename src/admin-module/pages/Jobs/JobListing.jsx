@@ -7,31 +7,32 @@ import JobsUsageChart from "./JobsUsageChart";
 import { useNavigate } from "react-router-dom";
 import UseAdminManagement from "../../../hooks/useAdminManagement";
 
-const visitorsByCountry = [
-  { country: "USA", flag: "🇺🇸", visitors: 1200 },
-  { country: "Canada", flag: "🇨🇦", visitors: 800 },
-  { country: "UK", flag: "🇬🇧", visitors: 600 },
-  { country: "Germany", flag: "🇩🇪", visitors: 400 },
-  { country: "France", flag: "🇫🇷", visitors: 300 },
-  { country: "Germany", flag: "🇩🇪", visitors: 400 },
-  { country: "France", flag: "🇫🇷", visitors: 300 },
-  { country: "Germany", flag: "🇩🇪", visitors: 400 },
-  { country: "France", flag: "🇫🇷", visitors: 300 },
-  { country: "Germany", flag: "🇩🇪", visitors: 400 },
-  { country: "France", flag: "🇫🇷", visitors: 300 },
-];
-
 function JobListing() {
   const navigate = useNavigate();
   const { getAllJobs } = UseAdminManagement();
-  const [totalJobs, setTotalJobs] = useState(0);
+  const [jobs, setJobs] = useState(0);
 
   useEffect(() => {
     (async () => {
       const allJobs = await getAllJobs();
-      setTotalJobs(allJobs.length);
+      setJobs(allJobs.length); // Assuming allJobs is an array
+      console.log(allJobs);
     })();
   }, []);
+
+  const visitorsByCountry = [
+    { country: "USA", flag: "🇺🇸", visitors: 1200 },
+    { country: "Canada", flag: "🇨🇦", visitors: 800 },
+    { country: "UK", flag: "🇬🇧", visitors: 600 },
+    { country: "Germany", flag: "🇩🇪", visitors: 400 },
+    { country: "France", flag: "🇫🇷", visitors: 300 },
+    { country: "Germany", flag: "🇩🇪", visitors: 400 },
+    { country: "France", flag: "🇫🇷", visitors: 300 },
+    { country: "Germany", flag: "🇩🇪", visitors: 400 },
+    { country: "France", flag: "🇫🇷", visitors: 300 },
+    { country: "Germany", flag: "🇩🇪", visitors: 400 },
+    { country: "France", flag: "🇫🇷", visitors: 300 },
+  ];
 
   const handleNavigate = () => {
     navigate("/admin/jobs");
@@ -71,7 +72,7 @@ function JobListing() {
               </div>
             </div>
             <div className="flex items-center">
-              <h1 className="text-3xl mr-2 font-semibold">{totalJobs}</h1>
+              <h1 className="text-3xl mr-2 font-semibold">{jobs}</h1>
               {/* <h1 className="text-red-500 flex items-center text-sm">
                 0.4% <BiTrendingDown className="ml-1" />
               </h1> */}

@@ -41,6 +41,14 @@ function JobsByEmployer() {
     setRows(event.rows);
   };
 
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <ClipLoader size={50} color={"#123abc"} loading={loading} />
+      </div>
+    );
+  }
+
   return (
     <div className="mx-auto mt-10 max-w-screen-lg px-4 sm:px-6 lg:px-8">
        <button

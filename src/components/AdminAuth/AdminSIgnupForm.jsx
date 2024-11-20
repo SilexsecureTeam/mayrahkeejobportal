@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
+import { Navigate, NavLink, useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
@@ -30,7 +30,7 @@ const navigate = useNavigate()
         navigate('/admin/')
       } else {
         toast.error("Registration failed");
-        setError(response.data);
+        setError(response.response.data);
       }
     } catch (error) {
       toast.error("An error occurred during registration");
@@ -63,7 +63,7 @@ const navigate = useNavigate()
                 />
               </div>
               {error?.name && error.name.map((errMsg, index) => (
-                <p key={index} className="text-red-500 text-sm">{errMsg}</p>
+                <p key={index} className="text-red-300 text-sm">{errMsg}</p>
               ))}
             </div>
             <div className="mb-6">
@@ -78,7 +78,7 @@ const navigate = useNavigate()
                 />
               </div>
               {error?.email && error.email.map((errMsg, index) => (
-                <p key={index} className="text-red-500 text-sm">{errMsg}</p>
+                <p key={index} className="text-red-300 text-sm">{errMsg}</p>
               ))}
             </div>
             <div className="mb-6">
@@ -111,7 +111,9 @@ const navigate = useNavigate()
               <div className="flex items-center bg-white p-3 rounded-md border">
                 <input
                   name="password_confirmation"
+                  name="password_confirmation"
                   type={showPassword ? "text" : "password"}
+                  onChange={(e) => setPasswordConfirmation(e.target.value)}
                   onChange={(e) => setPasswordConfirmation(e.target.value)}
                   required
                   className="w-full bg-transparent focus:outline-none"

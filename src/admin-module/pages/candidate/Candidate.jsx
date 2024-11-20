@@ -21,11 +21,10 @@ function Candidate() {
 
   const [candidateCount, setCandidateCount] = useState(0);
   const [pending, setPending] = useState(0);
-  const [approved, setApproved] = useState(0);
-  const [rejected, setRejected] = useState(0);
-  const [suspended, setSuspended] = useState(0);
+  const [approved, setapproved] = useState(0);
+  const [suspend, setsuspend] = useState(0);
   const [candidates, setCandidates] = useState([]);
-
+const [rejected,setRejected] = useState(0)
   useEffect(() => {
     (async () => {
       const candidates = await getCandidates();
@@ -35,11 +34,11 @@ function Candidate() {
       const pendingCandidates = candidates.filter(candid => candid.status === 'pending');
       setPending(pendingCandidates.length);
       const approvedCandidates = candidates.filter(candid => candid.status === 'approved');
-      setApproved(approvedCandidates.length);
+      setapproved(approvedCandidates.length);
+      const suspendCandidates = candidates.filter(candid => candid.status === 'suspend');
+      setsuspend(suspendCandidates.length);
       const rejectedCandidates = candidates.filter(candid => candid.status === 'rejected');
       setRejected(rejectedCandidates.length);
-      const suspendedCandidates = candidates.filter(candid => candid.status === 'suspend');
-      setSuspended(suspendedCandidates.length);
     })();
   }, []);
 
@@ -61,21 +60,21 @@ function Candidate() {
               <h3 className="text-xl font-bold">{candidateCount}</h3>
               <p>All Candidates</p>
             </div>
-            <div className="bg-green-500 text-white px-4 py-12 rounded-md flex flex-col items-start">
+            <div className="bg-yellow-500 text-white px-4 py-12 rounded-md flex flex-col items-start">
               <h3 className="text-xl font-bold">{pending}</h3>
               <p>Pending</p>
             </div>
-            <div className="bg-blue-500 text-white px-4 py-12 rounded-md flex flex-col items-start">
+            <div className="bg-green-500 text-white px-4 py-12 rounded-md flex flex-col items-start">
               <h3 className="text-xl font-bold">{approved}</h3>
-              <p>Approved</p>
+              <p>approved</p>
             </div>
-            <div className="bg-red-500 text-white px-4 py-12 rounded-md flex flex-col items-start">
+            <div className="bg-blue-700 text-white px-4 py-12 rounded-md flex flex-col items-start">
+              <h3 className="text-xl font-bold">{suspend}</h3>
+              <p>suspend</p>
+            </div>
+            <div className="bg-red-700 text-white px-4 py-12 rounded-md flex flex-col items-start">
               <h3 className="text-xl font-bold">{rejected}</h3>
-              <p>Rejected</p>
-            </div>
-            <div className="bg-yellow-500 text-white px-4 py-12 rounded-md flex flex-col items-start">
-              <h3 className="text-xl font-bold">{suspended}</h3>
-              <p>Suspended</p>
+              <p>rejected</p>
             </div>
             <div className="bg-cyan-950 text-white px-4 py-12 rounded-md flex flex-col items-start">
               <h3 className="text-xl font-bold">{candidateCount}</h3>

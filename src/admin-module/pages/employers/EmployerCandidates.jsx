@@ -16,7 +16,6 @@ const EmployerCandidates = () => {
   const [rows, setRows] = useState(2);
   const [resumeContent, setResumeContent] = useState(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
-
   useEffect(() => {
     (async () => {
       const data = await jobsAppliedToEmployerId(id);
@@ -56,7 +55,18 @@ const EmployerCandidates = () => {
     setResumeContent(null);
   };
 
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <ClipLoader size={50} color={"#123abc"} loading={loading} />
+      </div>
+    );
+  }
+
   return (
+
+
+    
     <div className="max-w-screen-lg mx-auto mt-10 px-4 sm:px-6 lg:px-8">
        <button
           type="button"
@@ -65,7 +75,7 @@ const EmployerCandidates = () => {
         >
        <FaArrowLeftLong className="me-4 text-green-500" />Back
         </button>
-      <h2 className="text-3xl font-extrabold text-gray-800 mb-8">Employer's Candidates</h2>
+      <h2 className="text-2xl font-extrabold text-gray-800 mb-8">Employer's Candidates</h2>
       {employers.length === 0 ? (
         <div className="text-center text-gray-500">
           <h2 className="text-xl font-bold">No candidates found</h2>

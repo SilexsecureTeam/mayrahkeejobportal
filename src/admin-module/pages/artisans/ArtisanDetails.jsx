@@ -8,10 +8,11 @@ import PoliceReportDialog from "../../components/Dialog/PoliceReportDialogue";
 import MedicalReportDialog from "../../components/Dialog/MedicalReportDialogue";
 import GuarantorReportDialog from "../../components/Dialog/GuarantorReport";
 import PreviousWorkExperienceDialog from "../../components/Dialog/PreviousWorkExperienceDialogue";
+import { ClipLoader } from "react-spinners";
 
 const ArtisanDetails = () => {
   const { id } = useParams();
-  const { getStaffById, getStaffReportById } = UseAdminManagement();
+  const { loading, getStaffById, getStaffReportById } = UseAdminManagement();
   const [artisan, setArtisan] = useState(null);
 
   useEffect(() => {
@@ -31,6 +32,14 @@ const ArtisanDetails = () => {
     const data = await getStaffReportById(type, id);
     return data;
   };
+
+  // if (loading) {
+  //   return (
+  //     <div className="flex justify-center items-center h-screen">
+  //       <h1 className="font-semibold">Loading...</h1>
+  //     </div>
+  //   );
+  // }
 
   if (!artisan) {
     return <div className="px-4 py-4 font-semibold">Artisan not found</div>;

@@ -8,6 +8,7 @@ import UseAdminManagement from "../../../../hooks/useAdminManagement";
 import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import { FaArrowLeftLong } from "react-icons/fa6";
+import axios from 'axios';
 
 const countryOptions = Object.keys(countries).map(countryCode => ({
   value: countryCode,
@@ -36,14 +37,23 @@ function AddCurrency() {
     }
   }, [countryName]);
 
+  // const convertFlagToFile = async (url) => {
+  //   const response = await axios.get(url, { responseType: 'blob' });
+  //   const file = new File([response.data], 'flag.png', { type: response.data.type });
+  //   return file;
+  // };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     setError("");
 
+    // const flagFile = await convertFlagToFile(flag);
+
     const currencyData = {
       name: countryName,
-      code: currencySymbol
+      code: currencySymbol,
+      // image: flagFile
     };
 
     console.log("Submitting currency data:", currencyData);
@@ -51,19 +61,21 @@ function AddCurrency() {
     try {
       const response = await AddFormCurrency(currencyData);
       console.log("Response:", response);
-      if (response) {
+      if (response.status !== 500) {
         console.log("Currency Added:", response);
         toast.success("Currency added successfully!");
         setTimeout(() => {
           navigate("/admin/settings/currency");
         }, 2000); // Delay of 2 seconds before navigating
       } else {
-        toast.error("Failed to add currency");
+        if (response.status === 500 && response.response.data.error.includes("The code has already been taken.")) {
+          toast.error("Currency already exists");
+        } else {
+          toast.error("Failed to add currency");
+        }
       }
     } catch (err) {
-        if (err.status === 500) {
-          toast.error("Currency already exists");
-        }
+      toast.error("Failed to add currency"); 
       console.error("Error details:", err.response ? err.response.data : err.message);
     } finally {
       setLoading(false);

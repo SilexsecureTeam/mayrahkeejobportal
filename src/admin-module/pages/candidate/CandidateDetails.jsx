@@ -27,7 +27,7 @@ const CandidateDetails = () => {
   }, [id]);
 
   if (!candidate) {
-    return <div>Candidate not found</div>;
+    return <div className="px-5 py-5 font-bold ">Candidate not found</div>;
   }
 
   const data = candidate;
@@ -67,6 +67,9 @@ const CandidateDetails = () => {
       return (
         <div key={index} className="flex items-center space-x-2">
           {icon}
+          <a href={handle.url} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">
+            {label}
+          </a>
           <a href={handle.url} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">
             {label}
           </a>
@@ -135,6 +138,13 @@ const CandidateDetails = () => {
 
           <div className="bg-gray-200 px-4 py-4 my-4">
             <div className="flex text-xs justify-between pb-3">
+              <p className="font-bold">Applied Jobs</p>  <p>{format(new Date(data.created_at), 'MMMM dd, yyyy')}</p>
+            </div>
+            <div className="flex">
+              <p className="text-sm font-bold">Categories:</p> <p className="text-sm ml-2">{data.categories}</p>
+            </div>
+            <div className="flex">
+              <p className="text-sm font-bold">Salary:</p> <p className="text-sm ml-2">{data.salary_type}</p>
               <p className="font-bold">Applied Jobs</p>  <p>{format(new Date(data.created_at), 'MMMM dd, yyyy')}</p>
             </div>
             <div className="flex">
