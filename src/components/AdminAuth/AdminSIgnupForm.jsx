@@ -111,9 +111,7 @@ const navigate = useNavigate()
               <div className="flex items-center bg-white p-3 rounded-md border">
                 <input
                   name="password_confirmation"
-                  name="password_confirmation"
                   type={showPassword ? "text" : "password"}
-                  onChange={(e) => setPasswordConfirmation(e.target.value)}
                   onChange={(e) => setPasswordConfirmation(e.target.value)}
                   required
                   className="w-full bg-transparent focus:outline-none"
