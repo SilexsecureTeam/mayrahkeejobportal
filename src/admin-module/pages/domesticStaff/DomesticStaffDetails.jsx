@@ -11,7 +11,7 @@ import PreviousWorkExperienceDialog from "../../components/Dialog/PreviousWorkEx
 
 const DomesticStaffDetails = () => {
   const { id } = useParams();
-  const {loading, getStaffById, getStaffReportById } = UseAdminManagement();
+  const { loading, getStaffById, getStaffReportById } = UseAdminManagement();
   const [artisan, setArtisan] = useState(null);
 
   useEffect(() => {
@@ -47,13 +47,13 @@ const DomesticStaffDetails = () => {
 
   return (
     <div className="p-4">
-       <button
-          type="button"
-          onClick={() => window.history.back()}
-          className="flex items-center gap-2 outline outline-offset-5 outline-green-500 px-4 py-2 rounded text-green-500 hover:bg-green-100"
-        >
-       <FaArrowLeftLong className="me-4 text-green-500" />Back
-        </button>
+      <button
+        type="button"
+        onClick={() => window.history.back()}
+        className="flex items-center gap-2 outline outline-offset-5 outline-green-500 px-4 py-2 rounded text-green-500 hover:bg-green-100"
+      >
+        <FaArrowLeftLong className="me-4 text-green-500" />Back
+      </button>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div className="shadow-lg px-4 py-4 md:col-span-1">
           <div className="flex space-x-4">
@@ -121,12 +121,18 @@ const DomesticStaffDetails = () => {
             </div>
           </div>
           <hr />
-          <h1 className="font-bold py-4">Reports</h1>
-          <div className="text-sm px-4 py-4 mb-3 space-y-4">
-            <PoliceReportDialog fetchData={() => fetchReport("police-report", data.id)} />
-            <MedicalReportDialog fetchData={() => fetchReport("medical-history", data.id)} />
-            <GuarantorReportDialog fetchData={() => fetchReport("guarantor", data.id)} />
-            <PreviousWorkExperienceDialog fetchData={() => fetchReport("previous-work-experience", data.id)} />
+
+        </div>
+
+        <div className="shadow-lg px-4 py-4 md:col-span-2">
+          <div className="shadow-lg px-4 py-4 md:col-span-2">
+            <h1 className="font-bold py-4">Reports</h1>
+            <div className="text-sm px-4 py-4 mb-3 grid grid-cols-1 md:grid-cols-2 gap-4">
+              <PoliceReportDialog fetchData={() => fetchReport("police-report", data.id)} />
+              <MedicalReportDialog fetchData={() => fetchReport("medical-history", data.id)} />
+              <GuarantorReportDialog fetchData={() => fetchReport("guarantor", data.id)} />
+              <PreviousWorkExperienceDialog fetchData={() => fetchReport("previous-work-experience", data.id)} />
+            </div>
           </div>
         </div>
       </div>
