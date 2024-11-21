@@ -80,10 +80,10 @@ const GuarantorReportDialog = ({ fetchData }) => {
 
   return (
     <div className="card flex flex-col space-y-4">
-      <button className="flex items-center justify-center space-x-2 bg-green-500 px-3 py-3 text-white" onClick={handleOpen}>
-        View Guarantor Report
-        {isLoading && <ClipLoader size={20} color={"#ffffff"} loading={isLoading} className="ml-2" />}
-      </button>
+      <div className="bg-green-500 px-20 py-20 rounded-lg text-white  hover:cursor-pointer" onClick={handleOpen}>
+      View Guarantor Report
+      {isLoading && <ClipLoader size={20} color={"#ffffff"} loading={isLoading} className="ml-2" />}
+      </div>
       <Dialog header="Guarantor Report" visible={visible} style={{ width: '90vw', maxWidth: '600px' }} onHide={() => setVisible(false)} modal>
         {isLoading ? (
           <div className="flex justify-center items-center h-full">
