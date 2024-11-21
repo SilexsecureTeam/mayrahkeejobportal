@@ -183,7 +183,6 @@ function UseAdminManagement() {
       setLoading(false)
     }
   }
-
   const getEmployerDomesticStaff = async (id) => {
     try {
       setLoading(true);
@@ -192,18 +191,23 @@ function UseAdminManagement() {
         user_type: 'employer'
       });
       const data = response.data.contracts;
-      const updatedData = await Promise.all(data.map(async (contract) => {
+
+      // Create an array of promises for the getStaffById calls
+      const promises = data.map(async (contract) => {
         const staff = await getStaffById(contract.domestic_staff_id);
-        if (staff && staff.data) {
-          contract.staff_name = staff.data.name;
-        } else {
-          contract.staff_name = 'Unknown'; // or any default value
-        }
+        contract.staff_name = staff.data.name;
+        contract.staff_category = staff.data.staff_category;
         return contract;
-      }));
+      });
+
+      // Wait for all promises to resolve
+      const updatedData = await Promise.all(promises);
+
+      console.log(updatedData);
       return updatedData;
     } catch (error) {
       console.error('Error fetching employer domestic staff:', error);
+      return [];
     } finally {
       setLoading(false);
     }
@@ -218,22 +222,27 @@ function UseAdminManagement() {
         user_type: 'candidate'
       });
       const data = response.data.contracts;
-      data.forEach((contract) => {
-        getStaffById(contract.domestic_staff_id).then((staff) => {
-          contract.staff_name = staff.data.name;
-          contract.staff_cateory = staff.data.staff_category
-        })
-      })
-      console.log(data);
-      return data
-      // return response.data.contracts;
+
+      // Create an array of promises for the getStaffById calls
+      const promises = data.map(async (contract) => {
+        const staff = await getStaffById(contract.domestic_staff_id);
+        contract.staff_name = staff.data.name;
+        contract.staff_category = staff.data.staff_category;
+        return contract;
+      });
+
+      // Wait for all promises to resolve
+      const updatedData = await Promise.all(promises);
+
+      console.log(updatedData);
+      return updatedData;
     } catch (error) {
       console.error('Error fetching employer domestic staff:', error);
-    }
-    finally {
+      return [];
+    } finally {
       setLoading(false);
     }
-  }
+  };
 
 
 
@@ -424,23 +433,22 @@ function UseAdminManagement() {
 
   const AdminLogout = async () => {
     // console.log(authDetails?.token);
-    
     try {
       setLoading(true);
-      const response = await axios.post(`${BASE_URL}/admin/logout`, {}, {
-        headers: {
-          Authorization: `${authDetails?.token}`
-        }
-      });
+      const response = await client.post('/admin/logout');
       console.log("response", response.status);
-      
       return response.status;
     } catch (error) {
       console.error('Error', error);
+      if (error.response && error.response.status === 401) {
+        console.error('Unauthorized error:', error.response.data);
+      }
+      return null;
     } finally {
       setLoading(false);
     }
   };
+
 
   const AdminRegistration = async (data) => {
     try {
@@ -463,11 +471,14 @@ function UseAdminManagement() {
   const AdminChangePwd = async (data) => {
     try {
       setLoading(true)
-      const response = await client.post('/changePassword', data)
-      return response.data
+      const response = await MainAxios.post('/admin/changePassword', data)
+      console.log("response", response);
+      
+      return response
     }
     catch (error) {
-      console.error('Error', error.message)
+      console.error('Error', error)
+        return error
     }
     finally {
       setLoading(false)
@@ -477,9 +488,9 @@ function UseAdminManagement() {
   const AdminForgotPwd = async (data) => {
     try {
       setLoading(true)
-      const response = await client.post('/forgotten-password', data)
+      const response = await client.post('/admin/forgotten-password', data)
       console.log("response", response);
-      return response.status
+      return response
     }
     catch (error) {
       console.error('Error', error)

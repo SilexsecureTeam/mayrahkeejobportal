@@ -37,29 +37,29 @@ function AddCurrency() {
     }
   }, [countryName]);
 
-  // const convertFlagToFile = async (url) => {
-  //   const response = await axios.get(url, { responseType: 'blob' });
-  //   const file = new File([response.data], 'flag.png', { type: response.data.type });
-  //   return file;
-  // };
+  const convertFlagToFile = async (url) => {
+    const response = await axios.get(url, { responseType: 'blob' });
+    const file = new File([response.data], 'flag.png', { type: response.data.type });
+    console.log("Flag file:", file);
+    return file.name;
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     setError("");
 
-    // const flagFile = await convertFlagToFile(flag);
+    const flagFile = await convertFlagToFile(flag);
 
-    const currencyData = {
-      name: countryName,
-      code: currencySymbol,
-      // image: flagFile
-    };
+    const formData = new FormData();
+    formData.append('name', countryName);
+    formData.append('code', currencySymbol);
+    // formData.append('image', flagFile);
 
-    console.log("Submitting currency data:", currencyData);
+    console.log("Submitting currency data:", formData);
 
     try {
-      const response = await AddFormCurrency(currencyData);
+      const response = await AddFormCurrency(formData);
       console.log("Response:", response);
       if (response.status !== 500) {
         console.log("Currency Added:", response);

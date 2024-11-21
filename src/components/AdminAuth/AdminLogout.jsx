@@ -12,19 +12,15 @@ function AdminLogout() {
       const response = await AdminLogout();
       console.log("Response:", response);
       
-      if (response === 201) {
+      if (response === 201 || response === 200) {
         localStorage.removeItem("__auth_details");
         toast.success("Logout successful!");
-        setTimeout(() => {
-          // navigate("/admin/login");
-        }, 2000);
-        // navigate("/admin/login");
+          navigate("/admin/login");
       } else {
           toast.error("An error occurred during logout");
-          setTimeout(() => {
-            // navigate("/admin/");
-          }, 2000);
-          // navigate("/admin/");
+          navigate("/admin/");
+          console.log(response.err);
+          
       }
     })();
   }, []);

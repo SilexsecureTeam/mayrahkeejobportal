@@ -35,6 +35,7 @@ import AllJobs from "../admin-module/pages/Jobs/AllJobListing";
 import AdminReducer from "../reducers/AdminReducer";
 import Salaries from "../admin-module/pages/settings/Salary/Salaries";
 import AddSalary from "../admin-module/pages/settings/Salary/AddSalary";
+import AdminChangePassword from "../components/AdminAuth/AdminChangePwd";
 
 // Util Component
 const NavBar = lazy(() => import("../admin-module/components/NavBar"));
@@ -90,10 +91,10 @@ function useAdminRoute() {
 
   const hideNavBarRoutes = [
     "/admin/login",
-    "/admin/logout",
     "/admin/reset-pwd",
     "/admin/register",
     "/admin/forget-pwd",
+    "/admin/change-pwd",
   ];
 
   const shouldHideNavBar = hideNavBarRoutes.includes(location.pathname);
@@ -158,6 +159,7 @@ function useAdminRoute() {
                       <Route path="reset-pwd" element={<AdminResetPwd />} />
                       <Route path="register" element={<AdminRegistrationForm />} />
                       <Route path="forget-pwd" element={<AdminForgotPassword />} />
+                      <Route path="change-pwd" element={<AdminChangePassword />} />
                       <Route index element={<Dashboard />} />
                       <Route path="employers" element={<Employers />} />
                       <Route path="employers/all" element={<AllEmployers />} />

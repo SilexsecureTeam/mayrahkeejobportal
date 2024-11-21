@@ -64,9 +64,9 @@ const PoliceReportDialog = ({ fetchData, name }) => {
       if (res) {
         setUpdateDialogVisible(false);
         toast.success('Status updated successfully');
-         // Fetch the updated details
-         const data = await fetchData();
-         setPoliceReport(data.PoliceReport);
+        // Fetch the updated details
+        const data = await fetchData();
+        setPoliceReport(data.PoliceReport);
       } else {
         toast.error('An error occurred while updating status');
       }
@@ -101,7 +101,7 @@ const PoliceReportDialog = ({ fetchData, name }) => {
     <div className="card flex flex-col space-y-4">
       <button className="flex items-center justify-center space-x-2 bg-green-500 px-3 py-3 text-white" onClick={handleOpen}>
         View Police Report
-        {isLoading && <ClipLoader size={20} color={"#ffffff"} loading={isLoading} className="ml-2"/>}
+        {isLoading && <ClipLoader size={20} color={"#ffffff"} loading={isLoading} className="ml-2" />}
       </button>
       <Dialog header="Police Report" visible={visible} style={{ width: '90vw', maxWidth: '600px' }} onHide={() => setVisible(false)} modal>
         {isLoading ? (
@@ -122,14 +122,22 @@ const PoliceReportDialog = ({ fetchData, name }) => {
                 </button>
               </p>
               <p><strong>Domestic Staff ID:</strong> {report.domestic_staff_id}</p>
-              <p><strong>Status:</strong> {report.status ? report.status : "N/A"}</p>
-              <button
-                type="button"
-                className="flex items-center gap-2 bg-green-500 px-4 py-2 rounded"
-                onClick={() => handleUpdateOpen(report)}
-              >
-                <FaPencil className="ml-2 text-lg text-white" />
-              </button>
+              <p>
+                <span className="flex justify-start items-center gap-2">
+                <span>
+                  <strong>Status:</strong> {" "}
+                    {report.status ? report.status : "N/A"}
+                </span>
+                  <button
+                    type="button"
+                    className="flex items-center gap-2 bg-green-500 px-2 py-2 rounded"
+                    onClick={() => handleUpdateOpen(report)}
+                  >
+                    <FaPencil className="ml-2 text-lg text-white" />
+                  </button>
+                </span>
+              </p>
+
             </div>
           )) : <p className="font-semibold">No police report available</p>
         )}
