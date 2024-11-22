@@ -12,9 +12,9 @@ function AllPoliceReports() {
     ( async () => {
       const data = await getStaffReport("police-report");
       console.log("Fetched Data:", data); // Log the fetched data
-      
+      const sortedData = data.PoliceReports.sort((a, b) => b.id - a.id);
       if (data) {
-        setPoliceReports(data.PoliceReports);
+        setPoliceReports(sortedData);
       } else {
         console.error("No data received");
       }
@@ -24,7 +24,7 @@ function AllPoliceReports() {
   const heading = ["ID", "State","LGA", "Station Address", "Report File", "Status","StaffID"];
   
   const data = policereports.map(police => ({
-    [heading[0].toLowerCase()]: police.id,
+    [heading[0].toLowerCase()]: police.domestic_staff_id,
     [heading[1].toLowerCase()]: police.state,
     [heading[2].toLowerCase()]: police.lga,
     [heading[3].toLowerCase()]: police.station_address,

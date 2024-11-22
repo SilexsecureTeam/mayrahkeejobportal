@@ -15,15 +15,17 @@ export default function JobListingChart() {
       14: [2, 5.5, 2, 8.5, 1.5, 5, 6, 7, 8, 9, 10, 11, 12, 13],
       21: [2, 5.5, 2, 8.5, 1.5, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
     };
-    return data[days];
+    return data[days].map((value, index) => ({ x: index + 1, y: value }));
   };
+
+  const dataset = getDataForDays(days);
 
   return (
     <>
       <div className="flex items-center justify-between mb-4">
         <h1>Job Listing View Stats</h1>
         <div>
-          <label htmlFor="days" className="mr-2"></label>
+          <label htmlFor="days" className="mr-2">Select Days:</label>
           <select
             id="days"
             value={days}
@@ -37,14 +39,12 @@ export default function JobListingChart() {
         </div>
       </div>
       <LineChart
-        xAxis={[{ data: Array.from({ length: days }, (_, i) => i + 1) }]}
-        series={[
-          {
-            data: getDataForDays(days),
-          },
-        ]}
-        width={500}
+        dataset={dataset}
+        xAxis={[{ dataKey: 'x' }]}
+        series={[{ dataKey: 'y' }]}
         height={300}
+        margin={{ left: 30, right: 30, top: 30, bottom: 30 }}
+        grid={{ vertical: true, horizontal: true }}
       />
     </>
   );

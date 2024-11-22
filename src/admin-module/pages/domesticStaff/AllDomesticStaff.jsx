@@ -11,8 +11,9 @@ function AllDomesticStaff() {
   useEffect(() => {
     (async () => {
       const data = await getDomesticStaff();
+      const sortedData = data.sort((a, b) => b.id - a.id);
       if (data) {
-        setDomesticStaff(data);
+        setDomesticStaff(sortedData);
       } else {
         console.error("No data received");
       }

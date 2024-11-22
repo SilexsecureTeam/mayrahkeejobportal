@@ -20,22 +20,13 @@ import UseAdminManagement from "../../../hooks/useAdminManagement";
 function Dashboard() {
   const { authDetails } = useContext(AuthContext);
   const { setSideBar } = useContext(AdminRouteContext);
-  const { profileDetails, getAdminProfile } = useContext(
-    AdminManagementContext
-  );
+const {getEmployers,getCandidates,getArtisans,getDomesticStaff,getAllJobs } = UseAdminManagement()
 
-  const [availablityStatus, setAvailabiltyStatus] = useState();
-
-  const filterVerificationDetails =
-    profileDetails &&
-    Object.keys(profileDetails).filter(
-      (currentKey) =>
-        currentKey == "guarantor_verification_status" ||
-        currentKey == "residence_verification_status" ||
-        currentKey == "medical_history_verification_status" ||
-        currentKey == "police_report_verification_status" ||
-        currentKey == "previous_employer_verification_status"
-    );
+  const [employersCount, setEmployersCount] = useState(0);
+  const [candidatesCount, setCandidatesCount] = useState(0);
+  const [artisansCount, setArtisansCount] = useState(0);
+  const [domesticStaffCount, setDomesticStaffCount] = useState(0);
+  const [jobLearningCount, setJobLearningCount] = useState(0);
 
   const navigate = useNavigate();
   const navigateToPage = (route, index) => {
@@ -44,13 +35,22 @@ function Dashboard() {
   };
 
   useEffect(() => {
-    setAvailabiltyStatus(() => {
-      if (profileDetails && profileDetails["availability_status"]) {
-        return profileDetails["availability_status"] == "1" ? true : false;
-      } else {
-        return false;
-      }
-    });
+    (async () => {
+      const employers = await getEmployers();
+      setEmployersCount(employers.length);
+
+      const candidates = await getCandidates();
+      setCandidatesCount(candidates.length);
+
+      const artisans = await getArtisans();
+      setArtisansCount(artisans.length);
+
+      const domesticStaff = await getDomesticStaff();
+      setDomesticStaffCount(domesticStaff.length);
+
+      const jobLearning = await getAllJobs();
+      setJobLearningCount(jobLearning.length);
+    })();
   }, []);
 
   return (
@@ -60,24 +60,7 @@ function Dashboard() {
       </Helmet>
       <div className="h-full p-6 w-full text-sm text-gray-800">
         <div className="text-sm">
-          <div className="flex justify-between">
-            <div className="">
-              <h4 className="font-bold text-2xl mb-2  ">
-                Welcome back, {authDetails?.user?.first_name}{" "}
-                {authDetails?.user?.surname}
-              </h4>
-              <p>
-                Here a summary of your recent activities {generateDateRange()}
-              </p>
-            </div>
-            <div>
-              <button className="border p-2 hidden md:flex items-center">
-                {" "}
-                {generateDateRange()}
-                <RiCalendarEventLine className="ml-2 " size={15} />
-              </button>
-            </div>
-          </div>
+         
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-6 p-4">
             <DashboardCard
               leftIcon={<BsStopwatch />}
@@ -117,7 +100,7 @@ function Dashboard() {
             /> */}
             <DashboardCard
               leftIcon={<BsStopwatch />}
-              title="5000"
+              title={jobLearningCount}
               subtitle="Job Listing"
               smallText="10% Generated"
               smallTextIcon={<FaArrowTrendUp />}

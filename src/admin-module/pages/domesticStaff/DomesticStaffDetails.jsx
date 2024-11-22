@@ -8,10 +8,11 @@ import PoliceReportDialog from "../../components/Dialog/PoliceReportDialogue";
 import MedicalReportDialog from "../../components/Dialog/MedicalReportDialogue";
 import GuarantorReportDialog from "../../components/Dialog/GuarantorReport";
 import PreviousWorkExperienceDialog from "../../components/Dialog/PreviousWorkExperienceDialogue";
+import ResidentDialog from "../../components/Dialog/ResidentDialogue";
 
 const DomesticStaffDetails = () => {
   const { id } = useParams();
-  const { getStaffById, getStaffReportById } = UseAdminManagement();
+  const { loading, getStaffById, getStaffReportById } = UseAdminManagement();
   const [artisan, setArtisan] = useState(null);
 
   useEffect(() => {
@@ -24,6 +25,15 @@ const DomesticStaffDetails = () => {
       }
     })();
   }, [id]);
+
+
+  //  if (loading) {
+  //   return (
+  //     <div className="flex justify-center items-center h-screen">
+  //       <h1 className="font-semibold">Loading...</h1>
+  //     </div>
+  //   );
+  // }
 
   const fetchReport = async (type, id) => {
     const data = await getStaffReportById(type, id);
@@ -38,13 +48,13 @@ const DomesticStaffDetails = () => {
 
   return (
     <div className="p-4">
-       <button
-          type="button"
-          onClick={() => window.history.back()}
-          className="flex items-center gap-2 outline outline-offset-5 outline-green-500 px-4 py-2 rounded text-green-500 hover:bg-green-100"
-        >
-       <FaArrowLeftLong className="me-4 text-green-500" />Back
-        </button>
+      <button
+        type="button"
+        onClick={() => window.history.back()}
+        className="flex items-center gap-2 outline outline-offset-5 outline-green-500 px-4 py-2 rounded text-green-500 hover:bg-green-100"
+      >
+        <FaArrowLeftLong className="me-4 text-green-500" />Back
+      </button>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div className="shadow-lg px-4 py-4 md:col-span-1">
           <div className="flex space-x-4">
@@ -64,22 +74,30 @@ const DomesticStaffDetails = () => {
 
             <div>
               <h2 className="text-gray-800 text-2xl font-bold mb-2">{data.name}</h2>
-              <h1 className="text-gray-400 text-sm">{data.email}</h1>
+              <h1 className="text-gray-400 text-sm">
+                <a href={`mailto:${data.email}`} className="text-gray-400 hover:underline">
+                  {data.email}
+                </a>
+              </h1>
             </div>
           </div>
 
           <div className="bg-gray-200 px-4 py-4 my-4">
             <div className="flex text-xs justify-between pb-3">
-              <p>Member Since</p>  <p>{data.member_since}</p>
+              <p className="font-bold">Member Since</p>  <p>{data.member_since}</p>
             </div>
-            <h1 className="text-sm">Current Salary: {data.current_salary}</h1>
-            <h1 className="text-sm">Expected Salary: {data.expected_salary}</h1>
+            <div className="flex">
+              <p className="text-sm font-bold">Current Salary:</p> <p className="text-sm ml-2">{data.current_salary}</p>
+            </div>
+            <div className="flex">
+              <p className="text-sm font-bold">Expected Salary:</p> <p className="text-sm ml-2">{data.expected_salary}</p>
+            </div>
           </div>
           <hr />
           <div className="text-md px-4 py-4">
             <h1 className="font-bold">Contact</h1>
             <div className="flex items-center space-x-2">
-              <span>Phone Number: {data.phone_number}</span>
+              <span className="font-bold">Phone Number:</span> <span>{data.phone_number}</span>
             </div>
           </div>
         </div>
@@ -87,29 +105,36 @@ const DomesticStaffDetails = () => {
         <div className="shadow-lg px-4 py-4 md:col-span-1.5">
           <div className="pb-4">
             <h1 className="font-bold">Details</h1>
-            <div className="text-sm px-4 py-4">
-              <h1>Staff Category: {data.staff_category}</h1>
-              <h1>Subcategory: {data.subcategory}</h1>
-              <h1>Employment Type: {data.employment_type}</h1>
-              <h1>Work Type: {data.work_type}</h1>
-              <h1>Work Days: {data.work_days}</h1>
-              <h1>Religion: {data.religion}</h1>
-              <h1>Location: {data.location}</h1>
-              <h1>Job Type: {data.job_type}</h1>
-              <h1>Years of Experience: {data.years_of_experience}</h1>
-              <h1>Education Level: {data.education_level}</h1>
-              <h1>Marital Status: {data.marital_status}</h1>
-              <h1>Languages Spoken: {data.languages_spoken?.join(", ")}</h1>
-              <h1>Status: {data.status}</h1>
+            <div className="text-sm px-4 py-4 grid grid-cols-2 gap-2">
+              <p className="text-sm font-bold">Staff Category:</p> <p className="text-sm">{data.staff_category}</p>
+              <p className="text-sm font-bold">Subcategory:</p> <p className="text-sm">{data.subcategory}</p>
+              <p className="text-sm font-bold">Employment Type:</p> <p className="text-sm">{data.employment_type}</p>
+              <p className="text-sm font-bold">Work Type:</p> <p className="text-sm">{data.work_type}</p>
+              <p className="text-sm font-bold">Work Days:</p> <p className="text-sm">{data.work_days}</p>
+              <p className="text-sm font-bold">Religion:</p> <p className="text-sm">{data.religion}</p>
+              <p className="text-sm font-bold">Location:</p> <p className="text-sm">{data.location}</p>
+              <p className="text-sm font-bold">Job Type:</p> <p className="text-sm">{data.job_type}</p>
+              <p className="text-sm font-bold">Years of Experience:</p> <p className="text-sm">{data.years_of_experience}</p>
+              <p className="text-sm font-bold">Education Level:</p> <p className="text-sm">{data.education_level}</p>
+              <p className="text-sm font-bold">Marital Status:</p> <p className="text-sm">{data.marital_status}</p>
+              <p className="text-sm font-bold">Languages Spoken:</p> <p className="text-sm">{data.languages_spoken?.join(", ")}</p>
+              <p className="text-sm font-bold">Status:</p> <p className="text-sm">{data.status}</p>
             </div>
           </div>
           <hr />
-          <h1 className="font-bold py-4">Reports</h1>
-          <div className="text-sm px-4 py-4 mb-3 space-y-4">
-            <PoliceReportDialog fetchData={() => fetchReport("police-report", data.id)} />
-            <MedicalReportDialog fetchData={() => fetchReport("medical-history", data.id)} />
-            <GuarantorReportDialog fetchData={() => fetchReport("guarantor", data.id)} />
-            <PreviousWorkExperienceDialog fetchData={() => fetchReport("previous-work-experience", data.id)} />
+
+        </div>
+
+        <div className="shadow-lg px-4 py-4 md:col-span-2">
+          <div className="shadow-lg px-4 py-4 md:col-span-2">
+            <h1 className="font-bold py-4">Reports</h1>
+            <div className="text-sm px-4 py-4 mb-3 grid grid-cols-1 md:grid-cols-2 gap-4">
+              <PoliceReportDialog fetchData={() => fetchReport("police-report", data.id)} />
+              <MedicalReportDialog fetchData={() => fetchReport("medical-history", data.id)} />
+              <GuarantorReportDialog fetchData={() => fetchReport("guarantor", data.id)} />
+              <PreviousWorkExperienceDialog fetchData={() => fetchReport("previous-work-experience", data.id)} />
+              <ResidentDialog fetchData={() => fetchReport("residential-status", data.id)} />
+            </div>
           </div>
         </div>
       </div>

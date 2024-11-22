@@ -6,40 +6,45 @@ import { FaArrowLeftLong } from "react-icons/fa6";
 import { useParams } from "react-router-dom";
 import { FaLinkedin, FaGlobe, FaFileAlt } from "react-icons/fa";
 import { format } from "date-fns";
+import { ClipLoader } from "react-spinners";
 
-function JobsByEmployer() {
-  const { loading, getJobsByEmployerId } = UseAdminManagement();
+function JobsByEmployerDetails() {
+  const { loading, getJobById } = UseAdminManagement();
   const [employers, setEmployers] = useState([]);
   const { id } = useParams();
-  const [first, setFirst] = useState(0);
-  const [rows, setRows] = useState(2);
 
   useEffect(() => {
     (async () => {
-      const data = await getJobsByEmployerId(id);
-      console.log(data)
-      if (data) {
-        setEmployers(data);
-      } else {
-        console.error("No data received");
+      try {
+        const data = await getJobById(id);
+        if (data) {
+          setEmployers([data]); // Ensure data is an array
+        } else {
+          console.error("No data received");
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
       }
     })();
   }, [id]);
 
-  const onPageChange = (event) => {
-    setFirst(event.first);
-    setRows(event.rows);
-  };
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <ClipLoader size={50} color={"#123abc"} loading={loading} />
+      </div>
+    );
+  }
 
   return (
     <div className="mx-auto mt-10 max-w-screen-lg px-4 sm:px-6 lg:px-8">
-       <button
-          type="button"
-          onClick={() => window.history.back()}
-          className="flex items-center gap-2 outline outline-offset-5 outline-green-500 px-4 py-2 rounded text-green-500 hover:bg-green-100"
-        >
-       <FaArrowLeftLong className="me-4 text-green-500" />Back
-        </button>
+      <button
+        type="button"
+        onClick={() => window.history.back()}
+        className="flex items-center gap-2 outline outline-offset-5 outline-green-500 px-4 py-2 rounded text-green-500 hover:bg-green-100 mb-3"
+      >
+        <FaArrowLeftLong className="me-4 text-green-500" />Back
+      </button>
       {employers.length === 0 ? (
         <div className="text-center text-gray-500">
           <h2 className="text-2xl font-semibold">No posted jobs</h2>
@@ -48,7 +53,7 @@ function JobsByEmployer() {
         <>
           <h2 className="text-3xl font-extrabold text-gray-800 mb-8">Jobs Posted by Employer</h2>
           <div className="grid grid-cols-1 gap-8">
-            {employers.slice(first, first + rows).map((employer) => (
+            {employers.map((employer) => (
               <div
                 key={employer.id}
                 className="bg-white p-6 rounded-lg shadow-md border border-gray-200"
@@ -69,14 +74,14 @@ function JobsByEmployer() {
                       <p className="text-gray-600"><strong>Search Keywords:</strong> {employer.search_keywords}</p>
                       <p className="text-gray-600"><strong>Experience:</strong> {employer.experience}</p>
                       <p className="text-gray-600"><strong>Career Level:</strong> {employer.career_level}</p>
-                      <p className="text-gray-600"><strong>Qualification:</strong> {employer.qualification}</p>
+                      <p className="text-gray-600"><strong>Qualification:</strong> {employer.qualification.join(', ')}</p>
                       <p className="text-gray-600"><strong>Application Deadline:</strong> {format(new Date(employer.application_deadline_date), 'MMMM dd, yyyy')}</p>
                     </div>
 
                     {/* Employer Information Section */}
                     <div className="mb-4 border-t pt-4 space-y-2">
                       <h4 className="text-lg font-semibold text-gray-700">Employer Information</h4>
-                      <p className="text-gray-600"><strong>Email:</strong> <a type="mail" href={employer.email} className="text-blue-600 underline">{employer.email}</a></p>
+                      <p className="text-gray-600"><strong>Email:</strong> <a type="mail" href={`mailto:${employer.email}`} className="text-blue-600 underline">{employer.email}</a></p>
                       <p className="text-gray-600"><strong>Preferred Age:</strong> {employer.preferred_age}</p>
                       <p className="text-gray-600"><strong>Gender:</strong> {employer.gender}</p>
                       <p className="text-gray-600"><strong>Number of Participants:</strong> {employer.number_of_participants}</p>
@@ -85,7 +90,7 @@ function JobsByEmployer() {
                     {/* Social Media and Links */}
                     <div className="mb-4 border-t pt-4 space-y-2">
                       <h4 className="text-lg font-semibold text-gray-700">Media and Links</h4>
-                      <div className="flex space-x-4  ">
+                      <div className="flex space-x-4">
                         {employer.linkedin_url && (
                           <a
                             href={employer.linkedin_url}
@@ -154,18 +159,10 @@ function JobsByEmployer() {
               </div>
             ))}
           </div>
-          <Paginator
-            first={first}
-            rows={rows}
-            totalRecords={employers.length}
-            rowsPerPageOptions={[2, 4, 6]}
-            onPageChange={onPageChange}
-            className="mt-6"
-          />
         </>
       )}
     </div>
   );
 }
 
-export default JobsByEmployer;
+export default JobsByEmployerDetails;

@@ -25,13 +25,12 @@ function AdminLogin() {
     e.preventDefault();
     try {
       const response = await adminLogin(loginDetails);
-      console.log("Response:", response);
-      
+      console.log("Response login:", response);
       if (response) {
         toast.success("Login successful!");
         setAuthDetails({
           token: response.token,
-          user: response.user,
+          user: response.admin,
         });
         navigate("/admin/");
       } else {
@@ -99,9 +98,6 @@ function AdminLogin() {
             <div className="flex justify-between mb-6">
               <NavLink to="/admin/forget-pwd" className="text-sm hover:underline text-white">
                 Forgot Password?
-              </NavLink>
-              <NavLink to="/admin/register" className="text-sm hover:underline text-white">
-                Don't Have an account? Sign up
               </NavLink>
             </div>
             <button type="submit" className="w-full bg-[#47AA49] text-white p-3 rounded-md hover:bg-green-700">

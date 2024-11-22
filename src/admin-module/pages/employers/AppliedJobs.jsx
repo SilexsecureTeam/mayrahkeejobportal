@@ -6,6 +6,7 @@ import { FaArrowLeftLong, FaGlobe, FaLinkedin } from "react-icons/fa6";
 import { useParams } from "react-router-dom";
 import { FaFileAlt } from "react-icons/fa";
 import { Dialog } from "primereact/dialog";
+import { ClipLoader } from "react-spinners";
 
 function AppliedJobs() {
   const { loading, jobsAppliedToEmployerId } = UseAdminManagement();
@@ -27,6 +28,14 @@ function AppliedJobs() {
     })();
   }, [id]);
 
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <ClipLoader size={50} color={"#123abc"} loading={loading} />
+      </div>
+    );
+  }
+
   const onPageChange = (event) => {
     setFirst(event.first);
     setRows(event.rows);
@@ -46,13 +55,13 @@ function AppliedJobs() {
   return (
     <div className="max-w-screen-lg mx-auto mt-10 px-4 sm:px-6 lg:px-8">
       <button
-          type="button"
-          onClick={() => window.history.back()}
-          className="flex items-center gap-2 outline outline-offset-5 outline-green-500 px-4 py-2 rounded text-green-500 hover:bg-green-100"
-        >
-       <FaArrowLeftLong className="me-4 text-green-500" />Back
-        </button>
-      <h2 className="text-3xl font-extrabold text-gray-800 mb-8">Applied Jobs</h2>
+        type="button"
+        onClick={() => window.history.back()}
+        className="flex items-center gap-2 outline outline-offset-5 outline-green-500 px-4 py-2 rounded text-green-500 hover:bg-green-100 mb-3"
+      >
+        <FaArrowLeftLong className="me-4 text-green-500" />Back
+      </button>
+      <h2 className="text-2xl font-extrabold text-gray-800 mb-8">Applied Jobs</h2>
       {employers.length === 0 ? (
         <div className="text-center text-gray-500">
           <h2 className="text-xl font-bold">No applied jobs</h2>
@@ -89,9 +98,9 @@ function AppliedJobs() {
                         href={employer.linkedin_url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-blue-600 hover:text-blue-800"
+                        className="flex items-center gap-2 bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
                       >
-                        <FaLinkedin className="text-2xl" />
+                        <FaLinkedin className="text-2xl" /> LinkedIn
                       </a>
                     )}
                     {employer.portfolio_url && (
@@ -99,18 +108,18 @@ function AppliedJobs() {
                         href={employer.portfolio_url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-blue-600 hover:text-blue-800"
+                        className="flex items-center gap-2 bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
                       >
-                        <FaGlobe className="text-2xl" />
+                        <FaGlobe className="text-2xl" /> Portfolio
                       </a>
                     )}
                     {employer.resume_path && (
                       <a
                         href="#"
                         onClick={(event) => handleResumeClick(event, employer.resume_path)}
-                        className="text-blue-600 hover:text-blue-800"
+                        className="flex items-center gap-2 bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
                       >
-                        <FaFileAlt className="text-2xl" />
+                        <FaFileAlt className="text-2xl" /> Resume
                       </a>
                     )}
                   </div>

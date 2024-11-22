@@ -6,6 +6,7 @@ import { FaArrowLeftLong, FaGlobe, FaLinkedin } from "react-icons/fa6";
 import { useParams } from "react-router-dom";
 import { FaFileAlt } from "react-icons/fa";
 import { Dialog } from "primereact/dialog";
+import { ClipLoader } from "react-spinners";
 
 const EmployerCandidates = () => {
   const { loading, jobsAppliedToEmployerId, getReportById } = UseAdminManagement();
@@ -15,7 +16,6 @@ const EmployerCandidates = () => {
   const [rows, setRows] = useState(2);
   const [resumeContent, setResumeContent] = useState(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
-
   useEffect(() => {
     (async () => {
       const data = await jobsAppliedToEmployerId(id);
@@ -29,6 +29,15 @@ const EmployerCandidates = () => {
       }
     })();
   }, [id]);
+
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <ClipLoader size={50} color={"#123abc"} loading={loading} />
+      </div>
+    );
+  }
 
   const onPageChange = (event) => {
     setFirst(event.first);
@@ -46,16 +55,27 @@ const EmployerCandidates = () => {
     setResumeContent(null);
   };
 
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <ClipLoader size={50} color={"#123abc"} loading={loading} />
+      </div>
+    );
+  }
+
   return (
+
+
+    
     <div className="max-w-screen-lg mx-auto mt-10 px-4 sm:px-6 lg:px-8">
        <button
           type="button"
           onClick={() => window.history.back()}
-          className="flex items-center gap-2 outline outline-offset-5 outline-green-500 px-4 py-2 rounded text-green-500 hover:bg-green-100"
+          className="flex items-center gap-2 outline outline-offset-5 outline-green-500 px-4 py-2 rounded text-green-500 hover:bg-green-100 mb-3"
         >
        <FaArrowLeftLong className="me-4 text-green-500" />Back
         </button>
-      <h2 className="text-3xl font-extrabold text-gray-800 mb-8">Employer's Candidates</h2>
+      <h2 className="text-2xl font-extrabold text-gray-800 mb-8">Employer's Candidates</h2>
       {employers.length === 0 ? (
         <div className="text-center text-gray-500">
           <h2 className="text-xl font-bold">No candidates found</h2>

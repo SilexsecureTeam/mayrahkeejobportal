@@ -21,9 +21,9 @@ const DashboardCard = ({
   };
 
   return (
-    <div className="bg-white border border-gray-200 h-60 hover:bg-green-500 hover:cursor-pointer hover:text-white" onClick={handleClick}>
+    <div className="bg-white border border-gray-200 h-60 hover:bg-green-500 hover:cursor-pointer hover:text-white group" onClick={handleClick}>
       <div className={`flex items-start mt-10 px-10 justify-between gap-10`}>
-        {rightIcon && <div className={`text-7xl text-green-500 `}>{rightIcon}</div>}
+        {rightIcon && <div className={`text-7xl text-green-500 group-hover:text-white`}>{rightIcon}</div>}
         <div>
           <h2 className="text-4xl font-bold">{title}</h2>
           <p className="mt-2 text-lg font-bold">{subtitle}</p>
@@ -31,17 +31,17 @@ const DashboardCard = ({
             <div className={`mt-1 text-xs flex gap-2 items-center`}>
               <span
                 className={`text-xs ${smallTextIconColor ?? "text-green-500"
-                  } bg-green-100 h-5 w-5 rounded-full flex items-center justify-center`}
+                  } bg-green-100 h-5 w-5 rounded-full flex items-center justify-center group-hover:text-white`}
               >
                 {smallTextIcon}
               </span>
-              <span className="text-gray-600">{smallText}</span>
+              <span className="text-gray-600 group-hover:text-white">{smallText}</span>
             </div>
           )}
         </div>
         {leftIcon && (
           <div
-            className={`text-xl text-green-500 bg-green-100 h-10 w-10 rounded-full flex items-center justify-center`}
+            className={`text-xl text-green-500 bg-green-100 h-10 w-10 rounded-full flex items-center justify-center group-hover:text-white`}
           >
             {leftIcon}
           </div>

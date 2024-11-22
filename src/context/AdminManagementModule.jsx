@@ -1,8 +1,5 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect } from "react";
 import { AuthContext } from "./AuthContex";
-import { FormatError } from "../utils/formmaters";
-import { get, set } from "idb-keyval";
-import { axiosClient } from "../services/axios-client";
 import UseAdminManagement from "../hooks/useAdminManagement";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -17,10 +14,8 @@ export const AdminManagementContextProvider = ({ children }) => {
     error,
     adminProfile,
     profileDetails,
-    getArtisans,
-    getEmployers,
   } = UseAdminManagement();
-  const { authDetails, setAuthDetails } = useContext(AuthContext);
+  const { authDetails } = useContext(AuthContext);
 
   const navigate = useNavigate();
   const location = window.location.pathname;
@@ -30,12 +25,8 @@ export const AdminManagementContextProvider = ({ children }) => {
       toast.error("You are not authorized to view this page. Please login");
       navigate("/admin/login");
     }
-  }, [authDetails, location, navigate]);
+  }, [authDetails, location]);
 
-  const handleLogout = () => {
-    setAuthDetails(null);
-    navigate("/admin/login");
-  };
 
   return (
     <AdminManagementContext.Provider
@@ -44,9 +35,6 @@ export const AdminManagementContextProvider = ({ children }) => {
         error,
         adminProfile,
         profileDetails,
-        getArtisans,
-        getEmployers,
-        handleLogout,
       }}
     >
       {children}
