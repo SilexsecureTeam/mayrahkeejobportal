@@ -22,7 +22,7 @@ function JobItem({ data, applicants}) {
       setSideBar(4);
       navigate(`/company/job-listing/type/${data.id}`,{state:{data: data, applicants:jobApplicants}});
     }}
-    className="flex flex-col  w-[180px] cursor-pointer hover:scale-105 duration-100  max-w-[180px]  border justify-between h-full p-2">
+    className="flex flex-col cursor-pointer hover:scale-[102%] duration-100 rounded-lg border-gray-600  border justify-between h-[200px] p-2">
       <div className="flex justify-between  items-center">
         <img src={wheelIcon} className="h-[30px] w-[30px]" />
         <button className="bg-green-600/40 text-black text-little px-2 h-fit rounded-[20px]">

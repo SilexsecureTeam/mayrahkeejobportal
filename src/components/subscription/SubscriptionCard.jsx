@@ -1,11 +1,14 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { FormatPrice } from "../../utils/formmaters";
 import Spinner from "../Spinner";
 import { PaystackConsumer } from "react-paystack";
 import { IoMdCheckmarkCircleOutline } from "react-icons/io";
+import { SubscriptionContext } from "../../context/SubscriptionContext";
 
-function SubscriptionCard({ data, subUtils, setIsOpen }) {
+function SubscriptionCard({ data, setIsOpen }) {
   const [showPerks, setShowPerks] = useState(false);
+  const subUtils = useContext(SubscriptionContext);
+
 
   const handleOnClick = (reference, data) => {
     console.log("Triggered");

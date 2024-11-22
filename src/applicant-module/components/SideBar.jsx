@@ -7,7 +7,7 @@ import { ResourceContext } from "../../context/ResourceContext";
 import { IMAGE_URL } from "../../utils/base";
 
 function SideBar({ children, authDetails, toogleIsOpen, isMenuOpen }) {
-  const { getCandidate, setGetCandidate } = useContext(ResourceContext);
+  const { getCandidate, setGetCandidate } = useContext(ResourceContext);s
   
   useEffect(() => {
     setGetCandidate((prev) => ({

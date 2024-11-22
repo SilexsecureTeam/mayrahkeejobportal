@@ -8,7 +8,7 @@ const JobGridCard = ({ newApplicant, job }) => {
     return (
         <div
             onClick={() => navigate("/applicant/find-job/id", { state: { job: job } })}
-            className="border cursor-pointer hover:shadow-inner transition-transform hover:scale-105 rounded-lg">
+            className="border cursor-pointer hover:shadow-inner transition-transform  rounded-lg">
             <div className="p-3 h-full">
                 <div className="flex justify-between items-start my-3">
                     <img src={newApplicant} width={40} alt="Applicant Logo" />
