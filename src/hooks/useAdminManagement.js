@@ -587,6 +587,37 @@ const createSalary = async (data) => {
   }
 }
 
+const getAllAdmins = async () => {
+  try {
+    setLoading(true)
+    const response = await client.get('/admin/getAdmin')
+    return response.data.Admins
+  }
+  catch (err) {
+    console.error('Error getting all admins', err)
+    return null
+  }
+  finally {
+    setLoading(false)
+  }
+}
+
+const deleteAdminById = async (id) => {
+  try {
+    setLoading(true)
+    const response = await client.delete(`/admin/deleteAdmin/${id}`)
+    return response.data
+  }
+  catch (err) {
+    console.error('Error deleting admin', err)
+    return null
+  }
+  finally {
+    setLoading(false)
+  }
+
+}
+
   return {
     loading,
     profileDetails,
@@ -625,6 +656,8 @@ const createSalary = async (data) => {
     getSalaries,
     deleteSalaryById,
     createSalary,
+    getAllAdmins,
+    deleteAdminById,
   };
 }
 
