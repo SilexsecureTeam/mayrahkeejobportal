@@ -38,7 +38,6 @@ function VerificationItem({ currentKey, profileDetails, updateTrackRecord }) {
             enabled={enabled}
             disabled={loading}
             onClick={async () => {
-              console.log("clicked");
               setloading(true);
               const result = await updateAvailabilityStatus(
                 authDetails.user.id,

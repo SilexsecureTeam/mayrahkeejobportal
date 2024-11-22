@@ -9,6 +9,7 @@ import { AuthContext } from "../../../context/AuthContex";
 import useCompanyProfile from "../../../hooks/useCompanyProfile";
 import { useSafeMantineTheme } from "@mantine/core";
 import { createMeeting } from "../../../components/video-sdk/Api";
+import useSubscription from "../../../hooks/useSubscription";
 
 const fields = [
   {
@@ -67,8 +68,10 @@ function ScheduleInterviewModal({
   handleOnSubmit,
 }) {
   const companyUtil = useCompanyProfile();
+  const {isInterviewPackge} = useSubscription()
 
-  const [selected, setSelected] = useState(interviewOptions[0]);
+  const options = isInterviewPackge ? interviewOptions : [interviewOptions[1]]
+  const [selected, setSelected] = useState(options[0]);
 
   const [meetingId, setMeetingId] = useState(false);
 
@@ -114,13 +117,13 @@ function ScheduleInterviewModal({
               <div className="flex flex-col">
                 <label className="text-sm font-semibold">Inteview Type</label>
                 <Selector
-                  data={interviewOptions}
+                  data={options}
                   selected={selected}
                   setSelected={setSelected}
                 />
               </div>
 
-              {selected.name !== interviewOptions[0].name && (
+              {selected.name !== options[0].name && (
                 <BasicInput
                   data={fields[3]}
                   details={details}
@@ -129,19 +132,21 @@ function ScheduleInterviewModal({
                 />
               )}
 
-              <div className="flex flex-col gap-[3px]">
-              <label className="text-sm font-semibold">Meeting Id</label>
-                <div className="flex justify-between border items-center p-2">
-                  <span>{meetingId ? meetingId : "no-meeting-id"}</span>
-                  <button
-                    type="button"
-                    onClick={onClick}
-                    className="w-fit px-2 py-1 bg-primaryColor rounded-[5px] text-white text-little font-semibold"
-                  >
-                    Generate Meeting Id
-                  </button>
+              {selected.name === options.name && (
+                <div className="flex flex-col gap-[3px]">
+                  <label className="text-sm font-semibold">Meeting Id</label>
+                  <div className="flex justify-between border items-center p-2">
+                    <span>{meetingId ? meetingId : "no-meeting-id"}</span>
+                    <button
+                      type="button"
+                      onClick={onClick}
+                      className="w-fit px-2 py-1 bg-primaryColor rounded-[5px] text-white text-little font-semibold"
+                    >
+                      Generate Meeting Id
+                    </button>
+                  </div>
                 </div>
-              </div>
+              )}
 
               <FormButton loading={loading}>Schedule</FormButton>
             </form>

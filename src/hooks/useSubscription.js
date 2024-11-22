@@ -19,6 +19,16 @@ function useSubscription() {
   });
   const [packages, setPackages] = useState([]);
   const [loading, setLoading] = useState(false);
+  
+  const interviewPackages = packages.filter(
+    (current) =>
+      current.title.toLowerCase().includes("plus") ||
+      current.title.toLowerCase().includes("premium")
+  );
+  // console.log(interviePackages)
+  const isInterviewPackge = interviewPackages.find(
+    (current) => current.id === activePackage.package_id
+  ) ? true : false;
 
   const getPackages = async () => {
     setLoading(true);
@@ -127,6 +137,8 @@ function useSubscription() {
     loading,
     packages,
     activePackage,
+    isInterviewPackge,
+    interviewPackages,
     config,
     makePaymentCheck,
     getActivePackage,

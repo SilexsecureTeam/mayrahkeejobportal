@@ -4,18 +4,20 @@ import mainLogoTwo from "../../assets/pngs/main-logo-icon.png";
 import useCompanyProfile from "../../hooks/useCompanyProfile";
 import { resourceUrl } from "../../services/axios-client";
 import { MdClose } from "react-icons/md";
+import { StaffManagementContext } from "../../context/StaffManagementModule";
 
-function SideBar({
-  children,
-  authDetails,
-  toogleIsOpen,
-  isMenuOpen,
-}) {
+function SideBar({ children, authDetails, toogleIsOpen, isMenuOpen }) {
+  // const { authDetails} = useContext(
+  //   StaffManagementContext
+  // );
+
+  console.log(authDetails?.user);
+  const imgUrl = authDetails?.user?.profile_image && `${resourceUrl}/${authDetails?.user?.profile_image}`
 
   return (
     <>
       <aside className="w-[18%] hidden  h-full items-center bg-secondaryColor px-2 pb-2 md:flex flex-col justify-end">
-        <img src={mainLogoTwo} className="w-[80%]" />
+        <img src={ mainLogoTwo} className="w-[80%]" />
         <nav className="h-[92%] w-full flex flex-col justify-start gap-[20px] divide-y-2">
           {children[0]}
           <div className="flex flex-col gap-[5px] ">
@@ -32,17 +34,17 @@ function SideBar({
         </div>
 
         {/* user info  */}
-        <div className="absolute bottom-3 left-3 flex gap-[5px]  items-center">
+        <div className="absolute bottom-3 left-10 flex flex-row-reverse  gap-2  items-center">
           <img
-            src={``}
-            className="h-[35px] w-[35px] rounded-full bg-secondaryColor"
+            src={imgUrl}
+            className="h-[50px] w-[50px] rounded-full bg-secondaryColor"
           />
           <div className="flex-col flex">
-            <span className="text-secondaryColor text-sm">
-             Someone
+            <span className="text-secondaryColor text-md">
+              {authDetails?.user?.first_name} {authDetails?.user?.lasst_name}
             </span>
-            <span className="text-gray-300 text-[11px]">
-             someone
+            <span className="text-gray-300 text-md">
+              {authDetails?.user?.email}
             </span>
           </div>
         </div>
@@ -78,15 +80,15 @@ function SideBar({
         {/* user info  */}
         <div className="absolute bottom-3 left-10 flex gap-[5px]  items-center">
           <img
-            src={``}
+            src={imgUrl}
             className="h-[35px] w-[35px] rounded-full bg-secondaryColor"
           />
           <div className="flex-col flex">
             <span className="text-secondaryColor text-sm">
-              Someone
+              {authDetails?.user?.first_name} {authDetails?.user?.lasst_name}
             </span>
             <span className="text-gray-300 text-[11px]">
-              someone
+              {authDetails?.user?.email}
             </span>
           </div>
         </div>

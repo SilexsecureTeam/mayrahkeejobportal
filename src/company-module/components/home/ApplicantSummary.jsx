@@ -24,9 +24,8 @@ function ApplicantSummary({ applicants, byCategory }) {
         />
         <ul className="grid grid-cols-1">
           {byCategory &&
-            Object.keys(byCategory)?.map((current) => {
+            Object.keys(byCategory)?.splice(0,3).map((current) => {
               const info = byCategory[current];
-
               return (
                 <>
                   <div

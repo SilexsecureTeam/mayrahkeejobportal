@@ -43,9 +43,7 @@ function useApplicationManagement() {
   const getJobApplications = async () => {
     setLoading(true);
     try {
-      const response = await client(
-        `/getUserApply/${authDetails?.user?.id}`
-      );
+      const response = await client(`/getUserApply/${authDetails?.user?.id}`);
       setjobApplications(response.data.job_application);
     } catch (error) {
       FormatError(error, setError, "Applicants Error");
@@ -95,15 +93,26 @@ function useApplicationManagement() {
     setLoading(true);
     try {
       if (!option.name) throw Error("An inteview option must be selected");
-      if (!meetingId) throw Error("Please generate a meeting id");
+      if (!meetingId && option.name === "online")
+        throw Error("Please generate a meeting id");
 
-      const interviewPrimarydata = {
+      let interviewPrimarydata = {
         job_application_id: data.id,
         employer_id: authDetails.user.id,
         candidate_id: applicant.candidate_id,
         option: option.name,
         meeting_id: meetingId,
       };
+
+      if (option.name !== "online") {
+        interviewPrimarydata = {
+          job_application_id: data.id,
+          employer_id: authDetails.user.id,
+          candidate_id: applicant.candidate_id,
+          option: option.name,
+        };
+      }
+
       const updateprimarydata = {
         job_id: data.job_id,
         candidate_id: applicant.candidate_id,
@@ -147,20 +156,16 @@ function useApplicationManagement() {
     }
   };
 
-
   const updateApplication = async (status, candidate_id, job_id) => {
     try {
-      const response = await client.post('/applicationRespond', {
+      const response = await client.post("/applicationRespond", {
         candidate_id: data.candidate_id,
         job_id: data.job_id,
-        status
-      })
-      set
-    } catch (error) {
-      
-    }
-}
-
+        status,
+      });
+      set;
+    } catch (error) {}
+  };
 
   useEffect(() => {
     if (error.error && error.message) {
@@ -196,7 +201,7 @@ function useApplicationManagement() {
     getApplicant,
     getResume,
     getJobApplications,
-    getCompany
+    getCompany,
   };
 }
 

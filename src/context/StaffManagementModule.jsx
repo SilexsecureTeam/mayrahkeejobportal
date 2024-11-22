@@ -48,7 +48,7 @@ export const StaffManagementContextProvider = ({ children }) => {
   }, []);
   return (
     <StaffManagementContext.Provider
-      value={{ profileDetails, getStaffProfile }}
+      value={{ profileDetails, getStaffProfile, authDetails }}
     >
       {children}
     </StaffManagementContext.Provider>
