@@ -25,7 +25,7 @@ const DataTableComponent = ({ data, name, heading, isLoading, allowEdit }) => {
   const [editDialog, setEditDialog] = useState(false);
   const [selectedData, setSelectedData] = useState(null);
 
-  const { loading, updateStatus } = UseAdminManagement();
+  const { loading, updateStatus, deleteAdminById } = UseAdminManagement();
   const [dataState, setDataState] = useState(null);
 
   useEffect(() => {
@@ -87,11 +87,11 @@ const DataTableComponent = ({ data, name, heading, isLoading, allowEdit }) => {
       toast.error('An error occurred. Please try again');
       return;
     }
-
+    
     const formData = {
       id: selectedData.id,
       status: selectedData.status,
-      type: name === 'domestic-staff' || name === 'artisan' ? 'domestic' : name,
+      type: name === 'domestic-staff' || name === 'artisan' ? 'domestic' : name === 'admins' ? 'admin' : name,
     };
 
     console.log('Updating status with data:', formData);
@@ -123,18 +123,21 @@ const DataTableComponent = ({ data, name, heading, isLoading, allowEdit }) => {
     );
   };
 
+  const deleteAdmin = async (id) => {
+    try {
+      await deleteAdminById(id);
+      setDataState(dataState.filter((d) => d.id !== id));
+      toast.success('Admin deleted successfully');
+    } catch (error) {
+      console.error('Error deleting admin:', error);
+      toast.error('An error occurred while deleting admin');
+    }
+  };
+
   const actionBodyTemplate = (rowData) => {
     return (
       <div className="flex justify-center space-x-2">
         {allowEdit && (
-          // <Button
-          //   type="button"
-          //   icon={<BiPencil className="mr-2 text-lg" />}
-          //   outlined
-          //   className="mr-2"
-          //   onClick={(e) => editData(e, rowData)}
-          // />
-
           <button
             type="button"
             onClick={(e) => editData(e, rowData)}
@@ -142,15 +145,24 @@ const DataTableComponent = ({ data, name, heading, isLoading, allowEdit }) => {
           >
             <BiPencil className="ml-2 text-lg text-white" />
           </button>
-
         )}
-        <button
-          type="button"
-          className="bg-green-500 px-4 py-2 text-white"
-          onClick={() => handleViewDetails(rowData)}
-        >
-          View
-        </button>
+        {name === 'admins' ? (
+          <button
+            type="button"
+            className="bg-red-500 px-4 py-2 text-white"
+            onClick={() => deleteAdmin(rowData.id)}
+          >
+            Delete
+          </button>
+        ) : (
+          <button
+            type="button"
+            className="bg-green-500 px-4 py-2 text-white"
+            onClick={() => handleViewDetails(rowData)}
+          >
+            View
+          </button>
+        )}
       </div>
     );
   };
@@ -163,12 +175,6 @@ const DataTableComponent = ({ data, name, heading, isLoading, allowEdit }) => {
 
   const editDialogFooter = (
     <>
-      {/* <Button
-        label="Cancel"
-        icon={<FaTimes className="mr-2" />}
-        outlined
-        onClick={() => setEditDialog(false)}
-      /> */}
       <button
         className="outline outline-red-700 px-2 py-2 flex items-center gap-2 text-red-700 rounded mt-3"
         onClick={() => setEditDialog(false)}
@@ -302,6 +308,8 @@ const DataTableComponent = ({ data, name, heading, isLoading, allowEdit }) => {
               ? "Edit Artisan"
               : name === "job"
                 ? "Edit Job"
+               : name === 'admins'
+                ? "Edit Admin"
                 : "Edit Domestic Staff"
         }
         modal

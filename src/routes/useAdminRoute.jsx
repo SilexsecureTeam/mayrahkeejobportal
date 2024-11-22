@@ -39,6 +39,7 @@ import AdminChangePassword from "../components/AdminAuth/AdminChangePwd";
 import Security from "../admin-module/pages/settings/Security/security";
 import AllDataJobsPostedEmployer from "../admin-module/pages/employers/AllJobsPostedByEmployer";
 import JobsByEmployerDetails from "../admin-module/pages/employers/JobsByEmployerDetails";
+import AllAdmins from "../admin-module/pages/settings/SuperAdmin/AllAdmin";
 
 // Util Component
 const NavBar = lazy(() => import("../admin-module/components/NavBar"));
@@ -183,6 +184,7 @@ function useAdminRoute() {
                       <Route path="settings/salary" element={<Salaries />} />
                       <Route path="settings/salary/add" element={<AddSalary />} />
                       <Route path="settings/security" element={<Security />} />
+                      <Route path="settings/security/admins" element={<AllAdmins />} />
                       <Route path="help-center" element={<HelpCenter />} />
                       <Route path="artisan" element={<Artisan />} />
                       <Route path="artisans/all" element={<AllArtisans />} />
