@@ -591,3 +591,11 @@ export const stages = [
     stage: null,
   },
 ];
+
+
+export const verification_status = [
+   'pending',
+   'approved',
+   'rejected',
+   'suspend'
+]

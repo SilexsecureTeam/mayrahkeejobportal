@@ -44,11 +44,13 @@ export const StaffManagementContextProvider = ({ children }) => {
       }
     };
 
+    
     initProfileDetails();
   }, []);
+
   return (
     <StaffManagementContext.Provider
-      value={{ profileDetails, getStaffProfile }}
+      value={{ profileDetails, getStaffProfile, authDetails }}
     >
       {children}
     </StaffManagementContext.Provider>

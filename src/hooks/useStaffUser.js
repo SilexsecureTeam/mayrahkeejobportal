@@ -3,16 +3,16 @@ import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContex";
 import { axiosClient } from "../services/axios-client";
 import { onFailure } from "../utils/notifications/OnFailure";
-
-
+import { StaffManagementContext } from "../context/StaffManagementModule";
 
 function useStaffUser() {
   const { authDetails } = useContext(AuthContext);
   const client = axiosClient(authDetails?.token);
+  const { profileDetails, getStaffProfile } = useContext(StaffManagementContext);
+  const allStatus = ['approved', 'pending', 'rejected', 'suspend']
 
   //availabilit status => 1 for available, 0 for not
   const updateAvailabilityStatus = async (staffId, status) => {
-
     try {
       const result = await client.post(
         `/domesticStaff/update-profile/${staffId}`,
@@ -21,6 +21,7 @@ function useStaffUser() {
       await getStaffProfile();
       return true;
     } catch (error) {
+      // console.log('staff user',error)
       onFailure({
         message: "Error",
         error: "Could not update your status",
@@ -29,8 +30,21 @@ function useStaffUser() {
     }
   };
 
+
+  const getStyling = (status) => {
+      switch(status){
+        case allStatus[0] : return 'text-primaryColor';
+        case allStatus[1] : return 'text-yellow-500';
+        case allStatus[2] : return 'text-red-500';
+        case allStatus[3] : return 'text-red-700';
+        default : return 'text-yellow-500'
+      }
+  }
+
   return {
     updateAvailabilityStatus,
+    getStyling,
+    allStatus
   };
 }
 

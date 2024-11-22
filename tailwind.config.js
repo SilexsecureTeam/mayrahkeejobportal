@@ -21,7 +21,7 @@ module.exports = {
         primary: "#25324b",
       },
       fontSize: {
-        little: "12px",
+        little: "14px",
       },
     },
   },
