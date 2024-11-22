@@ -12,9 +12,9 @@ function AllMedicalHistories() {
     const fetchReports = async () => {
       const data = await getStaffReport("medical-history");
       console.log("Fetched Data:", data); // Log the fetched data
-      
+      const sortedData = data.MedicalHistory.sort((a, b) => b.id - a.id);
       if (data) {
-        setMedicals(data.MedicalHistory); // Ensure the correct data structure is used
+        setMedicals(sortedData); // Ensure the correct data structure is used
       } else {
         console.error("No data received");
       }
@@ -25,7 +25,7 @@ function AllMedicalHistories() {
   const heading = ["ID", "Hospital Name", "Contact", "Document", "Status", "StaffID"];
   
   const data = medicals.map(medical => ({
-    [heading[0].toLowerCase()]: medical.id,
+    [heading[0].toLowerCase()]: medical.domestic_staff_id,
     [heading[1].toLowerCase()]: medical.hospital_name,
     [heading[2].toLowerCase()]: medical.contact_detail,
     [heading[3].toLowerCase()]: <img src={"https://dash.mayrahkeeafrica.com/"+medical.medical_report_docs} alt="document" className="w-28 h-28 rounded-lg"/>,

@@ -12,9 +12,9 @@ function AllGuarantors() {
     (async () => {
       const data = await getStaffReport("guarantor");
       console.log("Fetched Data:", data); // Log the fetched data
-      
+      const sortedData = data.guarantors.sort((a, b) => b.id - a.id);
       if (data) {
-        setGuarantors(data.guarantors);
+        setGuarantors(sortedData);
       } else {
         console.error("No data received");
       }
@@ -24,7 +24,7 @@ function AllGuarantors() {
   const heading = ["ID", "Name","Email", "Occupation", "Residential Acdress", "DOB", "Status","StaffID"];
   
   const data = guarantors.map(guarantor => ({
-    [heading[0].toLowerCase()]: guarantor.id,
+    [heading[0].toLowerCase()]: guarantor.domestic_staff_id,
     [heading[1].toLowerCase()]: guarantor.title + " " + guarantor.surname +  " " + guarantor.first_name,
     [heading[2].toLowerCase()]: guarantor.email,
     [heading[3].toLowerCase()]: guarantor.occupation,

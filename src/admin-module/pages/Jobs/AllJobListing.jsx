@@ -11,9 +11,10 @@ function AllJobs() {
   useEffect(() => {
     (async () => {
       const data = await getAllJobs();
+      const sortedData = data.sort((a, b) => b.id - a.id);
       console.log(data);
       if (data) {
-        setJobs(data);
+        setJobs(sortedData);
       } else {
         console.error("No data received");
       }

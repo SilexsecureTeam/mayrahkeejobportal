@@ -8,6 +8,7 @@ import UseAdminManagement from "../../../../hooks/useAdminManagement";
 import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import { FaArrowLeftLong } from "react-icons/fa6";
+import axios from 'axios';
 
 const countryOptions = Object.keys(countries).map(countryCode => ({
   value: countryCode,
@@ -36,42 +37,45 @@ function AddCurrency() {
     }
   }, [countryName]);
 
+  const convertFlagToFile = async (url) => {
+    const response = await axios.get(url, { responseType: 'blob' });
+    const file = new File([response.data], 'flag.png', { type: response.data.type });
+    console.log("Flag file:", file);
+    return file.name;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     setError("");
 
-    const currencyData = {
-      name: countryName,
-      code: currencySymbol
-    };
+    const flagFile = await convertFlagToFile(flag);
 
-    console.log("Submitting currency data:", currencyData);
+    const formData = new FormData();
+    formData.append('name', countryName);
+    formData.append('code', currencySymbol);
+    // formData.append('image', flagFile);
+
+    console.log("Submitting currency data:", formData);
 
     try {
-      const response = await AddFormCurrency(currencyData);
+      const response = await AddFormCurrency(formData);
       console.log("Response:", response);
-      if (response) {
+      if (response.status !== 500) {
         console.log("Currency Added:", response);
         toast.success("Currency added successfully!");
         setTimeout(() => {
           navigate("/admin/settings/currency");
         }, 2000); // Delay of 2 seconds before navigating
       } else {
-        toast.error("Failed to add currency");
-      }
-    } catch (err) {
-      if (err.response && err.response.data && err.response.data.error) {
-        if (err.response.data.error.includes("The code has already been taken")) {
+        if (response.status === 500 && response.response.data.error.includes("The code has already been taken.")) {
           toast.error("Currency already exists");
         } else {
-          setError(`Error adding currency: ${err.response.data.error}`);
-          toast.error(`Error adding currency: ${err.response.data.error}`);
+          toast.error("Failed to add currency");
         }
-      } else {
-        setError(`Error adding currency: ${err.message}`);
-        toast.error(`Error adding currency: ${err.message}`);
       }
+    } catch (err) {
+      toast.error("Failed to add currency"); 
       console.error("Error details:", err.response ? err.response.data : err.message);
     } finally {
       setLoading(false);

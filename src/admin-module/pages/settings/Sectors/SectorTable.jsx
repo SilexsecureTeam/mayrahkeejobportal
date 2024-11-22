@@ -13,13 +13,13 @@ const SectorTable = ({ title, products, selectedProducts, setSelectedProducts, b
 
     const actionBodyTemplate = (rowData) => {
         return (
-            <div className="actions">
+            <div className="actions space-y-4">
                 {buttons.includes('change to subcategory') && <button className="bg-blue-800 text-white px-2 py-2 rounded mr-2">Change to Subcategory</button>}
                 {buttons.includes('edit') && <button className="bg-purple-500 text-white px-2 py-2 rounded mr-2">Edit</button>}
                 {buttons.includes('unset list') && <button className="bg-yellow-600 text-white px-4 py-2 rounded mr-2">Unset List</button>}
                 {buttons.includes('hide') && <button className="bg-red-800 text-white px-4 py-2 rounded mr-2">Hide</button>}
                 {buttons.includes('delete') && (
-                    <button className="bg-red-800 text-white px-4 py-2 rounded" onClick={() => handleDelete(rowData.id)} disabled={loadingId === rowData.id}>
+                    <button className="bg-red-800 text-white px-4 py-2 rounded space-y-4" onClick={() => handleDelete(rowData.id)} disabled={loadingId === rowData.id}>
                         {loadingId === rowData.id ? 'Deleting...' : 'Delete'}
                     </button>
                 )}
@@ -29,7 +29,7 @@ const SectorTable = ({ title, products, selectedProducts, setSelectedProducts, b
 
     const subcategoryActionBodyTemplate = (subcategory) => {
         return (
-            <div className="actions">
+            <div className="actions space-y-4">
                 <button className="bg-red-800 text-white px-4 py-2 rounded" onClick={() => handleDelete(subcategory.id)} disabled={loadingId === subcategory.id}>
                     {loadingId === subcategory.id ? 'Deleting...' : 'Delete'}
                 </button>
@@ -46,7 +46,7 @@ const SectorTable = ({ title, products, selectedProducts, setSelectedProducts, b
                 <Column field="subcategories" header="Subcategories" body={(rowData) => (
                     <div>
                         {rowData.subcategories.map(sub => (
-                            <div key={sub.id} className="flex justify-between items-center">
+                            <div key={sub.id} className="flex justify-between items-center space-y-4">
                                 <span>{sub.name}</span>
                                 {title === 'Manage Sub sectors' && subcategoryActionBodyTemplate(sub)}
                             </div>

@@ -10,7 +10,7 @@ import { PrimeReactProvider, PrimeReactContext } from "primereact/api";
 import Tailwind from "primereact/passthrough/tailwind";
 import AllCandidate from "../admin-module/pages/candidate/AllCandidate";
 import CandidateDetails from "../admin-module/pages/candidate/CandidateDetails";
-import JobsByEmployer from "../admin-module/pages/employers/JobsByEmployer";
+import JobsByEmployer from "../admin-module/pages/employers/JobsByEmployerDetails";
 import AppliedJobs from "../admin-module/pages/employers/AppliedJobs";
 import EmployerCandidates from "../admin-module/pages/employers/EmployerCandidates";
 import EmployerStaff from "../admin-module/pages/employers/EmployerStaff";
@@ -32,6 +32,13 @@ import AdminSideBar from "../admin-module/components/AdminSideBar";
 import AdminSideBarItem from "../admin-module/components/AdminSideBarItem";
 import JobDescriptionPage from "../admin-module/pages/Jobs/JobDescriptionPage";
 import AllJobs from "../admin-module/pages/Jobs/AllJobListing";
+import AdminReducer from "../reducers/AdminReducer";
+import Salaries from "../admin-module/pages/settings/Salary/Salaries";
+import AddSalary from "../admin-module/pages/settings/Salary/AddSalary";
+import AdminChangePassword from "../components/AdminAuth/AdminChangePwd";
+import Security from "../admin-module/pages/settings/Security/security";
+import AllDataJobsPostedEmployer from "../admin-module/pages/employers/AllJobsPostedByEmployer";
+import JobsByEmployerDetails from "../admin-module/pages/employers/JobsByEmployerDetails";
 
 // Util Component
 const NavBar = lazy(() => import("../admin-module/components/NavBar"));
@@ -54,7 +61,9 @@ const DomesticStaffDetails = lazy(() => import("../admin-module/pages/domesticSt
 const Candidates = lazy(() => import("../admin-module/pages/candidate/Candidate"));
 
 function useAdminRoute() {
-  const [state, dispatch] = useReducer(StaffReducer, adminOptions[0]);
+  const path = useLocation().pathname;
+  // const [state, dispatch] = useReducer(AdminReducer, adminOptions.find((option) => option.route === path));
+  const [state, dispatch] = useReducer(AdminReducer, adminOptions[0]);
   const { authDetails } = useContext(AuthContext);
   // const { changeTheme } = useContext(PrimeReactContext);
   const [isOpen, setIsOpen] = useState(false);
@@ -85,10 +94,10 @@ function useAdminRoute() {
 
   const hideNavBarRoutes = [
     "/admin/login",
-    "/admin/logout",
     "/admin/reset-pwd",
-    "/admin/register",
+    "/admin/settings/register",
     "/admin/forget-pwd",
+    "/admin/change-pwd",
   ];
 
   const shouldHideNavBar = hideNavBarRoutes.includes(location.pathname);
@@ -114,7 +123,7 @@ function useAdminRoute() {
                 >
                   <ul className="flex flex-col gap-[10px]">
                     {adminOptions.map((currentOption) => (
-                      <SideBarItem
+                      <AdminSideBarItem
                         key={currentOption.type}
                         data={currentOption}
                         dispatch={dispatch}
@@ -151,13 +160,15 @@ function useAdminRoute() {
                       <Route path="login" element={<AdminLogin />} />
                       <Route path="logout" element={<AdminLogout />} />
                       <Route path="reset-pwd" element={<AdminResetPwd />} />
-                      <Route path="register" element={<AdminRegistrationForm />} />
+                      <Route path="settings/register" element={<AdminRegistrationForm />} />
                       <Route path="forget-pwd" element={<AdminForgotPassword />} />
+                      <Route path="change-pwd" element={<AdminChangePassword />} />
                       <Route index element={<Dashboard />} />
                       <Route path="employers" element={<Employers />} />
                       <Route path="employers/all" element={<AllEmployers />} />
                       <Route path="employer/details/:id" element={<EmployerDetails />} />
-                      <Route path="employer/jobs/:id" element={<JobsByEmployer />} />
+                      <Route path="employer-jobs/details/:id" element={<JobsByEmployerDetails />} />
+                      <Route path="employer/alljobs/:id" element={<AllDataJobsPostedEmployer />} />
                       <Route path="employer/applied-jobs/:id" element={<AppliedJobs />} />
                       <Route path="employer/:id/candidates" element={<EmployerCandidates />} />
                       <Route path="employer/:id/staffs" element={<EmployerStaff />} />
@@ -169,6 +180,9 @@ function useAdminRoute() {
                       <Route path="settings/sectors/categories" element={<AddCategory />} />
                       <Route path="settings/currency" element={<Currency />} />
                       <Route path="settings/currency/add" element={<AddCurrency />} />
+                      <Route path="settings/salary" element={<Salaries />} />
+                      <Route path="settings/salary/add" element={<AddSalary />} />
+                      <Route path="settings/security" element={<Security />} />
                       <Route path="help-center" element={<HelpCenter />} />
                       <Route path="artisan" element={<Artisan />} />
                       <Route path="artisans/all" element={<AllArtisans />} />

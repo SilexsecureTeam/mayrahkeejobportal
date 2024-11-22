@@ -59,24 +59,7 @@ function Artisan() {
       </Helmet>
       <div className="h-full p-6 w-full text-sm text-gray-800">
         <div className="text-sm">
-          <div className="flex justify-between">
-            <div className="">
-              <h4 className="font-bold text-2xl mb-2  ">
-                Welcome back, {authDetails?.user?.first_name}{" "}
-                {authDetails?.user?.surname}
-              </h4>
-              <p>
-                Here a summary of your recent activities {generateDateRange()}
-              </p>
-            </div>
-            <div>
-              <button className="border p-2 hidden md:flex items-center">
-                {" "}
-                {generateDateRange()}
-                <RiCalendarEventLine className="ml-2 " size={15} />
-              </button>
-            </div>
-          </div>
+         
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-6 p-4">
             {/* <DashboardCard
               rightIcon={<RiFileUserFill />}

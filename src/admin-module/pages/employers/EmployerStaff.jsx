@@ -4,6 +4,7 @@ import { Button } from "primereact/button";
 import { FaArrowLeftLong } from "react-icons/fa6";
 import UseAdminManagement from "../../../hooks/useAdminManagement";
 import DataTableComponent from "../../components/DataTable/DataTableComponent";
+import { ClipLoader } from "react-spinners";
 
 const EmployerStaff = () => {
   const { id } = useParams();
@@ -27,8 +28,17 @@ const EmployerStaff = () => {
     })();
   }, []);
 
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <ClipLoader size={50} color={"#123abc"} loading={loading} />
+      </div>
+    );
+  }
+
+
   if (!staffDetails.length) {
-    return <div>No staff details found</div>;
+    return <div className="text-center flex justify-center item-center">No staff details found</div>;
   }
 
   const heading = ["ID", "Staff Name", "Start Date", "End Date", "Status", "StaffID"];
@@ -42,6 +52,8 @@ const EmployerStaff = () => {
     [heading[4].toLowerCase()]: staff.status,
     [heading[5].toLowerCase()]: staff.domestic_staff_id,
   }));
+
+  
 
   return (
     <div className="mx-14 mt-10 mb-24">

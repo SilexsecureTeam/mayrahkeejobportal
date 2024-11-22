@@ -1,6 +1,6 @@
 import JobItem from "./JobItem";
 
-function JobUpdates({jobs}) {
+function JobUpdates({jobs, applicants}) {
   return (
     <div className="w-full min-`h-[250px] border flex flex-col items-start">
       <div className="h-[50px] text-sm w-full font-semibold p-2 flex items-center border-b">

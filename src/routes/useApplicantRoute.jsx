@@ -45,15 +45,13 @@ const MyResume = lazy(() =>
   import("../applicant-module/pages/resume/MyResume")
 );
 
-const Artisan = lazy(() =>
-  import("../applicant-module/pages/artisan/Artisan")
-);
+const Artisan = lazy(() => import("../applicant-module/pages/artisan/Artisan"));
 const DomesticStaffs = lazy(() =>
   import("../applicant-module/pages/staffs/DomesticStaffs")
 );
-const SuccessPage=lazy(() =>
-  import("../components/SuccessPage")
-);
+const SuccessPage = lazy(() => import("../components/SuccessPage"));
+const StaffDetails = lazy(() => import('../components/applicant-details-ui/ApplicantDetails'))
+
 
 const ShortListedDetails = lazy(() =>
   import("../applicant-module/pages/shortlisted/ShortListedDetails")
@@ -62,9 +60,7 @@ const NotFound = lazy(() => import("../applicant-module/pages/404"));
 const Settings = lazy(() =>
   import("../applicant-module/pages/settings/Settings")
 );
-const HelpCenter = lazy(() =>
-  import("../pages/HelpCenter")
-);
+const HelpCenter = lazy(() => import("../pages/HelpCenter"));
 
 function useApplicantRoute() {
   const [state, dispatch] = useReducer(ApplicantReducer, applicantOptions[0]);
@@ -169,19 +165,24 @@ function useApplicantRoute() {
 
                 <Route path="artisan" element={<Artisan />} />
                 <Route path="domestic-staffs" element={<DomesticStaffs />} />
-                
+                <Route path="staff/cart" element={<CartedStaffs />} />
+                <Route path=":category/:id" element={<StaffDetails />} />
+                <Route path="staff/cart" element={<CartedStaffs />} />
+                <Route path="staff/success" element={<SuccessPage />} />
+
                 {/* testing routes */}
-                <Route path="success" element={<SuccessPage />} />
                 <Route path="applicant-detail" element={<ApplicantDetails />} />
                 <Route path="application-detail" element={<AllApplication />} />
-                <Route path="application-detail/:id" element={<Application />} />
-
-
                 <Route
+                  path="application-detail/:id"
+                  element={<Application />}
+                />
+
+                {/* <Route
                   path="staff/:category/:id"
                   element={<StaffInformation />}
                 />
-                <Route path="staff/cart" element={<CartedStaffs />} />
+                <Route path="success" element={<SuccessPage />} /> */}
 
                 <Route path="public-profile" element={<PublicProfile />} />
                 <Route path="setting" element={<Settings />} />

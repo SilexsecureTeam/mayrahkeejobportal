@@ -20,7 +20,6 @@ export default function Currency() {
         const fetchData = async () => {
             try {
                 const data = await getCurrencies();
-                console.log(data)
                 if (data) {
                     setCurrencies(data);
                 } else {
@@ -55,13 +54,14 @@ export default function Currency() {
 
     return (
         <div className="card px-2">
-            <div className='px-8 py-5'><button
-                type="button"
-                onClick={() => window.history.back()}
-                className="flex items-center gap-2 outline outline-offset-5 outline-green-500 px-4 py-2 rounded text-green-500 hover:bg-green-100"
-            >
-                <FaArrowLeftLong className="me-4 text-green-500" />Back
-            </button>
+            <div className='px-8 py-5'>
+                <button
+                    type="button"
+                    onClick={() => window.history.back()}
+                    className="flex items-center gap-2 outline outline-offset-5 outline-green-500 px-4 py-2 rounded text-green-500 hover:bg-green-100"
+                >
+                    <FaArrowLeftLong className="me-4 text-green-500" />Back
+                </button>
             </div>
             <ToastContainer />
             <div className="flex flex-col md:flex-row justify-between items-center mb-4 text-center md:text-left">
@@ -70,7 +70,9 @@ export default function Currency() {
                     <FaPlus className="mr-2" /> Add Currency
                 </button>
             </div>
-            <TabMenu model={items} activeIndex={activeIndex} onTabChange={(e) => setActiveIndex(e.index)} />
+            <div className="w-full md:w-auto">
+                <TabMenu model={items} activeIndex={activeIndex} onTabChange={(e) => setActiveIndex(e.index)} />
+            </div>
             {activeIndex === 0 && (
                 <CurrencyTable
                     title="Overview"
