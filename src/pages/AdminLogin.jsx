@@ -99,9 +99,6 @@ function AdminLogin() {
               <NavLink to="/admin/forget-pwd" className="text-sm hover:underline text-white">
                 Forgot Password?
               </NavLink>
-              <NavLink to="/admin/register" className="text-sm  hover:underline text-white">
-                Don't Have an account? Sign up
-              </NavLink>
             </div>
             <button type="submit" className="w-full bg-[#47AA49] text-white p-3 rounded-md hover:bg-green-700">
               Login

@@ -11,8 +11,9 @@ function AllCandidate() {
   useEffect(() => {
     (async () => {
       const data = await getCandidates();
+      const sortedData = data.sort((a, b) => b.id - a.id);
       if (data) {
-        setCandidates(data);
+        setCandidates(sortedData);
         console.log(data);
       } else {
         console.error("No data received");

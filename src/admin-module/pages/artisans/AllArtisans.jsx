@@ -11,8 +11,9 @@ function AllArtisans() {
   useEffect(() => {
     (async () => {
       const data = await getArtisans();
+      const sortedData = data.sort((a, b) => b.id - a.id);
       if (data) {
-        setArtisans(data);
+        setArtisans(sortedData);
         console.log(data);
       } else {
         console.error("No data received");

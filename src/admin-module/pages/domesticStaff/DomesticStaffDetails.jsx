@@ -8,6 +8,7 @@ import PoliceReportDialog from "../../components/Dialog/PoliceReportDialogue";
 import MedicalReportDialog from "../../components/Dialog/MedicalReportDialogue";
 import GuarantorReportDialog from "../../components/Dialog/GuarantorReport";
 import PreviousWorkExperienceDialog from "../../components/Dialog/PreviousWorkExperienceDialogue";
+import ResidentDialog from "../../components/Dialog/ResidentDialogue";
 
 const DomesticStaffDetails = () => {
   const { id } = useParams();
@@ -132,6 +133,7 @@ const DomesticStaffDetails = () => {
               <MedicalReportDialog fetchData={() => fetchReport("medical-history", data.id)} />
               <GuarantorReportDialog fetchData={() => fetchReport("guarantor", data.id)} />
               <PreviousWorkExperienceDialog fetchData={() => fetchReport("previous-work-experience", data.id)} />
+              <ResidentDialog fetchData={() => fetchReport("residential-status", data.id)} />
             </div>
           </div>
         </div>
