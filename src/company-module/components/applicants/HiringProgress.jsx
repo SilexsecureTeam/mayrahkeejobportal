@@ -1,15 +1,21 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { stages } from "../../../utils/constants";
 import InterviewPhase from "./InterviewPhase";
 import Shortlist from "./Shortlist";
 import { ApplicationContext } from "../../../context/ApplicationContext";
 import { axiosClient } from "../../../services/axios-client";
 import { AuthContext } from "../../../context/AuthContex";
+import useSubscription from "../../../hooks/useSubscription";
+import SubscriptionModal from "../../../components/subscription/SubscriptionModal";
+import SubscriptionModalSpecific from "../../../components/subscription/SubscriptionModalSpecific";
 
 function HiringProgress({ data, applicant, toogleInterview }) {
   const { setApplication } = useContext(ApplicationContext);
   const { authDetails } = useContext(AuthContext);
+  const { isInterviewPackge, interviewPackages } = useSubscription();
+  const [isOpen, setIsOpen] = useState(false);
 
+  const toogleOpen = () => setIsOpen(!isOpen);
 
   const bgColor = (current) => {
     if (current.stage === "passed") {
@@ -59,7 +65,6 @@ function HiringProgress({ data, applicant, toogleInterview }) {
     }
   };
 
-
   const updateApplication = async (status) => {
     try {
       const client = axiosClient(authDetails.user.token);
@@ -74,7 +79,7 @@ function HiringProgress({ data, applicant, toogleInterview }) {
     } catch (error) {}
   };
 
-
+  //With Inteview Subscription
   const InView = (
     <div className="flex flex-col w-full justify-between gap-[20px] items-start px-2">
       <span className="text-little">
@@ -87,10 +92,29 @@ function HiringProgress({ data, applicant, toogleInterview }) {
         >
           Schedule Interview
         </button>
-        <button 
-        onClick={() => updateApplication('declined')}
-        className="border w-[40%] md:w-[20%] hover:bg-red-500 hover:text-white p-2 md:py-1 text-little px-2  border-red-500">
+        <button
+          onClick={() => updateApplication("declined")}
+          className="border w-[40%] md:w-[20%] hover:bg-red-500 hover:text-white p-2 md:py-1 text-little px-2  border-red-500"
+        >
           Turn Down
+        </button>
+      </div>
+    </div>
+  );
+  const InViewInactive = (
+    <div className="flex flex-col w-full justify-between gap-[20px] items-start px-2">
+      <SubscriptionModalSpecific specificPackages={interviewPackages} isOpen={isOpen} setIsOpen={setIsOpen} />
+
+      <div className="flex flex-col p-4 bg-red-50">
+        <span className="text-md text-red-400">
+          Your current subscription does not allow you access to our online
+          interview.
+        </span>
+        <button
+          onClick={toogleOpen}
+          className="border w-fit mt-3 hover:bg-primaryColor hover:text-white p-2 md:py-1 text-little px-2  border-primaryColor"
+        >
+          Upgrade Now!
         </button>
       </div>
     </div>
@@ -99,17 +123,25 @@ function HiringProgress({ data, applicant, toogleInterview }) {
   const statusTexts = () => {
     switch (data.status) {
       case "pending":
-        return InView;
+        return isInterviewPackge ? InView : InViewInactive;
       case stages[0].name:
-        return InView;
+        return isInterviewPackge ? InView : InViewInactive;
       case stages[1].name:
         return <Shortlist data={data} />;
       case stages[2].name:
         return <InterviewPhase data={data} />;
       case "hired":
-       return <div className="w-full px-4">This applicant has already been hired by you</div>;
+        return (
+          <div className="w-full px-4">
+            This applicant has already been hired by you
+          </div>
+        );
       case "declined":
-       return <div className="w-full px-4">This applicant has already been rejected by you</div>;
+        return (
+          <div className="w-full px-4">
+            This applicant has already been rejected by you
+          </div>
+        );
     }
   };
 
@@ -119,8 +151,8 @@ function HiringProgress({ data, applicant, toogleInterview }) {
 
       <ul className="w-full px-2 flex justify-between">
         {stages.map((current) => (
-          <li key={current?.id}
-          
+          <li
+            key={current?.id}
             className={`min-w-[24%] flex uppercase items-center border font-semibold justify-center py-2 text-[11px] ${getbgcolor(
               current.name
             )}`}

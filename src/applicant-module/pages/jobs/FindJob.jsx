@@ -43,7 +43,7 @@ function FindJob() {
     const matchesJobLevel = jobLevel ? job.career_level?.toLowerCase() === jobLevel?.toLowerCase() : true;
 
     return salaryInRange && matchesEmploymentType && matchesCategory && matchesJobLevel;
-  });
+  }).reverse();
 
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPage, setTotalPage] = useState();

@@ -60,9 +60,6 @@ function SingleApplicant() {
     if (applicationData) {
       initApplicant();
     }
-    console.log("MAin", applicationData);
-    console.log("Location", location?.state?.data);
-    console.log("COntext", application);
   }, [applicationData]);
 
   return (
@@ -79,7 +76,7 @@ function SingleApplicant() {
         <div className="flex flex-col p-2 h-full gap-[5px]">
           <div className="w-full flex justify-between ">
             <h2 className="font-semibold text-md">Applicant's Details</h2>
-{/* 
+            {/* 
             <button className="text-little py-1 px-2 bg-white border text-primaryColor border-primaryColor ">
               More Action
             </button> */}

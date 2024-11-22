@@ -27,7 +27,7 @@ function Dashboard() {
 
   const [availablityStatus, setAvailabiltyStatus] = useState();
   const [loading, setloading] = useState(false);
-  const { updateAvailabilityStatus } = useStaffUser();
+  const { updateAvailabilityStatus, getStyling, allStatus } = useStaffUser();
 
   const filterVerificationDetails =
     profileDetails &&
@@ -47,10 +47,10 @@ function Dashboard() {
   };
 
   useEffect(() => {
-    if(profileDetails && profileDetails["availability_status"] === '1'){
-     setAvailabiltyStatus(true)
-    } else{
-      setAvailabiltyStatus(false)
+    if (profileDetails && profileDetails["availability_status"] === "1") {
+      setAvailabiltyStatus(true);
+    } else {
+      setAvailabiltyStatus(false);
     }
   }, []);
 
@@ -153,8 +153,10 @@ function Dashboard() {
               </div>
               <div className="px-3 flex flex-col border-b justify-between items-start">
                 {filterVerificationDetails?.map((currentKey) => {
-                  const detail = profileDetails[currentKey];
-                  const value = detail == "1" ? true : false;
+                  const detail =
+                    allStatus.find(
+                      (current) => current === profileDetails[currentKey]
+                    ) || "Not Recorded";
                   const labelText = currentKey.replace(/_/g, " ").toUpperCase();
 
                   return (
@@ -163,15 +165,13 @@ function Dashboard() {
                       className="p-2 cursor-pointer hover:bg-gray-100 flex justify-between w-full"
                     >
                       <span>{labelText}</span>
-                      {value ? (
-                        <span className="text-green-500 font-semibold">
-                          Verified
-                        </span>
-                      ) : (
-                        <span className="text-red-500 font-semibold">
-                          Unverified
-                        </span>
-                      )}
+                      <span
+                        className={`${getStyling(
+                          detail
+                        )} text-black uppercase font-semibold"`}
+                      >
+                        {detail}
+                      </span>
                     </div>
                   );
                 })}
@@ -188,7 +188,7 @@ function Dashboard() {
                 enabled={availablityStatus}
                 // disabled={loading}
                 onClick={async () => {
-                  console.log('clicked')
+                  console.log("clicked");
                   setloading(true);
                   const result = await updateAvailabilityStatus(
                     authDetails.user.id,

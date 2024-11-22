@@ -43,7 +43,10 @@ function SubscriptionModal({ redirectState }) {
             Close
             <MdClose className=" mt-[2px] text-gray-500" />
           </button>
-          <SubscriptionPlans subUtils={subUtils} setIsOpen={setIsOpen} />
+          <SubscriptionPlans
+            packages={subUtils.packages}
+            setIsOpen={setIsOpen}
+          />
         </div>{" "}
       </div>
     )
