@@ -12,9 +12,9 @@ function AllGuarantors() {
     (async () => {
       const data = await getStaffReport("guarantor");
       console.log("Fetched Data:", data); // Log the fetched data
-      
+      const sortedData = data.guarantors.sort((a, b) => b.id - a.id);
       if (data) {
-        setGuarantors(data.guarantors);
+        setGuarantors(sortedData);
       } else {
         console.error("No data received");
       }

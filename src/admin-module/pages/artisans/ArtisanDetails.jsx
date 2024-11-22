@@ -9,6 +9,7 @@ import MedicalReportDialog from "../../components/Dialog/MedicalReportDialogue";
 import GuarantorReportDialog from "../../components/Dialog/GuarantorReport";
 import PreviousWorkExperienceDialog from "../../components/Dialog/PreviousWorkExperienceDialogue";
 import { ClipLoader } from "react-spinners";
+import ResidentDialog from "../../components/Dialog/ResidentDialogue";
 
 const ArtisanDetails = () => {
   const { id } = useParams();
@@ -122,13 +123,18 @@ const ArtisanDetails = () => {
               <p className="text-sm font-bold">Status:</p> <p className="text-sm">{data.status}</p>
             </div>
           </div>
-          <hr />
-          <h1 className="font-bold py-4">Reports</h1>
-          <div className="text-sm px-4 py-4 mb-3 space-y-4">
-            <PoliceReportDialog fetchData={() => fetchReport("police-report", data.id)} />
-            <MedicalReportDialog fetchData={() => fetchReport("medical-history", data.id)} />
-            <GuarantorReportDialog fetchData={() => fetchReport("guarantor", data.id)} />
-            <PreviousWorkExperienceDialog fetchData={() => fetchReport("previous-work-experience", data.id)} />
+        </div>
+
+        <div className="shadow-lg px-4 py-4 md:col-span-2">
+          <div className="shadow-lg px-4 py-4 md:col-span-2">
+            <h1 className="font-bold py-4">Reports</h1>
+            <div className="text-sm px-4 py-4 mb-3 grid grid-cols-1 md:grid-cols-2 gap-4">
+              <PoliceReportDialog fetchData={() => fetchReport("police-report", data.id)} />
+              <MedicalReportDialog fetchData={() => fetchReport("medical-history", data.id)} />
+              <GuarantorReportDialog fetchData={() => fetchReport("guarantor", data.id)} />
+              <PreviousWorkExperienceDialog fetchData={() => fetchReport("previous-work-experience", data.id)} />
+              <ResidentDialog fetchData={() => fetchReport("residential-status", data.id)} />
+            </div>
           </div>
         </div>
       </div>

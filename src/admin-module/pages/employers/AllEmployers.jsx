@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import UseAdminManagement from "../../../hooks/useAdminManagement";
 import DataTableComponent from "../../components/DataTable/DataTableComponent";
-import { Button } from "primereact/button";
 import { FaArrowLeftLong } from "react-icons/fa6";
 
 function AllEmployers() {
@@ -12,36 +11,36 @@ function AllEmployers() {
     (async () => {
       const data = await getEmployers();
       if (data) {
-        setEmployers(data);
+        // Sort employers in descending order based on their IDs
+        const sortedData = data.sort((a, b) => b.id - a.id);
+        setEmployers(sortedData);
       } else {
         console.error("No data received");
       }
     })();
   }, []);
 
-  const heading = ["ID", "Name", "Profile", "Image", "Status",];
+  const heading = ["ID", "Name", "Profile", "Image", "Status"];
   
   const data = employers.map(employer => ({
     [heading[0].toLowerCase()]: employer.id,
     [heading[1].toLowerCase()]: employer.company_name,
     [heading[2].toLowerCase()]: employer.company_profile,
-    [heading[3].toLowerCase()]: <img src={"https://dash.mayrahkeeafrica.com/"+employer.logo_image} alt="Logo" className="h-10 w-10 rounded-full" />,
+    [heading[3].toLowerCase()]: <img src={"https://dash.mayrahkeeafrica.com/" + employer.logo_image} alt="Logo" className="h-10 w-10 rounded-full" />,
     [heading[4].toLowerCase()]: employer.status,
   }));
 
   return (
     <div className="mx-14 mt-10">
-      {/* <Button label="Back" className="mb-4" outlined onClick={() => window.history.back()} icon={<FaArrowLeftLong className="me-4 " />} /> */}
-       
       <button
-          type="button"
-          onClick={() => window.history.back()}
-          className="flex items-center gap-2 outline outline-offset-5 outline-green-500 px-4 py-2 rounded text-green-500 hover:bg-green-100"
-        >
-       <FaArrowLeftLong className="me-4 text-green-500" />Back
-        </button>
+        type="button"
+        onClick={() => window.history.back()}
+        className="flex items-center gap-2 outline outline-offset-5 outline-green-500 px-4 py-2 rounded text-green-500 hover:bg-green-100"
+      >
+        <FaArrowLeftLong className="me-4 text-green-500" />Back
+      </button>
       <h2 className="text-black border-b border-gray-500 text-2xl font-bold mt-10">Employers</h2>
-      <DataTableComponent heading={heading} data={data} loading={loading} name="employer" allowEdit={true}/>
+      <DataTableComponent heading={heading} data={data} loading={loading} name="employer" allowEdit={true} />
     </div>
   );
 }

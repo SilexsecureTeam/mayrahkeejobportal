@@ -12,9 +12,9 @@ function AllPoliceReports() {
     ( async () => {
       const data = await getStaffReport("police-report");
       console.log("Fetched Data:", data); // Log the fetched data
-      
+      const sortedData = data.PoliceReports.sort((a, b) => b.id - a.id);
       if (data) {
-        setPoliceReports(data.PoliceReports);
+        setPoliceReports(sortedData);
       } else {
         console.error("No data received");
       }

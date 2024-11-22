@@ -170,14 +170,14 @@ const DataTableComponent = ({ data, name, heading, isLoading, allowEdit }) => {
         onClick={() => setEditDialog(false)}
       /> */}
       <button
-        className="outline outline-green-700 px-2 py-2 flex items-center gap-2 text-green-700 rounded"
+        className="outline outline-red-700 px-2 py-2 flex items-center gap-2 text-red-700 rounded mt-3"
         onClick={() => setEditDialog(false)}
       >
         <FaTimes className="mr-2" />
         Cancel
       </button>
       <button
-        className="bg-green-800 px-2 py-2 flex items-center gap-2 text-white rounded"
+        className="outline outline-green-700 px-2 py-2 flex items-center gap-2 text-green-700 rounded mt-3"
         onClick={updateSelectedData}
       >
         <FaCheck className="mr-2" />

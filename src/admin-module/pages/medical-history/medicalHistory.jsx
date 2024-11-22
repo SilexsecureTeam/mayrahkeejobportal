@@ -12,9 +12,9 @@ function AllMedicalHistories() {
     const fetchReports = async () => {
       const data = await getStaffReport("medical-history");
       console.log("Fetched Data:", data); // Log the fetched data
-      
+      const sortedData = data.MedicalHistory.sort((a, b) => b.id - a.id);
       if (data) {
-        setMedicals(data.MedicalHistory); // Ensure the correct data structure is used
+        setMedicals(sortedData); // Ensure the correct data structure is used
       } else {
         console.error("No data received");
       }

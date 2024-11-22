@@ -10,7 +10,7 @@ import { PrimeReactProvider, PrimeReactContext } from "primereact/api";
 import Tailwind from "primereact/passthrough/tailwind";
 import AllCandidate from "../admin-module/pages/candidate/AllCandidate";
 import CandidateDetails from "../admin-module/pages/candidate/CandidateDetails";
-import JobsByEmployer from "../admin-module/pages/employers/JobsByEmployer";
+import JobsByEmployer from "../admin-module/pages/employers/JobsByEmployerDetails";
 import AppliedJobs from "../admin-module/pages/employers/AppliedJobs";
 import EmployerCandidates from "../admin-module/pages/employers/EmployerCandidates";
 import EmployerStaff from "../admin-module/pages/employers/EmployerStaff";
@@ -36,6 +36,9 @@ import AdminReducer from "../reducers/AdminReducer";
 import Salaries from "../admin-module/pages/settings/Salary/Salaries";
 import AddSalary from "../admin-module/pages/settings/Salary/AddSalary";
 import AdminChangePassword from "../components/AdminAuth/AdminChangePwd";
+import Security from "../admin-module/pages/settings/Security/security";
+import AllDataJobsPostedEmployer from "../admin-module/pages/employers/AllJobsPostedByEmployer";
+import JobsByEmployerDetails from "../admin-module/pages/employers/JobsByEmployerDetails";
 
 // Util Component
 const NavBar = lazy(() => import("../admin-module/components/NavBar"));
@@ -92,7 +95,7 @@ function useAdminRoute() {
   const hideNavBarRoutes = [
     "/admin/login",
     "/admin/reset-pwd",
-    "/admin/register",
+    "/admin/settings/register",
     "/admin/forget-pwd",
     "/admin/change-pwd",
   ];
@@ -157,14 +160,15 @@ function useAdminRoute() {
                       <Route path="login" element={<AdminLogin />} />
                       <Route path="logout" element={<AdminLogout />} />
                       <Route path="reset-pwd" element={<AdminResetPwd />} />
-                      <Route path="register" element={<AdminRegistrationForm />} />
+                      <Route path="settings/register" element={<AdminRegistrationForm />} />
                       <Route path="forget-pwd" element={<AdminForgotPassword />} />
                       <Route path="change-pwd" element={<AdminChangePassword />} />
                       <Route index element={<Dashboard />} />
                       <Route path="employers" element={<Employers />} />
                       <Route path="employers/all" element={<AllEmployers />} />
                       <Route path="employer/details/:id" element={<EmployerDetails />} />
-                      <Route path="employer/jobs/:id" element={<JobsByEmployer />} />
+                      <Route path="employer-jobs/details/:id" element={<JobsByEmployerDetails />} />
+                      <Route path="employer/alljobs/:id" element={<AllDataJobsPostedEmployer />} />
                       <Route path="employer/applied-jobs/:id" element={<AppliedJobs />} />
                       <Route path="employer/:id/candidates" element={<EmployerCandidates />} />
                       <Route path="employer/:id/staffs" element={<EmployerStaff />} />
@@ -178,6 +182,7 @@ function useAdminRoute() {
                       <Route path="settings/currency/add" element={<AddCurrency />} />
                       <Route path="settings/salary" element={<Salaries />} />
                       <Route path="settings/salary/add" element={<AddSalary />} />
+                      <Route path="settings/security" element={<Security />} />
                       <Route path="help-center" element={<HelpCenter />} />
                       <Route path="artisan" element={<Artisan />} />
                       <Route path="artisans/all" element={<AllArtisans />} />
