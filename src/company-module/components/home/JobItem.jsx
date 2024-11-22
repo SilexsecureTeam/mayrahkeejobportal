@@ -4,6 +4,7 @@ import { FormatPrice } from "../../../utils/formmaters";
 import ProgressBar from "../shared/ProgressBar";
 import { useContext } from "react";
 import { CompanyRouteContext } from "../../../context/CompanyRouteContext";
+
 function JobItem({ data, applicants}) {
 
   const navigate = useNavigate()
