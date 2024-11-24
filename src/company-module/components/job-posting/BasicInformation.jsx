@@ -241,28 +241,25 @@ function BasicInformation({ setCurrentStep, data, jobUtils }) {
     };
     initData();
 
-  /*  setSelectedSector(jobUtils?.details?.sector 
-        ? jobSectors?.find(one => one?.name === jobUtils?.details?.sector) 
-        : jobSectors[0])
-    setSelectedSubSector(subSector)*/
+    
     const sector = jobUtils?.details?.sector 
         ? jobSectors?.find(one => one?.name === jobUtils?.details?.sector) 
         : jobSectors[0];
     setSelectedSector(sector);
 
-    const subsectors = jobUtils?.details?.sector && sector?.subsections;
+    const subsectors = sector && sector?.subsections;
     setSubSectorList(subsectors);
 
     const subSector = jobUtils?.details?.subsector 
         ? subsectors?.find(one => one?.name === jobUtils?.details?.subsector) 
         : subsectors[0];
     setSelectedSubSector(subSector);
+  
+  },[]);
   const toogleSelectedType = (selected) => {
     setSelectedType(selected);
     jobUtils.setDetails({ ...jobUtils.details, type: selected.name });
   };
-  },[]);
-  
 useEffect(() => {
     if (selectedSector) {
         setSubSectorList(selectedSector?.subsections || []);
