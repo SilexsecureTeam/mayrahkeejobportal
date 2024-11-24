@@ -247,13 +247,11 @@ function BasicInformation({ setCurrentStep, data, jobUtils }) {
   },[]);
   useEffect(() => {
     setSelectedSector(jobUtils?.details?.sector ? jobSectors?.find(one=> one?.name === jobUtils?.details?.sector) : jobSectors[0]);
-   
-  }, []);
+  },[]);
   
     useEffect(() => {
     setSubSectorList(jobUtils?.details?.sector ? jobSectors?.find(one=> one?.name === jobUtils?.details?.sector)?.subsections : selectedSector?.subsections);
-   
-  }, [selectedSector]);
+  },[selectedSector]);
   useEffect(() => {
 setSelectedSubSector(jobUtils?.details?.subsector ? subSectorList?.find(one=>one.name === jobUtils?.details?.subsector): subSectorList[0]);
   },[subSectorList]);
