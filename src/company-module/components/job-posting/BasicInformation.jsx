@@ -210,7 +210,7 @@ function BasicInformation({ setCurrentStep, data, jobUtils }) {
   const [selectedGender, setSelectedGender] = useState(genderData[0]);
   const [selectedSector, setSelectedSector] = useState(jobUtils?.details?.sector ? jobSectors?.find(one=> one?.name === jobUtils?.details?.sector) : jobSectors[0]);
   const [selectedSubSector, setSelectedSubSector] = useState();
-  const [subSectorList, setSubSectorList] = useState();
+  const [subSectorList, setSubSectorList] = useState(jobUtils?.details?.sector && jobSectors?.find(one=> one?.name === jobUtils?.details?.sector)?.subsections);
   const [selectedSalary, setSelectedSalary] = useState(salaryTypeData[1]);
   const [photoUrl, setPhotoUrl] = useState();
   const [minimumPrice, setMinimumPrice] = useState(0);
