@@ -208,7 +208,7 @@ function BasicInformation({ setCurrentStep, data, jobUtils }) {
   const [selectedType, setSelectedType] = useState();
   const [currentQualification, setCurrentQualification] = useState("");
   const [selectedGender, setSelectedGender] = useState(genderData[0]);
-  const [selectedSector, setSelectedSector] = useState(jobUtils?.details?.sector ? jobSectors.find(one=> one?.name === jobUtils?.details?.sector) : jobSectors[0]);
+  const [selectedSector, setSelectedSector] = useState(jobUtils?.details?.sector ? jobSectors?.find(one=> one?.name === jobUtils?.details?.sector) : jobSectors[0]);
   const [selectedSubSector, setSelectedSubSector] = useState();
   const [subSectorList, setSubSectorList] = useState();
   const [selectedSalary, setSelectedSalary] = useState(salaryTypeData[1]);
@@ -244,8 +244,8 @@ function BasicInformation({ setCurrentStep, data, jobUtils }) {
       setCurrencyList(currencyResult);
     };
     initData();
-    setSubSectorList(selectedSector.subsections);
-      }, [selectedSector]);
+    setSubSectorList(selectedSector?.subsections);
+   }, [selectedSector]);
 
   useEffect(() => {
     console.log(selectedCurrency,currencyList)
