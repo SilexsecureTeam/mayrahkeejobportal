@@ -245,8 +245,7 @@ function BasicInformation({ setCurrentStep, data, jobUtils }) {
     };
     initData();
     setSubSectorList(selectedSector.subsections);
-    jobUtils?.details?.subSector ? subSectorList.find(one=> one?.name === jobUtils?.details?.subsector) : jobSectors[0].subsections
-  }, [selectedSector]);
+      }, [selectedSector]);
 
   useEffect(() => {
     console.log(selectedCurrency,currencyList)
