@@ -208,7 +208,7 @@ function BasicInformation({ setCurrentStep, data, jobUtils }) {
   const [selectedType, setSelectedType] = useState();
   const [currentQualification, setCurrentQualification] = useState("");
   const [selectedGender, setSelectedGender] = useState(genderData[0]);
-  const [selectedSector, setSelectedSector] = useState(jobSectors[0]);
+  const [selectedSector, setSelectedSector] = useState();
   const [subSectorList, setSubSectorList] = useState();
   const [selectedSubSector, setSelectedSubSector] = useState();
   const [selectedSalary, setSelectedSalary] = useState(salaryTypeData[1]);
@@ -217,7 +217,18 @@ function BasicInformation({ setCurrentStep, data, jobUtils }) {
   const [employementList, setEmployementList] = useState([]);
   const [currencyList, setCurrencyList] = useState([]);
   const [selectedCurrency, setSelectedCurrency] = useState(jobUtils?.details?.currency);
+const sector = jobUtils?.details?.sector 
+        ? jobSectors?.find(one => one?.name === jobUtils?.details?.sector) 
+        : jobSectors[0];
+    setSelectedSector(sector);
 
+    const subsectors = sector?.subsections;
+    setSubSectorList(subsectors);
+
+    const subSector = jobUtils?.details?.subsector 
+        ? subsectors?.find(one => one?.name === jobUtils?.details?.subsector) 
+        : subsectors[0];
+    setSelectedSubSector(subSector);
   const toogleSelectedType = (selected) => {
     setSelectedType(selected);
     jobUtils.setDetails({ ...jobUtils.details, type: selected.name });
@@ -245,18 +256,7 @@ function BasicInformation({ setCurrentStep, data, jobUtils }) {
     };
     initData();
 
-    const sector = jobUtils?.details?.sector 
-        ? jobSectors?.find(one => one?.name === jobUtils?.details?.sector) 
-        : jobSectors[0];
-    setSelectedSector(sector);
-
-    const subsectors = sector?.subsections;
-    setSubSectorList(subsectors);
-
-    const subSector = jobUtils?.details?.subsector 
-        ? subsectors?.find(one => one?.name === jobUtils?.details?.subsector) 
-        : subsectors[0];
-    setSelectedSubSector(subSector);
+    
   },[]);
   
 useEffect(() => {
