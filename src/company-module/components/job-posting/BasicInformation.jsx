@@ -244,6 +244,9 @@ function BasicInformation({ setCurrentStep, data, jobUtils }) {
       setCurrencyList(currencyResult);
     };
     initData();
+  },[]);
+  
+    useEffect(() => {
     setSubSectorList(selectedSector?.subsections);
    
   }, [selectedSector]);
