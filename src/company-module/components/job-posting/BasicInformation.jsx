@@ -246,22 +246,32 @@ function BasicInformation({ setCurrentStep, data, jobUtils }) {
     initData();
   },[]);
   useEffect(() => {
-    setSelectedSector(jobUtils?.details?.sector ? jobSectors?.find(one=> one?.name === jobUtils?.details?.sector) : jobSectors[0]);
-setSubSectorList(jobUtils?.details?.sector ? jobSectors?.find(one=> one?.name === jobUtils?.details?.sector)?.subsections : jobSectors[0]?.subsections);
-     setSelectedSubSector(jobUtils?.details?.subsector ? subSectorList?.find(one=>one.name === jobUtils?.details?.subsector): jobSectors[0]?.subsections[0]);
-    
-  },[]);
-  
-    useEffect(() => {
-      if(selectedSector){
-    setSubSectorList(selectedSector?.subsections);
-      }
-      },[selectedSector]);
-  useEffect(() => {
-    if(subSectorList){
-setSelectedSubSector(subSectorList[0]);
+    const sector = jobUtils?.details?.sector 
+        ? jobSectors?.find(one => one?.name === jobUtils?.details?.sector) 
+        : jobSectors[0];
+    setSelectedSector(sector);
+
+    const subsectors = sector?.subsections || [];
+    setSubSectorList(subsectors);
+
+    const subSector = jobUtils?.details?.subsector 
+        ? subsectors?.find(one => one?.name === jobUtils?.details?.subsector) 
+        : subsectors[0];
+    setSelectedSubSector(subSector);
+}, [jobUtils, jobSectors]); // Ensure dependencies are accurate.
+
+useEffect(() => {
+    if (selectedSector) {
+        setSubSectorList(selectedSector?.subsections || []);
     }
-    },[subSectorList]);
+}, [selectedSector]);
+
+useEffect(() => {
+    if (subSectorList.length > 0 && !jobUtils?.details?.subsector) {
+        setSelectedSubSector(subSectorList[0]);
+    }
+}, [subSectorList, jobUtils?.details?.subsector]);
+  
 
   useEffect(() => {
     console.log(selectedCurrency,currencyList);
