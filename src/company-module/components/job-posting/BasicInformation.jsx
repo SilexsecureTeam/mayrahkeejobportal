@@ -267,10 +267,10 @@ useEffect(() => {
 }, [selectedSector]);
 
 useEffect(() => {
-    if (subSectorList.length > 0 && !jobUtils?.details?.subsector) {
+    if (subSectorList.length > 0 ) {
         setSelectedSubSector(subSectorList[0]);
     }
-}, [subSectorList, jobUtils?.details?.subsector]);
+}, [subSectorList]);
   
 
   useEffect(() => {
