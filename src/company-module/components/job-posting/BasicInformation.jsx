@@ -250,11 +250,15 @@ function BasicInformation({ setCurrentStep, data, jobUtils }) {
   },[]);
   
     useEffect(() => {
+      if(selectedSector){
     setSubSectorList(jobUtils?.details?.sector ? jobSectors?.find(one=> one?.name === jobUtils?.details?.sector)?.subsections : selectedSector?.subsections);
-  },[selectedSector]);
+      }
+      },[selectedSector]);
   useEffect(() => {
+    if(subSectorList]){
 setSelectedSubSector(jobUtils?.details?.subsector ? subSectorList?.find(one=>one.name === jobUtils?.details?.subsector): subSectorList[0]);
-  },[subSectorList]);
+    }
+    },[subSectorList]);
 
   useEffect(() => {
     console.log(selectedCurrency,currencyList);
