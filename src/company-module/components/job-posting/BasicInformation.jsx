@@ -208,9 +208,9 @@ function BasicInformation({ setCurrentStep, data, jobUtils }) {
   const [selectedType, setSelectedType] = useState();
   const [currentQualification, setCurrentQualification] = useState("");
   const [selectedGender, setSelectedGender] = useState(genderData[0]);
-  const [selectedSector, setSelectedSector] = useState(jobUtils?.details?.sector ? jobUtils?.details?.sector : jobSectors[0]);
+  const [selectedSector, setSelectedSector] = useState(jobUtils?.details?.sector ? jobSectors.find(one=> one?.name === jobUtils?.details?.sector) : jobSectors[0]);
   const [selectedSubSector, setSelectedSubSector] = useState();
-  const [subSectorList, setSubSectorList] = useState(jobUtils?.details?.subSector ? jobUtils?.details?.subSector : jobSectors[0].subsections);
+  const [subSectorList, setSubSectorList] = useState();
   const [selectedSalary, setSelectedSalary] = useState(salaryTypeData[1]);
   const [photoUrl, setPhotoUrl] = useState();
   const [minimumPrice, setMinimumPrice] = useState(0);
@@ -245,6 +245,7 @@ function BasicInformation({ setCurrentStep, data, jobUtils }) {
     };
     initData();
     setSubSectorList(selectedSector.subsections);
+    jobUtils?.details?.subSector ? subSectorList.find(one=> one?.name === jobUtils?.details?.subsector) : jobSectors[0].subsections
   }, [selectedSector]);
 
   useEffect(() => {
