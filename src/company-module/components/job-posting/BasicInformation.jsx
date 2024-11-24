@@ -247,8 +247,8 @@ function BasicInformation({ setCurrentStep, data, jobUtils }) {
   },[]);
   useEffect(() => {
     setSelectedSector(jobUtils?.details?.sector ? jobSectors?.find(one=> one?.name === jobUtils?.details?.sector) : jobSectors[0]);
-setSubSectorList(jobUtils?.details?.sector ? jobSectors?.find(one=> one?.name === jobUtils?.details?.sector)?.subsections : selectedSector?.subsections);
-     setSelectedSubSector(jobUtils?.details?.subsector ? subSectorList?.find(one=>one.name === jobUtils?.details?.subsector): subSectorList[0]);
+setSubSectorList(jobUtils?.details?.sector ? jobSectors?.find(one=> one?.name === jobUtils?.details?.sector)?.subsections : jobSectors[0]?.subsections);
+     setSelectedSubSector(jobUtils?.details?.subsector ? subSectorList?.find(one=>one.name === jobUtils?.details?.subsector): jobSectors[0]?.subsections[0]);
     
   },[]);
   
