@@ -208,7 +208,7 @@ function BasicInformation({ setCurrentStep, data, jobUtils }) {
   const [selectedType, setSelectedType] = useState();
   const [currentQualification, setCurrentQualification] = useState("");
   const [selectedGender, setSelectedGender] = useState(genderData[0]);
-  const [selectedSector, setSelectedSector] = useState();
+  const [selectedSector, setSelectedSector] = useState(jobSectors[0]);
   const [subSectorList, setSubSectorList] = useState();
   const [selectedSubSector, setSelectedSubSector] = useState();
   const [selectedSalary, setSelectedSalary] = useState(salaryTypeData[1]);
