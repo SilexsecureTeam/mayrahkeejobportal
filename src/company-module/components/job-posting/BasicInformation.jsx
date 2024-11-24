@@ -264,7 +264,7 @@ function BasicInformation({ setCurrentStep, data, jobUtils }) {
       }
     }
     
-  }, [currencyList]);
+  }, [currencyList],selectedCurrency);
 
   useEffect(() => {
     jobUtils.setDetails({
