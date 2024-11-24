@@ -217,22 +217,7 @@ function BasicInformation({ setCurrentStep, data, jobUtils }) {
   const [employementList, setEmployementList] = useState([]);
   const [currencyList, setCurrencyList] = useState([]);
   const [selectedCurrency, setSelectedCurrency] = useState(jobUtils?.details?.currency);
-const sector = jobUtils?.details?.sector 
-        ? jobSectors?.find(one => one?.name === jobUtils?.details?.sector) 
-        : jobSectors[0];
-    setSelectedSector(sector);
 
-    const subsectors = sector?.subsections;
-    setSubSectorList(subsectors);
-
-    const subSector = jobUtils?.details?.subsector 
-        ? subsectors?.find(one => one?.name === jobUtils?.details?.subsector) 
-        : subsectors[0];
-    setSelectedSubSector(subSector);
-  const toogleSelectedType = (selected) => {
-    setSelectedType(selected);
-    jobUtils.setDetails({ ...jobUtils.details, type: selected.name });
-  };
 
   const getPhotoURL = (e) => {
     const { name } = e.target;
@@ -256,7 +241,26 @@ const sector = jobUtils?.details?.sector
     };
     initData();
 
-    
+  /*  setSelectedSector(jobUtils?.details?.sector 
+        ? jobSectors?.find(one => one?.name === jobUtils?.details?.sector) 
+        : jobSectors[0])
+    setSelectedSubSector(subSector)*/
+    const sector = jobUtils?.details?.sector 
+        ? jobSectors?.find(one => one?.name === jobUtils?.details?.sector) 
+        : jobSectors[0];
+    setSelectedSector(sector);
+
+    const subsectors = jobUtils?.details?.sector && sector?.subsections;
+    setSubSectorList(subsectors);
+
+    const subSector = jobUtils?.details?.subsector 
+        ? subsectors?.find(one => one?.name === jobUtils?.details?.subsector) 
+        : subsectors[0];
+    setSelectedSubSector(subSector);
+  const toogleSelectedType = (selected) => {
+    setSelectedType(selected);
+    jobUtils.setDetails({ ...jobUtils.details, type: selected.name });
+  };
   },[]);
   
 useEffect(() => {
