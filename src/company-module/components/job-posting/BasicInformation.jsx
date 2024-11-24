@@ -208,7 +208,7 @@ function BasicInformation({ setCurrentStep, data, jobUtils }) {
   const [selectedType, setSelectedType] = useState();
   const [currentQualification, setCurrentQualification] = useState("");
   const [selectedGender, setSelectedGender] = useState(genderData[0]);
-  const [selectedSector, setSelectedSector] = useState(jobUtils?.details?.sector ? jobSectors?.find(one=> one?.name === jobUtils?.details?.sector) : jobSectors[0]);
+  const [selectedSector, setSelectedSector] = useState();
   const [subSectorList, setSubSectorList] = useState();
   const [selectedSubSector, setSelectedSubSector] = useState();
   const [selectedSalary, setSelectedSalary] = useState(salaryTypeData[1]);
@@ -245,6 +245,10 @@ function BasicInformation({ setCurrentStep, data, jobUtils }) {
     };
     initData();
   },[]);
+  useEffect(() => {
+    setSelectedSector(jobUtils?.details?.sector ? jobSectors?.find(one=> one?.name === jobUtils?.details?.sector) : jobSectors[0]);
+   
+  }, []);
   
     useEffect(() => {
     setSubSectorList(jobUtils?.details?.sector ? jobSectors?.find(one=> one?.name === jobUtils?.details?.sector)?.subsections : selectedSector?.subsections);
