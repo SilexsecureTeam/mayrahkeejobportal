@@ -244,22 +244,21 @@ function BasicInformation({ setCurrentStep, data, jobUtils }) {
       setCurrencyList(currencyResult);
     };
     initData();
-  },[]);
-  useEffect(() => {
+
     const sector = jobUtils?.details?.sector 
         ? jobSectors?.find(one => one?.name === jobUtils?.details?.sector) 
         : jobSectors[0];
     setSelectedSector(sector);
 
-    const subsectors = sector?.subsections || [];
+    const subsectors = sector?.subsections;
     setSubSectorList(subsectors);
 
     const subSector = jobUtils?.details?.subsector 
         ? subsectors?.find(one => one?.name === jobUtils?.details?.subsector) 
         : subsectors[0];
     setSelectedSubSector(subSector);
-}, []); // Ensure dependencies are accurate.
-
+  },[]);
+  
 useEffect(() => {
     if (selectedSector) {
         setSubSectorList(selectedSector?.subsections || []);
