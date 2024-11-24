@@ -258,7 +258,7 @@ function BasicInformation({ setCurrentStep, data, jobUtils }) {
         ? subsectors?.find(one => one?.name === jobUtils?.details?.subsector) 
         : subsectors[0];
     setSelectedSubSector(subSector);
-}, [); // Ensure dependencies are accurate.
+}, []); // Ensure dependencies are accurate.
 
 useEffect(() => {
     if (selectedSector) {
