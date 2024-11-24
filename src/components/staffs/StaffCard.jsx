@@ -10,6 +10,8 @@ import { onFailure } from "../../utils/notifications/OnFailure";
 import { PaystackConsumer } from "react-paystack";
 import { useNavigate } from "react-router-dom";
 import { FormatPrice } from "../../utils/formmaters";
+import useStaff from "../../hooks/useStaff";
+import { allStatus } from "../../hooks/useStaffUser";
 
 const PUBLIC_KEY = import.meta.env.VITE_TEST_PUBLIC_KEY;
 
@@ -19,6 +21,7 @@ function StaffCard({ data, contract = null, cartItems, getCartItems }) {
   const [loading, setLoading] = useState(false);
   const [cartloading, setCartLoading] = useState(false);
   const client = axiosClient(authDetails?.token);
+  const { getStyling } = useStaff();
   const navigate = useNavigate();
 
   const [open, setOpen] = useState(false);
@@ -89,8 +92,8 @@ function StaffCard({ data, contract = null, cartItems, getCartItems }) {
         domestic_staff_id: data.id,
       });
       onSuccess({
-        message: "User sucessfully added",
-        success: "Domestic staff added to cart successfully",
+        message: "User sucessfully removed",
+        success: "Domestic staff removed from cart successfully",
       });
       await getCartItems();
     } catch (error) {
@@ -166,33 +169,41 @@ function StaffCard({ data, contract = null, cartItems, getCartItems }) {
       name: "",
       bg: "",
     };
+
+    const detail =
+      allStatus.find((current) => current === status) || "Not Recorded";
+    if (name === "garantor") {
+      console.log('Detail', detail);
+      console.log('Status', status);
+    }
+
     switch (name) {
       case "police":
         utils = {
           icon: "/police-icon.png",
-          name: `Police - ${status ? "( Verfied )" : "( Unverfied )"}`,
-          bg: `${status ? "bg-[#47AA49]" : "bg-[#AB3335]"}`,
+          name: `Police - (${detail})`,
+          bg: getStyling(detail),
         };
         break;
       case "residence":
         utils = {
           icon: "/residence-icon.png",
-          name: `Residence - ${status ? "( Verfied )" : "( Unverfied )"}`,
-          bg: `${status ? "bg-[#47AA49]" : "bg-[#AB3335]"}`,
+          name: `Residence - (${detail})`,
+          bg: getStyling(detail),
         };
         break;
       case "garantor":
         utils = {
           icon: "/garantor-icon.png",
-          name: `Garantor - ${status ? "( Verfied )" : "( Unverfied )"}`,
-          bg: `${status ? "bg-[#47AA49]" : "bg-[#AB3335]"}`,
+          name: `Garantor - (${detail})`,
+          bg: getStyling(detail),
         };
         break;
       case "medical":
         utils = {
           icon: "/medical-icon.png",
-          name: `Medical - ${status ? "( Verfied )" : "( Unverfied )"}`,
-          bg: `${status ? "bg-[#47AA49]" : "bg-[#AB3335]"}`,
+          name: `Medical - (${detail})`,
+          bg: getStyling(detail),
         };
         break;
     }
@@ -341,7 +352,7 @@ function StaffCard({ data, contract = null, cartItems, getCartItems }) {
             data.police_report_verification_status,
             "police"
           )}
-          {getVerificationComp(data.garantor_verification_status, "garantor")}
+          {getVerificationComp(data.guarantor_verification_status, "garantor")}
           {getVerificationComp(data.residence_verification_status, "residence")}
           {getVerificationComp(
             data.medical_history_verification_status,

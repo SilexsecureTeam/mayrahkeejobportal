@@ -6,6 +6,7 @@ import { onFailure } from "../utils/notifications/OnFailure";
 import { onSuccess } from "../utils/notifications/OnSuccess";
 import { FormatError } from "../utils/formmaters";
 import { StaffManagementContext } from "../context/StaffManagementModule";
+import { allStatus } from "./useStaffUser";
 
 function useStaff() {
   const ContractStatus = {
@@ -120,6 +121,17 @@ function useStaff() {
     }
   };
 
+
+  const getStyling = (status) => {
+    switch(status){
+      case allStatus[0] : return 'bg-primaryColor';
+      case allStatus[1] : return 'bg-yellow-500';
+      case allStatus[2] : return 'bg-red-500';
+      case allStatus[3] : return 'bg-red-700';
+      default : return 'bg-yellow-500'
+    }
+}
+
   return {
     ContractStatus,
     getGarantorDetails,
@@ -127,6 +139,7 @@ function useStaff() {
     getPoliceDetails,
     getWorkExperience,
     updateContractStatus,
+    getStyling
   };
 }
 
