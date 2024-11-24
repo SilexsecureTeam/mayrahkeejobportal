@@ -5,6 +5,7 @@ import Descriptions from "../../components/job-posting/Descriptions";
 import MoreInformation from "../../components/job-posting/MoreInformation";
 import useJobManagement from "../../../hooks/useJobManagement";
 import { onSuccess } from "../../../utils/notifications/OnSuccess";
+import { onFailure } from "../../../utils/notifications/OnFailure";
 import { useNavigate } from "react-router-dom";
 
 const job_steps = [

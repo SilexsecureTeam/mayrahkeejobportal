@@ -16,7 +16,7 @@ function BasicJobInput({ data, jobUtils }) {
           placeholder={data.placeholder}
         />
         <span className="text-xs text-gray-400">
-          At least 80 characters
+          {data?.verification ? data?.verification: "At least 80 characters"}
         </span>
       </div>
     </div>
