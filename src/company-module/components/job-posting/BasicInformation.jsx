@@ -245,11 +245,11 @@ function BasicInformation({ setCurrentStep, data, jobUtils }) {
     };
     initData();
     setSubSectorList(selectedSector?.subsections);
+    setSelectedSubSector(selectedSubSector ? subSectorList?.find(one=>one.name === selectedSubSector): subSectorList[0])
    }, [selectedSector]);
 
   useEffect(() => {
-    console.log(selectedCurrency,currencyList)
-    setSelectedSubSector(subSectorList[0]);
+    console.log(selectedCurrency,currencyList);
     
     // Ensure selectedCurrency is updated only if the current one is found in the currencyList
     if (currencyList.length > 0) {
