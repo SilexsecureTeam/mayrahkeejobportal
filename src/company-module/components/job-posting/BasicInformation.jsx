@@ -255,7 +255,7 @@ function BasicInformation({ setCurrentStep, data, jobUtils }) {
       }
       },[selectedSector]);
   useEffect(() => {
-    if(subSectorList]){
+    if(subSectorList){
 setSelectedSubSector(jobUtils?.details?.subsector ? subSectorList?.find(one=>one.name === jobUtils?.details?.subsector): subSectorList[0]);
     }
     },[subSectorList]);
