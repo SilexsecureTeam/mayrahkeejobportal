@@ -10,7 +10,7 @@ const JobCard = ({ newApplicant, job, getAllApplications }) => {
             onClick={() =>
                 navigate("/applicant/find-job/id", { state: { job: job, hasApplied: hasApplied } })
             }
-            className="border cursor-pointer hover:shadow-md rounded-lg p-4 my-4 transition-transform hover:scale-105"
+            className="border cursor-pointer hover:shadow-md rounded-lg p-4 my-4 transition-transform"
         >
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center">
                 {/* Left Section - Job Info */}

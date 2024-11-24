@@ -24,6 +24,7 @@ const basic_inputs = [
     type: "number",
     placeholder: "e.g 18",
     prompt: "Here you input preferred average age (years)",
+    verification:"At least 18 years"
   },
   {
     id: 4,
@@ -47,15 +48,17 @@ const basic_inputs = [
     label: "Location",
     type: "text",
     placeholder: "e.g wuse 11",
-    prompt: "Here you insert the longitude and latitude",
+    prompt: "Here you insert the location",
+    verification:"At least 10 characters"
   },
   {
     id: 7,
     name: "search_keywords",
     label: "Search Keywords",
     type: "text",
-    placeholder: "e.g networks engineer",
+    placeholder: "e.g Tech",
     prompt: "Here you specify search keywords",
+    verification:"At least 4 characters"
   },
   {
     id: 8,
@@ -64,6 +67,7 @@ const basic_inputs = [
     type: "number",
     placeholder: "e.g 2 years",
     prompt: "Here you specify experience in years",
+    verification:"At least 2 years"
   },
 ];
 
@@ -198,29 +202,6 @@ const salaryTypeData = [
   },
 ];
 
-const currencyData = [
-  {
-    id: 1,
-    name: "Naira (N)",
-  },
-  {
-    id: 2,
-    name: "Cedes (C)",
-  },
-  {
-    id: 3,
-    name: "Dollars ($)",
-  },
-  {
-    id: 4,
-    name: "Euros (E)",
-  },
-  {
-    id: 5,
-    name: "Pounds (P)",
-  },
-];
-
 function BasicInformation({ setCurrentStep, data, jobUtils }) {
   const { getEmployentTypes, getCurrencies } = useJobManagement();
   const [salaryRange, setSalaryRange] = useState([5000, 22000]);
@@ -235,7 +216,7 @@ function BasicInformation({ setCurrentStep, data, jobUtils }) {
   const [minimumPrice, setMinimumPrice] = useState(0);
   const [employementList, setEmployementList] = useState([]);
   const [currencyList, setCurrencyList] = useState([]);
-  const [selectedCurrency, setSelectedCurrency] = useState();
+  const [selectedCurrency, setSelectedCurrency] = useState(jobUtils?.details?.currency);
 
   const toogleSelectedType = (selected) => {
     setSelectedType(selected);
@@ -259,20 +240,31 @@ function BasicInformation({ setCurrentStep, data, jobUtils }) {
     const initData = async () => {
       const employementListResult = await getEmployentTypes();
       const currencyResult = await getCurrencies();
-      setEmployementList(job_types);
+      setEmployementList(employementListResult);
       setCurrencyList(currencyResult);
     };
-
     initData();
     setSubSectorList(selectedSector.subsections);
   }, [selectedSector]);
 
   useEffect(() => {
+    console.log(selectedCurrency,currencyList)
     setSelectedSubSector(subSectorList[0]);
-    if (currencyList.length > 0) {
-      setSelectedCurrency(currencyList[0]);
+    
+    // Ensure selectedCurrency is updated only if the current one is found in the currencyList
+    if (currencyList.length > 0 && selectedCurrency) {
+      const matchedCurrency = currencyList.find(
+        (currency) => currency.name === selectedCurrency
+      );
+      if (matchedCurrency) {
+        setSelectedCurrency(matchedCurrency);
+      } else {
+        // If no match is found, you could either set a default or reset
+        setSelectedCurrency(currencyList[0]);
+      }
     }
-  }, [subSectorList, currencyList]);
+    
+  }, [currencyList]);
 
   useEffect(() => {
     jobUtils.setDetails({
