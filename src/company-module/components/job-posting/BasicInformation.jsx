@@ -252,7 +252,7 @@ function BasicInformation({ setCurrentStep, data, jobUtils }) {
     setSelectedSubSector(subSectorList[0]);
     
     // Ensure selectedCurrency is updated only if the current one is found in the currencyList
-    if (currencyList.length > 0 && selectedCurrency) {
+    if (currencyList.length > 0) {
       const matchedCurrency = currencyList.find(
         (currency) => currency.name === selectedCurrency
       );
@@ -264,7 +264,7 @@ function BasicInformation({ setCurrentStep, data, jobUtils }) {
       }
     }
     
-  }, [currencyList],selectedCurrency);
+  }, [currencyList]);
 
   useEffect(() => {
     jobUtils.setDetails({
