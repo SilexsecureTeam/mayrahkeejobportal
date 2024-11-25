@@ -25,7 +25,7 @@ const basic_inputs = [
     type: "number",
     placeholder: "e.g 18",
     prompt: "Here you input preferred average age (years)",
-    verification:"At least 18 years"
+    verification: "At least 18 years"
   },
   {
     id: 3,
@@ -50,7 +50,7 @@ const basic_inputs = [
     type: "text",
     placeholder: "e.g wuse 11",
     prompt: "Here you insert the location",
-    verification:"At least 10 characters"
+    verification: "At least 10 characters"
   },
   {
     id: 6,
@@ -59,7 +59,7 @@ const basic_inputs = [
     type: "text",
     placeholder: "e.g Tech",
     prompt: "Here you specify search keywords",
-    verification:"At least 4 characters"
+    verification: "At least 4 characters"
   },
   {
     id: 7,
@@ -68,7 +68,7 @@ const basic_inputs = [
     type: "number",
     placeholder: "e.g 2 years",
     prompt: "Here you specify experience in years",
-    verification:"At least 2 years"
+    verification: "At least 2 years"
   },
 ];
 
@@ -206,18 +206,18 @@ const salaryTypeData = [
 function BasicInformation({ setCurrentStep, data, jobUtils }) {
   const { getEmployentTypes, getCurrencies } = useJobManagement();
   const [salaryRange, setSalaryRange] = useState([5000, 22000]);
-  const [selectedType, setSelectedType] = useState();
+  const [selectedType, setSelectedType] = useState(jobUtils?.details?.type && jobUtils?.details?.type);
   const [currentQualification, setCurrentQualification] = useState("");
-  const [selectedGender, setSelectedGender] = useState(jobUtils?.details?.salary_type ? genderData?.find(one=>one.name===jobUtils?.details?.gender) : genderData[0]);
+  const [selectedGender, setSelectedGender] = useState(jobUtils?.details?.salary_type ? genderData?.find(one => one.name === jobUtils?.details?.gender) : genderData[0]);
   const [selectedSector, setSelectedSector] = useState(jobSectors[0]);
   const [subSectorList, setSubSectorList] = useState(null);
   const [selectedSubSector, setSelectedSubSector] = useState(null);
-  const [selectedSalary, setSelectedSalary] = useState(jobUtils?.details?.salary_type ? salaryTypeData?.find(one=>one.name===jobUtils?.details?.salary_type):salaryTypeData[1]);
+  const [selectedSalary, setSelectedSalary] = useState(jobUtils?.details?.salary_type ? salaryTypeData?.find(one => one.name === jobUtils?.details?.salary_type) : salaryTypeData[1]);
   const [photoUrl, setPhotoUrl] = useState();
   const [minimumPrice, setMinimumPrice] = useState(0);
   const [employementList, setEmployementList] = useState([]);
   const [currencyList, setCurrencyList] = useState([]);
-  const [selectedCurrency, setSelectedCurrency] = useState(jobUtils?.details?.currency);
+  const [selectedCurrency, setSelectedCurrency] = useState();
 
   const toogleSelectedType = (selected) => {
     setSelectedType(selected);
@@ -236,64 +236,81 @@ function BasicInformation({ setCurrentStep, data, jobUtils }) {
       alert("Please select a valid JPEG or PNG file.");
     }
   };
-
   useEffect(() => {
     const initData = async () => {
       const employementListResult = await getEmployentTypes();
       const currencyResult = await getCurrencies();
       setEmployementList(employementListResult);
+      setSelectedType(jobUtils.details.type
+        ? employementListResult?.find(one => one?.name === jobUtils?.details?.type)
+        : employementListResult[0]);
       setCurrencyList(currencyResult);
+      setSelectedCurrency(jobUtils.details.currency
+        ? currencyResult?.find(one => one?.name === jobUtils?.details?.currency)
+        : currencyResult[0]);
     };
+
     initData();
-  },[]);
+
+    let savedPhoto = null;
+    if (jobUtils.details.featured_image) {
+      savedPhoto = URL.createObjectURL(jobUtils.details.featured_image);
+      setPhotoUrl(savedPhoto);
+    }
+
+    return () => {
+      if (savedPhoto) {
+        URL.revokeObjectURL(savedPhoto);
+      }
+    };
+  }, []);
+
   useEffect(() => {
     // Find the sector from jobUtils.details or default to the first one
-    const sector = jobUtils?.details?.sector 
-        ? jobSectors?.find(one => one?.name === jobUtils?.details?.sector)
-        : jobSectors[0];
+    const sector = jobUtils?.details?.sector
+      ? jobSectors?.find(one => one?.name === jobUtils?.details?.sector)
+      : jobSectors[0];
 
     setSelectedSector(sector);
-    
+
     // Set subsectors list based on the selected sector
     setSubSectorList(sector?.subsections || []);
 
     // Find the selected subsector or default to the first one in the subsector list
-    const subsector = jobUtils?.details?.subsector 
-        ? sector?.subsections?.find(one => one?.name === jobUtils?.details?.subsector)
-        : sector?.subsections[0];
-    
+    const subsector = jobUtils?.details?.subsector
+      ? sector?.subsections?.find(one => one?.name === jobUtils?.details?.subsector)
+      : sector?.subsections[0];
+
     setSelectedSubSector(subsector);
-}, []);
 
-  
-    useEffect(() => {
-if(selectedSector){
-    setSubSectorList(selectedSector.subsections);
-}
-  },[selectedSector]);
-  useEffect(() => {
-if(subSectorList){
-setSelectedSubSector(subSectorList?.find(one => one?.name === jobUtils?.details?.subsector) ?subSectorList?.find(one => one?.name === jobUtils?.details?.subsector): subSectorList[0]);
-}
-  },[subSectorList]);
+  }, []);
+
 
   useEffect(() => {
-    console.log(selectedCurrency,currencyList);
-    
-    // Ensure selectedCurrency is updated only if the current one is found in the currencyList
-    if (currencyList.length > 0) {
-      const matchedCurrency = currencyList.find(
-        (currency) => currency.name === selectedCurrency
-      );
-      if (matchedCurrency) {
-        setSelectedCurrency(matchedCurrency);
-      } else {
-        // If no match is found, you could either set a default or reset
-        setSelectedCurrency(currencyList[0]);
-      }
+    if (selectedSector) {
+      setSubSectorList(selectedSector.subsections);
     }
-    
-  }, [currencyList]);
+  }, [selectedSector]);
+  useEffect(() => {
+    if (subSectorList) {
+      setSelectedSubSector(subSectorList?.find(one => one?.name === jobUtils?.details?.subsector) ? subSectorList?.find(one => one?.name === jobUtils?.details?.subsector) : subSectorList[0]);
+    }
+  }, [subSectorList]);
+
+  // useEffect(() => {
+  //   console.log(selectedCurrency, jobUtils.details.currency,currencyList);
+
+  //   // Ensure selectedCurrency is updated only if the current one is found in the currencyList
+  //   if (currencyList.length > 0) {
+  //     const matchedCurrency = currencyList?.find(
+  //       (currency) => currency.name === selectedCurrency
+  //     );
+
+  //       // If no match is found, you could either set a default or reset
+  //       setSelectedCurrency(matchedCurrency ? matchedCurrency : currencyList[0]);
+  //   }
+
+  // }, [currencyList]);
 
   useEffect(() => {
     jobUtils.setDetails({

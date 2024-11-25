@@ -12,7 +12,7 @@ function Security() {
                     title="All Admins"
                     subtitle="Get and update all Admins here "
                     smallTextIcon={<FaPlus/>}
-                    link=""
+                    link="/admin/settings/security/admins"
                      />
                 <SettingsCard
                     rightIcon={<TbShieldHalf/>}

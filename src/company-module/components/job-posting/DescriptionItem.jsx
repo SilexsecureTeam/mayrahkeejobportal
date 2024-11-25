@@ -9,10 +9,10 @@ function DescriptionItem({ data, jobUtils }) {
     <div className="flex flex-col md:flex-row border-b py-2 min-h-[170px]">
       <div className="flex flex-col w-full md:max-w-[25%] gap-[10px]">
         <h3 className="text-gray-700 text-sm font-semibold">{data.title}</h3>
-        <span className="text-little text-gray-400">{data.desc}</span>
+        <span className="text-little text-gray-600">{data.desc}</span>
       </div>
 
-      <div className="flex flex-col gap-[3px] w-full text-gray-400 justify-between">
+      <div className="flex flex-col gap-[3px] w-full text-gray-600 justify-between">
         <div className="h-[90%]">
           <ReactQuill
             placeholder={data.placeholder}
@@ -23,7 +23,7 @@ function DescriptionItem({ data, jobUtils }) {
           />
         </div>
 
-        <span className="text-[10px] text-gray-400">
+        <span className="text-[10px] text-gray-500">
           Maximum of 500 characters
         </span>
       </div>
