@@ -1,3 +1,4 @@
+
 import JobTypeItem from "./JobTypeItem";
 import RangeSlider from "react-range-slider-input";
 import "../style.css";
@@ -208,9 +209,9 @@ function BasicInformation({ setCurrentStep, data, jobUtils }) {
   const [selectedType, setSelectedType] = useState();
   const [currentQualification, setCurrentQualification] = useState("");
   const [selectedGender, setSelectedGender] = useState(genderData[0]);
-  const [selectedSector, setSelectedSector] = useState();
-  const [subSectorList, setSubSectorList] = useState();
-  const [selectedSubSector, setSelectedSubSector] = useState();
+  const [selectedSector, setSelectedSector] = useState(jobSectors[0]);
+  const [subSectorList, setSubSectorList] = useState(null);
+  const [selectedSubSector, setSelectedSubSector] = useState(null);
   const [selectedSalary, setSelectedSalary] = useState(salaryTypeData[1]);
   const [photoUrl, setPhotoUrl] = useState();
   const [minimumPrice, setMinimumPrice] = useState(0);
@@ -218,6 +219,10 @@ function BasicInformation({ setCurrentStep, data, jobUtils }) {
   const [currencyList, setCurrencyList] = useState([]);
   const [selectedCurrency, setSelectedCurrency] = useState(jobUtils?.details?.currency);
 
+  const toogleSelectedType = (selected) => {
+    setSelectedType(selected);
+    jobUtils.setDetails({ ...jobUtils.details, type: selected.name });
+  };
 
   const getPhotoURL = (e) => {
     const { name } = e.target;
@@ -240,34 +245,27 @@ function BasicInformation({ setCurrentStep, data, jobUtils }) {
       setCurrencyList(currencyResult);
     };
     initData();
-
-    setSelectedSector(jobUtils?.details?.sector 
+  },[]);
+  useEffect(() => {
+    
+setSelectedSector(jobUtils?.details?.sector 
         ? jobSectors?.find(one => one?.name === jobUtils?.details?.sector) 
         : jobSectors[0])
     setSubSectorList(jobUtils?.details?.sector 
         ? jobSectors?.find(one => one?.name === jobUtils?.details?.sector)?.subsections
-        : jobSectors[0]?.subsections)
-    setSelectedSubSector(jobUtils?.details?.subsector 
-        ? jobSectors?.find(one => one?.name === jobUtils?.details?.sector)?.subsections[0]
-        : jobSectors[0]?.subsections[0]);
-  
+        : jobSectors[0]?.subsections))
   },[]);
-  const toogleSelectedType = (selected) => {
-    setSelectedType(selected);
-    jobUtils.setDetails({ ...jobUtils.details, type: selected.name });
-  };
-useEffect(() => {
-    if (selectedSector) {
-        setSubSectorList(selectedSector?.subsections || []);
-    }
-}, [selectedSector]);
-
-useEffect(() => {
-    if (subSectorList.length > 0 ) {
-        setSelectedSubSector(subSectorList[0]);
-    }
-}, [subSectorList]);
   
+    useEffect(() => {
+if(selectedSector){
+    setSubSectorList(jobUtils?.details?.sector ? jobSectors?.find(one=> one?.name === jobUtils?.details?.sector)?.subsections : selectedSector?.subsections);
+}
+  },[selectedSector]);
+  useEffect(() => {
+if(subSectorList){
+setSelectedSubSector(jobUtils?.details?.subsector ? subSectorList?.find(one=>one.name === jobUtils?.details?.subsector): subSectorList[0]);
+}
+  },[subSectorList]);
 
   useEffect(() => {
     console.log(selectedCurrency,currencyList);
