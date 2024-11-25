@@ -7,14 +7,14 @@ import FormButton from "../../../components/FormButton";
 const descriptions = [
   {
     id: 1,
-    title: "Responsibilities (required)",
+    title: "Job Description (required)",
     name: "job_description",
     desc: "Job responsibilities must be describe by one position",
     placeholder: "Enter a job decription",
   },
   {
     id: 2,
-    title: "Qualifications",
+    title: "Experience",
     name: "experience",
     desc: "Outline the experiences required for the Job",
     placeholder: "Begin to type...",
@@ -86,7 +86,7 @@ const careerData = [
 ];
 
 function Descriptions({ data, setCurrentStep, jobUtils, handleSuccess }) {
-  const [selectedCareerLevel, setSelectedCareerLevel] = useState(careerData[1]);
+  const [selectedCareerLevel, setSelectedCareerLevel] = useState(jobUtils.details.current_level ? careerData.find(one=>one.name===jobUtils.details.current_level) : careerData[1]);
 
   useEffect(() => {
     jobUtils.setDetails({
@@ -100,7 +100,7 @@ function Descriptions({ data, setCurrentStep, jobUtils, handleSuccess }) {
       {/* Descriptions */}
       <div className="flex flex-col gap-[15px] border-b pb-2">
         <h3 className="text-gray-700 text-sm font-semibold">Details</h3>
-        <span className="text-little text-gray-400">
+        <span className="text-little text-gray-600">
           Add the description of the job, responsibilities, who you are, and
           nice-to-haves.{" "}
         </span>

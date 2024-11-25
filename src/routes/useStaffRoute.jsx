@@ -24,7 +24,7 @@ const Verifications = lazy(() =>
 const Resume = lazy(() =>
   import("../staff-module/pages/resume/Resume")
 );
-const HelpCenter = lazy(() => import("../staff-module/pages/help-center/Help"));
+const HelpCenter = lazy(() => import("../pages/HelpCenter"));
 const Settings = lazy(() => import("../company-module/pages/settings/Settings"));
 
 function useStaffRoute() {

@@ -1,3 +1,4 @@
+
 import JobTypeItem from "./JobTypeItem";
 import RangeSlider from "react-range-slider-input";
 import "../style.css";
@@ -18,15 +19,16 @@ const basic_inputs = [
     prompt: "Here you input the company email",
   },
   {
-    id: 3,
+    id: 2,
     name: "preferred_age",
     label: "Application Age Limit",
     type: "number",
     placeholder: "e.g 18",
     prompt: "Here you input preferred average age (years)",
+    verification: "At least 18 years"
   },
   {
-    id: 4,
+    id: 3,
     name: "application_deadline_date",
     label: "Application Deadline",
     type: "date",
@@ -34,7 +36,7 @@ const basic_inputs = [
     prompt: "Here you set an application deadline",
   },
   {
-    id: 5,
+    id: 4,
     name: "office_address",
     label: "Office Address",
     type: "text",
@@ -42,28 +44,31 @@ const basic_inputs = [
     prompt: "Here you insert the office address",
   },
   {
-    id: 6,
+    id: 5,
     name: "location",
     label: "Location",
     type: "text",
     placeholder: "e.g wuse 11",
-    prompt: "Here you insert the longitude and latitude",
+    prompt: "Here you insert the location",
+    verification: "At least 10 characters"
   },
   {
-    id: 7,
+    id: 6,
     name: "search_keywords",
     label: "Search Keywords",
     type: "text",
-    placeholder: "e.g networks engineer",
+    placeholder: "e.g Tech",
     prompt: "Here you specify search keywords",
+    verification: "At least 4 characters"
   },
   {
-    id: 8,
+    id: 7,
     name: "experience",
     label: "Minimum years of Experience",
     type: "number",
     placeholder: "e.g 2 years",
     prompt: "Here you specify experience in years",
+    verification: "At least 2 years"
   },
 ];
 
@@ -90,11 +95,8 @@ const job_types = [
   },
   {
     id: 6,
-  },
-  {
-    id: 6,
     name: "Hybrid",
-  },
+  }
 ];
 
 const genderData = [
@@ -201,41 +203,16 @@ const salaryTypeData = [
   },
 ];
 
-const currencyData = [
-  {
-    id: 1,
-    name: "Naira (N)",
-  },
-  {
-    id: 2,
-    name: "Cedes (C)",
-  },
-  {
-    id: 3,
-    name: "Dollars ($)",
-  },
-  {
-    id: 4,
-    name: "Euros (E)",
-  },
-  {
-    id: 5,
-    name: "Pounds (P)",
-  },
-];
-
-function BasicInformation({ setCurrentStep, data, jobUtils }) {
-  const { getEmployentTypes, getCurrencies, getSectors, getSubSectors } =
-    useJobManagement();
+function BasicInformation({ setCurrentStep, data, jobUtils, validateAndProceed }) {
+  const { getEmployentTypes, getCurrencies } = useJobManagement();
   const [salaryRange, setSalaryRange] = useState([5000, 22000]);
-  const [selectedType, setSelectedType] = useState();
+  const [selectedType, setSelectedType] = useState(jobUtils?.details?.type && jobUtils?.details?.type);
   const [currentQualification, setCurrentQualification] = useState("");
-  const [selectedGender, setSelectedGender] = useState(genderData[0]);
-  const [selectedSector, setSelectedSector] = useState();
-  const [selectedSubSector, setSelectedSubSector] = useState();
-  const [subSectorList, setSubSectorList] = useState([]);
-  const [sectorList, setSectorList] = useState([]);
-  const [selectedSalary, setSelectedSalary] = useState(salaryTypeData[1]);
+  const [selectedGender, setSelectedGender] = useState(jobUtils?.details?.salary_type ? genderData?.find(one => one.name === jobUtils?.details?.gender) : genderData[0]);
+  const [selectedSector, setSelectedSector] = useState(jobSectors[0]);
+  const [subSectorList, setSubSectorList] = useState(null);
+  const [selectedSubSector, setSelectedSubSector] = useState(null);
+  const [selectedSalary, setSelectedSalary] = useState(jobUtils?.details?.salary_type ? salaryTypeData?.find(one => one.name === jobUtils?.details?.salary_type) : salaryTypeData[1]);
   const [photoUrl, setPhotoUrl] = useState();
   const [minimumPrice, setMinimumPrice] = useState(0);
   const [employementList, setEmployementList] = useState([]);
@@ -259,38 +236,87 @@ function BasicInformation({ setCurrentStep, data, jobUtils }) {
       alert("Please select a valid JPEG or PNG file.");
     }
   };
-
   useEffect(() => {
     const initData = async () => {
       const employementListResult = await getEmployentTypes();
       const currencyResult = await getCurrencies();
-      setEmployementList(job_types);
-      const sectorResut = await getSectors();
       setEmployementList(employementListResult);
+      setSelectedType(jobUtils.details.type
+        && employementListResult?.find(one => one?.name === jobUtils?.details?.type));
       setCurrencyList(currencyResult);
-      setSectorList(sectorResut);
-      // setSelectedSector(sectorResut[0])
-      console.log("sector", sectorResut);
+      setSelectedCurrency(jobUtils.details.currency
+        ? currencyResult?.find(one => one?.name === jobUtils?.details?.currency)
+        : currencyResult[0]);
     };
 
     initData();
+
+    let savedPhoto = null;
+    if (jobUtils.details.featured_image) {
+      savedPhoto = URL.createObjectURL(jobUtils.details.featured_image);
+      setPhotoUrl(savedPhoto);
+    }
+
+    return () => {
+      if (savedPhoto) {
+        URL.revokeObjectURL(savedPhoto);
+      }
+    };
   }, []);
 
   useEffect(() => {
-    setSelectedSubSector(subSectorList[0]);
-    if (currencyList.length > 0) {
-      setSelectedCurrency(currencyList[0]);
+    console.log(jobUtils?.details?.subsector, selectedSubSector)
+    // Find the sector from jobUtils.details or default to the first one
+    const sector = jobUtils?.details?.sector
+      ? jobSectors?.find(one => one?.name === jobUtils?.details?.sector)
+      : jobSectors[0];
+
+    setSelectedSector(sector);
+
+    // Set subsectors list based on the selected sector
+    setSubSectorList(sector?.subsections || []);
+
+    // Find the selected subsector or default to the first one in the subsector list
+    const subsector = jobUtils?.details?.subsector
+      ? sector?.subsections?.find(one => one?.name === jobUtils?.details?.subsector)
+      : sector?.subsections[0];
+
+    setSelectedSubSector(subsector);
+
+  }, []);
+
+
+  useEffect(() => {
+    if (selectedSector) {
+      setSubSectorList(selectedSector.subsections);
     }
-    if (sectorList.length > 0) {
-      setSelectedSector(sectorList[0]);
+  }, [selectedSector]);
+  useEffect(() => {
+    if (subSectorList && jobUtils?.details?.subsector) {
+      setSelectedSubSector(subSectorList?.find(one => one?.name === jobUtils?.details?.subsector) ? subSectorList?.find(one => one?.name === jobUtils?.details?.subsector) : subSectorList[0]);
     }
-  }, [currencyList, sectorList]);
+  }, [subSectorList]);
+
+  // useEffect(() => {
+  //   console.log(selectedCurrency, jobUtils.details.currency,currencyList);
+
+  //   // Ensure selectedCurrency is updated only if the current one is found in the currencyList
+  //   if (currencyList.length > 0) {
+  //     const matchedCurrency = currencyList?.find(
+  //       (currency) => currency.name === selectedCurrency
+  //     );
+
+  //       // If no match is found, you could either set a default or reset
+  //       setSelectedCurrency(matchedCurrency ? matchedCurrency : currencyList[0]);
+  //   }
+
+  // }, [currencyList]);
 
   useEffect(() => {
     jobUtils.setDetails({
       ...jobUtils.details,
-      ["gender"]: selectedGender.name,
-      ["salary_type"]: selectedSalary.name,
+      ["gender"]: selectedGender?.name,
+      ["salary_type"]: selectedSalary?.name,
       ["currency"]: selectedCurrency?.name,
       ["sector"]: selectedSector?.name,
       ["subsector"]: selectedSubSector?.name,
@@ -303,22 +329,24 @@ function BasicInformation({ setCurrentStep, data, jobUtils }) {
     selectedSubSector,
   ]);
 
-  useEffect(() => {
-    const initData = async () => {
-      if (selectedSector) {
-        const subSectorResult = await getSubSectors(selectedSector.id);
-        setSubSectorList(subSectorResult);
-      }
-    };
-
-    initData();
-  }, [selectedSector]);
-
-  useEffect(() => {
-    if (subSectorList.length > 0) {
-      setSelectedSubSector(subSectorList[0]);
+  // Validation function before proceeding to the next step
+  const handleValidateAndProceed = () => {
+    // Add your validation logic here
+    const isValid = validateForm();
+    if (isValid) {
+      validateAndProceed();
+    } else {
+      alert("Please fill in all required fields.");
     }
-  }, [subSectorList]);
+  };
+
+  const validateForm = () => {
+    // Check if essential fields are filled. Modify as necessary.
+    if (!selectedSector || !selectedSubSector || !selectedSalary) {
+      return false;
+    }
+    return true;
+  };
 
   return (
     <div className="flex flex-col w-full p-4 gap-4">
@@ -376,7 +404,7 @@ function BasicInformation({ setCurrentStep, data, jobUtils }) {
           prompt: "Here you input the job sector",
           name: "sector",
         }}
-        listData={sectorList}
+        listData={jobSectors}
         jobUtils={jobUtils}
         selected={selectedSector}
         setSelected={setSelectedSector}
@@ -426,7 +454,7 @@ function BasicInformation({ setCurrentStep, data, jobUtils }) {
       <QualificationsForm jobUtils={jobUtils} />
       {/* Dropdown Options */}
       <SelectorInput
-        key={2}
+        key={1}
         data={{
           label: "Gender",
           prompt: "Here you select preferred Gender",
@@ -438,7 +466,7 @@ function BasicInformation({ setCurrentStep, data, jobUtils }) {
         setSelected={setSelectedGender}
       />
       <SelectorInput
-        key={5}
+        key={2}
         data={{
           label: "Salary Type",
           prompt: "Here you select how the job pays",
@@ -450,7 +478,7 @@ function BasicInformation({ setCurrentStep, data, jobUtils }) {
         setSelected={setSelectedSalary}
       />
       <SelectorInput
-        key={6}
+        key={3}
         data={{
           label: "Currency",
           prompt: "Here you select the currency",
@@ -492,53 +520,29 @@ function BasicInformation({ setCurrentStep, data, jobUtils }) {
                 />
               </div>
             </div>
-            <div className="w-fit flex flex-col">
-              <label htmlFor="">Min value</label>
-              <input
-                className="border p-1"
-                type="number"
-                defaultValue={0}
-                onChange={(e) => {
-                  setMinimumPrice(Number(e.target.value));
-                  jobUtils.setDetails({
-                    ...jobUtils.details,
-                    min_salary: FormatPrice(e.target.value),
-                  });
-                }}
-              />
-            </div>
-            <div className="flex items-center justify-between">
-              <span className="border p-1">
-                {selectedCurrency?.code}{" "}
-                {FormatPrice(jobUtils.details.min_salary, true)}
-              </span>
-              <span>to</span>
-              <div className="flex flex-col">
-                <label className="text-sm font-semibold">Max Value</label>
-                <div className="p-1 border border-gray-400">
-                  <span className="mx-1">{selectedCurrency?.code}</span>
-                  <input
-                    type="number"
-                    className="w-24 ring-0 outline-0"
-                    value={jobUtils.details.max_salary || ""}
-                    onChange={(e) => {
-                      const maxSalary = Number(e.target.value);
-                      if (maxSalary >= jobUtils.details.min_salary) {
-                        jobUtils.setDetails({
-                          ...jobUtils.details,
-                          max_salary: maxSalary,
-                        });
-                      }
-                    }}
-                  />
-                </div>
+            <span>to</span>
+            <div className="flex flex-col">
+              <label className="text-sm font-semibold">Max Value</label>
+              <div className="p-1 border border-gray-400">
+                <span className="mx-1">{selectedCurrency?.code}</span>
+                <input
+                  type="number"
+                  className="w-24 ring-0 outline-0"
+                  value={jobUtils.details.max_salary || ""}
+                  onChange={(e) => {
+                    const maxSalary = Number(e.target.value);
+                    if (maxSalary >= jobUtils.details.min_salary) {
+                      jobUtils.setDetails({
+                        ...jobUtils.details,
+                        max_salary: maxSalary,
+                      });
+                    }
+                  }}
+                />
               </div>
-              <span className="border p-1">
-                {selectedCurrency?.code}{" "}
-                {FormatPrice(jobUtils.details.max_salary, true)}
-              </span>
             </div>
-            {/* 
+          </div>
+          {/* 
           <RangeSlider
             min={minimumPrice}
             max={minimumPrice + 100000}
@@ -555,15 +559,15 @@ function BasicInformation({ setCurrentStep, data, jobUtils }) {
               });
             }}
           /> */}
-          </div>
         </div>
-        <button
-          onClick={() => setCurrentStep(data[1])}
-          className="p-2 place-self-end mt-4 font-semibold w-fit text-sm bg-primaryColor text-white"
-        >
-          Next Step
-        </button>
+
       </div>
+      <button
+        onClick={validateAndProceed}
+        className="p-2 place-self-end mt-4 font-semibold w-fit text-sm bg-primaryColor text-white"
+      >
+        Next Step
+      </button>
     </div>
   );
 }

@@ -8,11 +8,11 @@ function JobTypeItem({data,  selectedType, toogleSelectedType}) {
   
 
   return (
-    <div className="flex items-center text-gray-400 text-little gap-[10px]">
-      {data?.id === selectedType?.id ? (
+    <div className="flex items-center text-gray-400 text-little gap-[10px]" onClick={() => toogleSelectedType(data)}>
+      {data?.name === selectedType?.name ? (
         <MdOutlineCheckBox onClick={() => toogleSelectedType({})} className="text-primaryColor cursor-pointer text-sm" />
       ) : (
-        <MdOutlineCheckBoxOutlineBlank onClick={() => toogleSelectedType(data)} className=" text-sm cursor-pointer" />
+        <MdOutlineCheckBoxOutlineBlank className=" text-sm cursor-pointer" />
       )}
       <span>{data.name}</span>
     </div>
