@@ -5,11 +5,11 @@ import { axiosClient } from "../services/axios-client";
 import { onFailure } from "../utils/notifications/OnFailure";
 import { StaffManagementContext } from "../context/StaffManagementModule";
 
+export const allStatus = ['approved', 'pending', 'rejected', 'suspend']
 function useStaffUser() {
   const { authDetails } = useContext(AuthContext);
   const client = axiosClient(authDetails?.token);
   const { profileDetails, getStaffProfile } = useContext(StaffManagementContext);
-  const allStatus = ['approved', 'pending', 'rejected', 'suspend']
 
   //availabilit status => 1 for available, 0 for not
   const updateAvailabilityStatus = async (staffId, status) => {
