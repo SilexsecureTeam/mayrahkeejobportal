@@ -273,7 +273,7 @@ if(selectedSector){
   },[selectedSector]);
   useEffect(() => {
 if(subSectorList){
-setSelectedSubSector(subSectorList[0]);
+setSelectedSubSector(subSectorList?.find(one => one?.name === jobUtils?.details?.subsector) ?subSectorList?.find(one => one?.name === jobUtils?.details?.subsector): subSectorList[0]);
 }
   },[subSectorList]);
 
