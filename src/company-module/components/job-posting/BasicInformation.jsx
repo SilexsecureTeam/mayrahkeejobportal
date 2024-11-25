@@ -254,7 +254,7 @@ setSelectedSector(jobUtils?.details?.sector
     setSubSectorList(jobUtils?.details?.sector 
         ? jobSectors?.find(one => one?.name === jobUtils?.details?.sector)?.subsections
         : jobSectors[0]?.subsections)
-selectedSubSector(jobUtils?.details?.subsector 
+setSelectedSubSector(jobUtils?.details?.subsector 
         ? jobSectors?.find(one => one?.name === jobUtils?.details?.sector)?.subsections.find(one => one?.name === jobUtils?.details?.subsector)
         : jobSectors[0]?.subsections[0])
   },[]);
