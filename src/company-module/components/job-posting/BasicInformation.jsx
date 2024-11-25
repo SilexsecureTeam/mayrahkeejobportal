@@ -246,7 +246,7 @@ function BasicInformation({ setCurrentStep, data, jobUtils }) {
         : jobSectors[0])
     setSubSectorList(jobUtils?.details?.sector 
         ? jobSectors?.find(one => one?.name === jobUtils?.details?.sector)?.subsections
-        : jobSectors[0]?.subsections))
+        : jobSectors[0]?.subsections)
     setSelectedSubSector(jobUtils?.details?.subsector 
         ? jobSectors?.find(one => one?.name === jobUtils?.details?.sector)?.subsections[0]
         : jobSectors[0]?.subsections[0]);
