@@ -247,17 +247,24 @@ function BasicInformation({ setCurrentStep, data, jobUtils }) {
     initData();
   },[]);
   useEffect(() => {
+    // Find the sector from jobUtils.details or default to the first one
+    const sector = jobUtils?.details?.sector 
+        ? jobSectors?.find(one => one?.name === jobUtils?.details?.sector)
+        : jobSectors[0];
+
+    setSelectedSector(sector);
     
-setSelectedSector(jobUtils?.details?.sector 
-        ? jobSectors?.find(one => one?.name === jobUtils?.details?.sector) 
-        : jobSectors[0])
-    setSubSectorList(jobUtils?.details?.sector 
-        ? jobSectors?.find(one => one?.name === jobUtils?.details?.sector)?.subsections
-        : jobSectors[0]?.subsections)
-setSelectedSubSector(jobUtils?.details?.subsector 
-        ? jobSectors?.find(one => one?.name === jobUtils?.details?.sector)?.subsections.find(one => one?.name === jobUtils?.details?.subsector)
-        : jobSectors[0]?.subsections[0])
-  },[]);
+    // Set subsectors list based on the selected sector
+    setSubSectorList(sector?.subsections || []);
+
+    // Find the selected subsector or default to the first one in the subsector list
+    const subsector = jobUtils?.details?.subsector 
+        ? sector?.subsections?.find(one => one?.name === jobUtils?.details?.subsector)
+        : sector?.subsections[0];
+    
+    setSelectedSubSector(subsector);
+}, []);
+
   
     useEffect(() => {
 if(selectedSector){
@@ -266,9 +273,7 @@ if(selectedSector){
   },[selectedSector]);
   useEffect(() => {
 if(subSectorList){
-setSelectedSubSector(jobUtils?.details?.subsector 
-        ? subSectorList.find(one => one?.name === jobUtils?.details?.subsector)
-        : subSectorList[0]);
+setSelectedSubSector(subSectorList[0]);
 }
   },[subSectorList]);
 
