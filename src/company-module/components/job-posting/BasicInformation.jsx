@@ -208,11 +208,11 @@ function BasicInformation({ setCurrentStep, data, jobUtils }) {
   const [salaryRange, setSalaryRange] = useState([5000, 22000]);
   const [selectedType, setSelectedType] = useState();
   const [currentQualification, setCurrentQualification] = useState("");
-  const [selectedGender, setSelectedGender] = useState(genderData[0]);
+  const [selectedGender, setSelectedGender] = useState(jobUtils?.details?.salary_type ? genderData?.find(one=>one.name===jobUtils?.details?.gender) : genderData[0]);
   const [selectedSector, setSelectedSector] = useState(jobSectors[0]);
   const [subSectorList, setSubSectorList] = useState(null);
   const [selectedSubSector, setSelectedSubSector] = useState(null);
-  const [selectedSalary, setSelectedSalary] = useState(salaryTypeData[1]);
+  const [selectedSalary, setSelectedSalary] = useState(jobUtils?.details?.salary_type ? salaryTypeData?.find(one=>one.name===jobUtils?.details?.salary_type):salaryTypeData[1]);
   const [photoUrl, setPhotoUrl] = useState();
   const [minimumPrice, setMinimumPrice] = useState(0);
   const [employementList, setEmployementList] = useState([]);
