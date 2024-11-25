@@ -19,7 +19,7 @@ const basic_inputs = [
     prompt: "Here you input the company email",
   },
   {
-    id: 3,
+    id: 2,
     name: "preferred_age",
     label: "Application Age Limit",
     type: "number",
@@ -28,7 +28,7 @@ const basic_inputs = [
     verification:"At least 18 years"
   },
   {
-    id: 4,
+    id: 3,
     name: "application_deadline_date",
     label: "Application Deadline",
     type: "date",
@@ -36,7 +36,7 @@ const basic_inputs = [
     prompt: "Here you set an application deadline",
   },
   {
-    id: 5,
+    id: 4,
     name: "office_address",
     label: "Office Address",
     type: "text",
@@ -44,7 +44,7 @@ const basic_inputs = [
     prompt: "Here you insert the office address",
   },
   {
-    id: 6,
+    id: 5,
     name: "location",
     label: "Location",
     type: "text",
@@ -53,7 +53,7 @@ const basic_inputs = [
     verification:"At least 10 characters"
   },
   {
-    id: 7,
+    id: 6,
     name: "search_keywords",
     label: "Search Keywords",
     type: "text",
@@ -62,7 +62,7 @@ const basic_inputs = [
     verification:"At least 4 characters"
   },
   {
-    id: 8,
+    id: 7,
     name: "experience",
     label: "Minimum years of Experience",
     type: "number",
