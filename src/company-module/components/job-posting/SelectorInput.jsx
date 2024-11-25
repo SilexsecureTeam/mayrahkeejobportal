@@ -7,7 +7,7 @@ function SelectorInput({ data, listData, jobUtils, selected, setSelected }) {
       <div className="flex flex-col md:flex-row gap-[15%] border-b py-2 text-little ">
         <div className="flex flex-col w-[80%] md:w-[25%] gap-[10px]">
           <h3 className="text-gray-700 text-sm font-semibold">{data.label}</h3>
-          <span className="text-little text-gray-400">{data.prompt}</span>
+          <span className="text-little text-gray-600">{data.prompt}</span>
         </div>
 
         <div className="flex flex-col gap-[3px] ">
@@ -26,7 +26,7 @@ function SelectorInput({ data, listData, jobUtils, selected, setSelected }) {
             setSelected={setSelected}
           />
 
-          <span className="text-xs text-gray-400">Select an option</span>
+          <span className="text-xs text-gray-500">Select an option</span>
         </div>
       </div>
     )
