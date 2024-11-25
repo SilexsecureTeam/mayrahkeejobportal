@@ -253,7 +253,7 @@ setSelectedSector(jobUtils?.details?.sector
         : jobSectors[0])
     setSubSectorList(jobUtils?.details?.sector 
         ? jobSectors?.find(one => one?.name === jobUtils?.details?.sector)?.subsections
-        : jobSectors[0]?.subsections))
+        : jobSectors[0]?.subsections)
   },[]);
   
     useEffect(() => {
