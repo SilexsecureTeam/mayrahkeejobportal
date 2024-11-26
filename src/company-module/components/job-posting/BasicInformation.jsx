@@ -203,7 +203,7 @@ const salaryTypeData = [
   },
 ];
 
-function BasicInformation({ setCurrentStep, data, jobUtils }) {
+function BasicInformation({ setCurrentStep, data, jobUtils, validateAndProceed }) {
   const { getEmployentTypes, getCurrencies } = useJobManagement();
   const [salaryRange, setSalaryRange] = useState([5000, 22000]);
   const [selectedType, setSelectedType] = useState(jobUtils?.details?.type && jobUtils?.details?.type);
@@ -242,8 +242,7 @@ function BasicInformation({ setCurrentStep, data, jobUtils }) {
       const currencyResult = await getCurrencies();
       setEmployementList(employementListResult);
       setSelectedType(jobUtils.details.type
-        ? employementListResult?.find(one => one?.name === jobUtils?.details?.type)
-        : employementListResult[0]);
+        && employementListResult?.find(one => one?.name === jobUtils?.details?.type));
       setCurrencyList(currencyResult);
       setSelectedCurrency(jobUtils.details.currency
         ? currencyResult?.find(one => one?.name === jobUtils?.details?.currency)
@@ -266,6 +265,7 @@ function BasicInformation({ setCurrentStep, data, jobUtils }) {
   }, []);
 
   useEffect(() => {
+    console.log(jobUtils?.details?.subsector, selectedSubSector)
     // Find the sector from jobUtils.details or default to the first one
     const sector = jobUtils?.details?.sector
       ? jobSectors?.find(one => one?.name === jobUtils?.details?.sector)
@@ -292,7 +292,7 @@ function BasicInformation({ setCurrentStep, data, jobUtils }) {
     }
   }, [selectedSector]);
   useEffect(() => {
-    if (subSectorList) {
+    if (subSectorList && jobUtils?.details?.subsector) {
       setSelectedSubSector(subSectorList?.find(one => one?.name === jobUtils?.details?.subsector) ? subSectorList?.find(one => one?.name === jobUtils?.details?.subsector) : subSectorList[0]);
     }
   }, [subSectorList]);
@@ -315,10 +315,10 @@ function BasicInformation({ setCurrentStep, data, jobUtils }) {
   useEffect(() => {
     jobUtils.setDetails({
       ...jobUtils.details,
-      ["gender"]: selectedGender.name,
-      ["salary_type"]: selectedSalary.name,
+      ["gender"]: selectedGender?.name,
+      ["salary_type"]: selectedSalary?.name,
       ["currency"]: selectedCurrency?.name,
-      ["sector"]: selectedSector.name,
+      ["sector"]: selectedSector?.name,
       ["subsector"]: selectedSubSector?.name,
     });
   }, [
@@ -328,6 +328,25 @@ function BasicInformation({ setCurrentStep, data, jobUtils }) {
     selectedSector,
     selectedSubSector,
   ]);
+
+  // Validation function before proceeding to the next step
+  const handleValidateAndProceed = () => {
+    // Add your validation logic here
+    const isValid = validateForm();
+    if (isValid) {
+      validateAndProceed();
+    } else {
+      alert("Please fill in all required fields.");
+    }
+  };
+
+  const validateForm = () => {
+    // Check if essential fields are filled. Modify as necessary.
+    if (!selectedSector || !selectedSubSector || !selectedSalary) {
+      return false;
+    }
+    return true;
+  };
 
   return (
     <div className="flex flex-col w-full p-4 gap-4">
@@ -544,7 +563,7 @@ function BasicInformation({ setCurrentStep, data, jobUtils }) {
 
       </div>
       <button
-        onClick={() => setCurrentStep(data[1])}
+        onClick={validateAndProceed}
         className="p-2 place-self-end mt-4 font-semibold w-fit text-sm bg-primaryColor text-white"
       >
         Next Step
