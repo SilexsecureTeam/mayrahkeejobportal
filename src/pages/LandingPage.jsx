@@ -1,5 +1,5 @@
 import React from 'react'
-import FullTxtSection from '../components/Landing/FullTxtSection';
+//import FullTxtSection from '../components/Landing/FullTxtSection';
 import Hero from '../components/Landing/Hero';
 import Navbar from '../components/Landing/Navbar'
 // import TxtImgSection from '../components/Landing/TxtImgSection';
