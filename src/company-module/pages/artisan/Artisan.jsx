@@ -221,7 +221,7 @@ function Artisan() {
             <span className="font-semibold text-yellow-600">
               Showing Search You Result
             </span>
-            <ul className="w-full grid grid-cols-3 gap-4">
+            <ul className="w-full grid grid-cols-responsive gap-4">
               {staffsToDisplay?.map((current) => (
                 <StaffCard
                   key={current?.id}

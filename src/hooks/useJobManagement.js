@@ -96,23 +96,86 @@ function useJobManagement() {
       setLoading(false);
     }
   }
+  const validateJobDetails = (currentStep) => {
+    // Mapping API keys to user-friendly names
+    const fieldNames = {
+      job_title: "Job Title",
+      job_description: "Job Description",
+      featured_image: "Featured Image",
+      sector: "Job Sector",
+      subsector: "Job Subsector",
+      type: "Type of Employment",
+      search_keywords: "Search Keywords",
+      email: "Contact Email",
+      salary_type: "Salary Type",
+      min_salary: "Minimum Salary",
+      max_salary: "Maximum Salary",
+      experience: "Experience",
+      currency: "Currency",
+      application_deadline_date: "Application Deadline Date",
+      office_address: "Office Address",
+      location: "Location",
+      preferred_age: "preferred age limit"
+
+    };
+
+    // Fields that are required in Stage 1
+    const stage1Fields = ["sector", "subsector", "featured_image", "type", "salary_type", "currency", "location", "search_keywords", "email", "min_salary", "max_salary", "application_deadline_date", "office_address", "preferred_age"];
+
+    // Fields that are required in Stage 2
+    const stage2Fields = ["job_title", "job_description", "experience"];
+
+    let fieldsToValidate = [];
+
+    // Determine which fields to validate based on current step
+    if (currentStep.id === 1) {
+      fieldsToValidate = stage1Fields;
+    } else if (currentStep.id === 2) {
+      fieldsToValidate = [...stage1Fields, ...stage2Fields]; // Combine fields from both stages
+    }
+
+    // Check for missing or empty fields in the selected fields for the current step
+    for (const key of fieldsToValidate) {
+      if (!details[key] || (Array.isArray(details[key]) && details[key].length === 0)) {
+        return `${fieldNames[key]} is required.`;
+      }
+    }
+
+    // Ensure min_salary is less than or equal to max_salary
+    if (details.min_salary > details.max_salary) {
+      return "Minimum Salary cannot be greater than Maximum Salary.";
+    }
+
+    return null; // Validation passed
+  };
+
 
   const addJob = async (handleSuccess) => {
     setLoading(true);
     try {
+      // Validate details before submitting
+      const validationError = validateJobDetails({ id: 2 });
+      if (validationError) {
+        throw new Error(validationError); // Throw error with descriptive message
+      }
+
+      // Submit the job
       const response = await client.post(`/job`, {
         employer_id: authDetails?.user.id,
         ...details,
       });
-      setDetails({});
-      handleSuccess();
-      getJobsFromDB();
+
+      setDetails({}); // Clear form
+      handleSuccess(); // Call success handler
+      getJobsFromDB(); // Refresh job list
     } catch (error) {
-      FormatError(error, setError, "Update Error");
+      // Notify user of validation or API errors
+      onFailure({ message: "Submission Failed", error: error.message });
     } finally {
       setLoading(false);
     }
   };
+
 
   const deactivateJob = async (currentJob, status, handleSuccess) => {
     setLoading(true);
@@ -175,10 +238,10 @@ function useJobManagement() {
     setLoading(true);
     try {
       const { data } = await client.get(`/getUserApply/${authDetails.user.id}`);
-        setApplicantJobs(data.job_application)
+      setApplicantJobs(data.job_application)
     } catch (error) {
       FormatError(error, setError, "Jobs Error");
-    }finally{
+    } finally {
       setLoading(false)
     }
   };
@@ -221,7 +284,7 @@ function useJobManagement() {
     getEmployentTypes,
     getCurrencies,
     getSectors,
-    getSubSectors
+    getSubSectors, validateJobDetails
 
   };
 }
