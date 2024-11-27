@@ -219,10 +219,10 @@ function StaffCard({ data, contract = null, cartItems, getCartItems }) {
   };
 
   const userVerified =
-    data.residence_verification_status &&
-    data.garantor_verification_status &&
-    data.police_report_verification_status &&
-    data.medical_history_verification_status;
+    data.residence_verification_status === allStatus[0] &&
+    data.guarantor_verification_status === allStatus[0] &&
+    data.police_report_verification_status === allStatus[0] &&
+    data.medical_history_verification_status === allStatus[0];
 
   return (
     <>
@@ -335,6 +335,20 @@ function StaffCard({ data, contract = null, cartItems, getCartItems }) {
             Education:
             <span className="text-sm w-[60%] text-start font-normal text-gray-500">
               {getField("education_level")}
+            </span>
+          </span>
+
+          <span className="flex gap-2 items-center justify-between text-md truncate font-semibold">
+            Marital Status:
+            <span className="text-sm w-[60%] text-start font-normal text-gray-500">
+              {getField("marital_status")}
+            </span>
+          </span>
+
+          <span className="flex gap-2 items-center justify-between text-md truncate font-semibold">
+            Years of Experience:
+            <span className="text-sm w-[60%] text-start font-normal text-gray-500">
+              {getField("years_of_experience")} Years
             </span>
           </span>
 
