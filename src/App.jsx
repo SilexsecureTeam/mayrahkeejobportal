@@ -30,6 +30,7 @@ const ApplicantRoutes = lazy(() => import("./routes/useApplicantRoute"));
 const CompanyRoutes = lazy(() => import("./routes/useCompanyRoute"));
 const StaffRoutes = lazy(() => import("./routes/useStaffRoute"));
 const AdminRoutes = lazy(() => import("./routes/useAdminRoute"));
+const LandingPage = lazy(() => import("./pages/LandingPage"));
 
 //
 
@@ -48,7 +49,9 @@ function App() {
                         <Router>
                           <SessionContextProvider>
                             <Routes>
+                            
                               <Route path="/" element={<Login />} />
+                              <Route path="/landing" element={<LandingPage />} />
                               <Route path="/super/admin/login" element={<AdminLogin />} />
                               <Route path="/super/admin/otp-verification" element={<AdminOTP />} />
 
