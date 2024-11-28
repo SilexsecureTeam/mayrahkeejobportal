@@ -15,6 +15,7 @@ export const AuthContextProvider = ({ children }) => {
     const details = localStorage.getItem(STORAGE_KEY);
     if (details !== null || details !== "undefined") {
       return JSON.parse(details);
+      console.log(details)
     } else {
       return null;
     }

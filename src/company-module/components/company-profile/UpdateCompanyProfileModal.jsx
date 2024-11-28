@@ -154,9 +154,7 @@ function UpdateCompanyProfileModal({
     updateCompanyProfile,
     retrievalState,
   } = companyHookProps;
-  const [campaignPhotos, setCampaignPhotos] = useState([
-    ...details?.company_campaign_photos,
-  ]);
+  const [campaignPhotos, setCampaignPhotos] = useState([...details?.company_campaign_photos]);
 
   const getCampaingPhotoURL = (e) => {
     const { name } = e.target;
