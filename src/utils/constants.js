@@ -355,6 +355,13 @@ export const adminOptions = [
     icon: policeIcon,
     iconActive: policeIcon,
   },
+  {
+    type: "Interviews",
+    title: "Interviews",
+    route: "/admin/interviews",
+    icon: policeIcon,
+    iconActive: policeIcon,
+  },
  
 ];
 
