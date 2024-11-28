@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "dev-build": "node --max-old-space-size=4096 vite build vite build",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
@@ -21,7 +22,7 @@
     "@mui/styled-engine-sc": "^6.1.6",
     "@mui/x-charts": "^7.22.1",
     "@videosdk.live/react-sdk": "^0.1.102",
-    "apexcharts": "^4.0.0",
+    "apexcharts": "^3.41.0",
     "axios": "^1.7.7",
     "country-data": "^0.0.31",
     "country-state-city": "^3.2.1",
