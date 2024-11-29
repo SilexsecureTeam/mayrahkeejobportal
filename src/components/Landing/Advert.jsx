@@ -16,7 +16,7 @@ const Advert=()=>{
             <section className='flex-1 w-full md:w-1/2 min-h-80 flex items-center justify-center md:justify-end'>
             <div className="advert relative justify-center pr-20 md:justify-between items-center gap-4">
             {jobDetails?.slice(0,3)?.map((job)=>(
-            <div key={job?.id} className="w-48 md:w-72 h-32 p-5 rounded-2xl shadow-[0px_0px_10px] shadow-gray-700 bg-white">
+            <div key={job?.id} className="w-72 h-32 p-5 rounded-2xl shadow-[0px_0px_10px] shadow-gray-700 bg-white">
                 <section className="flex justify-between gap-3 text-black">
                     <div>
                         <h4 className="capitalize text-sm font-semibold my-2">{job?.title}</h4>
