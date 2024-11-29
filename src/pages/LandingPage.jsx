@@ -13,7 +13,7 @@ const LandingPage = () => {
   return (
     <div className='relative max-w-[1200px] w-full mx-auto'>
       <Navbar />
-      <main className="relative top-20 px-5">
+      <main className="relative top-20 px-5 min-h-screen">
         <Hero />
         <Experience />
         <Banner 
