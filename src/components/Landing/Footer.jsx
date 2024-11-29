@@ -15,7 +15,7 @@ const Footer = () => {
         </div>
 
         {/* Links Section */}
-        <div className="md:ml-auto flex flex-col md:flex-row gap-8 text-sm">
+        <div className="bg-blackmd:ml-auto flex flex-col md:flex-row gap-8 text-sm">
           <div>
             <h2 className="font-semibold mb-2">Company</h2>
             <ul>
