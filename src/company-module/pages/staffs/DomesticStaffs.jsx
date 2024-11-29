@@ -30,7 +30,8 @@ function DomesticStaff() {
       if (!queryParams && !directParams)
         throw new Error("No Query option selected");
       const { data } = await client.get(
-        `/domesticStaff/get-staff?staff_category=staff&${directParams ? directParams : queryParams
+        `/domesticStaff/get-staff?staff_category=staff&${
+          directParams ? directParams : queryParams
         }`
       );
       console.log(data);
@@ -55,9 +56,9 @@ function DomesticStaff() {
   const staffsToDisplay =
     searchResult.length > 0
       ? searchResult?.filter(
-        (current) =>
-          current?.staff_category === "staff" && current?.middle_name !== null
-      )
+          (current) =>
+            current?.staff_category === "staff" && current?.middle_name !== null
+        )
       : [];
 
   const handleCondition = (data, hasCategory) => {
@@ -72,7 +73,9 @@ function DomesticStaff() {
 
   const navigateToCart = () =>
     navigate(`/company/staff/cart`, {
-      state: { data: { items: cartItems, category: categories, type: 'staff' } },
+      state: {
+        data: { items: cartItems, category: categories, type: "staff" },
+      },
     });
 
   const getCartItems = async () => {
@@ -140,10 +143,9 @@ function DomesticStaff() {
           </FormButton>
         </div>
       </PopUpBox>
-      <div className="h-full w-full flex flex-col px-5 md:px-8 lg:px-12 py-2 gap-[15px]">
-        <div className="flex w-full justify-between items-start gap-1">
+      <div className="h-full w-full flex flex-col px-5 md:px-8 lg:px-12 py-2 gap-[15px] bg-gray-50">
+        <div className="flex w-full justify-between  items-start gap-1">
           <section className="flex flex-col gap-y-5">
-
             <div
               id="content"
               className="flex flex-col gap-2 bg-green-100 pr-5 p-2 w-[90%] md:w-fit text-xs md:text-sm"
@@ -154,7 +156,9 @@ function DomesticStaff() {
                 </span>
 
                 <button
-                  onClick={() => document.getElementById('content').classList.add('hidden')}
+                  onClick={() =>
+                    document.getElementById("content").classList.add("hidden")
+                  }
                   className="group hover:bg-red-500 hover:text-white p-1 text-red-600 text-md flex justify-between items-center"
                 >
                   Close
@@ -163,8 +167,8 @@ function DomesticStaff() {
               </div>
 
               <p>
-                Here you can search for any domestic staff of your choice. Fill in the
-                query parameters to begin your search.
+                Here you can search for any domestic staff of your choice. Fill
+                in the query parameters to begin your search.
               </p>
             </div>
 
@@ -175,20 +179,30 @@ function DomesticStaff() {
             />
           </section>
 
-          <button className="my-5"
-            onClick={navigateToCart}
-          >
-            <p className="relative cursor-pointer flex item-center"><FaShoppingCart size="24" /> <span className="absolute top-[-15px] right-0 w-max h-max px-1 rounded-full bg-red-700 text-white text-xs">{cartItems.length || 0}</span></p>
-          </button>
-        </div>
+          <div className="flex md:items-center gap-5">
+            <button 
+            onClick={() => navigate('/company/staff/contract-history')}
+            className="border-primaryColor px-3 py-1 border hover:bg-primaryColor hover:text-white">
+             Contract History
+            </button>
 
+            <button className="my-5" onClick={navigateToCart}>
+              <p className="relative cursor-pointer flex item-center">
+                <FaShoppingCart size="24" />{" "}
+                <span className="absolute top-[-15px] right-0 w-max h-max px-1 rounded-full bg-red-700 text-white text-xs">
+                  {cartItems.length || 0}
+                </span>
+              </p>
+            </button>
+          </div>
+        </div>
 
         {staffsToDisplay.length > 0 && (
           <div className="flex flex-col gap-3 mt-5">
             <span className="font-semibold text-yellow-600">
               Showing Search You Result
             </span>
-            <ul className="w-full grid grid-cols-3 gap-2">
+            <ul className="w-full grid grid-cols-responsive gap-2">
               {staffsToDisplay?.map((current) => (
                 <StaffCard
                   key={current?.id}

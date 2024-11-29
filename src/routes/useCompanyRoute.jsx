@@ -73,6 +73,7 @@ const DomesticStaffs = lazy(() =>
 );
 
 const StaffDetails = lazy(() => import('../components/applicant-details-ui/ApplicantDetails'))
+const ContractHistory = lazy(() => import('../components/staffs/ContractHistory'))
 
 const JobPosting = lazy(() =>
   import("../company-module/pages/job-posting/JobPosting")
@@ -216,6 +217,7 @@ function useCompanyRoute() {
                   <Route path=":category/:id" element={<StaffDetails />} />
                   <Route path="staff/cart" element={<CartedStaffs />} />
                   <Route path="staff/success" element={<SuccessPage/>}/>  
+                  <Route path="staff/contract-history" element={<ContractHistory/>}/>  
                  
                   <Route path="job-listing/*">
                     <Route
