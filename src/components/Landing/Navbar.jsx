@@ -23,8 +23,22 @@ const Navbar = () => {
         <NavLink to="/services">Find Domestic Staffs</NavLink>
         <NavLink to="/about">Help Center</NavLink>
         <NavLink to="/about">Blog</NavLink>
+
+<div className="flex md:hidden items-center justify-center gap-3 lg:order-2 ml-auto">
+        <Btn
+          title="Login"
+          loc="/login"
+          styl="bg-gray-100 shadow-[1px_1px_0_2px] shadow-gray-400 hover:shadow-[-1px_-1px_0]"
+        />
+        <Btn
+          title="Register"
+          loc="/login"
+          styl="bg-black shadow-[1px_1px_0] shadow-gray-400 hover:shadow-[-1px_-1px_0] text-white"
+        />
       </div>
-      <div className="flex items-center justify-center gap-3 lg:order-2 ml-auto">
+
+      </div>
+      <div className="hidden md:flex items-center justify-center gap-3 lg:order-2 ml-auto">
         <Btn
           title="Login"
           loc="/login"
