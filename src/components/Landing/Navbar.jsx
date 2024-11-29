@@ -12,8 +12,8 @@ const Navbar = () => {
       </Link>
       <div
         className={`${menu
-            ? "hidden"
-            : "absolute top-16 left-0 right-0 bg-white flex flex-col px-4"
+          ? "hidden"
+          : "absolute top-16 left-0 right-0 bg-white flex flex-col px-4"
           } lg:flex lg:flex-row lg:static lg:bg-transparent lg:items-center lg:gap-4 my-3 mx-auto gap-2 font-bold text-sm order-1 w-full lg:w-auto lg:order-0 *:p-2 *:rounded-md *:cursor-pointer hover:*:hover:bg-slate-300`}
       >
 
@@ -24,18 +24,18 @@ const Navbar = () => {
         <NavLink to="/about">Help Center</NavLink>
         <NavLink to="/about">Blog</NavLink>
 
-<div className="flex md:hidden items-center justify-center gap-3 lg:order-2 ml-auto">
-        <Btn
-          title="Login"
-          loc="/login"
-          styl="bg-gray-100 shadow-[1px_1px_0_2px] shadow-gray-400 hover:shadow-[-1px_-1px_0]"
-        />
-        <Btn
-          title="Register"
-          loc="/login"
-          styl="bg-black shadow-[1px_1px_0] shadow-gray-400 hover:shadow-[-1px_-1px_0] text-white"
-        />
-      </div>
+        <div className="cursor-default flex md:hidden items-center gap-3 lg:order-2">
+          <Btn
+            title="Login"
+            loc="/login"
+            styl="bg-gray-100 shadow-[1px_1px_0_2px] shadow-gray-400 hover:shadow-[-1px_-1px_0]"
+          />
+          <Btn
+            title="Register"
+            loc="/login"
+            styl="bg-black shadow-[1px_1px_0] shadow-gray-400 hover:shadow-[-1px_-1px_0] text-white"
+          />
+        </div>
 
       </div>
       <div className="hidden md:flex items-center justify-center gap-3 lg:order-2 ml-auto">

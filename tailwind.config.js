@@ -8,6 +8,10 @@ module.exports = {
         'responsive2': 'repeat(auto-fill, minmax(250px, 1fr))'
       
       },
+      gridTemplateAreas:{
+        'stack': "'stack'"
+       
+      },
       colors: {
         primaryColor: "#0f5a02",
         secondaryColor: "#f8faf7",

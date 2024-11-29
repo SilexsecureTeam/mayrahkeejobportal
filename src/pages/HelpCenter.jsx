@@ -99,7 +99,7 @@ const HelpCenter = () => {
         </button>
       </div>
 
-      {/* Footer */}
+      Footer
       <footer className="relative bg-[#35a835] text-white py-6 pt-10 mt-10">
         {/* Layered Background */}
         <div className="absolute inset-x-0 top-[-3px] h-8 bg-gradient-to-l from-[#50b850] to-transparent transform -skew-y-3"></div>
