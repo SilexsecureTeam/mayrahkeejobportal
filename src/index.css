@@ -139,3 +139,30 @@
   flex-direction: column;
   gap: 1em;
 }
+
+
+
+@media (max-width: 768px) {
+  .advert {
+    width: 100%;
+    padding: 2rem;
+  }
+  
+  .advert > * {
+    transform: none;
+  }
+  
+  .advert > *:nth-child(1) {
+    transform: none;
+  }
+  
+  .advert > *:nth-child(3) {
+    transform: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .advert {
+    padding: 1rem;
+  }
+}
