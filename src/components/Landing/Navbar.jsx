@@ -18,7 +18,7 @@ const Navbar = () => {
       >
 
         <NavLink to="/">Home</NavLink>
-        <NavLink to="/pages" className="flex gap-1 items-center md:justify-center">Find Jobs <FaCaretDown /></NavLink>
+        <NavLink to="/pages" className="flex gap-1 items-center">Find Jobs <FaCaretDown /></NavLink>
         <NavLink to="/about">Find Artisans</NavLink>
         <NavLink to="/services">Find Domestic Staffs</NavLink>
         <NavLink to="/about">Help Center</NavLink>
