@@ -4,7 +4,7 @@ import React from "react";
 const Footer = () => {
   return (
     <footer className="bg-green-600 text-white py-6">
-      <div className=" flex flex-col md:flex-row justify-between items-start md:items-center px-4">
+      <div className="w-full flex flex-col md:flex-row justify-between items-start md:items-center px-4">
         {/* Logo and Company Info */}
         <div className="mb-6 md:mb-0">
           <h1 className="text-xl font-bold mb-2">Mayankee</h1>
