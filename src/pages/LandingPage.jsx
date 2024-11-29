@@ -27,8 +27,8 @@ const LandingPage = () => {
         desc="stay informed with experts articles, industry news and tips to help you grow personally and professionally" />
         <News />
         <Advert />
-        <Footer /> 
       </main>
+<Footer /> 
     </div>    
   )
 }
