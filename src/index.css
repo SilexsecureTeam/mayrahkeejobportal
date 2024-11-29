@@ -150,13 +150,13 @@
   
 .advert >*:nth-child(1){
   z-index: 1;
-  transform: rotate(3deg) translate(0);
+  transform: rotate(3deg) translate(2rem, -8.8rem);
 
 }
 
 .advert >*:nth-child(3){
   z-index: 1;
-  transform: rotate(-3deg) translate(0);
+  transform: rotate(-3deg) translate(2rem, 8.8rem);
 }
 }
 
