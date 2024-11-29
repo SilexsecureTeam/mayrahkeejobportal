@@ -1,40 +1,57 @@
-import logo from "../../assets/svgs/main-logo.svg";
-const Footer=()=>{
-    return(
-       <div>Footer</div>
-    //     {/* Footer */}
-    //   <footer className="relative bg-[#35a835] text-white py-6 pt-10 mt-10">
-    //   {/* Footer Content */}
-    //   <div className="relative max-w-4xl mx-auto px-4 flex flex-col md:flex-row justify-between gap-2 leading-10">
-    //     <div>
-    //       <img src={logo} alt="Logo" className="w-40 my-2" />
-    //       <p>Call us: +234(0)80 788 74748</p>
-    //       <p>6th Floor, NICON Plaza 242 Muhammadu Buhari Way, Central Business District, Abuja.</p>
-    //       <a href="mailto:support@mayrahkeeafrica.com" className="text-inherit no-underline">
-    //         support@mayrahkeeafrica.com
-    //       </a>
-    //     </div>
-    //     <div className="mt-4 md:mt-0">
-    //       <h4 className="font-bold text-lg mb-2">About us</h4>
-    //       <ul>
-    //         <li>
-    //           <a href="/about" className="hover:underline">About Us</a>
-    //         </li>
-    //         <li>
-    //           <a href="/faq" className="hover:underline">FAQ</a>
-    //         </li>
-    //         <li>
-    //           <a href="/terms" className="hover:underline">Terms & Conditions</a>
-    //         </li>
-    //         <li>
-    //           <a href="/blog" className="hover:underline">Blog</a>
-    //         </li>
-    //         <li className='flex items-center gap-2'>
-    //           <hr className='w-3 h-1 bg-white' /><a href="/contact" className="hover:underline">Contact Us</a>
-    //         </li>
-    //       </ul>
-    //     </div>
-    //   </div>
-    // </footer>
-    )
-}
+// Footer.jsx
+import React from "react";
+
+const Footer = () => {
+  return (
+    <footer className="bg-green-600 text-white py-6">
+      <div className="container mx-auto flex flex-col md:flex-row justify-between items-start md:items-center px-4">
+        {/* Logo and Company Info */}
+        <div className="mb-6 md:mb-0">
+          <h1 className="text-xl font-bold mb-2">Mayankee</h1>
+          <p className="text-sm">
+            Address goes here. <br />
+            Some description text can also go here.
+          </p>
+        </div>
+
+        {/* Links Section */}
+        <div className="flex flex-col md:flex-row gap-8 text-sm">
+          <div>
+            <h2 className="font-semibold mb-2">Company</h2>
+            <ul>
+              <li className="mb-1"><a href="#about" className="hover:underline">About Us</a></li>
+              <li className="mb-1"><a href="#team" className="hover:underline">Our Team</a></li>
+              <li className="mb-1"><a href="#contact" className="hover:underline">Contact Us</a></li>
+            </ul>
+          </div>
+          <div>
+            <h2 className="font-semibold mb-2">Support</h2>
+            <ul>
+              <li className="mb-1"><a href="#faq" className="hover:underline">FAQ</a></li>
+              <li className="mb-1"><a href="#terms" className="hover:underline">Terms & Conditions</a></li>
+              <li className="mb-1"><a href="#privacy" className="hover:underline">Privacy Policy</a></li>
+            </ul>
+          </div>
+        </div>
+
+        {/* Social Media Links */}
+        <div className="mt-6 md:mt-0 flex gap-4">
+          <a href="#facebook" className="hover:scale-110 transition">
+            <i className="fab fa-facebook-f text-xl"></i>
+          </a>
+          <a href="#twitter" className="hover:scale-110 transition">
+            <i className="fab fa-twitter text-xl"></i>
+          </a>
+          <a href="#linkedin" className="hover:scale-110 transition">
+            <i className="fab fa-linkedin-in text-xl"></i>
+          </a>
+        </div>
+      </div>
+      <div className="text-center text-sm mt-6 border-t border-green-700 pt-4">
+        © 2024 Mayankee. All Rights Reserved.
+      </div>
+    </footer>
+  );
+};
+
+export default Footer;
