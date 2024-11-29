@@ -4,7 +4,7 @@ import approved from '../../assets/pngs/approved.png'
 import {BiBriefcase} from 'react-icons/bi'
 const Advert=()=>{
     return(
-        <div className="w-full min-h-72 my-8 rounded-xl p-8 bg-green-700 text-white flex flex-wrap gap-10 justify-between items-center">
+        <div className="w-full min-h-72 my-8 rounded-xl p-8 bg-green-700 text-white flex flex-wrap gap-16 md:gap-10 justify-between items-center">
             {/* Left */}
             <section className="flex flex-col gap-3 w-96 my-4">
                 <h3 className="text-2xl font-bold">Join our community of ambitious professionals today and unlock the doors to dream career</h3>
