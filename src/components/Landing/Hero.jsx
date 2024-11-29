@@ -20,7 +20,7 @@ const Hero = () => {
         </h1>
       </section>
 
-      <form className="mt-5 text-xs flex flex-col md:flex-row items-center justify-between gap-4 bg-green-200/20 border border-gray-200 rounded-2xl md:rounded-full max-w-[900px] w-[90%] min-h-14 p-2">
+      <form className="mt-5 text-xs flex flex-col md:flex-row items-center justify-between gap-4 bg-green-200/20 border border-gray-200 rounded-3xl md:rounded-full max-w-[900px] w-[90%] min-h-14 p-2">
   {/* Input Section */}
   <section className="flex flex-col md:flex-row w-[80%] py-3 md:py-0 md:w-full items-center justify-center gap-4 relative">
     {/* Job Title Input */}
