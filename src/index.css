@@ -148,17 +148,6 @@
     padding: 2rem;
   }
   
-  .advert > * {
-    transform: none;
-  }
-  
-  .advert > *:nth-child(1) {
-    transform: none;
-  }
-  
-  .advert > *:nth-child(3) {
-    transform: none;
-  }
 .advert >*:nth-child(1){
   z-index: 1;
   transform: rotate(3deg) translate(0);
