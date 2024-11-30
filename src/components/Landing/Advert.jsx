@@ -6,12 +6,13 @@ import {BiBriefcase} from 'react-icons/bi'
 const Advert=()=>{
     return(
         <div className="w-full min-h-72 my-8 rounded-xl p-8 text-white flex flex-wrap gap-16 md:gap-10 justify-between items-center"
- style={{
-        backgroundImage: `linear-gradient(rgba(0,100,0,.8), rgba(0,100,0,.7)),url(${tunnel})`,
+       style={{
+        backgroundImage: `linear-gradient(rgba(0,0,0,.5), rgba(0,0,0,.6)), url(${tunnel})`,
         backgroundPosition: 'center',
         backgroundSize: 'cover',
         backgroundRepeat: 'no-repeat'
-      }}>
+      }}
+>
             {/* Left */}
             <section className="flex flex-col gap-3 w-96 my-4">
                 <h3 className="text-2xl font-bold">Join our community of ambitious professionals today and unlock the doors to dream career</h3>
