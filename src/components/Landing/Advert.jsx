@@ -13,7 +13,7 @@ const Advert=()=>{
         backgroundPosition: 'center',
         backgroundSize: '100% 100%',
         backgroundRepeat: 'no-repeat',
-        backgroundBlendMode: "multiply"
+        backgroundBlendMode: "overlay"
       }}
 >
             {/* Left */}
