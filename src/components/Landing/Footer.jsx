@@ -36,7 +36,12 @@ const Footer = () => {
           </div>
         </div>
       </div>
-      <div className=" mt-6 border-t border-white pt-4 flex flex-wrap justify-center md:justify-between mx-4">
+      <div className=" mt-6 border-t border-white pt-4 flex flex-wrap justify-center md:justify-between mx-4"
+style={{
+borderImageSource: "linear-gradient(to bottom, rgba(102, 102, 102, 0.05), #FFFFFF, rgba(102, 102, 102, 0.05))",
+borderImageSlice: "2",
+border-image-repeat: "stretch"
+}}>
       <p className="text-center text-sm">© 2024 Mayankee. All Rights Reserved.</p>
         {/* Social Media Links */}
         <div className="mt-6 md:mt-0 flex gap-4 text-white">
