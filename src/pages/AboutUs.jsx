@@ -4,8 +4,8 @@ import Footer from '../components/Landing/Footer';
 import Navbar from '../components/Landing/Navbar';
 import Empowering from '../components/Landing/Empowering';
 import InfoSection from '../components/Landing/InfoSection';
-import missionImg from '../../assets/pngs/about3.png'
-import visionImg from '../../assets/pngs/about4.png'
+import missionImg from '../assets/pngs/about3.png'
+import visionImg from '../assets/pngs/about4.png'
 const AboutUs=()=>{
     return(
     <div className='relative max-w-[1200px] w-full mx-auto'>
