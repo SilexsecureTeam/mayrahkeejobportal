@@ -1,12 +1,18 @@
 import { FaSearchLocation } from 'react-icons/fa';
 import { jobDetails } from './LandingData';
-import approved from '../../assets/pngs/approved.png'
+import tunnel from '../../assets/pngs/Tunnel.png'
 import {BiBriefcase} from 'react-icons/bi'
 const Advert=()=>{
     return(
         <div className="w-full min-h-72 my-8 rounded-xl p-8 bg-green-700 text-white flex flex-wrap gap-16 md:gap-10 justify-between items-center">
             {/* Left */}
-            <section className="flex flex-col gap-3 w-96 my-4">
+            <section className="flex flex-col gap-3 w-96 my-4"
+      style={{
+        backgroundImage: `linear-gradient(rgba(0,100,0,.5), rgba(0,0,100,.5)), url(${tunnel})`,
+        backgroundPosition: 'center',
+        backgroundSize: 'cover',
+        backgroundRepeat: 'no-repeat'
+      }}>
                 <h3 className="text-2xl font-bold">Join our community of ambitious professionals today and unlock the doors to dream career</h3>
                 <p className="text-sm">Figma ipsum component variant main layer. Outline distribute image line rotate flows.</p>
                 <button className="mt-2 cursor-pointer font-medium py-2 px-6 rounded-full capitalize w-40 bg-black text-sm text-white"> Get started now</button>
