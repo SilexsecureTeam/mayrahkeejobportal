@@ -4,7 +4,7 @@ const InfoSection = ({ title, description, buttonText, imageSrc, reverse }) => {
   return (
     <section className="max-w-screen-xl mx-auto p-6">
       <div
-        className={`flex flex-col ${reverse ? "md:flex-row-reverse" : "md:flex-row"} gap-6 items-center`}
+        className={`flex flex-col ${reverse ? "md:flex-row-reverse" : "md:flex-row"} gap-6 items-center md:items-stretch`}
       >
         <div className="md:w-1/2">
           <img src={imageSrc} alt={title} className="rounded-md shadow" />
