@@ -6,7 +6,7 @@ const Empowering = () => {
     <div className="flex flex-col md:flex-row gap-4 md:gap-6 lg:gap-8">
       {/* Text Section */}
       <section className="w-full md:w-1/2 flex flex-col gap-2 md:gap-4 lg:gap-6">
-        <h4 className="capitalize text-xl md:text-2xl lg:text-3xl">
+        <h4 className="capitalize text-semibold text-xl md:text-2xl lg:text-3xl">
           Redefining Recruitment. <span className="text-green-800 line-through">Empowering</span> potential
         </h4>
         <p className="text-sm md:text-base lg:text-lg">
