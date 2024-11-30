@@ -7,7 +7,7 @@ const Hero = () => {
   return (
     <div className="relative rounded-xl my-4 text-white min-h-[550px] flex flex-col items-center justify-around gap-5 *:transition-all *:ease-in-out *:duration-500"
       style={{
-        backgroundImage: `linear-gradient(rgba(0,0,0,.5), rgba(0,0,0,.6)), url(${bgImg})`,
+        backgroundImage: `linear-gradient(rgba(0,100,0,.5), rgba(0,100,0,.6)), url(${bgImg})`,
         backgroundPosition: 'center',
         backgroundSize: 'cover',
         backgroundRepeat: 'no-repeat'
