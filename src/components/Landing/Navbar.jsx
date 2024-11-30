@@ -8,7 +8,7 @@ const Navbar = () => {
   return (
     <nav className="fixed top-0 right-0 left-0 z-20 max-w-[1200px] min-h-20 w-full mx-auto bg-white flex p-3 justify-between items-center flex-wrap md:flex-nowrap">
       <Link to="/" className="flex justify-center items-center mx-2">
-        <img src={logo} alt="logo" className="w-28 md:w-32" />
+        <img src={logo} alt="logo" className="w-28 md:w-36" />
       </Link>
       <div
         className={`${menu
