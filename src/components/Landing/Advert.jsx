@@ -11,7 +11,7 @@ const Advert=()=>{
        style={{
         backgroundImage: `linear-gradient(rgba(0,100,0,.6), rgba(0,100,0,.6)), url(${tunnel})`,
         backgroundPosition: 'center',
-        backgroundSize: '100%',
+        backgroundSize: '100% 100%',
         backgroundRepeat: 'no-repeat'
       }}
 >
