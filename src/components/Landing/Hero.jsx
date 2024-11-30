@@ -5,7 +5,7 @@ import bgImg from "../../assets/pngs/happy-couple-of-african-american-business-p
 import { FaSearch, FaSearchLocation } from "react-icons/fa";
 const Hero = () => {
   return (
-<div className="bg-black">
+
     <div className="relative rounded-xl my-4 text-white min-h-[550px] flex flex-col items-center justify-around gap-5 *:transition-all *:ease-in-out *:duration-500"
       style={{
         backgroundImage: `linear-gradient(rgba(0,50,0,.5), rgba(0,50,0,.6)), url(${bgImg})`,
@@ -57,7 +57,6 @@ const Hero = () => {
 
 
     </div>
-</div>
   );
 };
 
