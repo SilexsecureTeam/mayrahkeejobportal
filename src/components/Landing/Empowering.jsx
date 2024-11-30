@@ -14,8 +14,8 @@ const Empowering = () => {
         </p>
       </section>
       <section className="flex flex-col md:flex-row items-center gap-3 md:gap-6 lg:gap-8">
-        <img className="w-48 h-48 md:w-64 md:h-64 object-cover" src={img1} alt="image" />
-        <img className="w-48 h-48 md:w-64 md:h-64 object-cover" src={img2} alt="image" />
+        <img className="w-48 h-48 md:w-64 md:h-64 object-cover rounded-xl" src={img1} alt="image" />
+        <img className="w-48 h-48 md:w-64 md:h-64 object-cover rounded-xl" src={img2} alt="image" />
       </section>
     </div>
   );
