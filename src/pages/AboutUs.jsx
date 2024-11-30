@@ -4,6 +4,8 @@ import Footer from '../components/Landing/Footer';
 import Navbar from '../components/Landing/Navbar';
 import Empowering from '../components/Landing/Empowering';
 import InfoSection from '../components/Landing/InfoSection';
+import missionImg from '../../assets/pngs/about3.png'
+import visionImg from '../../assets/pngs/about4.png'
 const AboutUs=()=>{
     return(
     <div className='relative max-w-[1200px] w-full mx-auto'>
@@ -15,14 +17,14 @@ const AboutUs=()=>{
         title="Our Mission"
         description="Our mission is to become Africa’s most trusted and comprehensive online platform for recruitment. We strive to provide innovative and customized solutions that seamlessly connect employers, service providers, and job seekers."
         buttonText="Get Started Now"
-        imageSrc="handshake.jpg"
+        imageSrc={missionImg}
         reverse={false}
       />
       <InfoSection
         title="Vision Statement"
         description="Our vision is to be recognized as Africa’s foremost recruitment partner and employer of choice. We aim to set new benchmarks for innovation, ethical practices, and leadership in the industry."
         buttonText="Get Started Now"
-        imageSrc="vision.jpg"
+        imageSrc={visionImg}
         reverse={true}
       />
 <Footer /> 
