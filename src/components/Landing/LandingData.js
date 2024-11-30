@@ -2,7 +2,8 @@ import img from '../../assets/pngs/company-2-icon.png'
 import employer from '../../assets/pngs/employer.png'
 import candidate from '../../assets/pngs/candidate.png';
 import artisan from '../../assets/pngs/artisan.png';
-
+import student from '../../assets/pngs/student.png';
+import student2 from '../../assets/pngs/student2.png';
 export const jobDetails=[
     {
         id:1,
@@ -84,42 +85,42 @@ export const recentNews=[
     {
         id:1,
         title:"Making your research first helps",
-        image:employer,
+        image:student,
         desc:"Figma ipsum component variant main lay layer comment andyflatten italic line arrange library inspect ipsum. Figma ipsum component variant main lay layer comment andyflatten italic line arrange library inspect ipsum",
         time_posted:"3 hours ago",
         reads:20
     },{
         id:2,
         title:"Making your research first helps",
-        image:artisan,
+        image:student2,
         desc:"Figma ipsum component variant main lay layer comment andyflatten italic line arrange library inspect ipsum. Figma ipsum component variant main lay layer comment andyflatten italic line arrange library inspect ipsum",
         time_posted:"3 hours ago",
         reads:10
     },{
         id:3,
         title:"Making your research first helps",
-        image:candidate,
+        image:student2,
         desc:"Figma ipsum component variant main lay layer comment andyflatten italic line arrange library inspect ipsum. Figma ipsum component variant main lay layer comment andyflatten italic line arrange library inspect ipsum",
         time_posted:"3 hours ago",
         reads:10
         },{
         id:4,
         title:"Making your research first helps",
-        image:artisan,
+        image:student2,
         desc:"Figma ipsum component variant main lay layer comment andyflatten italic line arrange library inspect ipsum. Figma ipsum component variant main lay layer comment andyflatten italic line arrange library inspect ipsum",
         time_posted:"3 hours ago",
         reads:10
     },{
         id:5,
         title:"Making your research first helps",
-        image:artisan,
+        image:student2,
         desc:"Figma ipsum component variant main lay layer comment andyflatten italic line arrange library inspect ipsum. Figma ipsum component variant main lay layer comment andyflatten italic line arrange library inspect ipsum",
         time_posted:"3 hours ago",
         reads:10
     },{
         id:6,
         title:"Making your research first helps",
-        image:artisan,
+        image:student2,
         desc:"Figma ipsum component variant main lay layer comment andyflatten italic line arrange library inspect ipsum. Figma ipsum component variant main lay layer comment andyflatten italic line arrange library inspect ipsum",
         time_posted:"3 hours ago",
         reads:10
