@@ -8,7 +8,7 @@ const Advert=()=>{
             {/* Left */}
             <section className="flex flex-col gap-3 w-96 my-4"
       style={{
-        backgroundImage: `linear-gradient(rgba(0,100,0,.5), rgba(0,0,100,.5)), url(${tunnel})`,
+        backgroundImage: `linear-gradient(rgba(0,100,0,.5), rgba(0,100,0,.5)), url(${tunnel})`,
         backgroundPosition: 'center',
         backgroundSize: 'cover',
         backgroundRepeat: 'no-repeat'
