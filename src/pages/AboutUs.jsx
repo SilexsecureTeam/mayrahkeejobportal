@@ -10,7 +10,7 @@ const AboutUs=()=>{
     return(
     <div className='relative max-w-[1200px] w-full mx-auto'>
       <Navbar />
-      <main className="relative my-20 px-5 h-auto">
+      <main className="relative my-20 px-5 h-auto flex flex-col gap-3">
         <Banner title="About Us" desc="Connecting talent to opportunities with integrity and innovation." />
             <Empowering />
 <InfoSection
