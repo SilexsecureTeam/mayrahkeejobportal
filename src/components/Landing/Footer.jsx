@@ -8,7 +8,7 @@ const Footer = () => {
     <footer className="bg-green-600 text-white py-6">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center px-4">
         {/* Logo and Company Info */}
-        <div className="mb-6 md:mb-0 flex flex-col gap-2">
+        <div className="mb-6 md:mb-0 flex flex-col">
           <img src={logo} alt="logo" className="w-32 md:w-48 my-2" />
           <a className="text-sm my-2" href="mailto:support@mayraykeeafrica.com">support@mayraykeeafrica.com</a>
          <a className="text-sm my-2" href="tel:+23480788748">+234(0)80 788 748</a>
