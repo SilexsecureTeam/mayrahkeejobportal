@@ -13,7 +13,7 @@ const InfoSection = ({ title, description, buttonText, imageSrc, reverse }) => {
           <h3 className="text-2xl font-semibold mb-4">{title}</h3>
           <p className="text-gray-600 mb-4">{description}</p>
           {buttonText && (
-            <button className="bg-black text-white px-6 py-2 rounded-full">{buttonText}</button>
+            <button className="bg-black text-white px-6 py-2 rounded-full w-max">{buttonText}</button>
           )}
         </div>
       </div>
