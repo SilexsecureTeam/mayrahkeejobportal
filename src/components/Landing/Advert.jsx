@@ -1,6 +1,7 @@
 import { FaSearchLocation } from 'react-icons/fa';
 import { jobDetails } from './LandingData';
 import tunnel from '../../assets/pngs/Tunnel.png'
+import approved from '../../assets/pngs/approved.png'
 import {BiBriefcase} from 'react-icons/bi'
 const Advert=()=>{
     return(
