@@ -1,6 +1,6 @@
 
-import img1 from '../../assets/pngs/student.png';
-import img2 from '../../assets/pngs/student2.png';
+import img1 from '../../assets/pngs/about2.png';
+import img2 from '../../assets/pngs/about1.png';
 
 const Empowering = () => {
   return (
