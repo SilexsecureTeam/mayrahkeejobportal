@@ -6,7 +6,7 @@ import {BiBriefcase} from 'react-icons/bi'
 const Advert=()=>{
     return(
         <div className="w-full min-h-72 my-8 rounded-xl p-8 text-white flex flex-wrap gap-16 md:gap-10 justify-between items-center" style={{
-        backgroundImage: `linear-gradient(rgba(0,100,0,.5), rgba(0,100,0,.5)), url(${tunnel})`,
+        backgroundImage: `linear-gradient(rgba(0,100,0,.8), rgba(0,100,0,.7)), url(${tunnel})`,
         backgroundPosition: 'center',
         backgroundSize: 'cover',
         backgroundRepeat: 'no-repeat'
