@@ -12,7 +12,8 @@ const Advert=()=>{
         backgroundImage: `linear-gradient(rgba(0,150,0,.5), rgba(0,150,0,.5)), url(${tunnel})`,
         backgroundPosition: 'center',
         backgroundSize: '100% 100%',
-        backgroundRepeat: 'no-repeat'
+        backgroundRepeat: 'no-repeat',
+        backgroundBlendMode: "overlay"
       }}
 >
             {/* Left */}
