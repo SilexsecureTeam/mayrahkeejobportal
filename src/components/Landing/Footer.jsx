@@ -5,7 +5,7 @@ import {TiSocialFacebookCircular, TiSocialInstagram} from 'react-icons/ti'
 import {RiLinkedinBoxLine} from 'react-icons/ri'
 const Footer = () => {
   return (
-    <footer className="bg-green-600 text-white py-6" style={{backgroundImage: "linear-gradient(to bottom, rgba(15, 90, 2, 0.89), rgba(71, 170, 73, 0.9))" }}>
+    <footer className="bg-green-600 text-white py-6" style={{backgroundImage: "linear-gradient(to top, rgba(15, 90, 2, 0.89), rgba(71, 170, 73, 0.9))" }}>
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center px-4">
         {/* Logo and Company Info */}
         <div className="mb-6 md:mb-0 flex flex-col">
