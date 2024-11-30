@@ -8,7 +8,7 @@ const Advert=()=>{
     return(
         <div className="w-full min-h-72 my-8 rounded-xl p-8 text-white flex flex-wrap gap-16 md:gap-10 justify-between items-center"
        style={{
-        backgroundImage: `linear-gradient(rgba(0,100,0,.7), rgba(0,0,100,.7)), url(${bgImg})`,
+        backgroundImage: `linear-gradient(rgba(0,100,0,.7), rgba(0,0,100,.7)), url(${tunnel})`,
         backgroundPosition: 'center',
         backgroundSize: 'cover',
         backgroundRepeat: 'no-repeat'
