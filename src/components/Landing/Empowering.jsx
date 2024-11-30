@@ -16,7 +16,7 @@ const Empowering = () => {
       </section>
 
       {/* Image Section */}
-      <section className="w-full md:w-1/2 flex flex-row gap-3 md:gap-6 lg:gap-8">
+      <section className="w-full md:w-1/2 flex flex-row gap-3 md:px-3 md:gap-6 lg:gap-8">
         <img
           className="w-1/2 h-auto object-cover rounded-xl"
           src={img1}
