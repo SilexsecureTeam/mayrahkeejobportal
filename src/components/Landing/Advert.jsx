@@ -9,7 +9,7 @@ const Advert=()=>{
 <div className="bg-green-700/70 rounded-xl">
         <div className="w-full min-h-72 my-8 rounded-xl p-8 text-white flex flex-wrap gap-16 md:gap-10 justify-between items-center"
        style={{
-        backgroundImage: `linear-gradient(rgba(0,100,0,.6), rgba(0,100,0,.6)), url(${tunnel})`,
+        backgroundImage: `linear-gradient(rgba(0,150,0,.5), rgba(0,150,0,.5)), url(${tunnel})`,
         backgroundPosition: 'center',
         backgroundSize: '100% 100%',
         backgroundRepeat: 'no-repeat'
