@@ -1,12 +1,18 @@
 
 import Banner from '../components/Landing/Banner';
+import Footer from '../components/Landing/Footer';
+import Navbar from '../components/Landing/Navbar';
 import Empowering from '../components/Landing/Empowering';
 const AboutUs=()=>{
     return(
-        <div className="flex flex-col gap-4 justify-center items-center min-h-32">
-            <Banner title="About Us" desc="Connecting talent to opportunities with integrity and innovation." />
+    <div className='relative max-w-[1200px] w-full mx-auto'>
+      <Navbar />
+      <main className="relative my-20 px-5 min-h-screen">
+        <Banner title="About Us" desc="Connecting talent to opportunities with integrity and innovation." />
             <Empowering />
-        </div>
+<Footer /> 
+      </main>
+    </div>    
     )
 }
 
