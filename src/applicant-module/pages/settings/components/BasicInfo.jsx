@@ -1,4 +1,3 @@
-
 import React, { useContext, useEffect, useState } from "react";
 import { TbPhoto } from "react-icons/tb";
 import DynamicExperienceForm from "./DynamicExperienceForm";
@@ -23,12 +22,11 @@ const BasicInfo = ({ setIsOpen }) => {
   const [showMsg, setShowMsg] = useState(false);
   const [loading, setLoading] = useState(false);
   const [selectId, setSelectId] = useState(null);
-  const [selectStates, setSelectStates] = useState();
+  const [selectStates, setSelectStates] = useState([]);
   const [selectState, setSelectState] = useState();
   const [selectCity, setSelectCity] = useState();
   const [countryInfo, setCountryInfo] = useState();
-const [selectedLanguages, setSelectedLanguages] = useState([]);
-
+  const [selectedLanguages, setSelectedLanguages] = useState([]);
 
   const countries = Country.getAllCountries();
   const states = State.getAllStates();
@@ -57,7 +55,7 @@ const [selectedLanguages, setSelectedLanguages] = useState([]);
       };
     });
   };
-useEffect(() => {
+  useEffect(() => {
     if (candidate?.languages) {
       setSelectedLanguages(candidate?.languages?.split(","));
     }
@@ -69,28 +67,28 @@ useEffect(() => {
     candidate_id: user.id ? user.id : "",
     // full_name: user.full_name ? user.full_name : "",
     profile: candidate?.profile || null,
-    full_name: user.first_name ? ` ${user.first_name} ${user.last_name}` : "",
+    full_name: user?.first_name ? ` ${user.first_name} ${user.last_name}` : "",
     date_of_birth: candidate?.date_of_birth ? candidate?.date_of_birth : "",
-    gender: candidate.gender ? candidate?.gender : "",
+    gender: candidate?.gender ? candidate?.gender : "",
     phone_number: candidate.phone_number ? candidate?.phone_number : "",
     email: candidate.email ? candidate?.email : "",
     background_profile: null,
-    password: user.password ? user.password : "",
-    means_of_identification: candidate.means_of_identification
+    password: user?.password ? user.password : "",
+    means_of_identification: candidate?.means_of_identification
       ? candidate?.means_of_identification
       : "",
-    nin: candidate.nin ? candidate?.nin : "",
+    nin: candidate?.nin ? candidate?.nin : "",
     nin_slip: null,
-    educational_qualification: candidate.educational_qualification
+    educational_qualification: candidate?.educational_qualification
       ? candidate?.educational_qualification
       : "",
-    work_experience: candidate.work_experience
+    work_experience: candidate?.work_experience
       ? candidate?.work_experience
       : "",
     languages: selectedLanguages,
-    salary_type: candidate.salary_type ? candidate?.salary_type : "",
-    salary: candidate.salary ? candidate?.salary : "",
-    categories: candidate.categories ? candidate?.categories : "",
+    salary_type: candidate?.salary_type ? candidate?.salary_type : "",
+    salary: candidate?.salary ? candidate?.salary : "",
+    categories: candidate?.categories ? candidate?.categories : "",
     // show_my_profile: true,
     preferred_job_role: candidate.preferred_job_role
       ? candidate?.preferred_job_role
@@ -145,10 +143,8 @@ useEffect(() => {
     if (name === "country") {
       const countryInfoDetails = Country.getCountryByCode(value);
       setCountryInfo(countryInfoDetails);
-      // console.log(countryInfo.name)
       const states = State.getStatesOfCountry(countryInfoDetails?.isoCode);
       setSelectStates(states);
-      console.log(countryInfoDetails?.name);
       setDetails((prev) => {
         return {
           ...prev,
@@ -164,7 +160,7 @@ useEffect(() => {
     } else if (name == "state") {
       const cities = City.getCitiesOfState(countryInfo.isoCode, value);
       setSelectCity(cities);
-      const stateName = State.getStateByCodeAndCountry(
+      const stateName = State.getStateByCode(
         value,
         countryInfo.isoCode
       );
@@ -192,10 +188,29 @@ useEffect(() => {
       };
     });
 
-if (name === "languages") {
-      const selectedLanguageOptions = Array.from(e.target.selectedOptions, (option) => option.value);
-setSelectedLanguages(selectedLanguageOptions)
-      setDetails((prevDetails) => ({ ...prevDetails, languages: selectedLanguageOptions.join(",") }));
+    if (name === "languages") {
+      const selectedLanguageOptions = Array.from(
+        e.target.selectedOptions,
+        (option) => option.value
+      );
+      // console.log(selectedLanguageOptions)
+      if (!languageState(...selectedLanguageOptions)) {
+        setDetails((prevDetails) => ({
+          ...prevDetails,
+          languages: [...selectedLanguages, ...selectedLanguageOptions].join(
+            ","
+          ),
+        }));
+        setSelectedLanguages([
+          ...selectedLanguages,
+          ...selectedLanguageOptions,
+        ]);
+      } else {
+        const newList = selectedLanguages.filter(
+          (current) => current !== selectedLanguageOptions[0]
+        );
+        setSelectedLanguages([...newList]);
+      }
     }
     setErrorMsg(null);
   };
@@ -209,6 +224,9 @@ setSelectedLanguages(selectedLanguageOptions)
     });
     setErrorMsg("");
   };
+
+  const languageState = (language) =>
+    selectedLanguages?.find((current) => current === language) ? true : false;
 
   // const handleEducation = (event) => {
   //     setDetails((prev) => {
@@ -295,8 +313,13 @@ setSelectedLanguages(selectedLanguageOptions)
       alert("Please select a valid JPEG or PNG file.");
     }
   };
-  console.log(details);
-  console.log(candidate);
+
+  // useEffect(() => {
+  //   if (countryInfo) {
+  //     console.log(countryInfo)
+  //     setSelectStates(() => State.getStateByCode(countryInfo?.isoCode));
+  //   }
+  // }, [countryInfo]);
 
   return (
     <div className="max-w-full text-[#515B6F] text-base overflow-x-hidden">
@@ -314,7 +337,11 @@ setSelectedLanguages(selectedLanguageOptions)
               <div className="">
                 <img
                   className="w-[100px] h-[100px] rounded-full"
-                  src={profileImageUrl ? profileImageUrl : `${IMAGE_URL}/${candidate.profile}`}
+                  src={
+                    profileImageUrl
+                      ? profileImageUrl
+                      : `${IMAGE_URL}/${candidate.profile}`
+                  }
                   alt=""
                 />
               </div>
@@ -547,28 +574,29 @@ setSelectedLanguages(selectedLanguageOptions)
                               onChange={handleOnChange}
                               className="border w-full focus:outline-none p-2 pb-1"
                             />
-                        
                           </label>
                         </div>
-                      <div className="">
-  <label className="block">
-    <span className="block text-sm font-medium text-slate-700 mb-1"> Language </span>
-    <select 
-      multiple 
-      value={selectedLanguages}
-      name="languages" 
-      onChange={handleOnChange} 
-      className="border w-full focus:outline-none p-2 pb-1"
-    >
-      <option value="">-- select --</option>
-      <option value="english">English</option>
-      <option value="french">French</option>
-      <option value="hausa">Hausa </option>
-      <option value="yaruba">Yaruba</option>
-      <option value="igbo">Igbo</option>
-    </select>
-  </label>
-</div>
+                        <div className="flex flex-col">
+                          <label className="block">
+                            <span className="block text-sm font-medium text-slate-700 mb-1">
+                              {" "}
+                              Language{" "}
+                            </span>
+                            <select
+                              multiple
+                              value={selectedLanguages}
+                              name="languages"
+                              onChange={handleOnChange}
+                              className="border w-full focus:outline-none p-2 pb-1"
+                            >
+                              <option value="english">English</option>
+                              <option value="french">French</option>
+                              <option value="hausa">Hausa </option>
+                              <option value="yaruba">Yaruba</option>
+                              <option value="igbo">Igbo</option>
+                            </select>
+                          </label>
+                        </div>
                         <div className="">
                           <label className="block">
                             <span className="block text-sm font-medium text-slate-700 mb-1">
@@ -710,8 +738,10 @@ setSelectedLanguages(selectedLanguageOptions)
                             >
                               <option value="">-- select --</option>
                               {countries.map((country) => (
-                                <option key={country.isoCode}
-                                  value={country.name}
+                                <option
+                                  key={country.isoCode}
+                                  value={country.isoCode}
+
                                 >
                                   {country.name}
                                 </option>
@@ -732,14 +762,11 @@ setSelectedLanguages(selectedLanguageOptions)
                             >
                               <option value="">-- select --</option>
 
-{selectStates?.map((each) => (
-  <option 
-    key={each.isoCode} 
-    value={each.name}
-  >
-    { each.name}
-  </option>
-))}
+                              {selectStates?.map((each) => (
+                                <option key={each.isoCode} value={each.name}>
+                                  {each.name}
+                                </option>
+                              ))}
                             </select>
                           </label>
                         </div>
@@ -756,7 +783,7 @@ setSelectedLanguages(selectedLanguageOptions)
                             >
                               <option value="">-- select --</option>
                               {selectCity?.map((city) => (
-                                <option key={city.isoCode} value={city.name}>
+                                <option key={city.isoCode} value={city.isoCode}>
                                   {city.name}
                                 </option>
                               ))}

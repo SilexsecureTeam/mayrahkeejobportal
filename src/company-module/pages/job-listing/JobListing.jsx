@@ -20,9 +20,6 @@ function JobListing() {
         <div className="w-full flex flex-col md:flex-row justify-between">
           <div className="flex flex-col">
             <h2 className="font-semibold text-md">Job Listing</h2>
-            <span className="text-sm md:text-little text-gray-400">
-              Here is your jobs listing status from July 19 - July 25.
-            </span>
           </div>
         </div>
 

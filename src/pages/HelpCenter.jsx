@@ -1,11 +1,15 @@
-import React from 'react';
+import React, { useContext } from "react";
 import { useState } from "react";
-import telephone from '../assets/smartphone.jpg'
-import email from '../assets/email.jpg'
-import location from '../assets/image-address.jpg'
-import logo from '../assets/Mayrahkee_Africa_Logo_White.png'
+import telephone from "../assets/smartphone.jpg";
+import email from "../assets/email.jpg";
+import location from "../assets/image-address.jpg";
+import logo from "../assets/Mayrahkee_Africa_Logo_White.png";
+import { AuthContext } from "../context/AuthContex";
+import { useNavigate } from "react-router-dom";
 const HelpCenter = () => {
   const [loading, setLoading] = useState(true);
+  const { authDetails } = useContext(AuthContext);
+  const navigate = useNavigate()
 
   const handleLoad = () => {
     setLoading(false);
@@ -35,10 +39,13 @@ const HelpCenter = () => {
 
       {/* Contact Information */}
       <div className="py-10 px-6 text-center grid grid-cols-1 sm:grid-cols-3 gap-6 justify-center">
-        <div className="flex flex-col items-center" >
+        <div className="flex flex-col items-center">
           <img src={location} className="w-30 my-2" />
           <h3 className="font-semibold text-black text-xl">Address</h3>
-          <p className="text-gray-500 font-bold text-sm">6th Floor, NICON Plaza 242 Muhammadu Buhari Way, Central Business District, Abuja.</p>
+          <p className="text-gray-500 font-bold text-sm">
+            6th Floor, NICON Plaza 242 Muhammadu Buhari Way, Central Business
+            District, Abuja.
+          </p>
         </div>
         <div className="flex flex-col items-center">
           <img src={telephone} className="w-30 my-2" />
@@ -48,7 +55,9 @@ const HelpCenter = () => {
         <div className="flex flex-col items-center">
           <img src={email} className="w-30 my-2" />
           <h3 className="font-semibold text-gray-700 text-xl">Email</h3>
-          <p className="text-sm text-gray-500 font-bold">support@mayrahkeeafrica.com</p>
+          <p className="text-sm text-gray-500 font-bold">
+            support@mayrahkeeafrica.com
+          </p>
         </div>
       </div>
 
@@ -91,23 +100,35 @@ const HelpCenter = () => {
       </div>
 
       {/* Recruiting Section */}
-      <div className="w-[90%] mx-auto p-8 bg-blue-100 mt-6 border rounded">
-        <h3 className="text-xl text-gray-800 font-semibold mb-2">Recruiting?</h3>
-        <p className="text-gray-600 mb-4 max-w-96">Advertise your jobs to millions of monthly users and search 15.8 million CVs in our database.</p>
-        <button className="bg-green-600 text-white py-2 px-4 rounded hover:bg-green-700">
-          Start Recruiting Now
-        </button>
-      </div>
+      {!authDetails.user.role === "candidate" &&
+       (
+        <div className="w-[90%] mx-auto p-8 bg-blue-100 mt-6 border rounded">
+          <h3 className="text-xl text-gray-800 font-semibold mb-2">
+            Recruiting?
+          </h3>
+          <p className="text-gray-600 mb-4 max-w-96">
+            Advertise your jobs to millions of monthly users and search 15.8
+            million CVs in our database.
+          </p>
+          <button 
+          onClick={() => {
+            navigate('/company/job-posting')
+          }}
+          className="bg-green-600 text-white py-2 px-4 rounded hover:bg-green-700">
+            Start Recruiting Now
+          </button>
+        </div>
+      )}
 
       {/* Footer */}
-      <footer className="relative bg-[#35a835] text-white py-6 pt-10 mt-10">
-        {/* Layered Background */}
-        <div className="absolute inset-x-0 top-[-3px] h-8 bg-gradient-to-l from-[#50b850] to-transparent transform -skew-y-3"></div>
+      {/* <footer className="relative bg-[#35a835] text-white py-6 pt-10 mt-10"> */}
+      {/* Layered Background */}
+      {/* <div className="absolute inset-x-0 top-[-3px] h-8 bg-gradient-to-l from-[#50b850] to-transparent transform -skew-y-3"></div>
         <div className="absolute inset-x-0 top-0 h-8 bg-gradient-to-l from-[#35a835] to-transparent transform"></div>
-        <div className="absolute inset-x-0 top-0 h-8 bg-gradient-to-l from-[#66c366] to-transparent transform skew-y-3"></div>
+        <div className="absolute inset-x-0 top-0 h-8 bg-gradient-to-l from-[#66c366] to-transparent transform skew-y-3"></div> */}
 
-        {/* Footer Content */}
-        <div className="relative max-w-4xl mx-auto px-4 flex flex-col md:flex-row justify-between gap-2 leading-10">
+      {/* Footer Content */}
+      {/* <div className="relative max-w-4xl mx-auto px-4 flex flex-col md:flex-row justify-between gap-2 leading-10">
           <div>
             <img src={logo} alt="Logo" className="w-40 my-2" />
             <p>Call us: +234(0)80 788 74748</p>
@@ -136,9 +157,8 @@ const HelpCenter = () => {
               </li>
             </ul>
           </div>
-        </div>
-      </footer>
-
+        </div> */}
+      {/* </footer> */}
     </div>
   );
 };

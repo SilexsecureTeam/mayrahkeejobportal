@@ -38,7 +38,7 @@ function SideBar({ children, authDetails, toogleIsOpen, isMenuOpen }) {
       </div>
 
         {/* user info  */}
-        <div className="max-w-full absolute bottom-3 pl-2 flex gap-[5px]  items-center">
+        <div className="max-w-full absolute bottom-3 left-10 pl-2 flex gap-[5px]  items-center">
         
           <div className="w-1/5 flex-1 flex flex-col">
             <span className="text-secondaryColor text-sm">
@@ -50,7 +50,7 @@ function SideBar({ children, authDetails, toogleIsOpen, isMenuOpen }) {
           </div>
           <img
              src={candidate?.profile ? `${IMAGE_URL}/${candidate.profile}` : 'https://via.placeholder.com/150'}
-            className="flex-shrink-0 h-[45px] w-[45px] rounded-full bg-secondaryColor max-[1200px]:mt-[-30px] transition-all duration-500 object-cover"
+            className="flex-shrink-0 h-[50px] w-[50px] rounded-full bg-secondaryColor max-[1200px]:mt-[-30px] transition-all duration-500 object-cover"
           />
         </div>
       </aside>

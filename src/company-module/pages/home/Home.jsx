@@ -14,6 +14,9 @@ import { useEffect } from "react";
 import { JobContext } from "../../../context/JobContext";
 import { stages } from "../../../utils/constants";
 import { generateDateRange } from "../../../utils/formmaters";
+import { SubscriptionContext } from "../../../context/SubscriptionContext";
+import { IoGift } from "react-icons/io5";
+import SubscriptionOffer from "../../../components/SubsciptionOffer";
 
 function Home() {
   const { authDetails } = useContext(AuthContext);
@@ -55,7 +58,10 @@ function Home() {
 
   const value = applicantsJobType();
 
-  const applicantToReview = applicants.filter(current => current.status === stages[0].name || current.status === 'pending')
+  const applicantToReview = applicants.filter(
+    (current) =>
+      current.status === stages[0].name || current.status === "pending"
+  );
 
   useEffect(() => {
     getApplicantsByEmployee();
@@ -67,6 +73,7 @@ function Home() {
         <title>Company Dashboard | Home</title>
       </Helmet>
       <div className="h-fit w-full py-5 px-2 md:px-12 gap-[15px] flex flex-col">
+        <SubscriptionOffer />
         {/* First ROw */}
         <div className="w-full flex justify-between">
           <div className="flex flex-col gap-[5px]">
@@ -74,7 +81,8 @@ function Home() {
               Good Morning, {authDetails.user.name.split(" ")[0]}
             </h2>
             <span className="text-little text-gray-400">
-              Here is your job listings statistic report from {generateDateRange()}.
+              Here is your job listings statistic report from{" "}
+              {generateDateRange()}.
             </span>
           </div>
 
@@ -91,7 +99,7 @@ function Home() {
 
         {/* Third Row */}
         <JobStatsAndSummary>
-          <JobStatistic applicants={applicants} byCategory={value}/>
+          <JobStatistic applicants={applicants} byCategory={value} />
           <div className="flex flex-col w-full md:w-[30%] px-3 h-fit md:h-full justify-between">
             <JobOpen data={openJobs} />
             <ApplicantSummary applicants={applicants} byCategory={value} />
@@ -99,7 +107,9 @@ function Home() {
         </JobStatsAndSummary>
 
         {/* Fourth Row */}
-        {applicants && <JobUpdates jobs={jobUtils.jobList} applicants={applicants} />}
+        {applicants && (
+          <JobUpdates jobs={jobUtils.jobList} applicants={applicants} />
+        )}
       </div>
     </>
   );

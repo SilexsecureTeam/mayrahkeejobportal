@@ -211,7 +211,7 @@ function useJobManagement() {
       const response = await client.get("/job");
       await set(JOB_MANAGEMENT_Key, response.data);
     } catch (error) {
-      FormatError(error);
+      FormatError(error, setError);
     } finally {
       setLoading(false);
     }
