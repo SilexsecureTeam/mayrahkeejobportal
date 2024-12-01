@@ -17,8 +17,8 @@ import { ChatContextProvider } from "./context/ChatContext";
 
 //Lazy imports of pages
 const Login = lazy(() => import("./pages/Login"));
-const AdminLogin = lazy(()=> import("./pages/AdminLogin"))
-const AdminOTP = lazy(()=> import("./components/AdminAuth/AdminOTP"))
+const AdminLogin = lazy(() => import("./pages/AdminLogin"))
+const AdminOTP = lazy(() => import("./components/AdminAuth/AdminOTP"))
 // const Registration = lazy(() => import("./pages/Registration"));
 const RegistrationTwo = lazy(() => import("./pages/RegistrationTwo"));
 const NotFound = lazy(() => import("./pages/404"));
@@ -33,6 +33,10 @@ const AdminRoutes = lazy(() => import("./routes/useAdminRoute"));
 
 
 const LandingPage = lazy(() => import("./pages/LandingPage"));
+const AboutUs = lazy(() => import("./pages/AboutUs"));
+const Help = lazy(() => import("./pages/Help"));
+const ContactForm=lazy(() => import("./pages/ContactForm"));
+const FAQ=lazy(() => import("./pages/FAQ"));
 function App() {
   return (
     <>
@@ -48,8 +52,12 @@ function App() {
                         <Router>
                           <SessionContextProvider>
                             <Routes>
-                              <Route path="/" element={<Login />} />
-                              <Route path="/landing" element={<LandingPage />} />
+                              <Route path="/login" element={<Login />} />
+                              <Route path="/" element={<LandingPage />} />
+                              <Route path="/help" element={<Help />} />
+                              <Route path="/contact" element={<ContactForm />} />
+                              <Route path="/faq" element={<FAQ />} />
+                              <Route path="/about" element={<AboutUs />} />
                               <Route path="/super/admin/login" element={<AdminLogin />} />
                               <Route path="/super/admin/otp-verification" element={<AdminOTP />} />
 
