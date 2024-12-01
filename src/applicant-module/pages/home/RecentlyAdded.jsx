@@ -1,5 +1,6 @@
 import React from 'react'
 import { MdOutlineMoreHoriz } from 'react-icons/md'
+import { FormatTextToUppecase } from '../../../utils/formmaters'
 
 const RecentlyAdded = ({ newApplicant, newApp }) => {
   const dateCreated = new Date(newApp?.created_at)
@@ -19,7 +20,7 @@ const RecentlyAdded = ({ newApplicant, newApp }) => {
         <p>{dateCreated.toDateString()}</p>
       </div>
       <div className="w-1/6 hidden md:block">
-        <button className="border px-2 p-1 rounded-full">{newApp.status}</button>
+        <button className="border px-2 p-1 rounded-full">{FormatTextToUppecase(newApp.status)}</button>
       </div>
       <div className="w-1/6">
         <button className=" p-1"> <MdOutlineMoreHoriz /> </button>

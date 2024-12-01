@@ -220,3 +220,6 @@ export function generateDateRange() {
 
   return `${formattedStartDate} - ${formattedEndDate}.`;
 }
+
+
+export const FormatTextToUppecase = (text) => text ? `${text[0].toUpperCase()}${text?.slice(1, text.length)}` : 'No Text'

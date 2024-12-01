@@ -34,8 +34,7 @@ function SideBar({
         </div>
 
         {/* user info  */}
-        <div className="absolute bottom-3 left-3 flex gap-[5px]  items-center">
-          
+        <div className="absolute bottom-3 left-10 flex gap-[5px]  items-center">
           <div className="flex-col flex">
             <span className="text-secondaryColor text-sm">
               {authDetails?.user?.name}
@@ -44,9 +43,9 @@ function SideBar({
               {authDetails?.user?.email}
             </span>
           </div>
-<img
+          <img
             src={`${resourceUrl}/${details?.logo_image}`}
-            className="h-[40px] w-[40px] rounded-full bg-secondaryColor"
+            className="h-[50px] w-[50px] rounded-full bg-secondaryColor"
           />
         </div>
       </aside>
@@ -80,7 +79,7 @@ function SideBar({
 
         {/* user info  */}
         <div className="absolute bottom-3 right-4 flex gap-3  items-center">
-        <div className="flex-col flex">
+          <div className="flex-col flex">
             <span className="text-secondaryColor text-sm">
               {authDetails?.user?.name}
             </span>
@@ -89,10 +88,13 @@ function SideBar({
             </span>
           </div>
           <img
-          src={details?.logo_image ? `${resourceUrl}/${details?.logo_image }` : 'https://via.placeholder.com/150'}
+            src={
+              details?.logo_image
+                ? `${resourceUrl}/${details?.logo_image}`
+                : "https://via.placeholder.com/150"
+            }
             className="h-[45px] w-[45px] rounded-full bg-primaryColor object-cover"
-          /> 
-        
+          />
         </div>
       </aside>
     </>

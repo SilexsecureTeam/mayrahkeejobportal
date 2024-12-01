@@ -7,19 +7,19 @@ export const user = {
 export const stats_cards_dummies = [
     {
         id: 1,
-        title: 'New candidates',
+        title: 'Total Applicants',
         bg_color: 'bg-primaryColor',
         value: 0
     },
     {
         id: 2,
-        title: 'Active Candidates',
+        title: 'Pending Interviews',
         bg_color: 'bg-[#504a4a]',
         value: 0
     },
     {
         id: 4,
-        title: 'Messaged Recieved',
+        title: 'Messages Recieved',
         bg_color: 'bg-[#47aa49]',
         value: 0
     },

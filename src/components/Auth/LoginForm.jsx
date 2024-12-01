@@ -119,7 +119,7 @@ function LoginForm({ rememberMe, toogleRememberMe }) {
             <img src={Padlock} className="h-[20px]" />
             <input
               name="password"
-              type={showPassword ? "text" : "password"}
+              type={!showPassword ? "text" : "password"}
               value={loginDetails.password}
               onChange={onTextChange}
               required

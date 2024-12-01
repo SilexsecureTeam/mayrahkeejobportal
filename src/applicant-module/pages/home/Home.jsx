@@ -164,7 +164,7 @@ function Home() {
                   onClick={navigateToApplications}
                   className="border text-white transition duration-400 bg-lightgreen h-full cursor-pointer mb-4 p-3 pb-0 flex flex-col justify-between"
                 >
-                  <p className="font-bold">Total Jobs Applied</p>
+                  <p className="font-bold">Total Jobs Applied for</p>
                   <div className="flex justify-between items-end mt-">
                     <p className="text-6xl font-medium">
                       {getAllApplications.data?.length}
@@ -229,7 +229,7 @@ function Home() {
 
             <div className="w-full flex items-center justify-center md:w-[25%] bg-primaryColor text-white border">
               <div className=" p-3">
-                <p className="font-bold">Jobs Applied Status</p>
+                <p className="font-bold">Jobs Application Status</p>
                 <div className="my-5 flex items-center">
                   <div className="">
                     <RoundChart />

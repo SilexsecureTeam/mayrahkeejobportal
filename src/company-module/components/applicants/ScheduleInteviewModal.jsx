@@ -73,7 +73,7 @@ function ScheduleInterviewModal({
   const options = isInterviewPackge ? interviewOptions : [interviewOptions[1]]
   const [selected, setSelected] = useState(options[0]);
 
-  const [meetingId, setMeetingId] = useState(false);
+  const [meetingId, setMeetingId] = useState();
 
   const onClick = async () => {
     const roomId = await createMeeting("");
@@ -132,7 +132,7 @@ function ScheduleInterviewModal({
                 />
               )}
 
-              {selected.name === options.name && (
+              {selected.name === options[1].name && (
                 <div className="flex flex-col gap-[3px]">
                   <label className="text-sm font-semibold">Meeting Id</label>
                   <div className="flex justify-between border items-center p-2">
