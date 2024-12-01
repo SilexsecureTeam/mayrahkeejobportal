@@ -3,7 +3,7 @@ import img from '../../assets/pngs/about3.png'
 const LearningHeroSection = ({list}) => {
     const[selected,setSelected]=useState(1);
     return (
-        <section className="bg-gray-100">
+        <section>
             <figure className="h-80 mb-10 ">
                 <img src={img} alt="image" className="rounded mb-4 w-full h-full object-cover" />
             </figure>
