@@ -60,6 +60,7 @@ const DomesticStaff = lazy(() => import("../admin-module/pages/domesticStaff/Dom
 const AllDomesticStaff = lazy(() => import("../admin-module/pages/domesticStaff/AllDomesticStaff"));
 const DomesticStaffDetails = lazy(() => import("../admin-module/pages/domesticStaff/DomesticStaffDetails"));
 const Candidates = lazy(() => import("../admin-module/pages/candidate/Candidate"));
+const Interviews = lazy(() => import("../admin-module/pages/Interviews"));
 
 function useAdminRoute() {
   const path = useLocation().pathname;
@@ -166,6 +167,7 @@ function useAdminRoute() {
                       <Route path="change-pwd" element={<AdminChangePassword />} />
                       <Route index element={<Dashboard />} />
                       <Route path="employers" element={<Employers />} />
+                      <Route path="interviews" element={<Interviews />} />
                       <Route path="employers/all" element={<AllEmployers />} />
                       <Route path="employer/details/:id" element={<EmployerDetails />} />
                       <Route path="employer-jobs/details/:id" element={<JobsByEmployerDetails />} />

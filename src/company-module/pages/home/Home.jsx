@@ -32,7 +32,7 @@ function Home() {
   const applicantsJobType = () => {
     const categories = [];
 
-    applicants.map((current) => {
+    applicants?.map((current) => {
       const findCat = categories.find(
         (currentCat) => currentCat == current.job_id
       );

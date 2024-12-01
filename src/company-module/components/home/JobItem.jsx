@@ -12,7 +12,7 @@ function JobItem({ data, applicants}) {
 
 
   const jobApplicants = applicants?.filter(
-    (currentApplicant) => data.id === currentApplicant.job_id
+    (currentApplicant) => data?.id === currentApplicant.job_id
   );
 
   return (
@@ -25,7 +25,7 @@ function JobItem({ data, applicants}) {
       <div className="flex justify-between  items-center">
         <img src={wheelIcon} className="h-[30px] w-[30px]" />
         <button className="bg-green-600/40 text-black text-little px-2 h-fit rounded-[20px]">
-          {data.type}
+          {data?.type}
         </button>
       </div>
 
@@ -49,10 +49,10 @@ function JobItem({ data, applicants}) {
       </div>
 
       <div className="flex flex-col">
-        {/* <ProgressBar measured={data.applicants} total={data.capacity} /> */}
+        {/* <ProgressBar measured={data?.applicants} total={data?.capacity} /> */}
 
         <span className="font-semibold text-little text-gray-800">
-          {/* {data.applicants}  */}
+          {/* {data?.applicants}  */}
           Deadline:{" "}
           <span className="text-gray-400 font-normal">
             {new Date(data?.application_deadline_date).toDateString()}
