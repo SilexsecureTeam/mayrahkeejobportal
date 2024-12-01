@@ -12,7 +12,7 @@ const AboutUs = () => {
         <>
             <div className='relative max-w-[1200px] w-full mx-auto'
        style={{
-        backgroundImage: `linear-gradient(rgba(150,150,150,.5), rgba(150,150,150,.5)), url(${tunnel})`,
+        backgroundImage: `linear-gradient(rgba(255,255,255,.5), rgba(255,255,255,.5)), url(${tunnel})`,
         backgroundPosition: 'center',
         backgroundSize: '100% 100%',
         backgroundRepeat: 'no-repeat',
