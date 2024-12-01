@@ -7,15 +7,18 @@ import LearningCourseGrid from '../components/Landing/LearningCourseGrid'
 
 const ElearningPage = () => {
     return (
+<>
         <div className='relative max-w-[1200px] w-full mx-auto'>
             <Navbar />
             <main className="relative my-20 px-5 h-auto flex flex-col gap-5">
 
                 <LearningHeroSection list={jobDetails} />
                 <LearningCourseGrid list={recentNews} />
-                <Footer />
+               
             </main>
         </div>
+ <Footer />
+</>
     )
 };
 
