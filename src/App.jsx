@@ -37,6 +37,7 @@ const AboutUs = lazy(() => import("./pages/AboutUs"));
 const Help = lazy(() => import("./pages/Help"));
 const ContactForm=lazy(() => import("./pages/ContactForm"));
 const FAQ=lazy(() => import("./pages/FAQ"));
+const ElearningPage=lazy(() => import("./pages/ElearningPage"));
 function App() {
   return (
     <>
@@ -54,6 +55,7 @@ function App() {
                             <Routes>
                               <Route path="/login" element={<Login />} />
                               <Route path="/" element={<LandingPage />} />
+                              <Route path="/learning" element={<ElearningPage />} />
                               <Route path="/help" element={<Help />} />
                               <Route path="/contact" element={<ContactForm />} />
                               <Route path="/faq" element={<FAQ />} />
