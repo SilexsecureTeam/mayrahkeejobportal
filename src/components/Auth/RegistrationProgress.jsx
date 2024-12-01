@@ -38,7 +38,7 @@ function RegistrationProgress({ state, dispatch, role }) {
 
   return (
     <div className="w-full h-full bg-primaryColor flex items-center justify-center">
-      <ul className="h-[70%] w-[60%]">{getSteps()}</ul>
+      <ul className="">{getSteps()}</ul>
     </div>
   );
 }

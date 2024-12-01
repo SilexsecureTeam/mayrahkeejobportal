@@ -206,7 +206,7 @@ function RegistrationFormTwo({ state, dispatch, role, setRole }) {
             <img src={Padlock} className="h-[20px]" />
             <input
               name="password"
-              type={showPassword ? "text" : "password"}
+              type={!showPassword ? "text" : "password"}
               value={regDetails.password}
               onChange={onTextChange}
               required
@@ -229,7 +229,7 @@ function RegistrationFormTwo({ state, dispatch, role, setRole }) {
             <img src={Padlock} className="h-[20px]" />
             <input
               name="re_enter_password"
-              type={showPasswordReenter ? "text" : "password"}
+              type={!showPasswordReenter ? "text" : "password"}
               value={regDetails.re_enter_password}
               onChange={onTextChange}
               required

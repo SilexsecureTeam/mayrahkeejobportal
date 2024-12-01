@@ -4,33 +4,10 @@ import useSubscription from "../../hooks/useSubscription";
 import { MdClose } from "react-icons/md";
 import { SubscriptionContext } from "../../context/SubscriptionContext";
 
-function SubscriptionModal({ redirectState }) {
-  const [isOpen, setIsOpen] = useState(false);
+function SubscriptionModal({isOpen, setIsOpen}) {
+  // const [isOpen, setIsOpen] = useState(false);
   const subUtils = useContext(SubscriptionContext);
 
-  useEffect(() => {
-    // setInterval(() => {
-    //   subUtils.getActivePackage();
-    //   if (!redirectState && !subUtils.activePackage) {
-    //     console.log(subUtils.activePackage);
-    //     setIsOpen(true);
-    //   }
-    // }, 90000);
-
-    return () => {
-      clearInterval();
-      clearTimeout();
-    };
-  }, []);
-
-  useEffect(() => {
-    clearTimeout();
-    setTimeout(() => {
-      if (!redirectState && !subUtils.activePackage) {
-        setIsOpen(true);
-      }
-    }, 5000);
-  }, []);
 
   return (
     isOpen && (

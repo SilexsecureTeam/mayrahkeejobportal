@@ -24,14 +24,6 @@ function Schedule() {
           <h2 className="font-semibold text-sm md:text-md mb-2 md:mb-0">
             Total Interviews: {interviewUtils.interviews.length}
           </h2>
-          <div className="flex bg-gray-300 p-1 rounded text-primaryColor">
-            <button className="text-xs md:text-sm p-1 bg-gray-300">
-              Pipeline View
-            </button>
-            <button className="text-xs md:text-sm p-1 bg-white rounded">
-              Table View
-            </button>
-          </div>
         </div>
 
         <div className="overflow-x-auto">

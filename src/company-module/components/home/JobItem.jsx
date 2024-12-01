@@ -10,7 +10,6 @@ function JobItem({ data, applicants}) {
   const navigate = useNavigate()
   const {setSideBar} = useContext(CompanyRouteContext)
 
-  console.log('Applicants', applicants)
 
   const jobApplicants = applicants?.filter(
     (currentApplicant) => data?.id === currentApplicant.job_id
@@ -37,9 +36,6 @@ function JobItem({ data, applicants}) {
         <span className="text-gray-400 font-semibold text-little truncate">
           Sector - {data?.sector}
         </span>
-        <span className="text-gray-400 font-semibold text-little truncate">
-          Type - {data?.job_apply_type}
-        </span>
       </div>
 
       <div className="flex gap-[5px] justify-between">
@@ -59,7 +55,7 @@ function JobItem({ data, applicants}) {
           {/* {data?.applicants}  */}
           Deadline:{" "}
           <span className="text-gray-400 font-normal">
-            {data?.application_deadline_date}
+            {new Date(data?.application_deadline_date).toDateString()}
           </span>
         </span>
       </div>
