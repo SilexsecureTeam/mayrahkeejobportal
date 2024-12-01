@@ -16,7 +16,8 @@ const AboutUs = () => {
         backgroundPosition: 'center',
         backgroundSize: '100% 100%',
         backgroundRepeat: 'no-repeat',
-        backgroundBlendMode: "overlay"
+        backgroundBlendMode: "overlay",
+        backgroundAttachment: "fixed"
       }}>
                 <Navbar />
                 <main className="relative my-20 px-5 h-auto flex flex-col gap-5">
