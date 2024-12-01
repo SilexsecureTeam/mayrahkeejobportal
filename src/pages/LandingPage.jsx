@@ -10,26 +10,29 @@ import News from '../components/Landing/News'
 import Advert from '../components/Landing/Advert'
 import Footer from '../components/Landing/Footer'
 const LandingPage = () => {
+  window.scrollTo(0, 0);
   return (
-    <div className='relative max-w-[1200px] w-full mx-auto'>
-      <Navbar />
-      <main className="relative my-20 px-5 min-h-screen">
-        <Hero />
-        <Experience />
-        <Banner 
-        title="Choose Your Path" 
-        desc="Choose the path that aligns with your goals and unlock new opportunities for growth" />
-        <UserCategory />
-        <JobBanner />
-        <Jobs />
-        <Banner 
-        title="insights and updates" 
-        desc="stay informed with experts articles, industry news and tips to help you grow personally and professionally" />
-        <News />
-        <Advert />
-<Footer /> 
-      </main>
-    </div>    
+    <>
+      <div className='relative max-w-[1200px] w-full mx-auto'>
+        <Navbar />
+        <main className="relative my-20 px-5 h-full">
+          <Hero />
+          <Experience />
+          <Banner
+            title="Choose Your Path"
+            desc="Choose the path that aligns with your goals and unlock new opportunities for growth" />
+          <UserCategory />
+          <JobBanner />
+          <Jobs />
+          <Banner
+            title="insights and updates"
+            desc="stay informed with experts articles, industry news and tips to help you grow personally and professionally" />
+          <News />
+          <Advert />
+        </main>
+      </div>
+      <Footer />
+    </>
   )
 }
 

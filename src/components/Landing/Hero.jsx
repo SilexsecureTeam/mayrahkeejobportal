@@ -2,7 +2,9 @@ import React from "react";
 import Btn from "./Btn";
 import logo from "../../assets/svgs/main-logo.svg";
 import bgImg from "../../assets/pngs/happy-couple-of-african-american-business-partners-2023-11-27-05-18-22-utc.jpg";
-import { FaSearch, FaSearchLocation } from "react-icons/fa";
+import { FaSearch } from "react-icons/fa";
+import { FaLocationDot } from "react-icons/fa6";
+
 const Hero = () => {
   return (
 
@@ -40,7 +42,7 @@ const Hero = () => {
 
     {/* Location Input */}
     <label className="flex items-center gap-3 text-gray-400 rounded-full px-3 py-1 md:py-2 w-full md:w-[40%]">
-      <FaSearchLocation size="15" />
+      <FaLocationDot size="15" />
       <input
         className="font-semibold bg-transparent ring-0 outline-0 w-full"
         type="text"
