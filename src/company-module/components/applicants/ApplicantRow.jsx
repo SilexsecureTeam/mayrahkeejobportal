@@ -10,25 +10,11 @@ import { AuthContext } from "../../../context/AuthContex";
 
 function ApplicantRow({ data }) {
   const navigate = useNavigate();
-  const {authDetails} = useContext(AuthContext)
+  const { authDetails } = useContext(AuthContext);
   const role = authDetails?.user?.role === "employer" ? "company" : "applicant";
 
-
-  const navigateToApplicantDetails = () =>{navigate(`/${role}/applicants/detail/${data?.id}`, { state: { data } });}
-    
-  const getBorderColor = () => {
-    switch (data.status) {
-      case stages[0].name:
-        return "text-lightorange border-lightorange";
-      case stages[1].name:
-        return "text-lightblue border-lightblue";
-      case stages[2].name:
-        return "text-darkblue border-darkblue";
-      case stages[3].name.split("/")[0]:
-        return "text-primaryColor border-primaryColor";
-      case stages[3].name.split("/")[1]:
-        return "text-red-600 border-red-600";
-    }
+  const navigateToApplicantDetails = () => {
+    navigate(`/${role}/applicants/detail/${data?.id}`, { state: { data } });
   };
 
   const getStatusComponent = () => {
@@ -38,8 +24,8 @@ function ApplicantRow({ data }) {
           <StatusCard
             name={data?.status}
             icon={AiFillClockCircle}
-            color={"bg-[#FFF6E9] text-red-300"}
-            iconColor="text-red-300"
+            color={"bg-orange-500 text-white"}
+            iconColor="text-white"
           />
         );
       case stages[1].name:
@@ -47,7 +33,7 @@ function ApplicantRow({ data }) {
           <StatusCard
             name={data.status}
             icon={MdCheckCircle}
-            color={"bg-[#164CA9] text-white"}
+            color={"bg-blue-500 text-white"}
             iconColor="text-white"
           />
         );
@@ -56,7 +42,7 @@ function ApplicantRow({ data }) {
           <StatusCard
             name={data.status}
             icon={GiVideoConference}
-            color={"bg-[#FFCD68] text-black"}
+            color={"bg-yellow-500 text-black"}
             iconColor="text-blue-50"
           />
         );
@@ -92,9 +78,9 @@ function ApplicantRow({ data }) {
           <span>{data.full_name}</span>
         </div>
       </td>
-      <td className="hidden md:block py-[10px]">
-        <div className="w-full  flex justify-center items-center gap-[5px]">
-          {data.email}
+      <td className="hidden md:block py-[20px]">
+        <div className="w-full flex h-full  justify-center items-center gap-[5px]">
+          <span>{data.email}</span>
         </div>
       </td>
 

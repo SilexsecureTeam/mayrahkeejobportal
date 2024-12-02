@@ -1,5 +1,4 @@
 import { Helmet } from "react-helmet";
-import calanderTest from "../../../assets/pngs/calander-test.png";
 import StatsCardWrapper from "../../components/home/StatsCardWrapper";
 import JobStatsAndSummary from "../../components/home/JobStatsAndSummary";
 import JobStatistic from "../../components/home/JobStatistic";
@@ -14,8 +13,6 @@ import { useEffect } from "react";
 import { JobContext } from "../../../context/JobContext";
 import { stages } from "../../../utils/constants";
 import { generateDateRange } from "../../../utils/formmaters";
-import { SubscriptionContext } from "../../../context/SubscriptionContext";
-import { IoGift } from "react-icons/io5";
 import SubscriptionOffer from "../../../components/SubsciptionOffer";
 
 function Home() {
@@ -77,8 +74,8 @@ function Home() {
         {/* First ROw */}
         <div className="w-full flex justify-between">
           <div className="flex flex-col gap-[5px]">
-            <h2 className="font-semibold">
-              Good Morning, {authDetails.user.name.split(" ")[0]}
+            <h2 className="font-semibold text-lg">
+              Welcome back, {authDetails.user.name.split(" ")[0]}
             </h2>
             <span className="text-little text-gray-400">
               Here is your job listings statistic report from{" "}
