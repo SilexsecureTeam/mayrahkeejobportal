@@ -77,8 +77,8 @@ function Home() {
         {/* First ROw */}
         <div className="w-full flex justify-between">
           <div className="flex flex-col gap-[5px]">
-            <h2 className="font-semibold">
-              Good Morning, {authDetails.user.name.split(" ")[0]}
+            <h2 className="font-semibold text-lg">
+              Welcome back, {authDetails.user.name.split(" ")[0]}
             </h2>
             <span className="text-little text-gray-400">
               Here is your job listings statistic report from{" "}

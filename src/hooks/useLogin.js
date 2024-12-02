@@ -35,15 +35,7 @@ function useLogin(role) {
           token: response.data.token,
           user: response.data.user,
         });
-      }
-      // else if (role === "admin" ) {
-      //   const response = await client.post(`/${role}/login`, loginDetails);
-      //   setAuthDetails({
-      //     token: response.data.token,
-      //     user: response.data.user,
-      //   });
-      // } 
-      else {
+      } else {
         const response = await client.post(`/domesticStaff/login`, {
           email: loginDetails.email,
           password: loginDetails.password,

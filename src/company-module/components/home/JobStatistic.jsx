@@ -3,7 +3,7 @@ import ReactApexChart from "react-apexcharts";
 
 const options = [
   "Overview",
-  "Rejected Applicants",
+  "Declined Applicants",
   "Interviewed Applicants",
   "Onboarded Applicants",
 ];
@@ -14,7 +14,7 @@ function JobStatistic({ applicants, byCategory }) {
   // Filter applicants based on the selected option
   const filterApplicants = (status) => {
     switch (status) {
-      case "Rejected Applicants":
+      case "Declined Applicants":
         return applicants.filter((app) => app.status === "declined");
       case "Interviewed Applicants":
         return applicants.filter((app) => app.status === "shortlist");
