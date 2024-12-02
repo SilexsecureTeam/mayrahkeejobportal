@@ -1,4 +1,4 @@
-import { createContext } from "react";
+import { createContext, useEffect } from "react";
 import useJobManagement from "../hooks/useJobManagement";
 
 export const JobContext = createContext();
@@ -17,6 +17,9 @@ export const JobContextProvider = ({ children }) => {
     getJobById,
     getJobsByApplicant
   } = useJobManagement();
+
+
+
 
   return (
     <JobContext.Provider

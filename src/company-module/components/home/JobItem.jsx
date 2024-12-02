@@ -5,23 +5,24 @@ import ProgressBar from "../shared/ProgressBar";
 import { useContext } from "react";
 import { CompanyRouteContext } from "../../../context/CompanyRouteContext";
 
-function JobItem({ data, applicants}) {
-
-  const navigate = useNavigate()
-  const {setSideBar} = useContext(CompanyRouteContext)
-
+function JobItem({ data, applicants }) {
+  const navigate = useNavigate();
+  const { setSideBar } = useContext(CompanyRouteContext);
 
   const jobApplicants = applicants?.filter(
     (currentApplicant) => data?.id === currentApplicant.job_id
   );
 
   return (
-    <div 
-    onClick={() => {
-      setSideBar(4);
-      navigate(`/company/job-listing/type/${data.id}`,{state:{data: data, applicants:jobApplicants}});
-    }}
-    className="flex flex-col cursor-pointer hover:scale-[102%] duration-100 rounded-lg border-gray-600  border justify-between h-[200px] p-2">
+    <div
+      onClick={() => {
+        setSideBar(4);
+        navigate(`/company/job-listing/type/${data.id}`, {
+          state: { data: data, applicants: jobApplicants },
+        });
+      }}
+      className="flex flex-col cursor-pointer hover:scale-[102%] duration-100 rounded-lg border-gray-600  border justify-between h-[200px] p-2"
+    >
       <div className="flex justify-between  items-center">
         <img src={wheelIcon} className="h-[30px] w-[30px]" />
         <button className="bg-green-600/40 text-black text-little px-2 h-fit rounded-[20px]">
@@ -36,13 +37,17 @@ function JobItem({ data, applicants}) {
         <span className="text-gray-400 font-semibold text-little truncate">
           Sector - {data?.sector}
         </span>
+        <span className="text-gray-400 font-semibold text-little truncate">
+          Location - {data?.location}
+        </span>
       </div>
+  
 
-      <div className="flex gap-[5px] justify-between">
+      <div className="flex gap-[5px] w-[40%] justify-between">
         <button className="border border-[#ffb836] text-little px-2 h-fit  text-[#ffb836] rounded-[20px]">
           {FormatPrice(Number(data?.min_salary))}
         </button>
-
+        to
         <button className="border border-primaryColor text-little px-2 h-fit   text-primaryColor rounded-[20px]">
           {FormatPrice(Number(data?.max_salary))}
         </button>

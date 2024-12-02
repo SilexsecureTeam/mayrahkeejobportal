@@ -11,14 +11,14 @@ const AboutUs = () => {
     return (
         <>
             <div className='relative max-w-[1400px] w-full mx-auto'
-       style={{
-        backgroundImage: `linear-gradient(rgba(250,250,250,.6), rgba(250,250,250,.6)), url(${tunnel})`,
-        backgroundPosition: 'center',
-        backgroundSize: '100% 100%',
-        backgroundRepeat: 'no-repeat',
-        backgroundBlendMode: "overlay",
-        backgroundAttachment: "fixed"
-      }}>
+                style={{
+                    backgroundImage: `linear-gradient(rgba(250,250,250,.6), rgba(250,250,250,.6)), url(${tunnel})`,
+                    backgroundPosition: 'center',
+                    backgroundSize: '100% 100%',
+                    backgroundRepeat: 'no-repeat',
+                    backgroundBlendMode: "overlay",
+                    backgroundAttachment: "fixed"
+                }}>
                 <Navbar />
                 <main className="relative my-20 px-5 h-auto flex flex-col gap-5">
                     <Banner title="About Us" desc="Connecting talent to opportunities with integrity and innovation." />

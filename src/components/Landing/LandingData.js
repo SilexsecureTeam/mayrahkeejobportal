@@ -4,6 +4,31 @@ import candidate from '../../assets/pngs/candidate.png';
 import artisan from '../../assets/pngs/artisan.png';
 import student from '../../assets/pngs/student.png';
 import student2 from '../../assets/pngs/student2.png';
+import profile from "../../assets/pngs/student.png";
+export const testimonialsData=[
+  {
+    "id": 1,
+    "description": "Mayrahkee Africa has helped me a lot in my education. I am really excited for this project.",
+    "imageSrc": profile,
+    "name": "Elen Karen",
+    "role": "UI Designer"
+  },
+  {
+    "id": 2,
+    "description": "The support and resources from Mayrahkee Africa have completely changed my career outlook.",
+    "imageSrc": profile,
+    "name": "John Doe",
+    "role": "Software Engineer"
+  },
+  {
+    "id": 3,
+    "description": "Mayrahkee Africa's platform boosted my confidence in my skills and abilities.",
+    "imageSrc": profile,
+    "name": "Jane Smith",
+    "role": "Product Manager"
+  }
+];
+
 export const jobDetails=[
     {
         id:1,

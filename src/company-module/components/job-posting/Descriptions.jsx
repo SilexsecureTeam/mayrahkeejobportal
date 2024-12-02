@@ -7,16 +7,16 @@ import FormButton from "../../../components/FormButton";
 const descriptions = [
   {
     id: 1,
-    title: "Job Description (required)",
+    title: "Responsibilities (required)",
     name: "job_description",
     desc: "Job responsibilities must be describe by one position",
-    placeholder: "Enter a job decription",
+    placeholder: "List out all Responsibilities",
   },
   {
     id: 2,
-    title: "Experience",
+    title: "Qualifications",
     name: "experience",
-    desc: "Outline the experiences required for the Job",
+    desc: "Outline the qualifications required for the Job",
     placeholder: "Begin to type...",
   },
 ];

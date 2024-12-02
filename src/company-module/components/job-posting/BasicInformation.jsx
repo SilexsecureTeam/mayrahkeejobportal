@@ -8,6 +8,7 @@ import BasicJobInput from "./BasicJobInput";
 import QualificationsForm from "./QualificationsForm";
 import SelectorInput from "./SelectorInput";
 import useJobManagement from "../../../hooks/useJobManagement";
+import {Country, State} from 'country-state-city'
 
 const basic_inputs = [
   {
@@ -42,15 +43,6 @@ const basic_inputs = [
     type: "text",
     placeholder: "e.g victoria Island, Lagos street",
     prompt: "Here you insert the office address",
-  },
-  {
-    id: 5,
-    name: "location",
-    label: "Location",
-    type: "text",
-    placeholder: "e.g wuse 11",
-    prompt: "Here you insert the location",
-    verification: "At least 10 characters"
   },
   {
     id: 6,
@@ -218,6 +210,7 @@ function BasicInformation({ setCurrentStep, data, jobUtils, validateAndProceed }
   const [employementList, setEmployementList] = useState([]);
   const [currencyList, setCurrencyList] = useState([]);
   const [selectedCurrency, setSelectedCurrency] = useState();
+  const [selectedLocation, setSelectedLocation] = useState(State.getStatesOfCountry('NG')[0]);
 
   const toogleSelectedType = (selected) => {
     setSelectedType(selected);
@@ -348,6 +341,8 @@ function BasicInformation({ setCurrentStep, data, jobUtils, validateAndProceed }
     return true;
   };
 
+  console.log(State.getStatesOfCountry('NG'))
+
   return (
     <div className="flex flex-col w-full p-4 gap-4">
       {/* Basic Info */}
@@ -450,8 +445,21 @@ function BasicInformation({ setCurrentStep, data, jobUtils, validateAndProceed }
           ))}
         </div>
       </div>
-      {/* Job Title */}
+      <SelectorInput
+        key={134}
+        data={{
+          label: "Location",
+          prompt: "Here you select job location",
+          name: "location",
+        }}
+        listData={State.getStatesOfCountry('NG')}
+        jobUtils={jobUtils}
+        selected={selectedLocation}
+        setSelected={setSelectedLocation}
+      />
+
       <QualificationsForm jobUtils={jobUtils} />
+
       {/* Dropdown Options */}
       <SelectorInput
         key={1}
