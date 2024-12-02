@@ -165,3 +165,12 @@
     padding: 1rem;
   }
 }
+
+
+.fade-in {
+  opacity: 1;
+}
+
+.fade-out {
+  opacity: 0;
+}
