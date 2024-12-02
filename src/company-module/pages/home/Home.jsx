@@ -1,5 +1,4 @@
 import { Helmet } from "react-helmet";
-import calanderTest from "../../../assets/pngs/calander-test.png";
 import StatsCardWrapper from "../../components/home/StatsCardWrapper";
 import JobStatsAndSummary from "../../components/home/JobStatsAndSummary";
 import JobStatistic from "../../components/home/JobStatistic";
@@ -14,8 +13,6 @@ import { useEffect } from "react";
 import { JobContext } from "../../../context/JobContext";
 import { stages } from "../../../utils/constants";
 import { generateDateRange } from "../../../utils/formmaters";
-import { SubscriptionContext } from "../../../context/SubscriptionContext";
-import { IoGift } from "react-icons/io5";
 import SubscriptionOffer from "../../../components/SubsciptionOffer";
 
 function Home() {
