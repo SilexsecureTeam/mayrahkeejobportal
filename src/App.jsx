@@ -40,6 +40,7 @@ const FAQ=lazy(() => import("./pages/FAQ"));
 const PrivacyPolicy=lazy(() => import("./pages/PrivacyPolicy"));
 const TermsConditions=lazy(() => import("./pages/TermsConditions"));
 const ElearningPage=lazy(() => import("./pages/ElearningPage"));
+const BlogList=lazy(() => import("./pages/BlogList"));
 function App() {
   return (
     <>
@@ -63,6 +64,7 @@ function App() {
                               <Route path="/faq" element={<FAQ />} />
                               <Route path="/terms&conditions" element={<TermsConditions />} />
                               <Route path="/privacypolicy" element={<PrivacyPolicy />} />
+                              <Route path="/news" element={<BlogList />} />
                               <Route path="/about" element={<AboutUs />} />
                               <Route path="/super/admin/login" element={<AdminLogin />} />
                               <Route path="/super/admin/otp-verification" element={<AdminOTP />} />
