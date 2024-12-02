@@ -3,7 +3,7 @@ import { userCategory } from './LandingData';
 const UserCategory = () => {
 
     return (
-        <div className="flex gap-x-5 justify-between overflow-x-auto overflow-y-hidden h-max min-w-full py-7">
+        <div className="flex gap-x-5 justify-between overflow-x-auto overflow-y-hidden h-max min-w-full py-7 bg-[#47aa4910]">
             {userCategory?.map((user) => (
 
                 <section key={user?.id} className="flex-shrink-0 max-w-72 mx-5">

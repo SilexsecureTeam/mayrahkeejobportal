@@ -1,17 +1,20 @@
 
 const LearningCourseCard = ({ title, author, price, rating, img }) => {
     return (
-        <div className="border rounded shadow-sm p-4">
-            <img src={img} alt={title} className="rounded mb-4 h-48 w-full" />
+        <div className="flex-shrink-0 border shadow-sm max-w-80 pb-2">
+            <img src={img} alt={title} className="mb-4 h-48 w-full object-cover" />
+            <section className=" px-4">
             <h3 className="font-bold text-lg">{title}</h3>
             <p className="text-gray-600">{author}</p>
-            <div className="flex items-center justify-between mt-2">
+            <div className="flex flex-col justify-between gap-2 mt-2">
+            <span className="text-yellow-500">{rating} ★</span>
                 <span className="font-bold">${price}</span>
-                <span className="text-yellow-500">{rating} ★</span>
+                
             </div>
             <button className="mt-4 px-4 py-2 bg-green-500 text-white rounded">
                 Best Seller
             </button>
+            </section>
         </div>
     )
 };
