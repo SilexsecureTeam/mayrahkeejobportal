@@ -15,7 +15,7 @@ const Help = () => {
   window.scrollTo(0, 0);
   return (
     <>
-      <div className='relative max-w-[1200px] w-full mx-auto'>
+      <div className='relative max-w-[1400px] w-full mx-auto'>
         <Navbar />
         <div className="relative my-20 px-5 h-auto flex flex-col gap-3">
 
