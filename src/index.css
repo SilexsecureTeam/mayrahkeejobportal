@@ -3,37 +3,65 @@
 @tailwind utilities;
 /* Style the entire website's scrollbar */
 ::-webkit-scrollbar {
-    width: 6px; /* Set the width of the scrollbar */
-    height: 6px; /* Set the height for horizontal scrollbar (if any) */
-  }
-  
-  /* Style the track (the background of the scrollbar) */
-  ::-webkit-scrollbar-track {
-    background: #f1f1f1; /* Light gray track color */
-    border-radius: 10px; /* Rounded corners for the track */
-  }
-  
-  /* Style the thumb (the draggable part of the scrollbar) */
-  ::-webkit-scrollbar-thumb {
-    background: #178104; /* Dark gray thumb color */
-    border-radius: 10px; /* Rounded corners for the thumb */
-  }
-  
-  /* Style the thumb when it's being hovered */
-  ::-webkit-scrollbar-thumb:hover {
-    background: #0f5a02; /* Darker color when hovered */
-  }
-  
-  /* Optional: Style for the corner where the vertical and horizontal scrollbars meet */
-  ::-webkit-scrollbar-corner {
-    background: #f1f1f1;
-  }
-  @media (max-width:600px){
-::-webkit-scrollbar {
+  width: 6px; /* Set the width of the scrollbar */
+  height: 6px; /* Set the height for horizontal scrollbar (if any) */
+}
+
+/* Style the track (the background of the scrollbar) */
+::-webkit-scrollbar-track {
+  background: #f1f1f1; /* Light gray track color */
+  border-radius: 10px; /* Rounded corners for the track */
+}
+
+/* Style the thumb (the draggable part of the scrollbar) */
+::-webkit-scrollbar-thumb {
+  background: #178104; /* Dark gray thumb color */
+  border-radius: 10px; /* Rounded corners for the thumb */
+}
+
+/* Style the thumb when it's being hovered */
+::-webkit-scrollbar-thumb:hover {
+  background: #0f5a02; /* Darker color when hovered */
+}
+
+/* Optional: Style for the corner where the vertical and horizontal scrollbars meet */
+::-webkit-scrollbar-corner {
+  background: #f1f1f1;
+}
+@media (max-width: 600px) {
+  ::-webkit-scrollbar {
     width: 0px; /* Set the width of the scrollbar */
     height: 0px; /* Set the height for horizontal scrollbar (if any) */
-}
   }
+}
+
+.advert {
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+
+  grid-template-areas: "stack";
+  width: max-content;
+  color: var(--white);
+}
+.advert > * {
+  grid-area: stack;
+  aspect-ratio: 1/1;
+  transition: all 400ms;
+}
+
+.advert >*:nth-child(1){
+  z-index: 1;
+  transform: rotate(3deg) translate(9rem, -8.8rem);
+
+}
+
+.advert >*:nth-child(3){
+  z-index: 1;
+  transform: rotate(-3deg) translate(9rem, 8.8rem);
+
+}
 .epilogue {
   font-family: "epilogue", sans-serif !important;
 }
@@ -50,12 +78,12 @@
   color: #0f5a02 !important;
 }
 
-.thin_scroll_bar{
-  scrollbar-width:thin;
+.thin_scroll_bar {
+  scrollbar-width: thin;
 }
 
-.no_scroll_bar{
-  scrollbar-width:none;
+.no_scroll_bar {
+  scrollbar-width: none;
 }
 
 .prime_bg {
@@ -83,25 +111,24 @@
   background-size: cover;
 }
 
-.bg_layout{
+.bg_layout {
   background-image: url("./assets/pngs/profile-bg.png");
   background-size: cover;
 }
 
-.flip_y{
+.flip_y {
   transform: rotateX(3.142rad);
 }
 
-.flip_x{
+.flip_x {
   transform: rotateY(3.142rad);
 }
 
-
-.contact_card{
+.contact_card {
   background-image: url("./assets/pngs/Contact-us-bg.png");
 }
 
-.company-textarea{
+.company-textarea {
   width: 100% !important;
   background-color: #0f5a02;
   color: red;
@@ -111,4 +138,30 @@
   display: flex;
   flex-direction: column;
   gap: 1em;
+}
+
+
+
+@media (max-width: 768px) {
+  .advert {
+    width: 100%;
+    padding: 2rem;
+  }
+  
+.advert >*:nth-child(1){
+  z-index: 1;
+  transform: rotate(3deg) translate(0, -8.8rem);
+
+}
+
+.advert >*:nth-child(3){
+  z-index: 1;
+  transform: rotate(-3deg) translate(0, 8.8rem);
+}
+}
+
+@media (max-width: 480px) {
+  .advert {
+    padding: 1rem;
+  }
 }

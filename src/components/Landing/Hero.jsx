@@ -2,12 +2,15 @@ import React from "react";
 import Btn from "./Btn";
 import logo from "../../assets/svgs/main-logo.svg";
 import bgImg from "../../assets/pngs/happy-couple-of-african-american-business-partners-2023-11-27-05-18-22-utc.jpg";
-import { FaSearch, FaSearchLocation } from "react-icons/fa";
+import { FaSearch } from "react-icons/fa";
+import { FaLocationDot } from "react-icons/fa6";
+
 const Hero = () => {
   return (
+
     <div className="relative rounded-xl my-4 text-white min-h-[550px] flex flex-col items-center justify-around gap-5 *:transition-all *:ease-in-out *:duration-500"
       style={{
-        backgroundImage: `linear-gradient(rgba(0,0,0,.5), rgba(0,0,0,.6)), url(${bgImg})`,
+        backgroundImage: `linear-gradient(rgba(0,20,0,.5), rgba(0,20,0,.6)), url(${bgImg})`,
         backgroundPosition: 'center',
         backgroundSize: 'cover',
         backgroundRepeat: 'no-repeat'
@@ -20,14 +23,14 @@ const Hero = () => {
         </h1>
       </section>
 
-      <form className="mt-5 text-xs flex flex-col md:flex-row items-center justify-between gap-4 bg-green-200/20 border border-gray-200 rounded-full max-w-[900px] w-[90%] min-h-14 p-4">
+      <form className="mt-5 text-xs flex flex-col md:flex-row items-center justify-between gap-4 bg-green-200/20 border border-gray-200 rounded-3xl md:rounded-full max-w-[900px] w-[90%] min-h-14 p-2">
   {/* Input Section */}
-  <section className="flex flex-col md:flex-row w-[80%] md:w-full items-center justify-center gap-4 relative">
+  <section className="flex flex-col md:flex-row w-[80%] py-3 md:py-0 md:w-full items-center justify-center gap-4 relative">
     {/* Job Title Input */}
     <label className="flex items-center gap-3 text-gray-400 rounded-full px-3 py-1 md:py-2 w-full md:w-[40%]">
       <FaSearch size="15" />
       <input
-        className="font-medium bg-transparent ring-0 outline-0 w-full"
+        className="font-semibold bg-transparent ring-0 outline-0 w-full"
         type="text"
         placeholder="Job title or keyword"
       />
@@ -39,9 +42,9 @@ const Hero = () => {
 
     {/* Location Input */}
     <label className="flex items-center gap-3 text-gray-400 rounded-full px-3 py-1 md:py-2 w-full md:w-[40%]">
-      <FaSearchLocation size="15" />
+      <FaLocationDot size="15" />
       <input
-        className="font-medium bg-transparent ring-0 outline-0 w-full"
+        className="font-semibold bg-transparent ring-0 outline-0 w-full"
         type="text"
         placeholder="Add country or city"
       />
@@ -49,7 +52,7 @@ const Hero = () => {
   </section>
 
   {/* Search Button */}
-  <button className="font-medium min-w-28 bg-green-500 text-white rounded-full px-6 py-3">
+  <button className="font-bold min-w-28 bg-green-600 text-white rounded-full px-6 py-3">
     search
   </button>
 </form>
