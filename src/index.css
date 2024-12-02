@@ -4,7 +4,7 @@
 /* Style the entire website's scrollbar */
 ::-webkit-scrollbar {
   width: 6px; /* Set the width of the scrollbar */
-  height: 6px; /* Set the height for horizontal scrollbar (if any) */
+  height: 0px; /* Set the height for horizontal scrollbar (if any) */
 }
 
 /* Style the track (the background of the scrollbar) */
