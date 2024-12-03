@@ -4,6 +4,7 @@ import { FormatError } from "../utils/formmaters";
 import { onFailure } from "../utils/notifications/OnFailure";
 import { AuthContext } from "../context/AuthContex";
 import { onSuccess } from "../utils/notifications/OnSuccess";
+import { SessionContext } from "../context/SessionContext";
 
 function useLogin(role) {
   const [loginDetails, setLoginDetails] = useState({
@@ -11,6 +12,8 @@ function useLogin(role) {
     password: "",
   });
   const { setAuthDetails } = useContext(AuthContext);
+  const {saveSession} = useContext(SessionContext)
+
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState({
     message: "",
@@ -46,6 +49,7 @@ function useLogin(role) {
         });
       }
       onSuccess();
+      saveSession()
     } catch (e) {
       FormatError(e, setError, "Registration Error");
     } finally {
