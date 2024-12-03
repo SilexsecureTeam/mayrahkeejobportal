@@ -13,7 +13,7 @@ const LocationSection = () => {
             <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-green-600"></div>
           </div>
         )}
-        <div className="relative w-full h-64 md:h-[400px] rounded-lg shadow-lg overflow-hidden">
+        <div className="relative w-full h-64 lg:h-[400px] rounded-lg shadow-lg overflow-hidden">
           <iframe
             title="Google Map"
             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3939.939146802545!2d7.487049974913218!3d9.055269691671814!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x104e0bc4e816b571%3A0x2bd9bd048ba63e73!2sNICON%20Plaza!5e0!3m2!1sen!2sng!4v1696351330005!5m2!1sen!2sng"
