@@ -10,18 +10,17 @@ import visionImg from '../assets/pngs/about4.png'
 const ElearningPage = () => {
     return (
         <>
+            <LearningHeroSection list={jobDetails} />
             <div className='relative max-w-[1400px] w-full mx-auto'>
                 <Navbar />
-                <main className="relative my-24 px-5 h-auto flex flex-col gap-5">
-                    <LearningHeroSection list={jobDetails} />
+                <main className="relative px-5 h-auto flex flex-col gap-5">
                     <div className="my-2">
                         <LearningCourseGrid list={recentNews} />
-                        <button className="rounded-full mt-4 px-4 py-2 bg-black text-white w-60">
+                        <button className="rounded-full my-4 px-4 py-2 bg-black text-white w-60">
                             Show all Courses
                         </button>
                     </div>
-                    <LearningCourseGrid list={recentNews} />
-                    <div className="my-2">
+                    <div className="my-3">
                         <h2 className="font-semibold text-2xl">Learners are also viewing</h2>
                         <LearningCourseGrid list={recentNews} />
                     </div>

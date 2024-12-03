@@ -25,14 +25,14 @@ const AboutUs = () => {
                     <Empowering />
                     <InfoSection
                         title="Our Mission"
-                        description="To be the preferred one-stop online talent search and human capital recruitment company that provides solutions which meet(s) the needs of employers, service providers and job seekers in Africa.​"
+                        description="To be the preferred customer’s first choice in our carefully selected markets where we create value for all stakeholders through business opportunities as well as re-orientating our thinking towards skills, capacity building and talent development."
                         buttonText="Get Started Now"
                         imageSrc={missionImg}
                         reverse={false}
                     />
                     <InfoSection
                         title="Vision Statement"
-                        description="To be the preferred one-stop online talent search and human capital recruitment company that provides solutions which meet(s) the needs of employers, service providers and job seekers in Africa.​"
+                        description="To be an integrated and customer-centric African company that creates business opportunities built on creative thinking, fostering talent development and capacity building towards a sustainable future in an evolving landscape.​"
                         buttonText="Get Started Now"
                         imageSrc={visionImg}
                         reverse={true}

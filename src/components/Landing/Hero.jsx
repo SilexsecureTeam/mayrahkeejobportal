@@ -1,7 +1,7 @@
 import React from "react";
 import Btn from "./Btn";
 import logo from "../../assets/svgs/main-logo.svg";
-import bgImg from "../../assets/pngs/happy-couple-of-african-american-business-partners-2023-11-27-05-18-22-utc.jpg";
+import bgImg from "../../assets/pngs/job-hero-img.png";
 import { FaSearch } from "react-icons/fa";
 import { FaLocationDot } from "react-icons/fa6";
 
@@ -10,8 +10,8 @@ const Hero = () => {
 
     <div className="relative rounded-xl my-4 text-white min-h-[550px] flex flex-col items-center justify-around gap-5 *:transition-all *:ease-in-out *:duration-500"
       style={{
-        backgroundImage: `linear-gradient(rgba(0,20,0,.5), rgba(0,20,0,.6)), url(${bgImg})`,
-        backgroundPosition: 'center',
+        backgroundImage: `linear-gradient(rgba(0,0,0,.5), rgba(0,0,0,.7)), url(${bgImg})`,
+        backgroundPosition: '70%',
         backgroundSize: 'cover',
         backgroundRepeat: 'no-repeat'
       }}
