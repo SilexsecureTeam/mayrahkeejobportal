@@ -7,8 +7,8 @@ const News = () => {
     const navigate= useNavigate();
 
     useEffect(() => {
-        setRecent(recentNews.find(news => news.reads === 20));
-        setNews(recentNews.filter(news => news.reads !== 20));
+        setRecent(recentNews.find(news => news.id === 1));
+        setNews(recentNews.filter(news => news.id !== 1));
     }, []);
 
     return (
