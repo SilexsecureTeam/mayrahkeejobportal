@@ -4,7 +4,7 @@ import { clear } from "idb-keyval";
 
 export const AuthContext = createContext();
 
-const STORAGE_KEY = "__auth_details";
+export const STORAGE_KEY = "__auth_details";
 const SESSION_KEY = "_session_condition";
 
 export const AuthContextProvider = ({ children }) => {
