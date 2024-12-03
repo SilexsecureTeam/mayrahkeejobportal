@@ -6,7 +6,7 @@ const LocationSection = () => {
   return (
     <section className="flex flex-col md:flex-row items-start justify-between px-6 lg:px-20 py-10 bg-white">
       {/* Map Section */}
-      <div className="w-full lg:w-1/2 relative">
+      <div className="w-full md:w-1/2 relative">
         {/* Loading Spinner */}
         {!mapLoaded && (
           <div className="absolute inset-0 flex items-center justify-center bg-gray-100 rounded-lg">
