@@ -1,9 +1,10 @@
 import { recentNews } from './LandingData';
 import { useState, useEffect } from 'react';
-
+import { useNavigate } from 'react-router-dom';
 const News = () => {
     const [recent, setRecent] = useState();
     const [news, setNews] = useState();
+    const navigate= useNavigate();
 
     useEffect(() => {
         setRecent(recentNews.find(news => news.reads === 20));
@@ -14,7 +15,7 @@ const News = () => {
         <div className="bg-[#47aa4910]">
             <div className="flex justify-between items-center px-3">
                 <h2 className="text-sm font-semibold">LATEST NEWS</h2>
-                <button className="text-green-600 border-[1px] border-green-600 px-6 py-1 rounded-full font-bold text-sm">Read All</button>
+                <button className="text-green-600 border-[1px] border-green-600 px-6 py-1 rounded-full font-bold text-sm" onClick={()=>{navigate("news"); scrollTo(0,0)}}>Read All</button>
             </div>
             <div className="flex flex-wrap md:flex-nowrap gap-4 h-auto min-h-[550px] items-stretch">
                 {/* Recent view */}

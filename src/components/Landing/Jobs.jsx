@@ -4,7 +4,7 @@ import approved from '../../assets/pngs/approved.png'
 import {BiBriefcase} from 'react-icons/bi'
 const Jobs = () => {
     return (
-        <div className="flex flex-wrap justify-center md:justify-between items-center gap-4 gap-y-10">
+        <div className="flex flex-wrap justify-center md:justify-evenly items-center gap-4 gap-y-10">
             {jobDetails?.map((job)=>(
             <div key={job?.id} className="max-w-80 min-h-60 p-5 rounded-2xl shadow-[0px_0px_10px] shadow-gray-300">
                 <section className="flex justify-between gap-3">
