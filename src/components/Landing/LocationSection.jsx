@@ -4,7 +4,7 @@ const LocationSection = () => {
   const [mapLoaded, setMapLoaded] = useState(false);
 
   return (
-    <section className="flex flex-col lg:flex-row items-center justify-between px-6 lg:px-20 py-10 bg-white">
+    <section className="flex flex-col md:flex-row items-center justify-between px-6 lg:px-20 py-10 bg-white">
       {/* Map Section */}
       <div className="w-full lg:w-1/2 relative">
         {/* Loading Spinner */}
