@@ -17,13 +17,14 @@ const PrivacyPolicy = () => {
 
   return (
     <>
+      <SectionHeader
+        title="Privacy Policy for MayrahkeeAfrica"
+        img={img}
+      />
       <div className="relative max-w-[1400px] w-full mx-auto">
         <Navbar />
         <div className="relative my-20 px-5 h-auto flex flex-col gap-3">
-          <SectionHeader
-            title="Privacy Policy for MayrahkeeAfrica"
-            img={img}
-          />
+
           <div className="container mx-auto p-4 space-y-8">
             <p className="text-gray-500 text-sm">
               <strong>Last Updated:</strong> {privacyPolicyData.lastUpdated}

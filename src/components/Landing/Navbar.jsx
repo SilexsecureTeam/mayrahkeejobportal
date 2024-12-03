@@ -34,10 +34,10 @@ const Navbar = () => {
             </ul>
           )}
         </div>
-        <NavLink to="/about">Find Artisans</NavLink>
-        <NavLink to="/services">Find Domestic Staffs</NavLink>
+        <NavLink to="/learning">Find Artisans</NavLink>
+        <NavLink to="/learning">Find Domestic Staffs</NavLink>
         <NavLink to="/help">Help Center</NavLink>
-        <NavLink to="/about">Blog</NavLink>
+        <NavLink to="/news">Blog</NavLink>
 
         <div className="cursor-default flex md:hidden items-center gap-3 lg:order-2">
           <Btn
