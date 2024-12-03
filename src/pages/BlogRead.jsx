@@ -24,16 +24,16 @@ const BlogRead = () => {
 
     return (
         <>
-            <div className='relative max-w-[1400px] w-full mx-auto'>
-            <Navbar />
-            <main className="relative my-24 px-5 h-auto flex flex-col gap-5">
-                <SectionHeader
+            <SectionHeader
                     title={blog?.title}
                     subtitle={blog?.desc.slice(0, 150)}
                     img={blog?.image}
                     reads={blog?.reads}
                     time={blog?.time_posted}
                 />
+            <div className='relative max-w-[1400px] w-full mx-auto'>
+            <Navbar />
+            <main className="relative mb-20 px-5 h-auto flex flex-col gap-5">
                 <div className="prose max-w-none leading-8">
                     <p>{blog?.content}</p>
                 </div>
