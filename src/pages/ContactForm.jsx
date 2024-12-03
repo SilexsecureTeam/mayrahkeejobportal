@@ -2,6 +2,7 @@ import React from "react";
 import Navbar from '../components/Landing/Navbar'
 import Footer from '../components/Landing/Footer'
 import LocationSection from '../components/Landing/LocationSection'
+import LocationSection from '../components/Landing/LocationSection'
 const ContactUs = () => {
   return (
     <>

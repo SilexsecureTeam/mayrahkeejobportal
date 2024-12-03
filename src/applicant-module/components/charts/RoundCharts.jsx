@@ -18,7 +18,7 @@ function RoundChart() {
                 }
               },
             legend: false,
-            colors: ['#0F5A02', '#fafafa',],
+            colors: ['#0F5A02', '#000000',],
             responsive: [{
                 breakpoint: 480,
                 options: {
@@ -31,12 +31,7 @@ function RoundChart() {
                 }
             }]
         },
-
-
-
     }
-
-
 
     return (
         <div >

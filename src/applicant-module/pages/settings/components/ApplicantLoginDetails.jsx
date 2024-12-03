@@ -3,10 +3,27 @@ import { FaRegCheckCircle, FaSpinner } from "react-icons/fa";
 import DeleteUser from "./DeleteUser";
 import useLogin from "../../../../hooks/useLogin";
 import OTPInput from "react-otp-input";
+import { onFailure } from "../../../../utils/notifications/OnFailure";
 
 const ApplicantLoginDetails = ({ authDetails }) => {
   const { otp, setOtp } = useState("");
   const { resetPassword, forgotPassword, loading } = useLogin();
+
+  const handleReset = (e) => {
+    e.preventDefault();
+    const password = e.target[0].value;
+    const reenterPassword = e.target[1].value;
+
+    if (password === reenterPassword) {
+      resetPassword(authDetails.user.email, password,'999', authDetails.user.role);
+      return;
+    }
+
+    onFailure({
+      message: "Change Password",
+      error: "Password mismatch",
+    });
+  };
 
   // console.log(authDetails)
 
@@ -14,7 +31,7 @@ const ApplicantLoginDetails = ({ authDetails }) => {
     <div className="p-4 md:p-6">
       <div className="update_form py-6">
         <div>
-          <form>
+          <form onSubmit={handleReset}>
             <div className="border-b py-6">
               <div className="md:flex md:w-4/5">
                 <div className="w-full md:w-2/5 pr-3 mb-4 md:mb-0">
@@ -79,11 +96,14 @@ const ApplicantLoginDetails = ({ authDetails }) => {
                     }
                     className="cursor-pointer gap-4 mt-2 flex items-center hover:underline hover:text-primaryColor"
                   >
-                    Request for new pin
-                    {loading && <FaSpinner className="animate-spin"/>}
+                    Request for otp
+                    {loading && <FaSpinner className="animate-spin" />}
                   </span>
                   <div className="my-3">
-                    <button className="bg-green-700 hover:bg-green-900 p-2 px-4 text-white w-full md:w-auto">
+                    <button
+                      type="submit"
+                      className="bg-green-700 hover:bg-green-900 p-2 px-4 text-white w-full md:w-auto"
+                    >
                       Update Password
                     </button>
                   </div>
