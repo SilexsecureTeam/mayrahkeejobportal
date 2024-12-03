@@ -6,8 +6,8 @@ const LearningCourseGrid = ({ list }) => {
                 list?.map((course) => (
                     <LearningCourseCard
                         key={course?.id}
-                        title="The Power of Typography and Text Alignment"
-                        author="Eniola Emmanuel"
+                        title={course?.title}
+                        author="Silex secure"
                         price="30.00"
                         rating="4.0"
                         img={course?.image}

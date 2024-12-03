@@ -142,7 +142,7 @@ function useCompanyRoute() {
 
   return (
     <>
-      {authDetails.user.role === "employer" ? (
+      {authDetails?.user?.role === "employer" ? (
         <CompanyRouteContextProvider setSideBar={setSideBar}>
           <SubscriptionModal redirectState={redirectState} />
           <main className="h-screen w-screen relative flex">

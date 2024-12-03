@@ -192,7 +192,7 @@ export const utilOptions = [
   {
     type: "LOG-OUT",
     title: "Log Out",
-    route: "/",
+    route: "/login",
     icon: helpIcon,
     iconActive: helpIcon,
   },
@@ -230,7 +230,7 @@ export const adminUtilOptions = [
   {
     type: "LOG-OUT",
     title: "Log Out",
-    route: "/",
+    route: "/login",
     icon: helpIcon,
     iconActive: helpIcon,
   },
@@ -285,7 +285,7 @@ export const staffUtilOptions = [
   {
     type: "LOG-OUT",
     title: "Log Out",
-    route: "/",
+    route: "/login",
     icon: helpIcon,
     iconActive: helpIcon,
   },

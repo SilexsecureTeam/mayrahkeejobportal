@@ -7,13 +7,22 @@ import SectionHeader from "../components/Landing/SectionHeader";
 const BlogRead = () => {
     const { id } = useParams();
     const [blog, setBlog] = useState(null);
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
-        const isBlogAvailable = recentNews?.find(one => one?.id === parseInt(id))
-        console.log(recentNews, blog)
-        if (isBlogAvailable) {
-            setBlog(isBlogAvailable)
+        setLoading(true)
+        try{
+            const isBlogAvailable = recentNews?.find(one => one?.id === parseInt(id))
+            console.log(recentNews, blog)
+            if (isBlogAvailable) {
+                setBlog(isBlogAvailable)
+            }
+        }catch(err){
+            console.log(err)
+        }finally{
+            setLoading(false)
         }
+     
 
         // // Fetch blog details by ID
         // fetch(`https://api.example.com/blogs/${id}`) // Replace with your API URL
@@ -23,17 +32,18 @@ const BlogRead = () => {
     }, [recentNews, id]);
 
     return (
-        <>
-            <div className='relative max-w-[1400px] w-full mx-auto'>
-            <Navbar />
-            <main className="relative my-24 px-5 h-auto flex flex-col gap-5">
-                <SectionHeader
+        loading ? <p>Loading...</p>
+        :<>
+            <SectionHeader
                     title={blog?.title}
                     subtitle={blog?.desc.slice(0, 150)}
                     img={blog?.image}
                     reads={blog?.reads}
                     time={blog?.time_posted}
                 />
+            <div className='relative max-w-[1400px] w-full mx-auto'>
+            <Navbar />
+            <main className="relative mb-20 px-5 h-auto flex flex-col gap-5">
                 <div className="prose max-w-none leading-8">
                     <p>{blog?.content}</p>
                 </div>
