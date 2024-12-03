@@ -27,7 +27,7 @@ const LandingPage = () => {
     }
   };
 
-  return authDetails.user.role ? (
+  return authDetails?.user?.role ? (
     <Navigate to={redirectPath()} />
   ) : (
     <>
