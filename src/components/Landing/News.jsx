@@ -7,8 +7,8 @@ const News = () => {
     const navigate= useNavigate();
 
     useEffect(() => {
-        setRecent(recentNews.find(news => news.reads === 20));
-        setNews(recentNews.filter(news => news.reads !== 20));
+        setRecent(recentNews.find(news => news.id === 1));
+        setNews(recentNews.filter(news => news.id !== 1));
     }, []);
 
     return (
@@ -21,6 +21,7 @@ const News = () => {
                 {/* Recent view */}
                 {recent && (
                     <section
+                        onClick={()=>{navigate(`/news/${recent?.id); scrollTo(0,0)}`}}
                         key={recent?.id}
                         className="w-full h-max md:w-1/2 flex-1 flex flex-col p-4"
                     >
@@ -56,6 +57,7 @@ const News = () => {
                     {news &&
                         news.map((newsItem) => (
                             <section
+                                onClick={()=>{navigate(`/news/${newsItem?.id); scrollTo(0,0)}`}}
                                 key={newsItem?.id}
                                 className="flex justify-between items-stretch"
                             >
