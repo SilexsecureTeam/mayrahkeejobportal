@@ -4,7 +4,7 @@ const LocationSection = () => {
   const [mapLoaded, setMapLoaded] = useState(false);
 
   return (
-    <section className="flex flex-col md:flex-row items-center justify-between px-6 lg:px-20 py-10 bg-white">
+    <section className="flex flex-col md:flex-row items-start justify-between px-6 lg:px-20 py-10 bg-white">
       {/* Map Section */}
       <div className="w-full lg:w-1/2 relative">
         {/* Loading Spinner */}
@@ -23,9 +23,9 @@ const LocationSection = () => {
             loading="lazy"
           ></iframe>
           {/* Custom Popup (White Box) */}
-          <div className="absolute bg-white shadow-lg rounded-lg p-4 left-4 bottom-8 lg:bottom-16 w-64">
-            <h4 className="font-bold text-gray-800">NICON Plaza</h4>
-            <p className="text-sm text-gray-600">
+          <div className="absolute bg-white shadow-lg rounded-lg p-3 md:p-4 left-4 bottom-8 lg:bottom-16 w-48 md:w-64">
+            <h4 className="font-bold text-gray-800 text-sm md:text-base">NICON Plaza</h4>
+            <p className="text-xs md:text-sm text-gray-600 mt-1">
               6th Floor, 242 Muhammadu Buhari Way, <br />
               Central Business District, Abuja.
             </p>
@@ -33,7 +33,7 @@ const LocationSection = () => {
               href="https://www.google.com/maps?q=9.0556,7.4898"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-green-600 underline text-sm mt-2 inline-block"
+              className="text-green-600 underline text-xs md:text-sm mt-2 inline-block"
             >
               Open Google Maps
             </a>
@@ -42,7 +42,7 @@ const LocationSection = () => {
       </div>
 
       {/* Text Section */}
-      <div className="w-full lg:w-1/2 mt-6 lg:mt-0 lg:pl-10 text-center lg:text-left">
+      <div className="w-full lg:w-1/2 mt-6 lg:mt-0 lg:pl-10 text-left">
         <h3 className="text-green-600 font-semibold text-lg uppercase">Our Location</h3>
         <h2 className="text-2xl lg:text-3xl font-bold text-gray-800 mt-2">
           Connecting Near and Far
