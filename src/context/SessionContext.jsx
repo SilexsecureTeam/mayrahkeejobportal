@@ -1,7 +1,8 @@
-import { createContext, useEffect, useRef, useState } from "react";
+import { createContext, useContext, useEffect, useRef, useState } from "react";
 import { clear } from "idb-keyval";
 import { redirect, useNavigate } from "react-router-dom";
 import { useIdleTimer } from "react-idle-timer";
+import { AuthContext } from "./AuthContex";
 
 // const SESSION_TIMEOUT = 10000; //30 minutes
 const SESSION_TIMEOUT = 1800000; //30 minutes
@@ -13,8 +14,7 @@ export const SessionContext = createContext();
 export const SessionContextProvider = ({ children }) => {
   const navigate = useNavigate();
 
-  const update = JSON.parse(localStorage.getItem("userDetails"));
-  const userDetails = update || false;
+  const {authDetails} = useContext(AuthContext)
   const remeberMeSes = JSON.parse(localStorage.getItem("status"));
   const expiryDateSes = JSON.parse(localStorage.getItem("expiry_date"));
   const [rememberMe, setRememberMe] = useState(remeberMeSes || false);
@@ -22,9 +22,6 @@ export const SessionContextProvider = ({ children }) => {
 
   const toogleRememberMe = () => setRememberMe(!rememberMe);
 
-  console.log(date);
-
-  console.log(rememberMe);
 
   const saveSession = () => {
     if (rememberMe) {
@@ -43,14 +40,16 @@ export const SessionContextProvider = ({ children }) => {
   };
 
   const redirectAuthUser = () => {
-    if (!userDetails) return;
-    switch (userDetails.role) {
+    
+    if (!authDetails?.user?.role) return;
+    console.log("Triggered");
+    switch (authDetails?.user?.role) {
       case "candidate":
-        return redirect("/applicant");
+        return navigate("/applicant");
       case "employer":
-        return redirect("/company");
+       navigate("/company") ;break;
       case "staff":
-        return redirect("/staff");
+        return navigate("/staff");
     }
   };
 
