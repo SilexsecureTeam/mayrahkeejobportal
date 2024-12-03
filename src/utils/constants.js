@@ -192,7 +192,7 @@ export const utilOptions = [
   {
     type: "LOG-OUT",
     title: "Log Out",
-    route: "/",
+    route: "/login",
     icon: helpIcon,
     iconActive: helpIcon,
   },
