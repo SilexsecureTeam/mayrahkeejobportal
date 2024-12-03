@@ -1,4 +1,5 @@
 import React from "react";
+import { FiMail, FiPhone } from "react-icons/fi"; // Import icons
 import Navbar from '../components/Landing/Navbar'
 import Footer from '../components/Landing/Footer'
 import LocationSection from '../components/Landing/LocationSection'
@@ -38,32 +39,56 @@ const ContactUs = () => {
             </div>
 
             {/* Contact Form */}
-            <div className="flex-1 text-center w-2/5 min-w-[300px] bg-gray-50 p-6 rounded-lg border border-gray-400">
+            <div className="flex-1 text-center w-2/5 min-w-[300px p-6 rounded-2xl border border-gray-400">
               <h2 className="text-2xl font-bold mb-4">Get In Touch</h2>
               <p className="text-gray-500">You can reach us anytime</p>
               <form className="mt-3">
                 <div className="flex gap-4">
-                  <input type="text" placeholder="First Name" className="w-full p-3 border border-gray-400 placeholder:text-gray-600 font-medium rounded-full" />
-                  <input type="text" placeholder="Last Name" className="w-full p-3 border border-gray-400 placeholder:text-gray-600 font-medium rounded-full" />
+                  <input
+                    type="text"
+                    placeholder="First Name"
+                    className="w-full p-3 border border-gray-400 placeholder:text-gray-400 text-sm font-medium rounded-full"
+                  />
+                  <input
+                    type="text"
+                    placeholder="Last Name"
+                    className="w-full p-3 border border-gray-400 placeholder:text-gray-400 text-sm font-medium rounded-full"
+                  />
                 </div>
-                <input type="email" placeholder="Your email address" className="w-full p-3 mt-4 border border-gray-400 placeholder:text-gray-600 font-medium rounded-full" />
-                <input type="text" placeholder="Your phone number" className="w-full p-3 mt-4 border border-gray-400 placeholder:text-gray-600 font-medium rounded-full" />
+                <div className="relative w-full mt-4">
+                  <FiMail className="absolute left-4 top-0 bottom-0 my-auto text-gray-400" />
+                  <input
+                    type="email"
+                    placeholder="Your email address"
+                    className="w-full pl-10 p-3 border border-gray-400 placeholder:text-gray-400 text-sm font-medium rounded-full"
+                  />
+                </div>
+                <div className="relative w-full mt-4">
+                  <FiPhone className="absolute left-4 top-0 bottom-0 my-auto text-gray-400" />
+                  <input
+                    type="text"
+                    placeholder="Your phone number"
+                    className="w-full pl-10 p-3 border border-gray-400 placeholder:text-gray-400 text-sm font-medium rounded-full"
+                  />
+                </div>
                 <textarea
                   placeholder="How can we help?"
                   maxLength={200}
-                  className="w-full p-3 mt-4 border rounded-2xl border-gray-400 placeholder:text-gray-600 font-medium"
+                  className="w-full p-3 mt-4 border rounded-2xl border-gray-400 placeholder:text-gray-400 text-sm font-medium"
                   rows="4"
                 ></textarea>
                 <button
                   type="submit"
-                  className="w-full bg-green-600 text-white py-3 mt-4 rounded-full hover:bg-green-700"
+                  className="w-full font-medium bg-green-600 text-white py-3 mt-4 rounded-full hover:bg-green-700"
                 >
                   Submit
                 </button>
               </form>
             </div>
           </div>
-<LocationSection />
+
+          <LocationSection />
+
         </main>
       </div>
       {/* Footer */}

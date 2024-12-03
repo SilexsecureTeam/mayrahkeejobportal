@@ -7,13 +7,22 @@ import SectionHeader from "../components/Landing/SectionHeader";
 const BlogRead = () => {
     const { id } = useParams();
     const [blog, setBlog] = useState(null);
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
-        const isBlogAvailable = recentNews?.find(one => one?.id === parseInt(id))
-        console.log(recentNews, blog)
-        if (isBlogAvailable) {
-            setBlog(isBlogAvailable)
+        setLoading(true)
+        try{
+            const isBlogAvailable = recentNews?.find(one => one?.id === parseInt(id))
+            console.log(recentNews, blog)
+            if (isBlogAvailable) {
+                setBlog(isBlogAvailable)
+            }
+        }catch(err){
+            console.log(err)
+        }finally{
+            setLoading(false)
         }
+     
 
         // // Fetch blog details by ID
         // fetch(`https://api.example.com/blogs/${id}`) // Replace with your API URL
@@ -23,7 +32,8 @@ const BlogRead = () => {
     }, [recentNews, id]);
 
     return (
-        <>
+        loading ? <p>Loading...</p>
+        :<>
             <SectionHeader
                     title={blog?.title}
                     subtitle={blog?.desc.slice(0, 150)}
