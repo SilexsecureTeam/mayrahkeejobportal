@@ -114,7 +114,7 @@ function Application() {
             {[
               { label: "All", key: "all" },
               { label: "In Review", key: "in-review" },
-              { label: "Interview", key: "interview" },
+              { label: "Interviewed", key: "interviewed" },
               { label: "Shortlisted", key: "shortlist" },
               { label: "Declined", key: "declined" },
               { label: "Hired", key: "hired" },

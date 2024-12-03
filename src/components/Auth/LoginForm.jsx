@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import MainLogo from "../../assets/svgs/main-logo.svg";
 import Padlock from "../../assets/pngs/padlock.png";
 import Person from "../../assets/pngs/person.png";
@@ -11,12 +11,15 @@ import useLogin from "../../hooks/useLogin";
 import mayrahkeeIcon from "../../assets/pngs/mayrakee-icon.png";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import HowItWorksSlider from "./HowItWorksSlider";
+import { AuthContext } from "../../context/AuthContex";
+import { SessionContext } from "../../context/SessionContext";
 
-function LoginForm({ rememberMe, toogleRememberMe }) {
+function LoginForm() {
   const [role, setRole] = useState();
   const navigate = useNavigate();
   const { loginDetails, loginUser, loading, onTextChange } = useLogin(role);
   const [showPassword, setShowPassword] = useState(false);
+  const {rememberMe, toogleRememberMe} = useContext(SessionContext)
 
   const handleOnSubmit = (e) => {
     e.preventDefault();
