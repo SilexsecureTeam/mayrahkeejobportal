@@ -13,7 +13,7 @@ const LandingPage = () => {
   window.scrollTo(0, 0);
   return (
     <>
-      <div className='relative max-w-[1200px] w-full mx-auto'>
+      <div className='relative max-w-[1400px] w-full mx-auto'>
         <Navbar />
         <main className="relative my-20 px-5 h-full">
           <Hero />

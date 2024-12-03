@@ -7,7 +7,7 @@ const Navbar = () => {
   const [menu, setMenu] = useState(true);
   const [drop, setDrop] = useState(false);
   return (
-    <nav className="fixed top-0 right-0 left-0 z-20 max-w-[1200px] min-h-20 w-full mx-auto bg-white flex p-3 justify-between items-center flex-wrap md:flex-nowrap">
+    <nav className="fixed top-0 right-0 left-0 z-20 max-w-[1400px] min-h-20 w-full mx-auto bg-white flex p-3 md:px-5 justify-between items-center flex-wrap md:flex-nowrap">
       <Link to="/" className="flex justify-center items-center mx-2">
         <img src={logo} alt="logo" className="w-32 md:w-36" />
       </Link>
@@ -26,16 +26,18 @@ const Navbar = () => {
         >
           Find Jobs {drop ? <FaCaretUp /> : <FaCaretDown />}
           {drop && (
-            <ul className="absolute top-full left-0 mt-2 bg-white shadow-lg rounded-md flex flex-col gap-2 p-2 w-40 z-50">
-              <li className="hover:bg-gray-100 p-2 rounded">Candidate</li>
+            <ul className="absolute top-full left-0 mt-2 bg-white shadow-lg rounded-md flex flex-col gap-2 p-2 w-60 z-50">
+              <li className="hover:bg-gray-100 p-2 rounded">Coporate Candidate</li>
               <li className="hover:bg-gray-100 p-2 rounded">Artisan</li>
+              <li className="hover:bg-gray-100 p-2 rounded">Domestic Staff</li>
+            
             </ul>
           )}
         </div>
-        <NavLink to="/about">Find Artisans</NavLink>
-        <NavLink to="/services">Find Domestic Staffs</NavLink>
+        <NavLink to="/learning">Find Artisans</NavLink>
+        <NavLink to="/learning">Find Domestic Staffs</NavLink>
         <NavLink to="/help">Help Center</NavLink>
-        <NavLink to="/about">Blog</NavLink>
+        <NavLink to="/news">Blog</NavLink>
 
         <div className="cursor-default flex md:hidden items-center gap-3 lg:order-2">
           <Btn
