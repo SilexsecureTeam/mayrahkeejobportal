@@ -44,6 +44,56 @@ function ResourceContextProvider({ children }) {
         isDataNeeded: false,
     });
 
+const [getAllBlogCategories, setGetAllBlogCategories] = useState({
+        data: null,
+        isDataNeeded: false,
+    });
+const [getAllBlogSubCategories, setGetAllBlogSubCategories] = useState({
+        data: null,
+        isDataNeeded: false,
+    });
+const [getAllBlogPosts, setGetAllBogPosts] = useState({
+        data: null,
+        isDataNeeded: false,
+    });
+
+//All Blog Categories 
+    useEffect(() => {
+        setErrorMessage('');
+        if (getAllBlogCategories.isDataNeeded) {
+            const endPoint = "/blog/categories" 
+            const dataArray = null
+            getItemFunc(setGetAllBlogCategories, setErrorMessage, endPoint, dataArray)
+        }
+    }, [getAllBlogCategories.isDataNeeded]);
+//All Blog SubCategories 
+    useEffect(() => {
+        setErrorMessage('');
+        if (getAllBlogSubCategories.isDataNeeded) {
+            const endPoint = "/blog/subcategories" 
+            const dataArray = null
+            getItemFunc(setGetAllBlogSubCategories, setErrorMessage, endPoint, dataArray)
+        }
+    }, [getAllBlogSubCategories.isDataNeeded]);
+//All Blog Posts
+    useEffect(() => {
+        setErrorMessage('');
+        if (getAllBlogPosts.isDataNeeded) {
+            const endPoint = "/blog/posts" 
+            const dataArray = null
+            getItemFunc(setGetAllBogPosts, setErrorMessage, endPoint, dataArray)
+        }
+    }, [getAllBlogPosts.isDataNeeded]);
+
+//Users Resource useEffect
+    useEffect(() => {
+        setErrorMessage('');
+        if (getCandidate.isDataNeeded) {
+            const endPoint = `/candidate/getCandidate/${userId}`
+            const dataArray = "candidateAuth"
+            getUpdatedUser(token, setGetCandidate, setErrorMessage, endPoint, dataArray, setChecker)
+        }
+    }, [getCandidate.isDataNeeded]);
 
 
     //Users Resource useEffect
@@ -116,6 +166,12 @@ function ResourceContextProvider({ children }) {
                 setGetResumeById,
                 getAllCompanies,
                 setGetAllCompanies,
+              setGetAllBogPosts,
+                getAllBogPosts,
+                getAllBlogCategories,
+                setGetAllBlogCategories,
+                getAllBlogSubCategories,
+                setGetAllBlogSubCategories,
             }}
         >
             {children}
