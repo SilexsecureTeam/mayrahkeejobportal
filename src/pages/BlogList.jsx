@@ -12,6 +12,8 @@ const BlogList = () => {
     const [blogs, setBlogs] = useState([]);
     const [selected, setSelected] = useState();
     const [searchQuery, setSearchQuery] = useState("");
+const [filteredBlogs, setFilteredBlogs] = useState([]);
+
 
 useEffect(() => {
     setGetAllBlogPosts((prev) => ({
@@ -28,20 +30,18 @@ useEffect(() => {
   }, [getAllBlogPosts]);
 
 
-    useEffect(() => {
-        // Filter blogs based on the selected job category and search query
-        let filteredBlogs = selected === "All" ? blogs : blogs?.filter(blog => blog?.blog_category_id === selected?.toLowerCase());
-        
-        // Apply search query filtering
-        if (searchQuery.trim() !== "") {
-            filteredBlogs = filteredBlogs.filter(blog =>
-                blog?.title?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                blog?.desc?.toLowerCase().includes(searchQuery.toLowerCase())
-            );
-        }
+    
+useEffect(() => {
+    let result = selected === "All" ? blogs : blogs?.filter(blog => blog?.blog_category_id === selected?.toLowerCase());
+    if (searchQuery.trim() !== "") {
+        result = result.filter(blog =>
+            blog?.title?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            blog?. description?.toLowerCase().includes(searchQuery.toLowerCase())
+        );
+    }
+    setFilteredBlogs(result);
+}, [selected, searchQuery, blogs]);
 
-        setBlogs(filteredBlogs);
-    }, [selected, searchQuery]);
 
     return (
         <>
@@ -84,9 +84,9 @@ useEffect(() => {
                         </div>
                     </div>
                     {/* Conditional Rendering for Blogs */}
-                    {blogs?.length > 0 ? (
+                    {filteredBlogs?.length > 0 ? (
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 gap-y-10">
-                            {blogs?.map((blog) => (
+                            {filteredBlogs?.map((blog) => (
                                 <article
                                     onClick={() => {
                                         scrollTo(0, 0);
@@ -123,6 +123,7 @@ useEffect(() => {
                             No blogs found for the selected category or search query.
                         </div>
                     )}
+
                 </main>
             </div>
             <Footer />
