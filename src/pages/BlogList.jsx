@@ -33,14 +33,16 @@ useEffect(() => {
 
     
 useEffect(() => {
-    let result = selected === "All" ? blogs : blogs?.filter(blog => blog?.blog_category_id === selected?.toLowerCase());
-    if (searchQuery.trim() !== "") {
-        result = result.filter(blog =>
+if(blogs){
+    let result = selected === "All" ? blogs : blogs?.filter(blog => blog?.blog_category_id === selected);
+    if (searchQuery?.trim() !== "") {
+        result = result?.filter(blog =>
             blog?.title?.toLowerCase().includes(searchQuery.toLowerCase()) ||
             blog?. description?.toLowerCase().includes(searchQuery.toLowerCase())
         );
     }
     setFilteredBlogs(result);
+}
 }, [selected, searchQuery, blogs]);
 
 
@@ -74,9 +76,9 @@ useEffect(() => {
                             {jobDetails?.map((course) => (
                                 <button
                                     key={course?.id}
-                                    onClick={() => setSelected(course?.title)}
+                                    onClick={() => setSelected(course?.id)}
                                     className={`capitalize text-sm px-4 py-2 ${
-                                        selected === course?.title ? "text-green-600 border-b-[2px] border-b-green-600" : "text-gray-700"
+                                        selected === course?.id ? "text-green-600 border-b-[2px] border-b-green-600" : "text-gray-700"
                                     } font-bold rounded`}
                                 >
                                     {course?.title}
@@ -84,7 +86,48 @@ useEffect(() => {
                             ))}
                         </div>
                     </div>
-                
+                    {/* Conditional Rendering for Blogs */}
+                    {filteredBlogs?.length > 0 ? (
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 gap-y-10">
+                            {filteredBlogs?.map((blog) => (
+                                <article
+                                    onClick={() => {
+                                        scrollTo(0, 0);
+                                        navigate(`/news/${blog?.id}`);
+                                    }}
+                                    key={blog?.id}
+                                    className="cursor-pointer bg-white rounded-lg shadow overflow-hidden"
+                                >
+                                    <img src={blog?.main_image} alt={blog?.title} className="w-full h-48 object-cover" />
+                                    <div className="p-2 flex-1 w-[90%] md:w-full flex flex-col justify-center">
+                                        <small className="mt-2 text-gray-400 flex items-center">
+                                            <span className="mr-2 w-2 h-2 rounded-full bg-gray-400"></span>
+                                            {new Date(blog?.created_at)}
+                                        </small>
+                                        <h4 className="font-bold text-xl md:my-2 lg:my-3">{blog?.title}</h4>
+                                        <p className="text-sm text-gray-500 mb-1 md:mb-3">
+                                            {blog?.description?.slice(0, 100)}...
+                                        </p>
+                                        <article className="flex items-center justify-between gap-1 md:gap-3">
+                                            <small className="mt-2 text-gray-400 flex items-center">
+                                                <span className="mr-2 w-2 h-2 rounded-full bg-gray-400"></span>
+                                                {blog?.reads} min read.
+                                            </small>
+                                            <p className="text-green-600 text-xs font-medium">
+                                                Read More {">>"}
+                                            </p>
+                                        </article>
+                                    </div>
+                                </article>
+                            ))}
+                        </div>
+                    ) : (
+                        <div className="text-center mt-10 text-gray-500 text-lg">
+                            No blogs found for the selected category or search query.
+                        </div>
+             
+       )}
+
                 </main>
             </div>
             <Footer />
