@@ -94,7 +94,7 @@ useEffect(() => {
                                     key={blog?.id}
                                     className="cursor-pointer bg-white rounded-lg shadow overflow-hidden"
                                 >
-                                    <img src={blog?.image} alt={blog?.title} className="w-full h-48 object-cover" />
+                                    <img src={blog?.main_image} alt={blog?.title} className="w-full h-48 object-cover" />
                                     <div className="p-2 flex-1 w-[90%] md:w-full flex flex-col justify-center">
                                         <small className="mt-2 text-gray-400 flex items-center">
                                             <span className="mr-2 w-2 h-2 rounded-full bg-gray-400"></span>
@@ -102,7 +102,7 @@ useEffect(() => {
                                         </small>
                                         <h4 className="font-bold text-xl md:my-2 lg:my-3">{blog?.title}</h4>
                                         <p className="text-sm text-gray-500 mb-1 md:mb-3">
-                                            {blog?.desc.slice(0, 100)}...
+                                            {blog?.description.slice(0, 100)}...
                                         </p>
                                         <article className="flex items-center justify-between gap-1 md:gap-3">
                                             <small className="mt-2 text-gray-400 flex items-center">
