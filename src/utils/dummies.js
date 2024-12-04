@@ -1,3 +1,5 @@
+import { Description } from "@headlessui/react"
+
 export const user = {
     name: 'Jake Sully',
     email: 'sully@example.com'
@@ -159,5 +161,26 @@ export const chat_dummies = [
         id: 8,
         name: 'James Gardner',
         chat_time: new Date(),
+    },
+]
+
+export const admin_exlusve_dummies = [
+    {
+        id: 1,
+        title: 'Total Employers',
+        description: 'All exlusives under mayrahkee',
+        value: 100
+    },
+    {
+        id: 2,
+        title: 'Total Applicants',
+        description: 'sum total of all appliacants under exlcusives.',
+        value: 300
+    },
+    {
+        id: 3,
+        title: 'Total Jobs',
+        description: 'All exlusives under mayrahkee',
+        value: 300
     },
 ]
