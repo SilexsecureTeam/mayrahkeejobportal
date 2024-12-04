@@ -1,4 +1,4 @@
-qimport React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { recentNews, jobDetails } from '../components/Landing/LandingData';
 import Navbar from '../components/Landing/Navbar';
 import Footer from '../components/Landing/Footer';
