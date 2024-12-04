@@ -7,7 +7,7 @@ export const InterviewContextProvider = ({ children }) => {
   const { getAllInterviews, interviews } = useInterviewManagement();
 
   useEffect(() => {
-    getAllInterviews();
+    getAllInterviews(() => {});
   }, []);
 
   return (
