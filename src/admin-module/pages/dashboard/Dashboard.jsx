@@ -1,9 +1,5 @@
 import { Helmet } from "react-helmet";
-import {
-  FaArrowTrendDown,
-  FaArrowTrendUp,
-  FaPlus,
-} from "react-icons/fa6";
+import { FaArrowTrendDown, FaArrowTrendUp, FaPlus } from "react-icons/fa6";
 import { FiUsers } from "react-icons/fi";
 import { RiCalendarEventLine, RiFileUserFill } from "react-icons/ri";
 import { generateDateRange } from "../../../utils/formmaters";
@@ -20,7 +16,13 @@ import UseAdminManagement from "../../../hooks/useAdminManagement";
 function Dashboard() {
   const { authDetails } = useContext(AuthContext);
   const { setSideBar } = useContext(AdminRouteContext);
-const {getEmployers,getCandidates,getArtisans,getDomesticStaff,getAllJobs } = UseAdminManagement()
+  const {
+    getEmployers,
+    getCandidates,
+    getArtisans,
+    getDomesticStaff,
+    getAllJobs,
+  } = UseAdminManagement();
 
   const [employersCount, setEmployersCount] = useState(0);
   const [candidatesCount, setCandidatesCount] = useState(0);
@@ -59,8 +61,14 @@ const {getEmployers,getCandidates,getArtisans,getDomesticStaff,getAllJobs } = Us
         <title>Dashboard | Dashboard</title>
       </Helmet>
       <div className="h-full p-6 w-full text-sm text-gray-800">
+
         <div className="text-sm">
-         
+          <button 
+          onClick={() => navigate('/admin-exclusives')}
+          className="ml-4 px-2 py-2 bg-primaryColor font-semibold hover:scale-[102%] duration-75 rounded-md text-white">
+            Manage Exlcusive Employers
+          </button>
+
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-6 p-4">
             <DashboardCard
               leftIcon={<BsStopwatch />}
