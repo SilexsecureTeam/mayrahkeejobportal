@@ -1,19 +1,35 @@
-import React, { useEffect, useState } from 'react';
+qimport React, { useEffect, useState, useContext } from 'react';
 import { recentNews, jobDetails } from '../components/Landing/LandingData';
 import Navbar from '../components/Landing/Navbar';
 import Footer from '../components/Landing/Footer';
 import { useNavigate } from 'react-router-dom';
 import { FaSearch } from 'react-icons/fa'; // Import the search icon from React Icons
 
+import { ResourceContext } from "../context/ResourceContext";
 const BlogList = () => {
+    const {setGetAllBlogPosts, getAllBlogPosts}= useContext(ResourceContext);
     const navigate = useNavigate();
     const [blogs, setBlogs] = useState([]);
     const [selected, setSelected] = useState("All");
     const [searchQuery, setSearchQuery] = useState("");
 
+useEffect(() => {
+    setGetAllBlogPosts((prev) => ({
+      ...prev,
+      isDataNeeded: true,
+    }));
+  }, []);
+
+useEffect(() => {
+    if(getAllBlogPosts?.data){
+      setBlogs(getAllBlogPosts?.data);
+    }
+  }, [getAllBlogPosts]);
+
+
     useEffect(() => {
         // Filter blogs based on the selected job category and search query
-        let filteredBlogs = selected === "All" ? recentNews : recentNews.filter(blog => blog?.category?.toLowerCase() === selected?.toLowerCase());
+        let filteredBlogs = selected === "All" ? blogs : blogs?.filter(blog => blog?.blog_category_id === selected?.toLowerCase());
         
         // Apply search query filtering
         if (searchQuery.trim() !== "") {
@@ -24,7 +40,7 @@ const BlogList = () => {
         }
 
         setBlogs(filteredBlogs);
-    }, [selected, searchQuery]);
+    }, [blogs, selected, searchQuery]);
 
     return (
         <>
