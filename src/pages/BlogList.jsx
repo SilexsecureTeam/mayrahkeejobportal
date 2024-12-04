@@ -84,9 +84,9 @@ useEffect(() => {
                         </div>
                     </div>
                     {/* Conditional Rendering for Blogs */}
-                    {blogs.length > 0 ? (
+                    {blogs?.length > 0 ? (
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 gap-y-10">
-                            {blogs.map((blog) => (
+                            {blogs?.map((blog) => (
                                 <article
                                     onClick={() => {
                                         scrollTo(0, 0);
@@ -99,11 +99,11 @@ useEffect(() => {
                                     <div className="p-2 flex-1 w-[90%] md:w-full flex flex-col justify-center">
                                         <small className="mt-2 text-gray-400 flex items-center">
                                             <span className="mr-2 w-2 h-2 rounded-full bg-gray-400"></span>
-                                            {blog?.time_posted}
+                                            {new Date(blog?.created_at)}
                                         </small>
                                         <h4 className="font-bold text-xl md:my-2 lg:my-3">{blog?.title}</h4>
                                         <p className="text-sm text-gray-500 mb-1 md:mb-3">
-                                            {blog?.description.slice(0, 100)}...
+                                            {blog?.description?.slice(0, 100)}...
                                         </p>
                                         <article className="flex items-center justify-between gap-1 md:gap-3">
                                             <small className="mt-2 text-gray-400 flex items-center">
