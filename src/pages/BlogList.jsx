@@ -1,72 +1,56 @@
+
 import React, { useEffect, useState, useContext } from 'react';
+import { recentNews, jobDetails } from '../components/Landing/LandingData';
 import Navbar from '../components/Landing/Navbar';
 import Footer from '../components/Landing/Footer';
 import { useNavigate } from 'react-router-dom';
-import { FaSearch } from 'react-icons/fa';
-import { ResourceContext } from "../context/ResourceContext";
+import { FaSearch } from 'react-icons/fa'; // Import the search icon from React Icons
 
+import { ResourceContext } from "../context/ResourceContext";
 const BlogList = () => {
-    const { setGetAllBlogPosts, getAllBlogPosts } = useContext(ResourceContext);
+    const {setGetAllBlogPosts, getAllBlogPosts}= useContext(ResourceContext);
     const navigate = useNavigate();
     const [blogs, setBlogs] = useState([]);
-    const [selected, setSelected] = useState("All");
+    const [selected, setSelected] = useState();
     const [searchQuery, setSearchQuery] = useState("");
-    const [filteredBlogs, setFilteredBlogs] = useState([]);
-    const defaultBlogs = [
-        {
-            id: 1,
-            title: "Default Blog 1",
-            description: "This is a default blog description.",
-            main_image: "https://via.placeholder.com/150",
-            created_at: new Date().toISOString(),
-            reads: 5,
-        },
-        {
-            id: 2,
-            title: "Default Blog 2",
-            description: "This is another default blog description.",
-            main_image: "https://via.placeholder.com/150",
-            created_at: new Date().toISOString(),
-            reads: 7,
-        },
-    ];
+const [filteredBlogs, setFilteredBlogs] = useState([]);
 
-    // Trigger API request for blogs
-    useEffect(() => {
-        setGetAllBlogPosts((prev) => ({
-            ...prev,
-            isDataNeeded: true,
-        }));
-    }, []);
 
-    // Set blogs from API response or fallback to default blogs
-    useEffect(() => {
-        if (getAllBlogPosts?.data) {
-            setBlogs(getAllBlogPosts?.data);
-        } else {
-            setBlogs(defaultBlogs); // Use fallback data
-        }
-    }, [getAllBlogPosts]);
+useEffect(() => {
+    setGetAllBlogPosts((prev) => ({
+      ...prev,
+      isDataNeeded: true,
+    }));
+  }, []);
 
-    // Filter blogs based on category and search query
-    useEffect(() => {
-        let result = selected === "All" ? blogs : blogs?.filter(blog => blog?.blog_category_id === selected?.toLowerCase());
-        if (searchQuery.trim() !== "") {
-            result = result.filter(blog =>
-                blog?.title?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                blog?.description?.toLowerCase().includes(searchQuery.toLowerCase())
-            );
-        }
-        setFilteredBlogs(result);
-    }, [selected, searchQuery, blogs]);
+useEffect(() => {
+    if(getAllBlogPosts?.data){
+      setBlogs(getAllBlogPosts?.data);
+      setSelected("All");
+    }
+  }, [getAllBlogPosts]);
+
+
+    
+useEffect(() => {
+    let result = selected === "All" ? blogs : blogs?.filter(blog => blog?.blog_category_id === selected?.toLowerCase());
+    if (searchQuery.trim() !== "") {
+        result = result.filter(blog =>
+            blog?.title?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            blog?. description?.toLowerCase().includes(searchQuery.toLowerCase())
+        );
+    }
+    setFilteredBlogs(result);
+}, [selected, searchQuery, blogs]);
+
 
     return (
         <>
-            <div className="relative max-w-[1400px] w-full mx-auto">
+            <div className='relative max-w-[1400px] w-full mx-auto'>
                 <Navbar />
                 <main className="relative my-24 px-5 h-auto flex flex-col gap-5">
                     <div className="flex flex-col md:flex-row md:gap-x-10 mt-3 md:items-end md:overflow-x-auto">
-                        {/* Search Input */}
+                        {/* Search Input with Icon */}
                         <div className="relative w-full md:w-60">
                             <input
                                 type="text"
@@ -87,49 +71,20 @@ const BlogList = () => {
                             >
                                 All
                             </button>
-                            {/* Add jobDetails mapping here */}
-                        </div>
-                    </div>
-                    {/* Blogs */}
-                    {filteredBlogs?.length > 0 ? (
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 gap-y-10">
-                            {filteredBlogs.map((blog) => (
-                                <article
-                                    onClick={() => {
-                                        scrollTo(0, 0);
-                                        navigate(`/news/${blog?.id}`);
-                                    }}
-                                    key={blog?.id}
-                                    className="cursor-pointer bg-white rounded-lg shadow overflow-hidden"
+                            {jobDetails?.map((course) => (
+                                <button
+                                    key={course?.id}
+                                    onClick={() => setSelected(course?.title)}
+                                    className={`capitalize text-sm px-4 py-2 ${
+                                        selected === course?.title ? "text-green-600 border-b-[2px] border-b-green-600" : "text-gray-700"
+                                    } font-bold rounded`}
                                 >
-                                    <img src={blog?.main_image} alt={blog?.title} className="w-full h-48 object-cover" />
-                                    <div className="p-2 flex-1 w-[90%] md:w-full flex flex-col justify-center">
-                                        <small className="mt-2 text-gray-400 flex items-center">
-                                            <span className="mr-2 w-2 h-2 rounded-full bg-gray-400"></span>
-                                            {new Date(blog?.created_at).toLocaleDateString()}
-                                        </small>
-                                        <h4 className="font-bold text-xl md:my-2 lg:my-3">{blog?.title}</h4>
-                                        <p className="text-sm text-gray-500 mb-1 md:mb-3">
-                                            {blog?.description?.slice(0, 100)}...
-                                        </p>
-                                        <article className="flex items-center justify-between gap-1 md:gap-3">
-                                            <small className="mt-2 text-gray-400 flex items-center">
-                                                <span className="mr-2 w-2 h-2 rounded-full bg-gray-400"></span>
-                                                {blog?.reads} min read.
-                                            </small>
-                                            <p className="text-green-600 text-xs font-medium">
-                                                Read More {">>"}
-                                            </p>
-                                        </article>
-                                    </div>
-                                </article>
+                                    {course?.title}
+                                </button>
                             ))}
                         </div>
-                    ) : (
-                        <div className="text-center mt-10 text-gray-500 text-lg">
-                            No blogs found for the selected category or search query.
-                        </div>
-                    )}
+                    </div>
+                
                 </main>
             </div>
             <Footer />
