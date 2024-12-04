@@ -10,7 +10,7 @@ const BlogList = () => {
     const {setGetAllBlogPosts, getAllBlogPosts}= useContext(ResourceContext);
     const navigate = useNavigate();
     const [blogs, setBlogs] = useState([]);
-    const [selected, setSelected] = useState("All");
+    const [selected, setSelected] = useState();
     const [searchQuery, setSearchQuery] = useState("");
 
 useEffect(() => {
@@ -23,6 +23,7 @@ useEffect(() => {
 useEffect(() => {
     if(getAllBlogPosts?.data){
       setBlogs(getAllBlogPosts?.data);
+      setSelected("All");
     }
   }, [getAllBlogPosts]);
 
@@ -40,7 +41,7 @@ useEffect(() => {
         }
 
         setBlogs(filteredBlogs);
-    }, [blogs, selected, searchQuery]);
+    }, [selected, searchQuery]);
 
     return (
         <>
