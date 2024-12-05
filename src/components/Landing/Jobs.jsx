@@ -1,20 +1,48 @@
+import {useState, useEffect} from 'react'
 import { FaSearchLocation } from 'react-icons/fa';
 import { jobDetails } from './LandingData';
 import approved from '../../assets/pngs/approved.png'
+import { ResourceContext } from "../context/ResourceContext";
+
 import {BiBriefcase} from 'react-icons/bi'
 const Jobs = () => {
+const {
+        setGetAllFeaturedJobs,
+        getAllFeaturedJobs
+    } = useContext(ResourceContext);
+
+   const [jobs, setJobs]=useState();
+
+// Fetch all jobs
+    useEffect(() => {
+        setGetAllFeaturedJobs((prev) => ({
+            ...prev,
+            isDataNeeded: true,
+        }));
+    }, []);
+useEffect(() => {
+    if (getAllFeaturedJobs?.data) {
+        const fetchedBlogs = getAllFeaturedJobs?.data?.data;
+        
+
+        // Set the most recent post
+        const neededJobs =fetchedBlogs.filter(one=> parseInt(one?.feature_jobs) === 1)
+        );
+        setJobs(neededJobs);
+    }
+}, [getAllFeaturedJobs]);
     return (
         <div className="flex flex-wrap justify-center md:justify-evenly items-center gap-4 gap-y-10">
-            {jobDetails?.map((job)=>(
+            {jobs?.map((job)=>(
             <div key={job?.id} className="max-w-80 min-h-60 p-5 rounded-2xl shadow-[0px_0px_10px] shadow-gray-300">
                 <section className="flex justify-between gap-3">
                     <div>
-                        <h4 className="capitalize text-xl font-semibold my-2">{job?.title}</h4>
+                        <h4 className="capitalize text-xl font-semibold my-2">{job?.job_title}</h4>
                         <p className="font-semibold text-sm text-gray-500 flex gap-2">{job?.company} <img src={approved} className="w-5" /></p>
                     </div>
-                    <img src={job?.logo} alt="img" className="h-10" />
+                    <img src={job?.featured_image} alt="img" className="h-10" />
                 </section>
-                <p className="text-gray-500 text-sm my-3">{job?.desc}</p>
+                <p className="text-gray-500 text-sm my-3">{job?.job_description}</p>
 
                 <div className="flex gap-3 my-3 text-green-600 capitalize">
                     <span className="flex items-center justify-center text-xs gap-2"><FaSearchLocation size="15" /> {job?.mode}</span>
