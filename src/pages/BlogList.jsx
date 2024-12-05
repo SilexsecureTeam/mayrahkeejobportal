@@ -33,14 +33,34 @@ const BlogList = () => {
         }));
     }, []);
 
-    // Process fetched blog posts
-    useEffect(() => {
-        if (getAllBlogPosts?.data) {
-            setBlogs(getAllBlogPosts.data.data);
-            setIsLoading(false);
-            console.log(blogs)
-        }
-    }, [getAllBlogPosts]);
+
+const calculateReadingTime = (text) => {
+    const wordsPerMinute = 200; // Average reading speed
+    const words = text.split(/\s+/).length; // Count words
+    const minutes = Math.ceil(words / wordsPerMinute); // Round up
+    return minutes;
+};
+
+  useEffect(() => {
+    if (getAllBlogPosts?.data) {
+        const fetchedBlogs = getAllBlogPosts.data.data;
+
+        // Add reading time to each blog
+        const blogsWithReadingTime = fetchedBlogs.map((blog) => ({
+            ...blog,
+            readingTime: calculateReadingTime(blog.desc || ""),
+        }));
+
+        
+
+        // Set the most recent post
+        const sortedBlogs = blogsWithReadingTime.slice().sort(
+            (a, b) => new Date(b.time_posted) - new Date(a.time_posted)
+        );
+        setBlogs(sortedBlogs);
+    }
+}, [getAllBlogPosts]);
+
 
     // Process fetched categories
     useEffect(() => {
@@ -198,7 +218,7 @@ const BlogList = () => {
                                         <article className="flex items-center justify-between gap-1 md:gap-3">
                                             <small className="mt-2 text-gray-400 flex items-center">
                                                 <span className="mr-2 w-2 h-2 rounded-full bg-gray-400"></span>
-                                                {blog.reads} min read
+                                                {blog.readingTime} min read
                                             </small>
                                             <p className="text-green-600 text-xs font-medium">
                                                 Read More {">>"}
