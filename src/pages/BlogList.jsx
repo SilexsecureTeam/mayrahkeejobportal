@@ -71,7 +71,7 @@ const BlogList = () => {
         // Filter by subcategory
         if (selectedSubcategory !== null) {
             result = result.filter(
-                (blog) => blog.id === selectedSubcategory
+                (blog) => blog.blog_sub_category_id === selectedSubcategory
             );
         }
 
