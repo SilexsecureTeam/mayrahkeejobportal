@@ -67,9 +67,11 @@ const [getAllFeaturedJobs, setGetAllFeaturedJobs] = useState({
         if (getAllFeaturedJobs.isDataNeeded) {
             const endPoint = "/job";
             const dataArray = null;
-            getDetailFunc( setGetAllFeaturedJobs, setErrorMessage, endPoint, dataArray)
+           const token="public"
+            getItemFunc(token, setGetAllFeaturedJobs, setErrorMessage, endPoint, dataArray)
         }
     }, [getAllFeaturedJobs.isDataNeeded]);
+
     //All Blog Categories 
     useEffect(() => {
         setErrorMessage('');
@@ -183,10 +185,11 @@ const [getAllFeaturedJobs, setGetAllFeaturedJobs] = useState({
                 getAllBlogPosts,
                 getAllBlogCategories,
                 setGetAllBlogCategories,
+                setGetAllFeaturedJobs,
+getAllFeaturedJobs,
                 getAllBlogSubCategories,
                 setGetAllBlogSubCategories,
-setGetAllFeaturedJobs,
-getAllFeaturedJobs
+
             }}
         >
             {children}
