@@ -2,6 +2,7 @@ import Banner from '../components/Landing/Banner';
 import Footer from '../components/Landing/Footer';
 import Navbar from '../components/Landing/Navbar';
 import Empowering from '../components/Landing/Empowering';
+import OurValues from '../components/Landing/OurValues';
 import InfoSection from '../components/Landing/InfoSection';
 import tunnel from '../assets/pngs/Tunnel2.png'
 import missionImg from '../assets/pngs/about3.png'
@@ -37,6 +38,7 @@ const AboutUs = () => {
                         imageSrc={visionImg}
                         reverse={true}
                     />
+<OurValues />
                 </main>
             </div>
             <Footer />
