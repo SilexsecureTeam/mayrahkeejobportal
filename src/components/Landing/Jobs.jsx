@@ -31,7 +31,7 @@ const Jobs = () => {
         if (getAllFeaturedJobs?.data) {
             const fetchedBlogs = getAllFeaturedJobs?.data || [];
             const neededJobs = fetchedBlogs.filter(
-                (one) => parseInt(one?.feature_jobs) === 0
+                (one) => parseInt(one?.feature_jobs) === 1
             );
             setJobs(neededJobs);
             setLoading(false);
