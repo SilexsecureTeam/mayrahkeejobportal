@@ -61,7 +61,7 @@ const Jobs = () => {
         return (
             <div className="flex text-center justify-center items-center min-h-40 bg-gray-100">
                 <p className="text-lg font-medium text-gray-700">
-                    No featured jobs available. 
+                    No jobs featuring at the moment. Please check back later.
                 </p>
             </div>
         );
