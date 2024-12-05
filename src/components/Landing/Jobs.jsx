@@ -20,7 +20,7 @@ const Jobs = () => {
                     <span className="flex items-center justify-center text-xs gap-2"><FaSearchLocation size="15" /> {job?.mode}</span>
                     <span className="flex items-center justify-center text-xs gap-2"><BiBriefcase size="15" /> {job?.type}</span>
                 </div>
-                <button className="mt-2 cursor-pointer font-medium py-2 px-6 rounded-full capitalize w-full bg-black text-sm text-white"> Apply now</button>
+                <button className="my-2 cursor-pointer font-medium py-2 px-6 rounded-full capitalize w-full bg-black text-sm text-white"> Apply now</button>
 
             </div>
             ))}
