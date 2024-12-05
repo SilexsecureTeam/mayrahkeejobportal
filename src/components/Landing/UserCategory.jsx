@@ -13,7 +13,7 @@ const UserCategory = () => {
                     
 <div className="mb-2" ><Btn
                         title="Register"
-                        loc="/signup"
+                        loc="/registration"
                         styl="bg-black text-sm shadow-[1px_1px_0] shadow-gray-400 hover:shadow-[-1px_-1px_0] text-white"
                     /></div>
                 </section>
