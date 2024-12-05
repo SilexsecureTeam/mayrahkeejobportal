@@ -9,16 +9,16 @@ const Experience=()=>{
 
             </section>
             {/* Right */}
-            <section className="w-full md:w-1/2 flex gap-3 justify-between my-2 md:my-0 divide-x-2  md:px-6 px-3 divide-x-gray-500">
-                <div className="flex flex-col gap-3">
+            <section className="w-full md:w-1/2 flex gap-3 justify-between my-2 md:my-0 divide-x-2 divide-x-gray-500">
+                <div className="flex flex-col gap-3 w-1/3">
                     <p className="text-3xl font-semibold text-green-600">92%</p>
                     <p className="text-xs text-gray-600">Many users find relevant jobs according to skills</p>
                 </div>
-                <div className="flex flex-col gap-3">
+                <div className="flex flex-col gap-3 w-1/3">
                     <p className="text-3xl font-semibold text-green-600">97%</p>
                     <p className="text-xs text-gray-600">Data filtering from companies doesn't take long</p>
                 </div>
-                <div className="flex flex-col gap-3">
+                <div className="flex flex-col gap-3 w-1/3">
                     <p className="text-3xl font-semibold text-green-600">76%</p>
                     <p className="text-xs text-gray-600">Many top companies can connect with you. </p>
                 </div>
