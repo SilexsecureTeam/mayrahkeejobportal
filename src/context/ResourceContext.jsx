@@ -28,6 +28,10 @@ export function ResourceContextProvider({ children }) {
         data: null,
         isDataNeeded: false,
     });
+const [getAllFeaturedJobs, setGetAllFeaturedJobs] = useState({
+        data: null,
+        isDataNeeded: false,
+    });
 
     const [getAllApplications, setGetAllApplications] = useState({
         data: null,
@@ -57,6 +61,15 @@ export function ResourceContextProvider({ children }) {
         isDataNeeded: false,
     });
 
+// Get All featured Jobs
+    useEffect(() => {
+        setErrorMessage('');
+        if (getAllFeaturedJobs.isDataNeeded) {
+            const endPoint = "/job";
+            const dataArray = null;
+            getDetailFunc( setGetAllFeaturedJobs, setErrorMessage, endPoint, dataArray)
+        }
+    }, [getAllFeaturedJobs.isDataNeeded]);
     //All Blog Categories 
     useEffect(() => {
         setErrorMessage('');
@@ -172,6 +185,8 @@ export function ResourceContextProvider({ children }) {
                 setGetAllBlogCategories,
                 getAllBlogSubCategories,
                 setGetAllBlogSubCategories,
+setGetAllFeaturedJobs,
+getAllFeaturedJobs
             }}
         >
             {children}
