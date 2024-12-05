@@ -97,3 +97,41 @@ export const getItemFunc = (
         }
       });
 };
+
+export const getDetailFunc = (
+  setDataState,
+  setErrorMessage,
+  endPoint,
+  dataArray
+) => {
+  const fleetTypesApi = `${BASE_URL}${endPoint}`;
+  let newFleetMakesData = [];
+  let apiData;
+    axios
+      .get(fleetTypesApi)
+      .then((response) => {
+        console.log(response);
+        if (dataArray) {
+          apiData = response.data[dataArray];
+          
+        } else {
+          apiData = response.data;
+        }
+         console.log(apiData);
+
+        setDataState((prev) => {
+          return {
+            data: apiData,
+            isDataNeeded: prev.isDataNeeded,
+          };
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+        if (error.response) {
+          setErrorMessage(error.response.data.message);
+        } else {
+          setErrorMessage(error.message);
+        }
+      });
+};

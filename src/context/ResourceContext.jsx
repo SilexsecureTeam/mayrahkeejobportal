@@ -1,11 +1,11 @@
 import { createContext, useContext, useEffect, useState } from "react";
 // import { getItemByPost, getItemFunc, getTimeTable } from "../components/utils/getApi";
 import { AuthContext } from "./AuthContex";
-import { getItemFunc, getUpdatedUser } from "../utils/getApi";
+import { getItemFunc, getUpdatedUser, getDetailFunc } from "../utils/getApi";
 
 export const ResourceContext = createContext();
 
-function ResourceContextProvider({ children }) {
+export function ResourceContextProvider({ children }) {
 
     const { authDetails } = useContext(AuthContext);
     const token = authDetails?.token ? authDetails.token : null;
@@ -44,6 +44,56 @@ function ResourceContextProvider({ children }) {
         isDataNeeded: false,
     });
 
+    const [getAllBlogCategories, setGetAllBlogCategories] = useState({
+        data: null,
+        isDataNeeded: false,
+    });
+    const [getAllBlogSubCategories, setGetAllBlogSubCategories] = useState({
+        data: null,
+        isDataNeeded: false,
+    });
+    const [getAllBlogPosts, setGetAllBlogPosts] = useState({
+        data: null,
+        isDataNeeded: false,
+    });
+
+    //All Blog Categories 
+    useEffect(() => {
+        setErrorMessage('');
+        if (getAllBlogCategories.isDataNeeded) {
+            const endPoint = "/blog/categories"
+            const dataArray = null
+            getDetailFunc(setGetAllBlogCategories, setErrorMessage, endPoint, dataArray)
+        }
+    }, [getAllBlogCategories.isDataNeeded]);
+    //All Blog SubCategories 
+    useEffect(() => {
+        setErrorMessage('');
+        if (getAllBlogSubCategories.isDataNeeded) {
+            const endPoint = "/blog/subcategories"
+            const dataArray = null
+            getDetailFunc(setGetAllBlogSubCategories, setErrorMessage, endPoint, dataArray)
+        }
+    }, [getAllBlogSubCategories.isDataNeeded]);
+    //All Blog Posts
+    useEffect(() => {
+        setErrorMessage('');
+        if (getAllBlogPosts.isDataNeeded) {
+            const endPoint = "/blog/posts"
+            const dataArray = "data"
+            getDetailFunc(setGetAllBlogPosts, setErrorMessage, endPoint, dataArray)
+        }
+    }, [getAllBlogPosts.isDataNeeded]);
+
+    //Users Resource useEffect
+    useEffect(() => {
+        setErrorMessage('');
+        if (getCandidate.isDataNeeded) {
+            const endPoint = `/candidate/getCandidate/${userId}`
+            const dataArray = "candidateAuth"
+            getUpdatedUser(token, setGetCandidate, setErrorMessage, endPoint, dataArray, setChecker)
+        }
+    }, [getCandidate.isDataNeeded]);
 
 
     //Users Resource useEffect
@@ -116,6 +166,12 @@ function ResourceContextProvider({ children }) {
                 setGetResumeById,
                 getAllCompanies,
                 setGetAllCompanies,
+                setGetAllBlogPosts,
+                getAllBlogPosts,
+                getAllBlogCategories,
+                setGetAllBlogCategories,
+                getAllBlogSubCategories,
+                setGetAllBlogSubCategories,
             }}
         >
             {children}

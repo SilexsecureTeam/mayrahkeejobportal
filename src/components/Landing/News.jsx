@@ -1,21 +1,21 @@
 import { recentNews } from './LandingData';
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import {useNavigate} from 'react-router-dom'
 const News = () => {
+    const navigate=useNavigate()
     const [recent, setRecent] = useState();
     const [news, setNews] = useState();
-    const navigate = useNavigate();
 
     useEffect(() => {
-        setRecent(recentNews.slice(0, 5).find(news => news.id === 1));
-        setNews(recentNews.slice(0, 5).filter(news => news.id !== 1));
+        setRecent(recentNews.slice(0,4).find(news => news.id === 1));
+        setNews(recentNews.slice(0,4).filter(news => news.id !== 1));
     }, []);
 
     return (
-        <div className="bg-[#47aa4910] py-4">
+        <div className="bg-[#47aa4910]">
             <div className="flex justify-between items-center px-3">
                 <h2 className="text-sm font-semibold">LATEST NEWS</h2>
-                <button className="text-green-600 border-[1px] border-green-600 px-6 py-1 rounded-full font-bold text-sm" onClick={() => { navigate("news"); scrollTo(0, 0) }}>Read All</button>
+                <button className="text-green-600 border-[1px] border-green-600 px-6 py-1 rounded-full font-bold text-sm" onClick={()=>{scrollTo(0,0);navigate('/news')}}>Read All</button>
             </div>
             <div className="flex flex-wrap md:flex-nowrap gap-4 h-auto min-h-[550px] items-stretch">
                 {/* Recent view */}
@@ -45,7 +45,7 @@ const News = () => {
                                     <span className="mr-2 w-2 h-2 rounded-full bg-gray-400"></span>
                                     {recent?.reads} min read.
                                 </small>
-                                <p className="cursor-pointer text-green-600 text-sm font-medium" onClick={() => { navigate(`news/${recent?.id}`); scrollTo(0, 0) }}>
+                                <p className="text-green-600 text-sm font-medium cursor-pointer" onClick={()=>{scrollTo(0,0);navigate(`/news/${recent?.id}`)}}>
                                     Read More {">>"}
                                 </p>
                             </article>
@@ -57,7 +57,8 @@ const News = () => {
                         news.map((newsItem) => (
                             <section
                                 key={newsItem?.id}
-                                className="flex justify-between items-stretch"
+                                onClick={()=>{scrollTo(0,0);navigate(`/news/${newsItem?.id}`)}}
+                                className="flex justify-between items-stretch cursor-pointer"
                             >
                                 <div className="w-28 min-h-28 md:w-32 md:h-auto lg:w-40 lg:h-auto flex-shrink-0">
                                     <img
@@ -83,8 +84,7 @@ const News = () => {
                                             <span className="mr-2 w-2 h-2 rounded-full bg-gray-400"></span>
                                             {newsItem?.reads} min read.
                                         </small>
-                                        <p className="cursor-pointer text-green-600 text-xs font-medium"
-                                            onClick={() => { navigate(`news/${newsItem?.id}`); scrollTo(0, 0) }}>
+                                        <p className="text-green-600 text-xs font-medium">
                                             Read More {">>"}
                                         </p>
                                     </article>
