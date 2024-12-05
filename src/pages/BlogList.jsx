@@ -158,7 +158,7 @@ const calculateReadingTime = (text) => {
                         </div>
                     </div>
                     
-                    <div className="flex flex-row-reverse gap-3 my-6 overflow-x-auto w-full md:w-[80%] ml-auto">
+                    <div className="flex flex-row-reverse gap-3 my-6 overflow-x-auto w-full md:w-[80%] md:ml-auto">
                         {(selected === "All"
                             ? categories.flatMap((category) =>
                                 category.subcategories?.map((subcategory) => ({
