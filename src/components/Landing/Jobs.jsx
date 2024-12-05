@@ -43,7 +43,7 @@ const Jobs = () => {
 
     if (loading) {
         return (
-            <div className="flex justify-center items-center mt-10 min-h-60 bg-gray-200">
+            <div className="flex justify-center items-center mt-10 min-h-60 bg-gray-100">
                 <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-green-600"></div>
             </div>
         );
@@ -51,7 +51,7 @@ const Jobs = () => {
 
     if (error) {
         return (
-            <div className="flex justify-center items-center min-h-40 bg-gray-200 text-center">
+            <div className="flex justify-center items-center min-h-40 bg-gray-100 text-center">
                 <p className="text-lg font-medium text-red-500">{error}</p>
             </div>
         );
@@ -59,9 +59,9 @@ const Jobs = () => {
 
     if (jobs.length === 0) {
         return (
-            <div className="flex text-center justify-center items-center min-h-40 bg-gray-200">
+            <div className="flex text-center justify-center items-center min-h-40 bg-gray-100">
                 <p className="text-lg font-medium text-gray-700">
-                    No jobs featuring at the moment. Please check back later.
+                    No featured jobs available. 
                 </p>
             </div>
         );
