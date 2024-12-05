@@ -17,20 +17,29 @@ const News = () => {
         }));
     }, []);
 
-    // Process fetched blog posts
     useEffect(() => {
-        if (getAllBlogPosts?.data) {
-            const fetchedBlogs = getAllBlogPosts.data.data;
-            setBlogs(fetchedBlogs);
+    if (getAllBlogPosts?.data) {
+        const fetchedBlogs = getAllBlogPosts.data.data;
 
-            // Set the most recent post
-            const sortedBlogs = fetchedBlogs?.slice().sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
-            setRecent(sortedBlogs?.[0] || null);
+        // Add reading time to each blog
+        const blogsWithReadingTime = fetchedBlogs.map((blog) => ({
+            ...blog,
+            readingTime: calculateReadingTime(blog?.description || ""),
+        }));
 
-            // Set other recent news
-            setNews(sortedBlogs?.slice(1, 4) || []);
-        }
-    }, [getAllBlogPosts]);
+        setBlogs(blogsWithReadingTime);
+
+        // Set the most recent post
+        const sortedBlogs = blogsWithReadingTime.slice().sort(
+            (a, b) => new Date(b.time_posted) - new Date(a.time_posted)
+        );
+        setRecent(sortedBlogs?.[0] || null);
+
+        // Set other recent news
+        setNews(sortedBlogs?.slice(1, 4) || []);
+    }
+}, [getAllBlogPosts]);
+
 
     return (
         <div className="bg-[#47aa4910]">
@@ -68,12 +77,12 @@ const News = () => {
                                 {recent?.title}
                             </h4>
                             <p className="text-sm text-gray-500 mb-3">
-                                {recent?.desc}
+                                {recent?. description}
                             </p>
                             <article className="mt-2 flex justify-between gap-3">
                                 <small className="mt-2 text-gray-400 flex items-center">
                                     <span className="mr-2 w-2 h-2 rounded-full bg-gray-400"></span>
-                                    {recent?.reads} min read.
+                                    {recent?.readingTime} min read.
                                 </small>
                                 <p
                                     className="text-green-600 text-sm font-medium cursor-pointer"
@@ -122,7 +131,7 @@ const News = () => {
                                 <article className="flex items-center justify-between gap-1 md:gap-3">
                                     <small className="mt-2 text-gray-400 flex items-center">
                                         <span className="mr-2 w-2 h-2 rounded-full bg-gray-400"></span>
-                                        {newsItem?.reads} min read.
+                                        {newsItem?.readingTime} min read.
                                     </small>
                                     <p className="text-green-600 text-xs font-medium">
                                         Read More {">>"}
