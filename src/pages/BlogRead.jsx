@@ -11,26 +11,26 @@ const BlogRead = () => {
     const [blog, setBlog] = useState(null);
     const [loading, setLoading] = useState(false);
 
+const calculateReadingTime = (text) => {
+    const wordsPerMinute = 200; // Average reading speed
+    const words = text.split(/\s+/).length; // Count words
+    const minutes = Math.ceil(words / wordsPerMinute); // Round up
+    return minutes;
+};
     useEffect(() => {
         setLoading(true)
-        // try{
-        //     const isBlogAvailable = recentNews?.find(one => one?.id === parseInt(id))
-        //     console.log(recentNews, blog)
-        //     if (isBlogAvailable) {
-        //         setBlog(isBlogAvailable)
-        //     }
-        // }catch(err){
-        //     console.log(err)
-        // }finally{
-        //     setLoading(false)
-        // }
-
 
         // Fetch blog details by ID
         axios.get(`${BASE_URL}/blog/posts/${id}`) // Replace with your API URL
             .then((response) => response.data)
             .then((info) => {
-                setBlog(info?.data);
+
+        // Add reading time to each blog
+        const blogWithReadingTime = info?.data?.map((blog) => ({
+            ...blog,
+            readingTime: calculateReadingTime(blog.description || ""),
+        }));
+                setBlog(blogWithReadingTime);
                 console.log(info?.data)
                 setLoading(false);
             })
@@ -49,7 +49,7 @@ const BlogRead = () => {
                     title={blog?.title}
                     subtitle={blog?.description.slice(0, 150)}
                     img={blog?.main_image}
-                    reads={blog?.reads}
+                    reads={blog?.readingTime}
                     time={new Date(blog?.created_at).toLocaleDateString()}
                 />
                 <div className='relative max-w-[1400px] w-full mx-auto'>
