@@ -6,7 +6,12 @@ import { BASE_URL, IMAGE_URL } from "../../../../utils/base";
 // import UiSelect from '../../../components/general/UiSelect'
 import axios from "axios";
 import { IoCheckboxSharp } from "react-icons/io5";
-import { MdOutlineCheckBoxOutlineBlank } from "react-icons/md";
+import {
+  MdCheck,
+  MdCheckBox,
+  MdCheckBoxOutlineBlank,
+  MdOutlineCheckBoxOutlineBlank,
+} from "react-icons/md";
 import { AuthContext } from "../../../../context/AuthContex";
 import { ResourceContext } from "../../../../context/ResourceContext";
 import TextEditor from "./TextEditor";
@@ -44,7 +49,6 @@ const BasicInfo = ({ setIsOpen }) => {
     });
   }, []);
 
-  console.log(getCandidate.data);
   const candidate = getCandidate.data?.details;
 
   const toggleAccept = () => {
@@ -160,11 +164,8 @@ const BasicInfo = ({ setIsOpen }) => {
     } else if (name == "state") {
       const cities = City.getCitiesOfState(countryInfo.isoCode, value);
       setSelectCity(cities);
-      const stateName = State.getStateByCode(
-        value,
-        countryInfo.isoCode
-      );
-      setSelectState(stateName.name);
+      const stateName = State.getStateByCode(value, countryInfo.isoCode);
+      setSelectState(stateName);
       setDetails((prev) => {
         return {
           ...prev,
@@ -228,14 +229,7 @@ const BasicInfo = ({ setIsOpen }) => {
   const languageState = (language) =>
     selectedLanguages?.find((current) => current === language) ? true : false;
 
-  // const handleEducation = (event) => {
-  //     setDetails((prev) => {
-  //         return {
-  //             ...prev, educational_qualification: event
-  //         };
-  //     });
-  //     setErrorMsg("");
-  // };
+
   useEffect(() => {
     setDetails((details) => {
       return {
@@ -314,12 +308,28 @@ const BasicInfo = ({ setIsOpen }) => {
     }
   };
 
-  // useEffect(() => {
-  //   if (countryInfo) {
-  //     console.log(countryInfo)
-  //     setSelectStates(() => State.getStateByCode(countryInfo?.isoCode));
-  //   }
-  // }, [countryInfo]);
+  const findLanguage = (lang) =>
+    selectedLanguages.find((current) => current === lang) ? true : false;
+
+  const handleLanguageSelect = (lang) => {
+    let newList = [];
+    if (findLanguage(lang)) {
+      newList = selectedLanguages.filter((current) => current !== lang);
+      setSelectedLanguages([...newList]);
+      return;
+    }
+
+    newList = [...selectedLanguages, lang];
+    setSelectedLanguages([...newList]);
+  };
+
+  useEffect(() => {
+    setDetails((prevDetails) => ({
+      ...prevDetails,
+      languages: [...selectedLanguages].join(","),
+    }));
+  }, [selectedLanguages]);
+
 
   return (
     <div className="max-w-full text-[#515B6F] text-base overflow-x-hidden">
@@ -577,7 +587,7 @@ const BasicInfo = ({ setIsOpen }) => {
                           </label>
                         </div>
                         <div className="flex flex-col">
-                          <label className="block">
+                          {/* <label className="block">
                             <span className="block text-sm font-medium text-slate-700 mb-1">
                               {" "}
                               Language{" "}
@@ -587,14 +597,73 @@ const BasicInfo = ({ setIsOpen }) => {
                               value={selectedLanguages}
                               name="languages"
                               onChange={handleOnChange}
-                              className="border w-full focus:outline-none p-2 pb-1"
+                              className="border aria-selected:bg-red-100 w-full focus:outline-none p-2 pb-1"
                             >
-                              <option value="english">English</option>
+                              <option
+                                className={
+                                  selectedLanguages.find(
+                                    (current) => current === "english"
+                                  )
+                                    ? "bg-black"
+                                    : ""
+                                }
+                                value="english"
+                              >
+                                English
+                              </option>
                               <option value="french">French</option>
                               <option value="hausa">Hausa </option>
-                              <option value="yaruba">Yaruba</option>
+                              <option value="Yaruba">Yaruba</option>
                               <option value="igbo">Igbo</option>
                             </select>
+                          </label> */}
+                          <label className="block">
+                            <span className="block text-sm font-medium text-slate-700 mb-1">
+                              {" "}
+                              Language{" "}
+                            </span>
+                            <div
+                              multiple
+                              value={selectedLanguages}
+                              name="languages"
+                              onChange={handleOnChange}
+                              className="border grid grid-cols-2 w-full p-2 pb-1"
+                            >
+                              {[
+                                "English",
+                                "Hausa",
+                                "French",
+                                "Yaruba",
+                                "igbo",
+                              ].map((current) => (
+                                <div className="flex items-center gap-1">
+                                  {findLanguage(current.toLocaleLowerCase()) ? (
+                                    <MdCheckBox
+                                      className="cursor-pointer"
+                                      onClick={() =>
+                                        handleLanguageSelect(
+                                          current.toLocaleLowerCase()
+                                        )
+                                      }
+                                    />
+                                  ) : (
+                                    <MdCheckBoxOutlineBlank
+                                      className="cursor-pointer"
+                                      onClick={() =>
+                                        handleLanguageSelect(
+                                          current.toLocaleLowerCase()
+                                        )
+                                      }
+                                    />
+                                  )}
+                                  {current}
+                                </div>
+                              ))}
+                              {/* <div value="french">French</div>
+                              <div value="hausa">Hausa </div>
+                              <div value="yaruba">Yaruba</div>
+                              <div value="igbo">Igbo</div> */}
+                            </div>
                           </label>
                         </div>
                         <div className="">
@@ -609,9 +678,9 @@ const BasicInfo = ({ setIsOpen }) => {
                               className="border w-full focus:outline-none p-2 pb-1"
                             >
                               <option value="">-- select --</option>
-                              <option value="monthly">Annual</option>
+                              <option value="annual">Annual</option>
                               <option value="monthly">Monthly</option>
-                              <option value="monthly">Weekly</option>
+                              <option value="weekly">Weekly</option>
                               <option value="hourly">Hourly</option>
                               <option value="contract">Contract</option>
                             </select>
@@ -631,30 +700,6 @@ const BasicInfo = ({ setIsOpen }) => {
                             />
                           </label>
                         </div>
-                        {/* <div className="">
-                                                    <label className="block">
-                                                        <span className="block text-sm font-medium text-slate-700 mb-1">Show my profile</span>
-                                                        <select
-                                                            value={details.show_my_profile} name='show_my_profile' onChange={handleOnChange}
-                                                            className='border w-full focus:outline-none p-2 pb-1'>
-                                                            <option value="true">show</option>
-                                                            <option value="false">Hide</option>
-                                                        </select>
-                                                    </label>
-                                                </div> */}
-                        {/* <div className="">
-                                                    <span className="block text-sm font-medium text-slate-700 mb-1">Show my profile</span>
-                                                    <button
-                                                        onClick={() => toggleAccept()}
-                                                        type='button'
-                                                        className='border-0 prime_brown inherit_bg'>
-                                                        {details.show_my_profile ? (
-                                                            <IoCheckboxSharp size={25} />
-                                                        ) : (
-                                                            <MdOutlineCheckBoxOutlineBlank size={25} />
-                                                        )}
-                                                    </button>
-                                                </div> */}
                         <div className="mb-4">
                           <label className="block">
                             <span className="block text-sm font-medium text-slate-700">
@@ -669,7 +714,7 @@ const BasicInfo = ({ setIsOpen }) => {
                             />
                           </label>
                         </div>{" "}
-                        <div className="mb-4">
+                        <div className="mb-4 col-span-2">
                           <label className="block">
                             <span className="block text-sm font-medium text-slate-700">
                               Personal Profile
@@ -679,7 +724,7 @@ const BasicInfo = ({ setIsOpen }) => {
                             value={details.personal_profile}
                             name="personal_profile"
                             onChange={handleOnChange}
-                            className="mt-1 block w-full focus:outline-green-400 border"
+                            className="mt-1 min-h-[100px] block w-full focus:outline-green-400 border"
                             id=""
                           ></textarea>
                         </div>
@@ -741,7 +786,6 @@ const BasicInfo = ({ setIsOpen }) => {
                                 <option
                                   key={country.isoCode}
                                   value={country.isoCode}
-
                                 >
                                   {country.name}
                                 </option>
@@ -763,7 +807,7 @@ const BasicInfo = ({ setIsOpen }) => {
                               <option value="">-- select --</option>
 
                               {selectStates?.map((each) => (
-                                <option key={each.isoCode} value={each.name}>
+                                <option key={each.isoCode} value={each.isoCode}>
                                   {each.name}
                                 </option>
                               ))}
@@ -804,23 +848,14 @@ const BasicInfo = ({ setIsOpen }) => {
                             />
                           </label>
                         </div>
-                        {/* <div className="mb-4">
-                                                    <label className="block">
-                                                        <span className="block text-sm font-medium text-slate-700">Experience</span>
-                                                        <input type="text"
-                                                            value={details.experience} name='experience' onChange={handleOnChange}
-                                                            className="mt-1 block p-1 focus:outline-none w-full border" />
-                                                    </label>
-                                                </div> */}
+
                         <div className="col-span-2">
                           <SocialsForm
                             experiences={socialHandles}
                             setExperiences={setSocialHandles}
                           />
                         </div>
-                        {/* <div className="">
-                                                    <DynamicExperienceForm />
-                                                </div> */}
+
                         <div className="">
                           <label className="block">
                             <span className="block text-sm font-medium text-slate-700">
