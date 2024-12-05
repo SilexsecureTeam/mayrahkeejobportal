@@ -62,7 +62,7 @@ const News = () => {
                         <div className="p-2 ">
                             <small className="mt-2 text-gray-400 flex items-center">
                                 <span className="mr-2 w-2 h-2 rounded-full bg-gray-400"></span>
-                                {new Date(recent?.time_posted).toLocaleDateString()}
+                                {new Date(recent?.created_at).toLocaleDateString()}
                             </small>
                             <h4 className="font-bold text-lg md:text-xl my-3">
                                 {recent?.title}
