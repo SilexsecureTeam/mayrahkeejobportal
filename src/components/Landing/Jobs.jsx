@@ -2,7 +2,7 @@ import {useState, useEffect, useContext} from 'react'
 import { FaSearchLocation } from 'react-icons/fa';
 import { jobDetails } from './LandingData';
 import approved from '../../assets/pngs/approved.png'
-import { ResourceContext } from "../context/ResourceContext";
+import { ResourceContext } from "../../context/ResourceContext";
 
 import {BiBriefcase} from 'react-icons/bi'
 const Jobs = () => {
