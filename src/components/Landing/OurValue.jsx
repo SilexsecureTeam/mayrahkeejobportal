@@ -1,6 +1,6 @@
 import React from "react";
 import {valuesData} from './landingData'
-const OurValues = () => {
+const OurValue = () => {
   return (
     <div className="py-10 px-6">
       <h2 className="text-center text-2xl font-bold mb-8">Our Values</h2>
@@ -26,4 +26,4 @@ const OurValues = () => {
   );
 };
 
-export default OurValues;
+export default OurValue;
