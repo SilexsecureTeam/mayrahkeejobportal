@@ -6,6 +6,7 @@ import { onFailure } from "../utils/notifications/OnFailure";
 import { get, set } from "idb-keyval";
 import { stages } from "../utils/constants";
 import { interviewOptions } from "../company-module/components/applicants/ScheduleInteviewModal";
+import { onSuccess } from "../utils/notifications/OnSuccess";
 
 const APPLICANTS_KEY = "Applicants Database";
 
@@ -70,11 +71,30 @@ function useApplicationManagement() {
       setLoading(false);
     }
   };
+
   const getCompany = async (employerId, setEmployer) => {
     setLoading(true);
     try {
       const response = await client(`/employer/getEmployer/${employerId}`);
       setEmployer(response.data.details);
+    } catch (error) {
+      FormatError(error, setError, "Applicants Error");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const changePassword = async (currentPassword, newPassword) => {
+    setLoading(true);
+    try {
+      const response = await client.get(`/candidate/changePassword`, {
+        currentPassword,
+        newPassword,
+      });
+      onSuccess({
+        message: 'Password updated',
+        succes: 'Password change was successful'
+      })
     } catch (error) {
       FormatError(error, setError, "Applicants Error");
     } finally {
@@ -202,6 +222,8 @@ function useApplicationManagement() {
     getResume,
     getJobApplications,
     getCompany,
+
+    changePassword
   };
 }
 

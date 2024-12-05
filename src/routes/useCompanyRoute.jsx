@@ -11,6 +11,8 @@ import {
   applicantOptions,
   companyOptions,
   adminUtilOptions,
+  companyExclusiveOptions,
+  exclusiveUtilOptions,
 } from "../utils/constants";
 import CompanyReducer from "../reducers/CompanyReducer";
 import { AuthContext } from "../context/AuthContex";
@@ -32,6 +34,7 @@ import StaffCard from "../components/staffs/StaffCard";
 import StaffInformation from "../staff-module/pages/verifications/StaffInformation";
 import CartedStaffs from "../components/staffs/CartedStaffs";
 import SuccessPage from "../components/SuccessPage";
+import CompanyExclusiveReducer from "../reducers/CompanyExclusiveReducer";
 
 //Util Component
 const NavBar = lazy(() => import("../company-module/components/NavBar"));
@@ -88,10 +91,16 @@ const HelpCenter = lazy(() => import("../pages/HelpCenter"));
 const NotFound = lazy(() => import("../company-module/pages/404"));
 
 function useCompanyRoute() {
-  const [state, dispatch] = useReducer(CompanyReducer, companyOptions[0]);
+
   const { authDetails } = useContext(AuthContext);
   const [redirectState, setRedirectState] = useState();
   const [isOpen, setIsOpen] = useState(false);
+
+  const activeReducer = authDetails?.user?.user_type !== 'regular' ? CompanyReducer : CompanyExclusiveReducer
+  const activeOptions = authDetails?.user?.user_type !== 'regular' ? companyOptions : companyExclusiveOptions
+  const activeUtilOptions = authDetails?.user?.user_type !== 'regular' ? adminUtilOptions : exclusiveUtilOptions
+  
+  const [state, dispatch] = useReducer(activeReducer, activeOptions[0]);
 
   // const [redirectState, setRedirectState] = useState();
   const navigate = useNavigate();
@@ -155,7 +164,7 @@ function useCompanyRoute() {
               isMenuOpen={isOpen}
             >
               <ul className="flex flex-col gap-[10px]">
-                {companyOptions.map((currentOption) => (
+                {activeOptions.map((currentOption) => (
                   <SideBarItem
                     key={currentOption.type}
                     data={currentOption}
@@ -166,7 +175,7 @@ function useCompanyRoute() {
               </ul>
 
               <ul className="flex flex-col gap-[10px]">
-                {adminUtilOptions.map((currentOption) => (
+                {activeUtilOptions.map((currentOption) => (
                   <SideBarItem
                     key={currentOption.type}
                     data={currentOption}
