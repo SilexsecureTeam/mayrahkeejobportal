@@ -1,22 +1,68 @@
-import { recentNews } from './LandingData';
-import { useState, useEffect } from 'react';
-import {useNavigate} from 'react-router-dom'
+import React, { useState, useEffect, useContext } from 'react';
+import { ResourceContext } from "../../context/ResourceContext";
+import { useNavigate } from 'react-router-dom';
+
 const News = () => {
-    const navigate=useNavigate()
-    const [recent, setRecent] = useState();
-    const [news, setNews] = useState();
+    const navigate = useNavigate();
+    const [recent, setRecent] = useState(null);
+    const [news, setNews] = useState([]);
+    const [blogs, setBlogs] = useState([]);
+    const { setGetAllBlogPosts, getAllBlogPosts } = useContext(ResourceContext);
+
+    // Fetch blog posts
+    useEffect(() => {
+        setGetAllBlogPosts((prev) => ({
+            ...prev,
+            isDataNeeded: true,
+        }));
+    }, []);
+const calculateReadingTime = (text) => {
+    const wordsPerMinute = 200;
+    const words = text.split(/\s+/).length;
+    const minutes = Math.ceil(words / wordsPerMinute);
+    return minutes;
+};
+
 
     useEffect(() => {
-        setRecent(recentNews.slice(0,4).find(news => news.id === 1));
-        setNews(recentNews.slice(0,4).filter(news => news.id !== 1));
-    }, []);
+    if (getAllBlogPosts?.data) {
+        const fetchedBlogs = getAllBlogPosts.data.data;
+
+        // Add reading time to each blog
+        const blogsWithReadingTime = fetchedBlogs.map((blog) => ({
+            ...blog,
+            readingTime: calculateReadingTime(blog?.description || ""),
+        }));
+
+        setBlogs(blogsWithReadingTime);
+
+        // Set the most recent post
+        const sortedBlogs = blogsWithReadingTime.slice().sort(
+            (a, b) => new Date(b.time_posted) - new Date(a.time_posted)
+        );
+        setRecent(sortedBlogs?.[0] || null);
+
+        // Set other recent news
+        setNews(sortedBlogs?.slice(1, 4) || []);
+    }
+}, [getAllBlogPosts]);
+
 
     return (
         <div className="bg-[#47aa4910]">
-            <div className="flex justify-between items-center px-3">
+            <div className="flex justify-between items-center p-3">
                 <h2 className="text-sm font-semibold">LATEST NEWS</h2>
-                <button className="text-green-600 border-[1px] border-green-600 px-6 py-1 rounded-full font-bold text-sm" onClick={()=>{scrollTo(0,0);navigate('/news')}}>Read All</button>
+                <button
+                    className="text-green-600 border-[1px] border-green-600 px-6 py-1 rounded-full font-bold text-sm"
+                    onClick={() => {
+                        scrollTo(0, 0);
+                        navigate('/news');
+                    }}
+                >
+                    Read All
+                </button>
             </div>
+
             <div className="flex flex-wrap md:flex-nowrap gap-4 h-auto min-h-[550px] items-stretch">
                 {/* Recent view */}
                 {recent && (
@@ -26,75 +72,84 @@ const News = () => {
                     >
                         <img
                             className="w-full h-[250px] md:h-[350px] object-cover rounded-md"
-                            src={recent?.image}
+                            src={recent?.image || "https://via.placeholder.com/150"}
                             alt="Recent News"
                         />
                         <div className="p-2 ">
                             <small className="mt-2 text-gray-400 flex items-center">
                                 <span className="mr-2 w-2 h-2 rounded-full bg-gray-400"></span>
-                                {recent?.time_posted}
+                                {new Date(recent?.created_at).toLocaleDateString()}
                             </small>
                             <h4 className="font-bold text-lg md:text-xl my-3">
                                 {recent?.title}
                             </h4>
                             <p className="text-sm text-gray-500 mb-3">
-                                {recent?.desc}
+                                {recent?.description}
                             </p>
                             <article className="mt-2 flex justify-between gap-3">
                                 <small className="mt-2 text-gray-400 flex items-center">
                                     <span className="mr-2 w-2 h-2 rounded-full bg-gray-400"></span>
-                                    {recent?.reads} min read.
+                                    {recent?.readingTime} min read.
                                 </small>
-                                <p className="text-green-600 text-sm font-medium cursor-pointer" onClick={()=>{scrollTo(0,0);navigate(`/news/${recent?.id}`)}}>
+                                <p
+                                    className="text-green-600 text-sm font-medium cursor-pointer"
+                                    onClick={() => {
+                                        scrollTo(0, 0);
+                                        navigate(`/news/${recent?.id}`);
+                                    }}
+                                >
                                     Read More {">>"}
                                 </p>
                             </article>
                         </div>
                     </section>
                 )}
-                <div className="w-full md:w-1/2 flex flex-col gap-2 overflow-y-auto max-h-[550px]">
-                    {news &&
-                        news.map((newsItem) => (
-                            <section
-                                key={newsItem?.id}
-                                onClick={()=>{scrollTo(0,0);navigate(`/news/${newsItem?.id}`)}}
-                                className="flex justify-between items-stretch cursor-pointer"
-                            >
-                                <div className="w-28 min-h-28 md:w-32 md:h-auto lg:w-40 lg:h-auto flex-shrink-0">
-                                    <img
-                                        className="w-full h-full object-cover rounded-md"
-                                        src={newsItem?.image}
-                                        alt="News"
-                                    />
-                                </div>
 
-                                <div className="p-2 flex-1 w-[90%] md:w-full flex flex-col justify-center">
+                {/* Other recent news */}
+                <div className="w-full md:w-1/2 flex flex-col gap-2 overflow-y-auto max-h-[550px]">
+                    {news.map((newsItem) => (
+                        <section
+                            key={newsItem?.id}
+                            onClick={() => {
+                                scrollTo(0, 0);
+                                navigate(`/news/${newsItem?.id}`);
+                            }}
+                            className="flex justify-between items-stretch cursor-pointer"
+                        >
+                            <div className="w-28 min-h-28 md:w-32 md:h-auto lg:w-40 lg:h-auto flex-shrink-0">
+                                <img
+                                    className="w-full h-full object-cover rounded-md"
+                                    src={newsItem?.image || "https://via.placeholder.com/150"}
+                                    alt="News"
+                                />
+                            </div>
+
+                            <div className="p-2 flex-1 w-[90%] md:w-full flex flex-col justify-center">
+                                <small className="mt-2 text-gray-400 flex items-center">
+                                    <span className="mr-2 w-2 h-2 rounded-full bg-gray-400"></span>
+                                    {new Date(newsItem?.created_at).toLocaleDateString()}
+                                </small>
+                                <h4 className="font-bold text-sm md:my-2 lg:my-3">
+                                    {newsItem?.title}
+                                </h4>
+                                <p className="text-sm text-gray-500 mb-1 md:mb-3">
+                                    {newsItem?.desc?.slice(0, 100)}...
+                                </p>
+                                <article className="flex items-center justify-between gap-1 md:gap-3">
                                     <small className="mt-2 text-gray-400 flex items-center">
                                         <span className="mr-2 w-2 h-2 rounded-full bg-gray-400"></span>
-                                        {newsItem?.time_posted}
+                                        {newsItem?.readingTime} min read.
                                     </small>
-                                    <h4 className="font-bold text-sm md:my-2 lg:my-3">
-                                        {newsItem?.title}
-                                    </h4>
-                                    <p className="text-sm text-gray-500 mb-1 md:mb-3">
-                                        {newsItem?.desc.slice(0, 100)}...
+                                    <p className="text-green-600 text-xs font-medium">
+                                        Read More {">>"}
                                     </p>
-                                    <article className="flex items-center justify-between gap-1 md:gap-3">
-                                        <small className="mt-2 text-gray-400 flex items-center">
-                                            <span className="mr-2 w-2 h-2 rounded-full bg-gray-400"></span>
-                                            {newsItem?.reads} min read.
-                                        </small>
-                                        <p className="text-green-600 text-xs font-medium">
-                                            Read More {">>"}
-                                        </p>
-                                    </article>
-                                </div>
-                            </section>
-                        ))}
+                                </article>
+                            </div>
+                        </section>
+                    ))}
                 </div>
             </div>
         </div>
-
     );
 };
 

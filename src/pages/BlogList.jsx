@@ -33,14 +33,34 @@ const BlogList = () => {
         }));
     }, []);
 
-    // Process fetched blog posts
-    useEffect(() => {
-        if (getAllBlogPosts?.data) {
-            setBlogs(getAllBlogPosts.data.data);
-            setIsLoading(false);
-            console.log(blogs)
-        }
-    }, [getAllBlogPosts]);
+
+const calculateReadingTime = (text) => {
+    const wordsPerMinute = 200; // Average reading speed
+    const words = text.split(/\s+/).length; // Count words
+    const minutes = Math.ceil(words / wordsPerMinute); // Round up
+    return minutes;
+};
+
+  useEffect(() => {
+    if (getAllBlogPosts?.data) {
+        const fetchedBlogs = getAllBlogPosts.data.data;
+
+        // Add reading time to each blog
+        const blogsWithReadingTime = fetchedBlogs.map((blog) => ({
+            ...blog,
+            readingTime: calculateReadingTime(blog.description || ""),
+        }));
+
+        
+
+        // Set the most recent post
+        const sortedBlogs = blogsWithReadingTime.slice().sort(
+            (a, b) => new Date(b.time_posted) - new Date(a.time_posted)
+        );
+        setBlogs(sortedBlogs);
+    }
+}, [getAllBlogPosts]);
+
 
     // Process fetched categories
     useEffect(() => {
@@ -71,7 +91,7 @@ const BlogList = () => {
         // Filter by subcategory
         if (selectedSubcategory !== null) {
             result = result.filter(
-                (blog) => blog.id === selectedSubcategory
+                (blog) => blog.blog_sub_category_id === selectedSubcategory
             );
         }
 
@@ -138,7 +158,7 @@ const BlogList = () => {
                         </div>
                     </div>
                     
-                    <div className="flex gap-3 my-6 overflow-x-auto w-full md:w-[80%] ml-auto">
+                    <div className="flex flex-row-reverse gap-3 my-6 overflow-x-auto w-full md:w-[80%] md:ml-auto">
                         {(selected === "All"
                             ? categories.flatMap((category) =>
                                 category.subcategories?.map((subcategory) => ({
@@ -168,7 +188,7 @@ const BlogList = () => {
                         <div className="flex justify-center items-center mt-10">
                             <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-green-600"></div>
                         </div>
-                    ) : filteredBlogs?.length > 0 ? (
+                    ) : filteredBlogs?.reverse()?.length > 0 ? (
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 gap-y-10">
                             {filteredBlogs.map((blog) => (
                                 <article
@@ -198,7 +218,7 @@ const BlogList = () => {
                                         <article className="flex items-center justify-between gap-1 md:gap-3">
                                             <small className="mt-2 text-gray-400 flex items-center">
                                                 <span className="mr-2 w-2 h-2 rounded-full bg-gray-400"></span>
-                                                {blog.reads} min read
+                                                {blog?.readingTime} min read
                                             </small>
                                             <p className="text-green-600 text-xs font-medium">
                                                 Read More {">>"}
