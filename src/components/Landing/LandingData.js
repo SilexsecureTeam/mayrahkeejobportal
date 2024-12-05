@@ -105,6 +105,40 @@ export const userCategory=[
     }
 ];
 
+export const valuesData = [
+  {
+    title: "Performance",
+    description: "We pride ourselves on practices that promote hiring...",
+    image: "performance.jpg", // Replace with the actual image URL
+  },
+  {
+    title: "Accountability",
+    description: "This promotes and supports adherence to compliance...",
+    image: "accountability.jpg",
+  },
+  {
+    title: "Match Talent",
+    description: "In our drive to achieve the best in the talent value chain...",
+    image: "match_talent.jpg",
+  },
+  {
+    title: "Capacity Building",
+    description: "Building resourceful human capacity is critical...",
+    image: "capacity_building.jpg",
+  },
+  {
+    title: "Diversity and Inclusion",
+    description: "Diversity is attractive and what modern workplaces require...",
+    image: "diversity_inclusion.jpg",
+  },
+  {
+    title: "Respect",
+    description: "We believe in valuing differences and allowing everyone...",
+    image: "respect.jpg",
+  },
+];
+
+
 
 export const recentNews = [
     {
