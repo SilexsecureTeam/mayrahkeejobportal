@@ -22,7 +22,7 @@ const {
     }, []);
 useEffect(() => {
     if (getAllFeaturedJobs?.data) {
-        const fetchedBlogs = getAllFeaturedJobs?.data?.data || [];
+        const fetchedBlogs = getAllFeaturedJobs?.data || [];
         
 
         // Set the featured jobs
