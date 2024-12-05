@@ -17,8 +17,8 @@ import { ChatContextProvider } from "./context/ChatContext";
 
 //Lazy imports of pages
 const Login = lazy(() => import("./pages/Login"));
-const AdminLogin = lazy(() => import("./pages/AdminLogin"))
-const AdminOTP = lazy(() => import("./components/AdminAuth/AdminOTP"))
+const AdminLogin = lazy(() => import("./pages/AdminLogin"));
+const AdminOTP = lazy(() => import("./components/AdminAuth/AdminOTP"));
 // const Registration = lazy(() => import("./pages/Registration"));
 const RegistrationTwo = lazy(() => import("./pages/RegistrationTwo"));
 const NotFound = lazy(() => import("./pages/404"));
@@ -30,18 +30,11 @@ const ApplicantRoutes = lazy(() => import("./routes/useApplicantRoute"));
 const CompanyRoutes = lazy(() => import("./routes/useCompanyRoute"));
 const StaffRoutes = lazy(() => import("./routes/useStaffRoute"));
 const AdminRoutes = lazy(() => import("./routes/useAdminRoute"));
+const PublicRoutes = lazy(() => import("./routes/PublicRoute"));
 
 
-const LandingPage = lazy(() => import("./pages/LandingPage"));
-const AboutUs = lazy(() => import("./pages/AboutUs"));
-const Help = lazy(() => import("./pages/Help"));
-const ContactForm=lazy(() => import("./pages/ContactForm"));
-const FAQ=lazy(() => import("./pages/FAQ"));
-const PrivacyPolicy=lazy(() => import("./pages/PrivacyPolicy"));
-const TermsConditions=lazy(() => import("./pages/TermsConditions"));
-const ElearningPage=lazy(() => import("./pages/ElearningPage"));
-const BlogList=lazy(() => import("./pages/BlogList"));
-const BlogRead=lazy(() => import("./pages/BlogRead"));
+const AdminExclusivesRoute = lazy(() => import('./routes/useAdminExclusiveRoute'))
+
 function App() {
   return (
     <>
@@ -58,24 +51,25 @@ function App() {
                           <SessionContextProvider>
                             <Routes>
                               <Route path="/login" element={<Login />} />
-                              <Route path="/" element={<LandingPage />} />
-                              <Route path="/learning" element={<ElearningPage />} />
-                              <Route path="/help" element={<Help />} />
-                              <Route path="/contact" element={<ContactForm />} />
-                              <Route path="/faq" element={<FAQ />} />
-                              <Route path="/terms&conditions" element={<TermsConditions />} />
-                              <Route path="/privacypolicy" element={<PrivacyPolicy />} />
-                              <Route path="/news" element={<BlogList />} />
-                              <Route path="/news/:id" element={<BlogRead />} />
-                              <Route path="/about" element={<AboutUs />} />
-                              <Route path="/super/admin/login" element={<AdminLogin />} />
-                              <Route path="/super/admin/otp-verification" element={<AdminOTP />} />
+                             
+                              <Route
+                                path="/super/admin/login"
+                                element={<AdminLogin />}
+                              />
+                              <Route
+                                path="/super/admin/otp-verification"
+                                element={<AdminOTP />}
+                              />
 
                               {/* <Route path="/registration" element={<Registration />} /> */}
-                              <Route path="*" element={<NotFound />} />
+                             
 
                               {/* Dashboard Routes using the dashboard hook */}
                               {/* Other Routes can go here using thier hook e.g adminDashboardRoute */}
+                              <Route
+                                path="/*"
+                                element={<PublicRoutes />}
+                              />
                               <Route
                                 path="/applicant/*"
                                 element={<ApplicantRoutes />}
@@ -98,6 +92,11 @@ function App() {
                               />
 
                               <Route
+                                path="/admin-exclusives/*"
+                                element={<AdminExclusivesRoute />}
+                              />
+
+                              <Route
                                 path="/interview-room"
                                 element={<InterviewRoom />}
                               />
@@ -105,6 +104,7 @@ function App() {
                                 path="/forgot-password"
                                 element={<ForgotPassword />}
                               />
+        
                             </Routes>
                           </SessionContextProvider>
                         </Router>

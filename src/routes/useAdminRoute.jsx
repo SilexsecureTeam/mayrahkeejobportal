@@ -62,6 +62,9 @@ const DomesticStaffDetails = lazy(() => import("../admin-module/pages/domesticSt
 const Candidates = lazy(() => import("../admin-module/pages/candidate/Candidate"));
 const Interviews = lazy(() => import("../admin-module/pages/Interviews"));
 
+
+
+
 function useAdminRoute() {
   const path = useLocation().pathname;
   // const [state, dispatch] = useReducer(AdminReducer, adminOptions.find((option) => option.route === path));
@@ -71,6 +74,8 @@ function useAdminRoute() {
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
+
+  
 
   const toogleIsOpen = () => setIsOpen(!isOpen);
 
@@ -202,6 +207,8 @@ function useAdminRoute() {
                       <Route path="medical-histories" element={<AllMedicalHistories />} />
                       
                       <Route path="police-reports" element={<AllPoliceReports />} />
+
+
                     </Routes>
                   </PrimeReactProvider>
                 </div>

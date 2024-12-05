@@ -157,7 +157,6 @@ export const companyOptions = [
     icon: calanderIcon,
     iconActive: searchIconActive,
   },
-
 ];
 
 export const utilOptions = [
@@ -291,6 +290,33 @@ export const staffUtilOptions = [
   },
 ];
 
+export const adminExclusiveOptions = [
+  {
+    type: "Dashboard",
+    title: "Home",
+    route: "/admin-exclusives",
+    icon: homeIcon,
+    iconActive: homeIconActive,
+  },
+  {
+    type: "All Exclusives",
+    title: "Exclusives",
+    route: "/admin-exclusives/lists",
+    icon: peopleIcon,
+    iconActive: peopleIcon,
+  },
+];
+
+export const adminExclusiveUtil = [
+  {
+    type: "LOG-OUT",
+    title: "Log Out",
+    route: "/admin/logout",
+    icon: helpIcon,
+    iconActive: helpIcon,
+  },
+];
+
 export const adminOptions = [
   {
     type: "Dashboard",
@@ -312,7 +338,7 @@ export const adminOptions = [
     route: "/admin/artisan",
     icon: artisanIcon,
     iconActive: artisanIcon,
-  }, 
+  },
   {
     type: "Domestic Staff",
     title: "Domestic Staff",
@@ -362,7 +388,6 @@ export const adminOptions = [
     icon: policeIcon,
     iconActive: policeIcon,
   },
- 
 ];
 
 export const adminnUtilOptions = [
@@ -384,133 +409,135 @@ export const adminnUtilOptions = [
 ];
 
 export const registration_steps_keys = {
-  artisan:{
-  create_account: {
-    title: "User Registration",
-    desc: "Enter your name, email and password.",
-    activeIcon: PersonActive,
-    inactiveIcon: Person,
+  artisan: {
+    create_account: {
+      title: "User Registration",
+      desc: "Enter your name, email and password.",
+      activeIcon: PersonActive,
+      inactiveIcon: Person,
+    },
+    email_verification: {
+      title: "Email Verification",
+      desc: "Verify your email address",
+      activeIcon: MessageActive,
+      inactiveIcon: Message,
+    },
+    person_details: {
+      title: "Profile Update",
+      desc: "Provide profile Pictures and job title",
+      activeIcon: PersonCaptured,
+      inactiveIcon: PersonCaptured,
+    },
+    complete_verification: {
+      title: "Complete Verifications",
+      desc: "Verify your details",
+      activeIcon: verify,
+      inactiveIcon: verify,
+    },
+    upload_resume: {
+      title: "Upload Resume",
+      desc: "Back up your profile with a standard resume",
+      activeIcon: Camera,
+      inactiveIcon: Camera,
+    },
   },
-  email_verification: {
-    title: "Email Verification",
-    desc: "Verify your email address",
-    activeIcon: MessageActive,
-    inactiveIcon: Message,
+  candidate: {
+    create_account: {
+      title: "User Registration",
+      desc: "Enter your name, email and password.",
+      activeIcon: PersonActive,
+      inactiveIcon: Person,
+    },
+    email_verification: {
+      title: "Email Verification",
+      desc: "Verify your email address",
+      activeIcon: MessageActive,
+      inactiveIcon: Message,
+    },
+    person_details: {
+      title: "Profile Update",
+      desc: "Provide profile Pictures and job title",
+      activeIcon: PersonCaptured,
+      inactiveIcon: PersonCaptured,
+    },
+    upload_resume: {
+      title: "Upload CV",
+      desc: "Back up your profile with a standard resume",
+      activeIcon: upload,
+      inactiveIcon: upload,
+    },
+    apply_for_job: {
+      title: "Apply For Job",
+      desc: "Get a suitable job to invest your skill",
+      activeIcon: ApplyForJob,
+      inactiveIcon: ApplyForJob,
+    },
   },
-  person_details: {
-    title: "Profile Update",
-    desc: "Provide profile Pictures and job title",
-    activeIcon: PersonCaptured,
-    inactiveIcon: PersonCaptured,
+  employer: {
+    create_account: {
+      title: "User Registration",
+      desc: "Enter your name, email and password.",
+      activeIcon: PersonActive,
+      inactiveIcon: Person,
+    },
+    email_verification: {
+      title: "Email Verification",
+      desc: "Verify your email address",
+      activeIcon: MessageActive,
+      inactiveIcon: Message,
+    },
+    person_details: {
+      title: "Profile Update",
+      desc: "Provide profile Pictures and job title",
+      activeIcon: PersonCaptured,
+      inactiveIcon: PersonCaptured,
+    },
+    subscribe_to_packages: {
+      title: "Subscribe To Packages",
+      desc: "choose a nice package",
+      activeIcon: PersonWithBoard,
+      inactiveIcon: PersonWithBoard,
+    },
+    post_jobs: {
+      title: "Post Jobs",
+      desc: "Post a job and get the best fit employee",
+      activeIcon: Camera,
+      inactiveIcon: Camera,
+    },
   },
-  complete_verification: {
-    title: "Complete Verifications",
-    desc: "Verify your details",
-    activeIcon: verify,
-    inactiveIcon: verify,
+  staff: {
+    create_account: {
+      title: "User Registration",
+      desc: "Enter your name, email and password.",
+      activeIcon: PersonActive,
+      inactiveIcon: Person,
+    },
+    email_verification: {
+      title: "Email Verification",
+      desc: "Verify your email address",
+      activeIcon: MessageActive,
+      inactiveIcon: Message,
+    },
+    person_details: {
+      title: "Profile Update",
+      desc: "Provide profile Pictures and job title",
+      activeIcon: PersonCaptured,
+      inactiveIcon: PersonCaptured,
+    },
+    complete_verification: {
+      title: "Complete Verifications",
+      desc: "Verify your details",
+      activeIcon: verify,
+      inactiveIcon: verify,
+    },
+    upload_resume: {
+      title: "Upload Resume",
+      desc: "Back up your profile with a standard resume",
+      activeIcon: upload,
+      inactiveIcon: upload,
+    },
   },
-  upload_resume: {
-    title: "Upload Resume",
-    desc: "Back up your profile with a standard resume",
-    activeIcon: Camera,
-    inactiveIcon: Camera,
-  },
-},
-candidate:{
-  create_account: {
-    title: "User Registration",
-    desc: "Enter your name, email and password.",
-    activeIcon: PersonActive,
-    inactiveIcon: Person,
-  },
-  email_verification: {
-    title: "Email Verification",
-    desc: "Verify your email address",
-    activeIcon: MessageActive,
-    inactiveIcon: Message,
-  },
-  person_details: {
-    title: "Profile Update",
-    desc: "Provide profile Pictures and job title",
-    activeIcon: PersonCaptured,
-    inactiveIcon: PersonCaptured,
-  },
-  upload_resume: {
-    title: "Upload CV",
-    desc: "Back up your profile with a standard resume",
-    activeIcon: upload,
-    inactiveIcon: upload,
-  },
-  apply_for_job: {
-    title: "Apply For Job",
-    desc: "Get a suitable job to invest your skill",
-    activeIcon: ApplyForJob,
-    inactiveIcon: ApplyForJob,
-  },
-},
-employer:{ create_account: {
-  title: "User Registration",
-  desc: "Enter your name, email and password.",
-  activeIcon: PersonActive,
-  inactiveIcon: Person,
-},
-email_verification: {
-  title: "Email Verification",
-  desc: "Verify your email address",
-  activeIcon: MessageActive,
-  inactiveIcon: Message,
-},
-person_details: {
-  title: "Profile Update",
-  desc: "Provide profile Pictures and job title",
-  activeIcon: PersonCaptured,
-  inactiveIcon: PersonCaptured,
-},
-subscribe_to_packages: {
-  title: "Subscribe To Packages",
-  desc: "choose a nice package",
-  activeIcon: PersonWithBoard,
-  inactiveIcon: PersonWithBoard,
-},
-post_jobs: {
-  title: "Post Jobs",
-  desc:"Post a job and get the best fit employee",
-  activeIcon: Camera,
-  inactiveIcon: Camera,
-}
-},
-staff:{
-  create_account: {
-    title: "User Registration",
-    desc: "Enter your name, email and password.",
-    activeIcon: PersonActive,
-    inactiveIcon: Person,
-  },
-  email_verification: {
-    title: "Email Verification",
-    desc: "Verify your email address",
-    activeIcon: MessageActive,
-    inactiveIcon: Message,
-  },
-  person_details: {
-    title: "Profile Update",
-    desc: "Provide profile Pictures and job title",
-    activeIcon: PersonCaptured,
-    inactiveIcon: PersonCaptured,
-  },
-  complete_verification: {
-    title: "Complete Verifications",
-    desc: "Verify your details",
-    activeIcon: verify,
-    inactiveIcon: verify,
-  },
-  upload_resume: {
-    title: "Upload Resume",
-    desc: "Back up your profile with a standard resume",
-    activeIcon: upload,
-    inactiveIcon: upload,
-  }
-}};
+};
 
 export const company_profile_attributes = [
   {
@@ -599,10 +626,9 @@ export const stages = [
   },
 ];
 
-
 export const verification_status = [
-   'pending',
-   'approved',
-   'rejected',
-   'suspend'
-]
+  "pending",
+  "approved",
+  "rejected",
+  "suspend",
+];
