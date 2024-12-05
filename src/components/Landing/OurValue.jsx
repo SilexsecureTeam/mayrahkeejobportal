@@ -12,7 +12,7 @@ const OurValue = () => {
           >
             <img
               src={value?.image}
-              alt={value.title}
+              alt={value?.title}
               className="w-full h-40 object-cover"
             />
             <div className="p-4">
