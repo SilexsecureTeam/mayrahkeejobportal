@@ -48,7 +48,7 @@ const calculateReadingTime = (text) => {
         // Add reading time to each blog
         const blogsWithReadingTime = fetchedBlogs.map((blog) => ({
             ...blog,
-            readingTime: calculateReadingTime(blog.desc || ""),
+            readingTime: calculateReadingTime(blog.description || ""),
         }));
 
         
@@ -158,7 +158,7 @@ const calculateReadingTime = (text) => {
                         </div>
                     </div>
                     
-                    <div className="flex gap-3 my-6 overflow-x-auto w-full md:w-[80%] ml-auto">
+                    <div className="flex flex-row-reverse gap-3 my-6 overflow-x-auto w-full md:w-[80%] ml-auto">
                         {(selected === "All"
                             ? categories.flatMap((category) =>
                                 category.subcategories?.map((subcategory) => ({
@@ -185,7 +185,7 @@ const calculateReadingTime = (text) => {
 
                     {/* Blog Posts */}
                     {isLoading ? (
-                        <div className="flex justify-center items-center mt-10">
+                        <div className="flex flex-row-reverse justify-center items-center mt-10">
                             <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-green-600"></div>
                         </div>
                     ) : filteredBlogs?.length > 0 ? (
@@ -218,7 +218,7 @@ const calculateReadingTime = (text) => {
                                         <article className="flex items-center justify-between gap-1 md:gap-3">
                                             <small className="mt-2 text-gray-400 flex items-center">
                                                 <span className="mr-2 w-2 h-2 rounded-full bg-gray-400"></span>
-                                                {blog.readingTime} min read
+                                                {blog?.readingTime} min read
                                             </small>
                                             <p className="text-green-600 text-xs font-medium">
                                                 Read More {">>"}
