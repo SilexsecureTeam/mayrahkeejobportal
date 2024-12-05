@@ -51,7 +51,7 @@ const Jobs = () => {
 
     if (error) {
         return (
-            <div className="flex justify-center items-center min-h-40 bg-gray-200">
+            <div className="flex justify-center items-center min-h-40 bg-gray-200 text-center">
                 <p className="text-lg font-medium text-red-500">{error}</p>
             </div>
         );
@@ -59,8 +59,8 @@ const Jobs = () => {
 
     if (jobs.length === 0) {
         return (
-            <div className="flex justify-center items-center min-h-40 bg-gray-200">
-                <p className="text-lg font-medium text-gray-500">
+            <div className="flex text-center justify-center items-center min-h-40 bg-gray-200">
+                <p className="text-lg font-medium text-gray-700">
                     No jobs featuring at the moment. Please check back later.
                 </p>
             </div>
