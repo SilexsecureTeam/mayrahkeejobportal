@@ -72,7 +72,7 @@ const Jobs = () => {
             {jobs.map((job) => (
                 <div
                     key={job?.id}
-                    className="w-80 min-h-60 p-5 rounded-2xl shadow-[0px_0px_10px] shadow-gray-300 flex flex-col justify-between"
+                    className="w-80 min-h-60 p-5 rounded-2xl shadow-[0px_0px_5px] shadow-gray-300 flex flex-col justify-between"
                 >
                     <section className="flex justify-between gap-3">
                         <div>
