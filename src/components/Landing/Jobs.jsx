@@ -1,4 +1,4 @@
-import {useState, useEffect} from 'react'
+import {useState, useEffect, useContext} from 'react'
 import { FaSearchLocation } from 'react-icons/fa';
 import { jobDetails } from './LandingData';
 import approved from '../../assets/pngs/approved.png'
@@ -22,12 +22,12 @@ const {
     }, []);
 useEffect(() => {
     if (getAllFeaturedJobs?.data) {
-        const fetchedBlogs = getAllFeaturedJobs?.data?.data;
+        const fetchedBlogs = getAllFeaturedJobs?.data?.data || [];
         
 
-        // Set the most recent post
-        const neededJobs =fetchedBlogs.filter(one=> parseInt(one?.feature_jobs) === 1)
-        );
+        // Set the featured jobs
+  const neededJobs = fetchedBlogs.filter(one => parseInt(one?.feature_jobs) === 1);
+
         setJobs(neededJobs);
     }
 }, [getAllFeaturedJobs]);
