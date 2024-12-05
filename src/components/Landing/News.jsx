@@ -34,7 +34,7 @@ const News = () => {
 
     return (
         <div className="bg-[#47aa4910]">
-            <div className="flex justify-between items-center px-3">
+            <div className="flex justify-between items-center p-3">
                 <h2 className="text-sm font-semibold">LATEST NEWS</h2>
                 <button
                     className="text-green-600 border-[1px] border-green-600 px-6 py-1 rounded-full font-bold text-sm"
