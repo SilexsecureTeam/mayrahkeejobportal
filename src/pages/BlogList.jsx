@@ -188,7 +188,7 @@ const calculateReadingTime = (text) => {
                         <div className="flex justify-center items-center mt-10">
                             <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-green-600"></div>
                         </div>
-                    ) : filteredBlogs?.length > 0 ? (
+                    ) : filteredBlogs?.reverse()?.length > 0 ? (
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 gap-y-10">
                             {filteredBlogs.map((blog) => (
                                 <article
