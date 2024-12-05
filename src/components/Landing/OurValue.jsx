@@ -1,6 +1,5 @@
 import React from "react";
 import {valuesData} from './landingData'
-
 const OurValues = () => {
   return (
     <div className="py-10 px-6">
