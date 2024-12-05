@@ -84,7 +84,7 @@ const calculateReadingTime = (text) => {
                                 {recent?.title}
                             </h4>
                             <p className="text-sm text-gray-500 mb-3">
-                                {recent?. description}
+                                {recent?.description}
                             </p>
                             <article className="mt-2 flex justify-between gap-3">
                                 <small className="mt-2 text-gray-400 flex items-center">
