@@ -12,7 +12,7 @@ const HowItWorks = () => {
           className="w-full h-auto rounded-lg shadow"
         />
         <div>
-<section>
+<section className="flex flex-col items-center text-center">
             <small className="text-little text-green-600 font-medium capitalize">How it works</small>
    <h2 className="text-center text-2xl font-bold mb-8">How MayrahkeeAfrica Works For You?
       </h2>
