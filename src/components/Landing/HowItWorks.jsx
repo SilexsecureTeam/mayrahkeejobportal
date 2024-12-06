@@ -4,8 +4,7 @@ const HowItWorks = () => {
   return (
     <div className="py-10 px-6">
    
-        How MayrahkeeAfrica Works For You?
-      </h2>
+        
       <div className="grid md:grid-cols-2 gap-8 items-center">
         <img
           src={student2}
@@ -13,7 +12,8 @@ const HowItWorks = () => {
           className="w-full h-auto rounded-lg shadow"
         />
         <div>
-   <h2 className="text-center text-2xl font-bold mb-8">
+   <h2 className="text-center text-2xl font-bold mb-8">How MayrahkeeAfrica Works For You?
+      </h2>
           <ul className="space-y-4">
             <li>
               <h3 className="font-bold">1. Sign Up & Log In</h3>
