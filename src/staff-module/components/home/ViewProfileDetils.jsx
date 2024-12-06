@@ -33,7 +33,8 @@ function ViewProfileDetails() {
         currentKey !== "subcategory" &&
         currentKey !== "resume" &&
         currentKey !== "availability_status" &&
-        currentKey !== "job_type"
+        currentKey !== "job_type" &&
+        currentKey !== 'profile_image'
     );
 
     console.log(`${resourceUrl}${profileDetails?.profile_image}`)
@@ -45,15 +46,15 @@ function ViewProfileDetails() {
      </div>
       {profileDetails ? (
         <>
-          <div className="grid grid-cols-2 gap-x-3 gap-y-5 p-2 w-full text-gray-600 break-words">
+          <div className="grid grid-cols-2 gap-x-3 gap-y-8 p-2 w-full text-gray-600 break-words">
             {filterProfileDetails.map((currentKey, index) => {
               const detail = profileDetails[currentKey];
               const labelText = currentKey.replace(/_/g, " ").toUpperCase();
 
               return (
                 <div key={index} className="flex flex-col gap-1">
-                  <label>{labelText}</label>
-                  <p className="font-semibold text-wrap">{detail ? detail : "Pending" }</p>
+                  <label className="px-2 py-1 font-semibold  bg-gray-50">{labelText}</label>
+                  <p className="px-2  text-wrap">{detail ? detail : "Pending" }</p>
                 </div>
               );
             })}
