@@ -195,11 +195,12 @@ function JobStatistic({ applicants, byCategory }) {
       <div className="w-full p-2 items-center flex h-fit justify-center overflow-x-auto">
         {chartConfig ? (
           <ReactApexChart
-            options={chartConfig.options}
-            series={chartConfig.series}
-            type={chartConfig.options.chart.type}
-            height={Math.max(200, chartData.categories.length * 50)} // Dynamic height
-          />
+  options={chartConfig.options}
+  series={chartConfig.series}
+  type={chartConfig.options.chart.type}
+  height={Math.min(500, Math.max(300, chartData.categories.length * 40))} // Dynamic height with a cap
+/>
+
         ) : (
           <span>No data available</span>
         )}
