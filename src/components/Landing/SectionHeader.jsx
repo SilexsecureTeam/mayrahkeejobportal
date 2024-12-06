@@ -1,6 +1,6 @@
 import React from "react";
 
-const SectionHeader = ({ title, subtitle, img, reads:"" , time:"" }) => {
+const SectionHeader = ({ title, subtitle, img, reads="" , time="" }) => {
   return (
     <div className="bg-gray-100  mt-20 py-6 flex flex-col items-center">
       <section className="max-w-[900px] w-[90%] flex flex-col items-center">
