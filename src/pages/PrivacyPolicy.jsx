@@ -4,7 +4,7 @@ import SectionHeader from "../components/Landing/SectionHeader";
 import ContentList from "../components/Landing/ContentList";
 import ContactInfo from "../components/Landing/ContactInfo";
 import Footer from "../components/Landing/Footer";
-import img from "../assets/pngs/about3.png";
+import privacy from "../assets/pngs/privacy.png";
 import privacyPolicyData from "./privacy.json"; // Import the JSON data
 
 const PrivacyPolicy = () => {
@@ -19,7 +19,7 @@ const PrivacyPolicy = () => {
     <>
       <SectionHeader
         title="Privacy Policy for MayrahkeeAfrica"
-        img={img}
+        img={privacy}
       />
       <div className="relative max-w-[1400px] w-full mx-auto">
         <Navbar />
