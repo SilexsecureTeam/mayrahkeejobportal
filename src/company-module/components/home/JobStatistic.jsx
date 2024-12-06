@@ -103,22 +103,16 @@ function JobStatistic({ applicants, byCategory }) {
           },
           plotOptions: {
             bar: {
-              columnWidth: "50%",
-              barHeight: "80%", // Increase bar height
+              columnWidth: "45%",
+              barHeight: "70%", // Reduced height
               dataLabels: { position: "top" },
             },
           },
-          responsive: [
-            {
-              breakpoint: 768,
-              options: {
-                xaxis: { labels: { rotate: -30, style: { fontSize: "8px" } } },
-                legend: { position: "bottom" },
-              },
-            },
-          ],
-          colors: ["#FF6347", "#FFA500", "#32CD32"],
-          title: { text: "Overview of All Applicants", style: { fontSize: "16px" } },
+          colors: ["#FF5733", "#FFC300", "#28B463"], // Distinct colors
+          title: {
+            text: "Overview of All Applicants",
+            style: { fontSize: "16px", color: "#4A4A4A" },
+          },
           legend: {
             position: "top",
             horizontalAlign: "center",
@@ -151,10 +145,13 @@ function JobStatistic({ applicants, byCategory }) {
           },
         },
         plotOptions: {
-          bar: { columnWidth: "50%", barHeight: "80%" },
+          bar: { columnWidth: "45%", barHeight: "70%" },
         },
-        colors: ["#FF6347"],
-        title: { text: `${active} by Job`, style: { fontSize: "16px" } },
+        colors: ["#FF5733"],
+        title: {
+          text: `${active} by Job`,
+          style: { fontSize: "16px", color: "#4A4A4A" },
+        },
       },
       series: [
         {
@@ -195,12 +192,11 @@ function JobStatistic({ applicants, byCategory }) {
       <div className="w-full p-2 items-center flex h-fit justify-center overflow-x-auto">
         {chartConfig ? (
           <ReactApexChart
-  options={chartConfig.options}
-  series={chartConfig.series}
-  type={chartConfig.options.chart.type}
-  height={Math.min(500, Math.max(300, chartData.categories.length * 40))} // Dynamic height with a cap
-/>
-
+            options={chartConfig.options}
+            series={chartConfig.series}
+            type={chartConfig.options.chart.type}
+            height={Math.min(450, Math.max(250, chartData.categories.length * 35))} // Adjusted height
+          />
         ) : (
           <span>No data available</span>
         )}
