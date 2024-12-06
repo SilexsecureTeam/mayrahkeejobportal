@@ -42,7 +42,7 @@ const navigate=useNavigate();
               </p>
             </li>
           </ul>
-          <button on click={()=>{navigate("/registration"); scrollTo(0,0)}} className="mt-6 px-4 py-2 bg-black text-white rounded-full">
+          <button onClick={()=>{navigate("/registration"); scrollTo(0,0)}} className="mt-6 px-4 py-2 bg-black text-white rounded-full">
             Get Started Now
           </button>
         </div>
