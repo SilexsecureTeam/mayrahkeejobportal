@@ -4,7 +4,7 @@ import SectionHeader from "../components/Landing/SectionHeader";
 import ContentList from "../components/Landing/ContentList";
 import ContactInfo from "../components/Landing/ContactInfo";
 import Footer from "../components/Landing/Footer";
-import terms from "../assets/pngs/terms.png";
+import termsImg from "../assets/pngs/terms.png";
 import termsData from "./terms.json"; // Import the JSON data
 
 const TermsConditions = () => {
@@ -19,7 +19,7 @@ const TermsConditions = () => {
     <>
     <SectionHeader
             title="Terms & Conditions for MayrahkeeAfrica"
-            img={terms}
+            img={termsImg}
           />
       <div className="relative max-w-[1400px] w-full mx-auto">
         <Navbar />
