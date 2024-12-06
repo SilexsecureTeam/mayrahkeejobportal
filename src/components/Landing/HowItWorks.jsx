@@ -1,5 +1,5 @@
 import React from "react";
-import student from '../../assets/pngs/student2.png'
+import student from '../../../assets/pngs/student2.png'
 const HowItWorks = () => {
   return (
     <div className="py-10 px-6">
