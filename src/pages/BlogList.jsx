@@ -150,7 +150,7 @@ const calculateReadingTime = (text) => {
                                     className={`capitalize text-sm px-4 py-2 ${selected === category.id
                                         ? "text-green-600 border-b-[2px] border-b-green-600"
                                         : "text-gray-700"
-                                        } font-bold rounded`}
+                                        } font-bold`}
                                 >
                                     {category.name}
                                 </button>
