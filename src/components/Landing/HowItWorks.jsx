@@ -1,5 +1,5 @@
 import React from "react";
-import student from '../../assets/pngs/student.png'
+import student2 from '../../assets/pngs/student2.png';
 const HowItWorks = () => {
   return (
     <div className="py-10 px-6">
@@ -8,7 +8,7 @@ const HowItWorks = () => {
       </h2>
       <div className="grid md:grid-cols-2 gap-8 items-center">
         <img
-          src={student}
+          src={student2}
           alt="How it works"
           className="w-full h-auto rounded-lg shadow"
         />
