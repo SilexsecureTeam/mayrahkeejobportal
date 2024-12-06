@@ -1,5 +1,5 @@
 import React from "react";
-import student2 from '../../assets/pngs/student2.png';
+import student2 from '../../assets/pngs/works.png';
 import {useNavigate} from 'react-router-dom' 
 const HowItWorks = () => {
 const navigate=useNavigate();
