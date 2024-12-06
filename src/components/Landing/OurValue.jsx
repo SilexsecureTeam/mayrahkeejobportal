@@ -1,6 +1,5 @@
 import React from "react";
-import {valuesData} from './landingData'
-
+import {valuesData} from "./LandingData";
 
 const OurValue = () => {
   return (
