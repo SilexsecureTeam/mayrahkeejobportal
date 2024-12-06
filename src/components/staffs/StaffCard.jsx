@@ -158,8 +158,10 @@ function StaffCard({ data, contract = null, cartItems, getCartItems }) {
   const getField = (name) => {
     if (data?.domestic_staff) {
       return data?.domestic_staff[name];
-    } else {
+    } else if(data[name]) {
       return data[name];
+    } else{
+      return 'No data found'
     }
   };
 
@@ -302,6 +304,20 @@ function StaffCard({ data, contract = null, cartItems, getCartItems }) {
             Category:
             <span className="text-sm w-[60%] text-start font-normal text-gray-500">
               {getField("subcategory")}
+            </span>
+          </span>
+
+          <span className="flex gap-2 items-center justify-between text-md font-semibold">
+            Ethnicity:
+            <span className="text-sm w-[60%] text-start font-normal text-gray-500">
+              {getField("ethnicity")}
+            </span>
+          </span>
+
+          <span className="flex gap-2 items-center justify-between text-md font-semibold">
+            Gender:
+            <span className="text-sm w-[60%] text-start font-normal text-gray-500">
+              {getField("gender")}
             </span>
           </span>
 

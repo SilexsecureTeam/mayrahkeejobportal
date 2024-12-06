@@ -17,6 +17,8 @@ import {
 } from "react-icons/md";
 import PopUpBox from "../../../components/PopUpBox";
 import { ImUpload2 } from "react-icons/im";
+import { options } from "less";
+import { ethnicGroups } from "../../../utils/constants";
 
 const PROFILE_DETAILS_KEY = "Staff Profile Detaials Database";
 
@@ -48,6 +50,12 @@ const field_sections = {
       field_name: "age",
     },
     {
+      name: "Gender",
+      type: "select",
+      options: ["Male", "Female"],
+      field_name: "gender",
+    },
+    {
       name: "Religion",
       type: "select",
       options: [
@@ -61,6 +69,12 @@ const field_sections = {
         "Malamism",
       ],
       field_name: "religion",
+    },
+    {
+      name: "Ethnicity",
+      type: "select",
+      options: [...ethnicGroups],
+      field_name: "ethnicity",
     },
     {
       name: "Location",
@@ -154,7 +168,9 @@ function ProfileForm({ setToMain }) {
     StaffManagementContext
   );
   // Initialize selectedLanguages with an empty array if languages_spoken is undefined
-const [selectedLanguages, setSelectedLanguages] = useState(profileDetails?.languages_spoken || []);
+  const [selectedLanguages, setSelectedLanguages] = useState(
+    profileDetails?.languages_spoken || []
+  );
 
   const client = axiosClient(authDetails?.token, true);
   const {
@@ -174,63 +190,64 @@ const [selectedLanguages, setSelectedLanguages] = useState(profileDetails?.langu
   const [imageUrl, setImageUrl] = useState();
 
   const onSubmit = async (data) => {
-  setLoading(true);
-  
-  // Filter out placeholder values from select fields
-  const filteredData = Object.fromEntries(
-    Object.entries(data).filter(([key, value]) => value && value !== `-- Select ${key} --`)
-  );
+    setLoading(true);
 
-  try {
-    const response = await client.post(
-      `/domesticStaff/update-profile/${authDetails.user.id}`,
-      {
-        ...filteredData,
-        languages_spoken: selectedLanguages,
-        profile_image: file,
-        job_type: 'something'
-      }
+    // Filter out placeholder values from select fields
+    const filteredData = Object.fromEntries(
+      Object.entries(data).filter(
+        ([key, value]) => value && value !== `-- Select ${key} --`
+      )
     );
-    getStaffProfile();
-    onSuccess({
-      message: "Profile Success",
-      success: "Profile Info updated successfully",
-    });
-    setToMain();
-  } catch (error) {
-    onFailure({
-      error: "Failed to update",
-      message: "Something went wrong",
-    });
-  }
-  setLoading(false);
-};
 
+    try {
+      const response = await client.post(
+        `/domesticStaff/update-profile/${authDetails.user.id}`,
+        {
+          ...filteredData,
+          languages_spoken: selectedLanguages,
+          profile_image: file,
+          job_type: "something",
+        }
+      );
+      getStaffProfile();
+      onSuccess({
+        message: "Profile Success",
+        success: "Profile Info updated successfully",
+      });
+      setToMain();
+    } catch (error) {
+      onFailure({
+        error: "Failed to update",
+        message: "Something went wrong",
+      });
+    }
+    setLoading(false);
+  };
 
-// Guard clause to prevent rendering before profileDetails is loaded
-if (!profileDetails) return null;
+  // Guard clause to prevent rendering before profileDetails is loaded
+  if (!profileDetails) return null;
 
-  const filterProfileDetails =
-    profileDetails ?
-    Object.keys(profileDetails)?.filter(
-      (currentKey) =>
-        currentKey !== "created_at" &&
-        currentKey !== "updated_at" &&
-        currentKey !== "id" &&
-        currentKey !== "staff_category" &&
-        currentKey !== "staff_category" &&
-        currentKey !== "guarantor_verification_status" &&
-        currentKey !== "residence_verification_status" &&
-        currentKey !== "medical_history_verification_status" &&
-        currentKey !== "police_report_verification_status" &&
-        currentKey !== "previous_employer_verification_status" &&
-        currentKey !== "family_verification_status" &&
-        currentKey !== "contact_information" &&
-        currentKey !== "subcategory" &&
-        currentKey !== "resume" &&
-        currentKey !== "availability_status" &&
-        currentKey !== "employment_type"
-    ):[];
+  const filterProfileDetails = profileDetails
+    ? Object.keys(profileDetails)?.filter(
+        (currentKey) =>
+          currentKey !== "created_at" &&
+          currentKey !== "updated_at" &&
+          currentKey !== "id" &&
+          currentKey !== "staff_category" &&
+          currentKey !== "staff_category" &&
+          currentKey !== "guarantor_verification_status" &&
+          currentKey !== "residence_verification_status" &&
+          currentKey !== "medical_history_verification_status" &&
+          currentKey !== "police_report_verification_status" &&
+          currentKey !== "previous_employer_verification_status" &&
+          currentKey !== "family_verification_status" &&
+          currentKey !== "contact_information" &&
+          currentKey !== "subcategory" &&
+          currentKey !== "resume" &&
+          currentKey !== "availability_status" &&
+          currentKey !== "employment_type"
+      )
+    : [];
 
   const toogleIsOpen = () => setIsOpen(!isOpen);
 
@@ -312,14 +329,14 @@ if (!profileDetails) return null;
                 <div className="h-[100px] flex items-center overflow-hidden justify-center text-gray-500 border border-[#dee2e6] w-[100px] rounded-full">
                   {imageUrl ? (
                     <>
-                    <label
-                      htmlFor="profile-image"
-                      className="flex flex-col cursor-pointer items-center justify-center"
-                    >
-                      <span className="text-[12px]">Upload pic</span>
-                      <img src={imageUrl} className="h-full " />
-                    </label>
-                    <input
+                      <label
+                        htmlFor="profile-image"
+                        className="flex flex-col cursor-pointer items-center justify-center"
+                      >
+                        <span className="text-[12px]">Upload pic</span>
+                        <img src={imageUrl} className="h-full " />
+                      </label>
+                      <input
                         type="file"
                         id="profile-image"
                         onChange={(e) => handleImageChange(e)}
@@ -351,7 +368,7 @@ if (!profileDetails) return null;
                     // const labelText = currentKey.replace(/_/g, " ").toUpperCase();
 
                     const inputType =
-                      currentKey == "member_since" ? "date" : "text" ;
+                      currentKey == "member_since" ? "date" : "text";
                     return (
                       <div className="flex flex-col gap-1">
                         <label>
@@ -359,7 +376,7 @@ if (!profileDetails) return null;
                           <span className="text-red-500 ml-1 ">*</span>
                         </label>
                         {currentKey.type !== "select" ? (
-<input
+                          <input
                             className="p-1 border focus:outline-none border-gray-900  rounded-md"
                             type={inputType}
                             defaultValue={detail}
@@ -372,7 +389,9 @@ if (!profileDetails) return null;
                             defaultValue={detail}
                             {...register(currentKey.field_name)}
                           >
-                            <option value="">-- Select {currentKey.name} --</option>
+                            <option disabled value="">
+                              -- Select {currentKey.name} --
+                            </option>
                             {currentKey.options.map((current) => (
                               <option>{current}</option>
                             ))}
@@ -389,48 +408,53 @@ if (!profileDetails) return null;
                 </h3>
                 <div className="grid grid-cols-2 gap-x-3 gap-y-5">
                   {field_sections.professional.map((currentKey, index) => {
-  const detail = profileDetails[currentKey.field_name];
-  const inputType = currentKey.field_name === "member_since" ? "date" : "text";
-  return (
-    <div className="flex flex-col gap-1" key={index}>
-      <label>
-        {currentKey.name}
-        <span className="text-red-500 ml-1">*</span>
-      </label>
-      {currentKey.type !== "select" ? (
-        currentKey.type === "number" ? (
-          <input
-            className="p-1 border focus:outline-none border-gray-900 rounded-md"
-            type="number"
-            defaultValue={detail}
-            {...register(currentKey.field_name)}
-          />
-        ) : (
-          <input
-            className="p-1 border focus:outline-none border-gray-900 rounded-md"
-            type={inputType}
-            defaultValue={detail}
-            {...register(currentKey.field_name)}
-          />
-        )
-      ) : (
-        <select
-          className="p-1 border focus:outline-none border-gray-900 rounded-md"
-          defaultValue={detail}
-          {...register(currentKey.field_name)}
-        >
-          <option value="">-- Select {currentKey.name} --</option>
-          {currentKey.options &&
-            currentKey.options.map((current, optionIndex) => (
-              <option key={optionIndex} value={current}>
-                {current}
-              </option>
-            ))}
-        </select>
-      )}
-    </div>
-  );
-})}
+                    const detail = profileDetails[currentKey.field_name];
+                    const inputType =
+                      currentKey.field_name === "member_since"
+                        ? "date"
+                        : "text";
+                    return (
+                      <div className="flex flex-col gap-1" key={index}>
+                        <label>
+                          {currentKey.name}
+                          <span className="text-red-500 ml-1">*</span>
+                        </label>
+                        {currentKey.type !== "select" ? (
+                          currentKey.type === "number" ? (
+                            <input
+                              className="p-1 border focus:outline-none border-gray-900 rounded-md"
+                              type="number"
+                              defaultValue={detail}
+                              {...register(currentKey.field_name)}
+                            />
+                          ) : (
+                            <input
+                              className="p-1 border focus:outline-none border-gray-900 rounded-md"
+                              type={inputType}
+                              defaultValue={detail}
+                              {...register(currentKey.field_name)}
+                            />
+                          )
+                        ) : (
+                          <select
+                            className="p-1 border focus:outline-none border-gray-900 rounded-md"
+                            defaultValue={detail}
+                            {...register(currentKey.field_name)}
+                          >
+                            <option disabled value="">
+                              -- Select {currentKey.name} --
+                            </option>
+                            {currentKey.options &&
+                              currentKey.options.map((current, optionIndex) => (
+                                <option key={optionIndex} value={current}>
+                                  {current}
+                                </option>
+                              ))}
+                          </select>
+                        )}
+                      </div>
+                    );
+                  })}
 
                   <div className="flex flex-col gap-2 pl-2">
                     <label>
@@ -518,7 +542,10 @@ if (!profileDetails) return null;
                               }
                             );
                             return (
-                              <div key={idx} className="text-lg cursor-pointer flex items-center w-fit">
+                              <div
+                                key={idx}
+                                className="text-lg cursor-pointer flex items-center w-fit"
+                              >
                                 <MdCheckBox
                                   onClick={() => {
                                     if (current !== "Others") {
@@ -571,7 +598,9 @@ if (!profileDetails) return null;
                             defaultValue={detail}
                             {...register(currentKey.field_name)}
                           >
-                            <option value="" >-- Select {currentKey.name} --</option>
+                            <option disabled value="">
+                              -- Select {currentKey.name} --
+                            </option>
                             {currentKey.options.map((current) => (
                               <option>{current}</option>
                             ))}

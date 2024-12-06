@@ -2,11 +2,13 @@ import { useState } from "react";
 import useStaff from "../../hooks/useStaff";
 import { onFailure } from "../../utils/notifications/OnFailure";
 import { PiSpinnerGap } from "react-icons/pi";
+import { useNavigate } from "react-router-dom";
 
 const ApplicantHeader = ({ staff, setStaff }) => {
   const { ContractStatus, updateContractStatus } = useStaff();
   const [acceptLoading, setAcceptLoading] = useState(false);
   const [rejectLoading, setRejectLoading] = useState(false);
+  const navigate = useNavigate()
 
 
   console.log(staff)
@@ -64,6 +66,7 @@ const ApplicantHeader = ({ staff, setStaff }) => {
               );
               if (result) {
                 setRejectLoading(false);
+                navigate('/company/staff/cart')
               } else {
                 onFailure({ message: "Update Error", error: "Could not hire" });
               }

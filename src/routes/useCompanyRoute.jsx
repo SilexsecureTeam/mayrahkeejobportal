@@ -96,9 +96,9 @@ function useCompanyRoute() {
   const [redirectState, setRedirectState] = useState();
   const [isOpen, setIsOpen] = useState(false);
 
-  const activeReducer = authDetails?.user?.user_type !== 'regular' ? CompanyReducer : CompanyExclusiveReducer
-  const activeOptions = authDetails?.user?.user_type !== 'regular' ? companyOptions : companyExclusiveOptions
-  const activeUtilOptions = authDetails?.user?.user_type !== 'regular' ? adminUtilOptions : exclusiveUtilOptions
+  const activeReducer = authDetails?.user?.user_type === 'regular' ? CompanyReducer : CompanyExclusiveReducer
+  const activeOptions = authDetails?.user?.user_type === 'regular' ? companyOptions : companyExclusiveOptions
+  const activeUtilOptions = authDetails?.user?.user_type === 'regular' ? adminUtilOptions : exclusiveUtilOptions
   
   const [state, dispatch] = useReducer(activeReducer, activeOptions[0]);
 
