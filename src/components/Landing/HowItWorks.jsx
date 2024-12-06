@@ -12,8 +12,11 @@ const HowItWorks = () => {
           className="w-full h-auto rounded-lg shadow"
         />
         <div>
+<section>
+            <small className="text-little text-green-600 font-medium capitalize">How it works</small>
    <h2 className="text-center text-2xl font-bold mb-8">How MayrahkeeAfrica Works For You?
       </h2>
+</section>
           <ul className="space-y-4">
             <li>
               <h3 className="font-bold">1. Sign Up & Log In</h3>
