@@ -90,6 +90,13 @@ function JobStatistic({ applicants, byCategory }) {
   const chartData = generateChartData();
 
   const getChartConfig = () => {
+    const colorPalette = {
+      Rejected: "#FF6347", // Tomato Red
+      Interviewed: "#FFA500", // Orange
+      Onboarded: "#32CD32", // Lime Green
+      default: "#1E90FF", // Dodger Blue for other cases
+    };
+
     if (active === "Overview") {
       return {
         options: {
@@ -103,27 +110,46 @@ function JobStatistic({ applicants, byCategory }) {
           },
           plotOptions: {
             bar: {
-              columnWidth: "45%",
-              barHeight: "70%", // Reduced height
+              columnWidth: "50%",
+              barHeight: "80%", // Adjusted bar height
               dataLabels: { position: "top" },
             },
           },
-          colors: ["#FF5733", "#FFC300", "#28B463"], // Distinct colors
-          title: {
-            text: "Overview of All Applicants",
-            style: { fontSize: "16px", color: "#4A4A4A" },
-          },
+          responsive: [
+            {
+              breakpoint: 768,
+              options: {
+                xaxis: { labels: { rotate: -30, style: { fontSize: "8px" } } },
+                legend: { position: "bottom" },
+              },
+            },
+          ],
+          colors: [
+            colorPalette.Rejected,
+            colorPalette.Interviewed,
+            colorPalette.Onboarded,
+          ],
+          title: { text: "Overview of All Applicants", style: { fontSize: "16px" } },
           legend: {
             position: "top",
             horizontalAlign: "center",
             formatter: (seriesName, opts) => {
               switch (seriesName) {
                 case "Rejected":
-                  return `${seriesName}: ${chartData.series[0].data.reduce((a, b) => a + b, 0)}`;
+                  return `${seriesName}: ${chartData.series[0].data.reduce(
+                    (a, b) => a + b,
+                    0
+                  )}`;
                 case "Interviewed":
-                  return `${seriesName}: ${chartData.series[1].data.reduce((a, b) => a + b, 0)}`;
+                  return `${seriesName}: ${chartData.series[1].data.reduce(
+                    (a, b) => a + b,
+                    0
+                  )}`;
                 case "Onboarded":
-                  return `${seriesName}: ${chartData.series[2].data.reduce((a, b) => a + b, 0)}`;
+                  return `${seriesName}: ${chartData.series[2].data.reduce(
+                    (a, b) => a + b,
+                    0
+                  )}`;
                 default:
                   return seriesName;
               }
@@ -133,6 +159,13 @@ function JobStatistic({ applicants, byCategory }) {
         series: chartData.series,
       };
     }
+
+    const dynamicColors = chartData.categories.map(
+      (_, index) =>
+        ["#FF6347", "#FFA500", "#32CD32", "#1E90FF", "#FFD700", "#6A5ACD"][
+          index % 6
+        ] // Cycle through colors
+    );
 
     return {
       options: {
@@ -145,13 +178,10 @@ function JobStatistic({ applicants, byCategory }) {
           },
         },
         plotOptions: {
-          bar: { columnWidth: "45%", barHeight: "70%" },
+          bar: { columnWidth: "50%", barHeight: "80%" },
         },
-        colors: ["#FF5733"],
-        title: {
-          text: `${active} by Job`,
-          style: { fontSize: "16px", color: "#4A4A4A" },
-        },
+        colors: dynamicColors,
+        title: { text: `${active} by Job`, style: { fontSize: "16px" } },
       },
       series: [
         {
@@ -195,7 +225,10 @@ function JobStatistic({ applicants, byCategory }) {
             options={chartConfig.options}
             series={chartConfig.series}
             type={chartConfig.options.chart.type}
-            height={Math.min(450, Math.max(250, chartData.categories.length * 35))} // Adjusted height
+            height={Math.min(
+              500,
+              Math.max(300, chartData.categories.length * 40)
+            )} // Dynamic height
           />
         ) : (
           <span>No data available</span>
