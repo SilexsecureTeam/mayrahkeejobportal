@@ -108,32 +108,32 @@ export const userCategory=[
 export const valuesData = [
   {
     title: "Performance",
-    description: "We pride ourselves on practices that promote hiring...",
+    description: "We pride ourselves on practices that promote hiring right and equipping them with the right tools to create opportunities, and develop authentic work relationships and high-performance teams.",
     image: student, // Replace with the actual image URL
   },
   {
     title: "Accountability",
-    description: "This promotes and supports adherence to compliance...",
+    description: "This promotes and supports adherence to compliance, improves policies, and ownership, bolsters culture, and generally enhances individual performance and organizational bottom line. ",
     image: student,
   },
   {
     title: "Match Talent",
-    description: "In our drive to achieve the best in the talent value chain...",
+    description: "In our drive to achieve the best in the talent value chain, our critical success factors include goal alignment and the engagement of business leaders through well-thought-out strategies.",
     image: student,
   },
   {
     title: "Capacity Building",
-    description: "Building resourceful human capacity is critical...",
+    description: "Building resourceful human capacity is critical to implementing a company’s strategy in pursuit of its vision and mission.",
     image: student,
   },
   {
     title: "Diversity and Inclusion",
-    description: "Diversity is attractive and what modern workplaces require...",
+    description: "Diversity is indicative of what and inclusion is of the how. We at Mayrahkee Africa support diversity and inclusion in all forms.We believe the value of social variations and differences in how we coexist is critical for integration.",
     image: student,
   },
   {
     title: "Respect",
-    description: "We believe in valuing differences and allowing everyone...",
+    description: "Here, everyone has a voice that can be heard and life experiences that are valued. We believe in valuing differences and allowing the expression of opinions, as we thrive to achieve common and mutual goals while creating enduring, trustworthy and lasting relationships.",
     image: student,
   },
 ];
