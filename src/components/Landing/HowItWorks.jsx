@@ -1,6 +1,8 @@
 import React from "react";
 import student2 from '../../assets/pngs/student2.png';
+import {useNavigate} from 'react-router-dom' 
 const HowItWorks = () => {
+const navigate=useNavigate();
   return (
     <div className="py-10 px-6">
    
@@ -40,7 +42,7 @@ const HowItWorks = () => {
               </p>
             </li>
           </ul>
-          <button className="mt-6 px-4 py-2 bg-black text-white rounded-full">
+          <button on click={()=>{navigate("/registration"); scrollTo(0,0)}} className="mt-6 px-4 py-2 bg-black text-white rounded-full">
             Get Started Now
           </button>
         </div>
