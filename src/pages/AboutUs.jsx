@@ -38,7 +38,9 @@ const AboutUs = () => {
                         imageSrc={visionImg}
                         reverse={true}
                     />
+<div className="max-w-[1200px]" >
 <OurValue />
+</div>
                 </main>
             </div>
             <Footer />
