@@ -1,4 +1,4 @@
-import { FaSearchLocation } from 'react-icons/fa';
+import { FaLocationDot } from 'react-icons/fa6';
 import { jobDetails } from './LandingData';
 import tunnel from '../../assets/pngs/Tunnel.png'
 import approved from '../../assets/pngs/approved.png'
@@ -37,7 +37,7 @@ const Advert=()=>{
                 </section>
 
                 <div className="flex justify-between gap-3 my-3 text-gray-600 capitalize">
-                    <span className="bg-gray-300 px-2 py-1 rounded-xl flex items-center justify-center text-xs gap-2"><FaSearchLocation size="15" /> {job?.mode}</span>
+                    <span className="bg-gray-300 px-2 py-1 rounded-xl flex items-center justify-center text-xs gap-2"><FaLocationDot size="15" /> {job?.mode}</span>
                     <span className="bg-gray-300 px-2 py-1 rounded-xl flex items-center justify-center text-xs gap-2"><BiBriefcase size="15" /> {job?.type}</span>
                 </div>
             </div>
