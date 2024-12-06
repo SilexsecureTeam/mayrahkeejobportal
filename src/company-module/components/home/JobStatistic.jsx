@@ -198,7 +198,7 @@ function JobStatistic({ applicants, byCategory }) {
             options={chartConfig.options}
             series={chartConfig.series}
             type={chartConfig.options.chart.type}
-            height={Math.max(300, chartData.categories.length * 50)} // Dynamic height
+            height={Math.max(200, chartData.categories.length * 50)} // Dynamic height
           />
         ) : (
           <span>No data available</span>
