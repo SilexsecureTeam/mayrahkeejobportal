@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import img from '../../assets/pngs/about3.png'
+import img from '../../assets/pngs/learning.png'
 const LearningHeroSection = ({list}) => {
     const[selected,setSelected]=useState(1);
     return (
