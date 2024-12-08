@@ -159,6 +159,70 @@ export const companyOptions = [
   },
 ];
 
+export const companyExclusiveOptions = [
+  {
+    type: "DASHBOARD",
+    title: "Dashboard",
+    route: "/company",
+    icon: homeIcon,
+    iconActive: homeIconActive,
+  },
+  {
+    type: "APPLICANTS",
+    title: "All Applicants",
+    route: "/company/applicants",
+    icon: multipleProfilesIcon,
+    iconActive: documentIconActive,
+  },
+  {
+    type: "COMPANY-PROFILE",
+    title: "Company Profile",
+    route: "/company/company-profile",
+    icon: companyIcon,
+    iconActive: companyIconActive,
+  },
+  {
+    type: "JOB-LISTING",
+    title: "Job Listing",
+    route: "/company/job-listing",
+    icon: clipboardIcon,
+    iconActive: profileIconActive,
+  },
+  {
+    type: "SCHEDULE",
+    title: "My Schedule",
+    route: "/company/schedule",
+    icon: calanderIcon,
+    iconActive: searchIconActive,
+  },
+];
+
+export const exclusiveUtilOptions = [
+  {
+    type: "SETTINGS",
+    title: "Settings",
+    route: "/applicant/setting",
+    icon: settingsIcon,
+    iconActive: settingsIconActive,
+  },
+  {
+    type: "HELP-CENTER",
+    title: "Help Center",
+    route: "/applicant/help-center",
+    icon: helpIcon,
+    iconActive: helpIcon,
+  },
+  {
+    type: "LOG-OUT",
+    title: "Log Out",
+    route: "/login",
+    icon: helpIcon,
+    iconActive: helpIcon,
+  },
+];
+
+
+
 export const utilOptions = [
   {
     type: "ARTISAN",
@@ -632,3 +696,44 @@ export const verification_status = [
   "rejected",
   "suspend",
 ];
+
+
+
+export const ethnicGroups = [
+  "Hausa",
+  "Yoruba",
+  "Igbo",
+  "Fulani",
+  "Ijaw",
+  "Kanuri",
+  "Ibibio",
+  "Tiv",
+  "Nupe",
+  "Edo",
+  "Itsekiri",
+  "Efik",
+  "Igala",
+  "Jukun",
+  "Berom",
+  "Gwari",
+  "Idoma",
+  "Ishoko",
+  "Ebira",
+  "Isoko",
+  "Urhobo",
+  "Ogoni",
+  "Anang",
+  "Kalabari",
+  "Ekoi",
+  "Ebirra",
+  "Bini",
+  "Shuwa Arab",
+  "Zarma",
+  "Kambari",
+  "Kuteb",
+  "Bajju",
+  "Kadara",
+  "Bwatiye",
+  "Sayawa",
+  "Mumuye",
+  "Atyap"]
