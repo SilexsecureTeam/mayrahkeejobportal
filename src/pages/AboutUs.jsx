@@ -21,7 +21,7 @@ const AboutUs = () => {
                     backgroundAttachment: "fixed"
                 }}>
                 <Navbar />
-                <main className="relative my-20 px-5 h-auto flex flex-col gap-5">
+                <main className="relative my-20 px-5 h-auto flex flex-col gap-5 items-center">
                     <Banner title="About Us" desc="Connecting talent to opportunities with integrity and innovation." />
                     <Empowering />
                     <InfoSection
@@ -38,9 +38,9 @@ const AboutUs = () => {
                         imageSrc={visionImg}
                         reverse={true}
                     />
-<div className="max-w-[1200px]" >
-<OurValue />
-</div>
+                    <div className="max-w-[1200px]" >
+                        <OurValue />
+                    </div>
                 </main>
             </div>
             <Footer />

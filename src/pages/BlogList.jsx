@@ -157,31 +157,35 @@ const calculateReadingTime = (text) => {
                             ))}
                         </div>
                     </div>
-                    
-                    <div className="flex flex-row-reverse gap-3 my-6 overflow-x-auto w-full md:w-[80%] md:ml-auto">
-                        {(selected === "All"
-                            ? categories.flatMap((category) =>
-                                category.subcategories?.map((subcategory) => ({
-                                    ...subcategory,
-                                    categoryId: category.id, // Attach the category ID to each subcategory
-                                }))
-                            )
-                            : categories
-                                .filter((category) => category.id === selected)
-                                .flatMap((category) => category.subcategories || [])
-                        ).map((subcategory) => (
-                            <button
-                                key={subcategory?.id}
-                                onClick={() => handleSubcategorySelect(subcategory?.id, subcategory.blog_category_id)}
-                                className={`capitalize border-[2px] rounded-full border-gray-500 text-sm px-4 py-1 ${selectedSubcategory === subcategory?.id
-                                    ? "text-green-600 border-green-600"
-                                    : "text-gray-700"
-                                    } font-bold`}
-                            >
-                                {subcategory.name}
-                            </button>
-                        ))}
-                    </div>
+                    <div className="flex gap-3 my-6 overflow-x-auto w-full md:w-[80%] md:ml-auto">
+    {(
+        selected === "All"
+            ? categories.flatMap((category) =>
+                category.subcategories?.map((subcategory) => ({
+                    ...subcategory,
+                    categoryId: category.id, // Attach the category ID to each subcategory
+                }))
+            )
+            : categories
+                .filter((category) => category.id === selected)
+                .flatMap((category) => category.subcategories || [])
+    )
+        .reverse() // Reverse the array to achieve reverse order
+        .map((subcategory) => (
+            <button
+                key={subcategory?.id}
+                onClick={() =>
+                    handleSubcategorySelect(subcategory?.id, subcategory.blog_category_id)
+                }
+                className={`capitalize border-[2px] rounded-full border-gray-500 text-sm px-4 py-1 whitespace-nowrap ${selectedSubcategory === subcategory?.id
+                    ? "text-green-600 border-green-600"
+                    : "text-gray-700"
+                    } font-bold`}
+            >
+                {subcategory.name}
+            </button>
+        ))}
+</div>
 
                     {/* Blog Posts */}
                     {isLoading ? (
