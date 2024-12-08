@@ -1,10 +1,12 @@
-import { FaSearchLocation } from 'react-icons/fa';
+import { FaLocationDot } from 'react-icons/fa6';
+import {useNavigate} from 'react-router-dom' 
 import { jobDetails } from './LandingData';
 import tunnel from '../../assets/pngs/Tunnel.png'
 import approved from '../../assets/pngs/approved.png'
 import bgImg from "../../assets/pngs/happy-couple-of-african-american-business-partners-2023-11-27-05-18-22-utc.jpg";
 import {BiBriefcase} from 'react-icons/bi'
 const Advert=()=>{
+const navigate=useNavigate();
     return(
 <div className="bg-green-700/70 rounded-xl">
         <div className="w-full min-h-72 my-8 rounded-xl p-8 text-white flex flex-wrap gap-16 md:gap-10 justify-between items-center"
@@ -20,7 +22,7 @@ const Advert=()=>{
             <section className="flex flex-col gap-3 w-96 my-4">
                 <h3 className="text-2xl font-bold">Join our community of ambitious professionals today and unlock the doors to dream career</h3>
                 <p className="text-sm">Figma ipsum component variant main layer. Outline distribute image line rotate flows.</p>
-                <button className="mt-2 cursor-pointer font-medium py-2 px-6 rounded-full capitalize w-40 bg-black text-sm text-white"> Get started now</button>
+                <button onClick={()=>{navigate('/registration'); scrollTo(0,0)}} className="mt-2 cursor-pointer font-medium py-2 px-6 rounded-full capitalize w-40 bg-black text-sm text-white"> Get started now</button>
             </section>
 
             {/* Right */}
@@ -37,7 +39,7 @@ const Advert=()=>{
                 </section>
 
                 <div className="flex justify-between gap-3 my-3 text-gray-600 capitalize">
-                    <span className="bg-gray-300 px-2 py-1 rounded-xl flex items-center justify-center text-xs gap-2"><FaSearchLocation size="15" /> {job?.mode}</span>
+                    <span className="bg-gray-300 px-2 py-1 rounded-xl flex items-center justify-center text-xs gap-2"><FaLocationDot size="15" /> {job?.mode}</span>
                     <span className="bg-gray-300 px-2 py-1 rounded-xl flex items-center justify-center text-xs gap-2"><BiBriefcase size="15" /> {job?.type}</span>
                 </div>
             </div>

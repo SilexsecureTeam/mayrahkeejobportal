@@ -87,7 +87,7 @@ const calculateReadingTime = (text) => {
                                 {recent?.description}
                             </p>
                             <article className="mt-2 flex justify-between gap-3">
-                                <small className="mt-2 text-gray-400 flex items-center">
+                                <small className="mt-2 text-sm text-gray-400 flex items-center">
                                     <span className="mr-2 w-2 h-2 rounded-full bg-gray-400"></span>
                                     {recent?.readingTime} min read.
                                 </small>
@@ -136,7 +136,7 @@ const calculateReadingTime = (text) => {
                                     {newsItem?.desc?.slice(0, 100)}...
                                 </p>
                                 <article className="flex items-center justify-between gap-1 md:gap-3">
-                                    <small className="mt-2 text-gray-400 flex items-center">
+                                    <small className="text-xs mt-2 text-gray-400 flex items-center">
                                         <span className="mr-2 w-2 h-2 rounded-full bg-gray-400"></span>
                                         {newsItem?.readingTime} min read.
                                     </small>

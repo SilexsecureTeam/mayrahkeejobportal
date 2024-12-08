@@ -1,11 +1,11 @@
 import React, {useState} from 'react';
-import img from '../../assets/pngs/about3.png'
+import img from '../../assets/pngs/learning.png'
 const LearningHeroSection = ({list}) => {
     const[selected,setSelected]=useState(1);
     return (
         <section className="mt-24">
             <figure className="h-80 mb-10 ">
-                <img src={img} alt="image" className="rounded mb-4 w-full h-full object-cover" />
+                <img src={img} alt="image" className="mb-4 w-full h-full object-cover" />
             </figure>
             <div className="w-[95%] md:max-w-[1400px] mx-auto">
             <h1 className="text-4xl font-bold">Unlock Knowledge, Achieve Excellence</h1>

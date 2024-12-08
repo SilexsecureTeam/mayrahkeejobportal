@@ -23,7 +23,7 @@ const LocationSection = () => {
             loading="lazy"
           ></iframe>
           {/* Custom Popup (White Box) */}
-          <div className="absolute bg-white shadow-lg rounded-2xl p-3 md:p-4 left-0 right-0 mx-auto top-8 w-72 md:w-[300px]">
+          <div className="absolute bg-white shadow-lg rounded-2xl p-3 md:p-4 left-0 right-0 mx-auto top-8 w-60 md:w-[300px]">
           <div className="absolute top-full left-1/2 -translate-x-1/2 w-0 h-0 border-l-[12px] border-r-[12px] border-t-[15px] border-l-transparent border-r-transparent border-t-white"></div>
           <img src={logo} alt="logo" className="h-5 ml-[-2px]" />
             <h4 className="font-bold text-xs">Abuja, Nigeria</h4>

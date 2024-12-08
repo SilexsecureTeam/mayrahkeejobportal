@@ -2,6 +2,7 @@ import Banner from '../components/Landing/Banner';
 import Footer from '../components/Landing/Footer';
 import Navbar from '../components/Landing/Navbar';
 import Empowering from '../components/Landing/Empowering';
+import OurValue from '../components/Landing/OurValue';
 import InfoSection from '../components/Landing/InfoSection';
 import tunnel from '../assets/pngs/Tunnel2.png'
 import missionImg from '../assets/pngs/about3.png'
@@ -20,7 +21,7 @@ const AboutUs = () => {
                     backgroundAttachment: "fixed"
                 }}>
                 <Navbar />
-                <main className="relative my-20 px-5 h-auto flex flex-col gap-5">
+                <main className="relative my-20 px-5 h-auto flex flex-col gap-5 items-center">
                     <Banner title="About Us" desc="Connecting talent to opportunities with integrity and innovation." />
                     <Empowering />
                     <InfoSection
@@ -37,6 +38,9 @@ const AboutUs = () => {
                         imageSrc={visionImg}
                         reverse={true}
                     />
+                    <div className="max-w-[1200px]" >
+                        <OurValue />
+                    </div>
                 </main>
             </div>
             <Footer />

@@ -4,6 +4,12 @@ import candidate from '../../assets/pngs/candidate.png';
 import artisan from '../../assets/pngs/artisan.png';
 import student from '../../assets/pngs/student.png';
 import student2 from '../../assets/pngs/student2.png';
+import value1 from '../../assets/pngs/value1.png';
+import value2 from '../../assets/pngs/value2.png';
+import value3 from '../../assets/pngs/value3.png';
+import value4 from '../../assets/pngs/value4.png';
+import value5 from '../../assets/pngs/value5.png';
+import value6 from '../../assets/pngs/about3.png';
 import profile from "../../assets/pngs/student.png";
 export const testimonialsData=[
   {
@@ -104,6 +110,40 @@ export const userCategory=[
         desc:"Join a global network of skilled professionals and find top talent to grow business",
     }
 ];
+
+export const valuesData = [
+  {
+    title: "Performance",
+    description: "We pride ourselves on practices that promote hiring right and equipping them with the right tools to create opportunities, and develop authentic work relationships and high-performance teams.",
+    image: value1, // Replace with the actual image URL
+  },
+  {
+    title: "Accountability",
+    description: "This promotes and supports adherence to compliance, improves policies, and ownership, bolsters culture, and generally enhances individual performance and organizational bottom line. ",
+    image: value2
+  },
+  {
+    title: "Match Talent",
+    description: "In our drive to achieve the best in the talent value chain, our critical success factors include goal alignment and the engagement of business leaders through well-thought-out strategies.",
+    image: value3,
+  },
+  {
+    title: "Capacity Building",
+    description: "Building resourceful human capacity is critical to implementing a company’s strategy in pursuit of its vision and mission.",
+    image: value4,
+  },
+  {
+    title: "Diversity and Inclusion",
+    description: "Diversity is indicative of what and inclusion is of the how. We at Mayrahkee Africa support diversity and inclusion in all forms.We believe the value of social variations and differences in how we coexist is critical for integration.",
+    image: value5,
+  },
+  {
+    title: "Respect",
+    description: "Here, everyone has a voice that can be heard and life experiences that are valued. We believe in valuing differences and allowing the expression of opinions, as we thrive to achieve common and mutual goals while creating enduring, trustworthy and lasting relationships.",
+    image: value6,
+  },
+];
+
 
 
 export const recentNews = [

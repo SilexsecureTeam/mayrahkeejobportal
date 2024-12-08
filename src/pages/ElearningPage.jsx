@@ -4,9 +4,11 @@ import Navbar from '../components/Landing/Navbar'
 import { jobDetails, recentNews } from '../components/Landing/LandingData';
 import LearningHeroSection from '../components/Landing/LearningHeroSection'
 import LearningCourseGrid from '../components/Landing/LearningCourseGrid'
+import HowItWorks from '../components/Landing/HowItWorks'
 import InfoSection from '../components/Landing/InfoSection';
 import Testimonial from '../components/Landing/Testimonial';
 import visionImg from '../assets/pngs/about4.png'
+import study from '../assets/pngs/study.png'
 const ElearningPage = () => {
     return (
         <>
@@ -25,11 +27,13 @@ const ElearningPage = () => {
                         <LearningCourseGrid list={recentNews} />
                     </div>
                     <Testimonial />
+<HowItWorks />
+
                     <InfoSection
                         title="Join our community of ambitious professionals today and unlock the doors to your dream career"
                         description="Our vision is to be recognized as Africa’s foremost recruitment partner and employer of choice. We aim to set new benchmarks for innovation, ethical practices, and leadership in the industry."
                         buttonText="Get Started Now"
-                        imageSrc={visionImg}
+                        imageSrc={study}
                         reverse={true}
                     />
 
