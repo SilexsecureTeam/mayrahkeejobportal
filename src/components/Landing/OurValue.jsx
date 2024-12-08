@@ -1,15 +1,15 @@
 import React from "react";
-import {valuesData} from "./LandingData";
+import { valuesData } from "./LandingData";
 
 const OurValue = () => {
   return (
     <div className="py-10 px-6">
       <h2 className="text-center text-2xl font-bold mb-8">Our Values</h2>
-      <div className="grid gap-6 md:grid-cols-3 sm:grid-cols-2 grid-cols-1">
+      <div className="grid gap-10 lg:grid-cols-3 sm:grid-cols-2 grid-cols-1">
         {valuesData?.map((value, index) => (
           <div
             key={index}
-            className="bg-white shadow rounded-lg overflow-hidden"
+            className="bg-white shadow max-w-80 rounded-2xl overflow-hidden"
           >
             <img
               src={value?.image}
