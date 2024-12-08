@@ -90,7 +90,7 @@ const Jobs = () => {
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
   const navigateToRegister = () => {
-    navigate("/registeration");
+    navigate("/registration");
     closeModal();
   };
   const navigateToLogin = () => {
