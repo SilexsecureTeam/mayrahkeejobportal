@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import Navbar from "../components/Landing/Navbar";
 import Footer from "../components/Landing/Footer";
 import faq from "../assets/pngs/faq.png";
-
+import {useNavigate} from 'react-router-dom';
 const FAQ = () => {
+  const navigate=useNavigate();
   const [openIndex, setOpenIndex] = useState(null);
 
   const toggleAccordion = (index) => {
@@ -103,7 +104,7 @@ const FAQ = () => {
             <img src={faq} alt="image" className="w-32 md:w-48 my-2" />
             <p className="font-semibold">Still have questions?</p>
             <p>Can’t find some answers? Please chat with our friendly team.</p>
-            <button className="bg-black text-white py-2 px-6 mt-4 rounded-full">
+            <button onClick={()=>{scrollTo(0,0); navigate('/contact')}} className="bg-black text-white py-2 px-6 mt-4 rounded-full">
               Contact Us
             </button>
           </div>
