@@ -1,6 +1,6 @@
 
 
-function TableRow({ data }) {
+function TableRow({ data, navigateToSingle }) {
 
   return (
     <tr
@@ -40,7 +40,7 @@ function TableRow({ data }) {
       <td>
         <div className="items-center flex justify-center py-[15px]">
           <button
-            // onClick={navigateToApplicantDetails}
+            onClick={navigateToSingle}
             className="  hover:text-primaryColor hover:underline  text-gray-800"
           >
             view

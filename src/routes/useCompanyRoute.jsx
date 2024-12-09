@@ -60,9 +60,11 @@ const SingleApplicant = lazy(() =>
 const JobListing = lazy(() =>
   import("../company-module/pages/job-listing/JobListing")
 );
+
 const JobType = lazy(() =>
   import("../company-module/pages/job-listing/JobType")
 );
+
 const CompanyProfile = lazy(() =>
   import("../company-module/pages/company-profile/CompanyProfile")
 );
