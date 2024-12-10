@@ -6,7 +6,12 @@ import {
   useLocation,
   useNavigate,
 } from "react-router-dom";
-import { adminExclusiveOptions, adminExclusiveUtil, adminOptions, adminnUtilOptions } from "../utils/constants";
+import {
+  adminExclusiveOptions,
+  adminExclusiveUtil,
+  adminOptions,
+  adminnUtilOptions,
+} from "../utils/constants";
 import { AuthContext } from "../context/AuthContex";
 import { clear } from "idb-keyval";
 import AdminSideBar from "../admin-module/components/AdminSideBar";
@@ -21,14 +26,26 @@ const SideBarItem = lazy(() =>
   import("../admin-module/components/SideBarItem")
 );
 
-
-const Dashboard = lazy(() => import("../admin-exclusive-module/pages/dashboard/Dashboard"));
-const Exclusives = lazy(() => import("../admin-exclusive-module/pages/exclusives/Exclusives"));
+const Dashboard = lazy(() =>
+  import("../admin-exclusive-module/pages/dashboard/Dashboard")
+);
+const Exclusives = lazy(() =>
+  import("../admin-exclusive-module/pages/exclusives/Exclusives")
+);
+const SingleExclusive = lazy(() =>
+  import("../admin-exclusive-module/pages/exclusives/SingleExclusive")
+);
+const JobType = lazy(() =>
+  import("../company-module/pages/job-listing/JobType")
+);
 
 function useAdminRoute() {
   const path = useLocation().pathname;
   // const [state, dispatch] = useReducer(AdminReducer, adminOptions.find((option) => option.route === path));
-  const [state, dispatch] = useReducer(AdminExclusiveReducer, adminExclusiveOptions[0]);
+  const [state, dispatch] = useReducer(
+    AdminExclusiveReducer,
+    adminExclusiveOptions[0]
+  );
   const { authDetails } = useContext(AuthContext);
   // const { changeTheme } = useContext(PrimeReactContext);
   const [isOpen, setIsOpen] = useState(false);
@@ -57,10 +74,7 @@ function useAdminRoute() {
     };
   }, []);
 
-  const hideNavBarRoutes = [
-    "/admin-exclusives/",
-    "/admin-exclusives/list",
-  ];
+  const hideNavBarRoutes = ["/admin-exclusives/", "/admin-exclusives/list"];
 
   const shouldHideNavBar = hideNavBarRoutes.includes(location.pathname);
 
@@ -112,10 +126,17 @@ function useAdminRoute() {
             />
           )}
           <div className="w-full h-[92%] overflow-y-auto">
-              <Routes>
-                 <Route index element={<Dashboard/>}/>
-                 <Route path="lists" element={<Exclusives/>} />
-              </Routes>
+            <Routes>
+              <Route index element={<Dashboard />} />
+
+              <Route path="lists/*">
+                <Route index element={<Exclusives />} />
+                <Route path=":id" element={<SingleExclusive />} />
+              </Route>
+
+              <Route path="job/:id" element={<JobType test={true} />} />
+
+            </Routes>
           </div>
         </div>
       </main>

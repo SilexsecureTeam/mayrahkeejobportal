@@ -87,9 +87,10 @@ function useApplicationManagement() {
   const changePassword = async (currentPassword, newPassword) => {
     setLoading(true);
     try {
-      const response = await client.get(`/candidate/changePassword`, {
-        currentPassword,
-        newPassword,
+      const response = await client.post(`/candidate/changePassword`, {
+        current_password:currentPassword,
+        new_password: newPassword,
+        user_id: authDetails.user.id
       });
       onSuccess({
         message: 'Password updated',

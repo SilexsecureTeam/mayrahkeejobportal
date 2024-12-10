@@ -1,186 +1,432 @@
-import { Description } from "@headlessui/react"
+import { Description } from "@headlessui/react";
 
 export const user = {
-    name: 'Jake Sully',
-    email: 'sully@example.com'
-}
-
+  name: "Jake Sully",
+  email: "sully@example.com",
+};
 
 export const stats_cards_dummies = [
-    {
-        id: 1,
-        title: 'Total Applicants',
-        bg_color: 'bg-primaryColor',
-        value: 0
-    },
-    {
-        id: 2,
-        title: 'Pending Interviews',
-        bg_color: 'bg-[#504a4a]',
-        value: 0
-    },
-    {
-        id: 4,
-        title: 'Messages Recieved',
-        bg_color: 'bg-[#47aa49]',
-        value: 0
-    },
-]
-
+  {
+    id: 1,
+    title: "Total Applicants",
+    bg_color: "bg-primaryColor",
+    value: 0,
+  },
+  {
+    id: 2,
+    title: "Pending Interviews",
+    bg_color: "bg-[#504a4a]",
+    value: 0,
+  },
+  {
+    id: 4,
+    title: "Messages Recieved",
+    bg_color: "bg-[#47aa49]",
+    value: 0,
+  },
+];
 
 export const applicants_summary_dummies = [
-    {
-        id: 1,
-        category: 'Full Time',
-        applicants: 0,
-        bg_color: 'bg-primaryColor'
-    },
-    {
-        id: 2,
-        category: 'Part-Time',
-        applicants: 0,
-        bg_color: 'bg-[#56cdad]'
-    },
-    {
-        id: 3,
-        category: 'Remote',
-        applicants: 0,
-        bg_color: 'bg-[#26a4ff]'
-    },
-    {
-        id: 4,
-        category: 'Internship',
-        applicants: 0,
-        bg_color: 'bg-[#ffb836]'
-    },
-    {
-        id: 5,
-        category: 'Contract',
-        applicants: 0,
-        bg_color: 'bg-[#ff6550]'
-    },
-]
-
+  {
+    id: 1,
+    category: "Full Time",
+    applicants: 0,
+    bg_color: "bg-primaryColor",
+  },
+  {
+    id: 2,
+    category: "Part-Time",
+    applicants: 0,
+    bg_color: "bg-[#56cdad]",
+  },
+  {
+    id: 3,
+    category: "Remote",
+    applicants: 0,
+    bg_color: "bg-[#26a4ff]",
+  },
+  {
+    id: 4,
+    category: "Internship",
+    applicants: 0,
+    bg_color: "bg-[#ffb836]",
+  },
+  {
+    id: 5,
+    category: "Contract",
+    applicants: 0,
+    bg_color: "bg-[#ff6550]",
+  },
+];
 
 export const job_dummies = [
-    {
-        id:1,
-        title: 'Social Media Assistant',
-        type: 'Full Time',
-        agency: 'Paris, France',
-        options: ['Marketing', 'Design'],
-        applicants: 5,
-        capacity: 10
-    },
-    {
-        id:2,
-        title: 'Social Media Assistant',
-        type: 'Full Time',
-        agency: 'Paris, France',
-        options: ['Marketing', 'Design'],
-        applicants: 5,
-        capacity: 10
-    },
+  {
+    id: 1,
+    title: "Social Media Assistant",
+    type: "Full Time",
+    agency: "Paris, France",
+    options: ["Marketing", "Design"],
+    applicants: 5,
+    capacity: 10,
+  },
+  {
+    id: 2,
+    title: "Social Media Assistant",
+    type: "Full Time",
+    agency: "Paris, France",
+    options: ["Marketing", "Design"],
+    applicants: 5,
+    capacity: 10,
+  },
 
-    {
-        id:3,
-        title: 'Social Media Assistant',
-        type: 'Full Time',
-        agency: 'Paris, France',
-        options: ['Marketing', 'Design'],
-        applicants: 5,
-        capacity: 10
-    },
-    {
-        id:4,
-        title: 'Social Media Assistant',
-        type: 'Full Time',
-        agency: 'Paris, France',
-        options: ['Marketing', 'Design'],
-        applicants: 5,
-        capacity: 10
-    },
-    {
-        id:4,
-        title: 'Social Media Assistant',
-        type: 'Full Time',
-        agency: 'Paris, France',
-        options: ['Marketing', 'Design'],
-        applicants: 5,
-        capacity: 10
-    },
-    {
-        id:4,
-        title: 'Social Media Assistant',
-        type: 'Full Time',
-        agency: 'Paris, France',
-        options: ['Marketing', 'Design'],
-        applicants: 5,
-        capacity: 10
-    },
-]
-    
+  {
+    id: 3,
+    title: "Social Media Assistant",
+    type: "Full Time",
+    agency: "Paris, France",
+    options: ["Marketing", "Design"],
+    applicants: 5,
+    capacity: 10,
+  },
+  {
+    id: 4,
+    title: "Social Media Assistant",
+    type: "Full Time",
+    agency: "Paris, France",
+    options: ["Marketing", "Design"],
+    applicants: 5,
+    capacity: 10,
+  },
+  {
+    id: 4,
+    title: "Social Media Assistant",
+    type: "Full Time",
+    agency: "Paris, France",
+    options: ["Marketing", "Design"],
+    applicants: 5,
+    capacity: 10,
+  },
+  {
+    id: 4,
+    title: "Social Media Assistant",
+    type: "Full Time",
+    agency: "Paris, France",
+    options: ["Marketing", "Design"],
+    applicants: 5,
+    capacity: 10,
+  },
+];
 
 export const chat_dummies = [
-    {
-        id: 1,
-        name: 'Jan Mayer',
-        chat_time: new Date(),
-    },
-    {
-        id: 2,
-        name: 'Joe Bartmann',
-        chat_time: new Date(),
-    },
-    {
-        id: 3,
-        name: 'Ally Wales',
-        chat_time: new Date(),
-    },
-    {
-        id: 4,
-        name: 'James Gardner',
-        chat_time: new Date(),
-    },
-    {
-        id: 5,
-        name: 'Jan Mayer',
-        chat_time: new Date(),
-    },
-    {
-        id: 6,
-        name: 'Joe Bartmann',
-        chat_time: new Date(),
-    },
-    {
-        id: 7,
-        name: 'Ally Wales',
-        chat_time: new Date(),
-    },
-    {
-        id: 8,
-        name: 'James Gardner',
-        chat_time: new Date(),
-    },
-]
+  {
+    id: 1,
+    name: "Jan Mayer",
+    chat_time: new Date(),
+  },
+  {
+    id: 2,
+    name: "Joe Bartmann",
+    chat_time: new Date(),
+  },
+  {
+    id: 3,
+    name: "Ally Wales",
+    chat_time: new Date(),
+  },
+  {
+    id: 4,
+    name: "James Gardner",
+    chat_time: new Date(),
+  },
+  {
+    id: 5,
+    name: "Jan Mayer",
+    chat_time: new Date(),
+  },
+  {
+    id: 6,
+    name: "Joe Bartmann",
+    chat_time: new Date(),
+  },
+  {
+    id: 7,
+    name: "Ally Wales",
+    chat_time: new Date(),
+  },
+  {
+    id: 8,
+    name: "James Gardner",
+    chat_time: new Date(),
+  },
+];
 
 export const admin_exlusve_dummies = [
-    {
-        id: 1,
-        title: 'Total Employers',
-        description: 'All exlusives under mayrahkee',
-        value: 100
-    },
-    {
-        id: 2,
-        title: 'Total Applicants',
-        description: 'sum total of all appliacants under exlcusives.',
-        value: 300
-    },
-    {
-        id: 3,
-        title: 'Total Jobs',
-        description: 'All exlusives under mayrahkee',
-        value: 300
-    },
-]
+  {
+    id: 1,
+    title: "Total Employers",
+    description: "All exlusives under mayrahkee",
+    value: 100,
+  },
+  {
+    id: 2,
+    title: "Total Applicants",
+    description: "sum total of all appliacants under exlcusives.",
+    value: 300,
+  },
+  {
+    id: 3,
+    title: "Total Jobs",
+    description: "All exlusives under mayrahkee",
+    value: 300,
+  },
+];
+
+export const exclusives_table_head_dummies = [
+  "Full Name",
+  "Email",
+  "Status",
+  "Applied Date",
+  "Job Role",
+  "Action",
+];
+export const job_table_head_dummies = [
+  "Job Name",
+  "Status",
+  "Date Posted",
+  "Due Date",
+  "Job Type",
+  "Gender",
+  "Action",
+];
+
+export const job_dummy = {
+  id: 5,
+  featured_image: null,
+  job_title: "Journalis",
+  job_description: "Develop and maintain web applications...",
+  sector: "IT",
+  type: "Full-time",
+  search_keywords: "software, developer, IT",
+  job_apply_type: "online",
+  external_url: "https://example.com/apply",
+  gender: "Any",
+  email: "hr@example.com",
+  salary_type: "Monthly",
+  min_salary: "3000.00",
+  max_salary: "5000.00",
+  experience: "2 years",
+  career_level: "Mid",
+  currency: "USD",
+  preferred_age: 25,
+  number_of_participants: 2,
+  qualification: ["Bachelor's Degree", "Master's Degree"],
+  introduction_video_url: "https://example.com/video",
+  application_deadline_date: "2024-12-31",
+  office_address: "456 Main St, Cityville",
+  location: "Cityville",
+  maps_location: "https://maps.google.com/?q=Cityville",
+  feature_jobs: "0",
+  status: "approved",
+  created_at: "2024-09-12T10:41:44.000000Z",
+  updated_at: "2024-11-19T15:51:21.000000Z",
+  employer_id: "1",
+};
+
+export const applicants_dummy = [
+  {
+    id: 1,
+    candidate_id: 3,
+    employer_id: null,
+    job_id: 1,
+    full_name: "George Gyang",
+    email: "georgegyang3@gmail.com",
+    phone_number: "+2348100646221",
+    job_title: "Software Developer",
+    linkedin_url: "https://www.linkedin.com/in/george-gyang-james-",
+    portfolio_url: "https://geoteck.netlify.app/",
+    additional_information:
+      "Nunc ac rutrum metus, a facilisis diam. Donec porttitor, sem vitae luctus consequat, ex odio molestie felis, vitae consectetur ex nunc vel eros. Fusce congue eros mi, in pretium erat maximus ut. Nam ornare a dui eget semper. Mauris congue, nisl sed ullamcorper feugiat, urna arcu porttitor purus, quis tincidunt elit ligula sit amet massa. Integer lacus magna, pharetra sit amet nulla id, sollicitudin convallis felis. Praesent ante lacus, sagittis finibus sapien pulvinar, pharetra vehicula est. Mauris tincidunt diam in mollis placerat. Vestibulum cu rsus ligula non dui suscipit, sit amet luctus quam vehicula. Integer sed ligula eu augue sollicitudin dapibus. Mauris aliquet aliquam turpis at luctus. Nam a lectus eleifend, suscipit tortor a, blandit magna. Cras maximus nibh sodales neque euismod, nec rhoncus ipsum suscipit. Cras ac tortor tincidunt, iaculis dui ac, ullamcorper ex.",
+    resume_id: null,
+    interview_id: 35,
+    resume_path: "resumes/ecAOKWGyHVbVmYYVvLG8InDgINnjJIbB07XZVpmu.pdf",
+    status: "declined",
+    created_at: "2024-08-12T19:16:10.000000Z",
+    updated_at: "2024-11-25T12:00:19.000000Z",
+    employer_name: "soempit",
+    company_name: "soempit",
+  },
+  {
+    id: 3,
+    candidate_id: 3,
+    employer_id: null,
+    job_id: 1,
+    full_name: "George Gyang",
+    email: "georgegyang3@gmail.com",
+    phone_number: "+2348100646221",
+    job_title: "Software Developer",
+    linkedin_url: "https://www.linkedin.com/in/george-gyang-james-/",
+    portfolio_url: "https://www.linkedin.com/in/george-gyang-james-/",
+    additional_information:
+      "Sed pellentesque magna eu lacus pretium, eu luctus ligula molestie. Proin feugiat risus at fringilla egestas. Quisque eget imperdiet erat. Suspendisse dapibus dictum ante in rutrum. Vestibulum malesuada nisl vel arcu vulputate sodales. Mauris lacinia non nisl nec efficitur. Curabitur tortor diam, rhoncus sit amet iaculis non, bibendum et mi. In hac habitasse platea dictumst. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Duis quis lorem sit amet odio maximus commodo. Ut aliquet justo ac metus placerat ullamcorper. Sed pellentesque convallis rutrum. Ut consectetur, odio in malesuada elementum, sem lectus scelerisque dolor, eu euismod diam ex id ante.",
+    resume_id: null,
+    interview_id: null,
+    resume_path: null,
+    status: "pending",
+    created_at: "2024-08-13T14:49:14.000000Z",
+    updated_at: "2024-08-13T14:49:14.000000Z",
+    employer_name: "soempit",
+    company_name: "soempit",
+  },
+  {
+    id: 4,
+    candidate_id: 5,
+    employer_id: null,
+    job_id: 1,
+    full_name: "nsikak joseph",
+    email: "nsikak.joseph@gmail.com",
+    phone_number: "+2347032205576",
+    job_title: "Software Developer",
+    linkedin_url: "https://job-portal-mayrahkee.vercel.app/",
+    portfolio_url: "https://job-portal-mayrahkee.vercel.app/",
+    additional_information:
+      "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum",
+    resume_id: null,
+    interview_id: 36,
+    resume_path: "resumes/pb6WFoqy4p7tK1CCpagDPL9NuBCOXnaARNVuNSke.pdf",
+    status: "hired",
+    created_at: "2024-08-14T07:03:17.000000Z",
+    updated_at: "2024-11-18T18:56:53.000000Z",
+    employer_name: "soempit",
+    company_name: "soempit",
+  },
+  {
+    id: 5,
+    candidate_id: 3,
+    employer_id: null,
+    job_id: 1,
+    full_name: "George Gyang",
+    email: "georgegyang3@gmail.com",
+    phone_number: "+2348100646221",
+    job_title: "Software Developer",
+    linkedin_url: null,
+    portfolio_url: null,
+    additional_information:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec consectetur magna metus, quis fringilla lacus sollicitudin vitae. Integer vitae nibh ultricies, vestibulum magna at, mollis lacus. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Mauris ac augue quis massa tristique dignissim. Donec mattis auctor orci nec cursus. Suspendisse enim erat, laoreet id dictum in, faucibus sed nisi. Aliquam metus urna, molestie eu vehicula sed, aliquet a justo. Nullam hendrerit egestas aliquam. Mauris ut nulla non nisi tempus imperdiet. Duis volutpat mi nulla, non finibus justo pharetra a. Vivamus non elit in justo convallis volutpat et vel mi. Maecenas finibus metus ac suscipit pellentesque. Praesent sed commodo metus. Curabitur dignissim posuere lorem, quis maximus diam pellentesque a. Nam tincidunt ante aliquet, fringilla nisl ut, finibus enim. Nunc enim mauris, vehicula sit amet erat et, vehicula tempor felis.",
+    resume_id: null,
+    interview_id: null,
+    resume_path:
+      "/var/www/vhosts/mayrahkeeafrica.com/dash.mayrahkeeafrica.com/public/resume/98-Article Text-320-1-10-20120618.pdf",
+    status: "pending",
+    created_at: "2024-08-14T15:01:02.000000Z",
+    updated_at: "2024-08-14T15:01:02.000000Z",
+    employer_name: "soempit",
+    company_name: "soempit",
+  },
+  {
+    id: 6,
+    candidate_id: 5,
+    employer_id: null,
+    job_id: 1,
+    full_name: "nsikak joseph",
+    email: "nsikak.joseph@gmail.com",
+    phone_number: "+2347032205576",
+    job_title: "Software Developer",
+    linkedin_url: null,
+    portfolio_url: null,
+    additional_information:
+      "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).",
+    resume_id: null,
+    interview_id: null,
+    resume_path:
+      "/var/www/vhosts/mayrahkeeafrica.com/dash.mayrahkeeafrica.com/public/resume/NGEAGLE  V3.docx",
+    status: "pending",
+    created_at: "2024-08-16T10:28:22.000000Z",
+    updated_at: "2024-08-16T10:28:22.000000Z",
+    employer_name: "soempit",
+    company_name: "soempit",
+  },
+  {
+    id: 7,
+    candidate_id: 8,
+    employer_id: 1,
+    job_id: 1,
+    full_name: "Soempit Emmanuel",
+    email: "soempitemmanuel@gmail.com",
+    phone_number: "+2349042477179",
+    job_title: "Software Developer",
+    linkedin_url: null,
+    portfolio_url: null,
+    additional_information: null,
+    resume_id: 6,
+    interview_id: 21,
+    resume_path: null,
+    status: "hired",
+    created_at: "2024-09-12T09:59:07.000000Z",
+    updated_at: "2024-11-09T00:45:00.000000Z",
+    employer_name: "soempit",
+    company_name: "soempit",
+  },
+  {
+    id: 9,
+    candidate_id: 8,
+    employer_id: 1,
+    job_id: 5,
+    full_name: "Soempit Emmanuel",
+    email: "soempitemmanuel@gmail.com",
+    phone_number: "+2349042477179",
+    job_title: "Journalis",
+    linkedin_url: null,
+    portfolio_url: null,
+    additional_information: null,
+    resume_id: 6,
+    interview_id: 27,
+    resume_path: null,
+    status: "hired",
+    created_at: "2024-09-12T10:42:38.000000Z",
+    updated_at: "2024-11-23T21:55:29.000000Z",
+    employer_name: "soempit",
+    company_name: "soempit",
+  },
+  {
+    id: 10,
+    candidate_id: 7,
+    employer_id: 1,
+    job_id: 5,
+    full_name: "SAVVY LOGISTICS LIMITED",
+    email: "info.savvylogistics@gmail.com",
+    phone_number: "08035796233",
+    job_title: "Journalis",
+    linkedin_url: null,
+    portfolio_url: null,
+    additional_information: "Testing",
+    resume_id: 7,
+    interview_id: null,
+    resume_path: null,
+    status: "declined",
+    created_at: "2024-09-12T10:44:08.000000Z",
+    updated_at: "2024-09-16T19:15:09.000000Z",
+    employer_name: "soempit",
+    company_name: "soempit",
+  },
+  {
+    id: 14,
+    candidate_id: 9,
+    employer_id: 1,
+    job_id: 5,
+    full_name: "OPEYEMI AJOLORE",
+    email: "Opeyemiajolore89@gmail.com",
+    phone_number: "+2347062181211",
+    job_title: "Journalis",
+    linkedin_url: null,
+    portfolio_url: null,
+    additional_information: null,
+    resume_id: 9,
+    interview_id: 24,
+    resume_path: null,
+    status: "declined",
+    created_at: "2024-09-13T10:22:15.000000Z",
+    updated_at: "2024-09-13T10:43:27.000000Z",
+    employer_name: "soempit",
+    company_name: "soempit",
+  },
+];
