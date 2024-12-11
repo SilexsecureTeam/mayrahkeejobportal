@@ -1,6 +1,6 @@
 const LearningCourseCard = ({ title, author, price, rating, img }) => {
     return (
-        <div className="min-w-[280px] max-w-[300px] flex-shrink-0 border shadow-sm rounded-md overflow-hidden">
+        <div className="min-w-[280px] max-w-[300px] flex-shrink-0 border shadow-sm rounded-md overflow-hidden h-auto">
             <img 
                 src={img || `https://via.placeholder.com/150/0000/FFFFFF?text=${title}`} 
                 alt={title} 
