@@ -290,21 +290,6 @@ function BasicInformation({ setCurrentStep, data, jobUtils, validateAndProceed }
     }
   }, [subSectorList]);
 
-  // useEffect(() => {
-  //   console.log(selectedCurrency, jobUtils.details.currency,currencyList);
-
-  //   // Ensure selectedCurrency is updated only if the current one is found in the currencyList
-  //   if (currencyList.length > 0) {
-  //     const matchedCurrency = currencyList?.find(
-  //       (currency) => currency.name === selectedCurrency
-  //     );
-
-  //       // If no match is found, you could either set a default or reset
-  //       setSelectedCurrency(matchedCurrency ? matchedCurrency : currencyList[0]);
-  //   }
-
-  // }, [currencyList]);
-
   useEffect(() => {
     jobUtils.setDetails({
       ...jobUtils.details,

@@ -190,13 +190,13 @@ export const exclusives_table_head_dummies = [
   "Action",
 ];
 export const job_table_head_dummies = [
-  "Job Name",
+  "Roles",
   "Status",
   "Date Posted",
   "Due Date",
   "Job Type",
+  "Applicants",
   "Gender",
-  "Action",
 ];
 
 export const job_dummy = {

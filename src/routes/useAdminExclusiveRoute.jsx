@@ -36,8 +36,9 @@ const SingleExclusive = lazy(() =>
   import("../admin-exclusive-module/pages/exclusives/SingleExclusive")
 );
 const JobType = lazy(() =>
-  import("../company-module/pages/job-listing/JobType")
+  import("../admin-exclusive-module/pages/jobs/ViewJob")
 );
+const ViewApplicant = lazy(() => import('../admin-exclusive-module/pages/applicant/ViewApplicant'));
 
 function useAdminRoute() {
   const path = useLocation().pathname;
@@ -134,8 +135,8 @@ function useAdminRoute() {
                 <Route path=":id" element={<SingleExclusive />} />
               </Route>
 
-              <Route path="job/:id" element={<JobType test={true} />} />
-
+              <Route path="job/:id" element={<JobType />} />
+              <Route path="applicant/:id" element={<ViewApplicant />} />
             </Routes>
           </div>
         </div>

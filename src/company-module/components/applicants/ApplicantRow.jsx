@@ -8,13 +8,17 @@ import { IoMdCloseCircle } from "react-icons/io";
 import { useContext } from "react";
 import { AuthContext } from "../../../context/AuthContex";
 
-function ApplicantRow({ data }) {
+function ApplicantRow({ data, isExclusive = false }) {
   const navigate = useNavigate();
   const { authDetails } = useContext(AuthContext);
   const role = authDetails?.user?.role === "employer" ? "company" : "applicant";
 
   const navigateToApplicantDetails = () => {
-    navigate(`/${role}/applicants/detail/${data?.id}`, { state: { data } });
+    if (isExclusive) {
+      navigate(`/admin-exclusives/applicant/${data?.id}`,  { state: { data } });
+    } else {
+      navigate(`/${role}/applicants/detail/${data?.id}`, { state: { data } });
+    }
   };
 
   const getStatusComponent = () => {
