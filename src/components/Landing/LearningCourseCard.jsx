@@ -1,8 +1,8 @@
 
 const LearningCourseCard = ({ title, author, price, rating, img }) => {
     return (
-        <div className="flex-shrink-0 border shadow-sm max-w-80 pb-2">
-            <img src={img} alt={title} className="mb-4 h-48 w-full object-cover" />
+        <div className="border shadow-sm max-w-[300px] pb-2">
+            <img src={img ? img : `https://via.placeholder.com/150/0000/FFFFFF?text=${title}`} alt={title} className="mb-4 h-48 w-full object-cover" />
             <section className=" px-4">
             <h3 className="font-bold text-lg">{title}</h3>
             <p className="text-gray-600">{author}</p>
