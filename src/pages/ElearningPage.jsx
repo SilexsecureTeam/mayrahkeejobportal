@@ -12,19 +12,28 @@ import visionImg from '../assets/pngs/about4.png'
 import study from '../assets/pngs/study.png'
 const ElearningPage = () => {
     const { setGetAllCourses, getAllCourses } = useContext(ResourceContext);
+const [loading, setLoading]=useState(false);
+const [error, setError]=useState("");
     const [courses, setCourses] = useState([]);
  // Fetch courses
  useEffect(() => {
+try{
+setLoading(true);
     setGetAllCourses((prev) => ({
         ...prev,
         isDataNeeded: true,
     }));
+}catch(error){
+setError(error || "Error loading courses" );
+setLoading(false);
+}
 }, []);
 
 useEffect(()=>{
     if(getAllCourses.data){
          console.log(getAllCourses.data)
         setCourses(getAllCourses.data)
+setLoading(false);
     }
 },[getAllCourses])
     return (
@@ -34,15 +43,26 @@ useEffect(()=>{
                 <Navbar />
                 <main className="relative px-5 h-auto flex flex-col gap-5">
                     <div className="my-2">
-                        <LearningCourseGrid list={courses.slice(Math.round(courses.length/2))} />
+{loading ?(      <div className="flex justify-center items-center mt-10 min-h-60 bg-gray-100">
+        <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-green-600"></div>
+      </div>)
+:(error?       <div className="flex justify-center items-center mt-10 min-h-60 bg-gray-100">
+        <div className="text-xl font-bold text-red-600">{error}</div>
+      </div>:
+                        <LearningCourseGrid list={courses.slice(0, Math.round(courses.length/2))} />)}
                         <button className="rounded-full my-4 px-4 py-2 bg-black text-white w-60">
                             Show all Courses
                         </button>
                     </div>
                     <div className="my-3">
                         <h2 className="font-semibold text-2xl">Learners are also viewing</h2>
-                        <LearningCourseGrid list={courses.slice(Math.round(courses.length/2))} />
-                    </div>
+                       { loading ?(      <div className="flex justify-center items-center mt-10 min-h-60 bg-gray-100">
+        <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-green-600"></div>
+      </div>)
+:(error?       <div className="flex justify-center items-center mt-10 min-h-60 bg-gray-100">
+        <div className="text-xl font-bold text-red-600">{error}</div>
+      </div>:
+                        <LearningCourseGrid list={courses.slice(Math.round(courses.length/2))} />)}
                     <Testimonial />
 <HowItWorks />
 
