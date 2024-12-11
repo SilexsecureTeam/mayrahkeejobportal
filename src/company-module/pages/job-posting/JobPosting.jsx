@@ -71,6 +71,7 @@ function JobPosting() {
       }
     } catch (error) {
       // Notify user of validation or API errors
+      console.log('Completion')
       onFailure({ message: "Complete this stage", error: error.message });
     }
   };
