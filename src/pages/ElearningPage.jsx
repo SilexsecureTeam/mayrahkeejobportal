@@ -45,11 +45,11 @@ const ElearningPage = () => {
                 <main className="relative px-5 h-auto flex flex-col gap-5">
                     <div className="my-2">
                         {loading ? (
-                            <div className="flex justify-center items-center mt-10 min-h-[60px] bg-gray-100">
+                            <div className="flex justify-center items-center mt-10 min-h-40 bg-gray-100">
                                 <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-green-600"></div>
                             </div>
                         ) : error ? (
-                            <div className="flex justify-center items-center mt-10 min-h-[60px] bg-gray-100">
+                            <div className="flex justify-center items-center mt-10 min-h-40 bg-gray-100">
                                 <div className="text-xl font-bold text-red-600">{error}</div>
                             </div>
                         ) : (
@@ -62,11 +62,11 @@ const ElearningPage = () => {
                     <div className="my-3">
                         <h2 className="font-semibold text-2xl">Learners are also viewing</h2>
                         {loading ? (
-                            <div className="flex justify-center items-center mt-10 min-h-[60px] bg-gray-100">
+                            <div className="flex justify-center items-center mt-10 min-h-40 bg-gray-100">
                                 <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-green-600"></div>
                             </div>
                         ) : error ? (
-                            <div className="flex justify-center items-center mt-10 min-h-[60px] bg-gray-100">
+                            <div className="flex justify-center items-center mt-10 min-h-40 bg-gray-100">
                                 <div className="text-xl font-bold text-red-600">{error}</div>
                             </div>
                         ) : (
