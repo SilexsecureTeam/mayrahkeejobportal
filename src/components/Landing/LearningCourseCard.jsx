@@ -6,7 +6,7 @@ const LearningCourseCard = ({ title, author, price, rating, img }) => {
                 alt={title} 
                 className="h-48 w-full object-cover" 
             />
-            <section className="p-4 pb-1">
+            <section className="p-4 pb-2">
                 <h3 className="font-bold text-lg">{title}</h3>
                 <p className="text-gray-600">{author}</p>
                 <div className="flex flex-col gap-2 mt-2">
