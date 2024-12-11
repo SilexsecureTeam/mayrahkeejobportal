@@ -2,6 +2,7 @@ import img from '../../assets/pngs/company-2-icon.png'
 import employer from '../../assets/pngs/employer.png'
 import candidate from '../../assets/pngs/candidate.png';
 import artisan from '../../assets/pngs/artisan.png';
+import domestic from '../../assets/pngs/domestic.png';
 import student from '../../assets/pngs/student.png';
 import student2 from '../../assets/pngs/student2.png';
 import value1 from '../../assets/pngs/value1.png';
@@ -106,7 +107,7 @@ export const userCategory=[
     },{
         id:4,
         title:"Domestic Staffs",
-        image:artisan,
+        image: domestic,
         desc:"Join a global network of skilled professionals and find top talent to grow business",
     }
 ];

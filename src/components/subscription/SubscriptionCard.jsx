@@ -9,7 +9,6 @@ function SubscriptionCard({ data, setIsOpen }) {
   const [showPerks, setShowPerks] = useState(false);
   const subUtils = useContext(SubscriptionContext);
 
-
   const handleOnClick = (reference, data) => {
     console.log("Triggered");
     subUtils.makePaymentCheck(reference, data);
@@ -25,10 +24,11 @@ function SubscriptionCard({ data, setIsOpen }) {
           {data.title}
         </h3>
         <span className="font-semibold mt-[10%] text-xl flex gap-2">
-          {FormatPrice(Number(data.price))}
+          ₦{FormatPrice(Number(data.price))}
           <button
-          onClick={() => setShowPerks(!showPerks)} 
-          className="flex text-sm border items-center rounded-md px-2">
+            onClick={() => setShowPerks(!showPerks)}
+            className="flex text-sm border items-center rounded-md px-2"
+          >
             {!showPerks ? "Perks" : "Desc"}
           </button>
         </span>
@@ -43,7 +43,10 @@ function SubscriptionCard({ data, setIsOpen }) {
           <>
             <div className="flex flex-col px-2 h-[80%] text-[12px] items-start justify-center">
               {data?.permissions.map((current, index) => (
-                <div key={index} className="flex gap-2 font-semibold text-lig items-center w-full">
+                <div
+                  key={index}
+                  className="flex gap-2 font-semibold text-lig items-center w-full"
+                >
                   <IoMdCheckmarkCircleOutline className="text-md" />
                   <span className="w-[90%]">{current}</span>
                 </div>

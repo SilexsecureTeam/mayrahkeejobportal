@@ -3,7 +3,7 @@ import { MdCancel} from "react-icons/md";
 
 export const onFailure = (error) => {
   const failureComponent = (
-    <div className="flex items-center w-fit text-red-600 gap-[10px]">
+    <div className="flex items-center w-fit z-[999] text-red-600 gap-[10px]">
       <MdCancel className="text-[25px] " />
       <div className="flex flex-col">
        <strong className="text-[14px] ">{error.message}</strong>

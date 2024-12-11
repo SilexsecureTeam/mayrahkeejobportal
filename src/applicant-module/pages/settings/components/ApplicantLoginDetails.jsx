@@ -4,18 +4,21 @@ import DeleteUser from "./DeleteUser";
 import useLogin from "../../../../hooks/useLogin";
 import OTPInput from "react-otp-input";
 import { onFailure } from "../../../../utils/notifications/OnFailure";
+import useApplicationManagement from "../../../../hooks/useApplicationManagement";
 
 const ApplicantLoginDetails = ({ authDetails }) => {
   const { otp, setOtp } = useState("");
-  const { resetPassword, forgotPassword, loading } = useLogin();
+  // const { resetPassword, forgotPassword, loading } = useLogin();
+  const { changePassword, loading } = useApplicationManagement();
 
-  const handleReset = (e) => {
+  const handleReset = async (e) => {
     e.preventDefault();
-    const password = e.target[0].value;
-    const reenterPassword = e.target[1].value;
+    const currentPassword = e.target[0].value;
+    const newPassword = e.target[1].value;
+    const reenterPassword = e.target[2].value;
 
-    if (password === reenterPassword) {
-      resetPassword(authDetails.user.email, password,'999', authDetails.user.role);
+    if (newPassword === reenterPassword) {
+      await changePassword(currentPassword, newPassword);
       return;
     }
 
@@ -41,12 +44,26 @@ const ApplicantLoginDetails = ({ authDetails }) => {
                   </p>
                 </div>
                 <div className="w-full md:w-3/5">
-                  <div className="mb-6">
+                  <div className="mb-6 border-b border-dashed pb-8">
+                    <label className="block">
+                      <span className="block text-sm font-medium text-slate-700">
+                        Enter our old Password
+                      </span>
+                      <input
+                        required
+                        type="password"
+                        placeholder="Enter your old password"
+                        className="mt-1 block p-2 focus:outline-none w-full border"
+                      />
+                    </label>
+                  </div>
+                  <div className="mb-6 mt-5">
                     <label className="block">
                       <span className="block text-sm font-medium text-slate-700">
                         Enter New Password
                       </span>
                       <input
+                        required
                         type="password"
                         placeholder="Enter your old password"
                         className="mt-1 block p-2 focus:outline-none w-full border"
@@ -62,6 +79,7 @@ const ApplicantLoginDetails = ({ authDetails }) => {
                         Reconfirm New Password
                       </span>
                       <input
+                        required
                         type="password"
                         placeholder="Enter your new password"
                         className="mt-1 block p-2 focus:outline-none w-full border"
@@ -70,22 +88,6 @@ const ApplicantLoginDetails = ({ authDetails }) => {
                     <span className="text-sm text-slate-600">
                       Minimum of 8 characters
                     </span>
-                  </div>
-                  <div className="flex flex-col gap-[10px] bg-gray-100 p-5 items-center">
-                    <OTPInput
-                      onChange={(val) => setOtp(val)}
-                      value={otp}
-                      numInputs={4}
-                      inputStyle={{
-                        background: "white",
-                        fontSize: "25px",
-                        borderBottom: "1px solid gray",
-                        height: "50px",
-                        width: "100%",
-                      }}
-                      renderSeparator={<sdiv className="w-[10px]" />}
-                      renderInput={(props) => <input {...props} />}
-                    />
                   </div>
                   <span
                     onClick={() =>
