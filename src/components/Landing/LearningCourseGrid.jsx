@@ -1,7 +1,7 @@
 import LearningCourseCard from './LearningCourseCard'
 const LearningCourseGrid = ({ list }) => {
     return (
-        <div className="flex gap-x-5 justify-between overflow-x-auto h-max min-w-full py-7">
+        <div className="flex gap-x-5 overflow-x-auto h-max w-full py-7">
             {
                 list?.map((course) => (
                     <LearningCourseCard

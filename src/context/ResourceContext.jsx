@@ -28,7 +28,7 @@ export function ResourceContextProvider({ children }) {
         data: null,
         isDataNeeded: false,
     });
-const [getAllFeaturedJobs, setGetAllFeaturedJobs] = useState({
+    const [getAllFeaturedJobs, setGetAllFeaturedJobs] = useState({
         data: null,
         isDataNeeded: false,
     });
@@ -47,7 +47,10 @@ const [getAllFeaturedJobs, setGetAllFeaturedJobs] = useState({
         data: null,
         isDataNeeded: false,
     });
-
+    const [getAllCourses, setGetAllCourses] = useState({
+        data: null,
+        isDataNeeded: false,
+    });
     const [getAllBlogCategories, setGetAllBlogCategories] = useState({
         data: null,
         isDataNeeded: false,
@@ -61,13 +64,24 @@ const [getAllFeaturedJobs, setGetAllFeaturedJobs] = useState({
         isDataNeeded: false,
     });
 
-// Get All featured Jobs
+    // Get All Courses
+    useEffect(() => {
+        setErrorMessage('');
+        if (getAllCourses.isDataNeeded) {
+            const endPoint = "/course/getAllCourses";
+            const dataArray = "allCourses";
+            const token = "public"
+            getItemFunc(token, setGetAllCourses, setErrorMessage, endPoint, dataArray)
+        }
+    }, [getAllCourses.isDataNeeded]);
+
+    // Get All featured Jobs
     useEffect(() => {
         setErrorMessage('');
         if (getAllFeaturedJobs.isDataNeeded) {
             const endPoint = "/job";
             const dataArray = null;
-           const token="public"
+            const token = "public"
             getItemFunc(token, setGetAllFeaturedJobs, setErrorMessage, endPoint, dataArray)
         }
     }, [getAllFeaturedJobs.isDataNeeded]);
@@ -186,10 +200,11 @@ const [getAllFeaturedJobs, setGetAllFeaturedJobs] = useState({
                 getAllBlogCategories,
                 setGetAllBlogCategories,
                 setGetAllFeaturedJobs,
-getAllFeaturedJobs,
+                getAllFeaturedJobs,
                 getAllBlogSubCategories,
                 setGetAllBlogSubCategories,
-
+                setGetAllCourses,
+                getAllCourses
             }}
         >
             {children}
