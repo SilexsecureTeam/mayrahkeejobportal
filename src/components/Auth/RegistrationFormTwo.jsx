@@ -1,5 +1,5 @@
 import React, { useEffect, useReducer, useState } from "react";
-import MainIcon from "../../assets/svgs/main-logo.svg";
+import MainIcon from "../../assets/pngs/main-logo-icon.png";
 import Person from "../../assets/pngs/person.png";
 import PersonCircle from "../../assets/pngs/person-circle.png";
 import MessageOpen from "../../assets/pngs/message-open.png";
