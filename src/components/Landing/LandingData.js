@@ -2,8 +2,15 @@ import img from '../../assets/pngs/company-2-icon.png'
 import employer from '../../assets/pngs/employer.png'
 import candidate from '../../assets/pngs/candidate.png';
 import artisan from '../../assets/pngs/artisan.png';
+import domestic from '../../assets/pngs/domestic.png';
 import student from '../../assets/pngs/student.png';
 import student2 from '../../assets/pngs/student2.png';
+import value1 from '../../assets/pngs/value1.png';
+import value2 from '../../assets/pngs/value2.png';
+import value3 from '../../assets/pngs/value3.png';
+import value4 from '../../assets/pngs/value4.png';
+import value5 from '../../assets/pngs/value5.png';
+import value6 from '../../assets/pngs/about3.png';
 import profile from "../../assets/pngs/student.png";
 export const testimonialsData=[
   {
@@ -56,7 +63,7 @@ export const jobDetails=[
         type:"Full time",
     },{
         id:4,
-        title:"UI designer",
+        title:"Data Analyst",
         company:"pininterest",
         logo:img,
         desc:"Figma ipsum component variant main lay layer comment andyflatten italic line arrange library inspect ipsum",
@@ -64,7 +71,7 @@ export const jobDetails=[
         type:"Full time",
     },{
         id:5,
-        title:"Frontend Engineer",
+        title:"Computer Analyst",
         company:"Silex",
         logo:img,
         desc:"Figma ipsum component variant main lay layer comment andyflatten italic line arrange library inspect ipsum",
@@ -72,7 +79,7 @@ export const jobDetails=[
         type:"Full time",
     },{
         id:6,
-        title:"Backend Engineer",
+        title:"DevOps Engineer",
         company:"Silex",
         logo:img,
         desc:"Figma ipsum component variant main lay layer comment andyflatten italic line arrange library inspect ipsum",
@@ -86,12 +93,12 @@ export const userCategory=[
         id:1,
         title:"Coporate employers",
         image:employer,
-        desc:"Join a global network of skilled professionals and find top talent to grow business",
+        desc:"Build your team and get unlimited access to qualified Candidates around the globe by registering your company with us.",
     },{
         id:2,
         title:"Coporate candidates",
-        image:candidate,
-        desc:"Join a global network of skilled professionals and find top talent to grow business",
+        image:candidate, 
+        desc:"Get job offers from reputable companies around the globe by signing up as a Candidate. We align your preference with the right job for you",
     },{
         id:3,
         title:"Artisans",
@@ -100,19 +107,54 @@ export const userCategory=[
     },{
         id:4,
         title:"Domestic Staffs",
-        image:artisan,
+        image: domestic,
         desc:"Join a global network of skilled professionals and find top talent to grow business",
     }
 ];
+
+export const valuesData = [
+  {
+    title: "Performance",
+    description: "We pride ourselves on practices that promote hiring right and equipping them with the right tools to create opportunities, and develop authentic work relationships and high-performance teams.",
+    image: value1, // Replace with the actual image URL
+  },
+  {
+    title: "Accountability",
+    description: "This promotes and supports adherence to compliance, improves policies, and ownership, bolsters culture, and generally enhances individual performance and organizational bottom line. ",
+    image: value2
+  },
+  {
+    title: "Match Talent",
+    description: "In our drive to achieve the best in the talent value chain, our critical success factors include goal alignment and the engagement of business leaders through well-thought-out strategies.",
+    image: value3,
+  },
+  {
+    title: "Capacity Building",
+    description: "Building resourceful human capacity is critical to implementing a company’s strategy in pursuit of its vision and mission.",
+    image: value4,
+  },
+  {
+    title: "Diversity and Inclusion",
+    description: "Diversity is indicative of what and inclusion is of the how. We at Mayrahkee Africa support diversity and inclusion in all forms.We believe the value of social variations and differences in how we coexist is critical for integration.",
+    image: value5,
+  },
+  {
+    title: "Respect",
+    description: "Here, everyone has a voice that can be heard and life experiences that are valued. We believe in valuing differences and allowing the expression of opinions, as we thrive to achieve common and mutual goals while creating enduring, trustworthy and lasting relationships.",
+    image: value6,
+  },
+];
+
 
 
 export const recentNews = [
     {
         id: 1,
-        title: "Making Your Research First Helps",
+        title: "The Power of Typography and Text Alignment",
         image: student,
         desc: "Starting your projects with research sets the stage for informed decision-making, reducing risks and ensuring better results.",
         time_posted: "3 hours ago",
+        category:"UI Designer",
         reads: 120,
         content: `Research is the foundation of success in almost every field. Whether you're designing a new product, launching a business, or writing an academic paper, taking the time to explore, analyze, and understand the landscape before diving in can make a world of difference. 
     
@@ -126,10 +168,11 @@ export const recentNews = [
       },
       {
         id: 2,
-        title: "The Future of Remote Learning",
+        title: "Making Your Research First Helps",
         image: student2,
         desc: "Remote learning has become a mainstay in education. Explore how technology continues to redefine the way we learn and teach.",
         time_posted: "5 hours ago",
+        category:"UI Designer",
         reads: 85,
         content: `The global pandemic accelerated the adoption of remote learning, but what began as a temporary solution has evolved into a permanent fixture in education systems worldwide. With tools like Zoom, Google Classroom, and Microsoft Teams leading the charge, educators and students alike have discovered the flexibility and accessibility of learning from anywhere.
     
@@ -147,6 +190,7 @@ export const recentNews = [
         image: student2,
         desc: "Artificial Intelligence is transforming creative design processes, making them faster and more efficient than ever.",
         time_posted: "1 day ago",
+        category:"UI Designer",
         reads: 65,
         content: `Artificial Intelligence (AI) has permeated every industry, and creative design is no exception. From generating concepts to automating repetitive tasks, AI tools like Adobe Sensei, Canva’s Magic Design, and DALL-E are changing how designers work and think.
     
@@ -164,6 +208,7 @@ export const recentNews = [
       image: student,
       desc: "Green technology is driving sustainable solutions to tackle climate change and reduce carbon footprints.",
       time_posted: "2 days ago",
+      category:"Frontend engineer",
       reads: 50,
       content: `The urgency of climate change has put green technology at the forefront of global efforts to create a sustainable future. From renewable energy sources like solar and wind power to electric vehicles and sustainable agriculture, green tech is transforming how we live and work.
   
@@ -179,6 +224,7 @@ export const recentNews = [
       image: student,
       desc: "Blockchain is no longer just about Bitcoin—explore its applications in supply chain, healthcare, and beyond.",
       time_posted: "3 days ago",
+      category:"Frontend engineer",
       reads: 90,
       content: `Blockchain technology has transcended its origins in cryptocurrency to become a game-changer across industries. Its ability to provide transparency, security, and decentralization has made it a valuable tool in sectors ranging from supply chain to healthcare.
   
@@ -196,6 +242,7 @@ export const recentNews = [
       image: student,
       desc: "Organizations are prioritizing employee well-being—here's how mental health initiatives are reshaping work culture.",
       time_posted: "4 days ago",
+      category:"Backend engineer",
       reads: 45,
       content: `Mental health has taken center stage in discussions about workplace culture, and for good reason. Studies show that a healthy workforce is not only more productive but also more innovative and engaged. Companies like Google, Microsoft, and Unilever are leading the charge by introducing comprehensive mental health programs.
   
@@ -211,6 +258,7 @@ export const recentNews = [
       image: student,
       desc: "Social media is more than just likes and shares—discover how it's transforming into a powerful business tool.",
       time_posted: "1 week ago",
+      category:"UI Designer",
       reads: 110,
       content: `Social media platforms have come a long way from their humble beginnings as places to connect with friends and family. Today, they are critical tools for businesses to engage with audiences, build brands, and drive sales.
   
@@ -226,6 +274,7 @@ export const recentNews = [
       image: student,
       desc: "Data science is empowering organizations to make smarter, faster, and more accurate decisions.",
       time_posted: "1 week ago",
+      category:"Backend engineer",
       reads: 95,
       content: `In the age of big data, organizations are relying on data science to uncover insights, predict trends, and drive decision-making. From finance and healthcare to retail and entertainment, data science is transforming industries.
   

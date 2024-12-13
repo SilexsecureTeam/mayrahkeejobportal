@@ -14,7 +14,7 @@ import { AuthContext } from "../context/AuthContex";
 
 const LandingPage = () => {
   const { authDetails } = useContext(AuthContext);
-  window.scrollTo(0, 0);
+ // window.scrollTo(0, 0);
 
   const redirectPath = () => {
     switch (authDetails?.user?.role) {
