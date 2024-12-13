@@ -27,7 +27,7 @@ const Navbar = () => {
           Find Jobs {drop ? <FaCaretUp /> : <FaCaretDown />}
           {drop && (
             <ul className="absolute top-full left-0 mt-2 bg-white shadow-lg rounded-md flex flex-col gap-2 p-2 w-60 z-50">
-              <li className="hover:bg-gray-100 p-2 rounded">Coporate Candidate</li>
+              <li className="hover:bg-gray-100 p-2 rounded">Corporate Employment</li>
               <li className="hover:bg-gray-100 p-2 rounded">Artisan</li>
               <li className="hover:bg-gray-100 p-2 rounded">Domestic Staff</li>
             
@@ -35,7 +35,7 @@ const Navbar = () => {
           )}
         </div>
         <NavLink to="/learning">Find Artisans</NavLink>
-        <NavLink to="/learning">Find Domestic Staffs</NavLink>
+        <NavLink to="/learning">Find Domestic Staff</NavLink>
         <NavLink to="/help">Help Center</NavLink>
         <NavLink to="/news">Blog</NavLink>
 
