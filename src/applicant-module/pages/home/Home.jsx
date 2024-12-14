@@ -252,7 +252,7 @@ function Home() {
                   </div> */}
                 </div>
                 <div className="flex my-3  items-center font-bold cursor-pointer hover:opacity-90">
-                  <p>View All Applications</p>
+                  <p onClick={()=>{scrollTo(0,0); navigate("/applicant/applications")}}>View All Applications</p>
                   <span className="ml-2">
                     {" "}
                     <FaArrowRightLong />
