@@ -109,7 +109,7 @@ export const userCategory=[
         desc:"Join a global network of skilled professionals and find top talent to grow business",
     },{
         id:4,
-        title:"Domestic Staffs",
+        title:"Domestic Staff",
         label:"staff",
         image: domestic,
         desc:"Join a global network of skilled professionals and find top talent to grow business",
