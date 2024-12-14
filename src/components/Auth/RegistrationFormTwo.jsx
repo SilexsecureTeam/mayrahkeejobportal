@@ -121,7 +121,7 @@ function RegistrationFormTwo({ state, dispatch, role, setRole }) {
 
       <div className="flex flex-col items-center gap-[8px] w-full md:w-[60%]">
         <h1 className="font-semibold text-[25px]">Create Account</h1>
-        <Link to='/' className="cursor-pointer hover:underline text-gray-600 font-medium text-sm">Already have an account? <span className='text-green-400 font-bold'>Login</span></Link>
+        <Link to='/login' className="cursor-pointer hover:underline text-gray-600 font-medium text-sm">Already have an account? <span className='text-green-400 font-bold'>Login</span></Link>
         <div className="grid grid-cols-2 w-full mt-[3%] gap-[10px] text-sm font-semibold">
           <button
             onClick={() => setRole("employer")}
