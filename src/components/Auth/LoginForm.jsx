@@ -8,7 +8,7 @@ import "../../utils/notifications/OnSuccess";
 import { onSuccess } from "../../utils/notifications/OnSuccess";
 import FormButton from "../FormButton";
 import useLogin from "../../hooks/useLogin";
-import mayrahkeeIcon from "../../assets/pngs/mayrakee-icon.png";
+import mayrahkeeIcon from "../../assets/pngs/mayrahkee-logo-2.png";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import HowItWorksSlider from "./HowItWorksSlider";
 import { AuthContext } from "../../context/AuthContex";
