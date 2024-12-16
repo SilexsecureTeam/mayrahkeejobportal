@@ -13,7 +13,7 @@ function AddJobModal({ toogleJobModal, isOpen }) {
           <MdClose /> Close Form
         </button>
         <div className="overflow-y-auto h-[95%]">
-          <JobPosting />
+          <JobPosting isExclusive={true} />
         </div>
       </div>
     </PopUpBox>

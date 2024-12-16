@@ -45,7 +45,7 @@ const job_steps = [
   },
 ];
 
-function JobPosting() {
+function JobPosting({isExclusive=false}) {
   const [currentStep, setCurrentStep] = useState(job_steps[0]);
   const jobUtils = useJobManagement();
   const navigate = useNavigate();
@@ -104,6 +104,7 @@ function JobPosting() {
           data={job_steps}
           setCurrentStep={setCurrentStep}
           handleSuccess={handleSuccess}
+          isExclusive={isExclusive}
         />
       )}
     </div>

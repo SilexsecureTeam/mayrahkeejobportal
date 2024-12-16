@@ -298,6 +298,7 @@ function BasicInformation({ setCurrentStep, data, jobUtils, validateAndProceed }
       ["currency"]: selectedCurrency?.name,
       ["sector"]: selectedSector?.name,
       ["subsector"]: selectedSubSector?.name,
+      ["location"]: selectedLocation?.name,
     });
   }, [
     selectedCurrency,
@@ -305,6 +306,7 @@ function BasicInformation({ setCurrentStep, data, jobUtils, validateAndProceed }
     selectedSalary,
     selectedSector,
     selectedSubSector,
+    selectedLocation
   ]);
 
   // Validation function before proceeding to the next step
