@@ -25,7 +25,7 @@ const ContactUs = () => {
               <div className="mt-6 grid grid-cols-responsive3 gap-2">
                 <div>
                   <h2 className="font-bold capitalize">General inquiries</h2>
-                  <a className="text-gray-600" href="mailto:Info@mayrahkeeafrica.com" >Info@mayrahkeeafrica.com</a>
+                  <a className="text-gray-600" href="mailto:Info@mayrahkeeafrica.com" >Info@mayrahkeeafrica.com</a> <br/>
                   <a className="text-gray-600" href="tel:08078874748" >0807 887 4748</a>
                 </div>
                 <div>
