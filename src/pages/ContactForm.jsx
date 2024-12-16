@@ -19,7 +19,7 @@ const ContactUs = () => {
               <p className="text-gray-600 mt-2 font-medium ext-sm">
                 Email, call or complete the form to learn how Mayrahkee Africa can be of help to you.
               </p>
-              <div className="mt-6 grid grid-cols-responsive3 gap-2">
+              <div className="mt-6 flex flex-wrap gap-4">
                 <div>
                   <h2 className="font-bold capitalize">General inquiries</h2>
                   <a className="text-gray-600" href="mailto:Info@mayrahkeeafrica.com" >Info@mayrahkeeafrica.com</a> <br/>
