@@ -24,16 +24,16 @@ const ContactUs = () => {
               <p className="my-2"><a className="underline font-medium text-purple-900 text-[16px] capitalize">Customer Support</a></p>
               <div className="mt-6 grid grid-cols-responsive3 gap-2">
                 <div>
-                  <h2 className="font-bold capitalize">Customer Support</h2>
-                  <p className="text-gray-600">Figma ipsum component variant many layer...</p>
+                  <h2 className="font-bold capitalize">General inquiries</h2>
+                  <p className="text-gray-600">Info@mayrahkeeafrica.com</p>
                 </div>
                 <div>
-                  <h2 className="font-bold capitalize">Feedback & Suggestions</h2>
-                  <p className="text-gray-600">Figma ipsum component variant many layer...</p>
+                  <h2 className="font-bold capitalize">technical support </h2>
+                  <p className="text-gray-600">Support@mayrahkeeafrica.com</p>
                 </div>
                 <div>
-                  <h2 className="font-bold capitalize">Media Inquiries</h2>
-                  <p className="text-gray-600">Figma ipsum component variant many layer...</p>
+                  <h2 className="font-bold capitalize">feedback & suggestions</h2>
+                  <p className="text-gray-600">Feedbacks@mayrahkeeafrica.com</p>
                 </div>
               </div>
             </div>
