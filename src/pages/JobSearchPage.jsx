@@ -4,7 +4,7 @@ import { BASE_URL } from "../utils/base";
 
 const JobSearchPage = () => {
   const [jobs, setJobs] = useState([]);
-  const [filteredJobs, setFilteredJobs] = useState([]);
+  const [loading, setLoading] = useState(false);
   const [filters, setFilters] = useState({
     keyword: "",
     location: "",
@@ -16,18 +16,17 @@ const JobSearchPage = () => {
     datePosted: "",
     sortBy: "",
   });
-  const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const jobsPerPage = 5;
-  const totalPages = Math.ceil(filteredJobs.length / jobsPerPage);
 
   const fetchJobs = async () => {
     setLoading(true);
     try {
-      const response = await axios.get(`${BASE_URL}/job`);
-      const allJobs = response?.data || [];
-      setJobs(allJobs);
-      setFilteredJobs(allJobs);
+      const response = await axios.get(`${BASE_URL}/jobs/search`, {
+        search: filters,
+      });
+      const fetchedJobs = response?.data?.data || [];
+      setJobs(fetchedJobs);
     } catch (error) {
       console.error("Error fetching jobs:", error);
     } finally {
@@ -35,54 +34,11 @@ const JobSearchPage = () => {
     }
   };
 
+  // Fetch jobs whenever filters change
   useEffect(() => {
     fetchJobs();
-  }, []);
-
-  useEffect(() => {
-    let filtered = jobs.filter((job) => {
-      const matchesKeyword = job.job_title.toLowerCase().includes(filters.keyword.toLowerCase());
-      const matchesLocation = filters.location
-        ? job?.location?.toLowerCase().includes(filters.location.toLowerCase())
-        : true;
-      const matchesType = filters.type ? job?.type?.toLowerCase() === filters.type.toLowerCase() : true;
-      const matchesSector = filters.sector ? job?.sector?.toLowerCase() === filters.sector.toLowerCase() : true;
-      const matchesMinSalary = filters.minSalary ? job?.min_salary >= parseInt(filters.minSalary) : true;
-      const matchesMaxSalary = filters.maxSalary ? job?.max_salary <= parseInt(filters.maxSalary) : true;
-      const matchesExperience = filters.experience
-        ? job?.experience.toLowerCase() === filters.experience.toLowerCase()
-        : true;
-      const matchesDatePosted = filters.datePosted
-        ? new Date(job?.date_posted) >= new Date(new Date().setDate(new Date().getDate() - parseInt(filters.datePosted)))
-        : true;
-      return (
-        matchesKeyword &&
-        matchesLocation &&
-        matchesType &&
-        matchesSector &&
-        matchesMinSalary &&
-        matchesMaxSalary &&
-        matchesExperience &&
-        matchesDatePosted
-      );
-    });
-
-    if (filters.sortBy) {
-      filtered = filtered.sort((a, b) => {
-        if (filters.sortBy === "salary") {
-          return b.max_salary - a.max_salary;
-        } else if (filters.sortBy === "title") {
-          return a.job_title.localeCompare(b.job_title);
-        } else if (filters.sortBy === "deadline") {
-          return new Date(a.application_deadline_date) - new Date(b.application_deadline_date);
-        }
-        return 0;
-      });
-    }
-
-    setFilteredJobs(filtered);
-    setCurrentPage(1);
-  }, [filters, jobs]);
+    setCurrentPage(1); // Reset to first page on filter change
+  }, [filters]);
 
   const handleFilterChange = (key, value) => {
     setFilters((prev) => ({ ...prev, [key]: value }));
@@ -107,10 +63,11 @@ const JobSearchPage = () => {
   };
 
   const handleNextPage = () => {
+    const totalPages = Math.ceil(jobs.length / jobsPerPage);
     if (currentPage < totalPages) setCurrentPage(currentPage + 1);
   };
 
-  const currentJobs = filteredJobs.slice(
+  const currentJobs = jobs.slice(
     (currentPage - 1) * jobsPerPage,
     currentPage * jobsPerPage
   );
@@ -129,14 +86,18 @@ const JobSearchPage = () => {
               <label className="block mb-1 text-sm font-medium capitalize">
                 {filterKey.replace(/([A-Z])/g, " $1").trim()}
               </label>
-              { filterKey === "sector" || filterKey === "type" || filterKey === "experience" || filterKey === "datePosted" || filterKey === "sortBy" ? (
+              {filterKey === "sector" ||
+              filterKey === "type" ||
+              filterKey === "experience" ||
+              filterKey === "datePosted" ||
+              filterKey === "sortBy" ? (
                 <select
                   className="w-full border px-3 py-2 rounded-md focus:ring-2 focus:ring-indigo-500"
                   onChange={(e) => handleFilterChange(filterKey, e.target.value)}
                   value={filters[filterKey]}
                 >
                   <option value="">All</option>
-                  {/* Add specific options for each dropdown here */}
+                  {/* Add specific options for each dropdown */}
                   {filterKey === "sector" && (
                     <>
                       <option value="IT">IT</option>
@@ -196,8 +157,8 @@ const JobSearchPage = () => {
         <div className="md:w-2/3  overflow-y-auto">
           {loading ? (
             <div className="flex justify-center items-center mt-10 min-h-60">
-        <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-green-600"></div>
-      </div>
+              <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-green-600"></div>
+            </div>
           ) : (
             <>
               {currentJobs.length > 0 ? (
@@ -210,7 +171,8 @@ const JobSearchPage = () => {
                         <strong>Type:</strong> {job.type}
                       </p>
                       <p>
-                        <strong>Salary:</strong> {job.currency} {job.min_salary} - {job.max_salary} / {job.salary_type}
+                        <strong>Salary:</strong> {job.currency} {job.min_salary} - {job.max_salary} /{" "}
+                        {job.salary_type}
                       </p>
                       <p>
                         <strong>Experience:</strong> {job.experience}
@@ -222,7 +184,7 @@ const JobSearchPage = () => {
                         href={job.external_url || "#"}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-indigo-600 underline mt-4 inline-block"
+                        className="text-sm bg-green-600 p-2 rounded-md text-white font-medium mt-4 inline-block"
                       >
                         Apply Now
                       </a>
@@ -232,31 +194,29 @@ const JobSearchPage = () => {
               ) : (
                 <p className="text-center text-gray-500">No jobs found.</p>
               )}
-
-              {/* Pagination */}
-              {totalPages > 1 && (
-                <div className="pagination flex justify-between items-center mt-8">
-                  <button
-                    onClick={handlePreviousPage}
-                    disabled={currentPage === 1}
-                    className="px-4 py-2 bg-gray-300 rounded disabled:opacity-50"
-                  >
-                    Previous
-                  </button>
-                  <span>
-                    Page {currentPage} of {totalPages}
-                  </span>
-                  <button
-                    onClick={handleNextPage}
-                    disabled={currentPage === totalPages}
-                    className="px-4 py-2 bg-gray-300 rounded disabled:opacity-50"
-                  >
-                    Next
-                  </button>
-                </div>
-              )}
             </>
           )}
+
+          {/* Pagination */}
+          <div className="pagination flex justify-between items-center mt-8">
+            <button
+              onClick={handlePreviousPage}
+              disabled={currentPage === 1}
+              className="px-4 py-2 bg-gray-300 rounded disabled:opacity-50"
+            >
+              Previous
+            </button>
+            <span>
+              Page {currentPage} of {Math.ceil(jobs.length / jobsPerPage)}
+            </span>
+            <button
+              onClick={handleNextPage}
+              disabled={currentPage === Math.ceil(jobs.length / jobsPerPage)}
+              className="px-4 py-2 bg-gray-300 rounded disabled:opacity-50"
+            >
+              Next
+            </button>
+          </div>
         </div>
       </div>
     </div>
