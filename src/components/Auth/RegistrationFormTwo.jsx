@@ -90,7 +90,7 @@ function RegistrationFormTwo({ state, dispatch, role, setRole }) {
           message: "Registration Successful",
           success: "Navigating to login",
         });
-        navigate("/");
+        navigate("/login");
       },
       role
     );
@@ -278,7 +278,7 @@ function RegistrationFormTwo({ state, dispatch, role, setRole }) {
             )}{" "}
             Accept terms and conditions?
           </p>
-          <FormButton loading={loading}>Submit</FormButton>
+          {<FormButton condition={!isTrained} loading={loading}>Register</FormButton>}
         </form>
       ) : (
         <form
@@ -327,7 +327,7 @@ function RegistrationFormTwo({ state, dispatch, role, setRole }) {
             <img src={Padlock} className="h-[20px]" />
             <input
               name="password"
-              type={showPassword ? "text" : "password"}
+              type={!showPassword ? "text" : "password"}
               value={staffsRegDetails.password}
               onChange={onTextChangeStaff}
               required
@@ -351,7 +351,7 @@ function RegistrationFormTwo({ state, dispatch, role, setRole }) {
             <img src={Padlock} className="h-[20px]" />
             <input
               name="re_enter_password"
-              type={showPasswordReenter ? "text" : "password"}
+              type={!showPasswordReenter ? "text" : "password"}
               value={staffsRegDetails.re_enter_password}
               onChange={onTextChangeStaff}
               required
@@ -393,7 +393,7 @@ function RegistrationFormTwo({ state, dispatch, role, setRole }) {
             )}{" "}
             Accept terms and conditions?
           </p>
-          <FormButton loading={loading}>Submit</FormButton>
+          <FormButton condition={!isTrained} loading={loading}>Register</FormButton>
         </form>
       )}
     </div>
