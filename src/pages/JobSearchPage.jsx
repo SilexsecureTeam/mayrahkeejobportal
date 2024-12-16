@@ -7,7 +7,7 @@ const JobSearchPage = () => {
   const [loading, setLoading] = useState(false);
   const [filters, setFilters] = useState({
     keyword: "",
-    location: "",
+    // location: "",
     sector: "",
     type: "",
     minSalary: "",
@@ -79,7 +79,7 @@ const JobSearchPage = () => {
       {/* Filters and Listings */}
       <div className="flex flex-col md:flex-row md:items-start gap-8">
         {/* Filter Panel */}
-        <div className="filter-panel bg-white p-6 md:sticky md:top-5 shadow-md rounded-md border min-w-72 h-max">
+        <div className="filter-panel bg-white p-6 md:sticky md:top-5 shadow-md rounded-md border min-w-72 h-max overflow-y-auto">
           <h2 className="text-xl bold mb-6">Filters</h2>
           {Object.keys(filters).map((filterKey) => (
             <div className="mb-4" key={filterKey}>
@@ -174,8 +174,8 @@ const JobSearchPage = () => {
                         <strong>Salary:</strong> {job.currency} {job.min_salary} - {job.max_salary} /{" "}
                         {job.salary_type}
                       </p>
-                      <p>
-                        <strong>Experience:</strong> {job.experience}
+                      <p className="flex gap-x-2">
+                        <strong>Experience:</strong> <span dangerouslySetInnerHTML={{__html: job.experience}}></span>
                       </p>
                       <p>
                         <strong>Application Deadline:</strong> {job.application_deadline_date}

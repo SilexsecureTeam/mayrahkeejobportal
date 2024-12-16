@@ -91,13 +91,13 @@ export const jobDetails=[
 export const userCategory=[
     {
         id:1,
-        title:"Coporate employers",
+        title:"Corporate employers",
         label:"employer",
         image:employer,
         desc:"Build your team and get unlimited access to qualified Candidates around the globe by registering your company with us.",
     },{
         id:2,
-        title:"Coporate candidates",
+        title:"Corporate candidates",
         label:"candidate",
         image:candidate, 
         desc:"Get job offers from reputable companies around the globe by signing up as a Candidate. We align your preference with the right job for you",
