@@ -89,14 +89,13 @@ function FindStaff() {
           ? "staff"
           : selectedCategory?.toLowerCase(),
       ...(selectedSubcategory && { subcategory: selectedSubcategory }),
-      ...(searchInput && { search: searchInput }),
       ...(ageRange && { age_range: ageRange }),
       ...(gender && { gender }),
       ...(educationalLevel && { education_level: educationalLevel }),
     };
 
     await handleQuerySubmit(queryParams);
-    setLoading(false);
+  
   };
 
   useEffect(() => {
