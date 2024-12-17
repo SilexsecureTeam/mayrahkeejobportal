@@ -85,7 +85,7 @@ const careerData = [
   },
 ];
 
-function Descriptions({ data, setCurrentStep, jobUtils, handleSuccess }) {
+function Descriptions({ data, setCurrentStep, jobUtils, handleSuccess, isExclusive }) {
   const [selectedCareerLevel, setSelectedCareerLevel] = useState(jobUtils.details.current_level ? careerData.find(one=>one.name===jobUtils.details.current_level) : careerData[1]);
 
   useEffect(() => {
@@ -146,7 +146,7 @@ function Descriptions({ data, setCurrentStep, jobUtils, handleSuccess }) {
           onClick={() => {
             jobUtils.addJob(() => {
               handleSuccess()
-            })
+            }, isExclusive)
           }}
           loading={jobUtils.loading}
           

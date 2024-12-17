@@ -452,6 +452,13 @@ export const adminOptions = [
     icon: policeIcon,
     iconActive: policeIcon,
   },
+  {
+    type: "Blogs",
+    title: "Blogs",
+    route: "/admin/blogs",
+    icon: policeIcon,
+    iconActive: policeIcon,
+  },
 ];
 
 export const adminnUtilOptions = [
