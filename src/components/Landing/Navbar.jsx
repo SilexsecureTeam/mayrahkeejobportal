@@ -20,7 +20,7 @@ const Navbar = () => {
 
         <NavLink to="/">Home</NavLink>
         {/* Dropdown */}
-        <div
+        {/* <div
           onClick={() => setDrop(!drop)}
           className="relative flex gap-1 items-center cursor-pointer p-2 hover:bg-gray-100 rounded"
         >
@@ -33,9 +33,10 @@ const Navbar = () => {
             
             </ul>
           )}
-        </div>
-        <NavLink to="/find-jobs">Find Artisans</NavLink>
-        <NavLink to="/find-jobs">Find Domestic Staff</NavLink>
+        </div> */}
+        <NavLink to="/find-jobs">Find Jobs</NavLink>
+        <NavLink to="/find-staff/artisan">Find Artisans</NavLink>
+        <NavLink to="/find-staff/domestic staff">Find Domestic Staff</NavLink>
         <NavLink to="/help">Help Center</NavLink>
         <NavLink to="/news">Blog</NavLink>
 

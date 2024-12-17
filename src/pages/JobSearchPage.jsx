@@ -1,6 +1,10 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { BASE_URL } from "../utils/base";
+import Hero from "../components/Landing/Hero";
+import Navbar from "../components/Landing/Navbar";
+import Advert from "../components/Landing/Advert";
+import Footer from "../components/Landing/Footer";
 
 const JobSearchPage = () => {
   const [jobs, setJobs] = useState([]);
@@ -37,6 +41,7 @@ const JobSearchPage = () => {
   // Fetch jobs whenever filters change
   useEffect(() => {
     fetchJobs();
+    console.log(filters)
     setCurrentPage(1); // Reset to first page on filter change
   }, [filters]);
 
@@ -73,14 +78,19 @@ const JobSearchPage = () => {
   );
 
   return (
-    <div className="job-search-page max-w-7xl mx-auto px-4 h-[100vh]">
-      <h1 className="text-center text-3xl font-bold my-8">Job Search</h1>
+    <>
+    <div className="relative max-w-[1400px] w-full mx-auto">
+      <Navbar />
+      <main className="relative my-20 px-5 h-full">
+        <Hero shrink={true} />
+    <div className="job-search-page max-w-7xl mx-auto my-4 px-4 h-max">
+      <h1 className="text-center text-3xl font-bold my-8">Search For Jobs</h1>
 
       {/* Filters and Listings */}
       <div className="flex flex-col md:flex-row md:items-start gap-8">
         {/* Filter Panel */}
         <div className="filter-panel bg-white p-6 md:sticky md:top-5 shadow-md rounded-md border min-w-72 h-max overflow-y-auto">
-          <h2 className="text-xl bold mb-6">Filters</h2>
+          <h2 className="text-xl font-bold mb-6">Filters</h2>
           {Object.keys(filters).map((filterKey) => (
             <div className="mb-4" key={filterKey}>
               <label className="block mb-1 text-sm font-medium capitalize">
@@ -162,11 +172,11 @@ const JobSearchPage = () => {
           ) : (
             <>
               {currentJobs.length > 0 ? (
-                <div className="space-y-6">
+                <div className="space-y-6 grid grid-cols-responsive">
                   {currentJobs.map((job) => (
-                    <div key={job.id} className="bg-white p-6 shadow-md rounded-md border">
-                      <h3 className="text-lg font-bold">{job.job_title}</h3>
-                      <p>{job.location}</p>
+                    <div key={job.id} className="flex flex-col bg-white p-6 shadow-md rounded-md border">
+                      <h3 className="text-lg font-bold text-green-800">{job.job_title}</h3>
+                      <p className="text-gray-600 text-sm font-medium">{job.location}</p>
                       <p>
                         <strong>Type:</strong> {job.type}
                       </p>
@@ -184,7 +194,7 @@ const JobSearchPage = () => {
                         href={job.external_url || "#"}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-sm bg-green-600 p-2 rounded-md text-white font-medium mt-4 inline-block"
+                        className="text-center text-sm mt-auto bg-green-600 p-2 rounded-md text-white font-medium mb-2 inline-block"
                       >
                         Apply Now
                       </a>
@@ -220,6 +230,11 @@ const JobSearchPage = () => {
         </div>
       </div>
     </div>
+    <Advert />
+        </main>
+      </div>
+      <Footer />
+      </>
   );
 };
 
