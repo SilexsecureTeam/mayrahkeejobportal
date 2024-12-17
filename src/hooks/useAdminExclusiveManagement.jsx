@@ -29,7 +29,7 @@ function useAdminExclusiveManagement(setDaboardSummary, setExclusives) {
         `getEmployerApply/${id}`
       );
       if (response.data.job_application) {
-        return response.data.job_application;
+        return response.data.job_application.reverse();
       }
       return [];
     } catch (error) {
@@ -47,7 +47,7 @@ function useAdminExclusiveManagement(setDaboardSummary, setExclusives) {
       const response = await client.get(`/job-employer-id/${id}`);
 
       if (response.data) {
-        return response.data;
+        return response.data.reverse();
       }
       return [];
     } catch (error) {
@@ -65,7 +65,7 @@ function useAdminExclusiveManagement(setDaboardSummary, setExclusives) {
       if (data) {
         const filtered = data.filter(
           (current) => current.user_type === "regular"
-        );
+        ).reverse();
         setExclusives([...filtered]);
       }
       return;
