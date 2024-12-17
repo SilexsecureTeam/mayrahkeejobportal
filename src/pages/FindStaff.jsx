@@ -96,6 +96,7 @@ function FindStaff() {
     };
 
     await handleQuerySubmit(queryParams);
+    setLoading(false);
   };
 
   useEffect(() => {
