@@ -50,8 +50,7 @@ function FindStaff() {
       );
       if (matchedCategory) {
         setSelectedCategory(matchedCategory.name);
-        handleSearchClick(); // Trigger search only when valid category is set
-      } else {
+        } else {
         navigate("/not-found");
       }
     }
@@ -99,6 +98,8 @@ function FindStaff() {
   };
 
   useEffect(() => {
+    handleSearchClick(); // Trigger search only when valid category is set
+      
     const selectedCategoryData = categories?.find(
       (category) => category.name === selectedCategory
     );
