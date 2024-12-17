@@ -20,7 +20,7 @@ const TermsConditions = lazy(() => import("../pages/TermsConditions"));
 const ElearningPage = lazy(() => import("../pages/ElearningPage"));
 const BlogList = lazy(() => import("../pages/BlogList"));
 const BlogRead = lazy(() => import("../pages/BlogRead"));
-const JobSearchPage = lazy(() => import("../pages/JobSearchPage"));
+const JobSearchPage = lazy(() => import("../pages/FindStaff"));
 const FindStaff = lazy(() => import("../pages/FindStaff"));
 
 function PublicRoute() {
