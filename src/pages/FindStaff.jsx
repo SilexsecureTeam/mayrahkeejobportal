@@ -238,7 +238,7 @@ function FindStaff() {
                 <div className="flex justify-center my-3">
                   <button
                     onClick={handleSearchClick}
-                    className="w-full md:w-auto px-6 py-3 bg-primaryColor text-white rounded-lg hover:bg-primaryHover transition-all shadow-lg text-center font-semibold"
+                    className="w-full md:w-60 px-6 py-3 bg-primaryColor text-white rounded-lg hover:bg-primaryHover transition-all shadow-lg text-center font-semibold"
                   >
                     Filter
                   </button>
