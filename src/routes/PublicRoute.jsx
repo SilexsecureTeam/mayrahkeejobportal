@@ -52,8 +52,8 @@ function PublicRoute() {
             path="/privacypolicy"
             element={<PrivacyPolicy />}
           />
-          <Route path="/news" element={<BlogList />} />
-          <Route path="/news/:id" element={<BlogRead />} />
+          <Route path="/blogs" element={<BlogList />} />
+          <Route path="/blogs/:id" element={<BlogRead />} />
           <Route path="/about" element={<AboutUs />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
