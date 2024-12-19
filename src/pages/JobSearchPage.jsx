@@ -108,7 +108,7 @@ const JobSearchPage = () => {
     const initData = async () => {
       const employementListResult = await getEmployentTypes();
       //const currencyResult = await getCurrencies();
-      console.log(employementListResult,currencyResult)
+      console.log(employementListResult)
       setEmployementList(employementListResult);
       //setCurrencyList(currencyResult)
     };
