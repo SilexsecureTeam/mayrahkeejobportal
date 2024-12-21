@@ -136,7 +136,7 @@ const Jobs = () => {
               <div>
                 <h4 className="capitalize text-xl font-semibold my-2 text-gray-800">{job?.job_title}</h4>
                 <p className="font-semibold text-sm text-gray-500 flex gap-2 items-center">
-                  {job?.company || "Pinterest"}{" "}
+                  {job?.company || ""}{" "}
                   <img src={approved} alt="approved" className="w-5" />
                 </p>
               </div>
