@@ -3,6 +3,7 @@ import Navbar from '../components/Landing/Navbar';
 import Footer from '../components/Landing/Footer';
 import Banner from '../components/Landing/Banner';
 import tunnel from '../assets/pngs/Tunnel2.png';
+import basic from '../assets/basic.jpg';
 import premium from '../assets/premium.jpg';
 import classic from '../assets/classic.jpg';
 import plus from '../assets/pluspackage.jpg';
@@ -14,7 +15,7 @@ const Services = () => {
         {
             name: "Basic",
             description: "Ideal for small-scale recruitment needs.",
-            image: "https://via.placeholder.com/150/1" // Replace with a relevant image URL
+            image: basic
         },
         {
             name: "Mayrahkee Classic",
