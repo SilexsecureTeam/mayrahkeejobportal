@@ -3,8 +3,8 @@ import Navbar from '../components/Landing/Navbar';
 import Footer from '../components/Landing/Footer';
 import Banner from '../components/Landing/Banner';
 import InfoSection from '../components/Landing/InfoSection';
-import recruitmentImg from '../assets/pngs/recruitment.png'; // Placeholder image
-import trainingImg from '../assets/pngs/training.png'; // Placeholder image
+import recruitmentImg from '../assets/pngs/about3.png'; // Placeholder image
+import trainingImg from '../assets/pngs/about4.png'; // Placeholder image
 
 const Services = () => {
     window.scrollTo(0, 0);
