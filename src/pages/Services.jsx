@@ -3,11 +3,11 @@ import Navbar from '../components/Landing/Navbar';
 import Footer from '../components/Landing/Footer';
 import Banner from '../components/Landing/Banner';
 import tunnel from '../assets/pngs/Tunnel2.png';
-import basic from '../assets/basic.jpg';
-import premium from '../assets/premium.jpg';
+import basic from '../assets/exclusive.jpg';
+import premium from '../assets/basic.jpg';
 import classic from '../assets/classic.jpg';
 import plus from '../assets/pluspackage.jpg';
-import exclusive from '../assets/exclusive.jpg';
+import exclusive from '../assets/exclusive2.jpg';
 const Services = () => {
     window.scrollTo(0, 0);
 
