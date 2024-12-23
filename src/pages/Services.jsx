@@ -3,7 +3,10 @@ import Navbar from '../components/Landing/Navbar';
 import Footer from '../components/Landing/Footer';
 import Banner from '../components/Landing/Banner';
 import tunnel from '../assets/pngs/Tunnel2.png';
-
+import premium from '../assets/premium.jpg';
+import classic from '../assets/classic.jpg';
+import plus from '../assets/pluspackage.jpg';
+import exclusive from '../assets/exclusive.jpg';
 const Services = () => {
     window.scrollTo(0, 0);
 
@@ -16,22 +19,22 @@ const Services = () => {
         {
             name: "Mayrahkee Classic",
             description: "A classic approach with more tailored options.",
-            image: "https://via.placeholder.com/150/2" // Replace with a relevant image URL
+            image: classic 
         },
         {
             name: "Mayrahkee Plus",
             description: "Enhanced recruitment and onboarding services.",
-            image: "https://via.placeholder.com/150/3" // Replace with a relevant image URL
+            image: plus
         },
         {
             name: "Mayrahkee Premium",
             description: "Comprehensive HR support and training included.",
-            image: "https://via.placeholder.com/150/4" // Replace with a relevant image URL
+            image: premium
         },
         {
             name: "Mayrahkee Exclusive",
             description: "Full-service recruitment for top-level positions.",
-            image: "https://via.placeholder.com/150/5" // Replace with a relevant image URL
+            image: exclusive 
         }
     ];
 
