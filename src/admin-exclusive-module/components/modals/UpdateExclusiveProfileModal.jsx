@@ -10,9 +10,10 @@ import {
   social_media_inputs,
 } from "../../../company-module/components/company-profile/UpdateCompanyProfileModal";
 import useExclusiveProfile from "../../../hooks/useExclusiveProfile";
-import { useState } from "react";
-import { resourceUrl } from "../../../services/axios-client";
+import { useContext, useEffect, useState } from "react";
+import { axiosClient, resourceUrl } from "../../../services/axios-client";
 import { getImageURL } from "../../../utils/formmaters";
+import { AuthContext } from "../../../context/AuthContex";
 
 function UpdateExclusiveProfileModal({
   toogleProfileUpdateModal,
@@ -25,12 +26,15 @@ function UpdateExclusiveProfileModal({
     loading,
     onTextChange,
     updateCompanyProfile,
+    getProfile,
     retrievalState,
   } = useExclusiveProfile(exclusive.id);
   const [displayPic, setDisplayPic] = useState("");
   const [campaignPhotos, setCampaignPhotos] = useState([
     ...details?.company_campaign_photos,
   ]);
+  const { authDetails } = useContext(AuthContext);
+  const client = axiosClient(authDetails?.token, true);
 
   const getCampaingPhotoURL = (e) => {
     const { name } = e.target;
@@ -61,6 +65,33 @@ function UpdateExclusiveProfileModal({
     });
   };
 
+  useEffect(() => {
+    const initData = async () => {
+      const { data } = await client.get(
+        `/employer/getEmployer/${exclusive.id}`
+      );
+
+      // Check and handle data.details safely
+      if (
+        data.details &&
+        typeof data.details === "object" &&
+        !Array.isArray(data.details)
+      ) {
+        console.log(data.details);
+        setDetails(() => {
+          const test = data.details;
+          const neww = {
+            ...test,
+            beenRetreived: 2,
+          };
+          return neww;
+        });
+      }
+    };
+
+    // initData()
+  }, []);
+
   return (
     <PopUpBox isOpen={isOpen}>
       <div className="bg-white w-[60%] rounded-md h-[95%] px-3  py-3">
@@ -73,122 +104,120 @@ function UpdateExclusiveProfileModal({
         <div className="w-full px-2 flex gap-[10px] flex-col h-[90%] ">
           <h3 className="font-semibold text-lg border-b pb-2 text-gray-600">{`Update Exlusive Profile`}</h3>
 
-          {details.company_name && (
-            <form
-              onSubmit={handleSubmit}
-              className="flex flex-col w-full gap-[10px] h-[95%] overflow-x-auto"
-            >
-              {/* Logo Input */}
-              <div className="flex flex-col">
-                <span className="text-sm font-semibold">Company Icon</span>
-                <div className="w-[20%] mt-[5px] flex items-start justify-start relative">
-                  <img
-                    className="h-[50px] w-[50px] rounded-full"
-                    src={
-                      displayPic
-                        ? displayPic
-                        : `${resourceUrl}/${details?.logo_image}`
-                    }
-                  />
-                  <input
-                    id="displayPic"
-                    name="logo_image"
-                    type="file"
-                    onChange={(e) => {
-                      getImageURL(e, setDisplayPic, setDetails);
-                    }}
-                    className="hidden"
-                  />
-                  <label
-                    htmlFor="displayPic"
-                    className="absolute right-12  top-0 cursor-pointer text-primaryColor text-lg"
-                  >
-                    <FaRegEdit />
-                  </label>
-                </div>
-              </div>
-
-              {/* Basic Form inputs */}
-              {basic_inputs.map((current) => (
-                <BasicInput
-                  data={current}
-                  details={details}
-                  onTextChange={onTextChange}
-                  key={current.id}
+          <form
+            onSubmit={handleSubmit}
+            className="flex flex-col w-full gap-[10px] h-[95%] overflow-x-auto"
+          >
+            {/* Logo Input */}
+            <div className="flex flex-col">
+              <span className="text-sm font-semibold">Company Icon</span>
+              <div className="w-[20%] mt-[5px] flex items-start justify-start relative">
+                <img
+                  className="h-[50px] w-[50px] rounded-full"
+                  src={
+                    displayPic
+                      ? displayPic
+                      : `${resourceUrl}/${details?.logo_image}`
+                  }
                 />
-              ))}
-
-              {/* Company Profile Text Editor */}
-              <div className="flex flex-col gap-[5px]">
-                <span className="text-sm font-semibold">Company Profile</span>
-
-                <div className="flex flex-col gap-[3px] mb-[35px] w-full text-gray-400 justify-between ">
-                  <ReactQuill
-                    placeholder="Enter company details...."
-                    value={details?.company_profile}
-                    onChange={(text) =>
-                      setDetails({ ...details, company_profile: text })
-                    }
-                  />
-                </div>
-              </div>
-
-              {/* Campaign Photos */}
-              <div className="w-full flex flex-col gap-[3px]">
-                <label
-                  htmlFor="currentCampaignPhoto"
-                  className="text-sm font-semibold flex w-full justify-between items-center"
-                >
-                  Capaign Photos <FaRegEdit className="cursor-pointer" />
-                </label>
                 <input
-                  name="company_campaign_photos"
-                  onChange={getCampaingPhotoURL}
-                  id="currentCampaignPhoto"
-                  className="hidden"
+                  id="displayPic"
+                  name="logo_image"
                   type="file"
+                  onChange={(e) => {
+                    getImageURL(e, setDisplayPic, setDetails);
+                  }}
+                  className="hidden"
                 />
-                <div className="w-full min-h-[100px] flex gap-[3px] items-start border-dashed p-2 border overscroll-x-auto">
-                  {campaignPhotos?.map((current, idx) => (
-                    <img
-                      key={idx}
-                      className="h-[80px] w-[80px] border"
-                      src={current.url}
-                    />
-                  ))}
-                </div>
-              </div>
-
-              {/* Social Media Inputs */}
-              <div className="w-full flex flex-col gap-[3px]">
                 <label
-                  htmlFor="currentCampaignPhoto"
-                  className="text-sm font-semibold flex w-full justify-between items-center"
+                  htmlFor="displayPic"
+                  className="absolute right-12  top-0 cursor-pointer text-primaryColor text-lg"
                 >
-                  Social Media Links
+                  <FaRegEdit />
                 </label>
-                <div className="w-full border border-dashed p-2 grid grid-cols-3 gap-[3px]">
-                  {social_media_inputs.map((current) => (
-                    <SocialMediaInput
-                      key={current?.id}
-                      id={current?.id}
-                      data={current}
-                      socials={details?.social_media}
-                      setSocials={setDetails}
-                    />
-                  ))}
-                </div>
               </div>
+            </div>
 
-              <FormButton
-                width="w-[50%] bg-primaryColor"
-                height="min-h-[30px] mb-[10px]"
-                loading={loading}
+            {/* Basic Form inputs */}
+            {basic_inputs.map((current) => (
+              <BasicInput
+                data={current}
+                details={details}
+                onTextChange={onTextChange}
+                key={current.id}
+              />
+            ))}
+
+            {/* Company Profile Text Editor */}
+            <div className="flex flex-col gap-[5px]">
+              <span className="text-sm font-semibold">Company Profile</span>
+
+              <div className="flex flex-col gap-[3px] mb-[35px] w-full text-gray-400 justify-between ">
+                <ReactQuill
+                  placeholder="Enter company details...."
+                  value={details?.company_profile}
+                  onChange={(text) =>
+                    setDetails({ ...details, company_profile: text })
+                  }
+                />
+              </div>
+            </div>
+
+            {/* Campaign Photos */}
+            <div className="w-full flex flex-col gap-[3px]">
+              <label
+                htmlFor="currentCampaignPhoto"
+                className="text-sm font-semibold flex w-full justify-between items-center"
               >
-                Update
-              </FormButton>
-            </form>
-          )}
+                Capaign Photos <FaRegEdit className="cursor-pointer" />
+              </label>
+              <input
+                name="company_campaign_photos"
+                onChange={getCampaingPhotoURL}
+                id="currentCampaignPhoto"
+                className="hidden"
+                type="file"
+              />
+              <div className="w-full min-h-[100px] flex gap-[3px] items-start border-dashed p-2 border overscroll-x-auto">
+                {campaignPhotos?.map((current, idx) => (
+                  <img
+                    key={idx}
+                    className="h-[80px] w-[80px] border"
+                    src={current.url}
+                  />
+                ))}
+              </div>
+            </div>
+
+            {/* Social Media Inputs */}
+            <div className="w-full flex flex-col gap-[3px]">
+              <label
+                htmlFor="currentCampaignPhoto"
+                className="text-sm font-semibold flex w-full justify-between items-center"
+              >
+                Social Media Links
+              </label>
+              <div className="w-full border border-dashed p-2 grid grid-cols-3 gap-[3px]">
+                {social_media_inputs.map((current) => (
+                  <SocialMediaInput
+                    key={current?.id}
+                    id={current?.id}
+                    data={current}
+                    socials={details?.social_media}
+                    setSocials={setDetails}
+                  />
+                ))}
+              </div>
+            </div>
+
+            <FormButton
+              width="w-[50%] bg-primaryColor"
+              height="min-h-[30px] mb-[10px]"
+              loading={loading}
+            >
+              Update
+            </FormButton>
+          </form>
         </div>
       </div>
     </PopUpBox>

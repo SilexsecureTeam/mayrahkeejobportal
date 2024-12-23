@@ -64,7 +64,7 @@ function useAdminExclusiveManagement(setDaboardSummary, setExclusives) {
       const { data } = await client.get("getEmployer");
       if (data) {
         const filtered = data.filter(
-          (current) => current.user_type === "regular"
+          (current) => current.user_type === "exclusive"
         ).reverse();
         setExclusives([...filtered]);
       }

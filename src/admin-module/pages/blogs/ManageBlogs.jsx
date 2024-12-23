@@ -3,6 +3,8 @@ import TableWrap from "../../../admin-exclusive-module/components/TableWrap";
 import Trow from "./Trow";
 import { AuthContext } from "../../../context/AuthContex";
 import { axiosClient } from "../../../services/axios-client";
+import { onFailure } from "../../../utils/notifications/OnFailure";
+import { onSuccess } from "../../../utils/notifications/OnSuccess";
 
 const columns = [" ", "Title", "Date Created", "Date Updated", "Feature"];
 
@@ -29,9 +31,18 @@ function ManageBlogs() {
     try {
       const { data } = await client.put(`/blog/posts/${ post.id}`, {feature_post: val});
       if (data.data) {
+        await getAllBlogs()
+        onSuccess({
+          message: 'Blog Update Status',
+          success: 'Updated successfully'
+        })
         return true;
       }
     } catch (error) {
+      onFailure({
+        message: 'Blog Update Error',
+        error: 'Failed to update'
+      })
       return false;
     }
   };

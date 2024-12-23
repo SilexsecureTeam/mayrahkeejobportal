@@ -157,10 +157,12 @@ function Descriptions({
           height="h-fit p-2"
           onClick={() => {
             if (exclusive.id) {
+              console.log('Exclusive')
               jobUtils.addJobForExclusive(() => {
-                handleSuccess();
+                () => {}
               }, exclusive.id);
             } else {
+              console.log('Normal')
               jobUtils.addJob(() => {
                 handleSuccess();
               });

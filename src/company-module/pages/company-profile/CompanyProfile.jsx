@@ -4,7 +4,7 @@ import { company_profile_attributes } from "../../../utils/constants";
 import HeaderAttribute from "../../components/company-profile/HeaderAttribute";
 import DetailsLeft from "../../components/company-profile/DetailsLeft";
 import DetailsRight from "../../components/company-profile/DetailsRight";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import UpdateCompanyProfileModal from "../../components/company-profile/UpdateCompanyProfileModal";
 import useCompanyProfile from "../../../hooks/useCompanyProfile";
 import {
@@ -18,10 +18,11 @@ import useExclusiveProfile from "../../../hooks/useExclusiveProfile";
 
 function CompaniesProfile({ exclusiveId = null }) {
   const [displayPic, setDisplayPic] = useState("");
-  console.log('Exclusibe', exclusiveId)
-  const companyHookProps = exclusiveId ? useExclusiveProfile(exclusiveId) : useCompanyProfile();
-  const { details, retrievalState } = companyHookProps;
-
+  console.log("Exclusibe", exclusiveId);
+  const companyHookProps = exclusiveId
+    ? useExclusiveProfile(exclusiveId)
+    : useCompanyProfile();
+  const { details, retrievalState, getProfile } = companyHookProps;
 
   const [isOpen, setIsOpen] = useState(false);
 
@@ -30,7 +31,7 @@ function CompaniesProfile({ exclusiveId = null }) {
       id: 1,
       icon: FaFacebook,
       title: "Facebook",
-      content: details?.social_media[0] ,
+      content: details?.social_media[0],
     },
     {
       id: 2,
@@ -52,18 +53,24 @@ function CompaniesProfile({ exclusiveId = null }) {
     },
   ];
 
+  useEffect(() => {
+    if (exclusiveId) {
+
+      getProfile();
+    }
+  }, []);
 
   return (
     <>
       <Helmet>
         <title> Company Dashboard | Companies Profile </title>
       </Helmet>
-      <UpdateCompanyProfileModal
+      {!exclusiveId && <UpdateCompanyProfileModal
         isOpen={isOpen}
         setIsOpen={setIsOpen}
         onInit={details.company_name ? false : true}
         companyHookProps={companyHookProps}
-      />
+      />}
       {details.company_name &&
       details.beenRetreived === retrievalState.retrieved ? (
         <div className="h-full w-full flex flex-col px-2 md:px-12 py-2 justify-between">
@@ -74,7 +81,7 @@ function CompaniesProfile({ exclusiveId = null }) {
             details={details}
             setDisplayPic={setDisplayPic}
           >
-            {company_profile_attributes.map((current) => (
+            {company_profile_attributes?.map((current) => (
               <HeaderAttribute key={current.id} data={current} />
             ))}
           </ProfileHeader>

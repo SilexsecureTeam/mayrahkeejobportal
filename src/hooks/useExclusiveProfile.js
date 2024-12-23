@@ -7,6 +7,7 @@ export const COMPANY_PROFILE_Key = "Company Profile Database";
 
 function useExclusiveProfile(exclusiveID) {
   const { authDetails } = useContext(AuthContext);
+  const client = axiosClient(authDetails?.token, true);
 
   const retrievalState = {
     init: 1,
@@ -14,7 +15,6 @@ function useExclusiveProfile(exclusiveID) {
     retrieved: 3,
   };
 
-  const client = axiosClient(authDetails?.token, true);
 
   const [loading, setLoading] = useState(false);
 
@@ -54,20 +54,31 @@ function useExclusiveProfile(exclusiveID) {
   const getProfile = async () => {
     setLoading(true);
     try {
-      const {data} = await client.get(
-        `/employer/getEmployer/${exclusiveID}`
+      const { data } = await client.get(
+        `/employer/getEmployer/${details.employer_id}`
       );
-      
-      if (typeof data.details === 'object') {
-        // console.log('Details', data.details)
-        setDetails({
-          // company_name: data.details.company_name,
-          beenRetreived: retrievalState.retrieved
+
+      // Check and handle data.details safely
+      if (
+        data.details &&
+        typeof data.details === "object" &&
+        !Array.isArray(data.details)
+      ) {
+        console.log(data.details);
+        setDetails(() => {
+          const test = data.details;
+          const neww = {
+            ...test,
+            beenRetreived: retrievalState.retrieved,
+          };
+          return neww
         });
       } else {
+        console.error("Unexpected format for data.details:", data.details);
         setDetails({ ...details, beenRetreived: retrievalState.notRetrieved });
       }
     } catch (error) {
+      console.error("Error fetching profile info:", error);
       setDetails({ ...details, beenRetreived: retrievalState.retrieved });
     } finally {
       setLoading(false);
@@ -130,14 +141,14 @@ function useExclusiveProfile(exclusiveID) {
     }
   }, [error.message, error.error]);
 
-  useEffect(() => {
-    //Initailise value from index db
-    const initValue = async () => {
-        await getProfile();
-    };
+  // useEffect(() => {
+  //   //Initailise value from index db
+  //   const initValue = async () => {
+  //       await getProfile();
+  //   };
 
-    initValue();
-  }, []);
+  //   initValue();
+  // }, []);
 
   return {
     loading,
@@ -145,6 +156,8 @@ function useExclusiveProfile(exclusiveID) {
     onTextChange,
     setDetails,
     updateCompanyProfile,
+    getProfile,
+    setDetails,
     retrievalState,
   };
 }
