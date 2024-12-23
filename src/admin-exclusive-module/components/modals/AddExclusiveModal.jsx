@@ -25,7 +25,6 @@ function AddExclusiveModal({ toogleExclusiveModal, isOpen }) {
     };
 
     await registerExclusive(() => {}, data);
-
     await getAllExclusives()
     toogleExclusiveModal()
     setLoading(false);

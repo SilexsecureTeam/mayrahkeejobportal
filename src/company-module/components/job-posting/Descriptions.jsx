@@ -60,7 +60,8 @@ const careerData = [
   {
     id: 3,
     name: "Entry level",
-  },{
+  },
+  {
     id: 4,
     name: "Intermediate level",
   },
@@ -71,7 +72,8 @@ const careerData = [
   {
     id: 6,
     name: "Senior level",
-  },{
+  },
+  {
     id: 7,
     name: "Management level",
   },
@@ -85,8 +87,18 @@ const careerData = [
   },
 ];
 
-function Descriptions({ data, setCurrentStep, jobUtils, handleSuccess, isExclusive }) {
-  const [selectedCareerLevel, setSelectedCareerLevel] = useState(jobUtils.details.current_level ? careerData.find(one=>one.name===jobUtils.details.current_level) : careerData[1]);
+function Descriptions({
+  data,
+  setCurrentStep,
+  jobUtils,
+  handleSuccess,
+  exclusive,
+}) {
+  const [selectedCareerLevel, setSelectedCareerLevel] = useState(
+    jobUtils.details.current_level
+      ? careerData.find((one) => one.name === jobUtils.details.current_level)
+      : careerData[1]
+  );
 
   useEffect(() => {
     jobUtils.setDetails({
@@ -139,17 +151,22 @@ function Descriptions({ data, setCurrentStep, jobUtils, handleSuccess, isExclusi
         >
           Previous Step
         </button>
-        
+
         <FormButton
           width="w-[100px]"
           height="h-fit p-2"
           onClick={() => {
-            jobUtils.addJob(() => {
-              handleSuccess()
-            }, isExclusive)
+            if (exclusive.id) {
+              jobUtils.addJobForExclusive(() => {
+                handleSuccess();
+              }, exclusive.id);
+            } else {
+              jobUtils.addJob(() => {
+                handleSuccess();
+              });
+            }
           }}
           loading={jobUtils.loading}
-          
         >
           Add Job
         </FormButton>
