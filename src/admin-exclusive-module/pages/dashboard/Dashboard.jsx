@@ -11,6 +11,8 @@ function Dashboard() {
 
   console.log("Exclusives:", exclusives);
 
+  // window.location.reload();
+
   return (
     <div className="px-12 py-5 flex flex-col gap-3">
       <div className="bg-primaryColor text-white gap-3 flex flex-col p-3">

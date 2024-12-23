@@ -1,151 +1,24 @@
-import { IoMdCloseCircle } from "react-icons/io";
-import { getImageURL } from "../../../utils/formmaters";
-//import wheelIcon from "../../../assets/pngs/wheel-icon-black.png";
-import {
-  FaRegEdit,
-  FaFacebook,
-  FaLinkedin,
-  FaTwitter,
-  FaInstagram,
-} from "react-icons/fa";
-import { useEffect, useState } from "react";
-import BasicInput from "./BasicInput";
-import SocialMediaInput from "./SocialMediaInput";
-import ReactQuill from "react-quill";
-import "react-quill/dist/quill.snow.css";
-//import useCompanyProfile from "../../../hooks/useCompanyProfile";
+import { MdClose } from "react-icons/md";
+import PopUpBox from "../../../components/PopUpBox";
+import SocialMediaInput from "../../../company-module/components/company-profile/SocialMediaInput";
 import FormButton from "../../../components/FormButton";
+import { FaRegEdit } from "react-icons/fa";
+import ReactQuill from "react-quill";
+import BasicInput from "../../../company-module/components/company-profile/BasicInput";
+import {
+  basic_inputs,
+  social_media_inputs,
+} from "../../../company-module/components/company-profile/UpdateCompanyProfileModal";
+import useExclusiveProfile from "../../../hooks/useExclusiveProfile";
+import { useState } from "react";
 import { resourceUrl } from "../../../services/axios-client";
+import { getImageURL } from "../../../utils/formmaters";
 
-export const basic_inputs = [
-  {
-    id: 1,
-    name: "company_name",
-    label: "Company Name",
-    required: true,
-    type: "text",
-    placeholder: "Enter Company name",
-  },
-  {
-    id: 2,
-    name: "email",
-    label: "Company Email",
-    required: true,
-    type: "email",
-    placeholder: "Enter Company Email",
-  },
-  {
-    id: 3,
-    name: "phone_number",
-    label: "Company Phone",
-    required: true,
-    type: "tel",
-    placeholder: "Enter Company Phone",
-  },
-  {
-    id: 4,
-    name: "Company Website",
-    label: "Company Website",
-    type: "text",
-    placeholder: "https://www.example.com",
-  },
-  {
-    id: 5,
-    name: "year_of_incorporation",
-    label: "Year of Incorporation",
-    type: "number",
-    placeholder: "2000",
-  },
-  {
-    id: 6,
-    name: "rc_number",
-    label: "RC Number",
-    type: "text",
-    placeholder: "RC123456",
-  },
-  {
-    id: 7,
-    name: "company_size",
-    label: "Company Size",
-    type: "number",
-    placeholder: "7",
-  },
-  {
-    id: 8,
-    name: "sector",
-    label: "Sector",
-    type: "text",
-    placeholder: "technology",
-  },
-  {
-    id: 9,
-    name: "introductory_video_url",
-    label: "Intorduction video url",
-    type: "text",
-    placeholder: "https://www.example.com/video.mp4",
-  },
-  {
-    id: 10,
-    name: "network",
-    label: "Network",
-    type: "text",
-    placeholder: "Local Network",
-  },
-  {
-    id: 11,
-    name: "location",
-    label: "Location",
-    type: "text",
-    placeholder: "123 Example Street, City, Country",
-  },
-  {
-    id: 12,
-    name: "address",
-    label: "Address",
-    type: "text",
-    placeholder: "123 Example Street",
-  },
-  {
-    id: 13,
-    name: "profile_url",
-    label: "Profile Url",
-    type: "text",
-    placeholder: "https://www.example.com/profile",
-  },
-];
-
-export const social_media_inputs = [
-  {
-    id: 1,
-    icon: <FaFacebook className="text-lg" />,
-    placeholder: "https://www.facebook.com/example",
-  },
-  {
-    id: 2,
-    icon: <FaTwitter className="text-lg" />,
-    placeholder: "https://www.twitter.com/example",
-  },
-  {
-    id: 3,
-    icon: <FaLinkedin className="text-lg" />,
-    placeholder: "https://www.linkedin.com/example",
-  },
-  {
-    id: 4,
-    icon: <FaInstagram className="text-lg" />,
-    placeholder: "https://www.instagram.com/example",
-  },
-];
-
-function UpdateCompanyProfileModal({
+function UpdateExclusiveProfileModal({
+  toogleProfileUpdateModal,
   isOpen,
-  setIsOpen,
-  onInit = false,
-  companyHookProps,
+  exclusive,
 }) {
-  const [displayPic, setDisplayPic] = useState("");
-  const [socials, setSocials] = useState(["", "", "", ""]);
-  const [companyProfile, setCompanyProfile] = useState();
   const {
     details,
     setDetails,
@@ -153,8 +26,11 @@ function UpdateCompanyProfileModal({
     onTextChange,
     updateCompanyProfile,
     retrievalState,
-  } = companyHookProps;
-  const [campaignPhotos, setCampaignPhotos] = useState([...details?.company_campaign_photos]);
+  } = useExclusiveProfile(exclusive.id);
+  const [displayPic, setDisplayPic] = useState("");
+  const [campaignPhotos, setCampaignPhotos] = useState([
+    ...details?.company_campaign_photos,
+  ]);
 
   const getCampaingPhotoURL = (e) => {
     const { name } = e.target;
@@ -163,7 +39,7 @@ function UpdateCompanyProfileModal({
     if (file && (file.type === "image/jpeg" || file.type === "image/png")) {
       // You can also perform additional actions with the valid file
       const generatedUrl = URL.createObjectURL(file);
-      if (campaignPhotos.length <= 0) return
+      if (campaignPhotos.length <= 0) return;
       const list = [...campaignPhotos, { url: generatedUrl, file: file }];
       const files = list.map((current) => current.file);
       if (list.length > 0) {
@@ -180,35 +56,24 @@ function UpdateCompanyProfileModal({
     e.preventDefault();
 
     updateCompanyProfile(() => {
-      setIsOpen(false);
+      toogleProfileUpdateModal();
+      window.location.reload();
     });
   };
 
-  useEffect(() => {
-    setTimeout(() => {
-      if (
-        details?.beenRetreived === retrievalState?.notRetrieved &&
-        onInit
-      ) {
-     
-        setIsOpen(true);
-      } else {
-        setIsOpen(false);
-      }
-    }, 1000);
-  }, [details?.beenRetreived]);
-
   return (
-    isOpen && (
-      <div className="h-full z-10 w-full text-gray-400 text-little flex justify-center items-center bg-gray-600/70 fixed top-0 left-0">
-        <div className="w-[50%] h-[90%] p-2 flex flex-col  rounded-[10px]  bg-white border">
-          <IoMdCloseCircle
-            onClick={() => setIsOpen(false)}
-            className="text-lg place-self-end  cursor-pointer"
-          />
-          <div className="w-full px-2 flex gap-[10px] flex-col h-[90%] ">
-            <h3 className="font-semibold text-lg border-b pb-2 text-gray-600">{`Update Company Profile`}</h3>
+    <PopUpBox isOpen={isOpen}>
+      <div className="bg-white w-[60%] rounded-md h-[95%] px-3  py-3">
+        <button
+          onClick={toogleProfileUpdateModal}
+          className="flex gap-1 border px-1 mb-3 rounded-lg py-1 items-center"
+        >
+          <MdClose /> Close Form
+        </button>
+        <div className="w-full px-2 flex gap-[10px] flex-col h-[90%] ">
+          <h3 className="font-semibold text-lg border-b pb-2 text-gray-600">{`Update Exlusive Profile`}</h3>
 
+          {details.company_name && (
             <form
               onSubmit={handleSubmit}
               className="flex flex-col w-full gap-[10px] h-[95%] overflow-x-auto"
@@ -285,7 +150,8 @@ function UpdateCompanyProfileModal({
                 />
                 <div className="w-full min-h-[100px] flex gap-[3px] items-start border-dashed p-2 border overscroll-x-auto">
                   {campaignPhotos?.map((current, idx) => (
-                    <img key={idx}
+                    <img
+                      key={idx}
                       className="h-[80px] w-[80px] border"
                       src={current.url}
                     />
@@ -304,7 +170,7 @@ function UpdateCompanyProfileModal({
                 <div className="w-full border border-dashed p-2 grid grid-cols-3 gap-[3px]">
                   {social_media_inputs.map((current) => (
                     <SocialMediaInput
-                    key={current?.id}
+                      key={current?.id}
                       id={current?.id}
                       data={current}
                       socials={details?.social_media}
@@ -322,11 +188,11 @@ function UpdateCompanyProfileModal({
                 Update
               </FormButton>
             </form>
-          </div>
+          )}
         </div>
       </div>
-    )
-  )
+    </PopUpBox>
+  );
 }
 
-export default UpdateCompanyProfileModal;
+export default UpdateExclusiveProfileModal;

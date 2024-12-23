@@ -14,49 +14,23 @@ import {
   FaTwitter,
   FaInstagram,
 } from "react-icons/fa";
-import { dummy_user } from "../../../utils/dummies";
+import useExclusiveProfile from "../../../hooks/useExclusiveProfile";
 
-function CompaniesProfile({ test = false }) {
+function CompaniesProfile({ exclusiveId = null }) {
   const [displayPic, setDisplayPic] = useState("");
-  const companyHookProps = useCompanyProfile();
+  console.log('Exclusibe', exclusiveId)
+  const companyHookProps = exclusiveId ? useExclusiveProfile(exclusiveId) : useCompanyProfile();
   const { details, retrievalState } = companyHookProps;
 
-  const exclusiveDetail = {...dummy_user.details};
 
   const [isOpen, setIsOpen] = useState(false);
 
-  const company_profile_attributes = [
+  const company_profile_attributes = details.social_media && [
     {
       id: 1,
       icon: FaFacebook,
       title: "Facebook",
-      content: details?.social_media[0],
-    },
-    {
-      id: 2,
-      icon: FaTwitter,
-      title: "Twitter",
-      content: details?.social_media[1],
-    },
-    {
-      id: 3,
-      icon: FaInstagram,
-      title: "Instagram",
-      content: details?.social_media[3],
-    },
-    {
-      id: 4,
-      icon: FaLinkedin,
-      title: "Linkedin",
-      content: details.social_media[2],
-    },
-  ];
-  const ex_company_profile_attributes = [
-    {
-      id: 1,
-      icon: FaFacebook,
-      title: "Facebook",
-      content: details?.social_media[0],
+      content: details?.social_media[0] ,
     },
     {
       id: 2,
@@ -78,7 +52,8 @@ function CompaniesProfile({ test = false }) {
     },
   ];
 
-  return test ? (
+
+  return (
     <>
       <Helmet>
         <title> Company Dashboard | Companies Profile </title>
@@ -107,48 +82,6 @@ function CompaniesProfile({ test = false }) {
           <div className="flex flex-col mt-8 md:mt-0 md:flex-row w-full justify-between overscroll-y-auto h-[73%]">
             <DetailsLeft data={details} />
             <DetailsRight data={details} />
-          </div>
-        </div>
-      ) : (
-        <div className="flex h-full items-center justify-center w-full flex-col gap-[5px]">
-          <h3 className="flex  text-3xl font-bold">Nothing to show</h3>
-          <button
-            onClick={() => setIsOpen(true)}
-            className="text-little font-normal hover:underline text-gray-400"
-          >
-            Click to start
-          </button>
-        </div>
-      )}
-    </>
-  ) : (
-    <>
-      <Helmet>
-        <title> Company Dashboard | Companies Profile </title>
-      </Helmet>
-      {/* <UpdateCompanyProfileModal
-        isOpen={isOpen}
-        setIsOpen={setIsOpen}
-        onInit={details.company_name ? false : true}
-        companyHookProps={companyHookProps}
-      /> */}
-      {exclusiveDetail.company_name && true ? (
-        <div className="h-full w-full flex flex-col px-2 md:px-12 py-2 justify-between">
-          <ProfileHeader
-            isOpen={isOpen}
-            setIsOpen={setIsOpen}
-            displayPic={displayPic}
-            details={exclusiveDetail}
-            setDisplayPic={setDisplayPic}
-          >
-            {ex_company_profile_attributes.map((current) => (
-              <HeaderAttribute key={current.id} data={current} />
-            ))}
-          </ProfileHeader>
-
-          <div className="flex flex-col mt-8 md:mt-0 md:flex-row w-full justify-between overscroll-y-auto h-[73%]">
-            <DetailsLeft data={exclusiveDetail} />
-            <DetailsRight data={exclusiveDetail} />
           </div>
         </div>
       ) : (

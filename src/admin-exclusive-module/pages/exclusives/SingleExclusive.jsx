@@ -2,26 +2,23 @@ import { useContext, useEffect, useState } from "react";
 import {
   admin_exlusve_dummies,
   applcants_table_head_dummies,
-  applicants_dummy,
-  exclusives_table_head_dummies,
-  job_dummies,
-  job_dummy,
   job_table_head_dummies,
 } from "../../../utils/dummies";
 import SummaryCard from "../../components/SummaryCard";
-import TableRow from "../../components/TableRow";
 import TableWrap from "../../components/TableWrap";
 import { useLocation, useNavigate } from "react-router-dom";
 import AddJobModal from "../../components/modals/AddJobModal";
 import ListingRow from "../../../company-module/components/job-listing/ListingRow";
 import ApplicantRow from "../../../company-module/components/applicants/ApplicantRow";
 import { AdminExclusiveManagementContext } from "../../../context/AdminExclusiveManagement";
-import { data } from "autoprefixer";
+import UpdateExclusiveProfileModal from "../../components/modals/UpdateExclusiveProfileModal";
 
 function SingleExclusive() {
   const navigate = useNavigate();
   const [selectedCard, setSelectCard] = useState(admin_exlusve_dummies[1]);
   const [addJob, setAddJob] = useState(false);
+  const [profileUpdate, setProfileUpdate] = useState(false);
+  const [profileInfo, setProfileInfo] = useState(false);
   const location = useLocation();
   const [currentExclusive, setCurrentExclusive] = useState(location.state.data);
   const [applicants, setApplicants] = useState([]);
@@ -40,8 +37,10 @@ function SingleExclusive() {
   };
 
   const toogleJobModal = () => setAddJob(!addJob);
+  const toogleProfileUpdate = () => setProfileUpdate(!profileUpdate);
+  const toogleProfileInfoModal = () => setProfileUpdate(!profileUpdate);
 
-  console.log(currentExclusive);
+  // console.log(currentExclusive);
 
   useEffect(() => {
     const initData = async () => {
@@ -53,9 +52,21 @@ function SingleExclusive() {
 
     initData();
   }, []);
+
   return (
     <>
-      <AddJobModal toogleJobModal={toogleJobModal} isOpen={addJob} />
+      <AddJobModal
+        toogleJobModal={toogleJobModal}
+        isOpen={addJob}
+        exclusive={currentExclusive}
+      />
+      {currentExclusive && (
+        <UpdateExclusiveProfileModal
+          toogleProfileUpdateModal={toogleProfileUpdate}
+          isOpen={profileUpdate}
+          exclusive={currentExclusive}
+        />
+      )}
       <div className="w-full flex flex-col px-10 min-h-full mt-5">
         <div className="grid grid-cols-2 justify-between items-center w-full h-full min-h-[30%] bg-gray-50">
           <div className=" p-5 flex flex-col gap-2">
@@ -74,7 +85,7 @@ function SingleExclusive() {
             </div>
 
             <span
-              onClick={() => navigate("/admin-exclusives/profile")}
+              onClick={() => navigate(`/admin-exclusives/profile/${currentExclusive.id}`)}
               className="text-green-500 cursor-pointer hover:underline"
             >
               Show Profile
@@ -138,7 +149,10 @@ function SingleExclusive() {
             >
               Add Job
             </button>
-            <button className="text-md py-1 rounded-lg bg-green-500 hover:scale-[102%] w-[50%] px-5 text-white ">
+            <button
+              onClick={toogleProfileUpdate}
+              className="text-md py-1 rounded-lg bg-green-500 hover:scale-[102%] w-[50%] px-5 text-white "
+            >
               Edit Profile
             </button>
           </div>
