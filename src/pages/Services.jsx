@@ -56,8 +56,8 @@ const Services = () => {
                     />
 
                     {/* Recruitment Section */}
-                    <section className="w-full max-w-[1200px] bg-white rounded-lg shadow-md p-6">
-                        <h2 className="text-3xl font-bold text-blue-600 mb-6">Recruitment</h2>
+                    <section className="w-full bg-white rounded-lg shadow-md p-6">
+                        <h2 className="text-3xl font-bold text-green-600 mb-6">Recruitment</h2>
                         <p className="text-lg mb-4">
                             Our recruitment strategy and plans are properly defined and deployed to attract, hire, and onboard the right talents that complement our client’s (Employer) brand and culture proposition.
                         </p>
@@ -102,7 +102,7 @@ const Services = () => {
                                         alt={pkg.name} 
                                         className="w-20 h-20 mb-4 rounded-full object-cover"
                                     />
-                                    <h3 className="text-xl font-semibold mb-2">{pkg.name}</h3>
+                                    <h3 className="text-xl font-semibold mb-2 text-green-800">{pkg.name}</h3>
                                     <p className="text-gray-700">{pkg.description}</p>
                                 </div>
                             ))}
