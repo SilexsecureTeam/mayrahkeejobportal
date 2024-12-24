@@ -5,7 +5,7 @@ import {
 } from "../reducers/RegistrationReducer";
 import RegistrationProgress from "../components/Auth/RegistrationProgress";
 import { lazy, useEffect, useState, useReducer } from "react";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useParams } from "react-router-dom";
 
 const RegistrationFormTwo = lazy(() =>
   import("../components/Auth/RegistrationFormTwo")
@@ -16,11 +16,8 @@ const EmailVerification = lazy(() =>
 
 function useRegistrationRoute() {
   const [state, dispatch] = useReducer(RegistrationReducer, intialProfileState);
-  const [role, setRole] = useState();
+  const [role, setRole] = useState("candidate");
   
-  useEffect(() => {
-    setRole("candidate");
-  }, []);
   return (
     <>
       <Helmet>
@@ -38,7 +35,7 @@ function useRegistrationRoute() {
           />
           <Route
             path="email_verification"
-            element={<EmailVerification state={state} dispatch={dispatch} />}
+            element={<EmailVerification state={state} dispatch={dispatch} role={role} />}
           />
         </Routes>
       </main>
