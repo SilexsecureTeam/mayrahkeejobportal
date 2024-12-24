@@ -123,9 +123,9 @@ function HiringProgress({ data, applicant, toogleInterview }) {
   const statusTexts = () => {
     switch (data.status) {
       case "pending":
-        return isInterviewPackge ? InView : InViewInactive;
+        return (isInterviewPackge || authDetails.user.role === 'super-admin') ? InView : InViewInactive;
       case stages[0].name:
-        return isInterviewPackge ? InView : InViewInactive;
+        return (isInterviewPackge || authDetails.user.role === 'super-admin') ? InView : InViewInactive;
       case stages[1].name:
         return <Shortlist data={data} />;
       case stages[2].name:
