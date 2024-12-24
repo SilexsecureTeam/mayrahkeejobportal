@@ -1,9 +1,10 @@
 import { Switch } from "@mantine/core";
 import { useState } from "react";
+import { FaSpinner } from "react-icons/fa6";
 
 function Trow({ data, featurePost }) {
   const condition = data.feature_post === "0" ? false : true;
-  const [isPostFeatured, setIsPostFeatured] = useState(condition);
+  const [loading, setLoading] = useState(false)
 
   return (
     <tr
@@ -37,15 +38,18 @@ function Trow({ data, featurePost }) {
       </td>
 
       <td>
-        <div className="items-center flex justify-center py-[15px]">
+        <div className="items-center flex justify-center gap-2 cursor-pointer py-[15px]">
           <Switch
-            checked={isPostFeatured}
+            checked={condition}
+            disabled={loading}
             onChange={async (e) => {
-              console.log(e.currentTarget.checked);
+              // console.log(e.currentTarget.checked);
+              setLoading(true)
               await featurePost(data, e.currentTarget.checked);
-              setIsPostFeatured(e.currentTarget.checked || false);
+              setLoading(false)
             }}
           />
+          {loading && <FaSpinner className="animate-spin"/>}
         </div>
       </td>
     </tr>

@@ -5,7 +5,9 @@ function ListingRow({ data, applicants, isExclusive = false }) {
 
   const navigateJobTypeDetails = () => {
     if (isExclusive) {
-      navigate("/admin-exclusives/job/1");
+      navigate(`/admin-exclusives/job/${data.id}`, {
+        state: { data: data, applicants: applicants },
+      });
       return;
     } else {
       navigate(`/company/job-listing/type/${data.id}`, {
