@@ -24,8 +24,8 @@ function Home() {
 
   const { jobList } = useContext(JobContext);
 
-  const openJobs = jobList?.filter((current) => (current.status = "1"));
-
+  const openJobs = jobList?.filter((current) => (current.status === "1"));
+  console.log(jobList, openJobs)
   const applicantsJobType = () => {
     const categories = [];
 

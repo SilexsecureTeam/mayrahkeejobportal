@@ -154,7 +154,7 @@ function UpdateCompanyProfileModal({
     updateCompanyProfile,
     retrievalState,
   } = companyHookProps;
-  const [campaignPhotos, setCampaignPhotos] = useState([...details?.company_campaign_photos]);
+  const [campaignPhotos, setCampaignPhotos] = useState([...details?.company_campaign_photos || []]);
 
   const getCampaingPhotoURL = (e) => {
     const { name } = e.target;
@@ -165,7 +165,7 @@ function UpdateCompanyProfileModal({
       const generatedUrl = URL.createObjectURL(file);
       if (campaignPhotos.length <= 0) return
       const list = [...campaignPhotos, { url: generatedUrl, file: file }];
-      const files = list.map((current) => current.file);
+      const files = list?.map((current) => current.file);
       if (list.length > 0) {
         setDetails({ ...details, [name]: files });
         setCampaignPhotos(list);
@@ -244,7 +244,7 @@ function UpdateCompanyProfileModal({
               </div>
 
               {/* Basic Form inputs */}
-              {basic_inputs.map((current) => (
+              {basic_inputs?.map((current) => (
                 <BasicInput
                   data={current}
                   details={details}
@@ -302,7 +302,7 @@ function UpdateCompanyProfileModal({
                   Social Media Links
                 </label>
                 <div className="w-full border border-dashed p-2 grid grid-cols-3 gap-[3px]">
-                  {social_media_inputs.map((current) => (
+                  {social_media_inputs?.map((current) => (
                     <SocialMediaInput
                     key={current?.id}
                       id={current?.id}

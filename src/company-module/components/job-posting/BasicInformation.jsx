@@ -8,7 +8,7 @@ import BasicJobInput from "./BasicJobInput";
 import QualificationsForm from "./QualificationsForm";
 import SelectorInput from "./SelectorInput";
 import useJobManagement from "../../../hooks/useJobManagement";
-import {Country, State} from 'country-state-city'
+import { Country, State } from 'country-state-city'
 
 const basic_inputs = [
   {
@@ -198,10 +198,11 @@ const salaryTypeData = [
 function BasicInformation({ setCurrentStep, data, jobUtils, validateAndProceed }) {
   const { getEmployentTypes, getCurrencies } = useJobManagement();
   const [salaryRange, setSalaryRange] = useState([5000, 22000]);
+  const [jobSectorList, setJobSectorList] = useState(jobSectors || null);
   const [selectedType, setSelectedType] = useState(jobUtils?.details?.type && jobUtils?.details?.type);
   const [currentQualification, setCurrentQualification] = useState("");
   const [selectedGender, setSelectedGender] = useState(jobUtils?.details?.salary_type ? genderData?.find(one => one.name === jobUtils?.details?.gender) : genderData[0]);
-  const [selectedSector, setSelectedSector] = useState(jobSectors[0]);
+  const [selectedSector, setSelectedSector] = useState();
   const [subSectorList, setSubSectorList] = useState(null);
   const [selectedSubSector, setSelectedSubSector] = useState(null);
   const [selectedSalary, setSelectedSalary] = useState(jobUtils?.details?.salary_type ? salaryTypeData?.find(one => one.name === jobUtils?.details?.salary_type) : salaryTypeData[1]);
@@ -210,11 +211,14 @@ function BasicInformation({ setCurrentStep, data, jobUtils, validateAndProceed }
   const [employementList, setEmployementList] = useState([]);
   const [currencyList, setCurrencyList] = useState([]);
   const [selectedCurrency, setSelectedCurrency] = useState();
-  const [selectedLocation, setSelectedLocation] = useState(State.getStatesOfCountry('NG')[0]);
-
+  const [selectedLocation, setSelectedLocation] = useState();
+console.log(jobUtils.details)
   const toogleSelectedType = (selected) => {
     setSelectedType(selected);
-    jobUtils.setDetails({ ...jobUtils.details, type: selected.name });
+    jobUtils.setDetails((prevDetails) => ({
+      ...prevDetails,
+      type: selected.name,
+    }));
   };
 
   const getPhotoURL = (e) => {
@@ -224,7 +228,10 @@ function BasicInformation({ setCurrentStep, data, jobUtils, validateAndProceed }
     if (file && (file.type === "image/jpeg" || file.type === "image/png")) {
       const generatedUrl = URL.createObjectURL(file);
       setPhotoUrl(generatedUrl);
-      jobUtils.setDetails({ ...jobUtils.details, [name]: file });
+      jobUtils.setDetails((prevDetails) => ({
+        ...prevDetails,
+        [name]: file,
+      }));
     } else {
       alert("Please select a valid JPEG or PNG file.");
     }
@@ -234,19 +241,29 @@ function BasicInformation({ setCurrentStep, data, jobUtils, validateAndProceed }
       const employementListResult = await getEmployentTypes();
       const currencyResult = await getCurrencies();
       setEmployementList(employementListResult);
-      setSelectedType(jobUtils.details.type
-        && employementListResult?.find(one => one?.name === jobUtils?.details?.type));
+
+      if (employementListResult.length > 0) {
+        setSelectedType(jobUtils.details.type
+          && employementListResult?.find(one => one?.name === jobUtils?.details?.type));
+      }
       setCurrencyList(currencyResult);
-      setSelectedCurrency(jobUtils.details.currency
-        ? currencyResult?.find(one => one?.name === jobUtils?.details?.currency)
-        : currencyResult[0]);
+     
+
+        setJobSectorList(jobSectors)
     };
 
     initData();
 
     let savedPhoto = null;
-    if (jobUtils.details.featured_image) {
-      savedPhoto = URL.createObjectURL(jobUtils.details.featured_image);
+    if (savedPhoto === null && jobUtils.details?.featured_image) {
+      // Check if the featured image is a Blob/File
+      if (jobUtils.details.featured_image instanceof Blob || jobUtils.details.featured_image instanceof File) {
+        savedPhoto = URL.createObjectURL(jobUtils.details.featured_image);
+      } else {
+        // If it's not a Blob/File, assume it's already a URL
+        savedPhoto = jobUtils.details.featured_image;
+      }
+    
       setPhotoUrl(savedPhoto);
     }
 
@@ -257,57 +274,82 @@ function BasicInformation({ setCurrentStep, data, jobUtils, validateAndProceed }
     };
   }, []);
 
+  useEffect(()=>{
+    if(jobUtils?.details?.location) setSelectedLocation(jobUtils?.details?.location ? State.getStatesOfCountry('NG')?.find(one=> one.name === jobUtils?.details.location) : State.getStatesOfCountry('NG')[0]);
+  },[jobUtils?.details?.location]);
+  
+useEffect(()=>{
+  setSelectedType(jobUtils.details.type
+          && employementList?.find(one => one?.name === jobUtils?.details?.type));
+},[employementList]);
+
+useEffect(()=>{
+   setSelectedCurrency(jobUtils.details.currency
+        ? currencyList?.find(one => one?.name === jobUtils?.details?.currency)
+        : currencyList[0]);
+},[currencyList]);
   useEffect(() => {
-    console.log(jobUtils?.details?.subsector, selectedSubSector)
+   console.log(jobUtils?.details?.sector, selectedSector)
     // Find the sector from jobUtils.details or default to the first one
+if(jobSectorList && jobUtils?.details?.sector){
     const sector = jobUtils?.details?.sector
-      ? jobSectors?.find(one => one?.name === jobUtils?.details?.sector)
-      : jobSectors[0];
+      ? jobSectorList?.find(one => one?.name === jobUtils?.details?.sector)
+      : jobSectorList[0];
 
     setSelectedSector(sector);
 
     // Set subsectors list based on the selected sector
     setSubSectorList(sector?.subsections || []);
-
     // Find the selected subsector or default to the first one in the subsector list
     const subsector = jobUtils?.details?.subsector
       ? sector?.subsections?.find(one => one?.name === jobUtils?.details?.subsector)
       : sector?.subsections[0];
 
     setSelectedSubSector(subsector);
+}
+    
 
-  }, []);
-
+  }, [jobSectorList, jobUtils?.details?.sector]);
 
   useEffect(() => {
     if (selectedSector) {
-      setSubSectorList(selectedSector.subsections);
+      setSubSectorList(selectedSector?.subsections || []);
+      const matchingSubsector = selectedSector?.subsections?.find(
+        (one) => one?.name === jobUtils?.details?.subsector
+      );
+      setSelectedSubSector(matchingSubsector || selectedSector?.subsections[0]);
     }
   }, [selectedSector]);
+  
   useEffect(() => {
-    if (subSectorList && jobUtils?.details?.subsector) {
-      setSelectedSubSector(subSectorList?.find(one => one?.name === jobUtils?.details?.subsector) ? subSectorList?.find(one => one?.name === jobUtils?.details?.subsector) : subSectorList[0]);
+    if (selectedSubSector) {
+      jobUtils.setDetails((prevDetails) => ({
+        ...prevDetails,
+        subsector: selectedSubSector?.name,
+      }));
     }
-  }, [subSectorList]);
+  }, [selectedSubSector]);
+  
 
   useEffect(() => {
-    jobUtils.setDetails({
-      ...jobUtils.details,
-      ["gender"]: selectedGender?.name,
-      ["salary_type"]: selectedSalary?.name,
-      ["currency"]: selectedCurrency?.name,
-      ["sector"]: selectedSector?.name,
-      ["subsector"]: selectedSubSector?.name,
-      ["location"]: selectedLocation?.name,
-    });
+    jobUtils.setDetails((prevDetails) => ({
+      ...prevDetails,
+      gender: selectedGender?.name || prevDetails.gender,
+      salary_type: selectedSalary?.name || prevDetails.salary_type,
+      currency: selectedCurrency?.name || prevDetails.currency,
+      sector: selectedSector?.name || prevDetails.sector,
+      subsector: selectedSubSector?.name || prevDetails.subsector,
+      location: selectedLocation?.name || prevDetails.location,
+    }));
   }, [
     selectedCurrency,
     selectedGender,
     selectedSalary,
     selectedSector,
     selectedSubSector,
-    selectedLocation
+    selectedLocation,
   ]);
+
 
   // Validation function before proceeding to the next step
   const handleValidateAndProceed = () => {
@@ -328,7 +370,7 @@ function BasicInformation({ setCurrentStep, data, jobUtils, validateAndProceed }
     return true;
   };
 
-  console.log(State.getStatesOfCountry('NG'))
+  //console.log(State.getStatesOfCountry('NG'))
 
   return (
     <div className="flex flex-col w-full p-4 gap-4">
@@ -378,33 +420,44 @@ function BasicInformation({ setCurrentStep, data, jobUtils, validateAndProceed }
           <span className="text-xs text-gray-400">Only JPEG or PNG</span>
         </div>
       </div>
-      {/* Dropdown Options */}
       <SelectorInput
-        key={1}
         data={{
           label: "Sector",
           prompt: "Here you input the job sector",
           name: "sector",
         }}
-        listData={jobSectors}
+        listData={jobSectorList}
         jobUtils={jobUtils}
         selected={selectedSector}
-        setSelected={setSelectedSector}
+        setSelected={(sector) => {
+          setSelectedSector(sector);
+          // Update job details only for the sector
+          jobUtils.setDetails((prevDetails) => ({
+            ...prevDetails,
+            sector: sector?.name,
+          }));
+        }}
       />
 
-      {/* Dropdown Options */}
       <SelectorInput
-        key={4}
         data={{
           label: "Sub-Sector",
           prompt: "Here you select subsector based on the job sector",
-          name: "sector",
+          name: "subsector",
         }}
         listData={subSectorList}
         jobUtils={jobUtils}
         selected={selectedSubSector}
-        setSelected={setSelectedSubSector}
+        setSelected={(subsector) => {
+          setSelectedSubSector(subsector);
+          // Update job details only for the subsector
+          jobUtils.setDetails((prevDetails) => ({
+            ...prevDetails,
+            subsector: subsector?.name,
+          }));
+        }}
       />
+
       {/* Basic Inputs */}
       {basic_inputs.map((current) => (
         <BasicJobInput key={current.id} data={current} jobUtils={jobUtils} />

@@ -41,9 +41,11 @@ function JobType({test = false, resource = null}) {
  
   useEffect(() => {
     console.log(test)
+    console.log(location?.state)
     if(!test){
       if (location?.state?.data !== null) {
         setCurrentJob(location?.state?.data);
+        
       } else {
         console.log(jobUtils.jobList);
         jobUtils.getJobById(id, setCurrentJob);
