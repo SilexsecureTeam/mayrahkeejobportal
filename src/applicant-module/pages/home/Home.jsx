@@ -308,7 +308,7 @@ function Home() {
                 />
               ))}
               <div className="my-4 flex justify-center">
-                <div className="flex my-3 items-center cursor-pointer prime_text hover:opacity-90">
+                <div onClick={()=>navigate("/applicant/applications")} className="flex my-3 items-center cursor-pointer prime_text hover:opacity-90">
                   <p>View All Applications</p>
                   <span className="ml-2">
                     {" "}
