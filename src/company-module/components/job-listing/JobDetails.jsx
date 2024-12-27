@@ -34,7 +34,7 @@ function JobDetails({ data, jobUtils, applicants }) {
     <>
       <DeleteDialog
         isOpen={isDeleteOpen}
-        loading={jobUtils.loading}
+        loading={jobUtils?.loading}
         setIsOpen={setIsDeleteOpened}
         title="Job"
         handleDelete={handleDelete}
@@ -67,7 +67,7 @@ function JobDetails({ data, jobUtils, applicants }) {
               <MdDeleteForever className="text-red-600" />
               Delete
             </button>
-            <button className="px-1 py-1 flex text-sm border items-center justify-center gap-1 w-1/2 md:w-20">
+            <button onClick={()=>{navigate("/company/job-posting", {state:{details: data}}); scrollTo(0,0)}} className="px-1 py-1 flex text-sm border items-center justify-center gap-1 w-1/2 md:w-20">
               <CiEdit className="text-primaryColor" />
               Edit
             </button>
@@ -76,7 +76,7 @@ function JobDetails({ data, jobUtils, applicants }) {
               setEnabled={setEnabled}
               onClick={() => {
                 const newStatus = enabled ? '2' : '1';
-                jobUtils.deactivateJob(data, newStatus, () => {
+                jobUtils?.deactivateJob({id:data?.employer_id}, newStatus, () => {
                   onSuccess({
                     message: 'Status Updated',
                     success: `Job is now ${enabled ? 'closed' : 'open'}`,

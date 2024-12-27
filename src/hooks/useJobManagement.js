@@ -124,7 +124,7 @@ function useJobManagement() {
     // Fields that are required in Stage 1
     const stage1Fields = [
       "sector",
-      "subsector",
+      // "subsector",
       "featured_image",
       "type",
       "salary_type",
@@ -162,7 +162,7 @@ function useJobManagement() {
     }
 
     // Ensure min_salary is less than or equal to max_salary
-    if (details.min_salary > details.max_salary) {
+    if (Number(details.min_salary) > Number(details.max_salary)) {
       return "Minimum Salary cannot be greater than Maximum Salary.";
     }
 
@@ -189,6 +189,32 @@ function useJobManagement() {
       getJobsFromDB(); // Refresh job list
     } catch (error) {
       // Notify user of validation or API errors
+      onFailure({ message: "Submission Failed", error: error.message });
+    } finally {
+      setLoading(false);
+    }
+  };
+  
+  const editCurrentJob = async (handleSuccess) => {
+    setLoading(true);
+    console.log(details)
+    try {
+      // Validate details before submitting
+      const validationError = validateJobDetails({ id: 2 });
+      if (validationError) {
+        throw new Error(validationError); // Throw error with descriptive message
+      }
+
+      // Submit the job
+      const response = await client.put(`/job/${details.id}`, details
+      );
+
+      setDetails({}); // Clear form
+      handleSuccess(); // Call success handler
+      getJobsFromDB(); // Refresh job list
+    } catch (error) {
+      // Notify user of validation or API errors
+      console.log(error)
       onFailure({ message: "Submission Failed", error: error.message });
     } finally {
       setLoading(false);
@@ -321,6 +347,7 @@ function useJobManagement() {
     onTextChange,
     setDetails,
     addJob,
+    editCurrentJob,
     deleteJob,
     deactivateJob,
     getJobById,

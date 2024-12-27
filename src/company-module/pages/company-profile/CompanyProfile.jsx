@@ -18,7 +18,7 @@ import useExclusiveProfile from "../../../hooks/useExclusiveProfile";
 
 function CompaniesProfile({ exclusiveId = null }) {
   const [displayPic, setDisplayPic] = useState("");
-  console.log("Exclusibe", exclusiveId);
+  console.log("Exclusive", exclusiveId);
   const companyHookProps = exclusiveId
     ? useExclusiveProfile(exclusiveId)
     : useCompanyProfile();
@@ -65,10 +65,11 @@ function CompaniesProfile({ exclusiveId = null }) {
       <Helmet>
         <title> Company Dashboard | Companies Profile </title>
       </Helmet>
-      {!exclusiveId && <UpdateCompanyProfileModal
+      {!exclusiveId && 
+      <UpdateCompanyProfileModal
         isOpen={isOpen}
         setIsOpen={setIsOpen}
-        onInit={details.company_name ? false : true}
+        onInit={details?.company_name ? false : true}
         companyHookProps={companyHookProps}
       />}
       {details.company_name &&

@@ -93,17 +93,18 @@ function Descriptions({
   jobUtils,
   handleSuccess,
   exclusive,
+  editJob
 }) {
   const [selectedCareerLevel, setSelectedCareerLevel] = useState(
-    jobUtils.details.current_level
-      ? careerData.find((one) => one.name === jobUtils.details.current_level)
+    jobUtils.details.career_level
+      ? careerData.find((one) => one.name === jobUtils.details.career_level)
       : careerData[1]
   );
 
   useEffect(() => {
     jobUtils.setDetails({
       ...jobUtils.details,
-      ["current_level"]: selectedCareerLevel.name,
+      ["career_level"]: selectedCareerLevel.name,
     });
   }, [selectedCareerLevel]);
 
@@ -156,21 +157,28 @@ function Descriptions({
           width="w-[100px]"
           height="h-fit p-2"
           onClick={() => {
-            if (exclusive.id) {
+            if (exclusive?.id) {
               console.log('Exclusive')
               jobUtils.addJobForExclusive(() => {
                 () => {}
               }, exclusive.id);
-            } else {
+            }else {
               console.log('Normal')
+              if(editJob){
+              jobUtils.editCurrentJob(() => {
+                handleSuccess();
+              });
+            } else{
               jobUtils.addJob(() => {
                 handleSuccess();
               });
             }
+              
+            }
           }}
           loading={jobUtils.loading}
         >
-          Add Job
+          {editJob ?"Edit Job" : "Add Job"}
         </FormButton>
       </div>
     </div>
