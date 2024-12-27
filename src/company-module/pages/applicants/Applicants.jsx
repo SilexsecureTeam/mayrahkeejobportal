@@ -48,7 +48,7 @@ function Applicants() {
         </div>
 
         {isGrid ? (
-          <ul className="grid grid-cols-3 gap-5 px-3">
+          <ul className="grid grid-cols-responsive gap-5 px-3">
             {applicationUtils?.applicants &&
               applicationUtils?.applicants
                 ?.map((current) => (
