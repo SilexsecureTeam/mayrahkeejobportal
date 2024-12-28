@@ -6,7 +6,6 @@ import { useLocation, useParams } from "react-router-dom";
 import { JobContext } from "../../../context/JobContext";
 import { useContext } from "react";
 import { ApplicationContext } from "../../../context/ApplicationContext";
-import { job_dummy } from "../../../utils/dummies";
 
 const options = [
   {
