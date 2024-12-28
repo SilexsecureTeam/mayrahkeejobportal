@@ -30,7 +30,7 @@ function AllEmployers() {
     const employerDetails = item.employer || {};  
     
     return {
-      id: employerDetails.id,                                     
+      id: employerDetails.employer_id,                                     
       name: employerDetails.company_name,
       profile: employerDetails.company_profile,
       image: (
