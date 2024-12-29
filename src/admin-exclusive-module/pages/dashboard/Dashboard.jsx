@@ -23,14 +23,14 @@ function Dashboard() {
         </p>
       </div>
 
-      <ul className="w-full grid grid-cols-3 gap-4 mt-8">
+      <ul className="w-full grid grid-cols-responsive3 lg:grid-cols-3 gap-4 mt-8">
         {admin_exlusve_dummies.map((current) => {
           const value =
             current.id === 1
-              ? exclusives.length
+              ? exclusives?.length
               : current === 2
-              ? dashboardSummary.total_applicants
-              : dashboardSummary.total_jobs;
+              ? dashboardSummary?.total_applicants
+              : dashboardSummary?.total_jobs;
           return <SummaryCard key={current.id} {...current} value={value} />;
         })}
       </ul>

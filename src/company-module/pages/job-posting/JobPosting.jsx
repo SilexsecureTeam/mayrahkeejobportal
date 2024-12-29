@@ -59,11 +59,13 @@ function JobPosting({exclusive=null}) {
       message: 'Update Job',
       success: 'Job Updated Successfully',
     });
+   }else{
+    onSuccess({
+      message: 'New Job',
+      success: 'Job Created Successfully',
+    });
    }
-   onSuccess({
-    message: 'New Job',
-    success: 'Job Created Successfully',
-  });
+  
     navigate('/company/job-listing');
   };
   const validateAndProceed = () => {

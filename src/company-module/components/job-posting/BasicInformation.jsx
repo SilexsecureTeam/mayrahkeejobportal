@@ -212,7 +212,7 @@ function BasicInformation({ setCurrentStep, data, jobUtils, validateAndProceed }
   const [currencyList, setCurrencyList] = useState([]);
   const [selectedCurrency, setSelectedCurrency] = useState();
   const [selectedLocation, setSelectedLocation] = useState();
-console.log(jobUtils.details)
+
   const toogleSelectedType = (selected) => {
     setSelectedType(selected);
     jobUtils.setDetails((prevDetails) => ({
