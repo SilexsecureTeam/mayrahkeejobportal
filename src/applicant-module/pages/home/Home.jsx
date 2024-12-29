@@ -71,8 +71,9 @@ function Home() {
     return `${formattedStartDate} - ${formattedEndDate}.`;
   }
 
-  const navigateToApplications = () => {
-    navigate("/applicant/applications");
+  const navigateToApplications = (key) => {
+    
+      navigate("/applicant/applications",{state:{id: `${key}`}});
     setSideBar(3);
   };
 
@@ -177,7 +178,7 @@ function Home() {
               </div>
               <div className="pt-1 h-full md:w-full w-[45%]  md:h-1/2">
                 <div
-                  onClick={navigateToApplications}
+                  onClick={()=>navigateToApplications("interviewed")}
                   className="border bg-yellow-500 text-white transition duration-400 h-full cursor-pointer mb-4 p-3 pb-0 flex flex-col justify-between"
                 >
                   <p className="font-bold">Interviewed</p>
@@ -193,7 +194,8 @@ function Home() {
             <div className=" w-full md:w-[17%]  flex justify-between md:flex-col ">
               <div className="pt-1 h-full md:w-full w-[45%]  md:h-1/2">
                 <div
-                  onClick={navigateToApplications}
+                key="in-review"
+                  onClick={()=>navigateToApplications("in-review")}
                   className="border  bg-orange-500 text-white transition duration-400 h-full cursor-pointer mb-4 p-3 pb-0 flex flex-col justify-between"
                 >
                   <p className="font-bold">In-Review</p>
@@ -210,7 +212,7 @@ function Home() {
               </div>
               <div className="pt-1 h-full md:w-full w-[45%]  md:h-1/2">
                 <div
-                  onClick={navigateToApplications}
+                  onClick={()=>navigateToApplications("shortlist")}
                   className="border bg-lightblue text-white transition duration-400 h-full cursor-pointer mb-4 p-3 pb-0 flex flex-col justify-between"
                 >
                   <p className="font-bold">Shortlisted</p>

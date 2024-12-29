@@ -1,7 +1,7 @@
 function TableRow({ data, navigateToSingle }) {
   return (
     <tr
-      className={`"border-b  odd:bg-gray-100 odd:text-black   hover:bg-green-200 duration-100 text-little`}
+      className={`border-b odd:bg-gray-100 odd:text-black hover:bg-green-200 duration-100 text-little`}
     >
       <td className="text-center py-[5px]">
         <div className="capitalize flex justify-center items-center gap-[5px]">

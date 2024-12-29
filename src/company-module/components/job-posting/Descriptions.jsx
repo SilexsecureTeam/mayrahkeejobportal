@@ -104,7 +104,7 @@ function Descriptions({
   useEffect(() => {
     jobUtils.setDetails({
       ...jobUtils.details,
-      ["career_level"]: selectedCareerLevel.name,
+      ["career_level"]: selectedCareerLevel?.name,
     });
   }, [selectedCareerLevel]);
 

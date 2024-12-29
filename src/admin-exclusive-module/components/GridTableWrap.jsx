@@ -45,14 +45,14 @@ function GridTableWrap() {
 
       {!isGrid ? (
         <TableWrap rows={exclusives_table_head_dummies}>
-          {exclusives.map((current) => (
+          {exclusives?.map((current) => (
             <TableRow data={current} key={current} navigateToSingle={navigateToSingle} />
           ))}
         </TableWrap>
       ) : (
-        <ul className="gap-3 grid grid-cols-3">
-          {exclusives.map((current) => (
-            <GridCard navigateToSingle={navigateToSingle} />
+        <ul className="gap-3 grid grid-cols-responsive">
+          {exclusives?.map((current) => (
+            <GridCard data={current} key={current}  navigateToSingle={navigateToSingle} />
           ))}
         </ul>
       )}

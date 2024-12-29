@@ -128,13 +128,13 @@ function SingleExclusive() {
           <div className="w-[45%]"></div>
         </div>
 
-        <ul className="w-full grid grid-cols-3 gap-4 my-8 ">
+        <ul className="w-full grid grid-cols-responsive3 lg:grid-cols-3 gap-4 my-8 ">
           {admin_exlusve_dummies
             .filter((current) => current.id !== 1)
             .map((current) => {
               const value = current.id === 2 ? applicants.length : jobs.length;
               return (
-                <div onClick={() => setSelectCard(current)}>
+                <div key={current?.id} onClick={() => setSelectCard(current)}>
                   <SummaryCard key={current.id} {...current} value={value} />
                 </div>
               );

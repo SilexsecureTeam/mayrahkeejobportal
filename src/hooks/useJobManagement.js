@@ -5,8 +5,9 @@ import { FormatError } from "../utils/formmaters";
 import { AuthContext } from "../context/AuthContex";
 import { onFailure } from "../utils/notifications/OnFailure";
 import { AdminExclusiveManagementContext } from "../context/AdminExclusiveManagement";
-
+import axios from 'axios'
 export const JOB_MANAGEMENT_Key = "Job Management Database";
+export const apiURL = "https://dash.mayrahkeeafrica.com/api";
 
 function useJobManagement() {
   const { authDetails } = useContext(AuthContext);
@@ -194,10 +195,11 @@ function useJobManagement() {
       setLoading(false);
     }
   };
-  
+
   const editCurrentJob = async (handleSuccess) => {
     setLoading(true);
     console.log(details)
+
     try {
       // Validate details before submitting
       const validationError = validateJobDetails({ id: 2 });
@@ -206,8 +208,13 @@ function useJobManagement() {
       }
 
       // Submit the job
-      const response = await client.put(`/job/${details.id}`, details
-      );
+      const response = await axios.put(`${apiURL}/job/${details.id}`,details, {
+        headers :{
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${authDetails?.token}`,
+        }
+      } );
+
 
       setDetails({}); // Clear form
       handleSuccess(); // Call success handler
@@ -215,7 +222,7 @@ function useJobManagement() {
     } catch (error) {
       // Notify user of validation or API errors
       console.log(error)
-      onFailure({ message: "Submission Failed", error: error.message });
+      onFailure({ message: "Submission Failed", error: error?.response?.data?.message ? error?.response?.data?.message: error?.message });
     } finally {
       setLoading(false);
     }
