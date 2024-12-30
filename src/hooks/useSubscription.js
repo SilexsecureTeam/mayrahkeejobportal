@@ -60,7 +60,7 @@ function useSubscription() {
         setActivePackage(null);
       }
     } catch (error) {
-      FormatError(error);
+      FormatError(error, setError, "Subscription Error");
       setActivePackage(2);
     } finally {
       setLoading(false);

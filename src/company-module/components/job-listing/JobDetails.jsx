@@ -27,7 +27,7 @@ function JobDetails({ data, jobUtils, applicants }) {
   };
 
   useEffect(() => {
-    setEnabled(data?.status === "1");
+    setEnabled(data?.status === "1" || data?.status === "approved");
   }, [data?.status]);
 
   return (
@@ -75,7 +75,7 @@ function JobDetails({ data, jobUtils, applicants }) {
               enabled={enabled}
               setEnabled={setEnabled}
               onClick={() => {
-                const newStatus = enabled ? '2' : '1';
+                const newStatus = enabled ? 'approved' : 'pending';
                 jobUtils?.deactivateJob({id:data?.employer_id}, newStatus, () => {
                   onSuccess({
                     message: 'Status Updated',
