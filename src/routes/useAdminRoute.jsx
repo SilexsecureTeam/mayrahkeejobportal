@@ -62,7 +62,7 @@ const DomesticStaffDetails = lazy(() => import("../admin-module/pages/domesticSt
 const Candidates = lazy(() => import("../admin-module/pages/candidate/Candidate"));
 const Interviews = lazy(() => import("../admin-module/pages/Interviews"));
 const Blogs = lazy(() => import("../admin-module/pages/blogs/ManageBlogs"));
-
+const CreateBlog = lazy(() => import("../admin-module/pages/blogs/CreateBlog"));
 
 
 
@@ -210,6 +210,7 @@ function useAdminRoute() {
 
                       <Route path="police-reports" element={<AllPoliceReports />} />
                       <Route path="blogs" element={<Blogs/>} />
+                      <Route path="create-blog" element={<CreateBlog/>} />
 
                     </Routes>
                   </PrimeReactProvider>

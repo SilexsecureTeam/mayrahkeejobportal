@@ -104,7 +104,7 @@ function useJobManagement() {
     // Mapping API keys to user-friendly names
     const fieldNames = {
       job_title: "Job Title",
-      job_description: "Job Description",
+      job_description: "Job Responsibilities",
       featured_image: "Featured Image",
       sector: "Job Sector",
       subsector: "Job Subsector",
@@ -161,6 +161,9 @@ function useJobManagement() {
         return `${fieldNames[key]} is required.`;
       }
     }
+    if (Number(details.preferred_age) < 18 ) {
+      return "The preferred age field must be at least 18.";
+    }
 
     // Ensure min_salary is less than or equal to max_salary
     if (Number(details.min_salary) > Number(details.max_salary)) {
@@ -186,11 +189,16 @@ function useJobManagement() {
       });
 
       setDetails({}); // Clear form
+      await  getJobsFromDB(); // Refresh job list
       handleSuccess(); // Call success handler
-      getJobsFromDB(); // Refresh job list
+     
     } catch (error) {
       // Notify user of validation or API errors
-      onFailure({ message: "Submission Failed", error: error.message });
+      const errorDetails = Object.entries(error?.response?.data?.errors || {})
+          .map(([key, value]) => `${key}: ${value}`)
+          .join("\n") || error?.message;
+        
+      onFailure({ message: "Submission Failed", error: errorDetails });
     } finally {
       setLoading(false);
     }
@@ -217,8 +225,8 @@ function useJobManagement() {
 
 
       setDetails({}); // Clear form
+      await getJobsFromDB(); // Refresh job list
       handleSuccess(); // Call success handler
-      getJobsFromDB(); // Refresh job list
     } catch (error) {
       // Notify user of validation or API errors
       console.log(error)
@@ -243,8 +251,8 @@ function useJobManagement() {
       });
 
       setDetails({}); // Clear form
+      await getJobsFromDB(); // Refresh job list
       handleSuccess(); // Call success handler
-      getJobsFromDB(); // Refresh job list
       window.location.reload();
     } catch (error) {
       // Notify user of validation or API errors
@@ -260,8 +268,8 @@ function useJobManagement() {
       const response = await client.put(`/job/${currentJob.id}`, {
         status: status,
       });
+      await getJobsFromDB(); // Refresh job list
       handleSuccess();
-      getJobsFromDB();
     } catch (error) {
       FormatError(error, setError, "Status Error");
     } finally {
@@ -273,7 +281,7 @@ function useJobManagement() {
     setLoading(true);
     try {
       const response = await client.delete(`/job/${jobId}`);
-      await getJobsFromDB();
+      await getJobsFromDB(); // Refresh job list
       handleSuccess();
     } catch (error) {
       FormatError(error, setError, "Delete Job");
@@ -286,13 +294,16 @@ function useJobManagement() {
     setLoading(true);
     try {
       const response = await client.get("/job");
-      await set(JOB_MANAGEMENT_Key, response.data);
+      console.log(response.data); // Check what the API returns
+      setJobList(response.data?.filter(one=>Number(one.employer_id) === Number(authDetails.user?.id)));
+      await set(JOB_MANAGEMENT_Key, response.data?.filter(one=>Number(one.employer_id) === Number(authDetails.user?.id)));
     } catch (error) {
       FormatError(error, setError);
     } finally {
       setLoading(false);
     }
   };
+  
 
   const getJobById = async (jobId, setJob) => {
     setLoading(true);
@@ -334,17 +345,27 @@ function useJobManagement() {
     const initValue = async () => {
       try {
         const storedValue = await get(JOB_MANAGEMENT_Key);
-        if (storedValue !== undefined) {
+        if (storedValue !== undefined && storedValue.length > 0) {
           setJobList(storedValue);
+          console.log(storedValue)
+        } else {
+          await getJobsFromDB(); // Fetch from the API if no data in IndexedDB
         }
-        await getJobsFromDB();
       } catch (error) {
         FormatError(error, setError, "Index Error");
+        //await getJobsFromDB(); // Fallback to fetching from the API if IndexedDB fails
       }
-    };
+    };    
 
     initValue();
   }, []);
+
+  useEffect(() => {
+    if (jobList.length > 0) {
+      console.log("Job list updated", jobList); // Debugging
+    }
+  }, [jobList]);
+  
 
   return {
     loading,

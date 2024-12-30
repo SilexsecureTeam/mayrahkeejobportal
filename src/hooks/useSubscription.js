@@ -19,7 +19,7 @@ function useSubscription() {
   });
   const [packages, setPackages] = useState([]);
   const [loading, setLoading] = useState(false);
-  
+  // console.log(activePackage)
   const interviewPackages = packages.filter(
     (current) =>
       current.title.toLowerCase().includes("plus") ||

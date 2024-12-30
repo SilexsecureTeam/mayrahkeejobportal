@@ -25,7 +25,7 @@ function ManageBlogs() {
   };
 
   const featurePost = async (post, checked) => {
-   
+   console.log(post)
     const val = checked ? '1' : '0';
 
     try {
@@ -58,6 +58,7 @@ function ManageBlogs() {
         <span></span>
       </div>
 
+      <div className="w-full overflow-auto">
       <TableWrap rows={columns}>
         {blogs.length !== 0 ? (
           blogs.map((current) => <Trow featurePost={featurePost} data={current} key={current.id} />)
@@ -67,6 +68,7 @@ function ManageBlogs() {
           </span>
         )}
       </TableWrap>
+      </div>
     </div>
   );
 }

@@ -1,9 +1,10 @@
 import { useContext } from "react";
 import SubscriptionCard from "../components/subscription/SubscriptionCard";
 import { SubscriptionContext } from "../context/SubscriptionContext";
+import useSubscription from "../hooks/useSubscription";
 
 function SubscriptionPlans({ packages, setIsOpen }) {
-  const subUtils = useContext(SubscriptionContext);
+  const subUtils = useSubscription();
   const backUpPackages=subUtils.packages
   const style = backUpPackages?.length > 4 ? 'md:grid-cols-3 w-[95%] ' : `md:grid-cols-2 w-[60%]` 
   return (

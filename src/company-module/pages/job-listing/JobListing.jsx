@@ -8,7 +8,7 @@ import { ApplicationContext } from "../../../context/ApplicationContext";
 import { JobContext } from "../../../context/JobContext";
 
 function JobListing() {
-  const jobUtils = useContext(JobContext);
+  const jobUtils = useJobManagement();
   const { applicants } = useContext(ApplicationContext);
   console.log(jobUtils?.jobList)
   return (

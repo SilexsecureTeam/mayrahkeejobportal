@@ -6,6 +6,7 @@ import { useLocation, useParams } from "react-router-dom";
 import { JobContext } from "../../../context/JobContext";
 import { useContext } from "react";
 import { ApplicationContext } from "../../../context/ApplicationContext";
+import useJobManagement from "../../../hooks/useJobManagement";
 
 const options = [
   {
@@ -20,7 +21,7 @@ const options = [
 
 function JobType({test = false, resource = null}) {
   const [currentOption, setCurrentOption] = useState(options[0]);
-  const jobUtils = useContext(JobContext);
+  const jobUtils = useJobManagement();
   const { applicants } = useContext(ApplicationContext);
   const { id } = useParams();
   const [currentJob, setCurrentJob] = useState([]);
