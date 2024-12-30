@@ -6,7 +6,7 @@ import FallbackComponent from "../components/Fallback";
 import { SubscriptionContext } from "../context/SubscriptionContext";
 
 function withSubscription(Component, title) {
-  const subUtils = useContext(SubscriptionContext)
+  const subUtils = useSubscription()
 
   // useEffect(() => {
   //   if (hasSubscribed) {
@@ -16,15 +16,15 @@ function withSubscription(Component, title) {
 
   return (
     <>
-      {!subUtils.loading && subUtils.activePackage && <Component />}
+      {!subUtils?.loading && subUtils?.activePackage && <Component />}
 
-      {!subUtils.loading && !subUtils.activePackage && (
+      {!subUtils?.loading && !subUtils?.activePackage && (
         <SubscriptionPlans
           subUtils={subUtils}
         />
       )}
 
-      {subUtils.loading && !subUtils.activePackage && (
+      {subUtils?.loading && !subUtils?.activePackage && (
         <div className="h-full w-full flex items-center justify-center">
              <span className="text-little font-semibold text-gray-400">Making some checks, please wait...</span>
         </div>

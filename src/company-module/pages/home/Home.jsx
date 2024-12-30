@@ -22,13 +22,13 @@ function Home() {
   const { getApplicantsByEmployee, applicants } =
     useContext(ApplicationContext);
 
-  const { jobList } = useContext(JobContext);
+  const { jobList } = jobUtils;
 
-  const openJobs = jobList?.filter((current) => (current.status === "1"));
-  console.log(jobList, openJobs)
+  const openJobs = jobList?.filter((current) => (current.status === "1" || current.status === "approved"));
+  console.log(jobUtils.jobList,jobList, openJobs)
   const applicantsJobType = () => {
     const categories = [];
-
+    console.log(applicants)
     applicants?.map((current) => {
       const findCat = categories.find(
         (currentCat) => currentCat == current.job_id

@@ -25,6 +25,8 @@ const basic_inputs = [
     label: "Application Age Limit",
     type: "number",
     placeholder: "e.g 18",
+    min: 18,
+    max: 100,
     prompt: "Here you input preferred average age (years)",
     verification: "At least 18 years"
   },
@@ -58,7 +60,9 @@ const basic_inputs = [
     name: "experience",
     label: "Minimum years of Experience",
     type: "number",
-    placeholder: "e.g 2 years",
+    placeholder: "e.g 2",
+    min: 2,
+    max: 70,
     prompt: "Here you specify experience in years",
     verification: "At least 2 years"
   },
@@ -198,7 +202,7 @@ const salaryTypeData = [
 function BasicInformation({ setCurrentStep, data, jobUtils, validateAndProceed }) {
   const { getEmployentTypes, getCurrencies } = useJobManagement();
   const [salaryRange, setSalaryRange] = useState([5000, 22000]);
-  const [jobSectorList, setJobSectorList] = useState(jobSectors || null);
+  const [jobSectorList, setJobSectorList] = useState(jobSectors || []);
   const [selectedType, setSelectedType] = useState(jobUtils?.details?.type && jobUtils?.details?.type);
   const [currentQualification, setCurrentQualification] = useState("");
   const [selectedGender, setSelectedGender] = useState(jobUtils?.details?.salary_type ? genderData?.find(one => one.name === jobUtils?.details?.gender) : genderData[0]);
@@ -247,9 +251,9 @@ function BasicInformation({ setCurrentStep, data, jobUtils, validateAndProceed }
           && employementListResult?.find(one => one?.name === jobUtils?.details?.type));
       }
       setCurrencyList(currencyResult);
-     
 
-        setJobSectorList(jobSectors)
+
+      setJobSectorList(jobSectors)
     };
 
     initData();
@@ -263,7 +267,7 @@ function BasicInformation({ setCurrentStep, data, jobUtils, validateAndProceed }
         // If it's not a Blob/File, assume it's already a URL
         savedPhoto = jobUtils.details.featured_image;
       }
-    
+
       setPhotoUrl(savedPhoto);
     }
 
@@ -274,40 +278,42 @@ function BasicInformation({ setCurrentStep, data, jobUtils, validateAndProceed }
     };
   }, []);
 
-  useEffect(()=>{
-    if(jobUtils?.details?.location) setSelectedLocation(jobUtils?.details?.location ? State.getStatesOfCountry('NG')?.find(one=> one.name === jobUtils?.details.location) : State.getStatesOfCountry('NG')[0]);
-  },[jobUtils?.details?.location]);
-  
-useEffect(()=>{
-  setSelectedType(jobUtils.details.type
-          && employementList?.find(one => one?.name === jobUtils?.details?.type));
-},[employementList]);
-
-useEffect(()=>{
-   setSelectedCurrency(jobUtils.details.currency
-        ? currencyList?.find(one => one?.name === jobUtils?.details?.currency)
-        : currencyList[0]);
-},[currencyList]);
   useEffect(() => {
-   console.log(jobUtils?.details?.sector, selectedSector)
+    if (jobUtils?.details?.location) {
+      setSelectedLocation(State.getStatesOfCountry('NG')?.find(one => one.name === jobUtils?.details.location));
+    }
+  }, [jobUtils?.details?.location]);
+
+  useEffect(() => {
+    setSelectedType(jobUtils.details.type
+      && employementList?.find(one => one?.name === jobUtils?.details?.type));
+  }, [employementList]);
+
+  useEffect(() => {
+    setSelectedCurrency(jobUtils.details.currency
+      ? currencyList?.find(one => one?.name === jobUtils?.details?.currency)
+      : null);
+  }, [currencyList]);
+  useEffect(() => {
+    console.log(jobUtils?.details?.sector, selectedSector)
     // Find the sector from jobUtils.details or default to the first one
-if(jobSectorList && jobUtils?.details?.sector){
-    const sector = jobUtils?.details?.sector
-      ? jobSectorList?.find(one => one?.name === jobUtils?.details?.sector)
-      : jobSectorList[0];
+    if (jobSectorList && jobUtils?.details?.sector) {
+      const sector = jobUtils?.details?.sector
+        ? jobSectorList?.find(one => one?.name === jobUtils?.details?.sector)
+        : null;
 
-    setSelectedSector(sector);
+      setSelectedSector(sector);
 
-    // Set subsectors list based on the selected sector
-    setSubSectorList(sector?.subsections || []);
-    // Find the selected subsector or default to the first one in the subsector list
-    const subsector = jobUtils?.details?.subsector
-      ? sector?.subsections?.find(one => one?.name === jobUtils?.details?.subsector)
-      : sector?.subsections[0];
+      // Set subsectors list based on the selected sector
+      setSubSectorList(sector?.subsections || []);
+      // Find the selected subsector or default to the first one in the subsector list
+      const subsector = jobUtils?.details?.subsector
+        ? sector?.subsections?.find(one => one?.name === jobUtils?.details?.subsector)
+        : sector?.subsections[0];
 
-    setSelectedSubSector(subsector);
-}
-    
+      setSelectedSubSector(subsector);
+    }
+
 
   }, [jobSectorList, jobUtils?.details?.sector]);
 
@@ -320,7 +326,7 @@ if(jobSectorList && jobUtils?.details?.sector){
       setSelectedSubSector(matchingSubsector || selectedSector?.subsections[0]);
     }
   }, [selectedSector]);
-  
+
   useEffect(() => {
     if (selectedSubSector) {
       jobUtils.setDetails((prevDetails) => ({
@@ -329,7 +335,7 @@ if(jobSectorList && jobUtils?.details?.sector){
       }));
     }
   }, [selectedSubSector]);
-  
+
 
   useEffect(() => {
     jobUtils.setDetails((prevDetails) => ({

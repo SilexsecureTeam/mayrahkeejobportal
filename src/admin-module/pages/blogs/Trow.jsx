@@ -11,16 +11,16 @@ function Trow({ data, featurePost }) {
       className={`"border-b  odd:bg-gray-100 odd:text-black   hover:bg-green-200 duration-100 text-little`}
     >
       <td className="text-center py-[5px]">
-        <div className="capitalize flex justify-center items-center gap-[5px]">
+        <div className="capitalize">
           <img
             src={data.main_image || "/placeholder2.png"}
-            className="h-[50px] rounded-full w-[50px]"
+            className="h-[50px] rounded-full max-w-[50px]"
           />
         </div>
       </td>
 
-      <td className="hidden md:block py-5">
-        <div className="w-full flex h-full  justify-center items-center">
+      <td className="py-5">
+        <div className="w-full flex h-full items-center">
           <span>{data.title}</span>
         </div>
       </td>
@@ -31,7 +31,7 @@ function Trow({ data, featurePost }) {
         </div>
       </td>
 
-      <td className="hidden md:block">
+      <td className="">
         <p className=" text-center font-semibold">
           {new Date(data.updated_at).toLocaleDateString()}
         </p>
