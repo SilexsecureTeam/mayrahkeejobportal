@@ -30,7 +30,7 @@ function ListingRow({ data, applicants, isExclusive = false }) {
       <td>
         <div className="flex w-full justify-center py-[10px] items-center">
           <button className="py-[2px] px-[5px] border w-[80%] text-little border-primaryColor rounded-[30px] text-center font-semibold">
-            Open
+            {(data?.status === "approved" || data?.status === "1") ? "Open" :"Closed"}
           </button>
         </div>
       </td>

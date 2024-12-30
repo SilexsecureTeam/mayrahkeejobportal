@@ -291,17 +291,20 @@ function useJobManagement() {
   };
 
   const getJobsFromDB = async () => {
-    setLoading(true);
-    try {
-      const response = await client.get("/job");
-      console.log(response.data); // Check what the API returns
-      setJobList(response.data?.filter(one=>Number(one.employer_id) === Number(authDetails.user?.id)));
-      await set(JOB_MANAGEMENT_Key, response.data?.filter(one=>Number(one.employer_id) === Number(authDetails.user?.id)));
-    } catch (error) {
-      FormatError(error, setError);
-    } finally {
-      setLoading(false);
+    if(authDetails?.token !== null){
+      setLoading(true);
+      try {
+        const response = await client.get("/job");
+        console.log(response.data); // Check what the API returns
+        setJobList(response.data?.filter(one=>Number(one.employer_id) === Number(authDetails.user?.id)));
+        await set(JOB_MANAGEMENT_Key, response.data?.filter(one=>Number(one.employer_id) === Number(authDetails.user?.id)));
+      } catch (error) {
+        FormatError(error, setError);
+      } finally {
+        setLoading(false);
+      }
     }
+   
   };
   
 
@@ -342,6 +345,8 @@ function useJobManagement() {
   }, [error.message, error.error]);
 
   useEffect(() => {
+    if(authDetails?.token !== null){
+      console.log(authDetails)
     const initValue = async () => {
       try {
         const storedValue = await get(JOB_MANAGEMENT_Key);
@@ -356,13 +361,15 @@ function useJobManagement() {
         //await getJobsFromDB(); // Fallback to fetching from the API if IndexedDB fails
       }
     };    
-
+    
+      
     initValue();
-  }, []);
+    }
+  }, [authDetails?.token]);
 
   useEffect(() => {
     if (jobList.length > 0) {
-      console.log("Job list updated", jobList); // Debugging
+      //console.log("Job list updated", jobList); // Debugging
     }
   }, [jobList]);
   

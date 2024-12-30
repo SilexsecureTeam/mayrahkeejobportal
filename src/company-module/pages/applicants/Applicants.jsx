@@ -2,20 +2,20 @@ import { Helmet } from "react-helmet";
 import ApplicantRow from "../../components/applicants/ApplicantRow";
 import useApplicationManagement from "../../../hooks/useApplicationManagement";
 import { useContext, useEffect, useState } from "react";
-import { ApplicationContext } from "../../../context/ApplicationContext";
+//import { ApplicationContext } from "../../../context/ApplicationContext";
 import { BsGrid, BsGridFill } from "react-icons/bs";
 import { TbLayoutList, TbLayoutListFilled } from "react-icons/tb";
 import InterviewGridCard from "../schedule/InteviewGridCard";
 import ApplicateGridCard from "./ApplicantsGrid";
 
 function Applicants() {
-  const applicationUtils = useContext(ApplicationContext);
+  const applicationUtils = useApplicationManagement();
   const [isGrid, setIsGrid] = useState(false);
 
   useEffect(() => {
     applicationUtils.getApplicantsByEmployee();
   }, []);
-  console.log(applicationUtils?.applicants);
+ // console.log(applicationUtils?.applicants);
   return (
     <>
       <Helmet>
