@@ -1,6 +1,6 @@
 import { onFailure } from "../../utils/notifications/OnFailure";
 
-export const authToken = "bf5d89660d7a17d2aa32a656b220d5e23bd3d1e194715a9f79d80504e98d467f";
+export const authToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcGlrZXkiOiJhOTE1MzJhYi1hOGM1LTRjYjEtYTY4Ni1mNWIyY2UyNzQwZmIiLCJwZXJtaXNzaW9ucyI6WyJhbGxvd19qb2luIl0sImlhdCI6MTczNTY3NDk1NCwiZXhwIjoxODkzNDYyOTU0fQ.w7wqu6O-159LvHgftoxoo61ErC82VNVr_EjxpPACDVc";
 export const createMeeting = async () => {
   try {
     const res = await fetch(`https://api.videosdk.live/v2/rooms`, {
