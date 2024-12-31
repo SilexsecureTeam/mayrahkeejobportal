@@ -86,7 +86,7 @@ function Home() {
     });
   }, []);
 
-  console.log(userUpdate);
+  //console.log(userUpdate);
 
   useEffect(() => {
     setGetAllApplications((prev) => {

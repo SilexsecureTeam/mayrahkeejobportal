@@ -175,8 +175,8 @@ function StaffCard({ data, contract = null, cartItems, getCartItems }) {
     const detail =
       allStatus.find((current) => current === status) || "Not Recorded";
     if (name === "garantor") {
-      console.log('Detail', detail);
-      console.log('Status', status);
+      // console.log('Detail', detail);
+      // console.log('Status', status);
     }
 
     switch (name) {
@@ -338,8 +338,8 @@ function StaffCard({ data, contract = null, cartItems, getCartItems }) {
           <span className="flex gap-2 items-center justify-between text-md truncate font-semibold">
             Langages:
             <span className="text-sm w-[60%] flex text-start font-normal text-gray-500">
-              {getField("languages_spoken").map((current) => (
-                <span className="group">
+              {getField("languages_spoken").map((current, idx) => (
+                <span key={idx} className="group">
                   {current}
                   <span className="group-last:hidden">, </span>
                 </span>

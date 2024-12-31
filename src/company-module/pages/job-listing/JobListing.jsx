@@ -10,7 +10,7 @@ import { JobContext } from "../../../context/JobContext";
 function JobListing() {
   const jobUtils = useJobManagement();
   const { applicants } = useContext(ApplicationContext);
-  console.log(jobUtils?.jobList)
+  
   return (
     <>
       <Helmet>

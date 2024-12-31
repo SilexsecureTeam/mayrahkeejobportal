@@ -6,6 +6,7 @@ import location from '../assets/image-address.jpg'
 import logo from '../assets/Mayrahkee_Africa_Logo_White.png'
 import Navbar from '../components/Landing/Navbar';
 import Footer from '../components/Landing/Footer';
+import { Helmet } from "react-helmet";
 const Help = () => {
   const [loading, setLoading] = useState(true);
 
@@ -15,6 +16,9 @@ const Help = () => {
   window.scrollTo(0, 0);
   return (
     <>
+      <Helmet>
+        <title>Mayrahkee | Help Center</title>
+      </Helmet>
       <div className='relative max-w-[1400px] w-full mx-auto'>
         <Navbar />
         <div className="relative my-20 px-5 h-auto flex flex-col gap-3">
@@ -42,7 +46,7 @@ const Help = () => {
           <div className="flex flex-col items-center" >
             <img src={location} className="w-30 my-2" />
             <h3 className="font-semibold text-black text-xl">Address</h3>
-            <p className="text-gray-500 font-bold text-sm capitalize">6<sup>th</sup> floor, NICON Plaza 242 Muhammadu Buhari Way,<br/> Central Business District, Abuja.</p>
+            <p className="text-gray-500 font-bold text-sm capitalize">6<sup>th</sup> floor, NICON Plaza 242 Muhammadu Buhari Way,<br /> Central Business District, Abuja.</p>
           </div>
           <div className="flex flex-col items-center">
             <img src={telephone} className="w-30 my-2" />

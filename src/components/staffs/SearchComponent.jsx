@@ -216,7 +216,7 @@ function SearchComponent({ subCategories, handleQuerySubmit, title = "Subcategor
           <FormButton
             onClick={handleSubmit(async (data) => {
               setLoading(true);
-              console.log(data);
+              //console.log(data);
               let queryParams = "";
               if (data.age) {
                 queryParams += `age=${data.age}&`;

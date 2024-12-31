@@ -4,6 +4,7 @@ import Footer from '../components/Landing/Footer';
 import { useNavigate } from 'react-router-dom';
 import { FaSearch } from 'react-icons/fa';
 import { ResourceContext } from "../context/ResourceContext";
+import { Helmet } from 'react-helmet';
 
 const BlogList = () => {
     const {
@@ -68,7 +69,7 @@ const calculateReadingTime = (text) => {
             const fetchedCategories = getAllBlogCategories.data.data || [];
             setCategories(fetchedCategories);
             setIsLoading(false);
-            console.log(categories)
+            //console.log(categories)
         }
     }, [getAllBlogCategories]);
 
@@ -76,7 +77,7 @@ const calculateReadingTime = (text) => {
     const handleSubcategorySelect = (subcategoryId, categoryId) => {
         setSelectedSubcategory(subcategoryId);  // Set selected subcategory
         setSelected(categoryId);  // Set the category associated with the subcategory
-        console.log(categoryId, subcategoryId)
+        //console.log(categoryId, subcategoryId)
     };
 
     // Filter blogs based on selected category, subcategory, and search query
@@ -103,13 +104,16 @@ const calculateReadingTime = (text) => {
                     blog.description?.toLowerCase().includes(searchQuery.toLowerCase())
             );
         }
-        console.log(result)
+        
         return result;
         
     }, [selected, selectedSubcategory, searchQuery, blogs]);
 
     return (
         <>
+        <Helmet>
+          <title>Mayrahkee | Blogs</title>
+        </Helmet>
             <div className="relative max-w-[1400px] w-full mx-auto">
                 <Navbar />
                 <main className="relative my-24 px-5 h-auto flex flex-col gap-5">

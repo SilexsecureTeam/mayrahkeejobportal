@@ -103,7 +103,7 @@ function useLogin(role) {
   
 
   useEffect(() => {
-    console.log(error)
+    //console.log(error)
     if (error.message || error.error) {
       onFailure(error);
     }

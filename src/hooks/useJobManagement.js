@@ -161,7 +161,7 @@ function useJobManagement() {
         return `${fieldNames[key]} is required.`;
       }
     }
-    if (Number(details.preferred_age) < 18 ) {
+    if (Number(details.preferred_age) < 18) {
       return "The preferred age field must be at least 18.";
     }
 
@@ -189,15 +189,15 @@ function useJobManagement() {
       });
 
       setDetails({}); // Clear form
-      await  getJobsFromDB(); // Refresh job list
+      await getJobsFromDB(); // Refresh job list
       handleSuccess(); // Call success handler
-     
+
     } catch (error) {
       // Notify user of validation or API errors
       const errorDetails = Object.entries(error?.response?.data?.errors || {})
-          .map(([key, value]) => `${key}: ${value}`)
-          .join("\n") || error?.message;
-        
+        .map(([key, value]) => `${key}: ${value}`)
+        .join("\n") || error?.message;
+
       onFailure({ message: "Submission Failed", error: errorDetails });
     } finally {
       setLoading(false);
@@ -216,12 +216,12 @@ function useJobManagement() {
       }
 
       // Submit the job
-      const response = await axios.put(`${apiURL}/job/${details.id}`,details, {
-        headers :{
+      const response = await axios.put(`${apiURL}/job/${details.id}`, details, {
+        headers: {
           "Content-Type": "application/json",
           "Authorization": `Bearer ${authDetails?.token}`,
         }
-      } );
+      });
 
 
       setDetails({}); // Clear form
@@ -230,7 +230,7 @@ function useJobManagement() {
     } catch (error) {
       // Notify user of validation or API errors
       console.log(error)
-      onFailure({ message: "Submission Failed", error: error?.response?.data?.message ? error?.response?.data?.message: error?.message });
+      onFailure({ message: "Submission Failed", error: error?.response?.data?.message ? error?.response?.data?.message : error?.message });
     } finally {
       setLoading(false);
     }
@@ -291,22 +291,22 @@ function useJobManagement() {
   };
 
   const getJobsFromDB = async () => {
-    if(authDetails?.token !== null){
+    if (authDetails?.token) {
       setLoading(true);
       try {
         const response = await client.get("/job");
-        console.log(response.data); // Check what the API returns
-        setJobList(response.data?.filter(one=>Number(one.employer_id) === Number(authDetails.user?.id)));
-        await set(JOB_MANAGEMENT_Key, response.data?.filter(one=>Number(one.employer_id) === Number(authDetails.user?.id)));
+        //console.log(response.data); // Check what the API returns
+        setJobList(response.data?.filter(one => Number(one.employer_id) === Number(authDetails?.user?.id)));
+        await set(JOB_MANAGEMENT_Key, response.data?.filter(one => Number(one.employer_id) === Number(authDetails.user?.id)));
       } catch (error) {
         FormatError(error, setError);
       } finally {
         setLoading(false);
       }
     }
-   
+
   };
-  
+
 
   const getJobById = async (jobId, setJob) => {
     setLoading(true);
@@ -339,20 +339,18 @@ function useJobManagement() {
 
   //   useEffect(() => console.log(details), [details]);
   useEffect(() => {
-    if (error.message && error.error) {
+    if (authDetails?.token && error.message && error.error) {
       onFailure(error);
     }
   }, [error.message, error.error]);
 
   useEffect(() => {
-    if(authDetails?.token !== null){
-      console.log(authDetails)
     const initValue = async () => {
       try {
         const storedValue = await get(JOB_MANAGEMENT_Key);
         if (storedValue !== undefined && storedValue.length > 0) {
           setJobList(storedValue);
-          console.log(storedValue)
+          //console.log(storedValue)
         } else {
           await getJobsFromDB(); // Fetch from the API if no data in IndexedDB
         }
@@ -360,10 +358,11 @@ function useJobManagement() {
         FormatError(error, setError, "Index Error");
         //await getJobsFromDB(); // Fallback to fetching from the API if IndexedDB fails
       }
-    };    
-    
-      
-    initValue();
+    };
+
+    if (authDetails?.token !== null || authDetails?.token !== undefined) {
+
+      initValue();
     }
   }, [authDetails?.token]);
 
@@ -372,7 +371,7 @@ function useJobManagement() {
       //console.log("Job list updated", jobList); // Debugging
     }
   }, [jobList]);
-  
+
 
   return {
     loading,

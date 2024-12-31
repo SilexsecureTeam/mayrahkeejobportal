@@ -5,7 +5,7 @@ import { axiosClient } from "../../../services/axios-client";
 import { AuthContext } from "../../../context/AuthContex";
 import { onFailure } from "../../../utils/notifications/OnFailure";
 import SearchComponent from "../../../components/staffs/SearchComponent";
-import { FaExclamationCircle, FaShoppingCart } from "react-icons/fa";
+import { FaExclamationCircle, FaShoppingCart, FaFileContract } from "react-icons/fa";
 import {
   MdCheck,
   MdCheckBox,
@@ -82,10 +82,10 @@ function Artisan() {
   const staffsToDisplay =
     searchResult.length > 0
       ? searchResult?.filter(
-          (current) =>
-            current?.staff_category === "artisan" &&
-            current?.middle_name !== null
-        )
+        (current) =>
+          current?.staff_category === "artisan" &&
+          current?.middle_name !== null
+      )
       : [];
 
   const getCartItems = async () => {
@@ -200,9 +200,10 @@ function Artisan() {
           <div className="flex md:items-center gap-5">
             <button
               onClick={() => navigate("/company/staff/contract-history")}
-              className="border-primaryColor px-3 py-1 border hover:bg-primaryColor hover:text-white"
+              className="flex items-center gap-2"
             >
-              Contract History
+              <FaFileContract size="24" className="inline md:hidden" />
+              <span className="hidden md:inline  border-primaryColor px-3 py-1 border hover:bg-primaryColor hover:text-white">Contract History</span>
             </button>
 
             <button className="my-5" onClick={navigateToCart}>

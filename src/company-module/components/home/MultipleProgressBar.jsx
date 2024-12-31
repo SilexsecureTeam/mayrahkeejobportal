@@ -6,6 +6,7 @@ function MultipleProgressBar({ applicants, totalApplicants }) {
         const width = (applicants[current].length / totalApplicants) * 100;
         return (
           <div
+          key={current?.id}
             style={{ width: `${width}%` }}
             className={` list-item h-full`}
           />
