@@ -22,15 +22,15 @@ function NavBar({ state, toogleIsOpen, isMenuOpen }) {
         setIsOpen={setIsOpen}
         data={notifications}
       />
-      <nav className="w-full h-[8%] px-2 md:px-12 flex items-center justify-between bg-white">
+      <nav className="w-full h-[8%] px-2 sm:px-4 md:px-8 flex items-center justify-between bg-white">
     
           <MdMenu
             onClick={toogleIsOpen}
-            className="text-primarycolor md:hidden  text-3xl"
+            className="text-primarycolor lg:hidden text-3xl"
           />
-        <div className="flex items-center gap-[5px]">
+        <div className="flex items-center gap-[5px] mr-auto">
           <img src={wheelIcon} className="h-[35px] md:block hidden w-[35px]" />
-          <h1 className="font-semibold text-[18px] md:text-xl leading-none">{state.title}</h1>
+          <h1 className="font-semibold text-[18px] md:text-xl leading-none ml-[2px]">{state.title}</h1>
         </div>
 
         <div className="flex justify-end items-center pr-2 md:w-[25%] gap-[5px]">

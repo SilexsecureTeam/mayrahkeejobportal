@@ -161,7 +161,7 @@ function Artisan() {
           </FormButton>
         </div>
       </PopUpBox>
-      <div className="h-full overflow-y-auto w-full flex flex-col px-5 md:px-8 lg:px-12 py-2 gap-[15px] bg-gray-50">
+      <div className="h-full overflow-y-auto w-full flex flex-col py-2 gap-[15px] bg-gray-50">
         <div className="flex w-full justify-between items-start gap-1">
           <section className="flex flex-col gap-y-5">
             <div

@@ -53,7 +53,7 @@ function Home() {
       <Helmet>
         <title>Company Dashboard | Home</title>
       </Helmet>
-      <div className="h-fit w-full py-5 px-2 md:px-12 gap-[15px] flex flex-col">
+      <div className="h-fit w-full py-5 gap-[15px] flex flex-col">
         <SubscriptionOffer />
         <WelcomeMessage name={authDetails.user.name} />
         <StatsCardWrapper applicants={applicantToReview}  />

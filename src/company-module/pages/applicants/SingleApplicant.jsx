@@ -2,7 +2,6 @@ import { useLocation } from "react-router-dom";
 import PrimaryDetail from "../../components/applicants/PrimaryDetail";
 import SecondaryDetail from "../../components/applicants/SecondaryDetail";
 import { useContext, useEffect, useState } from "react";
-import useApplicationManagement from "../../../hooks/useApplicationManagement";
 import ScheduleInterviewModal from "../../components/applicants/ScheduleInteviewModal";
 import { ApplicationContext } from "../../../context/ApplicationContext";
 
@@ -21,6 +20,7 @@ function SingleApplicant() {
   } = useContext(ApplicationContext);
 
   const [applicant, setApplicant] = useState();
+  const [isLoading, setIsLoading] = useState(false);
 
   const toogleInterview = () => setIsOpen(!isOpen);
 
@@ -42,18 +42,24 @@ function SingleApplicant() {
     if (application) {
       setApplicantData(application);
     }
-
     return setApplication(null);
   }, [application]);
 
   useEffect(() => {
     const initApplicant = async () => {
-      const result = await getApplicant(
-        applicationData.candidate_id,
-        setApplicant
-      );
-      if (result) {
-        setApplicant(result);
+      setIsLoading(true); // Start the loader
+      try {
+        const result = await getApplicant(
+          applicationData?.candidate_id,
+          setApplicant
+        );
+        if (result) {
+          setApplicant(result);
+        }
+      } catch (error) {
+        console.error("Error fetching applicant:", error);
+      } finally {
+        setIsLoading(false); // Stop the loader
       }
     };
 
@@ -72,29 +78,38 @@ function SingleApplicant() {
         onTextChange={onTextChange}
         setIsOpen={setIsOpen}
       />
-      {applicant && (
-        <div className="flex flex-col p-2 h-full gap-[5px]">
-          <div className="w-full flex justify-between ">
-            <h2 className="font-semibold text-md">Applicant's Details</h2>
-            {/* 
-            <button className="text-little py-1 px-2 bg-white border text-primaryColor border-primaryColor ">
-              More Action
-            </button> */}
-          </div>
-
-          <div className="flex flex-col md:flex-row justify-between h-full">
-            <PrimaryDetail
-              data={applicationData}
-              applicant={applicant}
-              toogleInterview={toogleInterview}
-            />
-            <SecondaryDetail
-              data={applicationData}
-              applicant={applicant}
-              toogleInterview={toogleInterview}
-            />
-          </div>
+      {isLoading ? (
+        <div className="flex items-center justify-center h-screen">
+          <div className="animate-spin border-4 border-gray-200 border-t-primaryColor rounded-full w-8 h-8"></div>
+          <span className="ml-3 text-primaryColor font-semibold">
+            Loading...
+          </span>
         </div>
+      ) : (
+        applicant && (
+          <div className="flex flex-col h-full gap-[5px]">
+            <div className="w-full flex justify-between ">
+              <h2 className="font-semibold text-md">Applicant's Details</h2>
+              {/* 
+              <button className="text-little py-1 px-2 bg-white border text-primaryColor border-primaryColor ">
+                More Action
+              </button> */}
+            </div>
+
+            <div className="flex flex-col md:flex-row justify-between h-full">
+              <PrimaryDetail
+                data={applicationData}
+                applicant={applicant}
+                toogleInterview={toogleInterview}
+              />
+              <SecondaryDetail
+                data={applicationData}
+                applicant={applicant}
+                toogleInterview={toogleInterview}
+              />
+            </div>
+          </div>
+        )
       )}
     </>
   );

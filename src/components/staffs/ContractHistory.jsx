@@ -54,8 +54,8 @@ function ContractHistory() {
     // getMarketList();
   }, []);
   return (
-    <div className="h-full w-full flex flex-col px-5 md:px-8 lg:px-12 py-5 gap-[15px]">
-      <span>Here is detailed track record on all your contract history.</span>
+    <div className="h-full w-full flex flex-col py-5 gap-[15px]">
+      <span>Here is a detailed track record of all your contract history.</span>
       <TableHead>
         {contractItems.length > 0 &&
           contractItems

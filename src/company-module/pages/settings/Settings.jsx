@@ -25,7 +25,7 @@ function Settings() {
   };
 
   return (
-    <div className="w-full px-6 py-2 flex flex-col gap-[20px]">
+    <div className="w-full py-2 flex flex-col gap-[20px]">
       <h1 className="font-semibold"> Notification Settings </h1>
 
       {getComponent()}

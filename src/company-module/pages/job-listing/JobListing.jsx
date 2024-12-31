@@ -16,7 +16,7 @@ function JobListing() {
       <Helmet>
         <title>Company Dashboard | Job Listing </title>
       </Helmet>
-      <div className="h-full w-full flex flex-col px-4 md:px-12 py-5 gap-4 md:gap-[15px]">
+      <div className="h-full w-full flex flex-col py-5 gap-4 md:gap-[15px]">
         <div className="w-full flex flex-col md:flex-row justify-between">
           <div className="flex flex-col">
             <h2 className="font-semibold text-md">Job Listing</h2>

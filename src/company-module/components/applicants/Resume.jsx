@@ -22,6 +22,7 @@ const stages = [
 ];
 
 function Resume({ data, applicant }) {
+  const [loading, setLoading] = useState(true); // Default loading to true
   const [resume, setResume] = useState();
   const { getResume } = useContext(ApplicationContext);
 
@@ -36,9 +37,22 @@ function Resume({ data, applicant }) {
   };
 
   useEffect(() => {
-    getResume(applicant?.candidate_id, setResume);
+    setLoading(true); // Start loading
+    getResume(applicant?.candidate_id, (response) => {
+      setResume(response);
+      setLoading(false); // Stop loading after fetching
+    });
   }, []);
-console.log(resume)
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-[200px]">
+        <div className="loader"></div> {/* Replace with your spinner */}
+        <span className="ml-3 text-primaryColor font-semibold">Loading...</span>
+      </div>
+    );
+  }
+
   return (
     resume && (
       <>
@@ -46,18 +60,28 @@ console.log(resume)
           <div className="flex flex-col w-full items-center">
             <h3 className="mb-[10px] tracking-wide flex flex-col items-center text-smd font-semibold">
               {resume.title}
-              {resume.resume_path ? <a href={`${resourceUrl}${resume.resume_path}`} className="text-little font-normal hover:underline text-primaryColor">link to file</a> : <p>No file Uploaded</p>}
+              {resume.resume_path ? (
+                <a
+                  href={`${resourceUrl}${resume.resume_path}`}
+                  className="text-little font-normal hover:underline text-primaryColor"
+                >
+                  Link to file
+                </a>
+              ) : (
+                <p>No file Uploaded</p>
+              )}
             </h3>
 
             <ul className="flex flex-col text-black gap-[10px] text-sm w-full">
-            
               <li className="flex flex-col gap-[5px] items-center bg-secondaryColor p-2 border-b">
                 <span className="font-semibold text-black text-[15px]">
                   Education
                 </span>
                 <span className="text-black font-semibold flex w-full justify-between">
-                Intitution
-                  <span className="font-normal">{resume.educational_institution}</span>
+                  Institution
+                  <span className="font-normal">
+                    {resume.educational_institution}
+                  </span>
                 </span>
                 <span className="text-black font-semibold flex w-full justify-between">
                   Academy Name
@@ -74,7 +98,7 @@ console.log(resume)
                   </span>
                 </span>
               </li>
-              <li className=" flex flex-col gap-[5px] items-center border-b bg-secondaryColor p-2">
+              <li className="flex flex-col gap-[5px] items-center border-b bg-secondaryColor p-2">
                 <span className="font-semibold text-black text-[15px]">
                   Current Work Experience
                 </span>
@@ -89,14 +113,12 @@ console.log(resume)
                 <span className="text-black font-semibold flex w-full justify-between">
                   Date Started{" "}
                   <span className="font-normal">
-                    {" "}
                     {new Date(resume.start_date).toLocaleDateString()}
                   </span>
                 </span>
                 <span className="text-black font-semibold flex w-full justify-between">
                   Date Ended{" "}
                   <span className="font-normal">
-                    {" "}
                     {new Date(resume.end_date).toLocaleDateString()}
                   </span>
                 </span>
@@ -105,16 +127,11 @@ console.log(resume)
           </div>
         </div>
         <div className="flex flex-col justify-between px-10">
-          {/* <div className="flex flex-col text-little justify-center items-start gap-[2px]">
-          <span className="font-semibold ">Portfolio Url</span>
-          <a href={data?.portfolio_url} className="font-semibold ">{data?.portfolio_url}</a>
-        </div> */}
-
           <div className="flex flex-col text-little justify-center items-start gap-[2px]">
             <span className="font-semibold ">NIN</span>
             <img
               src={`${resourceUrl}/${applicant?.nin_slip}`}
-              className="h-[100px] w-[100px] border border-dotted p-1 "
+              className="h-[100px] w-[100px] border border-dotted p-1"
             />
           </div>
         </div>
