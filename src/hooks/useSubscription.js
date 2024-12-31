@@ -122,9 +122,10 @@ function useSubscription() {
       }
      
     };
-
+    if (authDetails?.token !== null || authDetails?.token !== undefined) {
     getActivePackage();
     initVals();
+    }
   }, [authDetails?.user]);
 
   useEffect(() => {

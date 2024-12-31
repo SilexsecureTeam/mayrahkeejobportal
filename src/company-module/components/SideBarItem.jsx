@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-function SideBarItem({ data, dispatch, state }) {
+function SideBarItem({ data, dispatch, state, setIsOpen }) {
   const navigate = useNavigate();
 
   const navigateToPage = () => {
@@ -12,6 +12,7 @@ function SideBarItem({ data, dispatch, state }) {
       dispatch({ ...data });
       navigate(data.route);
     }
+    setIsOpen(false)
   };
 
   return (

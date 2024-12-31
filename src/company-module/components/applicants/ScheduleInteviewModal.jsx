@@ -9,6 +9,7 @@ import useCompanyProfile from "../../../hooks/useCompanyProfile";
 import { useSafeMantineTheme } from "@mantine/core";
 import { createMeeting } from "../../../components/video-sdk/Api";
 import useSubscription from "../../../hooks/useSubscription";
+import { FaSpinner } from "react-icons/fa";
 
 const fields = [
   {
@@ -17,7 +18,7 @@ const fields = [
     label: "Interview Name",
     required: true,
     type: "text",
-    placeholder: "Add inteview name",
+    placeholder: "Add interview name",
   },
   {
     id: 1,
@@ -25,7 +26,7 @@ const fields = [
     label: "Interview Date",
     required: true,
     type: "date",
-    placeholder: "Select inteview date",
+    placeholder: "Select interview date",
   },
   {
     id: 6,
@@ -33,7 +34,7 @@ const fields = [
     label: "Interview Time",
     required: true,
     type: "time",
-    placeholder: "Select inteview date",
+    placeholder: "Select interview time",
   },
   {
     id: 2,
@@ -67,16 +68,24 @@ function ScheduleInterviewModal({
   handleOnSubmit,
 }) {
   const companyUtil = useCompanyProfile();
-  const {isInterviewPackge} = useSubscription()
+  const { isInterviewPackge } = useSubscription();
   const { authDetails } = useContext(AuthContext);
-  const options = isInterviewPackge ? interviewOptions : [interviewOptions[1]]
+  const options = isInterviewPackge ? interviewOptions : [interviewOptions[1]];
   const [selected, setSelected] = useState();
 
   const [meetingId, setMeetingId] = useState();
+  const [loadingMeetingId, setLoadingMeetingId] = useState(false); // Loading state for meeting ID
 
   const onClick = async () => {
-    const roomId = await createMeeting(authDetails?.token);
-    setMeetingId(roomId);
+    setLoadingMeetingId(true); // Set loading state to true
+    try {
+      const roomId = await createMeeting(authDetails?.token);
+      setMeetingId(roomId);
+    } catch (error) {
+      console.error("Error generating meeting ID:", error);
+    } finally {
+      setLoadingMeetingId(false); // Reset loading state after fetching
+    }
   };
 
   return (
@@ -114,7 +123,7 @@ function ScheduleInterviewModal({
               />
 
               <div className="flex flex-col">
-                <label className="text-sm font-semibold">Inteview Type</label>
+                <label className="text-sm font-semibold">Interview Type</label>
                 <Selector
                   data={options}
                   selected={selected}
@@ -139,9 +148,12 @@ function ScheduleInterviewModal({
                     <button
                       type="button"
                       onClick={onClick}
-                      className="w-fit px-2 py-1 bg-primaryColor rounded-[5px] text-white text-little font-semibold"
+                      className="w-fit px-2 py-1 bg-primaryColor rounded-[5px] text-white text-little font-semibold flex items-center"
                     >
-                      Generate Meeting Id
+                      <span>Generate Meeting Id</span>
+                      {loadingMeetingId && (
+                        <FaSpinner className="ml-2 animate-spin" /> // Add Tailwind's animate-spin class
+                      )}
                     </button>
                   </div>
                 </div>

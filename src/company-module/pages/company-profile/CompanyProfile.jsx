@@ -74,7 +74,7 @@ function CompaniesProfile({ exclusiveId = null }) {
       />}
       {details.company_name &&
       details.beenRetreived === retrievalState.retrieved ? (
-        <div className="h-full w-full flex flex-col px-2 md:px-12 py-2 justify-between">
+        <div className="h-full w-full flex flex-col py-2 justify-between">
           <ProfileHeader
             isOpen={isOpen}
             setIsOpen={setIsOpen}

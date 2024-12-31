@@ -205,7 +205,7 @@ function JobStatistic({ applicants, byCategory }) {
             </span>
           </div>
         </div>
-        <div className="flex gap-5 border-b">
+        <div className="flex gap-5 border-b overflow-x-auto">
           {options.map((current, index) => (
             <h3
               key={index}
