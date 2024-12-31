@@ -104,8 +104,8 @@ function Companies() {
               <option value={""} id={"030"}>
                 -- select location --
               </option>
-              {State.getStatesOfCountry("NG").map((current) => (
-                <option value={current.name} id={current.name}>
+              {State.getStatesOfCountry("NG").map((current, index) => (
+                <option key={index} value={current.name} id={current.name}>
                   {current.name}
                 </option>
               ))}

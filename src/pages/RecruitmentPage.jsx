@@ -11,10 +11,10 @@ import Advert from "../components/Landing/Advert";
 import Footer from "../components/Landing/Footer";
 import { redirect, Navigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContex";
-
-const LandingPage = () => {
+import { Helmet } from "react-helmet";
+const RecruitmentPage = () => {
   const { authDetails } = useContext(AuthContext);
- // window.scrollTo(0, 0);
+  // window.scrollTo(0, 0);
 
   const redirectPath = () => {
     switch (authDetails?.user?.role) {
@@ -31,6 +31,9 @@ const LandingPage = () => {
     <Navigate to={redirectPath()} />
   ) : (
     <>
+      <Helmet>
+        <title>Mayrahkee | Recruitment Page</title>
+      </Helmet>
       <div className="relative max-w-[1400px] w-full mx-auto">
         <Navbar />
         <main className="relative my-20 px-5 h-full">
@@ -56,4 +59,4 @@ const LandingPage = () => {
   );
 };
 
-export default LandingPage;
+export default RecruitmentPage;

@@ -3,12 +3,10 @@ import PropTypes from "prop-types";
 import { FaUserCircle } from "react-icons/fa";
 import { resourceUrl } from "../services/axios-client";
 
-const StaffCard = ({ staff, onClick }) => {
+const StaffCard = ({ staff }) => {
   return (
     <div
-      className="w-full bg-white border border-gray-200 rounded-lg shadow-md p-5 transition hover:shadow-xl"
-      onClick={() => onClick(staff)}
-    >
+      className="w-full bg-white border border-gray-200 rounded-lg shadow-md p-5 transition hover:shadow-xl">
       {/* Header Section */}
       <div className="flex items-center gap-4 mb-4">
         {staff.profile_image ? (

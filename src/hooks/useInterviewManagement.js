@@ -28,16 +28,18 @@ function useInterviewManagement() {
 
   //Api request to update profile
   const getAllInterviews = async (handleSuccess) => {
-    setLoading(true);
-    try {
-      const {data}= await client.get(`/interviews/getByEmployerId/${authDetails.user.id}`);
-      setInterviews(data.interview)
-      handleSuccess();
-    } catch (error) {
-      console.log(error);
-      // FormatError(error, setError, "Update Error");
-    } finally {
-      setLoading(false);
+    if (authDetails?.token !== null || authDetails?.token !== undefined) {
+      setLoading(true);
+      try {
+        const { data } = await client.get(`/interviews/getByEmployerId/${authDetails.user.id}`);
+        setInterviews(data.interview)
+        handleSuccess();
+      } catch (error) {
+       // console.log(error);
+        // FormatError(error, setError, "Update Error");
+      } finally {
+        setLoading(false);
+      }
     }
   };
 

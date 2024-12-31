@@ -6,7 +6,7 @@ import { AuthContext } from "../../../context/AuthContex";
 import { onFailure } from "../../../utils/notifications/OnFailure";
 import { MdClose } from "react-icons/md";
 import SearchComponent from "../../../components/staffs/SearchComponent";
-import { FaExclamationCircle, FaShoppingCart } from "react-icons/fa";
+import { FaExclamationCircle, FaShoppingCart, FaFileContract } from "react-icons/fa";
 import StaffCard from "../../../components/staffs/StaffCard";
 import PopUpBox from "../../../components/PopUpBox";
 import FormButton from "../../../components/FormButton";
@@ -180,10 +180,13 @@ function DomesticStaff() {
           </section>
 
           <div className="flex md:items-center gap-5">
-            <button 
-            onClick={() => navigate('/company/staff/contract-history')}
-            className="border-primaryColor px-3 py-1 border hover:bg-primaryColor hover:text-white">
-             Contract History
+            
+            <button
+              onClick={() => navigate('/company/staff/contract-history')}
+              className="flex items-center gap-2"
+            >
+              <FaFileContract size="24" className="inline md:hidden" />
+              <span className="hidden md:inline  border-primaryColor px-3 py-1 border hover:bg-primaryColor hover:text-white">Contract History</span>
             </button>
 
             <button className="my-5" onClick={navigateToCart}>

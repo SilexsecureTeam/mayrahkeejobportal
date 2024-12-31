@@ -3,6 +3,7 @@ import { AuthContext } from "../../context/AuthContex";
 import { axiosClient } from "../../services/axios-client";
 import TableHead from "./marketplace/TableHead";
 import TableRow from "./marketplace/TableRow";
+import { onFailure } from "../../utils/notifications/OnFailure";
 
 function ContractHistory() {
   const { authDetails } = useContext(AuthContext);
@@ -35,7 +36,7 @@ function ContractHistory() {
         user_type: authDetails.user.role,
       });
 
-      if (data.contracts) {
+      if (data?.contracts) {
         setContractItems(data.contracts);
       } else {
         setContractItems([]);

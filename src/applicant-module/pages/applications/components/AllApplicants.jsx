@@ -1,14 +1,12 @@
 import React, { useState, useEffect } from "react";
-import newApplicant from "../../../../assets/pngs/applicant-logo1.png";
-import { MdMoreHoriz } from "react-icons/md";
-import { stages } from "../../../../utils/constants";
 import { useNavigate } from "react-router-dom";
-import { onPrompt } from "../../../../utils/notifications/onPrompt";
 import { toast } from "react-toastify";
 import useJobManagement from "../../../../hooks/useJobManagement";
 import { resourceUrl } from "../../../../services/axios-client";
 import { FormatTextToUppecase } from "../../../../utils/formmaters";
-
+import { stages } from "../../../../utils/constants";
+import { onPrompt } from "../../../../utils/notifications/onPrompt";
+import { MdMoreHoriz } from "react-icons/md";
 const AllApplicants = ({ app, index }) => {
   const dateCreated = new Date(app?.created_at);
   const navigate = useNavigate();
@@ -27,6 +25,8 @@ const AllApplicants = ({ app, index }) => {
         return "text-primaryColor border-primaryColor";
       case stages[3].name.split("/")[1]:
         return "text-[#8B0A1A] border-[#8B0A1A]";
+      default:
+        return "";
     }
   };
 
@@ -46,38 +46,41 @@ const AllApplicants = ({ app, index }) => {
     getJobById(app.job_id, setJob);
   }, []);
 
-  //console.log("Job", job);
-
   return (
     <div
       onClick={handleClick}
-      className="flex recent_added items-center min-w-full"
+      className="grid grid-cols-12 items-center gap-2 border-b py-3 px-2 hover:bg-gray-50"
     >
-      <div className="flex justify-between py-3 px-2 w-[25%]">
-        <span>{index + 1}</span>
-        <div className="w-3/4 flex items-center">
-          <div>
-            <img
-              src={`${resourceUrl}/${job?.featured_image}`}
-              width={"40px"}
-              alt=""
-            />
-            <p className="">{app.job_title}</p>
-          </div>
-        </div>
+      {/* Index */}
+      <div className="col-span-1 text-center">{index + 1}</div>
+
+      {/* Job Info */}
+      <div className="col-span-3 flex items-center gap-3">
+        {<img
+          src={`${resourceUrl}/${job?.featured_image}`}
+          alt="Job"
+          className="w-10 h-10 object-cover rounded-full"
+        />}
+        <p>{app.job_title}</p>
       </div>
-      <div className="flex py-3 px-2 w-3/6">
-        <p className="w-[40%]">{job?.office_address}</p>
-        <p className="w-[40%]">{dateCreated.toDateString()}</p>
+
+      {/* Office Address */}
+     { <div className="col-span-4">
+        <p className="truncate">{job?.office_address || "N/A"}</p>
+      </div>}
+
+      {/* Date Created */}
+      <div className="col-span-2 text-center">
+        {dateCreated.toDateString()}
       </div>
-      <div className="flex justify-between py-3 px-2 w-[25%]">
-        <div className="w-2/3">
-          <button
-            className={`border border-green-600 text-[12px] text-green-900 px-2 py-1 rounded-full uppercase ${getBorderColor()}`}
-          >
-            {FormatTextToUppecase(app.status)}
-          </button>
-        </div>
+
+      {/* Status */}
+      <div className="col-span-2 text-center">
+        <button
+          className={`border px-3 py-1 text-xs rounded-full uppercase ${getBorderColor()}`}
+        >
+          {FormatTextToUppecase(app.status)}
+        </button>
       </div>
     </div>
   );

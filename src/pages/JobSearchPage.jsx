@@ -6,8 +6,8 @@ import Navbar from "../components/Landing/Navbar";
 import Advert from "../components/Landing/Advert";
 import Footer from "../components/Landing/Footer";
 import useJobManagement from "../hooks/useJobManagement";
-
-
+import { Helmet } from "react-helmet";
+import { Link } from 'react-router-dom'
 const jobSectors = [
   {
     id: 1,
@@ -101,20 +101,17 @@ const JobSearchPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [employementList, setEmployementList] = useState([]);
   //const [currencyList, setCurrencyList] = useState([]);
-  
+
   const jobsPerPage = 5;
 
   useEffect(() => {
     const initData = async () => {
       const employementListResult = await getEmployentTypes();
-      //const currencyResult = await getCurrencies();
-      console.log(employementListResult)
       setEmployementList(employementListResult);
-      //setCurrencyList(currencyResult)
     };
 
     initData();
-    
+
   }, []);
 
   const fetchJobs = async () => {
@@ -151,7 +148,7 @@ const JobSearchPage = () => {
       sector: "",
       type: "",
       //minSalary: "",
-      currency:"",
+      currency: "",
       //maxSalary: "",
       // experience: "",
       // datePosted: "",
@@ -176,13 +173,16 @@ const JobSearchPage = () => {
 
   return (
     <>
+      <Helmet>
+        <title>Mayrahkee | Job Search</title>
+      </Helmet>
       <div className="relative max-w-[1400px] w-full mx-auto">
         <Navbar />
         <main className="relative my-20 px-5 h-full">
           <Hero shrink={true} title="Discover thousands of job opportunities across various sectors, tailored to match your skills and aspirations." />
           <div className="job-search-page max-w-7xl mx-auto my-4 px-4 h-max">
             <h1 className="text-center text-3xl font-bold my-8">
-            Find Your Dream Job Today
+              Find Your Dream Job Today
             </h1>
 
             {/* Filters and Listings */}
@@ -196,37 +196,37 @@ const JobSearchPage = () => {
                       {filterKey.replace(/([A-Z])/g, " $1").trim()}
                     </label>
                     {filterKey === "sector" ||
-                    filterKey === "type"
-                     ? (
-                      <select
-                        className="w-full border px-3 py-2 rounded-md focus:ring-2 focus:ring-indigo-500"
-                        onChange={(e) =>
-                          handleFilterChange(filterKey, e.target.value)
-                        }
-                        value={filters[filterKey]}
-                      >
-                        <option value="">All</option>
-                        {/* Add specific options for each dropdown */}
-                        {filterKey === "sector" && (
-                          <>
-                         { jobSectors?.map((item)=>(
-                            <option key={item.id} value={item?.name} > {item?.name} </option>
-                            
-                          ))}
-                            
-                          </>
-                        )}
-                                                
-                        {filterKey === "type" && (
-                          <>
-                         { employementList?.map((item)=>(
-                            <option key={item.id} value={item?.name} > {item?.name} </option>
-                            
-                          ))}
-                            
-                          </>
-                        )}
-                        {/*{filterKey === "currency" && (
+                      filterKey === "type"
+                      ? (
+                        <select
+                          className="w-full border px-3 py-2 rounded-md focus:ring-2 focus:ring-indigo-500"
+                          onChange={(e) =>
+                            handleFilterChange(filterKey, e.target.value)
+                          }
+                          value={filters[filterKey]}
+                        >
+                          <option value="">All</option>
+                          {/* Add specific options for each dropdown */}
+                          {filterKey === "sector" && (
+                            <>
+                              {jobSectors?.map((item) => (
+                                <option key={item.id} value={item?.name} > {item?.name} </option>
+
+                              ))}
+
+                            </>
+                          )}
+
+                          {filterKey === "type" && (
+                            <>
+                              {employementList?.map((item) => (
+                                <option key={item.id} value={item?.name} > {item?.name} </option>
+
+                              ))}
+
+                            </>
+                          )}
+                          {/*{filterKey === "currency" && (
                           <>
                          { currencyList?.map((item)=>(
                             <option key={item.id} value={item?.name} > {item?.name} </option>
@@ -234,14 +234,14 @@ const JobSearchPage = () => {
                           ))}                           
                           </>
                         )}*/}
-                        {/* {filterKey === "experience" && (
+                          {/* {filterKey === "experience" && (
                           <>
                             <option value="Entry-level">Entry-level</option>
                             <option value="Mid-level">Mid-level</option>
                             <option value="Senior-level">Senior-level</option>
                           </>
                         )} */}
-                        {/* {filterKey === "datePosted" && (
+                          {/* {filterKey === "datePosted" && (
                           <>
                             <option value="7">Last 7 days</option>
                             <option value="14">Last 14 days</option>
@@ -255,18 +255,18 @@ const JobSearchPage = () => {
                             <option value="deadline">Deadline</option>
                           </>
                         )} */}
-                      </select>
-                    ) : (
-                      <input
-                        type={filterKey.includes("Salary") ? "number" : "text"}
-                        className="w-full border px-3 py-2 rounded-md focus:ring-2 focus:ring-indigo-500"
-                        placeholder={`Enter ${filterKey}`}
-                        onChange={(e) =>
-                          handleFilterChange(filterKey, e.target.value)
-                        }
-                        value={filters[filterKey]}
-                      />
-                    )}
+                        </select>
+                      ) : (
+                        <input
+                          type={filterKey.includes("Salary") ? "number" : "text"}
+                          className="w-full border px-3 py-2 rounded-md focus:ring-2 focus:ring-indigo-500"
+                          placeholder={`Enter ${filterKey}`}
+                          onChange={(e) =>
+                            handleFilterChange(filterKey, e.target.value)
+                          }
+                          value={filters[filterKey]}
+                        />
+                      )}
                   </div>
                 ))}
                 <button
@@ -318,14 +318,12 @@ const JobSearchPage = () => {
                               <strong>Application Deadline:</strong>{" "}
                               {job.application_deadline_date}
                             </p>
-                            <a
-                              href={job?.external_url || "javascript:void(0)"}
-                              target={job?.external_url && "_blank"}
-                              rel="noopener noreferrer"
+                            <Link
+                              to="/registration"
                               className="text-center text-sm mt-auto bg-green-600 p-2 rounded-md text-white font-medium mb-2 inline-block"
                             >
                               More Information
-                            </a>
+                            </Link>
                           </div>
                         ))}
                       </div>

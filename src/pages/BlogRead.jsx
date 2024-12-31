@@ -6,6 +6,7 @@ import SectionHeader from "../components/Landing/SectionHeader";
 import { BASE_URL } from '../utils/base';
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import { Helmet } from 'react-helmet';
 
 const BlogRead = () => {
     const { id } = useParams(); // Get the blog ID from the URL
@@ -57,6 +58,9 @@ const BlogRead = () => {
 
     return (
         <>
+            <Helmet>
+                <title>Mayrahkee | {blog?.title}</title>
+            </Helmet>
             <SectionHeader
                 title={blog.title}
                 subtitle={blog.description.slice(0, 150)}
