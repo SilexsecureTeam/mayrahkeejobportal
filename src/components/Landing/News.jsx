@@ -56,7 +56,7 @@ const calculateReadingTime = (text) => {
                     className="text-green-600 border-[1px] border-green-600 px-6 py-1 rounded-full font-bold text-sm"
                     onClick={() => {
                         scrollTo(0, 0);
-                        navigate('/news');
+                        navigate('/blogs');
                     }}
                 >
                     Read All
