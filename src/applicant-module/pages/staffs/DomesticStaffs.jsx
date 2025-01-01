@@ -186,7 +186,7 @@ function DomesticStaff() {
             <span className="font-semibold text-yellow-600">
               Showing Search You Result
             </span>
-            <ul className="w-full grid grid-cols-3 gap-2">
+            <ul className="w-full grid grid-cols-responsive3 gap-2">
               {staffsToDisplay?.map((current) => (
                 <StaffCard
                   key={current?.id}
