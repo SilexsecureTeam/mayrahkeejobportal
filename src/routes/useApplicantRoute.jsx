@@ -121,6 +121,7 @@ function useApplicantRoute() {
                   data={currentOption}
                   dispatch={dispatch}
                   state={state}
+                  setIsOpen={setIsOpen}
                 />
               ))}
             </ul>
