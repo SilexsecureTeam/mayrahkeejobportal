@@ -14,7 +14,7 @@ function Dashboard() {
   // window.location.reload();
 
   return (
-    <div className="px-12 py-5 flex flex-col gap-3">
+    <div className="px-3 md:px-8 py-5 flex flex-col gap-3">
       <div className="bg-primaryColor text-white gap-3 flex flex-col p-3">
         <p className="font-semibold">Manage all exclusive employers here</p>
         <p>

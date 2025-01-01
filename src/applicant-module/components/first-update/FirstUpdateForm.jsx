@@ -1,6 +1,6 @@
 import { useState, useEffect, useContext } from 'react';
 import UseModal from '../general/UseModal';
-import NewForm from './NewForm';
+import BasicInfo from '../../pages/settings/components/BasicInfo.jsx';
 import { ResourceContext } from '../../../context/ResourceContext';
 
 const FirstUpdateForm = () => {
@@ -28,7 +28,7 @@ const FirstUpdateForm = () => {
             </button> */}
             <UseModal header={header} setIsOpen={setChecker} isOpen={checker} >
                 <p>Please complete your Registrration</p>
-                <NewForm setIsOpen={setChecker} />
+                <BasicInfo setIsOpen={setIsOpen}/>
             </UseModal>
         </>
     )

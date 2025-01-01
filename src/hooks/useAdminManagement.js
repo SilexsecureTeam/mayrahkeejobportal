@@ -22,7 +22,7 @@ function UseAdminManagement() {
     //   `/domesticStaff/get-staff/${authDetails.user.id}`
     // );
     // await set(PROFILE_DETAILS_KEY, data.data);
-    setProfileDetails(authDetails.user);
+    setProfileDetails(authDetails?.user);
     setLoading(false);
   };
 
@@ -113,6 +113,7 @@ function UseAdminManagement() {
 
 
   const updateStatus = async (data) => {
+    console.log(data)
     try {
       setLoading(true);
       const response = await MainAxios.post("update-status", data);

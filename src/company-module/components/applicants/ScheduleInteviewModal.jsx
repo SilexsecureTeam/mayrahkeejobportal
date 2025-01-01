@@ -1,7 +1,7 @@
 import { IoMdCloseCircle } from "react-icons/io";
 import { useEffect, useState, useContext } from "react";
 import BasicInput from "../company-profile/BasicInput";
-import { onTextChange } from "../../../utils/formmaters";
+//import { onTextChange } from "../../../utils/formmaters";
 import FormButton from "../../../components/FormButton";
 import Selector from "../../../components/Selector";
 import { AuthContext } from "../../../context/AuthContex";
@@ -10,7 +10,8 @@ import { useSafeMantineTheme } from "@mantine/core";
 import { createMeeting } from "../../../components/video-sdk/Api";
 import useSubscription from "../../../hooks/useSubscription";
 import { FaSpinner } from "react-icons/fa";
-
+//import SubscriptionCard from "../components/subscription/SubscriptionCard";
+import { SubscriptionContext } from "../../../context/SubscriptionContext";
 const fields = [
   {
     id: 4,
@@ -68,7 +69,7 @@ function ScheduleInterviewModal({
   handleOnSubmit,
 }) {
   const companyUtil = useCompanyProfile();
-  const { isInterviewPackge } = useSubscription();
+  const { isInterviewPackge } = useContext(SubscriptionContext);
   const { authDetails } = useContext(AuthContext);
   const options = isInterviewPackge ? interviewOptions : [interviewOptions[1]];
   const [selected, setSelected] = useState();

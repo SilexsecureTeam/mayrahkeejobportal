@@ -67,8 +67,8 @@ function SingleExclusive() {
           exclusive={currentExclusive}
         />
       )}
-      <div className="w-full flex flex-col px-10 min-h-full mt-5">
-        <div className="grid grid-cols-2 justify-between items-center w-full h-full min-h-[30%] bg-gray-50">
+      <div className="w-full flex flex-col px-3 md:px-8 min-h-full mt-5">
+        <div className="grid grid-cols-1 md:grid-cols-2 justify-between items-center w-full h-full min-h-[30%] bg-gray-50">
           <div className=" p-5 flex flex-col gap-2">
             <h1 className="text-md font-semibold text-gray-500">
               Employer Information
@@ -81,7 +81,7 @@ function SingleExclusive() {
 
             <div className="w-full flex-col flex ">
               <span className="p-1 text-gray-500 bg-gray-100">Email</span>
-              <span className="p-1">{currentExclusive.email}</span>
+              <span className="p-1 break-all">{currentExclusive.email}</span>
             </div>
 
             <span
@@ -111,7 +111,7 @@ function SingleExclusive() {
                 <span className="p-1 text-gray-500 bg-gray-100">
                   Email Address
                 </span>
-                <span className="p-1">{currentExclusive.employer.email}</span>
+                <span className="p-1 break-all">{currentExclusive.employer.email}</span>
               </div>
 
               <div className="w-full flex-col flex ">

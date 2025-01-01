@@ -10,7 +10,7 @@ function NotificationsModal({
   return (
     isOpen && (
       <div className="h-full z-10 w-full text-primaryColor text-little flex justify-center items-center bg-gray-600/70 fixed top-0 left-0">
-        <div className="w-[40%] min-h-[30%] h-fit p-3 flex flex-col  rounded-[10px]  bg-white border">
+        <div className="w-80 md:w-[400px] lg:w-[600px] min-h-[30%] h-fit p-3 flex flex-col  rounded-[10px]  bg-white border">
           <IoMdCloseCircle
             onClick={() => setIsOpen(false)}
             className="text-lg place-self-end  cursor-pointer"

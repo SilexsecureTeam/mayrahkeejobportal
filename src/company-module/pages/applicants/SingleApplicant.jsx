@@ -9,15 +9,14 @@ function SingleApplicant() {
   const location = useLocation();
 
   const [isOpen, setIsOpen] = useState(false);
-  const { application, setApplication } = useContext(ApplicationContext);
-  const [applicationData, setApplicantData] = useState(location?.state?.data);
-  const {
+  const { application, 
+    setApplication, 
     getApplicant,
     interviewDetails,
     onTextChange,
     loading,
-    scheduleInterview,
-  } = useContext(ApplicationContext);
+    scheduleInterview, } = useContext(ApplicationContext);
+  const [applicationData, setApplicantData] = useState(location?.state?.data);
 
   const [applicant, setApplicant] = useState();
   const [isLoading, setIsLoading] = useState(false);

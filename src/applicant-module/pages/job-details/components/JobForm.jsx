@@ -5,9 +5,10 @@ import { AuthContext } from '../../../../context/AuthContex'
 import { ResourceContext } from '../../../../context/ResourceContext'
 import { onSuccess } from '../../../../utils/notifications/OnSuccess';
 import { FcApproval } from 'react-icons/fc';
+import { useNavigate } from 'react-router-dom';
 
 const JobForm = ({ setIsOpen, getCandidate, job, resume, updateAllApplications }) => {
-
+const navigate=useNavigate();
     const { authDetails } = useContext(AuthContext)
 
     const [errorMsg, setErrorMsg] = useState(null)
@@ -87,6 +88,7 @@ const JobForm = ({ setIsOpen, getCandidate, job, resume, updateAllApplications }
                 })
                 setLoading(false)
                 setIsOpen(false)
+                navigate("/applicant/find-job")
             })
             .catch((error) => {
                 console.log(error)

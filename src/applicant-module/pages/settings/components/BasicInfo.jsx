@@ -17,9 +17,11 @@ import { ResourceContext } from "../../../../context/ResourceContext";
 import TextEditor from "./TextEditor";
 import { onSuccess } from "../../../../utils/notifications/OnSuccess";
 import { Country, State, City } from "country-state-city";
+import { useNavigate } from "react-router-dom";
 
 const BasicInfo = ({ setIsOpen }) => {
   const { getCandidate, setGetCandidate } = useContext(ResourceContext);
+  const navigate=useNavigate();
  
   const candidate = getCandidate.data?.details;
   const countries = Country.getAllCountries();
@@ -79,8 +81,8 @@ const BasicInfo = ({ setIsOpen }) => {
     full_name: user?.first_name ? ` ${user.first_name} ${user.last_name}` : "",
     date_of_birth: candidate?.date_of_birth ? candidate?.date_of_birth : "",
     gender: candidate?.gender ? candidate?.gender : "",
-    phone_number: candidate.phone_number ? candidate?.phone_number : "",
-    email: candidate.email ? candidate?.email : "",
+    phone_number: candidate?.phone_number ? candidate?.phone_number : "",
+    email: candidate?.email ? candidate?.email : "",
     background_profile: null,
     password: user?.password ? user.password : "",
     means_of_identification: candidate?.means_of_identification
@@ -99,21 +101,21 @@ const BasicInfo = ({ setIsOpen }) => {
     salary: candidate?.salary ? candidate?.salary : "",
     categories: candidate?.categories ? candidate?.categories : "",
     // show_my_profile: true,
-    preferred_job_role: candidate.preferred_job_role
+    preferred_job_role: candidate?.preferred_job_role
       ? candidate?.preferred_job_role
       : "",
-    personal_profile: candidate.personal_profile
+    personal_profile: candidate?.personal_profile
       ? candidate?.personal_profile
       : "",
-    network: candidate.network ? candidate?.network : "",
-    contact_address: candidate.contact_address
+    network: candidate?.network ? candidate?.network : "",
+    contact_address: candidate?.contact_address
       ? candidate?.contact_address
       : "",
-    country: candidate.country ? candidate?.country : "",
-    state: candidate.state ? candidate?.state : "",
-    local_gov: candidate.local_gov ? candidate?.local_gov : "",
-    address: candidate.address ? candidate?.address : "",
-    experience: candidate.experience ? candidate?.experience : "",
+    country: candidate?.country ? candidate?.country : "",
+    state: candidate?.state ? candidate?.state : "",
+    local_gov: candidate?.local_gov ? candidate?.local_gov : "",
+    address: candidate?.address ? candidate?.address : "",
+    experience: candidate?.experience ? candidate?.experience : "",
     introduction_video: null,
     social_media_handle: [],
   });
@@ -274,13 +276,15 @@ const BasicInfo = ({ setIsOpen }) => {
           message: "Profile",
           success: response.data.message,
         });
+        setIsOpen(false);
         localStorage.setItem(
           "userDetails",
           JSON.stringify(response.data.candidate)
         );
         // setUserUpdate(updateData)
         setLoading(false);
-        setIsOpen(false);
+        
+        navigate('/applicant/public-profile')
         setGetCandidate((prev) => {
           return {
             ...prev,
@@ -344,57 +348,61 @@ const BasicInfo = ({ setIsOpen }) => {
   return (
     <div className="max-w-full text-[#515B6F] text-base overflow-x-hidden">
       <div className="my-4">
-        <div className="max-w-full flex flex-wrap gap-2 items-center pb-6 border-b">
-          <div className="max-w-full md:w-1/3 pr-5">
-            <p className="font-medium mb-2 text-slate-950">Profile Photo</p>
-            <p>
-              This image will be shown publicly as your profile picture, it will
-              help recruiters recognize you!
-            </p>
-          </div>
-          <div className="w-full flex justify-center items-center flex-wrap gap-2">
-            <div className="size-[100px]  ring-green-200 ring-4 rounded-full bg-gray-300 mx-5">
-              <div className="">
-                <img
-                  className="w-[100px] h-[100px] rounded-full"
-                  src={
-                    profileImageUrl
-                      ? profileImageUrl
-                      : `${IMAGE_URL}/${candidate.profile}`
-                  }
-                  alt=""
-                />
-              </div>
-            </div>
-            <label
-              htmlFor="image"
-              className="min-h-32 w-[90%] md:min-w-96 cursor-pointer bg-green-50 border-2 border-green-500 border-dashed p-3 md:p-5 rounded"
-            >
-              <div className="text-center">
-                <div className="flex justify-center">
-                  <span className="text-green-500 mb-3">
-                    <TbPhoto />
-                  </span>
-                </div>
-                <p>
-                  <span className="text-green-500 font-medium">
-                    Click to replace{" "}
-                  </span>
-                  or drag and drop
-                </p>
-                <p>SVG, PNG, JPG or GIF (max. 400 x 400px)</p>
-                <input
-                  type="file"
-                  accept=".jpeg, .png, .jpg,"
-                  name="profile"
-                  onChange={getImageURL}
-                  id="image"
-                  className="invisible "
-                />
-              </div>
-            </label>
-          </div>
+      <div className="max-w-full flex flex-wrap md:flex-nowrap gap-4 items-center pb-6 border-b"> 
+  {/* Left Section */}
+  <div className="w-full md:w-1/3 pr-0 md:pr-5 text-center md:text-left">
+    <p className="font-medium mb-2 text-slate-950">Profile Photo</p>
+    <p>
+      This image will be shown publicly as your profile picture, it will help recruiters recognize you!
+    </p>
+  </div>
+
+  {/* Right Section */}
+  <div className="w-full flex flex-col md:flex-row justify-center items-center flex-wrap gap-4">
+    {/* Profile Image */}
+    <div className="ring-green-200 ring-4 rounded-full bg-gray-300">
+      <img
+        className="w-[100px] h-[100px] rounded-full"
+        src={
+          profileImageUrl
+            ? profileImageUrl
+            : `${IMAGE_URL}/${candidate?.profile}`
+        }
+        alt="Profile"
+      />
+    </div>
+
+    {/* Upload Section */}
+    <label
+      htmlFor="image"
+      className="min-h-32 w-full md:w-[90%] md:min-w-[24rem] cursor-pointer bg-green-50 border-2 border-green-500 border-dashed p-3 md:p-5 rounded"
+    >
+      <div className="text-center">
+        <div className="flex justify-center">
+          <span className="text-green-500 mb-3 text-2xl">
+            <TbPhoto />
+          </span>
         </div>
+        <p>
+          <span className="text-green-500 font-medium">
+            Click to replace
+          </span>{" "}
+          or drag and drop
+        </p>
+        <p>SVG, PNG, JPG or GIF (max. 400 x 400px)</p>
+        <input
+          type="file"
+          accept=".jpeg, .png, .jpg,"
+          name="profile"
+          onChange={getImageURL}
+          id="image"
+          className="hidden"
+        />
+      </div>
+    </label>
+  </div>
+</div>
+
         <div className="update_form py-6">
           <div>
             <form onSubmit={handleSubmit}>
@@ -412,7 +420,7 @@ const BasicInfo = ({ setIsOpen }) => {
                           </span>
                           <input
                             type="text"
-                            value={details.full_name}
+                            value={details?.full_name}
                             name="full_name"
                             onChange={handleOnChange}
                             className="mt-1 block p-1 focus:outline-none w-full border"
@@ -427,7 +435,7 @@ const BasicInfo = ({ setIsOpen }) => {
                             </span>
                             <input
                               type="text"
-                              value={details.phone_number}
+                              value={details?.phone_number}
                               name="phone_number"
                               onChange={handleOnChange}
                               placeholder="+44 1245 572 135"
@@ -442,7 +450,7 @@ const BasicInfo = ({ setIsOpen }) => {
                             </span>
                             <input
                               type="email"
-                              value={details.email}
+                              value={details?.email}
                               name="email"
                               onChange={handleOnChange}
                               placeholder="Jakegyll@gmail.com"
@@ -457,7 +465,7 @@ const BasicInfo = ({ setIsOpen }) => {
                             </span>
                             <input
                               type="date"
-                              value={details.date_of_birth}
+                              value={details?.date_of_birth}
                               name="date_of_birth"
                               onChange={handleOnChange}
                               className="mt-1 block p-1 focus:outline-none w-full border"
@@ -470,7 +478,7 @@ const BasicInfo = ({ setIsOpen }) => {
                               Gender
                             </span>
                             <select
-                              value={details.gender}
+                              value={details?.gender}
                               name="gender"
                               onChange={handleOnChange}
                               id=""
@@ -487,7 +495,7 @@ const BasicInfo = ({ setIsOpen }) => {
                               Select Type of ID
                             </span>
                             <select
-                              value={details.means_of_identification}
+                              value={details?.means_of_identification}
                               name="means_of_identification"
                               onChange={handleOnChange}
                               id=""
@@ -513,7 +521,7 @@ const BasicInfo = ({ setIsOpen }) => {
                               </span>
                               <input
                                 type="text"
-                                value={details.nin}
+                                value={details?.nin}
                                 name="nin"
                                 onChange={handleOnChange}
                                 className="mt-1 block p-1 focus:outline-none w-full border"
@@ -567,7 +575,7 @@ const BasicInfo = ({ setIsOpen }) => {
                               Educational Qualification
                             </span>
                             <select
-                              value={details.educational_qualification}
+                              value={details?.educational_qualification}
                               name="educational_qualification"
                               onChange={handleOnChange}
                               id=""
@@ -637,7 +645,7 @@ const BasicInfo = ({ setIsOpen }) => {
                               value={selectedLanguages}
                               name="languages"
                               onChange={handleOnChange}
-                              className="border grid grid-cols-2 w-full p-2 pb-1"
+                              className="border flex flex-wrap w-full p-2 pb-1"
                             >
                               {[
                                 "English",
@@ -649,7 +657,7 @@ const BasicInfo = ({ setIsOpen }) => {
                                 <div className="flex items-center gap-1">
                                   {findLanguage(current.toLocaleLowerCase()) ? (
                                     <MdCheckBox
-                                      className="cursor-pointer"
+                                      className="cursor-pointer flex-shrink-0"
                                       onClick={() =>
                                         handleLanguageSelect(
                                           current.toLocaleLowerCase()
@@ -658,7 +666,7 @@ const BasicInfo = ({ setIsOpen }) => {
                                     />
                                   ) : (
                                     <MdCheckBoxOutlineBlank
-                                      className="cursor-pointer"
+                                      className="cursor-pointer flex-shrink-0"
                                       onClick={() =>
                                         handleLanguageSelect(
                                           current.toLocaleLowerCase()

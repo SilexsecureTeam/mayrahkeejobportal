@@ -5,15 +5,17 @@ import { onFailure } from "../utils/notifications/OnFailure";
 import { AuthContext } from "../context/AuthContex";
 import { onSuccess } from "../utils/notifications/OnSuccess";
 import { SessionContext } from "../context/SessionContext";
-
+import {useNavigate} from 'react-router-dom'
+import useRegistration from "./useRegistration";
 function useLogin(role) {
+  const navigate=useNavigate();
   const [loginDetails, setLoginDetails] = useState({
     email: "",
     password: "",
   });
   const { setAuthDetails } = useContext(AuthContext);
   const {saveSession} = useContext(SessionContext)
-
+  const {resendOtp} =useRegistration()
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState({
     message: "",
@@ -52,7 +54,37 @@ function useLogin(role) {
       saveSession()
     } catch (e) {
       console.log(e)
-      FormatError(e, setError, "Registration Error");
+      if (e?.response?.data?.message?.toLowerCase()?.includes("not verified")) {
+        localStorage.setItem(
+          "__reg_info",
+          JSON.stringify({
+            ...loginDetails,
+            password: "__",
+            re_enter_password: "__",
+          })
+        )
+        console.log("complete registration");
+        
+        // Format and display the error immediately
+        FormatError(e, setError, "Incomplete Registration");
+      
+        // Optional: Delay the confirmation box slightly to ensure UI updates
+        setTimeout(() => {
+          const userConfirmation = window.confirm(
+            "Your registration is incomplete. Would you like to verify your email now?"
+          );
+      
+          if (userConfirmation) {
+            navigate("/registration/email_verification");
+            resendOtp();
+          } else {
+            console.log("User chose to stay on the current page.");
+          }
+        }, 1000); // Adjust delay as needed
+      }else{
+        FormatError(e, setError, "Registration Error");
+      }
+      
     } finally {
       setLoading(false);
     }
