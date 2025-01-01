@@ -184,6 +184,7 @@ function useCompanyRoute() {
                     key={currentOption.type}
                     data={currentOption}
                     dispatch={dispatch}
+                    setIsOpen={setIsOpen}
                   />
                 ))}
               </ul>
