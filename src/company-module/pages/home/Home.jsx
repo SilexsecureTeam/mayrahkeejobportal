@@ -19,7 +19,7 @@ import useApplicationManagement from "../../../hooks/useApplicationManagement";
 function Home() {
   const { authDetails } = useContext(AuthContext);
   const jobUtils = useJobManagement();
-  const { getApplicantsByEmployee, applicants } = useContext(ApplicationContext)
+  const { getApplicantsByEmployee, applicants } = useApplicationManagement()
   const { jobList } = jobUtils;
 
   const openJobs = useMemo(() => 

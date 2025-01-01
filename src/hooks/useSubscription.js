@@ -11,7 +11,7 @@ const PACKAGES_KEY = "Packahes Database";
 function useSubscription() {
   const PUBLIC_KEY = import.meta.env.VITE_TEST_PUBLIC_KEY;
   const { authDetails } = useContext(AuthContext);
-  const [activePackage, setActivePackage] = useState(1);
+  const [activePackage, setActivePackage] = useState();
   const client = axiosClient(authDetails?.token);
   const [error, setError] = useState({
     message: "",
@@ -26,9 +26,9 @@ function useSubscription() {
       current.title.toLowerCase().includes("premium")
   );
   // console.log(interviePackages)
-  const isInterviewPackge = interviewPackages?.find(
+  const isInterviewPackge = (interviewPackages?.find(
     (current) => current?.id === activePackage?.package_id
-  ) ? true : false;
+  ) || authDetails?.user?.role === 'super-admin' || authDetails?.user?.user_type === 'exclusive') ? true : false;
 
   const getPackages = async () => {
     setLoading(true);
@@ -106,7 +106,7 @@ function useSubscription() {
   };
 
 
-
+let idx=0;
 
   useEffect(() => {
     const initVals = async () => {
@@ -122,10 +122,12 @@ function useSubscription() {
       }
      
     };
-    if (authDetails?.token !== null || authDetails?.token !== undefined) {
-    getActivePackage();
-    initVals();
-    }
+if(authDetails?.user?.role === "employer"){
+  getActivePackage();
+  initVals();
+  console.log("render of subscription",( idx+1))
+}
+  
   }, [authDetails?.user]);
 
   useEffect(() => {

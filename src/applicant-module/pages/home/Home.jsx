@@ -24,6 +24,7 @@ import Interview from "./components/Interview";
 import axios from "axios";
 import { ApplicantRouteContext } from "../../../context/ApplicantRouteContext";
 import { useNavigate } from "react-router-dom";
+import useApplicationManagement from "../../../hooks/useApplicationManagement";
 
 const now = new Date();
 function Home() {
@@ -34,7 +35,7 @@ function Home() {
     setGetAllJobs,
   } = useContext(ResourceContext);
   const { authDetails, userUpdate } = useContext(AuthContext);
-  const { setSideBar } = useContext(ApplicantRouteContext);
+  const { setSideBar } = useApplicationManagement();
   const hour = now.getHours();
   const user = authDetails?.user;
   const navigate = useNavigate();

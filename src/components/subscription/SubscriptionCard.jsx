@@ -8,7 +8,7 @@ import useSubscription from "../../hooks/useSubscription";
 
 function SubscriptionCard({ data, setIsOpen }) {
   const [showPerks, setShowPerks] = useState(false);
-  const subUtils = useSubscription();
+  const subUtils = useContext(SubscriptionContext);
 
   const handleOnClick = (reference, data) => {
     console.log("Triggered");

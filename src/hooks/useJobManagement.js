@@ -4,8 +4,8 @@ import { set, get, del, keys, clear } from "idb-keyval";
 import { FormatError } from "../utils/formmaters";
 import { AuthContext } from "../context/AuthContex";
 import { onFailure } from "../utils/notifications/OnFailure";
-import { AdminExclusiveManagementContext } from "../context/AdminExclusiveManagement";
-import axios from 'axios'
+import axios from 'axios';
+
 export const JOB_MANAGEMENT_Key = "Job Management Database";
 export const apiURL = "https://dash.mayrahkeeafrica.com/api";
 
@@ -46,8 +46,6 @@ function useJobManagement() {
     error: "",
   });
 
-  // const {} = useContext(AdminExclusiveManagementContext);
-
   const onTextChange = (e) => {
     const { name, value } = e.target;
     setDetails({ ...details, [name]: value });
@@ -58,7 +56,7 @@ function useJobManagement() {
       const response = await client.get(`/employment-types`);
       return response.data;
     } catch (error) {
-      FormatError(error, setError, "Employement types Error");
+      FormatError(error, setError, "Employment types Error");
       return [];
     } finally {
       setLoading(false);
@@ -94,14 +92,14 @@ function useJobManagement() {
       const response = await client.get(`/sub-sectors/${sectorid}`);
       return response.data.data;
     } catch (error) {
-      FormatError(error, setError, "Sector Error");
+      FormatError(error, setError, "Subsector Error");
       return [];
     } finally {
       setLoading(false);
     }
   };
+
   const validateJobDetails = (currentStep) => {
-    // Mapping API keys to user-friendly names
     const fieldNames = {
       job_title: "Job Title",
       job_description: "Job Responsibilities",
@@ -119,13 +117,11 @@ function useJobManagement() {
       application_deadline_date: "Application Deadline Date",
       office_address: "Office Address",
       location: "Location",
-      preferred_age: "preferred age limit",
+      preferred_age: "Preferred Age Limit",
     };
 
-    // Fields that are required in Stage 1
     const stage1Fields = [
       "sector",
-      // "subsector",
       "featured_image",
       "type",
       "salary_type",
@@ -140,19 +136,16 @@ function useJobManagement() {
       "preferred_age",
     ];
 
-    // Fields that are required in Stage 2
     const stage2Fields = ["job_title", "job_description", "experience"];
 
     let fieldsToValidate = [];
 
-    // Determine which fields to validate based on current step
     if (currentStep.id === 1) {
       fieldsToValidate = stage1Fields;
     } else if (currentStep.id === 2) {
-      fieldsToValidate = [...stage1Fields, ...stage2Fields]; // Combine fields from both stages
+      fieldsToValidate = [...stage1Fields, ...stage2Fields];
     }
 
-    // Check for missing or empty fields in the selected fields for the current step
     for (const key of fieldsToValidate) {
       if (
         !details[key] ||
@@ -161,11 +154,11 @@ function useJobManagement() {
         return `${fieldNames[key]} is required.`;
       }
     }
+
     if (Number(details.preferred_age) < 18) {
       return "The preferred age field must be at least 18.";
     }
 
-    // Ensure min_salary is less than or equal to max_salary
     if (Number(details.min_salary) > Number(details.max_salary)) {
       return "Minimum Salary cannot be greater than Maximum Salary.";
     }
@@ -176,24 +169,20 @@ function useJobManagement() {
   const addJob = async (handleSuccess) => {
     setLoading(true);
     try {
-      // Validate details before submitting
       const validationError = validateJobDetails({ id: 2 });
       if (validationError) {
-        throw new Error(validationError); // Throw error with descriptive message
+        throw new Error(validationError);
       }
 
-      // Submit the job
       const response = await client.post(`/job`, {
         employer_id: authDetails?.user.id,
         ...details,
       });
 
-      setDetails({}); // Clear form
-      await getJobsFromDB(); // Refresh job list
-      handleSuccess(); // Call success handler
-
+      setDetails({});
+      await getJobsFromDB();
+      handleSuccess();
     } catch (error) {
-      // Notify user of validation or API errors
       const errorDetails = Object.entries(error?.response?.data?.errors || {})
         .map(([key, value]) => `${key}: ${value}`)
         .join("\n") || error?.message;
@@ -206,16 +195,12 @@ function useJobManagement() {
 
   const editCurrentJob = async (handleSuccess) => {
     setLoading(true);
-    console.log(details)
-
     try {
-      // Validate details before submitting
       const validationError = validateJobDetails({ id: 2 });
       if (validationError) {
-        throw new Error(validationError); // Throw error with descriptive message
+        throw new Error(validationError);
       }
 
-      // Submit the job
       const response = await axios.put(`${apiURL}/job/${details.id}`, details, {
         headers: {
           "Content-Type": "application/json",
@@ -223,39 +208,34 @@ function useJobManagement() {
         }
       });
 
-
-      setDetails({}); // Clear form
-      await getJobsFromDB(); // Refresh job list
-      handleSuccess(); // Call success handler
+      setDetails({});
+      await getJobsFromDB();
+      handleSuccess();
     } catch (error) {
-      // Notify user of validation or API errors
-      console.log(error)
-      onFailure({ message: "Submission Failed", error: error?.response?.data?.message ? error?.response?.data?.message : error?.message });
+      onFailure({ message: "Submission Failed", error: error?.response?.data?.message || error?.message });
     } finally {
       setLoading(false);
     }
   };
+
   const addJobForExclusive = async (handleSuccess, id) => {
     setLoading(true);
     try {
-      // Validate details before submitting
       const validationError = validateJobDetails({ id: 2 });
       if (validationError) {
-        throw new Error(validationError); // Throw error with descriptive message
+        throw new Error(validationError);
       }
 
-      // Submit the job
       const response = await client.post(`/job`, {
         employer_id: id,
         ...details,
       });
 
-      setDetails({}); // Clear form
-      await getJobsFromDB(); // Refresh job list
-      handleSuccess(); // Call success handler
+      setDetails({});
+      await getJobsFromDB();
+      handleSuccess();
       window.location.reload();
     } catch (error) {
-      // Notify user of validation or API errors
       onFailure({ message: "Submission Failed", error: error.message });
     } finally {
       setLoading(false);
@@ -268,7 +248,7 @@ function useJobManagement() {
       const response = await client.put(`/job/${currentJob.id}`, {
         status: status,
       });
-      await getJobsFromDB(); // Refresh job list
+      await getJobsFromDB();
       handleSuccess();
     } catch (error) {
       FormatError(error, setError, "Status Error");
@@ -281,7 +261,7 @@ function useJobManagement() {
     setLoading(true);
     try {
       const response = await client.delete(`/job/${jobId}`);
-      await getJobsFromDB(); // Refresh job list
+      await getJobsFromDB();
       handleSuccess();
     } catch (error) {
       FormatError(error, setError, "Delete Job");
@@ -295,7 +275,6 @@ function useJobManagement() {
       setLoading(true);
       try {
         const response = await client.get("/job");
-        //console.log(response.data); // Check what the API returns
         setJobList(response.data?.filter(one => Number(one.employer_id) === Number(authDetails?.user?.id)));
         await set(JOB_MANAGEMENT_Key, response.data?.filter(one => Number(one.employer_id) === Number(authDetails.user?.id)));
       } catch (error) {
@@ -304,9 +283,7 @@ function useJobManagement() {
         setLoading(false);
       }
     }
-
   };
-
 
   const getJobById = async (jobId, setJob) => {
     setLoading(true);
@@ -337,7 +314,6 @@ function useJobManagement() {
     }
   };
 
-  //   useEffect(() => console.log(details), [details]);
   useEffect(() => {
     if (authDetails?.token && error.message && error.error) {
       onFailure(error);
@@ -350,28 +326,18 @@ function useJobManagement() {
         const storedValue = await get(JOB_MANAGEMENT_Key);
         if (storedValue !== undefined && storedValue.length > 0) {
           setJobList(storedValue);
-          //console.log(storedValue)
         } else {
-          await getJobsFromDB(); // Fetch from the API if no data in IndexedDB
+          await getJobsFromDB();
         }
       } catch (error) {
         FormatError(error, setError, "Index Error");
-        //await getJobsFromDB(); // Fallback to fetching from the API if IndexedDB fails
       }
     };
 
     if (authDetails?.token !== null || authDetails?.token !== undefined) {
-
       initValue();
     }
   }, [authDetails?.token]);
-
-  useEffect(() => {
-    if (jobList.length > 0) {
-      //console.log("Job list updated", jobList); // Debugging
-    }
-  }, [jobList]);
-
 
   return {
     loading,

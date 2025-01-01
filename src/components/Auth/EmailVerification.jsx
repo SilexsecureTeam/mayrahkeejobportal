@@ -51,12 +51,12 @@ function EmailVerification({ state, dispatch }) {
   }, [secondsLeft]);
 
   return (
-    <div className="flex flex-col items-center justify-start w-[50%] pt-[10%] px-[10%] ">
+    <div className="flex flex-col items-center justify-start w-full md:w-[50%] pt-[10%] px-[10%] ">
       <div className="flex flex-col items-center">
         <h1 className="font-semibold text-[25px]">Verify your email</h1>
         <p className="text-little text-gray-400">We sent a code to</p>
       </div>
-      <div className="flex flex-col gap-[10px] mt-[5%] items-center">
+      <div className="flex flex-col gap-[10px] mt-[5%] items-center justify-center">
         <OTPInput
           onChange={(val) => setOtp(val)}
           value={otp}

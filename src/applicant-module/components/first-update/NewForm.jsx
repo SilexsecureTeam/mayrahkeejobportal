@@ -250,18 +250,18 @@ const NewForm = ({ setIsOpen }) => {
         <div className='text-[#515B6F]'>
 
             <div className="my-4">
-                <div className="flex items-cente pb-6 border-b">
-                    <div className="w-1/3 pr-5">
+                <div className="flex flex-wrap items-center pb-6 border-b">
+                    <div className="max-w-full md:w-1/3 pr-5">
                         <p className="font-medium mb-2 text-slate-950">Profile Photo</p>
                         <p>This image will be shown publicly as your profile picture, it will help recruiters recognize you!</p>
                     </div>
-                    <div className="flex items-center">
+                    <div className="flex flex-wrap items-center">
                         <div className="size-[100px]  ring-green-200 ring-4 rounded-full bg-gray-300 mx-5">
                             <div className="">
                                 <img className='w-[100px] h-[100px] rounded-full' src={profileImageUrl} alt="" />
                             </div>
                         </div>
-                        <label htmlFor='profile' className="min-h-32 min-w-96 cursor-pointer bg-green-50 border-2 border-green-500 border-dashed p-5 rounded">
+                        <label htmlFor='profile' className="min-h-32 w-full md:w-[90%] md:min-w-[24rem] cursor-pointer bg-green-50 border-2 border-green-500 border-dashed p-3 md:p-5 rounded">
                             <div className="text-center">
                                 <div className="flex justify-center">
                                     <span className='text-green-500 mb-3'><TbPhoto /></span>

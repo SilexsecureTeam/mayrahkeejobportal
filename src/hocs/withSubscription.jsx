@@ -6,7 +6,7 @@ import FallbackComponent from "../components/Fallback";
 import { SubscriptionContext } from "../context/SubscriptionContext";
 import { AuthContext } from "../context/AuthContex";
 function withSubscription(Component, title) {
-  const subUtils = useSubscription()
+  const subUtils = useContext(SubscriptionContext)
   const { authDetails } = useContext(AuthContext);
 
   // useEffect(() => {

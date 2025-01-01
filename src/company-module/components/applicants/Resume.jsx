@@ -54,15 +54,16 @@ function Resume({ data, applicant }) {
   }
 
   return (
-    resume && (
+    resume ? (
       <>
-        <div className="flex w-full px-10 mt-[5px]">
+        <div className="flex w-full px-2 md:px-5 lg:px-10 mt-[5px]">
           <div className="flex flex-col w-full items-center">
             <h3 className="mb-[10px] tracking-wide flex flex-col items-center text-smd font-semibold">
               {resume.title}
               {resume.resume_path ? (
                 <a
                   href={`${resourceUrl}${resume.resume_path}`}
+                  target="_blank"
                   className="text-little font-normal hover:underline text-primaryColor"
                 >
                   Link to file
@@ -77,21 +78,21 @@ function Resume({ data, applicant }) {
                 <span className="font-semibold text-black text-[15px]">
                   Education
                 </span>
-                <span className="text-black font-semibold flex w-full justify-between">
+                <span className="text-black font-semibold flex gap-2 w-full justify-between">
                   Institution
                   <span className="font-normal">
                     {resume.educational_institution}
                   </span>
                 </span>
-                <span className="text-black font-semibold flex w-full justify-between">
+                <span className="text-black font-semibold flex gap-2 w-full justify-between">
                   Academy Name
                   <span className="font-normal">{resume?.academy_name}</span>
                 </span>
-                <span className="text-black font-semibold flex w-full justify-between">
+                <span className="text-black font-semibold flex gap-2 w-full justify-between">
                   Year of Entry{" "}
                   <span className="font-normal">{resume.year_of_entry}</span>
                 </span>
-                <span className="text-black font-semibold flex w-full justify-between">
+                <span className="text-black font-semibold flex gap-2 w-full justify-between">
                   Year of Graduation{" "}
                   <span className="font-normal">
                     {resume.year_of_graduation}
@@ -102,21 +103,21 @@ function Resume({ data, applicant }) {
                 <span className="font-semibold text-black text-[15px]">
                   Current Work Experience
                 </span>
-                <span className="text-black font-semibold flex w-full justify-between">
+                <span className="text-black font-semibold flex gap-2 w-full justify-between">
                   Company:{" "}
                   <span className="font-normal">{resume.company_name}</span>
                 </span>
-                <span className="text-black font-semibold flex w-full justify-between">
+                <span className="text-black font-semibold flex gap-2 w-full justify-between">
                   Position Held{" "}
                   <span className="font-normal">{resume.position_held}</span>
                 </span>
-                <span className="text-black font-semibold flex w-full justify-between">
+                <span className="text-black font-semibold flex gap-2 w-full justify-between">
                   Date Started{" "}
                   <span className="font-normal">
                     {new Date(resume.start_date).toLocaleDateString()}
                   </span>
                 </span>
-                <span className="text-black font-semibold flex w-full justify-between">
+                <span className="text-black font-semibold flex gap-2 w-full justify-between">
                   Date Ended{" "}
                   <span className="font-normal">
                     {new Date(resume.end_date).toLocaleDateString()}
@@ -136,8 +137,8 @@ function Resume({ data, applicant }) {
           </div>
         </div>
       </>
-    )
-  );
+    ): (<p className="p-4 font-bold text-gray-600">No resume submitted</p>)
+  )
 }
 
 export default Resume;

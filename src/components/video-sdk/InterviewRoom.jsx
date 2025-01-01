@@ -4,7 +4,7 @@ import Participant from "./Participant";
 import You from "./You";
 import { useContext, useState } from "react";
 import { AuthContext } from "../../context/AuthContex";
-import { authToken, createMeeting } from "./Api";
+import { getAuthToken, createMeeting } from "./Api";
 import { onSuccess } from "../../utils/notifications/OnSuccess";
 import { useLocation } from "react-router-dom";
 import Meeting from "./Meeting";
@@ -15,7 +15,7 @@ function InterviewRoom() {
   const [meetingId, setMeetingId] = useState(state?.interview?.meeting_id);
   const { authDetails } = useContext(AuthContext);
 
-  console.log("auth token", authToken);
+  console.log("auth token", getAuthToken);
   console.log("meeting id", meetingId);
 
 
@@ -37,7 +37,7 @@ function InterviewRoom() {
               participantId: authDetails.user.role,
               mode: "CONFERENCE",
             }}
-            token={authToken}
+            token={getAuthToken()}
           >
             <Meeting interview={state.interview} />
           </MeetingProvider>

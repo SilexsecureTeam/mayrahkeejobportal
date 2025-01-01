@@ -8,11 +8,12 @@ import { AuthContext } from "../../../context/AuthContex";
 import useSubscription from "../../../hooks/useSubscription";
 import SubscriptionModal from "../../../components/subscription/SubscriptionModal";
 import SubscriptionModalSpecific from "../../../components/subscription/SubscriptionModalSpecific";
+import { SubscriptionContext } from "../../../context/SubscriptionContext";
 
 function HiringProgress({ data, applicant, toogleInterview }) {
   const { setApplication } = useContext(ApplicationContext);
   const { authDetails } = useContext(AuthContext);
-  const { isInterviewPackge, interviewPackages, loading } = useSubscription();
+  const { isInterviewPackge, interviewPackages, loading } = useContext(SubscriptionContext);
   const [isOpen, setIsOpen] = useState(false);
 
   const toogleOpen = () => setIsOpen(!isOpen);
@@ -128,9 +129,9 @@ function HiringProgress({ data, applicant, toogleInterview }) {
   const statusTexts = () => {
     switch (data.status) {
       case "pending":
-        return (isInterviewPackge || authDetails.user.role === 'super-admin') ? InView : InViewInactive;
+        return (isInterviewPackge) ? InView : InViewInactive;
       case stages[0].name:
-        return (isInterviewPackge || authDetails.user.role === 'super-admin') ? InView : InViewInactive;
+        return (isInterviewPackge) ? InView : InViewInactive;
       case stages[1].name:
         return <Shortlist data={data} />;
       case stages[2].name:

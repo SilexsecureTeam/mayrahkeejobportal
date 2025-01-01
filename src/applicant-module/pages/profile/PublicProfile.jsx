@@ -44,7 +44,7 @@ function PublicProfile() {
                   {/* <button className="p-1 border border-white hover:text-gray-200"><FaRegEdit /></button> */}
                 </div>
               </div>
-              <div className="p-4 flex flex-col md: flex-row">
+              <div className="p-4 flex flex-col md:flex-row">
                 <div className="flex-shrink-0 mt-[-70px]">
                   <img
                     src={

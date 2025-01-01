@@ -9,7 +9,7 @@ function TableRow({ data, navigateToSingle }) {
         </div>
       </td>
       <td className="hidden md:block py-[10px]">
-        <div className="w-full flex h-full  justify-center items-center gap-[5px]">
+        <div className="w-full flex h-full  justify-center items-center gap-[5px] break-all">
           <span>{data.email}</span>
         </div>
       </td>
