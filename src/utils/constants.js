@@ -62,6 +62,7 @@ import medicalIcon from "../assets/pngs/Admin-Dashboard/health-check.png";
 import badgeIcon from "../assets/pngs/Admin-Dashboard/badge.png";
 import todoIcon from "../assets/pngs/Admin-Dashboard/to-do-list.png";
 
+import logout from "../assets/pngs/logout.png";
 export const applicantOptions = [
   {
     type: "DASHBOARD",
@@ -216,8 +217,8 @@ export const exclusiveUtilOptions = [
     type: "LOG-OUT",
     title: "Log Out",
     route: "/login",
-    icon: helpIcon,
-    iconActive: helpIcon,
+    icon: logout,
+    iconActive: logout,
   },
 ];
 
@@ -256,8 +257,8 @@ export const utilOptions = [
     type: "LOG-OUT",
     title: "Log Out",
     route: "/login",
-    icon: helpIcon,
-    iconActive: helpIcon,
+    icon: logout,
+    iconActive: logout,
   },
 ];
 
@@ -294,8 +295,8 @@ export const adminUtilOptions = [
     type: "LOG-OUT",
     title: "Log Out",
     route: "/login",
-    icon: helpIcon,
-    iconActive: helpIcon,
+    icon: logout,
+    iconActive: logout,
   },
 ];
 
@@ -349,8 +350,8 @@ export const staffUtilOptions = [
     type: "LOG-OUT",
     title: "Log Out",
     route: "/login",
-    icon: helpIcon,
-    iconActive: helpIcon,
+    icon: logout,
+    iconActive: logout,
   },
 ];
 
@@ -474,8 +475,8 @@ export const adminnUtilOptions = [
     type: "LOG-OUT",
     title: "Log Out",
     route: "/admin/logout",
-    icon: helpIcon,
-    iconActive: helpIcon,
+    icon: logout,
+    iconActive: logout,
   },
 ];
 
