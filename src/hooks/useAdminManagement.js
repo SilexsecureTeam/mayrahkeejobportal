@@ -618,6 +618,22 @@ const deleteAdminById = async (id) => {
 
 }
 
+const updateFeaturedJobs = async (id, status) => {
+  try {
+    setLoading(true);
+    const response = await client.put(`/jobs/update-feature-job/${id}`, {
+      featured: status,
+    });
+    console.log("response", response);
+    return response.data;
+  } catch (error) {
+    console.error("Error updating jobs", error);
+    return null;
+  } finally {
+    setLoading(false);
+  }
+};
+
   return {
     loading,
     profileDetails,
@@ -658,6 +674,7 @@ const deleteAdminById = async (id) => {
     createSalary,
     getAllAdmins,
     deleteAdminById,
+    updateFeaturedJobs,
   };
 }
 
