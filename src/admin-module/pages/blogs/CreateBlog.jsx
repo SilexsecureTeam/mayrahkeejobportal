@@ -139,7 +139,7 @@ const CreateBlog = () => {
     <div className="min-h-screen bg-gray-100 flex flex-col items-center">
       {showPreview ? (
       <>
-      <div className="flex justify-around items-center">
+      <div className="flex justify-between items-center">
           <button
             onClick={() => setShowPreview(false)}
             className="mt-4 bg-gray-600 text-white p-2 rounded hover:bg-gray-800"
