@@ -138,18 +138,7 @@ const CreateBlog = () => {
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col items-center">
       {showPreview ? (
-        <div className="w-full max-w-6xl bg-white shadow-lg rounded-lg">
-          <SectionHeader
-            title={blog.title || "Blog Heading"}
-            subtitle={blog?.description?.slice(0, 150) || "Subtitle"}
-            img={image}
-            reads={blog.readingTime}
-            time={new Date().toLocaleDateString()}
-          />
-          <div className="prose max-w-none leading-8 mt-4">
-            <p dangerouslySetInnerHTML={{ __html: blog?.description || "Blog content" }} />
-          </div>
-          <div className="flex justify-around items-center">
+      <div className="flex justify-around items-center">
           <button
             onClick={() => setShowPreview(false)}
             className="mt-4 bg-gray-600 text-white p-2 rounded hover:bg-gray-800"
@@ -167,6 +156,18 @@ const CreateBlog = () => {
             {editBlog ? "Edit Blog" : "Publish"} {loading && <FaSpinner className="animate-spin ml-2" />}
           </button>
           </div>
+        <div className="w-full max-w-6xl bg-white shadow-lg rounded-lg">
+          <SectionHeader
+            title={blog.title || "Blog Heading"}
+            subtitle={blog?.description?.slice(0, 150) || "Subtitle"}
+            img={image}
+            reads={blog.readingTime}
+            time={new Date().toLocaleDateString()}
+          />
+          <div className="prose max-w-none leading-8 mt-4">
+            <p dangerouslySetInnerHTML={{ __html: blog?.description || "Blog content" }} />
+          </div>
+          
           
         </div>
       ) : (
