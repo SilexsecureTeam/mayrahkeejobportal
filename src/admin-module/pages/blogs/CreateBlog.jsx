@@ -138,6 +138,7 @@ const CreateBlog = () => {
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col items-center">
       {showPreview ? (
+      <>
       <div className="flex justify-around items-center">
           <button
             onClick={() => setShowPreview(false)}
@@ -170,6 +171,7 @@ const CreateBlog = () => {
           
           
         </div>
+      </>
       ) : (
         <div className="w-full max-w-6xl bg-white shadow-lg rounded-lg">
           <Header />
