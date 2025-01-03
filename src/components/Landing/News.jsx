@@ -83,9 +83,7 @@ const calculateReadingTime = (text) => {
                             <h4 className="font-bold text-lg md:text-xl my-3">
                                 {recent?.title}
                             </h4>
-                            <p className="text-sm text-gray-500 mb-3">
-                                {recent?.description?.slice(0,300)+"..."}
-                            </p>
+                            <p className="text-sm text-gray-500 mb-3" dangerouslySetInnerHTML={{ __html: `${recent?.description?.slice(0, 300)}...` }}></p>
                             <article className="mt-2 flex justify-between gap-3">
                                 <small className="mt-2 text-sm text-gray-400 flex items-center">
                                     <span className="mr-2 w-2 h-2 rounded-full bg-gray-400"></span>
@@ -132,8 +130,7 @@ const calculateReadingTime = (text) => {
                                 <h4 className="font-bold text-sm md:my-2 lg:my-3">
                                     {newsItem?.title}
                                 </h4>
-                                <p className="text-sm text-gray-500 mb-1 md:mb-3">
-                                    {newsItem?.description?.slice(0, 100)}...
+                                <p className="text-sm text-gray-500 mb-1 md:mb-3" dangerouslySetInnerHTML={{ __html: `${newsItem?.description?.slice(0, 60)}...` }}>
                                 </p>
                                 <article className="flex items-center justify-between gap-1 md:gap-3">
                                     <small className="text-xs mt-2 text-gray-400 flex items-center">
