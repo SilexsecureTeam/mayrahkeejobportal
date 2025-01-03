@@ -220,7 +220,7 @@ const BlogList = () => {
                                         <h4 className="font-bold text-xl md:my-2 lg:my-3">
                                             {blog.title}
                                         </h4>
-                                        <p className="text-sm text-gray-500 mb-1 md:mb-3" dangerouslySetInnerHTML={{ __html: blog?.description }}>
+                                        <p className="text-sm text-gray-500 mb-1 md:mb-3" dangerouslySetInnerHTML={{ __html: `${blog?.description?.slice(0, 100)}...` }}>
                                         </p>
                                         <article className="flex items-center justify-between gap-1 md:gap-3">
                                             <small className="mt-2 text-gray-400 flex items-center">
