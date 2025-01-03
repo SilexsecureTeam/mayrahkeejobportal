@@ -67,11 +67,12 @@ function StaffCard({ data, contract = null, cartItems, getCartItems }) {
         user_type: authDetails.user.role,
         domestic_staff_id: data.id,
       });
+      await getCartItems();
       onSuccess({
         message: "User sucessfully added",
         success: "Domestic staff added to cart successfully",
       });
-      await getCartItems();
+      
     } catch (error) {
       onFailure({
         message: "Collection Failed",
@@ -91,11 +92,12 @@ function StaffCard({ data, contract = null, cartItems, getCartItems }) {
         user_type: authDetails.user.role,
         domestic_staff_id: data.id,
       });
+      await getCartItems();
       onSuccess({
         message: "User sucessfully removed",
         success: "Domestic staff removed from cart successfully",
       });
-      await getCartItems();
+      
     } catch (error) {
       onFailure({
         message: "Cart Failed",
@@ -392,9 +394,7 @@ function StaffCard({ data, contract = null, cartItems, getCartItems }) {
 
         {!contract && (
           <div className="w-full flex flex-col gap-2">
-            {cartItems.find((current) => {
-              return data.id === current.domestic_staff_id;
-            }) ? (
+            {cartItems?.some((current) =>data.id === current.domestic_staff_id) ? (
               <FormButton
                 loading={cartloading}
                 onClick={removeFromCart}

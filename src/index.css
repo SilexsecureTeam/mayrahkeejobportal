@@ -1,6 +1,17 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+
+/*styling for reactquill */
+/* Custom styles for the ReactQuill editor */
+.custom-quill-editor .ql-toolbar {
+  background-color: rgb(136, 223, 136); /* Set the background of the header to green */
+  color: white; /* Optional: change text color to white */
+}
+
+
 /* Style the entire website's scrollbar */
 ::-webkit-scrollbar {
   width: 0px; /* Set the width of the scrollbar */

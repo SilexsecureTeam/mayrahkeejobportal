@@ -72,7 +72,7 @@ const BlogRead = () => {
                 <Navbar />
                 <main className="relative mb-20 px-5 h-auto flex flex-col gap-5">
                     <div className="prose max-w-none leading-8">
-                        <p>{blog.description}</p>
+                        <p dangerouslySetInnerHTML={{ __html: blog?.description}}></p>
                     </div>
                 </main>
             </div>
