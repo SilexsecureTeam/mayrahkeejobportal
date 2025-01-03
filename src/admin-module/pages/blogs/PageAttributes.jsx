@@ -1,8 +1,40 @@
-import React, { useState } from "react";
+import React, { useState, useContext, useEffect } from "react";
+import { ResourceContext } from "../../../context/ResourceContext";
+import Selector from "../../../components/Selector";
 
-const PageAttributes = () => {
+const PageAttributes = ({ setBlog, blog }) => {
   const [selectedParent, setSelectedParent] = useState("");
   const [featuredImage, setFeaturedImage] = useState(null);
+  const [categories, setCategories] = useState(null);
+  const [subcategories, setSubcategories] = useState(null);
+  
+  const {
+    setGetAllBlogPosts,
+    getAllBlogPosts,
+    setGetAllBlogCategories,
+    getAllBlogCategories
+  } = useContext(ResourceContext);
+
+  // Fetch blog posts and categories
+  useEffect(() => {
+    setGetAllBlogPosts((prev) => ({
+      ...prev,
+      isDataNeeded: true,
+    }));
+    setGetAllBlogCategories((prev) => ({
+      ...prev,
+      isDataNeeded: true,
+    }));
+  }, []);
+
+  // Process fetched categories
+  useEffect(() => {
+    if (getAllBlogCategories?.data) {
+        const fetchedCategories = getAllBlogCategories.data.data || [];
+        setCategories(fetchedCategories);
+        console.log(fetchedCategories)
+    }
+}, [getAllBlogCategories]);
 
   const handleParentChange = (e) => {
     setSelectedParent(e.target.value);
@@ -23,25 +55,48 @@ const PageAttributes = () => {
     <div className="bg-white p-4 rounded-lg shadow-md mt-6">
       <h3 className="text-lg font-semibold mb-4">Page Attributes</h3>
 
-      {/* Parent Dropdown */}
+      {/* Category Dropdown */}
       <div className="mb-6">
         <label
           htmlFor="parent-category"
           className="block text-sm font-medium text-gray-700 mb-2"
         >
-          Parents
+          Category
         </label>
-        <select
-          id="parent-category"
-          value={selectedParent}
-          onChange={handleParentChange}
-          className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none"
+        <Selector
+          data={categories}
+          selected={categories?.find((category) => category.id === blog?.blog_category_id)}
+          setSelected={(category) => {
+            // Update job details only for the subsector
+            setBlog((prevDetails) => ({
+              ...prevDetails,
+              blog_category_id: category?.id,
+            }));
+          }}
+        />
+      </div>
+
+      {/* Subcategory Dropdown */}
+      <div className="mb-6">
+        <label
+          htmlFor="parent-subcategory"
+          className="block text-sm font-medium text-gray-700 mb-2"
         >
-          <option value="">Select Parent</option>
-          <option value="policy-statements">Policy Statements</option>
-          <option value="guidelines">Guidelines</option>
-          <option value="faq">FAQ</option>
-        </select>
+          Subcategory
+        </label>
+        <Selector
+          data={categories?.filter((category) => category.id === blog?.blog_category_id)
+            ?.flatMap((category) => category.subcategories || [])}
+          selected={categories?.filter((category) => category.id === blog?.blog_category_id)
+            ?.flatMap((category) => category.subcategories || [])?.find((subcategory) => subcategory.id === blog?.blog_sub_category_id)}
+          setSelected={(subcategory) => {
+            // Update job details only for the subsector
+            setBlog((prevDetails) => ({
+              ...prevDetails,
+              blog_sub_category_id: subcategory?.id,
+            }));
+          }}
+        />
       </div>
 
       {/* Featured Image */}

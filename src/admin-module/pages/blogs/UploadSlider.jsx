@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const UploadSlider = ({ setImage, image }) => {
+const UploadSlider = ({ handleImageChange, image }) => {
   const [upload, setUpload] = useState(""); // Temporary state to hold uploaded image preview
 
   const handleImageUpload = (e) => {
@@ -30,7 +30,7 @@ const UploadSlider = ({ setImage, image }) => {
         <input
           type="file"
           accept="image/*"
-          onChange={handleImageUpload}
+          onChange={handleImageChange}
           className="block w-full text-sm text-gray-600
             file:mr-4 file:py-2 file:px-4
             file:rounded file:border-0

@@ -5,7 +5,7 @@ const SectionHeader = ({ title, subtitle, img, reads="" , time="" }) => {
     <div className="bg-gray-100  mt-20 py-6 flex flex-col items-center">
       <section className="max-w-[900px] w-[90%] flex flex-col items-center">
         <h1 className="text-center text-2xl md:text-4xl font-bold tracking-wide">{title}</h1>
-        {subtitle && <p className="text-center text-gray-600 mt-2 max-w-[700px]">{subtitle}</p>}
+        {/* {subtitle && <p className="text-center text-gray-600 mt-2 max-w-[700px]">{subtitle}</p>} */}
         {reads !== "" && time !== "" &&<article className="w-max flex items-center justify-between mx-auto">
 
           <small className="mt-2 text-green-500 flex items-center border-r border-r-gray-400 px-3">
