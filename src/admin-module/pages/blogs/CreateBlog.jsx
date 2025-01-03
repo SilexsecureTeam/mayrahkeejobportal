@@ -138,7 +138,7 @@ const CreateBlog = () => {
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col items-center">
       {showPreview ? (
-        <div className="w-full max-w-6xl bg-white shadow-lg rounded-lg p-6">
+        <div className="w-full max-w-6xl bg-white shadow-lg rounded-lg">
           <SectionHeader
             title={blog.title || "Blog Heading"}
             subtitle={blog?.description?.slice(0, 150) || "Subtitle"}
@@ -149,6 +149,7 @@ const CreateBlog = () => {
           <div className="prose max-w-none leading-8 mt-4">
             <p dangerouslySetInnerHTML={{ __html: blog?.description || "Blog content" }} />
           </div>
+          <div className="flex justify-around items-center">
           <button
             onClick={() => setShowPreview(false)}
             className="mt-4 bg-gray-600 text-white p-2 rounded hover:bg-gray-800"
@@ -165,6 +166,8 @@ const CreateBlog = () => {
           >
             {editBlog ? "Edit Blog" : "Publish"} {loading && <FaSpinner className="animate-spin ml-2" />}
           </button>
+          </div>
+          
         </div>
       ) : (
         <div className="w-full max-w-6xl bg-white shadow-lg rounded-lg">
@@ -176,12 +179,24 @@ const CreateBlog = () => {
             <PageAttributes setBlog={setBlog} blog={blog} />
           </div>
           <TextEditor setBlog={setBlog} blog={blog} />
+          <div className="flex justify-around items-center">
           <button
             onClick={() => setShowPreview(true)}
-            className="mt-6 bg-blue-600 text-white p-2 rounded hover:bg-blue-800"
+            className="mt-6 bg-gray-200 p-2 rounded hover:bg-blue-800"
           >
             Preview
           </button>
+            <button
+            onClick={handlePost}
+            className={`mt-4 ml-2 font-semibold text-sm p-2 text-white rounded-md flex items-center ${loading
+              ? "bg-gray-400 cursor-not-allowed"
+              : "bg-green-600 hover:bg-green-800"
+              }`}
+            disabled={loading}
+          >
+            {editBlog ? "Edit Blog" : "Publish"} {loading && <FaSpinner className="animate-spin ml-2" />}
+          </button>
+          </div>
         </div>
       )}
     </div>
