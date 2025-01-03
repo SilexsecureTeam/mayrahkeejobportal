@@ -128,7 +128,7 @@ const CreateBlog = () => {
 
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col items-center">
-      <div className="w-full max-w-6xl bg-white shadow-lg p-6 rounded-lg">
+      <div className="w-full max-w-6xl bg-white shadow-lg rounded-lg">
         <Header />
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mt-6">
           <div className="lg:col-span-2">
