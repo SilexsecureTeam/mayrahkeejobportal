@@ -16,9 +16,9 @@ const ApplicantHeader = ({ staff, setStaff }) => {
     <header className="text-white p-4 flex flex-wrap gap-5 items-center justify-between">
       <section>
         <h2 className="text-xl font-bold text-blue-900">
-          Good Evening, {staff.first_name}
+          {staff?.first_name}
         </h2>
-        <nav className="flex my-2 space-x-4 font-medium">
+        <nav className="flex flex-wrap my-2 gap-2 font-medium">
           <a href="#" className="text-green-500">
             Offers
           </a>
@@ -26,7 +26,7 @@ const ApplicantHeader = ({ staff, setStaff }) => {
             Domestic Staff
           </a>
           <a href="#" className="text-green-500">
-            Kunle Ademu
+            
           </a>
         </nav>
       </section>
