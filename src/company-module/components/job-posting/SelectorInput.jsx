@@ -20,11 +20,13 @@ function SelectorInput({ data, listData, jobUtils, selected, setSelected }) {
             placeholder={data.placeholder}
           /> */}
 
+          <div className="min-w-[300px]">
           <Selector
             data={listData}
             selected={selected}
             setSelected={setSelected}
           />
+          </div>
 
           <span className="text-xs text-gray-500">Select an option</span>
         </div>

@@ -23,7 +23,7 @@ const UploadSlider = ({ handleImageChange, image }) => {
 
   return (
     <div>
-      <label className="block text-sm font-medium text-gray-700 mb-2">
+      <label className="block text-sm font-medium text-gray-700 mb-2 px-2">
         Upload Slider
       </label>
       <div className="flex items-center gap-4">

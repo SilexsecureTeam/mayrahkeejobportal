@@ -200,7 +200,7 @@ const salaryTypeData = [
 ];
 
 function BasicInformation({ setCurrentStep, data, jobUtils, validateAndProceed }) {
-  const { getEmployentTypes, getCurrencies } = useJobManagement();
+  const { getEmployentTypes, getCurrencies,getSectors,getSubSectors } = useJobManagement();
   const [salaryRange, setSalaryRange] = useState([5000, 22000]);
   const [jobSectorList, setJobSectorList] = useState(jobSectors || []);
   const [selectedType, setSelectedType] = useState(jobUtils?.details?.type && jobUtils?.details?.type);
@@ -244,16 +244,19 @@ function BasicInformation({ setCurrentStep, data, jobUtils, validateAndProceed }
     const initData = async () => {
       const employementListResult = await getEmployentTypes();
       const currencyResult = await getCurrencies();
+      // const sectors = await getSectors();
+      // const subSectors = await getSubSectors();
       setEmployementList(employementListResult);
-
+      setJobSectorList(jobSectors)
+      setCurrencyList(currencyResult);
       if (employementListResult.length > 0) {
         setSelectedType(jobUtils.details.type
           && employementListResult?.find(one => one?.name === jobUtils?.details?.type));
       }
-      setCurrencyList(currencyResult);
 
 
-      setJobSectorList(jobSectors)
+
+      
     };
 
     initData();

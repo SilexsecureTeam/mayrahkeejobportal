@@ -138,6 +138,7 @@ function useAdminRoute() {
                           data={currentOption}
                           dispatch={dispatch}
                           state={state}
+                          setIsOpen={setIsOpen}
                         />
                       ))}
                     </ul>
@@ -149,6 +150,7 @@ function useAdminRoute() {
                           data={currentOption}
                           dispatch={dispatch}
                           state={state}
+                          setIsOpen={setIsOpen}
                         />
                       ))}
                     </ul>

@@ -47,7 +47,7 @@ const DomesticStaffDetails = () => {
   const { data } = artisan;
 
   return (
-    <div className="p-4">
+    <div className="py-4">
       <button
         type="button"
         onClick={() => window.history.back()}

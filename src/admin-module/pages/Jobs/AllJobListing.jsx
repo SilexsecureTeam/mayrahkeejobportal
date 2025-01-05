@@ -7,6 +7,7 @@ import ToggleSwitch from "./Tools/ToggleBtn";
 function AllJobs() {
   const { loading, getAllJobs, updateFeaturedJobs } = UseAdminManagement();
   const [jobs, setJobs] = useState([]);
+  const [loadingToggles, setLoadingToggles] = useState({}); // Track loading state for each toggle
 
   useEffect(() => {
     (async () => {
@@ -24,21 +25,21 @@ function AllJobs() {
     })();
   }, []);
 
-  
   const handleToggle = async (id, currentStatus) => {
+    setLoadingToggles((prev) => ({ ...prev, [id]: true })); // Set loading for specific toggle
     const updatedStatus = currentStatus ? "0" : "1"; 
     const response = await updateFeaturedJobs(id, updatedStatus);
     if (response) {
       const updatedJobs = jobs.map((job) =>
         job.id === id ? { ...job, isFeatured: !currentStatus } : job
       );
-      setJobs(updatedJobs);  
+      setJobs(updatedJobs);
+      setLoadingToggles((prev) => ({ ...prev, [id]: false })); // Set loading to false for specific toggle
     }
   };
 
   const heading = ["ID", "Title", "Salary Type", "Sector", "Type", "Status", "Featured Jobs"];
 
-  
   const data = jobs.map((job) => ({
     [heading[0].toLowerCase()]: job.id,
     [heading[1].toLowerCase()]: job.job_title,
@@ -48,14 +49,15 @@ function AllJobs() {
     [heading[5].toLowerCase()]: job.status,
     [heading[6].toLowerCase()]: (
       <ToggleSwitch
-        isOn={job.isFeatured}  
+        isOn={job.isFeatured}
+        isLoading={loadingToggles[job.id]} // Pass loading state for specific toggle
         onToggle={() => handleToggle(job.id, job.isFeatured)}
       />
     ),
   }));
 
   return (
-    <div className="mx-14 mt-10">
+    <div className="mt-10">
       <button
         type="button"
         onClick={() => window.history.back()}

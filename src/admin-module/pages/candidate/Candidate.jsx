@@ -53,7 +53,7 @@ const [rejected,setRejected] = useState(0)
       <Helmet>
         <title>Admin| Dashboard</title>
       </Helmet>
-      <div className="h-full p-6 w-full text-sm text-gray-800">
+      <div className="h-full py-6 w-full text-sm text-gray-800">
         <div className="text-sm">
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6 p-4">
             <div className="bg-orange-400 text-white px-4 py-12 rounded-md flex flex-col items-start cursor-pointer" onClick={() => navigate('/admin/candidates/all')}>
