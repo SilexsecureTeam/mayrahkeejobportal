@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Spinner } from 'react-icons/fa'; // You can use any spinner icon of your choice
+import { FaSpinner } from 'react-icons/fa'; // You can use any spinner icon of your choice
 // Simulate fetching interview data (Replace with your actual fetch)
 import { interviewData } from './interviewData'; 
 
@@ -37,7 +37,7 @@ const Interviews = () => {
 
       {loading ? (
         <div className="w-full h-full flex items-center justify-center">
-          <Spinner className="animate-spin text-2xl" />
+          <FaSpinner className="animate-spin text-2xl" />
         </div>
       ) : error ? (
         <div className="text-xl font-semibold text-red-500">{error}</div>
