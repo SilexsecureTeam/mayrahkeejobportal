@@ -57,7 +57,6 @@ const CreateBlog = () => {
         ? `${IMAGE_URL}/${blog?.main_image}`
         : "https://via.placeholder.com/800x400"
     );
-    console.log(blog)
   }, [blog]);
 
   const handlePost = async () => {
@@ -135,8 +134,9 @@ const CreateBlog = () => {
       reader.readAsDataURL(file);
     }
   };
+
   return (
-    
+
     <div className="min-h-screen bg-gray-100 flex flex-col py-3">
       {showPreview ? (
         <>
@@ -185,7 +185,7 @@ const CreateBlog = () => {
           <TextEditor setBlog={setBlog} blog={blog} />
           <div className="flex justify-around items-center mt-10 sticky bottom-0 bg-white py-2">
             <button
-              onClick={() =>{ setShowPreview(true); window.scrollTo(0,0)}}
+              onClick={() => { setShowPreview(true); }}
               className="min-w-32 bg-gray-200 font-semibold text-sm p-2 rounded hover:bg-gray-600 hover:text-white"
             >
               Preview

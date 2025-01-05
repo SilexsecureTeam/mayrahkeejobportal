@@ -31,9 +31,9 @@ function JobType({test = false, resource = null}) {
   const getComponent = () => {
     switch (currentOption.id) {
       case options[0].id:
-        return <Applicants data={currentJob} applicants={allApplicants} />;
+        return <Applicants data={currentJob} applicants={allApplicants} exclusive={test} />;
       case options[1].id:
-        return <JobDetails data={currentJob} jobUtils={jobUtils} applicants={allApplicants} />;
+        return <JobDetails data={currentJob} jobUtils={jobUtils} applicants={allApplicants} exclusive={test} />;
     }
   };
 

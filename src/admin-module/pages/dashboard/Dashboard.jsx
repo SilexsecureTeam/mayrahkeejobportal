@@ -51,7 +51,7 @@ function Dashboard() {
       setDomesticStaffCount(domesticStaff.length);
 
       const jobLearning = await getAllJobs();
-      setJobLearningCount(jobLearning.length);
+      setJobLearningCount(jobLearning?.length);
     })();
   }, []);
 

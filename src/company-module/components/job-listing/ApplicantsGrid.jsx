@@ -28,7 +28,7 @@ const stages = [
   },
 ];
 
-function ApplicantsGrid({ applicants, searchTerm }) {
+function ApplicantsGrid({ applicants, searchTerm, exclusive=false }) {
   // Filter applicants based on the search term
   const filteredApplicants = searchTerm
     ? applicants?.filter((applicant) =>
@@ -54,7 +54,7 @@ function ApplicantsGrid({ applicants, searchTerm }) {
     <div className="min-w-full overflow-x-auto grid grid-cols-1 md:grid-cols-3 gap-[20px]">
       {/* Render stages in their original order */}
       {filteredStages.map((stage, idx) => (
-        <GridRow key={idx} applicants={stage.applicantsInStage || applicants.filter(applicant => applicant.status === stage.name)} data={stage} />
+        <GridRow key={idx} applicants={stage.applicantsInStage || applicants.filter(applicant => applicant.status === stage.name)} data={stage} exclusive={exclusive} />
       ))}
     </div>
   );
