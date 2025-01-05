@@ -474,7 +474,7 @@ export const adminnUtilOptions = [
   {
     type: "LOG-OUT",
     title: "Log Out",
-    route: "/admin/logout",
+    route: "/login",
     icon: logout,
     iconActive: logout,
   },

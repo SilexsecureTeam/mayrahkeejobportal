@@ -57,6 +57,7 @@ const CreateBlog = () => {
         ? `${IMAGE_URL}/${blog?.main_image}`
         : "https://via.placeholder.com/800x400"
     );
+    console.log(blog)
   }, [blog]);
 
   const handlePost = async () => {
@@ -134,46 +135,46 @@ const CreateBlog = () => {
       reader.readAsDataURL(file);
     }
   };
-
   return (
-    <div className="min-h-screen bg-gray-100 flex flex-col items-center">
+    
+    <div className="min-h-screen bg-gray-100 flex flex-col py-3">
       {showPreview ? (
-      <>
-      <div className="flex justify-between items-center">
-          <button
-            onClick={() => setShowPreview(false)}
-            className="mt-4 bg-gray-600 text-white p-2 rounded hover:bg-gray-800"
-          >
-            Hide Preview
-          </button>
-          <button
-            onClick={handlePost}
-            className={`mt-4 ml-2 font-semibold text-sm p-2 text-white rounded-md flex items-center ${loading
-              ? "bg-gray-400 cursor-not-allowed"
-              : "bg-green-600 hover:bg-green-800"
-              }`}
-            disabled={loading}
-          >
-            {editBlog ? "Edit Blog" : "Publish"} {loading && <FaSpinner className="animate-spin ml-2" />}
-          </button>
+        <>
+          <div className="flex justify-around items-center gap-2 bg-white sticky top-0 py-3 w-full">
+            <button
+              onClick={() => setShowPreview(false)}
+              className="min-w-32 bg-gray-600 text-white p-2 rounded hover:bg-gray-800"
+            >
+              Continue Editing
+            </button>
+            <button
+              onClick={handlePost}
+              className={`min-w-32 font-semibold text-sm p-2 text-white rounded-md flex items-center justify-center ${loading
+                ? "bg-gray-400 cursor-not-allowed"
+                : "bg-green-600 hover:bg-green-800"
+                }`}
+              disabled={loading}
+            >
+              {editBlog ? "Republish" : "Publish"} {loading && <FaSpinner className="animate-spin ml-2" />}
+            </button>
           </div>
-        <div className="w-full max-w-6xl bg-white shadow-lg rounded-lg">
-          <SectionHeader
-            title={blog.title || "Blog Heading"}
-            subtitle={blog?.description?.slice(0, 150) || "Subtitle"}
-            img={image}
-            reads={blog.readingTime}
-            time={new Date().toLocaleDateString()}
-          />
-          <div className="prose max-w-none leading-8 mt-4">
-            <p dangerouslySetInnerHTML={{ __html: blog?.description || "Blog content" }} />
+          <div className="w-full max-w-6xl bg-white shadow-lg rounded-lg">
+            <SectionHeader
+              title={blog.title || "Blog Heading"}
+              subtitle={blog?.description?.slice(0, 150) || "Subtitle"}
+              img={image}
+              reads={blog.readingTime}
+              time={new Date().toLocaleDateString()}
+            />
+            <div className="prose max-w-none leading-8 text-sm p-2">
+              <div dangerouslySetInnerHTML={{ __html: blog?.description || "Blog content" }} />
+            </div>
+
+
           </div>
-          
-          
-        </div>
-      </>
+        </>
       ) : (
-        <div className="w-full max-w-6xl bg-white shadow-lg rounded-lg">
+        <div className="w-full max-w-6xl bg-white shadow-lg rounded-lg  py-3">
           <Header />
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mt-6">
             <div className="lg:col-span-2">
@@ -182,23 +183,23 @@ const CreateBlog = () => {
             <PageAttributes setBlog={setBlog} blog={blog} />
           </div>
           <TextEditor setBlog={setBlog} blog={blog} />
-          <div className="flex justify-around items-center">
-          <button
-            onClick={() => setShowPreview(true)}
-            className="mt-6 bg-gray-200 p-2 rounded hover:bg-blue-800"
-          >
-            Preview
-          </button>
+          <div className="flex justify-around items-center mt-10 sticky bottom-0 bg-white py-2">
             <button
-            onClick={handlePost}
-            className={`mt-4 ml-2 font-semibold text-sm p-2 text-white rounded-md flex items-center ${loading
-              ? "bg-gray-400 cursor-not-allowed"
-              : "bg-green-600 hover:bg-green-800"
-              }`}
-            disabled={loading}
-          >
-            {editBlog ? "Edit Blog" : "Publish"} {loading && <FaSpinner className="animate-spin ml-2" />}
-          </button>
+              onClick={() =>{ setShowPreview(true); window.scrollTo(0,0)}}
+              className="min-w-32 bg-gray-200 font-semibold text-sm p-2 rounded hover:bg-gray-600 hover:text-white"
+            >
+              Preview
+            </button>
+            <button
+              onClick={handlePost}
+              className={`min-w-32 ml-2 font-semibold text-sm p-2 text-white rounded-md flex items-center justify-center ${loading
+                ? "bg-gray-400 cursor-not-allowed"
+                : "bg-green-600 hover:bg-green-800"
+                }`}
+              disabled={loading}
+            >
+              {editBlog ? "Edit Blog" : "Publish"} {loading && <FaSpinner className="animate-spin ml-2" />}
+            </button>
           </div>
         </div>
       )}

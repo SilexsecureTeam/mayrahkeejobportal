@@ -28,7 +28,7 @@ function useSubscription() {
   // console.log(interviePackages)
   const isInterviewPackge = (interviewPackages?.find(
     (current) => current?.id === activePackage?.package_id
-  ) || authDetails?.user?.role === 'super-admin' || authDetails?.user?.user_type === 'exclusive') ? true : false;
+  ) || authDetails?.user?.role?.match('admin') || authDetails?.user?.user_type === 'exclusive') ? true : false;
 
   const getPackages = async () => {
     setLoading(true);

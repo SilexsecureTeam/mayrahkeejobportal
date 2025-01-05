@@ -150,7 +150,7 @@ function UseAdminManagement() {
     try {
       setLoading(true);
       const response = await client.get(`/candidate/getCandidate/${id}`);
-      console.log(response.data.details)
+      console.log(response?.data?.details)
       return response.data.details;
     } catch (error) {
       return null;
@@ -624,6 +624,10 @@ const updateFeaturedJobs = async (id, status) => {
     setLoading(true);
     const response = await client.put(`/jobs/update-feature-job/${id}`, {
       featured: status,
+    }, {
+      headers: {
+        "Content-Type": "application/json",
+      },
     });
     console.log("response", response);
     return response.data;

@@ -15,15 +15,15 @@ function ForgotPassword() {
 
   return (
     <main className="flex h-screen w-full ">
-      <div className="w-[60%] flex px-[5%] flex-col items-center justify-start gap-[5%] ">
+      <div className="md:w-[60%] flex px-[5%] flex-col items-center justify-start gap-[5%] ">
         <img className="h-[15%]" src="" />
-        <div className="grid grid-cols-2 w-[60%]  gap-[10px] text-sm font-semibold">
+        <div className="grid grid-cols-2 md:w-[60%] gap-[10px] text-sm font-semibold">
           <button
             onClick={() => setRole("candidate")}
             className={`px-2 py-1 text-little ${
               role === "candidate"
                 ? "md:text-white text-gray-500 bg-white md:bg-primaryColor border-0"
-                : "md:text-primaryColor text-white  border bg-white/30 md:bg-primaryColor/30"
+                : "md:text-primaryColor text-gray-300  border bg-white/30 md:bg-primaryColor/30"
             }`}
           >
             Corperate Candidate
@@ -33,7 +33,7 @@ function ForgotPassword() {
             className={`px-2 py-1 text-little ${
               role === "employer"
                 ? "md:text-white text-gray-500 bg-white md:bg-primaryColor border-0"
-                : "md:text-primaryColor text-white  border bg-white/30 md:bg-primaryColor/30"
+                : "md:text-primaryColor text-gray-300  border bg-white/30 md:bg-primaryColor/30"
             }`}
           >
             Corperate Employer
@@ -43,7 +43,7 @@ function ForgotPassword() {
             className={`px-2 py-1 text-little ${
               role === "artisan"
                 ? "md:text-white text-gray-500 bg-white md:bg-primaryColor border-0"
-                : "md:text-primaryColor text-white  border bg-white/30 md:bg-primaryColor/30"
+                : "md:text-primaryColor text-gray-300  border bg-white/30 md:bg-primaryColor/30"
             }`}
           >
             Artisan
@@ -53,7 +53,7 @@ function ForgotPassword() {
             className={`px-2 py-1 text-little ${
               role === "staff"
                 ? "md:text-white text-gray-500 bg-white md:bg-primaryColor border-0"
-                : "md:text-primaryColor text-white  border bg-white/30 md:bg-primaryColor/30"
+                : "md:text-primaryColor text-gray-300  border bg-white/30 md:bg-primaryColor/30"
             }`}
           >
             Domestic Staff

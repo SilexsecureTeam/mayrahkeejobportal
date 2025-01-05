@@ -41,7 +41,7 @@ function Trow({ data, featurePost, refresh }) {
       </td>
 
       <td className="py-5">
-        <div className="w-full flex h-full items-center">
+        <div className="w-32 flex h-full items-center *:truncate">
           <span>{data.title}</span>
         </div>
       </td>
@@ -75,7 +75,13 @@ function Trow({ data, featurePost, refresh }) {
       </td>
 
       <td>
-        <div className="flex justify-around items-center gap-2 px-2">
+        <div className="flex justify-center items-center gap-2 px-2">
+        <span
+            onClick={() => navigate(`/blogs/${data?.id}`)}
+            className="cursor-pointer font-medium text-sm p-1 underline text-black rounded-md"
+          >
+            View
+          </span>
           <span
             onClick={() => navigate("/admin/create-blog", { state: { data } })}
             className="cursor-pointer font-medium text-sm p-1 underline text-black rounded-md"

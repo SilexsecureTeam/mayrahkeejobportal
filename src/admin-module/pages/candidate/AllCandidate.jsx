@@ -24,14 +24,14 @@ function AllCandidate() {
   const heading = ["ID", "Name", "Email",  "Status", "Gender" ];
   const data = candidates.map(candidate => ({
     [heading[0].toLowerCase()]: candidate.id,
-    [heading[1].toLowerCase()]: candidate.first_name + " " + (candidate.middle_name === null || candidate.middle_name === 'null' ? '' : candidate.middle_name) + " " + candidate.last_name,
+    [heading[1].toLowerCase()]: candidate.first_name + " " + (candidate?.middle_name || "") + " " + candidate.last_name,
     [heading[2].toLowerCase()]: candidate.email,
     [heading[3].toLowerCase()]: candidate.status,
     [heading[4].toLowerCase()]: candidate.gender,
   }));
 
   return (
-    <div className="mx-14 mt-10">
+    <div className="mt-10">
       <button
           type="button"
           onClick={() => window.history.back()}
