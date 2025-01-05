@@ -160,7 +160,7 @@ function Descriptions({
             if (exclusive?.id) {
               console.log('Exclusive')
               jobUtils.addJobForExclusive(() => {
-                () => {}
+                handleSuccess();
               }, exclusive.id);
             }else {
               console.log('Normal')

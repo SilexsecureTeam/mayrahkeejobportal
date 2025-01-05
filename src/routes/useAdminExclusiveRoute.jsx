@@ -13,6 +13,7 @@ import AdminSideBarItem from "../admin-module/components/AdminSideBarItem";
 import AdminReducer from "../reducers/AdminReducer";
 import AdminExclusiveReducer from "../reducers/AdminExclusiveReducer";
 import { AdminExclusiveManagementContextProvider } from "../context/AdminExclusiveManagement";
+import SingleApplicant from "../company-module/pages/applicants/SingleApplicant";
 
 // Util Component
 const NavBar = lazy(() => import("../admin-module/components/NavBar"));
@@ -139,6 +140,10 @@ function useAdminRoute() {
 
                 <Route path="job/:id" element={<JobType />} />
                 <Route path="applicant/:id" element={<ViewApplicant />} />
+                <Route
+                      path="applicants/detail/:id"
+                      element={<ViewApplicant />}
+                    />
                 <Route path="profile/:id" element={<ViewProfile />} />
               </Routes>
             </div>

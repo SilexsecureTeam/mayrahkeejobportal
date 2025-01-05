@@ -125,7 +125,7 @@ const JobSearchPage = () => {
 
       const response = await axios.get(`${BASE_URL}/jobs/search?${params}`);
       const fetchedJobs = response?.data?.data || [];
-      setJobs(fetchedJobs);
+      setJobs(fetchedJobs?.filter(item=>item.status==="approved" || item.status==="pending"));
     } catch (error) {
       console.error("Error fetching jobs:", error);
     } finally {
@@ -180,7 +180,7 @@ const JobSearchPage = () => {
         <Navbar />
         <main className="relative my-20 px-5 h-full">
           <Hero shrink={true} title="Discover thousands of job opportunities across various sectors, tailored to match your skills and aspirations." />
-          <div className="job-search-page max-w-7xl mx-auto my-4 px-4 h-max">
+          <div className="job-search-page max-w-7xl mx-auto my-4 px-2 h-max">
             <h1 className="text-center text-3xl font-bold my-8">
               Find Your Dream Job Today
             </h1>
@@ -310,7 +310,7 @@ const JobSearchPage = () => {
                               <strong>Experience:</strong>{" "}
                               <span
                                 dangerouslySetInnerHTML={{
-                                  __html: job.experience,
+                                  __html: job?.experience?.slice(0,60),
                                 }}
                               ></span>
                             </p>

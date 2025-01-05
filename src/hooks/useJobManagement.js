@@ -155,7 +155,7 @@ function useJobManagement() {
       }
     }
 
-    if (Number(details.preferred_age) < 18) {
+    if (Number(details?.preferred_age) < 18) {
       return "The preferred age field must be at least 18.";
     }
 
@@ -234,7 +234,7 @@ function useJobManagement() {
       setDetails({});
       await getJobsFromDB();
       handleSuccess();
-      window.location.reload();
+      
     } catch (error) {
       onFailure({ message: "Submission Failed", error: error.message });
     } finally {
@@ -242,20 +242,18 @@ function useJobManagement() {
     }
   };
 
-  const deactivateJob = async (currentJob, status, handleSuccess) => {
+  const deactivateJob = async (data) => {
     setLoading(true);
     try {
-      const response = await client.put(`/job/${currentJob.id}`, {
-        status: status,
-      });
+      const response = await client.post("update-status", data);
       await getJobsFromDB();
-      handleSuccess();
     } catch (error) {
       FormatError(error, setError, "Status Error");
     } finally {
       setLoading(false);
     }
   };
+  
 
   const deleteJob = async (handleSuccess, jobId) => {
     setLoading(true);

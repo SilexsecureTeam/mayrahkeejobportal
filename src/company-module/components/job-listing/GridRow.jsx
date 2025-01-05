@@ -1,10 +1,11 @@
 import { useEffect } from "react";
 import ApplicantCard from "./ApplicantCard";
 
-function GridRow({ data, applicants }) {
+function GridRow({ data, applicants, exclusive }) {
   const currentApplicants = applicants?.filter(
     (current) => current.status === data.name
   );
+
 
   return (
     currentApplicants &&
@@ -22,7 +23,7 @@ function GridRow({ data, applicants }) {
 
       <ul className="flex flex-col w-full gap-[10px] items-center justify-between">
         {currentApplicants.length > 0 ? currentApplicants?.map((current,index) => (
-          <ApplicantCard key={index} data={current} />
+          <ApplicantCard key={index} data={current} exclusive={exclusive} />
         )) : <span className="text-little"> No Applicants</span>}
       </ul>
     </div>

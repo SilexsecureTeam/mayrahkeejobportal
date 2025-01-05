@@ -51,8 +51,7 @@ function JobPosting({exclusive=null}) {
   const [editJob, setEditJob] = useState(false);
   const jobUtils = useJobManagement();
   const navigate = useNavigate();
-
-
+  console.log(exclusive)
   const handleSuccess = () => {
    if(editJob){
     onSuccess({
@@ -66,7 +65,12 @@ function JobPosting({exclusive=null}) {
     });
    }
   
+   if(exclusive){
+    window.location.reload();
+   }else{
     navigate('/company/job-listing');
+   }
+    
   };
   const validateAndProceed = () => {
     try {
@@ -82,15 +86,15 @@ function JobPosting({exclusive=null}) {
       }
     } catch (error) {
       // Notify user of validation or API errors
-      console.log('Completion')
+      console.log('Completion', error)
       onFailure({ message: "Complete this stage", error: error.message });
     }
   };
   
 
-  useEffect(() => {
-    console.log("Details", jobUtils.details);
-  }, [jobUtils.details]);
+  // useEffect(() => {
+  //   console.log("Details", jobUtils.details);
+  // }, [jobUtils.details]);
 
   useEffect(()=>{
     console.log(location.state?.details)

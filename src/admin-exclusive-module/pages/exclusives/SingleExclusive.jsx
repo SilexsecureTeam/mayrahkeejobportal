@@ -178,14 +178,18 @@ function SingleExclusive() {
                 />
               ))}
             {selectedCard.id === 3 &&
-              jobs.map((current) => (
+              jobs.map((current) => {
+                const jobApplicants = applicants?.filter(
+                  (currentApplicant) => current.id === currentApplicant.job_id
+                )
+                return(
                 <ListingRow
                   key={currentExclusive.id}
-                  applicants={applicants}
+                  applicants={jobApplicants}
                   data={current}
                   isExclusive={true}
-                />
-              ))}
+                />)
+            })}
           </TableWrap>
         </div>
       </div>
