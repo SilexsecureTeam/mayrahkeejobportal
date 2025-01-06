@@ -53,10 +53,11 @@ const CreateBlog = () => {
 
   useEffect(() => {
     setImage(
-      blog?.main_image
-        ? `${IMAGE_URL}/${blog?.main_image}`
-        : "https://via.placeholder.com/800x400"
+      (typeof blog?.main_image === 'string' && blog?.main_image !== "")
+         ? `${IMAGE_URL}/${blog?.main_image}`
+        : blog?.main_image ? image :"https://via.placeholder.com/800x400"
     );
+    console.log(image, blog)
   }, [blog]);
 
   const handlePost = async () => {
@@ -127,11 +128,8 @@ const CreateBlog = () => {
         ...prevDetails,
         main_image: file,
       }));
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        setImage(e.target.result);
-      };
-      reader.readAsDataURL(file);
+      const savedPhoto = URL.createObjectURL(file)
+        setImage(savedPhoto);
     }
   };
 

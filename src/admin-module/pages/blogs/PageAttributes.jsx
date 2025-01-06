@@ -35,15 +35,13 @@ useEffect(() => {
   const selectedCategory = categories?.find((c) => c.id === blog?.blog_category_id);
 
   if (
-    !selectedCategory || // If no category is selected
-    !selectedCategory.subcategories?.find((s) => s.id === blog?.blog_sub_category_id) // Or the subcategory doesn't exist
-  ) {
+    selectedCategory &&  !selectedCategory?.subcategories?.find((s) => s.id === blog?.blog_sub_category_id)) {
     setBlog((prev) => ({
       ...prev,
       blog_sub_category_id: null, // Reset subcategory
     }));
   }
-}, [blog?.blog_category_id, blog?.blog_sub_category_id, categories]);
+}, [blog?.blog_category_id]);
 
  
 

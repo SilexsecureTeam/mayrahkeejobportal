@@ -52,7 +52,7 @@ const UploadSlider = ({ handleImageChange, image }) => {
       {image && (
         <div className="mt-4">
           <img
-            src={image}
+            src={`${image}`}
             alt="Slider Preview"
             className="rounded-lg w-full h-60 object-cover"
           />
