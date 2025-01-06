@@ -183,7 +183,7 @@ const NewForm = ({ setIsOpen }) => {
                 ...prev, isDataNeeded: false
             }
         })
-        details.country = countryInfo.name;
+        details.country = countryInfo?.name;
         details.state = selectState;
         axios.post(`${BASE_URL}/candidate/UpdateCandidate/${user.id}`, details, {
             headers: {
@@ -249,19 +249,19 @@ const NewForm = ({ setIsOpen }) => {
     return (
         <div className='text-[#515B6F]'>
 
-            <div className="my-4">
-                <div className="flex flex-wrap items-center pb-6 border-b">
-                    <div className="max-w-full md:w-1/3 pr-5">
+            <div className="my-4 w-full">
+                <div className="flex flex-col md:flex-row items-center pb-6 border-b">
+                    <div className="w-full md:w-1/3 pr-5">
                         <p className="font-medium mb-2 text-slate-950">Profile Photo</p>
                         <p>This image will be shown publicly as your profile picture, it will help recruiters recognize you!</p>
                     </div>
-                    <div className="flex flex-wrap items-center">
-                        <div className="size-[100px]  ring-green-200 ring-4 rounded-full bg-gray-300 mx-5">
+                    <div className="flex flex-col md:flex-row md:w-2/3 gap-2 items-center">
+                        <div className="flex-shrink-0 size-[100px]  ring-green-200 ring-4 rounded-full bg-gray-300 mx-5">
                             <div className="">
                                 <img className='w-[100px] h-[100px] rounded-full' src={profileImageUrl} alt="" />
                             </div>
                         </div>
-                        <label htmlFor='profile' className="min-h-32 w-full md:w-[90%] md:min-w-[24rem] cursor-pointer bg-green-50 border-2 border-green-500 border-dashed p-3 md:p-5 rounded">
+                        <label htmlFor='profile' className="min-h-32 w-[90%] md:w-[90%] cursor-pointer bg-green-50 border-2 border-green-500 border-dashed p-3 md:p-5 rounded">
                             <div className="text-center">
                                 <div className="flex justify-center">
                                     <span className='text-green-500 mb-3'><TbPhoto /></span>
@@ -278,13 +278,13 @@ const NewForm = ({ setIsOpen }) => {
                 <div className="update_form py-6">
                     <div>
                         <form onSubmit={handleSubmit}>
-                            <div className=" md:w-">
+                            <div className="w-full">
                                 <div className="border-b py-6">
-                                    <div className="flex">
-                                        <div className="font-medium w-2/6 text-slate-900">
+                                    <div className="flex flex-col md:flex-row gap-y-2">
+                                        <div className="font-medium w-full md:w-2/6 text-slate-900">
                                             <p>Personal Information</p>
                                         </div>
-                                        <div className="w-4/6">
+                                        <div className="w-full md:w-4/6">
                                             <div className="mb-4">
                                                 <label className="block">
                                                     <span className="block text-sm font-medium text-slate-700">Full Name</span>
@@ -381,11 +381,11 @@ const NewForm = ({ setIsOpen }) => {
                                     </div>
                                 </div>
                                 <div className="border-b py-6">
-                                    <div className="flex">
-                                        <div className="font-medium w-2/6 text-slate-900">
+                                    <div className="flex flex-col md:flex-row gap-y-2">
+                                        <div className="font-medium w-full md:w-2/6 text-slate-900">
                                             <p>Professional Details</p>
                                         </div>
-                                        <div className="w-4/6">
+                                        <div className="w-full md:w-4/6">
                                             <div className="grid grid-cols-2 gap-4">
                                                 <div className="">
                                                     <label className="block">
@@ -514,11 +514,11 @@ const NewForm = ({ setIsOpen }) => {
                                     </div> */}
                                 </div>
                                 <div className="border-b py-6">
-                                    <div className="flex">
-                                        <div className="font-medium w-2/6 text-slate-900">
+                                    <div className="flex flex-col md:flex-row gap-y-2">
+                                        <div className="font-medium w-full md:w-2/6 text-slate-900">
                                             <p>Contact Details</p>
                                         </div>
-                                        <div className="w-4/6">
+                                        <div className="w-full md:w-4/6">
                                             <div className="mb-4">
                                                 <label className="block">
                                                     <span className="block text-sm font-medium text-slate-700">Contact Address</span>

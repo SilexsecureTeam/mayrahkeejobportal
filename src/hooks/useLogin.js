@@ -100,7 +100,7 @@ function useLogin(role) {
       });
       onSuccess({
         message: "Reset succesful",
-        success: "A reset otp has been sent to you email",
+        success: "A reset otp has been sent to your email",
       });
     } catch (error) {
       FormatError(error, setError, "Reset Error");
