@@ -162,6 +162,7 @@ function SingleExclusive() {
           <span className="text-lg font-semibold">
             List of {selectedCard.id === 2 ? `Applicants` : "Jobs"}
           </span>
+          <div className="overflow-x-auto">
           <TableWrap
             rows={
               selectedCard.id === 2
@@ -191,6 +192,7 @@ function SingleExclusive() {
                 />)
             })}
           </TableWrap>
+            </div>
         </div>
       </div>
     </>
