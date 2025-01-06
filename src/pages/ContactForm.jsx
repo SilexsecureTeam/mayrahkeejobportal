@@ -19,17 +19,17 @@ const ContactUs = () => {
               <p className="text-gray-600 mt-2 font-medium ext-sm">
                 Email, call or complete the form to learn how Mayrahkee Africa can be of help to you.
               </p>
-              <div className="mt-6 flex flex-wrap gap-4">
-                <div>
+              <div className="mt-6 flex flex-col gap-4">
+                <div className="p-3">
                   <h2 className="font-bold capitalize">General inquiries</h2>
                   <a className="text-gray-600" href="mailto:Info@mayrahkeeafrica.com" >info@mayrahkeeafrica.com</a> <br/>
                   <a className="text-gray-600" href="tel:08078874748" >0807 887 4748</a>
                 </div>
-                <div>
+                <div className="p-3">
                   <h2 className="font-bold capitalize">technical support </h2>
                   <p className="text-gray-600">support@mayrahkeeafrica.com</p>
                 </div>
-                <div>
+                <div className="p-3">
                   <h2 className="font-bold capitalize">feedback & suggestions</h2>
                   <p className="text-gray-600">feedbacks@mayrahkeeafrica.com</p>
                 </div>
