@@ -2,7 +2,9 @@ import React, { useState } from "react";
 import useLogin from "../hooks/useLogin";
 import FormButton from "../components/FormButton";
 import OTPInput from "react-otp-input";
-// import MainLogo from "../assets/svgs/main-logo.svg";
+import MainLogo from "../assets/pngs/main-logo-icon.png";
+import MainLogo2 from "../assets/pngs/mayrahkee-logo-2.png";
+
 // import Person from "../assets/pngs/person.png";
 
 function ForgotPassword() {
@@ -15,8 +17,8 @@ function ForgotPassword() {
 
   return (
     <main className="flex h-screen w-full ">
-      <div className="md:w-[60%] flex px-[5%] flex-col items-center justify-start gap-[5%] ">
-        <img className="h-[15%]" src="" />
+      <div className="md:w-[60%] flex px-[5%] flex-col items-center justify-center gap-[5%] ">
+        <img className="w-[60%] block md:hidden" src={MainLogo} />
         <div className="grid grid-cols-2 md:w-[60%] gap-[10px] text-sm font-semibold">
           <button
             onClick={() => setRole("candidate")}
@@ -143,7 +145,9 @@ function ForgotPassword() {
         {/* Reset Password */}
       </div>
 
-      <div className="bg-primaryColor w-[40%] bg-[length:100%_110%]" />
+      <div className="hidden md:flex bg-primaryColor w-[40%] bg-[length:100%_110%] items-center justify-center" >
+      <img className="h-[15%] hidden md:block" src={MainLogo2} />
+      </div>
     </main>
   );
 }
