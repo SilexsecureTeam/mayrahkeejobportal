@@ -73,7 +73,7 @@ const calculateReadingTime = (text) => {
                     >
                         <img
                             className="w-full h-[250px] md:h-[350px] object-cover rounded-md"
-                            src={recent?.image ? `${resourceUrl}${recent?.image}` : "https://via.placeholder.com/150"}
+                            src={recent?.main_image ? `${resourceUrl}${recent?.main_image}` : "https://via.placeholder.com/150"}
                             alt="Recent News"
                         />
                         <div className="p-2 ">
@@ -118,7 +118,7 @@ const calculateReadingTime = (text) => {
                             <div className="w-28 min-h-28 md:w-32 md:h-auto lg:w-40 lg:h-auto flex-shrink-0">
                                 <img
                                     className="w-full h-full object-cover rounded-md"
-                                    src={newsItem?.image ? `${resourceUrl}${newsItem?.image}` : "https://via.placeholder.com/150"}
+                                    src={newsItem?.main_image ? `${resourceUrl}${newsItem?.main_image}` : "https://via.placeholder.com/150"}
                                     alt="News"
                                 />
                             </div>
