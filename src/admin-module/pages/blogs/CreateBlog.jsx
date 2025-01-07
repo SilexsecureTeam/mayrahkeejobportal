@@ -4,7 +4,7 @@ import UploadSlider from "./UploadSlider";
 import PageAttributes from "./PageAttributes";
 import TextEditor from "./TextEditor";
 import SectionHeader from "../../../components/Landing/SectionHeader";
-import { axiosClient } from "../../../services/axios-client";
+import { axiosClient, resourceUrl } from "../../../services/axios-client";
 import { AuthContext } from "../../../context/AuthContex";
 import { onSuccess } from "../../../utils/notifications/OnSuccess";
 import { onFailure } from "../../../utils/notifications/OnFailure";
@@ -54,7 +54,7 @@ const CreateBlog = () => {
   useEffect(() => {
     setImage(
       (typeof blog?.main_image === 'string' && blog?.main_image !== "")
-         ? `${IMAGE_URL}/${blog?.main_image}`
+         ? `${resourceUrl}/${blog?.main_image}`
         : blog?.main_image ? image :"https://via.placeholder.com/800x400"
     );
     console.log(image, blog)

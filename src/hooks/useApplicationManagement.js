@@ -119,17 +119,19 @@ function useApplicationManagement() {
     setData,
     handleOnSuccess,
     option,
-    meetingId
+    meetingId,
+    exclusive
   ) => {
     setLoading(true);
     try {
+      console.log(exclusive)
       if (!option.name) throw Error("An interview option must be selected");
       if (!meetingId && option.name === "online")
         throw Error("Please generate a meeting ID");
 
       let interviewPrimarydata = {
         job_application_id: data.id,
-        employer_id: authDetails.user.id,
+        employer_id: exclusive ? exclusive.id : authDetails.user.id,
         candidate_id: applicant.candidate_id,
         option: option.name,
         meeting_id: meetingId,
@@ -138,7 +140,7 @@ function useApplicationManagement() {
       if (option.name !== "online") {
         interviewPrimarydata = {
           job_application_id: data.id,
-          employer_id: authDetails.user.id,
+          employer_id: exclusive ? exclusive.id : authDetails.user.id,
           candidate_id: applicant.candidate_id,
           option: option.name,
         };

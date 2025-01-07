@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { FaSearch } from 'react-icons/fa';
 import { ResourceContext } from "../context/ResourceContext";
 import { Helmet } from 'react-helmet';
+import { resourceUrl } from '../services/axios-client';
 
 const BlogList = () => {
     const {
@@ -208,7 +209,7 @@ const BlogList = () => {
                                     className="cursor-pointer bg-white rounded-lg shadow overflow-hidden"
                                 >
                                     <img
-                                        src={blog?.main_image || "https://via.placeholder.com/150/000000/FFFFFF?text=Image+Not+Found"}
+                                        src={blog?.main_image ? `${resourceUrl}${blog?.main_image}` : "https://via.placeholder.com/150/000000/FFFFFF?text=Image+Not+Found"}
                                         alt={blog.title || "Default Title"}
                                         className="w-full h-48 object-cover"
                                     />

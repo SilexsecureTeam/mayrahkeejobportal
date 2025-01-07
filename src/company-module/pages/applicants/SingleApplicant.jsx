@@ -33,7 +33,8 @@ function SingleApplicant() {
         toogleInterview();
       },
       selectedOption,
-      meetingId
+      meetingId,
+      location?.state?.exclusiveData
     );
   };
 
@@ -43,6 +44,7 @@ function SingleApplicant() {
     }
     return setApplication(null);
   }, [application]);
+  console.log(location?.state?.exclusiveData, application)
 
   useEffect(() => {
     const initApplicant = async () => {

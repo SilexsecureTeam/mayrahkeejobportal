@@ -175,6 +175,7 @@ function SingleExclusive() {
                 <ApplicantRow
                   key={current.key}
                   data={current}
+                  exclusiveData={currentExclusive}
                   isExclusive={true}
                 />
               ))}

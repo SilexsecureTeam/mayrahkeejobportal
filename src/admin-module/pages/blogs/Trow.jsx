@@ -2,7 +2,7 @@ import { Switch } from "@mantine/core";
 import { useState, useContext } from "react";
 import { FaSpinner } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
-import { axiosClient } from "../../../services/axios-client";
+import { axiosClient, resourceUrl } from "../../../services/axios-client";
 import { AuthContext } from "../../../context/AuthContex";
 import { onSuccess } from "../../../utils/notifications/OnSuccess";
 import { onFailure } from "../../../utils/notifications/OnFailure";
@@ -33,8 +33,8 @@ function Trow({ data, featurePost, refresh }) {
       <td className="text-center py-[5px]">
         <div className="capitalize">
           <img
-            src={data.main_image || "/placeholder2.png"}
-            className="h-[50px] rounded-full max-w-[50px]"
+            src={data.main_image ? `${resourceUrl}${data.main_image}` : "/placeholder2.png"}
+            className="h-[50px] rounded-full max-w-[50px] object-cover"
             alt="Post Thumbnail"
           />
         </div>

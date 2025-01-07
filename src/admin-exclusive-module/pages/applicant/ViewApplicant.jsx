@@ -4,7 +4,7 @@ import JobType from "../../../company-module/pages/job-listing/JobType";
 function ViewApplicant() {
   return (
     <div className="w-full h-full flex flex-col px-2">
-      <SingleApplicant test={true} />
+      <SingleApplicant exclusive={true} />
     </div>
   );
 }
