@@ -15,6 +15,17 @@ function SideBar({
 }) {
   const { details } = companyHookProps;
 
+  const getImageURL = (image) => {
+   
+
+    if (typeof image === "string") {
+      return `${resourceUrl}/${image}`
+     
+    } else {
+      const generatedUrl = URL.createObjectURL(image);
+      return generatedUrl
+    }
+  };
   return (
     <>
       {/* Main Sidebar */}
@@ -43,7 +54,7 @@ function SideBar({
             <span className="text-gray-300 text-xs truncate">{authDetails?.user?.email}</span>
           </div>
           <img
-            src={`${resourceUrl}/${details?.logo_image}`}
+            src={details?.logo_image ? getImageURL(details?.logo_image) : "https://via.placeholder.com/150"}
             className="flex-shrink-0 h-[50px] w-[50px] rounded-full bg-secondaryColor max-[1200px]:mt-[-30px] transition-all duration-500 object-cover"
           />
         </div>
@@ -80,7 +91,7 @@ function SideBar({
             <span className="text-gray-300 text-xs">{authDetails?.user?.email}</span>
           </div>
           <img
-            src={details?.logo_image ? `${resourceUrl}/${details?.logo_image}` : "https://via.placeholder.com/150"}
+            src={details?.logo_image ? getImageURL(details?.logo_image) : "https://via.placeholder.com/150"}
             className="h-[45px] w-[45px] rounded-full bg-primaryColor object-cover"
           />
         </div>

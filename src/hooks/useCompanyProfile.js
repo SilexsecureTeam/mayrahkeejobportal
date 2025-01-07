@@ -119,7 +119,7 @@ function useCompanyProfile() {
 
       //On success, save response data to index db
       await set(COMPANY_PROFILE_Key, response.data.employer);
-      onSuccess({"message": "Successful"});
+      onSuccess({"message": "Profile Update", success:response?.message || "Successful"});
       handleSuccess();
     } catch (error) {
       console.log(error);
