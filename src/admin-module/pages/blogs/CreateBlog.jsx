@@ -62,9 +62,34 @@ const CreateBlog = () => {
 
   const handlePost = async () => {
     setLoading(true);
+  
     try {
+      // Define required fields and their user-friendly names
+      const requiredFields = [
+        { key: "title", label: "Blog Title" },
+        { key: "blog_category_id", label: "Blog Category" },
+        { key: "blog_sub_category_id", label: "Blog Subcategory" },
+        { key: "description", label: "Blog Content"}
+      ];
+  
+      // Find missing fields
+      const missingFields = requiredFields?.filter(
+        (field) => !blog[field.key] || blog[field.key] === ""
+      );
+  
+      if (missingFields.length > 0) {
+        const missingFieldLabels = missingFields.map((field) => field.label).join(", ");
+        onFailure({
+          message: "Incomplete Information",
+          error: `Please provide the following required fields: ${missingFieldLabels}.`,
+        });
+        setLoading(false);
+        console.log(missingFieldLabels)
+        return;
+      }
+  
       let apiFunc;
-
+  
       if (editBlog) {
         const filteredBlog = Object.keys(blog).reduce((acc, key) => {
           if (
@@ -84,7 +109,7 @@ const CreateBlog = () => {
           }
           return acc;
         }, {});
-
+  
         apiFunc = client.put(`/blog/posts/${blog.id}`, filteredBlog, {
           headers: {
             "Content-Type": "application/json",
@@ -93,18 +118,18 @@ const CreateBlog = () => {
       } else {
         const formData = new FormData();
         Object.keys(blog).forEach((key) => {
-          if (blog[key] !== "readingTime") {
+          if (key !== "readingTime") {
             formData.append(key, blog[key]);
           }
         });
-
+  
         apiFunc = client.post(`/blog/posts`, formData, {
           headers: {
             "Content-Type": "multipart/form-data",
           },
         });
       }
-
+  
       await apiFunc;
       onSuccess({
         message: editBlog ? "Blog Update" : "New Blog",
@@ -112,6 +137,7 @@ const CreateBlog = () => {
       });
       navigate("/admin/blogs");
     } catch (error) {
+      console.log(error)
       onFailure({
         message: editBlog ? "Edit Post Error" : "Post Error",
         error: `An error occurred while ${editBlog ? "updating" : "posting"} the blog.`,
@@ -120,6 +146,7 @@ const CreateBlog = () => {
       setLoading(false);
     }
   };
+  
 
   const handleImageChange = (event) => {
     const file = event.target.files[0];
