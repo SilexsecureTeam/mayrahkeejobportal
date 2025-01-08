@@ -370,6 +370,13 @@ export const adminExclusiveOptions = [
     icon: peopleIcon,
     iconActive: peopleIcon,
   },
+  {
+    type: "Interviews",
+    title: "Interviews",
+    route: "/admin-exclusives/interviews",
+    icon: policeIcon,
+    iconActive: policeIcon,
+  },
 ];
 
 export const adminExclusiveUtil = [

@@ -109,7 +109,12 @@ const CreateBlog = () => {
           }
           return acc;
         }, {});
-  
+        const formData = new FormData();
+        Object.keys(blog).forEach((key) => {
+          if (key !== "readingTime") {
+            formData.append(key, blog[key]);
+          }
+        });
         apiFunc = client.put(`/blog/posts/${blog.id}`, filteredBlog, {
           headers: {
             "Content-Type": "application/json",

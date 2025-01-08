@@ -37,7 +37,7 @@ const JobType = lazy(() =>
 const ViewApplicant = lazy(() =>
   import("../admin-exclusive-module/pages/applicant/ViewApplicant")
 );
-
+const Interviews = lazy(() => import("../admin-exclusive-module/pages/Interviews"));
 const ViewProfile = lazy(() =>
   import("../admin-exclusive-module/pages/profile/ViewProfile")
 );
@@ -145,6 +145,7 @@ function useAdminRoute() {
                       element={<ViewApplicant />}
                     />
                 <Route path="profile/:id" element={<ViewProfile />} />
+                <Route path="/interviews" element={<Interviews />} />
               </Routes>
             </div>
           </div>
