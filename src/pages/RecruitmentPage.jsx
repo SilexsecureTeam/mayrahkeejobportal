@@ -24,6 +24,11 @@ const RecruitmentPage = () => {
         return "/company";
       case "staff":
         return "/staff";
+      case "admin":
+        return "/admin"
+      default :
+        return "/"
+
     }
   };
 

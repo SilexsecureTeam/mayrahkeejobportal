@@ -42,6 +42,46 @@ function useInterviewManagement() {
       }
     }
   };
+//Api request to update profile
+const getAllExclusiveInterviews = async (handleSuccess) => {
+  if (authDetails?.token !== null || authDetails?.token !== undefined) {
+    setLoading(true);
+    try {
+      const { data } = await client.get(`/interviews`);
+      return data.interviews
+  
+    } catch (error) {
+     // console.log(error);
+      // FormatError(error, setError, "Update Error");
+    } finally {
+      setLoading(false);
+    }
+  }
+};
+
+const getEmployerById = async (id) => {
+  try {
+    setLoading(true);
+    const response = await client.get(`/employer/getEmployer/${id}`);
+    return response.data?.details;
+  } catch (error) {
+    return null;
+  } finally {
+    setLoading(false);
+  }
+};
+const getCandidateById = async (id) => {
+  try {
+    setLoading(true);
+    const response = await client.get(`/candidate/getCandidate/${id}`);
+    console.log(response?.data)
+    return response.data.details;
+  } catch (error) {
+    return null;
+  } finally {
+    setLoading(false);
+  }
+}
 
   // useEffect(() => {
   //   if (error.message && error.error) {
@@ -71,7 +111,10 @@ function useInterviewManagement() {
 
   return {
     interviews,
-    getAllInterviews
+    getAllInterviews,
+    getAllExclusiveInterviews,
+    getEmployerById,
+    getCandidateById
   };
 }
 

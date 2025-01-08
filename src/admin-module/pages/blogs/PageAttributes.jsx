@@ -168,7 +168,7 @@ useEffect(() => {
 
   return (
     <div className="bg-white p-4 rounded-lg shadow-md mt-6">
-      <h3 className="text-lg font-semibold mb-4">Page Attributes</h3>
+      <h3 className="text-lg font-semibold mb-4">Post Attributes</h3>
 
       {/* Category Management */}
       <div className="mb-6">
