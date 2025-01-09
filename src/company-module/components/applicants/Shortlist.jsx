@@ -69,33 +69,33 @@ function Shortlist({ data }) {
           <div className="flex flex-col w-[40%]">
             <span className="text-gray-400 text-sm">Interviewer</span>
             <span className="text-gray-700 font-semibold text-little">
-              {interview.interviewer_name}
+              {interview?.interviewer_name}
             </span>
           </div>
 
           <div className="flex flex-col">
             <span className="text-gray-400 text-sm">Interview Location</span>
             <span className="text-gray-700 font-semibold text-little">
-              {interview.location}
+              {interview?.location}
             </span>
           </div>
 
           <div className="flex flex-col">
             <span className="text-gray-400 text-sm">Interview Time</span>
             <span className="text-gray-700 font-semibold text-little">
-              {new Date(interview.interview_date).toLocaleDateString()}
+              {new Date(interview?.interview_date)?.toLocaleDateString()}
             </span>
           </div>
           <div className="flex flex-col">
             <span className="text-gray-400 text-sm">Meeting Id</span>
             <span className="text-gray-700 font-semibold text-little">
-              {interview.meeting_id}
+              {interview?.meeting_id}
             </span>
           </div>
           <div className="flex flex-col">
             <span className="text-gray-400 text-sm">Add Ons</span>
             <span className="text-gray-700 font-semibold text-little">
-              {interview.notes}
+              {interview?.notes}
             </span>
           </div>
         </div>

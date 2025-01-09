@@ -11,7 +11,7 @@ import Meeting from "./Meeting";
 import { ApplicationContext } from "../../context/ApplicationContext";
 
 function InterviewRoom() {
-  const { state } = useLocation();
+  const { state, auth } = useLocation();
   const [meetingId, setMeetingId] = useState(state?.interview?.meeting_id);
   const { authDetails } = useContext(AuthContext);
 
@@ -39,7 +39,7 @@ function InterviewRoom() {
             }}
             token={getAuthToken()}
           >
-            <Meeting interview={state.interview} />
+            <Meeting interview={state?.interview} exclusive={state?.exclusive} />
           </MeetingProvider>
         )}
       </div>

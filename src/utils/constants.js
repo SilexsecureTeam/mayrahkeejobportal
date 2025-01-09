@@ -454,13 +454,6 @@ export const adminOptions = [
     iconActive: policeIcon,
   },
   {
-    type: "Interviews",
-    title: "Interviews",
-    route: "/admin/interviews",
-    icon: policeIcon,
-    iconActive: policeIcon,
-  },
-  {
     type: "Blogs",
     title: "Blogs",
     route: "/admin/blogs",
