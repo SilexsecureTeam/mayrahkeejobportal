@@ -63,7 +63,9 @@ const getEmployerById = async (id) => {
   try {
     setLoading(true);
     const response = await client.get(`/employer/getEmployer/${id}`);
-    return response.data?.details;
+    console.log(response?.data)
+    return response.data;
+    
   } catch (error) {
     return null;
   } finally {
@@ -74,7 +76,6 @@ const getCandidateById = async (id) => {
   try {
     setLoading(true);
     const response = await client.get(`/candidate/getCandidate/${id}`);
-    console.log(response?.data)
     return response.data.details;
   } catch (error) {
     return null;

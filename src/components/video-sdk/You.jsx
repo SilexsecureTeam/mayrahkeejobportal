@@ -15,16 +15,16 @@ import { axiosClient } from "../../services/axios-client";
 import { stages } from "../../utils/constants";
 import { onFailure } from "../../utils/notifications/OnFailure";
 import { LuLoader } from "react-icons/lu";
-// import { ApplicationContext } from "../../context/ApplicationContext";
+import { ApplicationContext } from "../../context/ApplicationContext";
 import { IMAGE_URL } from "../../utils/base";
 import useApplicationManagement from "../../hooks/useApplicationManagement";
 
-function You({ data, job, applicant }) {
+function You({ data, job, applicant, auth, exclusive }) {
 
   const micRef = useRef(null);
   const { authDetails } = useContext(AuthContext);
   const navigate = useNavigate();
-  const { application, setApplication } = useApplicationManagement()
+  const { application, setApplication } = useContext(ApplicationContext);
   const {
     webcamStream,
     micStream,
@@ -36,7 +36,7 @@ function You({ data, job, applicant }) {
   } = useParticipant(data?.id);
   const [loading, setLoading] = useState(false);
   const [timeElapsed, setTimeElapsed] = useState('bsj');
-
+console.log(application)
   const { toggleMic, toggleWebcam, leave } = useMeeting();
 
   const videoStream = useMemo(() => {
@@ -75,6 +75,7 @@ function You({ data, job, applicant }) {
 
     return clearTimeout();
   }, [micStream, micOn]);
+  console.log(application);
 
   const updateApplication = async (navigateToSingleAppplicant) => {
     setTimeElapsed(false);
@@ -104,7 +105,12 @@ function You({ data, job, applicant }) {
     if (typeof timeElapsed !== 'string' && !timeElapsed) {
       if (!loading) {
         leave();
-        navigate(`/company/applicants/detail/${application.id}`)
+        if(exclusive){
+          navigate(`//admin-exclusives/applicants/detail/${application.id}`)
+        }else{
+          navigate(`/company/applicants/detail/${application.id}`)
+        }
+        
       }
     }
   }, [loading, timeElapsed]);
@@ -120,9 +126,9 @@ function You({ data, job, applicant }) {
           </span>
         </div>
       )}
-      <div className="w-full h-full flex flex-col rounded-[10px] pb-28 md:pb-0">
+      <div className="w-full h-full flex flex-col gap-2 md:gap-0 rounded-[10px] pb-28 md:pb-0">
         <audio ref={micRef} autoPlay playsInline muted={isLocal} />
-        <div className="w-full min-h-[40%] overflow-hidden rounded-[10px]">
+        <div className="w-full min-h-[40%] max-h-96 overflow-hidden rounded-[10px]">
           {webcamOn ? (
             <ReactPlayer
               //
@@ -161,7 +167,7 @@ function You({ data, job, applicant }) {
           )}
         </div>
 
-        <div className="fixed left-0 bottom-0 right-0 w-full p-1 bg-[rgba(0,0,0,.8)] text-white md:text-black md:bg-transparent md:relative flex justify-center gap-8 md:p-5">
+        <div className="fixed z-10 left-0 bottom-0 right-0 w-full p-1 bg-[rgba(0,0,0,.8)] text-white md:text-black md:bg-transparent md:relative flex justify-center gap-8 md:p-5">
           <div className="flex flex-col items-center">
             {micOn ? (
               <FaMicrophone
@@ -200,7 +206,7 @@ function You({ data, job, applicant }) {
             <MdCallEnd
               className="text-sm h-[45px] w-[45px] cursor-pointer p-3 bg-red-500 text-red-800 rounded-full"
               onClick={() => {
-                if (authDetails.user.role === "employer") {
+                if (auth.user.role === "employer") {
                   updateApplication();
                 } else {
                   navigate(-2);
@@ -211,7 +217,7 @@ function You({ data, job, applicant }) {
           </div>
         </div>
 
-        <div className="w-full md:flex flex-col h-max p-4 rounded-md bg-gray-950">
+        <div className="sticky bottom-0 w-full md:flex flex-col h-max p-4 rounded-md bg-gray-950">
           {job && (
             <>
             
@@ -242,7 +248,7 @@ function You({ data, job, applicant }) {
           )}
           {applicant && (
             <>
-              <span className="text-white font-semibold">
+              <span className="sticky bottom-0 text-white font-semibold">
                 Applicant Details
               </span>
               <span className="text-white tracking-wider mt-3 flex justify-between w-full text-sm">
