@@ -244,6 +244,7 @@ function useApplicationManagement() {
     loading,
     applicants,
     interviewDetails,
+    setInterviewDetails,
     jobApplications,
     scheduleInterview,
     onTextChange,

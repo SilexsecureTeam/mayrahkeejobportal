@@ -24,7 +24,7 @@ function useCompanyProfile() {
   const [details, setDetails] = useState({
     //beenRetrieved check it data has instantialted
     beenRetreived: retrievalState.init,
-    employer_id: authDetails.user.id,
+    employer_id: authDetails?.user.id,
     company_profile: "",
     logo_image: "",
     company_name: "",
@@ -58,7 +58,7 @@ function useCompanyProfile() {
     setLoading(true);
     try {
       const response = await client.get(
-        `/employer/getEmployer/${authDetails.user.id}`
+        `/employer/getEmployer/${authDetails?.user.id}`
       );
       if (response.data.details) {
         await set(COMPANY_PROFILE_Key, response.data.details);
