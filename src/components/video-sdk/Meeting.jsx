@@ -36,7 +36,7 @@ function Meeting({ interview, exclusive }) {
       console.log(error);
     },
   });
-
+console.log(exclusive)
   const auth= exclusive ? exclusive : authDetails
   const getYou = () => {
     const speakerParticipants = [...participants.values()].find(

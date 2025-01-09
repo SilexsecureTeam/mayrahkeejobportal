@@ -58,7 +58,23 @@ const getAllExclusiveInterviews = async (handleSuccess) => {
     }
   }
 };
-
+const getApplicantByExclusive = async (id) => {
+  try {
+    const response = await client(
+      `getEmployerApply/${id}`
+    );
+    if (response.data.job_application) {
+      return response.data.job_application.reverse();
+    }
+    return [];
+  } catch (error) {
+    onFailure({
+      message: "Employers error",
+      error: "Error retrieving Applicants",
+    });
+    return []
+  }
+};
 const getEmployerById = async (id) => {
   try {
     setLoading(true);
@@ -115,7 +131,7 @@ const getCandidateById = async (id) => {
     getAllInterviews,
     getAllExclusiveInterviews,
     getEmployerById,
-    getCandidateById
+    getCandidateById,getApplicantByExclusive
   };
 }
 

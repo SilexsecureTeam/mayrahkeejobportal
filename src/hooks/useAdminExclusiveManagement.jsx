@@ -58,6 +58,7 @@ function useAdminExclusiveManagement(setDaboardSummary, setExclusives) {
       return []
     }
   };
+  
 
   const getAllExclusives = async () => {
     try {

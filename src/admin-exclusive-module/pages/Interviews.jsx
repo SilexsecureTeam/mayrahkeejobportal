@@ -1,27 +1,31 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { FaSpinner } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import useInterviewManagement from '../../hooks/useInterviewManagement';
 import { resourceUrl } from "../../services/axios-client";
+import { ApplicationContext } from '../../context/ApplicationContext';
+import { InterviewContext } from '../../context/InterviewContext';
 
 const Interviews = () => {
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false); // For fetching interviews
+  const [proceedLoading, setProceedLoading] = useState(null); // For "Proceed to Interview"
   const [data, setData] = useState([]);
   const [error, setError] = useState(null);
   const [details, setDetails] = useState({});
   const [countdownTrigger, setCountdownTrigger] = useState(0);
   const navigate = useNavigate();
+  const { setApplication } = useContext(ApplicationContext);
 
-  const { getAllExclusiveInterviews, getEmployerById, getCandidateById } = useInterviewManagement();
+  const { getAllExclusiveInterviews, getEmployerById, getCandidateById, getApplicantByExclusive } = useInterviewManagement();
 
   const fetchInterviews = async () => {
     setLoading(true);
     setError(null);
     try {
       const response = await getAllExclusiveInterviews();
-      if(response){
+      if (response) {
         setData(response);
-      }else{
+      } else {
         setError('Failed to load interviews');
       }
     } catch (err) {
@@ -58,8 +62,6 @@ const Interviews = () => {
       setDetails((prevDetails) => ({ ...prevDetails, ...newDetails }));
     } catch (err) {
       console.error('Failed to fetch details:', err);
-      
-      
     }
   };
 
@@ -81,13 +83,13 @@ const Interviews = () => {
   const formatDateTime = (date, time) => {
     const combinedDateTime = new Date(`${date.split(' ')[0]}T${time}`);
     const now = new Date();
+    const endTime = new Date(combinedDateTime.getTime() + 60 * 60 * 1000);
 
-    const isLive =
-      now >= combinedDateTime &&
-      now <= new Date(combinedDateTime.getTime() + 60 * 60 * 1000);
+    const isLive = now >= combinedDateTime && now <= endTime;
+    const hasEnded = now > endTime;
 
     let countdown = null;
-    if (!isLive && now < combinedDateTime) {
+    if (!isLive && !hasEnded && now < combinedDateTime) {
       const diff = combinedDateTime - now;
       const days = Math.floor(diff / (1000 * 60 * 60 * 24));
       const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
@@ -109,14 +111,31 @@ const Interviews = () => {
 
     return {
       isLive,
+      hasEnded,
       formattedDate,
       formattedTime,
       countdown,
     };
   };
 
-  const handleProceedToInterview = (interview, auth) => {
-    navigate("/interview-room", { state: { interview:interview, exclusive:auth } });
+  const handleProceedToInterview = async (interview, auth) => {
+    setProceedLoading(interview.id); // Set loading for this specific interview
+    try {
+      const applicantData = await getApplicantByExclusive(interview.employer_id);
+      const matchedApplication = applicantData?.find(
+        (one) => Number(one.id) === Number(interview?.job_application_id)
+      );
+      if (matchedApplication) {
+        setApplication(matchedApplication);
+        navigate("/interview-room", { state: { interview: interview, exclusive: auth } });
+      } else {
+        console.error("Failed to retrieve interview applicant data");
+      }
+    } catch (error) {
+      console.error("Error proceeding to interview:", error);
+    } finally {
+      setProceedLoading(null); // Reset loading
+    }
   };
 
   return (
@@ -131,12 +150,12 @@ const Interviews = () => {
         </div>
       ) : error ? (
         <div className="text-xl font-semibold text-red-500 text-center">{error}</div>
-      ) : (data && data?.length === 0) ? (
+      ) : data && data.length === 0 ? (
         <div className="text-xl font-semibold">No Interviews</div>
       ) : (
         <div className="w-full grid grid-cols-responsive gap-4 pt-5 gap-y-6 px-3 sm:px-8 justify-center">
           {data?.map((row) => {
-            const { isLive, formattedDate, formattedTime, countdown } = formatDateTime(
+            const { isLive, formattedDate, formattedTime, countdown, hasEnded } = formatDateTime(
               row?.interview_date,
               row?.interview_time
             );
@@ -159,6 +178,8 @@ const Interviews = () => {
                 </p>
                 {isLive ? (
                   <p className="mt-1 text-green-500 font-semibold">Status: Live</p>
+                ) : hasEnded ? (
+                  <p className="mt-1 text-gray-500 font-semibold">Status: Ended</p>
                 ) : (
                   <p className="mt-1 text-red-700 font-semibold animate-pulse">
                     Starts In: {countdown}
@@ -168,19 +189,24 @@ const Interviews = () => {
                   <p><strong>Candidate:</strong> {details[`candidate-${row.candidate_id}`]?.full_name || '...'}</p>
                   <p><strong>Company:</strong> {details[`employer-${row.employer_id}`]?.details?.company_name || '...'}</p>
                 </div>
-               {row?.location ? 
-               <button
-                  className={`w-full mt-4 px-4 py-2 rounded-lg text-white ${isLive ? 'bg-green-500 hover:bg-green-600' : 'bg-gray-400 cursor-not-allowed'}`}
-                  disabled={isLive}>
-                  Physical Interview
-                </button>
-                :<button
-                  className={`w-full mt-4 px-4 py-2 rounded-lg text-white ${isLive ? 'bg-green-500 hover:bg-green-600' : 'bg-gray-400 cursor-not-allowed'}`}
-                  disabled={isLive}
-                  onClick={() => handleProceedToInterview(row, {user: details[`employer-${row.employer_id}`]?.candidateAuth})}
-                >
-                  Proceed to Interview
-                </button>}
+                {row?.location ? (
+                  <button
+                    className={`w-full mt-4 px-4 py-2 rounded-lg text-white ${isLive ? 'bg-green-500 hover:bg-green-600' : 'bg-gray-400 cursor-not-allowed'} flex items-center justify-center`}
+                    disabled={!isLive || proceedLoading === row.id}
+                  >
+                    {proceedLoading === row.id && <FaSpinner className="animate-spin mr-2" />}
+                    Physical Interview
+                  </button>
+                ) : (
+                  <button
+                    className={`w-full mt-4 px-4 py-2 rounded-lg text-white ${isLive ? 'bg-green-500 hover:bg-green-600' : 'bg-gray-400 cursor-not-allowed'} flex items-center justify-center`}
+                    disabled={proceedLoading === row.id}
+                    onClick={() => handleProceedToInterview(row, { user: details[`employer-${row.employer_id}`]?.candidateAuth })}
+                  >
+                    {proceedLoading === row.id && <FaSpinner className="animate-spin mr-2" />}
+                    Proceed to Interview
+                  </button>
+                )}
               </div>
             );
           })}
