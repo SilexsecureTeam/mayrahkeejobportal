@@ -4,22 +4,44 @@ import { useNavigate } from 'react-router-dom';
 import useInterviewManagement from '../../hooks/useInterviewManagement';
 import { resourceUrl } from "../../services/axios-client";
 import { ApplicationContext } from '../../context/ApplicationContext';
-import { InterviewContext } from '../../context/InterviewContext';
+import ScheduleInterviewModal from '../../company-module/components/applicants/ScheduleInteviewModal'; 
 
 const Interviews = () => {
-  const [loading, setLoading] = useState(false); // For fetching interviews
+  const [isLoading, setIsLoading] = useState(false); // For fetching interviews
   const [proceedLoading, setProceedLoading] = useState(null); // For "Proceed to Interview"
   const [data, setData] = useState([]);
   const [error, setError] = useState(null);
   const [details, setDetails] = useState({});
   const [countdownTrigger, setCountdownTrigger] = useState(0);
   const navigate = useNavigate();
-  const { setApplication } = useContext(ApplicationContext);
-
+  const {
+    setApplication,
+    interviewDetails,
+    setInterviewDetails,
+    onTextChange,
+    loading,
+    scheduleInterview, } = useContext(ApplicationContext);
+  const [isOpen, setIsOpen] = useState(false);
   const { getAllExclusiveInterviews, getEmployerById, getCandidateById, getApplicantByExclusive } = useInterviewManagement();
+ const toogleInterview = () => setIsOpen(!isOpen);
+
+
+  const handleOnSubmit = (e, selectedOption, meetingId) => {
+    e.preventDefault();
+    scheduleInterview(
+      applicant,
+      applicationData,
+      setApplicantData,
+      () => {
+        toogleInterview();
+      },
+      selectedOption,
+      meetingId
+    );
+  };
 
   const fetchInterviews = async () => {
-    setLoading(true);
+    setIsLoading(true);
     setError(null);
     try {
       const response = await getAllExclusiveInterviews();
@@ -31,7 +53,7 @@ const Interviews = () => {
     } catch (err) {
       setError('Failed to load interviews');
     } finally {
-      setLoading(false);
+      setIsLoading(false);
     }
   };
 
@@ -117,7 +139,15 @@ const Interviews = () => {
       countdown,
     };
   };
-
+  
+  const handleEditInterview = (interview) => {
+    console.log("Edit Interview triggered for:", interview);
+    setProceedLoading(interview.id);
+    setInterviewDetails(interview);
+    setIsOpen(true);
+    setProceedLoading(null);
+  };
+  
   const handleProceedToInterview = async (interview, auth) => {
     setProceedLoading(interview.id); // Set loading for this specific interview
     try {
@@ -139,12 +169,22 @@ const Interviews = () => {
   };
 
   return (
+    <>
+    <ScheduleInterviewModal
+        handleOnSubmit={handleOnSubmit}
+        loading={loading}
+        isOpen={isOpen}
+        details={interviewDetails}
+        onTextChange={onTextChange}
+        setIsOpen={setIsOpen}
+      />
     <div className="p-8 min-h-max bg-gray-200 flex flex-col gap-y-2">
+     
       <p className="sticky top-18 bg-transparent ml-auto my-2 flex items-center gap-2 font-medium">
         View Interviews
       </p>
 
-      {loading ? (
+      {isLoading ? (
         <div className="w-full h-full flex items-center justify-center">
           <FaSpinner className="animate-spin text-2xl" />
         </div>
@@ -189,6 +229,7 @@ const Interviews = () => {
                   <p><strong>Candidate:</strong> {details[`candidate-${row.candidate_id}`]?.full_name || '...'}</p>
                   <p><strong>Company:</strong> {details[`employer-${row.employer_id}`]?.details?.company_name || '...'}</p>
                 </div>
+                <div className="flex gap-1">
                 {row?.location ? (
                   <button
                     className={`w-full mt-4 px-4 py-2 rounded-lg text-white ${isLive ? 'bg-green-500 hover:bg-green-600' : 'bg-gray-400 cursor-not-allowed'} flex items-center justify-center`}
@@ -198,6 +239,7 @@ const Interviews = () => {
                     Physical Interview
                   </button>
                 ) : (
+                  <>
                   <button
                     className={`w-full mt-4 px-4 py-2 rounded-lg text-white ${isLive ? 'bg-green-500 hover:bg-green-600' : 'bg-gray-400 cursor-not-allowed'} flex items-center justify-center`}
                     disabled={proceedLoading === row.id}
@@ -206,13 +248,24 @@ const Interviews = () => {
                     {proceedLoading === row.id && <FaSpinner className="animate-spin mr-2" />}
                     Proceed to Interview
                   </button>
+                  <button
+                    className={`ml-auto w-full mt-4 px-4 py-2 rounded-lg text-white ${(!isLive || !hasEnded) ? 'bg-green-500 hover:bg-green-600' : 'bg-gray-400 cursor-not-allowed'} flex items-center justify-center`}
+                    disabled={isLive || hasEnded}
+                    onClick={() => handleEditInterview(row)}
+                  >
+                   {proceedLoading === row.id && <FaSpinner className="animate-spin mr-2" />}
+                    Edit Interview
+                  </button>
+                  </>
                 )}
+                </div>
               </div>
             );
           })}
         </div>
       )}
     </div>
+    </>
   );
 };
 

@@ -72,7 +72,7 @@ function ScheduleInterviewModal({
   const { isInterviewPackge } = useContext(SubscriptionContext);
   const { authDetails } = useContext(AuthContext);
   const options = isInterviewPackge ? interviewOptions : [interviewOptions[1]];
-  const [selected, setSelected] = useState();
+  const [selected, setSelected] = useState(details?.meeting_id !== "" ? interviewOptions[0]:interviewOptions[1]);
 
   const [meetingId, setMeetingId] = useState();
   const [loadingMeetingId, setLoadingMeetingId] = useState(false); // Loading state for meeting ID
@@ -137,7 +137,7 @@ function ScheduleInterviewModal({
                   data={fields[3]}
                   details={details}
                   onTextChange={onTextChange}
-                  value={companyUtil.details.address}
+                  value={companyUtil?.details.address}
                 />
               )}
 
