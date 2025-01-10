@@ -1,7 +1,7 @@
 import { onFailure } from "../../utils/notifications/OnFailure";
 
 let authToken =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcGlrZXkiOiI1Nzk3NWJmMi0zNGZkLTQzMGUtOTU4Mi1lMjBiODI3ZWQ5NTIiLCJwZXJtaXNzaW9ucyI6WyJhbGxvd19qb2luIl0sImlhdCI6MTczNTgzNzI3NCwiZXhwIjoxNzM2NDQyMDc0fQ.oVghHaR0B0Pog6jq_v_r1Ibq0AyEVCFxmLvqTUqgdzQ";
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcGlrZXkiOiI1Nzk3NWJmMi0zNGZkLTQzMGUtOTU4Mi1lMjBiODI3ZWQ5NTIiLCJwZXJtaXNzaW9ucyI6WyJhbGxvd19qb2luIl0sImlhdCI6MTczNjQ2NzIyNCwiZXhwIjoxNzY4MDAzMjI0fQ.OEVlKBS6Zni6cSplfbgLOhj96_jz60ymZclUZqNgUsw"
 // Getter for the current auth token
 export const getAuthToken = () => authToken;
 
