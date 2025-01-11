@@ -7,7 +7,7 @@ import { onFailure } from "../../../utils/notifications/OnFailure";
 import { useLocation, useNavigate } from "react-router-dom";
 import { ApplicationContext } from "../../../context/ApplicationContext";
 
-function Shortlist({ data }) {
+function Shortlist({ data, exclusive}) {
   const { state } = useLocation();
   const { authDetails } = useContext(AuthContext);
   const { setApplication } = useContext(ApplicationContext);
@@ -31,7 +31,7 @@ function Shortlist({ data }) {
     //   });
     // }
     setApplication({ ...data });
-    navigate("/interview-room", { state: { interview: interview } });
+    navigate("/interview-room", { state: { interview: interview, exclusive: exclusive} });
   };
 
   useEffect(() => {
