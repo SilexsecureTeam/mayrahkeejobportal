@@ -39,7 +39,7 @@ if(application?.status !== "shortlist"){
               micEnabled: true,
               webcamEnabled: true,
               name: auth?.user?.name || "You",
-              participantId: authDetails?.user?.role,
+              participantId: auth?.user?.role,
               mode: "CONFERENCE",
             }}
             token={getAuthToken()}
