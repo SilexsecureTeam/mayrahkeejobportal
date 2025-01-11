@@ -45,7 +45,7 @@ function Meeting({ interview, exclusive }) {
   const auth= exclusive ? exclusive : authDetails
   const getYou = () => {
     const speakerParticipants = [...participants.values()].find(
-      (current) => current.id === auth.user.role
+      (current) => current.id === auth?.user?.role
     );
 
     setYou(speakerParticipants);
@@ -53,7 +53,7 @@ function Meeting({ interview, exclusive }) {
 
   const getParticipant = () => {
     const speakerParticipants = [...participants.values()].find(
-      (current) => current.id !== auth.user.role
+      (current) => current.id !== auth?.user?.role
     );
     setParticipant(speakerParticipants);
   };
