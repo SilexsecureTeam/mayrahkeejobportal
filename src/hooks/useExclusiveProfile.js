@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { axiosClient } from "../services/axios-client";
 import { AuthContext } from "../context/AuthContex";
 import { onFailure } from "../utils/notifications/OnFailure";
+import { FormatError } from "../utils/formmaters";
 
 export const COMPANY_PROFILE_Key = "Company Profile Database";
 
@@ -74,7 +75,7 @@ function useExclusiveProfile(exclusiveID) {
           return neww
         });
       } else {
-        console.error("Unexpected format for data.details:", data.details);
+        console.error("Unexpected format for data.details:", data?.details);
         setDetails({ ...details, beenRetreived: retrievalState.notRetrieved });
       }
     } catch (error) {
@@ -128,7 +129,7 @@ function useExclusiveProfile(exclusiveID) {
       handleSuccess();
     } catch (error) {
       console.log(error);
-      // FormatError(error, setError, "Update Error");
+       FormatError(error, setError, "Update Error");
     } finally {
       setLoading(false);
     }
@@ -136,10 +137,10 @@ function useExclusiveProfile(exclusiveID) {
 
   //   useEffect(() => console.log(details), [details]);
   useEffect(() => {
-    if (error.message && error.error) {
+    if (error?.message && error?.error) {
       onFailure(error);
     }
-  }, [error.message, error.error]);
+  }, [error]);
 
   // useEffect(() => {
   //   //Initailise value from index db
