@@ -48,7 +48,7 @@ const getAllExclusiveInterviews = async (handleSuccess) => {
     setLoading(true);
     try {
       const { data } = await client.get(`/interviews`);
-      return data.interviews
+      return data.interviews?.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
   
     } catch (error) {
      // console.log(error);
@@ -79,7 +79,7 @@ const getEmployerById = async (id) => {
   try {
     setLoading(true);
     const response = await client.get(`/employer/getEmployer/${id}`);
-    console.log(response?.data)
+    //console.log(response?.data)
     return response.data;
     
   } catch (error) {

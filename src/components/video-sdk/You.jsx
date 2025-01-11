@@ -36,9 +36,9 @@ function You({ data, job, applicant, auth, exclusive }) {
   } = useParticipant(data?.id);
   const [loading, setLoading] = useState(false);
   const [timeElapsed, setTimeElapsed] = useState('bsj');
-console.log(application)
-  const { toggleMic, toggleWebcam, leave } = useMeeting();
 
+  const { toggleMic, toggleWebcam, leave } = useMeeting();
+  console.log(data)
   const videoStream = useMemo(() => {
     if (webcamOn && webcamStream) {
       const mediaStream = new MediaStream();
@@ -54,6 +54,8 @@ console.log(application)
   }, [webcamStream, webcamOn]);
 
   const [isMicEnabled, setIsMicEnabled] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [proceedUpdate, setProceedUpdate] = useState(false);
 
   // const toogleMic = () => setIsMicEnabled(!isMicEnabled);
   useEffect(() => {
@@ -77,7 +79,7 @@ console.log(application)
   }, [micStream, micOn]);
   console.log(application);
 
-  const updateApplication = async (navigateToSingleAppplicant) => {
+ const updateApplication = async (navigateToSingleAppplicant) => {
     setTimeElapsed(false);
     setTimeout(() => {
       setTimeElapsed(!timeElapsed);
@@ -90,7 +92,7 @@ console.log(application)
         job_id: application.job_id,
         status: stages[2].name,
       });
-      setApplication(data.job_application);
+      setApplication(data?.job_application);
     } catch (error) {
       onFailure({
         message: "Application Error",
@@ -101,28 +103,59 @@ console.log(application)
     }
   };
 
+
+
   useEffect(() => {
     if (typeof timeElapsed !== 'string' && !timeElapsed) {
-      if (!loading) {
+      if (proceedUpdate) {
         leave();
-        if(exclusive){
-          navigate(`//admin-exclusives/applicants/detail/${application.id}`)
-        }else{
-          navigate(`/company/applicants/detail/${application.id}`)
+        if (exclusive) {
+          navigate(`/admin-exclusives/applicants/detail/${application?.id}`)
+        } else {
+          navigate(`/company/applicants/detail/${application?.id}`)
         }
-        
+
+      }else{
+        leave();
+        navigate(-1);
       }
     }
   }, [loading, timeElapsed]);
   console.log(job)
   return (
     <>
-      {!timeElapsed && (
+      {isModalOpen && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black/50 z-[1000]">
+          <div className="bg-white w-[90%] max-w-md rounded-lg shadow-lg p-6 relative">
+            <h2 className="text-lg font-bold text-gray-800 mb-4">Confirm Update</h2>
+            <p className="text-gray-600 mb-6 font-semibold">
+            You're about to leave. Are you satisfied with this candidate and would you like to update their status?
+            </p>
+            <div className="flex justify-end gap-4">
+              <button
+                onClick={() => { setProceedUpdate(true); setIsModalOpen(false); updateApplication()}}
+                className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition duration-200"
+              >
+                Yes
+              </button>
+              <button
+                onClick={() => {setIsModalOpen(false); setTimeElapsed(false);}}
+                className="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400 transition duration-200"
+              >
+                No
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+
+      {(!timeElapsed) && (
         <div className="fixed flex text-white flex-col items-center justify-center left-0 top-0 h-screen w-screen z-[999] bg-primaryColor/80">
           <LuLoader className="animate-spin text-3xl  " />
-          <span className="text-lg animate-pulse">Please wait</span>
+          <span className="text-lg animate-pulse">Please wait...</span>
           <span className="animate-pulse">
-            Updating candidate's application
+            {proceedUpdate ? "Updating candidate's application" : "Ending this interview session"}
           </span>
         </div>
       )}
@@ -142,7 +175,7 @@ console.log(application)
               url={videoStream}
               //
               height={"100%"}
-              width={"400px"}
+              width={"100%"}
               onError={(err) => {
                 console.log(err, "participant video error");
               }}
@@ -160,7 +193,7 @@ console.log(application)
                 className="w-full object-cover bg-gray-400/10"
               />
               <span className=" bg-gray-500 absolute left-0 top-0 p-1 w-fit h-fit text-little text-white  px-2">
-                {applicant ? applicant?.full_name: job?.email}
+                {applicant ? applicant?.full_name : job?.email}
               </span>
 
             </div>
@@ -198,7 +231,7 @@ console.log(application)
               />
             )}
             <span className="text-sm font-semibold w-max">
-              {micOn ? "Cam On" : "Cam Off"}
+              {webcamOn ? "Cam On" : "Cam Off"}
             </span>
           </div>
 
@@ -207,7 +240,7 @@ console.log(application)
               className="text-sm h-[45px] w-[45px] cursor-pointer p-3 bg-red-500 text-red-800 rounded-full"
               onClick={() => {
                 if (auth.user.role === "employer") {
-                  updateApplication();
+                  setIsModalOpen(true); // Open modal before updating or navigating
                 } else {
                   navigate(-2);
                 }
@@ -220,9 +253,9 @@ console.log(application)
         <div className="sticky bottom-0 w-full md:flex flex-col h-max p-4 rounded-md bg-gray-950">
           {job && (
             <>
-            
+
               <span className="text-white font-semibold">Job Details</span>
-                
+
               <span className="text-white tracking-wider mt-3 flex justify-between w-full text-sm">
                 Title
                 <span>{job.job_title}</span>

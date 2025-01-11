@@ -120,7 +120,8 @@ function useApplicationManagement() {
     handleOnSuccess,
     option,
     meetingId,
-    exclusive
+    exclusive,
+    edit
   ) => {
     setLoading(true);
     try {
@@ -138,26 +139,37 @@ function useApplicationManagement() {
       };
 
       if (option.name !== "online") {
+        delete interviewDetails?.meeting_id
         interviewPrimarydata = {
           job_application_id: data.id,
           employer_id: exclusive ? exclusive.id : authDetails.user.id,
           candidate_id: applicant.candidate_id,
           option: option.name,
         };
+      }else{
+        delete interviewDetails?.location
       }
 
       const updateprimarydata = {
         job_id: data.job_id,
         candidate_id: applicant.candidate_id,
       };  
+      // if(edit){
+      //   delete interviewDetails?.id      
+      // }
       console.log({
         ...interviewPrimarydata,
         ...interviewDetails,
       })
-      const interviewResponse = await client.post(`/interviews`, {
+      const apiFunc=edit ? client.put(`/interviews/${interviewDetails?.id}`, {
+        ...interviewPrimarydata,
+        ...interviewDetails,
+      }):client.post(`/interviews`, {
         ...interviewPrimarydata,
         ...interviewDetails,
       });
+      const interviewResponse =await apiFunc;
+     
       const interviewData = interviewResponse.data.interview;
       const applicationUpdateResponse = await client.post(
         `/applicationRespond`,
@@ -171,6 +183,10 @@ function useApplicationManagement() {
         applicationUpdateResponse.data.job_application;
       setData(applicatonUpdateData);
       handleOnSuccess();
+      onSuccess({
+        message: `${edit ? "Update":"Schedule"} Interview`,
+        success: interviewResponse.data?.message || `Interview ${edit ? "Updated":"Scheduled"} successfully`
+      });
       await getApplicantsByEmployeeDebounced(); // Re-fetch the applicants list
     } catch (error) {
       console.log(error);
