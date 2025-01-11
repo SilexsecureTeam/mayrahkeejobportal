@@ -6,23 +6,28 @@ import { useContext, useState } from "react";
 import { AuthContext } from "../../context/AuthContex";
 import { getAuthToken, createMeeting } from "./Api";
 import { onSuccess } from "../../utils/notifications/OnSuccess";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import Meeting from "./Meeting";
 import { ApplicationContext } from "../../context/ApplicationContext";
 
 function InterviewRoom() {
-  const { state, auth } = useLocation();
+  const { state } = useLocation();
+  const navigate= useNavigate();
   const [meetingId, setMeetingId] = useState(state?.interview?.meeting_id);
   const { authDetails } = useContext(AuthContext);
-
+  const {application } = useContext(ApplicationContext);
+ 
   console.log("auth token", getAuthToken);
   console.log("meeting id", meetingId);
-
-
+  const exclusive= state?.exclusive;
+  const auth= exclusive ? exclusive : authDetails;
   const onClick = async () => {
     const roomId = await createMeeting("");
     setMeetingId(roomId);
   };
+if(application?.status !== "shortlist"){
+  navigate(-1);
+}
 
   return (
     <main className="h-screen flex items-center justify-center w-screen">
@@ -33,8 +38,8 @@ function InterviewRoom() {
               meetingId,
               micEnabled: true,
               webcamEnabled: true,
-              name: authDetails?.user?.name || "Someone",
-              participantId: authDetails.user.role,
+              name: auth?.user?.name || "You",
+              participantId: authDetails?.user?.role,
               mode: "CONFERENCE",
             }}
             token={getAuthToken()}

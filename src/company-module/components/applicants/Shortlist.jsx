@@ -11,7 +11,7 @@ function Shortlist({ data }) {
   const { state } = useLocation();
   const { authDetails } = useContext(AuthContext);
   const { setApplication } = useContext(ApplicationContext);
-  const client = axiosClient(authDetails.token);
+  const client = axiosClient(authDetails?.token);
   const [interview, setInterview] = useState();
   const [error, setError] = useState({
     message: "",

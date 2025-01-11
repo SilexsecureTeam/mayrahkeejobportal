@@ -26,7 +26,7 @@ const CreateBlog = () => {
     blog_category_id: null,
     blog_sub_category_id: null,
     main_image: "",
-    secondary_image: "",
+    secondary_image: null,
     feature_post: 0,
   });
   const [image, setImage] = useState("https://via.placeholder.com/800x400");
@@ -97,12 +97,8 @@ const CreateBlog = () => {
               "created_at",
               "updated_at",
               "feature_post",
-              "id",
               "readingTime",
-              "category",
-              "subcategory",
-              "main_image",
-              "secondary_image",
+              "secondary_image"
             ].includes(key)
           ) {
             acc[key] = blog[key];
@@ -110,14 +106,14 @@ const CreateBlog = () => {
           return acc;
         }, {});
         const formData = new FormData();
-        Object.keys(blog).forEach((key) => {
+        Object.keys(filteredBlog).forEach((key) => {
           if (key !== "readingTime") {
             formData.append(key, blog[key]);
           }
         });
-        apiFunc = client.put(`/blog/posts/${blog.id}`, filteredBlog, {
+        apiFunc = client.post(`/blog/posts`, formData, {
           headers: {
-            "Content-Type": "application/json",
+            "Content-Type": "multipart/form-data",
           },
         });
       } else {

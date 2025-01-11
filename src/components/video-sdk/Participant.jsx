@@ -41,7 +41,7 @@ function Participant({ data }) {
       <audio ref={micRef} autoPlay playsInline muted={isLocal} />
 
       {webcamOn ? (
-        <div className="object-cover rounded-lg overflow-hidden">
+        <div className="object-cover rounded-lg overflow-hidden w-full">
           <ReactPlayer
             //
             playsinline // extremely crucial prop
@@ -56,7 +56,7 @@ function Participant({ data }) {
             url={videoStream}
             //
             height={450}
-            width={800}
+            width={"100%"}
             onError={(err) => {
               console.log(err, "participant video error");
             }}

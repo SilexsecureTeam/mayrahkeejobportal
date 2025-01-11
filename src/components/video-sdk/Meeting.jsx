@@ -6,6 +6,7 @@ import { useContext, useEffect, useState } from "react";
 import { get } from "idb-keyval";
 import { AuthContext } from "../../context/AuthContex";
 import { onSuccess } from "../../utils/notifications/OnSuccess";
+import { onFailure } from "../../utils/notifications/OnFailure";
 import { JobContext } from "../../context/JobContext";
 import { ApplicationContext } from "../../context/ApplicationContext";
 import useJobManagement from "../../hooks/useJobManagement";
@@ -32,11 +33,15 @@ function Meeting({ interview, exclusive }) {
       setJoined("LEFT");
     },
     onError: (error) => {
-      alert(error.message);
+      onFailure({
+        message: "Technical Error",
+        error: error?.message || "An error occured",
+      });
+      //alert(error.message);
       console.log(error);
     },
   });
-console.log(exclusive)
+
   const auth= exclusive ? exclusive : authDetails
   const getYou = () => {
     const speakerParticipants = [...participants.values()].find(
