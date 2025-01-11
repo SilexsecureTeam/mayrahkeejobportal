@@ -10,7 +10,7 @@ import SubscriptionModal from "../../../components/subscription/SubscriptionModa
 import SubscriptionModalSpecific from "../../../components/subscription/SubscriptionModalSpecific";
 import { SubscriptionContext } from "../../../context/SubscriptionContext";
 
-function HiringProgress({ data, applicant, toogleInterview }) {
+function HiringProgress({ data, applicant, toogleInterview, exclusive }) {
   const { setApplication } = useContext(ApplicationContext);
   const { authDetails } = useContext(AuthContext);
   const { isInterviewPackge, interviewPackages, loading } = useContext(SubscriptionContext);
@@ -133,7 +133,7 @@ function HiringProgress({ data, applicant, toogleInterview }) {
       case stages[0].name:
         return (isInterviewPackge) ? InView : InViewInactive;
       case stages[1].name:
-        return <Shortlist data={data} />;
+        return <Shortlist data={data} exclusive={exclusive} />;
       case stages[2].name:
         return <InterviewPhase data={data} />;
       case "hired":
