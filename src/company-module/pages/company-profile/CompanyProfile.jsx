@@ -65,13 +65,14 @@ function CompaniesProfile({ exclusiveId = null }) {
       <Helmet>
         <title> Company Dashboard | Companies Profile </title>
       </Helmet>
-      {!exclusiveId && 
+      {/* {!exclusiveId &&  */}
       <UpdateCompanyProfileModal
         isOpen={isOpen}
         setIsOpen={setIsOpen}
         onInit={details?.company_name ? false : true}
         companyHookProps={companyHookProps}
-      />}
+      />
+      {/* } */}
       {details.company_name &&
       details.beenRetreived === retrievalState.retrieved ? (
         <div className="h-full w-full flex flex-col py-2 justify-between">
