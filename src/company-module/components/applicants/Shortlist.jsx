@@ -31,7 +31,7 @@ function Shortlist({ data, exclusive}) {
     //   });
     // }
     setApplication({ ...data });
-    navigate("/interview-room", { state: { interview: interview, exclusive: exclusive} });
+    navigate("/interview-room", { state: { interview: interview, exclusive: exclusive?.candidateAuth} });
   };
 
   useEffect(() => {
