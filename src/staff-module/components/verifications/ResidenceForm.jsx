@@ -7,7 +7,7 @@ import { axiosClient } from "../../../services/axios-client";
 import { FormatError } from "../../../utils/formmaters";
 import { onSuccess } from "../../../utils/notifications/OnSuccess";
 
-const formFields = ["house_address", "close_landmark"];
+const formFields = ["house_address", "closest_landmark"];
 
 function ResidenceForm() {
   const { authDetails } = useContext(AuthContext);
