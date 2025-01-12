@@ -13,12 +13,10 @@ function Participant({ data }) {
       mediaStream.addTrack(webcamStream.track);
       return mediaStream;
     }
-    return null;
   }, [webcamStream, webcamOn]);
-
   const [isMicEnabled, setIsMicEnabled] = useState(false);
 
-  const toggleMic = () => setIsMicEnabled(!isMicEnabled);
+  const toogleMic = () => setIsMicEnabled(!isMicEnabled);
 
   useEffect(() => {
     if (micRef.current) {
@@ -39,22 +37,27 @@ function Participant({ data }) {
   }, [micStream, micOn]);
 
   return (
-    <li className="w-fit relative bg-black/50 justify-center rounded-[10px] min-w-[20%] items-center flex">
+    <li className="w-fit relative bg-black/50  justify-center rounded-[10px]  min-w-[20%]  items-center flex">
       <audio ref={micRef} autoPlay playsInline muted={isLocal} />
-      
+
       {webcamOn ? (
         <div className="object-cover rounded-lg overflow-hidden w-full">
           <ReactPlayer
-            playsinline
+            //
+            playsinline // extremely crucial prop
             pip={false}
             light={false}
             controls={false}
             muted={true}
             playing={true}
-            className=""
+            className=''
+            //
+            // className='w-full h-[500px]'
             url={videoStream}
+            //
             height={450}
             width={"100%"}
+            className="h-[450px] w-[800px] object-cover rounded-md"
             onError={(err) => {
               console.log(err, "participant video error");
             }}
@@ -64,23 +67,25 @@ function Participant({ data }) {
         <img
           className="h-[450px] w-[800px] object-cover rounded-md"
           src="https://images.pexels.com/photos/4491440/pexels-photo-4491440.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-          alt="participant fallback"
         />
       )}
-      
-      {/* Uncomment and style mic toggle button if needed */}
-      {/* 
-      <div
-        onClick={toggleMic}
+
+      {/* <div
+        onClick={toogleMic}
         className={`absolute cursor-pointer hover:scale-105 duration-100 flex items-center justify-center left-2 bottom-2 ${
           isMicEnabled ? "bg-green" : "bg-red-700"
         } rounded-full h-[20px] w-[20px]`}
       >
         <img src={Mic} className="h-[10px]" />
-      </div> 
-      */}
+      </div> */}
     </li>
   );
 }
 
 export default Participant;
+
+{
+  /* <div className="w-full h-[70%]">
+<img className="h-full w-full object-cover rounded-md" src="https://images.pexels.com/photos/4491440/pexels-photo-4491440.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" />
+</div> */
+}
