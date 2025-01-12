@@ -235,7 +235,7 @@ function Home() {
                 <p className="font-bold text-center lg:text-left">Jobs Application Status</p>
                 <div className="my-5 flex flex-col items-center lg:flex-row lg:items-center lg:justify-start">
                   <div className="">
-                    <RoundChart />
+                    <RoundChart data={allApplications} />
                   </div>
                 </div>
                 <div className="flex my-3 items-center font-bold cursor-pointer hover:opacity-90 lg:justify-start">
