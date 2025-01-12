@@ -11,7 +11,7 @@ function NavBar({ state, toogleIsOpen, isOpen }) {
       <h1 className="font-semibold text-[18px] md:text-xl leading-none">{state.title}</h1>
 
       <div className="flex justify-between items-center gap-3 pr-5">
-        <a href="https://mayrahkeeafrica.vercel.app/" className="flex-shrink-0 border px-[5px] py-[3px] text-sm border-primaryColor text-primaryColor">Go to E-Learning</a>
+        <a href="https://mayrahkeejobportal.vercel.app/learning" className="flex-shrink-0 border px-[5px] py-[3px] text-sm border-primaryColor text-primaryColor">Go to E-Learning</a>
         <img src={verifiedIcon} className="h-[25px]"/>
       </div>
     </nav>
