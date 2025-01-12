@@ -15,8 +15,8 @@ const formFields = [
   "email",
   "occupation",
   "residential_address",
-  "near_bus_stop",
-  "close_landmark",
+  "nearest_bus_stop",
+  "closest_landmark",
 ];
 
 function GuarantorForm() {
