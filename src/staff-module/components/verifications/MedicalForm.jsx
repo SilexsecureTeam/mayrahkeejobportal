@@ -140,7 +140,7 @@ function MedicalForm() {
             }
             return (
               <div className="flex flex-col gap-1">
-                <label>{labelText}</label>
+                <label className="capitalize">{labelText}</label>
                 {currentKey == "medical_report_docs" ? (
                   <a
                     className="text-blue-300 underline"
