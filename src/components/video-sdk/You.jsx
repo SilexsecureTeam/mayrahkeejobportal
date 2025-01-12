@@ -44,7 +44,7 @@ function You({
   } = useParticipant(data?.id);
 
   const [loading, setLoading] = useState(false);
-  const [timeElapsed, setTimeElapsed] = useState("bsj");
+  const [timeElapsed, setTimeElapsed] = useState(false);
   const [isMicEnabled, setIsMicEnabled] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [proceedUpdate, setProceedUpdate] = useState(false);
@@ -76,7 +76,9 @@ function You({
       }
     }
 
-    return clearTimeout();
+    return () => {
+      // Clear any potential timeout or side effects here
+    };
   }, [micOn, micStream]);
 
   const updateApplication = async (navigateToSingleAppplicant) => {
@@ -153,7 +155,7 @@ function You({
         </div>
       )}
 
-      {(!timeElapsed) && (
+      {!timeElapsed && (
         <div className="fixed flex text-white flex-col items-center justify-center left-0 top-0 h-screen w-screen z-[999] bg-primaryColor/80">
           <LuLoader className="animate-spin text-3xl" />
           <span className="text-lg animate-pulse">Please wait...</span>
@@ -292,4 +294,4 @@ function You({
 }
 
 export default You;
-      
+    
