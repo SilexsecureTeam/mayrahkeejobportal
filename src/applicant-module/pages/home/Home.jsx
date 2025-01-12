@@ -180,7 +180,7 @@ function Home() {
               <div className="pt-1 h-full md:w-full w-[45%]  md:h-1/2">
                 <div
                   onClick={()=>navigateToApplications("interviewed")}
-                  className="border bg-yellow-500 text-white transition duration-400 h-full cursor-pointer mb-4 p-3 pb-0 flex flex-col justify-between"
+                  className="border bg-yellow-300 text-white transition duration-400 h-full cursor-pointer mb-4 p-3 pb-0 flex flex-col justify-between"
                 >
                   <p className="font-bold">Interviewed</p>
                   <div className="flex justify-between items-end mt-4">
