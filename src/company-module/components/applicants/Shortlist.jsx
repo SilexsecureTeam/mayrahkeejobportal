@@ -36,7 +36,7 @@ function Shortlist({ data, exclusive}) {
 
   useEffect(() => {
     const initInteview = async () => {
-      console.log(data)
+      console.log(data, exclusive)
       try {
         const response = await client.get(`/interviews/${data?.interview_id}`);
         setInterview(response.data.interview);
