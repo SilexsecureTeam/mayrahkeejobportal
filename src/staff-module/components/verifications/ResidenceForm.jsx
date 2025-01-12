@@ -7,7 +7,7 @@ import { axiosClient } from "../../../services/axios-client";
 import { FormatError } from "../../../utils/formmaters";
 import { onSuccess } from "../../../utils/notifications/OnSuccess";
 
-const formFields = ["house_address", "closest_landmark"];
+const formFields = ["house_address", "close_landmark"];
 
 function ResidenceForm() {
   const { authDetails } = useContext(AuthContext);
@@ -108,11 +108,11 @@ function ResidenceForm() {
         <div className="grid grid-cols-2 gap-x-3 gap-y-5 p-2 w-full text-gray-600">
           {residenceFields()?.map((currentKey) => {
             const value = currentResidence[currentKey];
-            const labelText = currentKey.replace(/_/g, " ");
+            const labelText = currentKey ==="close_landmark"? "closest landmark" : currentKey.replace(/_/g, " ");
 
             return (
               <div className="flex flex-col gap-1">
-                <label className="capitalize">{labelText}</label>
+                <label className="capitalize font-medium">{labelText}</label>
                 <label>{value}</label>
               </div>
             );
@@ -126,7 +126,7 @@ function ResidenceForm() {
           className="grid grid-cols-2 gap-x-3 gap-y-5 p-2 w-full text-gray-600"
         >
           <label className="flex flex-col justify-center gap-1">
-            <span className="block text-slate-700 mb-1">
+            <span className="block font-medium text-slate-700 mb-1">
               Country
             </span>
             <select
@@ -148,7 +148,7 @@ function ResidenceForm() {
           </label>
 
           <label className="flex flex-col justify-center gap-1">
-            <span className="block text-slate-700 mb-1">
+            <span className="block font-medium text-slate-700 mb-1">
               State
             </span>
             <select
@@ -174,7 +174,7 @@ function ResidenceForm() {
           </label>
 
           <label className="flex flex-col justify-center gap-1">
-            <span className="block text-slate-700 mb-1">
+            <span className="block font-medium text-slate-700 mb-1">
               Local Governmennt
             </span>
             <select
@@ -195,12 +195,12 @@ function ResidenceForm() {
 
           {formFields.map((currentKey) => {
             const detail = formFields[currentKey];
-            const labelText = currentKey.replace(/_/g, " ").toUpperCase();
+            const labelText = currentKey==="close_landmark" ? "closest landmark" :currentKey.replace(/_/g, " ");
 
             const inputType = currentKey == "member_since" ? "date" : "text";
             return (
               <div className="flex flex-col gap-1">
-                <label className="capitalize">{labelText}</label>
+                <label className="capitalize font-medium">{labelText}</label>
                 <input
                   className="p-1 border focus:outline-none border-gray-900  rounded-md"
                   type={inputType}
