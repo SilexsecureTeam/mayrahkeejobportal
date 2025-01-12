@@ -17,6 +17,7 @@ function Shortlist({ data, exclusive}) {
     message: "",
     error: "",
   });
+  console.log(data, exclusive, state?.exclusiveData)
 
   const navigate = useNavigate();
 
@@ -31,12 +32,12 @@ function Shortlist({ data, exclusive}) {
     //   });
     // }
     setApplication({ ...data });
-    navigate("/interview-room", { state: { interview: interview, exclusive: exclusive} });
+    navigate("/interview-room", { state: { interview: interview, exclusive: state?.exclusiveData} });
   };
 
   useEffect(() => {
     const initInteview = async () => {
-      console.log(data, exclusive)
+      
       try {
         const response = await client.get(`/interviews/${data?.interview_id}`);
         setInterview(response.data.interview);
