@@ -11,7 +11,7 @@ import { JobContext } from "../../context/JobContext";
 import { ApplicationContext } from "../../context/ApplicationContext";
 import useJobManagement from "../../hooks/useJobManagement";
 
-function Meeting({ interview, exclusive }) {
+function Meeting({ interview, exclusive=null}) {
   const { authDetails } = useContext(AuthContext);
   const { getJobById } = useJobManagement();
   const { getApplicant, application } = useContext(ApplicationContext);
