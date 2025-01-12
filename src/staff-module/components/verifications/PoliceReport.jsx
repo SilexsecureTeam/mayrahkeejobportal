@@ -113,11 +113,11 @@ function PoliceReport() {
         <div className="grid grid-cols-2 gap-x-3 gap-y-5 p-2 w-full text-gray-600">
           {recordFields()?.map((currentKey) => {
             const value = currentRecord[currentKey];
-            const labelText = currentKey.replace(/_/g, " ").toUpperCase();
+            const labelText = currentKey.replace(/_/g, " ");
 
             return (
               <div className="flex flex-col gap-1">
-                <label className="capitalize">{labelText}</label>
+                <label className="capitalize font-medium">{labelText}</label>
                 {currentKey == "police_report_file" ? (
                   <a
                     className="text-blue-300 underline"
@@ -140,7 +140,7 @@ function PoliceReport() {
           className="grid grid-cols-2 gap-x-3 gap-y-5 p-2 w-full text-gray-600"
         >
           <label className="flex flex-col justify-center gap-1">
-            <span className="block text-slate-700 mb-1">
+            <span className="block font-medium text-slate-700 mb-1">
               Country
             </span>
             <select
@@ -162,7 +162,7 @@ function PoliceReport() {
           </label>
 
           <label className="flex flex-col justify-center gap-1">
-            <span className="block text-slate-700 mb-1">
+            <span className="block font-medium text-slate-700 mb-1">
               State
             </span>
             <select
@@ -188,7 +188,7 @@ function PoliceReport() {
           </label>
 
           <label className="flex flex-col justify-center gap-1">
-            <span className="block text-slate-700 mb-1">
+            <span className="block font-medium text-slate-700 mb-1">
               Local Governmennt
             </span>
             <select
@@ -214,7 +214,7 @@ function PoliceReport() {
             const inputType = currentKey == "member_since" ? "date" : "text";
             return (
               <div className="flex flex-col gap-1">
-                <label className="capitalize">{labelText}</label>
+                <label className="capitalize font-medium">{labelText}</label>
                 <input
                   className="p-1 border focus:outline-none border-gray-900  rounded-md"
                   type={inputType}
@@ -225,7 +225,7 @@ function PoliceReport() {
             );
           })}
           <div className="flex flex-col gap-1">
-            <label>Upload Report</label>
+            <label className="font-medium">Upload Report</label>
             <input
               onChange={(e) => {
                 const file = e.target.files[0];
