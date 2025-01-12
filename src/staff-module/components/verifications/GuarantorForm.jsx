@@ -123,7 +123,7 @@ function GuarantorForm() {
 
             return (
               <div className="flex flex-col gap-1 break-all" key={currentKey}>
-                <label>{labelText}</label>
+                <label className="capitalize" >{labelText}</label>
                 <label>{value}</label>
               </div>
             );
