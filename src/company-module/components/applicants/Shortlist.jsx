@@ -32,7 +32,7 @@ function Shortlist({ data, exclusive}) {
     //   });
     // }
     setApplication({ ...data });
-    navigate("/interview-room", { state: { interview: interview, exclusive: state?.exclusiveData} });
+    navigate("/interview-room", { state: { interview: interview, exclusive: {user:state?.exclusiveData} });
   };
 
   useEffect(() => {
