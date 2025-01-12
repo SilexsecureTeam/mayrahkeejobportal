@@ -166,7 +166,7 @@ function You({
       <div className="w-full h-full flex flex-col gap-2 md:gap-0 rounded-[10px] pb-28 md:pb-0">
         <audio ref={micRef} autoPlay playsInline muted={isLocal} />
         <div className="w-full min-h-[40%] max-h-96 overflow-hidden rounded-[10px]">
-          {webcamOn ? (
+          {webcamOn && isLocal ? (
             <ReactPlayer
               playsinline
               pip={false}
