@@ -15,13 +15,18 @@ function Meeting({ interview, exclusive }) {
   const { authDetails } = useContext(AuthContext);
   const { getJobById } = useJobManagement();
   const { getApplicant, application } = useContext(ApplicationContext);
+
   const [job, setJob] = useState(null);
   const [applicant, setApplicant] = useState(null);
   const [joined, setJoined] = useState(null);
   const [participant, setParticipant] = useState(null);
   const [you, setYou] = useState(null);
-  //console.log( "interview: ", interview, "job: ", job, "you: ",you)
-  const { join, participants } = useMeeting({
+
+  // States for microphone and webcam
+  const [micOn, setMicOn] = useState(true);
+  const [webcamOn, setWebcamOn] = useState(true);
+
+  const { join, participants, toggleMic, toggleWebcam } = useMeeting({
     onMeetingJoined: () => {
       onSuccess({
         message: "Online Interview",
@@ -35,19 +40,18 @@ function Meeting({ interview, exclusive }) {
     onError: (error) => {
       onFailure({
         message: "Technical Error",
-        error: error?.message || "An error occured",
+        error: error?.message || "An error occurred",
       });
-      //alert(error.message);
-      console.log(error);
+      console.error(error);
     },
   });
 
-  const auth= exclusive ? exclusive : authDetails
+  const auth = exclusive ? exclusive : authDetails;
+
   const getYou = () => {
     const speakerParticipants = [...participants.values()].find(
       (current) => current.id === auth.user.role
     );
-
     setYou(speakerParticipants);
   };
 
@@ -63,9 +67,20 @@ function Meeting({ interview, exclusive }) {
     join();
   };
 
+  const handleMicToggle = () => {
+    toggleMic();
+    setMicOn((prev) => !prev);
+  };
+
+  const handleWebcamToggle = () => {
+    toggleWebcam();
+    setWebcamOn((prev) => !prev);
+  };
+
   useEffect(() => {
     if (joined === "JOINED" || joined === "JOINING") {
-      getParticipant(), getYou();
+      getParticipant();
+      getYou();
     }
   }, [participants]);
 
@@ -103,7 +118,18 @@ function Meeting({ interview, exclusive }) {
             <CompanyView interview={interview} />
           </div>
           <div className="flex flex-col w-full md:w-[30%]">
-            <You data={you} job={job} applicant={applicant} auth={auth} exclusive={exclusive} interview={interview} />
+            <You
+              data={you}
+              job={job}
+              applicant={applicant}
+              auth={auth}
+              exclusive={exclusive}
+              interview={interview}
+              micOn={micOn}
+              webcamOn={webcamOn}
+              handleMicToggle={handleMicToggle}
+              handleWebcamToggle={handleWebcamToggle}
+            />
           </div>
         </div>
       ) : joined && joined === "JOINING" ? (
@@ -120,3 +146,4 @@ function Meeting({ interview, exclusive }) {
 }
 
 export default Meeting;
+    
