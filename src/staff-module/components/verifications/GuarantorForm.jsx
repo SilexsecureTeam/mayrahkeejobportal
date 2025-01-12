@@ -119,7 +119,7 @@ function GuarantorForm() {
         <div className="grid grid-cols-2 gap-x-3 gap-y-5 p-2 w-full text-gray-600">
           {garatorFields()?.map((currentKey) => {
             const value = currentGurantor[currentKey];
-            const labelText = labelMapping[currentKey] || currentKey.replace(/_/g, " ").toUpperCase();
+            const labelText = labelMapping[currentKey] || currentKey.replace(/_/g, " ");
 
             return (
               <div className="flex flex-col gap-1 break-all" key={currentKey}>
@@ -150,7 +150,7 @@ function GuarantorForm() {
           </div>
 
           {formFields.map((currentKey) => {
-            const labelText = labelMapping[currentKey] || currentKey.replace(/_/g, " ").toUpperCase();
+            const labelText = labelMapping[currentKey] || currentKey.replace(/_/g, " ");
             const inputType = currentKey === "dob" ? "date" : "text";
 
             return (
