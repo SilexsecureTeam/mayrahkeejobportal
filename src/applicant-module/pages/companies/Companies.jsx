@@ -53,10 +53,10 @@ function Companies() {
       ? employer?.sector?.toLowerCase().includes(industry?.toLowerCase())
       : true;
     const filterName = companyName
-      ? employer?.company_name.toLowerCase().includes(companyName?.toLowerCase())
+      ? employer?.company_name.toLowerCase()?.includes(companyName?.toLowerCase())
       : true;
     const filterLocation = selectedLocation
-      ? employer?.location.toLowerCase().includes(selectedLocation?.toLowerCase())
+      ? employer?.location?.toLowerCase()?.includes(selectedLocation?.toLowerCase())
       : true;
 
     return filterIndustry && filteredSized && filterName && filterLocation;
