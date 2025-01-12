@@ -48,7 +48,7 @@ const ShortListedDetails = () => {
             { label: "Interview Date:", value: date.toLocaleDateString() },
             {
               label: "Interview Time:",
-              value: newInterview?.interview_time || "not available",
+              value: newInterview?.interview_time || "...",
             },
             { label: "Location:", value: newInterview?.location },
             { label: "Note:", value: newInterview?.notes },
@@ -70,10 +70,11 @@ const ShortListedDetails = () => {
         <span className="text-sm font-semibold">Awaiting Candidate Response</span>
       ) : (
         <button
+          disabled={!newInterview?.meeting_id}
           onClick={handleOnClick}
-          className="flex w-full sm:w-auto border mt-5 hover:bg-primaryColor hover:text-white border-primaryColor p-2 text-sm sm:text-little text-primaryColor"
+          className="flex w-full sm:w-auto border mt-5 hover:bg-primaryColor hover:text-white border-primaryColor p-2 text-sm sm:text-little disabled:opacity-50 text-primaryColor"
         >
-          Proceed to Interview
+          {newInterview?.meeting_id ? "Proceed to Interview" : "Physical Interview"}
         </button>
       )}
     </div>
