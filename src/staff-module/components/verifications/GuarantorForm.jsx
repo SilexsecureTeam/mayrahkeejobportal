@@ -137,7 +137,7 @@ function GuarantorForm() {
           className="grid grid-cols-2 gap-x-3 gap-y-5 p-2 w-full text-gray-600"
         >
           <div className="flex flex-col gap-1">
-            <label>TITLE</label>
+            <label>Title</label>
             <select
               className="p-1 border focus:outline-none border-gray-900 rounded-md"
               required
@@ -155,7 +155,7 @@ function GuarantorForm() {
 
             return (
               <div className="flex flex-col gap-1" key={currentKey}>
-                <label>{labelText}</label>
+                <label className="capitalize">{labelText}</label>
                 <input
                   className="p-1 border focus:outline-none border-gray-900 rounded-md"
                   type={inputType}
