@@ -307,8 +307,7 @@ function You({ data, job, applicant, auth, exclusive }) {
       </div>
     </>
   );
-} But the other participant have his own seperate component actually 
-
+} 
 export default You;
 
 {
