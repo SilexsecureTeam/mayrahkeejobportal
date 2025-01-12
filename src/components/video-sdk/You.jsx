@@ -19,7 +19,7 @@ import { ApplicationContext } from "../../context/ApplicationContext";
 import { IMAGE_URL } from "../../utils/base";
 import useApplicationManagement from "../../hooks/useApplicationManagement";
 
-function You({ data, micOn, webcamOn, handleMicToggle, handleWebcamToggle, auth, exclusive }) {
+function You({ data, job, micOn, webcamOn, handleMicToggle, handleWebcamToggle, auth, exclusive }) {
 
   const micRef = useRef(null);
   const { authDetails } = useContext(AuthContext);
