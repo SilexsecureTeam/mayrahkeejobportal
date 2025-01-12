@@ -25,7 +25,7 @@ function You({ data, micOn, webcamOn, handleMicToggle, handleWebcamToggle, auth,
   const { authDetails } = useContext(AuthContext);
   const navigate = useNavigate();
   const { application, setApplication } = useContext(ApplicationContext);
-  const {
+/*  const {
     webcamStream,
     micStream,
     enableWebcam,
@@ -33,25 +33,25 @@ function You({ data, micOn, webcamOn, handleMicToggle, handleWebcamToggle, auth,
     micOn,
     isLocal,
     displayName,
-  } = useParticipant(data?.id);
+  } = useParticipant(data?.id);*/
   const [loading, setLoading] = useState(false);
   const [timeElapsed, setTimeElapsed] = useState('bsj');
 
-  const { toggleMic, toggleWebcam, leave } = useMeeting();
+  //const { toggleMic, toggleWebcam, leave } = useMeeting();
   console.log(data)
   const videoStream = useMemo(() => {
-    if (webcamOn && webcamStream) {
+    if (webcamOn) {
       const mediaStream = new MediaStream();
       mediaStream.addTrack(webcamStream.track);
       return mediaStream;
     } else {
       console.log("Camera error");
       console.log(webcamOn);
-      console.log(webcamStream);
+      //console.log(webcamStream);
 
       enableWebcam();
     }
-  }, [webcamStream, webcamOn]);
+  }, [webcamOn]);
 
   const [isMicEnabled, setIsMicEnabled] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -60,7 +60,7 @@ function You({ data, micOn, webcamOn, handleMicToggle, handleWebcamToggle, auth,
   // const toogleMic = () => setIsMicEnabled(!isMicEnabled);
   useEffect(() => {
     if (micRef.current) {
-      if (micOn && micStream) {
+      if (micOn) {
         const mediaStream = new MediaStream();
         mediaStream.addTrack(micStream.track);
 
@@ -76,7 +76,7 @@ function You({ data, micOn, webcamOn, handleMicToggle, handleWebcamToggle, auth,
     }
 
     return clearTimeout();
-  }, [micStream, micOn]);
+  }, [micOn]);
   console.log(application);
 
  const updateApplication = async (navigateToSingleAppplicant) => {
