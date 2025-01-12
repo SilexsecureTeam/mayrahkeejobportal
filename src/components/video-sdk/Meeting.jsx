@@ -114,10 +114,19 @@ function Meeting({ interview, exclusive }) {
       {joined && joined === "JOINED" ? (
         <div className="h-[90%] w-full md:w-[98%] flex flex-col md:flex-row rounded-[15px] bg-white">
           <div className="flex justify-between flex-col p-2 gap-2 w-full md:w-[70%] h-max">
-            <Participant interview={interview} data={participant} />
+            {/* Participant View */}
+            <Participant
+              interview={interview}
+              data={participant}
+              micOn={micOn}
+              webcamOn={webcamOn}
+              handleMicToggle={handleMicToggle}
+              handleWebcamToggle={handleWebcamToggle}
+            />
             <CompanyView interview={interview} />
           </div>
           <div className="flex flex-col w-full md:w-[30%]">
+            {/* Host (You) View */}
             <You
               data={you}
               job={job}
@@ -146,4 +155,3 @@ function Meeting({ interview, exclusive }) {
 }
 
 export default Meeting;
-    
