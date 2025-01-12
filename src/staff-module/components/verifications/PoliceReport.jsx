@@ -209,7 +209,7 @@ function PoliceReport() {
 
           {formFields.map((currentKey) => {
             const detail = formFields[currentKey];
-            const labelText = currentKey.replace(/_/g, " ").toUpperCase();
+            const labelText = currentKey.replace(/_/g, " ");
 
             const inputType = currentKey == "member_since" ? "date" : "text";
             return (
