@@ -19,7 +19,7 @@ import { ApplicationContext } from "../../context/ApplicationContext";
 import { IMAGE_URL } from "../../utils/base";
 import useApplicationManagement from "../../hooks/useApplicationManagement";
 
-function You({ data, job, applicant, auth, exclusive }) {
+function You({ data, micOn, webcamOn, handleMicToggle, handleWebcamToggle, auth, exclusive }) {
 
   const micRef = useRef(null);
   const { authDetails } = useContext(AuthContext);
@@ -201,16 +201,16 @@ function You({ data, job, applicant, auth, exclusive }) {
         </div>
 
         <div className="fixed z-10 left-0 bottom-0 right-0 w-full p-1 bg-[rgba(0,0,0,.8)] text-white md:text-black md:bg-transparent md:relative flex justify-center gap-8 md:p-5">
-          <div className="flex flex-col items-center">
+          <div className="flex flex-col items-center" onClick={handleMicToggle} >
             {micOn ? (
               <FaMicrophone
                 className="text-sm h-[45px] w-[45px] cursor-pointer p-3 bg-gray-400 rounded-full"
-                onClick={() => toggleMic()}
+                
               />
             ) : (
               <FaMicrophoneSlash
                 className="text-sm h-[45px] w-[45px] cursor-pointer p-3 bg-red-500 text-red-800 rounded-full"
-                onClick={() => toggleMic()}
+                
               />
             )}
             <span className="text-sm font-semibold">
@@ -218,16 +218,15 @@ function You({ data, job, applicant, auth, exclusive }) {
             </span>
           </div>
 
-          <div className="flex flex-col items-center">
+          <div className="flex flex-col items-center" onClick={handleWebcamToggle} >
             {webcamOn ? (
               <BsFillCameraVideoFill
                 className="text-sm h-[45px] w-[45px] cursor-pointer p-3 bg-gray-400 rounded-full"
-                onClick={() => toggleWebcam()}
               />
             ) : (
               <BsFillCameraVideoOffFill
                 className="text-sm h-[45px] w-[45px] cursor-pointer p-3 bg-red-500 text-red-800 rounded-full"
-                onClick={() => toggleWebcam()}
+                
               />
             )}
             <span className="text-sm font-semibold w-max">
@@ -235,7 +234,7 @@ function You({ data, job, applicant, auth, exclusive }) {
             </span>
           </div>
 
-          <div className="flex flex-col items-center">
+          <div className="flex flex-col items-center" onClick={handleWebcamToggle} >
             <MdCallEnd
               className="text-sm h-[45px] w-[45px] cursor-pointer p-3 bg-red-500 text-red-800 rounded-full"
               onClick={() => {
