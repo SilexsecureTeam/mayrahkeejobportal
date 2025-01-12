@@ -11,22 +11,17 @@ import { JobContext } from "../../context/JobContext";
 import { ApplicationContext } from "../../context/ApplicationContext";
 import useJobManagement from "../../hooks/useJobManagement";
 
-function Meeting({ interview, exclusive=null}) {
+function Meeting({ interview, exclusive }) {
   const { authDetails } = useContext(AuthContext);
   const { getJobById } = useJobManagement();
   const { getApplicant, application } = useContext(ApplicationContext);
-
   const [job, setJob] = useState(null);
   const [applicant, setApplicant] = useState(null);
   const [joined, setJoined] = useState(null);
   const [participant, setParticipant] = useState(null);
   const [you, setYou] = useState(null);
-
-  // States for microphone and webcam
-  const [micOn, setMicOn] = useState(true);
-  const [webcamOn, setWebcamOn] = useState(true);
-
-  const { join, participants, toggleMic, toggleWebcam} = useMeeting({
+  //console.log( "interview: ", interview, "job: ", job, "you: ",you)
+  const { join, participants } = useMeeting({
     onMeetingJoined: () => {
       onSuccess({
         message: "Online Interview",
@@ -40,18 +35,19 @@ function Meeting({ interview, exclusive=null}) {
     onError: (error) => {
       onFailure({
         message: "Technical Error",
-        error: error?.message || "An error occurred",
+        error: error?.message || "An error occured",
       });
-      console.error(error);
+      //alert(error.message);
+      console.log(error);
     },
   });
 
-  const auth = exclusive ? exclusive : authDetails;
-
+  const auth= exclusive ? exclusive : authDetails
   const getYou = () => {
     const speakerParticipants = [...participants.values()].find(
       (current) => current.id === auth.user.role
     );
+
     setYou(speakerParticipants);
   };
 
@@ -67,20 +63,9 @@ function Meeting({ interview, exclusive=null}) {
     join();
   };
 
-  const handleMicToggle = () => {
-    toggleMic();
-    setMicOn((prev) => !prev);
-  };
-
-  const handleWebcamToggle = () => {
-    toggleWebcam();
-    setWebcamOn((prev) => !prev);
-  };
-
   useEffect(() => {
     if (joined === "JOINED" || joined === "JOINING") {
-      getParticipant();
-      getYou();
+      getParticipant(), getYou();
     }
   }, [participants]);
 
@@ -114,32 +99,11 @@ function Meeting({ interview, exclusive=null}) {
       {joined && joined === "JOINED" ? (
         <div className="h-[90%] w-full md:w-[98%] flex flex-col md:flex-row rounded-[15px] bg-white">
           <div className="flex justify-between flex-col p-2 gap-2 w-full md:w-[70%] h-max">
-            {/* Participant View */}
-            <Participant
-              interview={interview}
-              data={participant}
-              micOn={micOn}
-              webcamOn={webcamOn}
-              handleMicToggle={handleMicToggle}
-              handleWebcamToggle={handleWebcamToggle}
-            />
+            <Participant interview={interview} data={participant} />
             <CompanyView interview={interview} />
           </div>
           <div className="flex flex-col w-full md:w-[30%]">
-            {/* Host (You) View */}
-            <You
-              data={you}
-              job={job}
-              applicant={applicant}
-              auth={auth}
-              exclusive={exclusive}
-              interview={interview}
-              micOn={micOn}
-              webcamOn={webcamOn}
-      
-              handleMicToggle={handleMicToggle}
-              handleWebcamToggle={handleWebcamToggle}
-            />
+            <You data={you} job={job} applicant={applicant} auth={auth} exclusive={exclusive} interview={interview} />
           </div>
         </div>
       ) : joined && joined === "JOINING" ? (
