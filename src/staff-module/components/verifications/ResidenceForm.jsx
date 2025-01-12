@@ -108,7 +108,7 @@ function ResidenceForm() {
         <div className="grid grid-cols-2 gap-x-3 gap-y-5 p-2 w-full text-gray-600">
           {residenceFields()?.map((currentKey) => {
             const value = currentResidence[currentKey];
-            const labelText = currentKey.replace(/_/g, " ").toUpperCase();
+            const labelText = currentKey.replace(/_/g, " ");
 
             return (
               <div className="flex flex-col gap-1">
