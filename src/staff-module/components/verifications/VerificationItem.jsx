@@ -59,7 +59,7 @@ function VerificationItem({ currentKey, profileDetails, updateTrackRecord }) {
           />
         </div>
       ) : (
-        <div key={currentKey} className="flex gap-1 w-[50%] justify-between">
+        <div key={currentKey} className="flex gap-1 w-full max-w-[600px] justify-between">
           <label>{labelText}</label>
           <span
             className={`${getStyling(
