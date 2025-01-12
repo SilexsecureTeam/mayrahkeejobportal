@@ -17,18 +17,18 @@ const RoundChart = ({ data }) => {
         width: "100%",
       },
       labels: Object.keys(applicationStatuses || {}), // Status labels
-      colors: ["#FFA500", "#008FFB", "#00E396", "#FF0000"], // Colors for each section
+      colors: ["#FFA07A", "#008FFB", "#00E396", "#c51077"], // Colors for each section
       legend: {
         position: "bottom",
         labels: {
           colors: "#FFFFFF", // Set legend text color to white
-        },
+        }
       },
       dataLabels: {
         enabled: true,
       },
     },
-  };#FF0000
+  };
 
   return (
     <div>
