@@ -10,16 +10,19 @@ const RoundChart = ({ data }) => {
 
   // Prepare data for the chart
   const chartData = {
-    series: Object?.values(applicationStatuses || {}), // Counts of each status
+    series: Object.values(applicationStatuses || {}), // Counts of each status
     options: {
       chart: {
         type: "donut",
         width: "100%",
       },
       labels: Object.keys(applicationStatuses || {}), // Status labels
-      colors: ["#FF4560", "#00E396", "#FEB019", "#008FFB"], // Colors for each section
+      colors: ["#FFEB3B", "#2196F3", "#FF9800", "#4CAF50"], // Custom colors: yellow, blue, orange, green
       legend: {
         position: "bottom",
+        labels: {
+          colors: "#FFFFFF", // Set legend text color to white
+        },
       },
       dataLabels: {
         enabled: true,
