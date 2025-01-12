@@ -26,7 +26,7 @@ function Meeting({ interview, exclusive }) {
   const [micOn, setMicOn] = useState(true);
   const [webcamOn, setWebcamOn] = useState(true);
 
-  const { join, participants, toggleMic, toggleWebcam, leave} = useMeeting({
+  const { join, participants, toggleMic, toggleWebcam} = useMeeting({
     onMeetingJoined: () => {
       onSuccess({
         message: "Online Interview",
@@ -136,7 +136,7 @@ function Meeting({ interview, exclusive }) {
               interview={interview}
               micOn={micOn}
               webcamOn={webcamOn}
-              leave={leave}
+      
               handleMicToggle={handleMicToggle}
               handleWebcamToggle={handleWebcamToggle}
             />
