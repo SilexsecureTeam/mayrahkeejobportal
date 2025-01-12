@@ -174,7 +174,7 @@ function MedicalForm() {
             const inputType = currentKey == "member_since" ? "date" : "text";
             return (
               <div className="flex flex-col gap-1">
-                <label>{labelText}</label>
+                <label className="capitalize">{labelText}</label>
                 <input
                   className="p-1 border focus:outline-none border-gray-900  rounded-md"
                   type={inputType}
