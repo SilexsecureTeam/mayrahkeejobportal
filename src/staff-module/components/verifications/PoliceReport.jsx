@@ -117,7 +117,7 @@ function PoliceReport() {
 
             return (
               <div className="flex flex-col gap-1">
-                <label>{labelText}</label>
+                <label className="capitalize">{labelText}</label>
                 {currentKey == "police_report_file" ? (
                   <a
                     className="text-blue-300 underline"
@@ -140,7 +140,7 @@ function PoliceReport() {
           className="grid grid-cols-2 gap-x-3 gap-y-5 p-2 w-full text-gray-600"
         >
           <label className="flex flex-col justify-center gap-1">
-            <span className="block text-sm font-medium text-slate-700 mb-1">
+            <span className="block text-slate-700 mb-1">
               Country
             </span>
             <select
@@ -150,7 +150,7 @@ function PoliceReport() {
                 setSelectStates(states);
                 setSelectedCountry(Country.getCountryByCode(e.target.value));
               }}
-              className="p-1 border w-full focus:outline-none border-gray-900  rounded-md"
+              className="p-1 border w-full focus:outline-none border-gray-900 text-sm rounded-md"
             >
               <option value="">-- select --</option>
               {countries.map((country) => (
@@ -162,7 +162,7 @@ function PoliceReport() {
           </label>
 
           <label className="flex flex-col justify-center gap-1">
-            <span className="block text-sm font-medium text-slate-700 mb-1">
+            <span className="block text-slate-700 mb-1">
               State
             </span>
             <select
@@ -176,7 +176,7 @@ function PoliceReport() {
                 setSelectState(State.getStateByCode(e.target.value));
                 setSelectCities(cities);
               }}
-              className="p-1 border w-full focus:outline-none border-gray-900  rounded-md"
+              className="p-1 border w-full focus:outline-none text-sm border-gray-900  rounded-md"
             >
               <option value="">-- select --</option>
               {selectStates?.map((each) => (
@@ -188,7 +188,7 @@ function PoliceReport() {
           </label>
 
           <label className="flex flex-col justify-center gap-1">
-            <span className="block text-sm font-medium text-slate-700 mb-1">
+            <span className="block text-slate-700 mb-1">
               Local Governmennt
             </span>
             <select
@@ -196,7 +196,7 @@ function PoliceReport() {
                 setSelectCity(e.target.value);
               }}
               name="local_gov"
-              className="p-1 border w-full focus:outline-none border-gray-900  rounded-md"
+              className="p-1 border w-full focus:outline-none border-gray-900 text-sm rounded-md"
             >
               <option value="">-- select --</option>
               {selectCities?.map((city) => (
@@ -214,7 +214,7 @@ function PoliceReport() {
             const inputType = currentKey == "member_since" ? "date" : "text";
             return (
               <div className="flex flex-col gap-1">
-                <label>{labelText}</label>
+                <label className="capitalize">{labelText}</label>
                 <input
                   className="p-1 border focus:outline-none border-gray-900  rounded-md"
                   type={inputType}
