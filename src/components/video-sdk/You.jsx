@@ -25,7 +25,6 @@ function You({
   applicant,
   micOn,
   webcamOn,
-  leave,
   handleMicToggle,
   handleWebcamToggle,
   interview,
@@ -43,7 +42,8 @@ function You({
     isLocal,
     displayName,
   } = useParticipant(data?.id);
-
+const { leave} = useMeeting({
+  
   const [loading, setLoading] = useState(false);
   const [timeElapsed, setTimeElapsed] = useState(false);
   const [isMicEnabled, setIsMicEnabled] = useState(false);
