@@ -140,7 +140,7 @@ function MedicalForm() {
             }
             return (
               <div className="flex flex-col gap-1">
-                <label className="capitalize">{labelText}</label>
+                <label className="lowercase capitalize font-medium">{labelText}</label>
                 {currentKey == "medical_report_docs" ? (
                   <a
                     className="text-blue-300 underline"
@@ -174,7 +174,7 @@ function MedicalForm() {
             const inputType = currentKey == "member_since" ? "date" : "text";
             return (
               <div className="flex flex-col gap-1">
-                <label className="capitalize">{labelText}</label>
+                <label className="lowercase capitalize font-medium">{labelText}</label>
                 <input
                   className="p-1 border focus:outline-none border-gray-900  rounded-md"
                   type={inputType}
@@ -185,7 +185,7 @@ function MedicalForm() {
             );
           })}
           <div className="flex flex-col gap-1">
-            <label>Add File</label>
+            <label className="10lowercase capitalize font-medium">Add File</label>
             <input
               className="p-1 border focus:outline-none border-gray-900  rounded-md"
               type="file"
