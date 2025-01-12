@@ -20,6 +20,9 @@ const RoundChart = ({ data }) => {
       colors: ["#FFA07A", "#008FFB", "#00E396", "#c51077"], // Colors for each section
       legend: {
         position: "bottom",
+        labels: {
+          colors: "#FFFFFF", // Set legend text color to white
+        },
       },
       dataLabels: {
         enabled: true,
