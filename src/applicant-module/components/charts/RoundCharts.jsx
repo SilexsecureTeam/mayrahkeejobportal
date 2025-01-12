@@ -1,50 +1,42 @@
-import Chart from 'react-apexcharts';
+import React from "react";
+import Chart from "react-apexcharts"; // Assuming you're using React ApexCharts
 
-function RoundChart() {
-    const data = {
-        series: [40, 60],
-        options: {
-            chart: {
-                type: 'donut',
-            },
-            plotOptions: {
-                pie: {
-                    donut: {
-                        size: '70%',
-                    },
-                },
-            },
-            legend: false,
-            colors: ['#0F5A02', '#FFFFFF'], // Green and White
-            dataLabels: {
-                enabled: true,
-                style: {
-                    colors: ['#FFFFFF', '#0F5A02'], // Text color for each section
-                },
-            },
-            responsive: [
-                {
-                    breakpoint: 480,
-                    options: {
-                        chart: {
-                            width: 200,
-                        },
-                        legend: {
-                            position: 'bottom',
-                        },
-                    },
-                },
-            ],
-        },
-    };
+const RoundChart = ({ data }) => {
+  // Count applications by status
+  const applicationStatuses = data?.reduce((acc, app) => {
+    acc[app.status] = (acc[app.status] || 0) + 1;
+    return acc;
+  }, {});
 
-    return (
-        <div>
-            <div>
-                <Chart options={data.options} series={data.series} type="donut" height={""} />
-            </div>
-        </div>
-    );
-}
+  // Prepare data for the chart
+  const chartData = {
+    series: Object?.values(applicationStatuses || {}), // Counts of each status
+    options: {
+      chart: {
+        type: "donut",
+        width: "100%",
+      },
+      labels: Object.keys(applicationStatuses || {}), // Status labels
+      colors: ["#FF4560", "#00E396", "#FEB019", "#008FFB"], // Colors for each section
+      legend: {
+        position: "bottom",
+      },
+      dataLabels: {
+        enabled: true,
+      },
+    },
+  };
+
+  return (
+    <div>
+      <Chart
+        options={chartData.options}
+        series={chartData.series}
+        type="donut"
+        width="100%"
+      />
+    </div>
+  );
+};
 
 export default RoundChart;
