@@ -134,13 +134,13 @@ function MedicalForm() {
             let labelText;
 
             if (currentKey === "contact_detail") {
-              labelText = "CONTACT NUMBER";
+              labelText = "Contact Number";
             } else {
-              labelText = currentKey.replace(/_/g, " ").toUpperCase();
+              labelText = currentKey.replace(/_/g, " ");
             }
             return (
               <div className="flex flex-col gap-1">
-                <label className="lowercase capitalize font-medium">{labelText}</label>
+                <label className="capitalize font-medium">{labelText}</label>
                 {currentKey == "medical_report_docs" ? (
                   <a
                     className="text-blue-300 underline"
@@ -167,9 +167,9 @@ function MedicalForm() {
             let labelText;
 
             if (currentKey === "contact_detail") {
-              labelText = "CONTACT NUMBER";
+              labelText = "Contact Number";
             } else {
-              labelText = currentKey.replace(/_/g, " ").toUpperCase();
+              labelText = currentKey.replace(/_/g, " ");
             }
             const inputType = currentKey == "member_since" ? "date" : "text";
             return (
@@ -185,7 +185,7 @@ function MedicalForm() {
             );
           })}
           <div className="flex flex-col gap-1">
-            <label className="10lowercase capitalize font-medium">Add File</label>
+            <label className="capitalize font-medium">Add File</label>
             <input
               className="p-1 border focus:outline-none border-gray-900  rounded-md"
               type="file"
