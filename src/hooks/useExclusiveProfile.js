@@ -129,7 +129,15 @@ function useExclusiveProfile(exclusiveID) {
       handleSuccess();
     } catch (error) {
       console.log(error);
-       FormatError(error, setError, "Update Error");
+      onFailure({
+        message: error?.message || "An error occurred",
+        error: 
+          typeof error?.response?.data?.message === "string"
+            ? error?.response?.data?.message
+            : Object.entries(error?.response?.data?.message || {})
+                .map(([key, value]) => `${key}: ${Array.isArray(value) ? value.join(", ") : value}`)
+                .join("\n"),
+      });
     } finally {
       setLoading(false);
     }

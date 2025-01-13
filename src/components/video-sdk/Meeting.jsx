@@ -11,7 +11,7 @@ import { JobContext } from "../../context/JobContext";
 import { ApplicationContext } from "../../context/ApplicationContext";
 import useJobManagement from "../../hooks/useJobManagement";
 
-function Meeting({ interview, exclusive }) {
+function Meeting({ interview, exclusive=null }) {
   const { authDetails } = useContext(AuthContext);
   const { getJobById } = useJobManagement();
   const { getApplicant, application } = useContext(ApplicationContext);
@@ -42,7 +42,8 @@ function Meeting({ interview, exclusive }) {
     },
   });
 
-  const auth= exclusive ? exclusive : authDetails
+  const auth= exclusive?.user ? exclusive : authDetails
+  
   const getYou = () => {
     const speakerParticipants = [...participants.values()].find(
       (current) => current.id === auth.user.role
@@ -79,7 +80,7 @@ function Meeting({ interview, exclusive }) {
 
   return (
     <>
-      <div className="w-[98%] md:w-[95%] h-fit py-1 md:py-3 flex gap-5 items-center justify-between px-8 bg-primaryColor/60 rounded-md">
+      <div className="sticky top-0 w-[98%] md:w-[95%] min-h-16 py-1 md:py-3 flex gap-5 items-center justify-between px-8 bg-primaryColor/60 rounded-md">
         <div className="flex flex-col text-white justify-between gap-[5px]">
           <h2 className="font-bold text-lg capitalize">
             {interview?.interviewer_name} interview

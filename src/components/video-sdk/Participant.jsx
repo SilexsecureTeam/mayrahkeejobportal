@@ -16,7 +16,7 @@ function Participant({ data }) {
   }, [webcamStream, webcamOn]);
   const [isMicEnabled, setIsMicEnabled] = useState(false);
 
-  const toogleMic = () => setIsMicEnabled(!isMicEnabled);
+  const toggleMic = () => setIsMicEnabled(!isMicEnabled);
 
   useEffect(() => {
     if (micRef.current) {
@@ -37,27 +37,22 @@ function Participant({ data }) {
   }, [micStream, micOn]);
 
   return (
-    <li className="w-fit relative bg-black/50  justify-center rounded-[10px]  min-w-[20%]  items-center flex">
+    <li className="w-full h-[450px] relative bg-black/50 justify-center rounded-[10px] min-w-[20%] items-center flex">
       <audio ref={micRef} autoPlay playsInline muted={isLocal} />
 
       {webcamOn ? (
-        <div className="object-cover rounded-lg overflow-hidden w-full">
+        <div className="w-full h-full flex justify-center items-center">
           <ReactPlayer
-            //
             playsinline // extremely crucial prop
             pip={false}
             light={false}
             controls={false}
             muted={true}
             playing={true}
-            className=''
-            //
-            // className='w-full h-[500px]'
             url={videoStream}
-            //
-            height={450}
-            width={"100%"}
-            className="h-[450px] w-[800px] object-cover rounded-md"
+            height="100%"  // Ensuring full height
+            width="100%"   // Ensuring full width
+            className="rounded-md"
             onError={(err) => {
               console.log(err, "participant video error");
             }}
@@ -65,13 +60,13 @@ function Participant({ data }) {
         </div>
       ) : (
         <img
-          className="h-[450px] w-[800px] object-cover rounded-md"
+          className="h-[450px] w-full object-cover rounded-md"
           src="https://images.pexels.com/photos/4491440/pexels-photo-4491440.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
         />
       )}
 
       {/* <div
-        onClick={toogleMic}
+        onClick={toggleMic}
         className={`absolute cursor-pointer hover:scale-105 duration-100 flex items-center justify-center left-2 bottom-2 ${
           isMicEnabled ? "bg-green" : "bg-red-700"
         } rounded-full h-[20px] w-[20px]`}
@@ -83,9 +78,3 @@ function Participant({ data }) {
 }
 
 export default Participant;
-
-{
-  /* <div className="w-full h-[70%]">
-<img className="h-full w-full object-cover rounded-md" src="https://images.pexels.com/photos/4491440/pexels-photo-4491440.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" />
-</div> */
-}

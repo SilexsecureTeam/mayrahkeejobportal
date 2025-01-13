@@ -69,18 +69,19 @@ function ScheduleInterviewModal({
   handleOnSubmit,
   edit = false
 }) {
+  
   const companyUtil = useCompanyProfile();
   const { isInterviewPackge } = useContext(SubscriptionContext);
   const { authDetails } = useContext(AuthContext);
  
-  //const options = isInterviewPackge ? interviewOptions : [interviewOptions[1]];
-  const options = interviewOptions ;
+  const options = isInterviewPackge ? interviewOptions : [interviewOptions[1]];
+  //const options = interviewOptions ;
 
   const [selected, setSelected] = useState(details?.meeting_id ? interviewOptions[0] : interviewOptions[1]);
 
   const [meetingId, setMeetingId] = useState(details?.meeting_id);
   const [loadingMeetingId, setLoadingMeetingId] = useState(false); // Loading state for meeting ID
-
+  console.log(edit, details)
   const onClick = async () => {
     setLoadingMeetingId(true); // Set loading state to true
     try {

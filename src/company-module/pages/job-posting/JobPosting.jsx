@@ -66,7 +66,7 @@ function JobPosting({exclusive=null}) {
    }
   
    if(exclusive){
-    window.location.reload();
+    navigate(-2);
    }else{
     navigate('/company/job-listing');
    }

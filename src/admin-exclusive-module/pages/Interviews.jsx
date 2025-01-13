@@ -235,7 +235,7 @@ const Interviews = () => {
                 >
                   <img
                     className="w-full h-40"
-                    src={details[`employer-${row.employer_id}`]?.logo_image ? `${resourceUrl}${details[`employer-${row.employer_id}`]?.logo_image}` : "https://via.placeholder.com/800x400"}
+                    src={`${resourceUrl}${details[`employer-${row.employer_id}`]?.details?.logo_image}` || "https://via.placeholder.com/800x400"}
                     alt="Employer Logo"
                   />
                   <h3 className="text-lg font-bold mt-auto text-green-800">{row?.interviewer_name}</h3>

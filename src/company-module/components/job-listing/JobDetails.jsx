@@ -11,6 +11,8 @@ import DeleteDialog from "../../../components/DeleteDialog";
 import DefaultSwitch from "../../../components/DefaultSwitch";
 import AddJobModal from "../../../admin-exclusive-module/components/modals/AddJobModal";
 import UseAdminManagement from "../../../hooks/useAdminManagement";
+import { resourceUrl } from "../../../services/axios-client";
+import { IMAGE_URL } from "../../../utils/base";
 
 function JobDetails({ data, jobUtils, applicants, exclusive }) {
   const location = useLocation();
@@ -19,7 +21,7 @@ function JobDetails({ data, jobUtils, applicants, exclusive }) {
   const [addJob, setAddJob] = useState(false);
   const [isDeleteOpen, setIsDeleteOpened] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-
+console.log(data)
   const navigate = useNavigate();
   const toogleJobModal = () => setAddJob(!addJob);
   const handleEdit = () => {
@@ -81,7 +83,9 @@ function JobDetails({ data, jobUtils, applicants, exclusive }) {
       <div className="p-2 flex flex-col w-full gap-4">
         <div className="w-full border flex flex-col md:flex-row justify-between px-2 py-1 items-center">
           <div className="flex gap-3 items-center w-full md:w-auto">
-            <div className="h-12 w-12 bg-gray-300" />
+            <div className="h-12 w-12 bg-gray-300" >
+              <img src={`${IMAGE_URL}${data?.featured_image}`} className="w-full h-full object-cover" />
+            </div>
 
             <div className="flex flex-col">
               <h3 className="font-bold text-lg">{data.job_title}</h3>

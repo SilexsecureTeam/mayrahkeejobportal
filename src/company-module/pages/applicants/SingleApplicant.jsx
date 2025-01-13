@@ -9,6 +9,7 @@ function SingleApplicant() {
   const location = useLocation();
 
   const [isOpen, setIsOpen] = useState(false);
+  const [edit, setEdit] = useState(false);
   const { application, 
     setApplication, 
     getApplicant,
@@ -22,7 +23,7 @@ function SingleApplicant() {
   const [isLoading, setIsLoading] = useState(false);
 
   const toogleInterview = () => setIsOpen(!isOpen);
-const exclusiveData=location?.state?.exclusiveData;
+const exclusiveData=location?.state?.exclusiveData || null;
   const handleOnSubmit = (e, selectedOption, meetingId) => {
     e.preventDefault();
     scheduleInterview(
@@ -34,7 +35,8 @@ const exclusiveData=location?.state?.exclusiveData;
       },
       selectedOption,
       meetingId,
-      exclusiveData
+      exclusiveData,
+      edit
     );
   };
 
@@ -78,6 +80,7 @@ const exclusiveData=location?.state?.exclusiveData;
         details={interviewDetails}
         onTextChange={onTextChange}
         setIsOpen={setIsOpen}
+        edit={edit}
       />
       {isLoading ? (
         <div className="flex items-center justify-center h-screen">
@@ -108,6 +111,7 @@ const exclusiveData=location?.state?.exclusiveData;
                 applicant={applicant}
                 toogleInterview={toogleInterview}
                 exclusive={exclusiveData}
+                setEdit={setEdit}
               />
             </div>
           </div>

@@ -26,7 +26,7 @@ function CompaniesProfile({ exclusiveId = null }) {
 
   const [isOpen, setIsOpen] = useState(false);
 
-  const company_profile_attributes = details.social_media && [
+  const company_profile_attributes = details?.social_media && [
     {
       id: 1,
       icon: FaFacebook,
