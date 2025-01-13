@@ -133,7 +133,7 @@ function HiringProgress({ data, applicant, toogleInterview, exclusive }) {
       case stages[0].name:
         return (isInterviewPackge) ? InView : InViewInactive;
       case stages[1].name:
-        return <Shortlist data={data} exclusive={exclusive} />;
+        return <Shortlist data={data} exclusive={exclusive} toogleInterview={toogleInterview} />;
       case stages[2].name:
         return <InterviewPhase data={data} />;
       case "hired":

@@ -35,7 +35,7 @@ function RegistrationSelector({ data, selected, setSelected, icon}) {
           <img src={icon} className="w-[20px]" />
             <Combobox.Input
               className="w-full outline-none border-none py-[6px] pl-3 pr-10 text-sm leading-5 font-normal text-gray-400 focus:ring-0"
-              displayValue={(current) => current.name}
+              displayValue={(current) => current?.name}
               onChange={(event) => setQuery(event.target.value)}
             />
             <Combobox.Button className="absolute inset-y-0 right-0 w-[25px] justify-center  flex items-center pr-2">

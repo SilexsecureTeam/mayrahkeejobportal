@@ -161,7 +161,7 @@ function You({ data, job, applicant, auth, exclusive }) {
       )}
       <div className="w-full h-full flex flex-col gap-2 md:gap-0 rounded-[10px] pb-28 md:pb-0">
         <audio ref={micRef} autoPlay playsInline muted={isLocal} />
-        <div className="w-full min-h-[40%] max-h-96 overflow-hidden rounded-[10px]">
+        <div className="w-full max-h-96 overflow-hidden rounded-[10px]">
           {webcamOn ? (
             <ReactPlayer
               //
@@ -174,8 +174,8 @@ function You({ data, job, applicant, auth, exclusive }) {
               //
               url={videoStream}
               //
-              height={"100%"}
-              width={"100%"}
+              height="100%"
+              width="100%"
               onError={(err) => {
                 console.log(err, "participant video error");
               }}
