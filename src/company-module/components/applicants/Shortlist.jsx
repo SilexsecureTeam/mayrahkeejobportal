@@ -46,7 +46,7 @@ function Shortlist({ data, exclusive, toogleInterview, setEdit }) {
       onFailure(error);
     }
   }, [error.message, error.error]);
-console.log(interview)
+
   useEffect(() => {
     let countdownInterval;
 

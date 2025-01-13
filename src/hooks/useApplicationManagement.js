@@ -125,7 +125,7 @@ function useApplicationManagement() {
   ) => {
     setLoading(true);
     try {
-      console.log(exclusive)
+      
       if (!option.name) throw Error("An interview option must be selected");
       if (!meetingId && option.name === "online")
         throw Error("Please generate a meeting ID");

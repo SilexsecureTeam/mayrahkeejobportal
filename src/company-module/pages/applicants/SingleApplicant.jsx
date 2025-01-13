@@ -23,7 +23,7 @@ function SingleApplicant() {
   const [isLoading, setIsLoading] = useState(false);
 
   const toogleInterview = () => setIsOpen(!isOpen);
-const exclusiveData=location?.state?.exclusiveData;
+const exclusiveData=location?.state?.exclusiveData || null;
   const handleOnSubmit = (e, selectedOption, meetingId) => {
     e.preventDefault();
     scheduleInterview(
