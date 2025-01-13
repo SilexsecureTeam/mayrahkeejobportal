@@ -7,7 +7,7 @@ import { onFailure } from "../../../utils/notifications/OnFailure";
 import { useLocation, useNavigate } from "react-router-dom";
 import { ApplicationContext } from "../../../context/ApplicationContext";
 
-function Shortlist({ data, exclusive, toogleInterview }) {
+function Shortlist({ data, exclusive, toogleInterview, setEdit }) {
   const { state } = useLocation();
   const { authDetails } = useContext(AuthContext);
   const { setApplication, setInterviewDetails } = useContext(ApplicationContext);
@@ -46,7 +46,7 @@ function Shortlist({ data, exclusive, toogleInterview }) {
       onFailure(error);
     }
   }, [error.message, error.error]);
-
+console.log(interview)
   useEffect(() => {
     let countdownInterval;
 
@@ -74,7 +74,7 @@ function Shortlist({ data, exclusive, toogleInterview }) {
     const combinedDateTime = new Date(`${date.split(' ')[0]}T${time}`);
     const now = new Date();
     const endTime = new Date(combinedDateTime.getTime() + 60 * 60 * 1000);
-
+    
     const isLive = now >= combinedDateTime && now <= endTime;
     const hasEnded = now > endTime;
 
@@ -176,17 +176,17 @@ function Shortlist({ data, exclusive, toogleInterview }) {
               <div className="flex px-2 gap-2 items-center">
                 <button
                   onClick={handleOnClick}
-                  disabled={!isLive || hasEnded || !interview?.meeting_id}
-                  className="border w-fit hover:bg-primaryColor hover:text-white py-1 text-little px-2 border-primaryColor"
+                  disabled={!isLive || hasEnded}
+                  className="border w-fit hover:bg-primaryColor hover:text-white py-1 text-little px-2 border-primaryColor cursor-pointer disabled:hover:text-gray-700 disabled:hover:bg-transparent disabled:opacity-30 disabled:cursor-not-allowed"
                 >
                   {isLive && "Proceed to Interview"}
                   {hasEnded && "Interview Ended"}
                   {countdown && "Not Live"}
                 </button>
                 <button
-                disabled={!isLive || !hasEnded}
-                  onClick={() => { setInterviewDetails(interview); toogleInterview(); }}
-                  className="border w-[40%] md:w-[20%] disabled:hover:text-gray-700 disabled:hover:bg-transparent disabled:opacity-30 hover:bg-primaryColor hover:text-white p-2 md:py-1 text-little px-2 border-primaryColor"
+               
+                  onClick={() => { setEdit(true); setInterviewDetails(interview); toogleInterview(); }}
+                  className="border w-[40%] md:w-[20%] disabled:hover:text-gray-700 disabled:hover:bg-transparent disabled:opacity-30 hover:bg-primaryColor cursor-pointer disabled:cursor-not-allowed hover:text-white p-2 md:py-1 text-little px-2 border-primaryColor"
                 >
                   Edit Interview
                 </button>

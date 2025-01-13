@@ -13,7 +13,7 @@ function SideBar({
   toogleIsOpen,
   isMenuOpen,
 }) {
-  const { details } = companyHookProps;
+  const { details } = useCompanyProfile();
 
   const getImageURL = (image) => {
    

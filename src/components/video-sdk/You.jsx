@@ -109,7 +109,7 @@ function You({ data, job, applicant, auth, exclusive }) {
     if (typeof timeElapsed !== 'string' && !timeElapsed) {
       if (proceedUpdate) {
         leave();
-        if (exclusive) {
+        if (exclusive?.user) {
           navigate(`/admin-exclusives/applicants/detail/${application?.id}`)
         } else {
           navigate(`/company/applicants/detail/${application?.id}`)

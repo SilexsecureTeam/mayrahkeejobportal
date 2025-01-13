@@ -139,15 +139,18 @@ function useApplicationManagement() {
       };
 
       if (option.name !== "online") {
-        delete interviewDetails?.meeting_id
-        interviewPrimarydata = {
-          job_application_id: data.id,
-          employer_id: exclusive ? exclusive.id : authDetails.user.id,
-          candidate_id: applicant.candidate_id,
-          option: option.name,
-        };
+        interviewPrimarydata={
+          ...interviewPrimarydata,
+          location:interviewDetails?.location,
+          meeting_id: null
+        }
       }else{
-        delete interviewDetails?.location
+        interviewPrimarydata={
+          ...interviewPrimarydata,
+          meeting_id:meetingId,
+          location: null
+        }
+        
       }
 
       const updateprimarydata = {
