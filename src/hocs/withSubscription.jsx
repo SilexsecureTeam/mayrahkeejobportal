@@ -25,9 +25,9 @@ function withSubscription(Component, title) {
         {!subUtils?.loading && subUtils?.activePackage && <Component />}
 
         {!subUtils?.loading && !subUtils?.activePackage && (
-        {/*<SubscriptionPlans
+        /*<SubscriptionPlans
             subUtils={subUtils}
-          />*/}
+          />*/
         <h3 className="text-center text-xl text-gray-800">Please subscribe to a package</h3>
         )}
 
