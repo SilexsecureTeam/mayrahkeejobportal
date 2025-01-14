@@ -124,8 +124,19 @@ const Services = () => {
                                         className="bg-white rounded-lg shadow-md p-5 flex flex-col items-center text-center cursor-pointer"
                                         onClick={() => handlePackageClick(pkg)}
                                     >
-                                        <img
-                                            src={packageImages[pkg.title] || 'https://via.placeholder.com/150'}
+                       <img src={(() => {
+        try {
+            // Safely check if `pkg.title` matches any part of the keys in `packageImages`
+            const matchedKey = Object.keys(packageImages).find((key) =>
+                pkg?.title?.toLowerCase().includes(key.toLowerCase())
+            );
+            return matchedKey ? packageImages[matchedKey] : 'https://via.placeholder.com/150';
+        } catch (error) {
+            console.error("Error matching package title to images:", error);
+            return 'https://via.placeholder.com/150';
+        }
+    })()
+}
                                             alt={pkg.title}
                                             className="w-20 h-20 mb-4 rounded-full object-cover"
                                         />
