@@ -19,8 +19,8 @@ function SubscriptionOffer() {
               Subscription Offers
             </h1>
             <p className="flex justify-between ">
-              Subscribe to our plans to gainn acces to more benefits and a
-              tailored expirience
+              Subscribe to our plans to gain access to more benefits and a
+              tailored experience 
             </p>
           </div>
           <button onClick={() => setIsOpen(true)} className="flex gap-2 items-center h-fit border-white border py-1 px-2">
