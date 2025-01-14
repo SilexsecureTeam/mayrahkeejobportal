@@ -16,7 +16,7 @@ function withSubscription(Component, title) {
         {!subUtils?.loading && subUtils?.activePackage ? (
           <Component />
         ) : !subUtils?.loading && !subUtils?.activePackage ? (
-          <div className="max-w-md w-full bg-white shadow-lg rounded-lg p-6 text-center">
+          <div className="max-w-md h-max w-full bg-white shadow-lg rounded-lg p-6 text-center">
             <h3 className="text-2xl font-bold text-gray-800 mb-4 text-green-700">
               Subscription Required
             </h3>
