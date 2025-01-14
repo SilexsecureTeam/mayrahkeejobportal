@@ -7,10 +7,14 @@ import { NotificationContext } from "../../context/NotificationContext";
 import { useEffect } from "react";
 import NotificationsModal from "./NotificationsModal";
 import { MdClose, MdMenu } from "react-icons/md";
+import { IoGift } from "react-icons/io5";
+import SubscriptionModal from "../../components/subscription/SubscriptionModal";
+import useSubscription from "../../hooks/useSubscription";
 
 function NavBar({ state, toogleIsOpen, isMenuOpen }) {
   const { notifications, getNotifications } = useContext(NotificationContext);
   const [isOpen, setIsOpen] = useState(false);
+  const [isSUbOpen, setIsSUbOpen] = useState(false);
 
   useEffect(() => {
     getNotifications();
@@ -22,6 +26,9 @@ function NavBar({ state, toogleIsOpen, isMenuOpen }) {
         setIsOpen={setIsOpen}
         data={notifications}
       />
+      <SubscriptionModal isOpen={isSUbOpen} setIsOpen={setIsSUbOpen} />
+    
+        
       <nav className="w-full h-[8%] px-2 sm:px-4 md:px-8 flex items-center justify-between bg-white">
     
           <MdMenu
@@ -52,6 +59,13 @@ function NavBar({ state, toogleIsOpen, isMenuOpen }) {
               className="text-primaryColor cursor-pointer text-lg animate-bounce"
             />
           )}
+       
+        <button onClick={() => setIsSUbOpen(true)} className="flex gap-2 items-center px-2">
+            {/* <span className="hidden md:block"> Subscribe </span> */}
+            <IoGift className="animate-bounce" />
+          </button>
+      
+     
         </div>
       </nav>
     </>
