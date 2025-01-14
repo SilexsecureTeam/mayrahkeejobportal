@@ -12,12 +12,12 @@ function withSubscription(Component, title) {
     authDetails?.user?.user_type === "exclusive" ? (
       <Component />
     ) : (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
+      <div className="min-h-screen flex justify-center bg-gray-50 px-4">
         {!subUtils?.loading && subUtils?.activePackage ? (
           <Component />
         ) : !subUtils?.loading && !subUtils?.activePackage ? (
           <div className="max-w-md w-full bg-white shadow-lg rounded-lg p-6 text-center">
-            <h3 className="text-2xl font-bold text-gray-800 mb-4">
+            <h3 className="text-2xl font-bold text-gray-800 mb-4 text-green-700">
               Subscription Required
             </h3>
             <p className="text-gray-600 mb-6">
