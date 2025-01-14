@@ -3,16 +3,33 @@ import Navbar from '../components/Landing/Navbar';
 import Footer from '../components/Landing/Footer';
 import Banner from '../components/Landing/Banner';
 import tunnel from '../assets/pngs/Tunnel2.png';
+import basic from '../assets/basic.jpg';
+import premium from '../assets/premium.jpg';
+import classic from '../assets/classic.jpg';
+import plus from '../assets/pluspackage.jpg';
+import exclusive from '../assets/exclusive.jpg';
+import exclusive2 from '../assets/exclusive2.jpg';
 
 const Services = () => {
     window.scrollTo(0, 0);
 
+    // State to store the fetched packages
     const [packages, setPackages] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [selectedPackage, setSelectedPackage] = useState(null);
 
+    const packageImages = {
+        Basic: basic,
+        Premium: premium,
+        Classic: classic,
+        Plus: plus,
+        Exclusive: exclusive,
+        'Exclusive 2': exclusive2,
+    };
+
     useEffect(() => {
+        // Fetch packages from the API endpoint
         const fetchPackages = async () => {
             try {
                 const response = await fetch('https://dash.mayrahkeeafrica.com/api/packages');
@@ -20,7 +37,7 @@ const Services = () => {
                     throw new Error('Failed to fetch packages');
                 }
                 const data = await response.json();
-                setPackages(data.data);
+                setPackages(data.data); // Assuming `data.data` contains the array of packages
             } catch (err) {
                 setError(err.message);
             } finally {
@@ -59,6 +76,7 @@ const Services = () => {
                         desc="Providing world-class recruitment and capacity-building solutions tailored to your needs."
                     />
 
+                    {/* Recruitment Section */}
                     <section className="w-full bg-white rounded-lg shadow-md p-6">
                         <h2 className="text-3xl font-bold text-green-600 mb-6">Recruitment</h2>
                         <p className="text-lg mb-4">
@@ -68,7 +86,7 @@ const Services = () => {
                             At Mayrahkee Africa, we do not just find the best fit; we offer the full package. We are an end-to-end result-oriented service provider. We strive to harness the partnerships' full potential, increase capacity, productivity, growth, and sustainability through cost-effective strategies for all stakeholders in the value chain.
                         </p>
                         <p className="text-lg mb-4">
-                            In addition to providing our clients search results that meet their business and personal needs within the shortest possible period, the Mayrahkee Premium package avails subscribers the luxury of having a qualified Mayrahkee Africa team undertake the recruitment and onboarding processes while they sit back and oversee proceedings.
+                            In addition to providing our clients search results that meet their business and personal needs within the shortest possible period, the Mayrahkee Premium package avails subscribers the luxury of having a qualified Mayrahkee Africa team undertake the recruitment and onboarding processes while they sit back and oversee proceedings. 
                         </p>
                         <h3 className="text-xl font-semibold mb-3">HR Support Services Include:</h3>
                         <ul className="list-disc pl-5 space-y-2">
@@ -91,6 +109,7 @@ const Services = () => {
                         </ul>
                     </section>
 
+                    {/* Packages Section */}
                     <section className="w-full max-w-[1200px]">
                         <h2 className="text-3xl font-bold text-center text-green-800 mb-6">Our Packages</h2>
                         {loading ? (
@@ -106,7 +125,7 @@ const Services = () => {
                                         onClick={() => handlePackageClick(pkg)}
                                     >
                                         <img
-                                            src={pkg.image || 'https://via.placeholder.com/150'}
+                                            src={packageImages[pkg.title] || 'https://via.placeholder.com/150'}
                                             alt={pkg.title}
                                             className="w-20 h-20 mb-4 rounded-full object-cover"
                                         />
@@ -116,6 +135,25 @@ const Services = () => {
                                 ))}
                             </div>
                         )}
+                    </section>
+
+                    {/* Capacity Building Section */}
+                    <section className="w-full max-w-[1200px] bg-gray-50 rounded-lg shadow-md p-6">
+                        <h2 className="text-3xl font-bold text-green-600 mb-6">Capacity Building and Development</h2>
+                        <p className="text-lg mb-4">
+                            At Mayrahkee Africa, we are revolutionizing education through innovative e-learning solutions and hands-on physical training programs tailored to meet the needs of individuals, professionals, and organizations across Africa.
+                        </p>
+                        <p className="text-lg mb-4">
+                            Our E-learning offerings make knowledge accessible and flexible, while our physical learning programs deliver practical experiences for well-rounded skill development.
+                        </p>
+                        <h3 className="text-xl font-semibold mb-3">Our Services:</h3>
+                        <ul className="list-disc pl-5 space-y-2">
+                            <li>Online Courses and Training</li>
+                            <li>Virtual Learning Platforms</li>
+                            <li>Custom Course Development</li>
+                            <li>E-learning Consultation Services</li>
+                            <li>Corporate Training and Upskilling</li>
+                        </ul>
                     </section>
 
                     {selectedPackage && (
@@ -129,16 +167,29 @@ const Services = () => {
                                 </button>
                                 <h2 className="text-2xl font-bold mb-4">{selectedPackage.title}</h2>
                                 <p className="mb-4">{selectedPackage.description}</p>
-                                <h3 className="text-lg font-semibold mb-2">Perks:</h3>
-                                <ul className="list-disc pl-5 space-y-2">
-                                    {selectedPackage.perks && selectedPackage.perks.length > 0 ? (
-                                        selectedPackage.perks.map((perk, i) => (
-                                            <li key={i}>{perk}</li>
-                                        ))
-                                    ) : (
-                                        <li>No perks available for this package.</li>
-                                    )}
-                                </ul>
+
+                                {selectedPackage.perks && selectedPackage.perks.length > 0 && (
+                                    <>
+                                        <h3 className="text-lg font-semibold mb-2">Perks:</h3>
+                                        <ul className="list-disc pl-5 space-y-2">
+                                            {selectedPackage.perks.map((perk, i) => (
+                                                <li key={i}>{perk}</li>
+                                            ))}
+                                        </ul>
+                                    </>
+                                )}
+
+                                {selectedPackage.permissions && selectedPackage.permissions.length > 0 && (
+                                    <>
+                                        <h3 className="text-lg font-semibold mt-4 mb-2">Permissions:</h3>
+                                        <ul className="list-disc pl-5 space-y-2">
+                                            {selectedPackage.permissions.map((permission, i) => (
+                                                <li key={i}>{permission}</li>
+                                            ))}
+                                        </ul>
+                                    </>
+                                )}
+
                                 <button
                                     className="mt-4 bg-green-600 text-white px-4 py-2 rounded-lg"
                                     onClick={closeModal}
@@ -148,29 +199,6 @@ const Services = () => {
                             </div>
                         </div>
                     )}
-
-                    <section className="w-full max-w-[1200px] bg-gray-50 rounded-lg shadow-md p-6">
-                        <h2 className="text-3xl font-bold text-green-600 mb-6">
-                            Capacity Building and Development
-                        </h2>
-                        <p className="text-lg mb-4">
-                            At Mayrahkee Africa, we are revolutionizing education through innovative e-learning
-                            solutions and hands-on physical training programs tailored to meet the needs of individuals,
-                            professionals, and organizations across Africa.
-                        </p>
-                        <p className="text-lg mb-4">
-                            Our E-learning offerings make knowledge accessible and flexible, while our physical learning
-                            programs deliver practical experiences for well-rounded skill development.
-                        </p>
-                        <h3 className="text-xl font-semibold mb-3">Our Services:</h3>
-                        <ul className="list-disc pl-5 space-y-2">
-                            <li>Online Courses and Training</li>
-                            <li>Virtual Learning Platforms</li>
-                            <li>Custom Course Development</li>
-                            <li>E-learning Consultation Services</li>
-                            <li>Corporate Training and Upskilling</li>
-                        </ul>
-                    </section>
                 </main>
             </div>
             <Footer />
@@ -179,4 +207,4 @@ const Services = () => {
 };
 
 export default Services;
-                                    
+                
