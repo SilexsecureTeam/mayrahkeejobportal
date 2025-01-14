@@ -1,3 +1,4 @@
+
 import React, { useContext, useEffect, useState } from "react";
 import { TbPhoto } from "react-icons/tb";
 import DynamicExperienceForm from "./DynamicExperienceForm";
@@ -890,21 +891,7 @@ const BasicInfo = ({ setIsOpen }) => {
                             />
                           </label>
                         </div>
-                        <div className="">
-                          <label className="block">
-                            <span className="block text-sm font-medium text-slate-700">
-                              Password
-                            </span>
-                            <input
-                              type="password"
-                              value={details.password}
-                              name="password"
-                              onChange={handleOnChange}
-                              placeholder="Jakegyll@gmail.com"
-                              className="mt-1 block p-1 focus:outline-none w-full border"
-                            />
-                          </label>
-                        </div>
+                        
                       </div>
                     </div>
                   </div>
