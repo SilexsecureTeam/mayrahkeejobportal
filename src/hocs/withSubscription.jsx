@@ -23,7 +23,7 @@ function withSubscription(Component, title) {
             <p className="text-gray-600 mb-6">
               Please subscribe to a package to access this feature. Enjoy exclusive benefits and tailored features designed for you!
             </p>
-            <SubscriptionPlans subUtils={subUtils} />
+            {/*<SubscriptionPlans subUtils={subUtils} />*/}
           </div>
         ) : (
           <div className="flex flex-col items-center">
