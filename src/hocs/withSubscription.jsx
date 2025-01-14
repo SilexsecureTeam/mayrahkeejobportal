@@ -16,11 +16,11 @@ function withSubscription(Component, title) {
         {!subUtils?.loading && subUtils?.activePackage ? (
           <Component />
         ) : !subUtils?.loading && !subUtils?.activePackage ? (
-          <div className="max-w-md h-max w-full bg-white shadow-lg rounded-lg p-6 text-center">
-            <h3 className="text-2xl font-bold text-gray-800 mb-4 text-green-700">
+          <div className="h-max w-full bg-white rounded-lg p-6 text-center">
+            <h3 className="text-2xl font-bold mb-4 text-green-700">
               Subscription Required
             </h3>
-            <p className="text-gray-600 mb-6">
+            <p className="text-gray-600 font-bold mb-6">
               Please subscribe to a package to access this feature. Enjoy benefits and tailored features designed for you!
             </p>
             {/*<SubscriptionPlans subUtils={subUtils} />*/}

@@ -22,12 +22,13 @@ function JobUpdates({ jobs, applicants }) {
 
   return (
     <div className="w-full min-h-[250px] border flex flex-col items-start">
-      <div className="h-[50px] text-sm w-full font-semibold p-2 flex items-center border-b">
-        <h3>Jobs Updates</h3>
+      <section className="flex justify-between items-center gap-2">
+      <div className="h-[50px] text-sm font-semibold p-2 flex items-center border-b">
+        <h3 className="text-green-700">Jobs Updates</h3>
       </div>
 
       {/* Filter Section */}
-      <div className="p-3 flex flex-wrap gap-4 items-center">
+      <div className="ml-auto p-3 flex gap-2 lg:gap-4 items-center">
         {/* Currency Filter */}
         <select
           value={currency}
@@ -51,6 +52,7 @@ function JobUpdates({ jobs, applicants }) {
           className="border p-2 rounded"
         />
       </div>
+      </section>
 
       {/* Job Listings */}
       <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 p-3 px-8 mt-4 h-[85%] justify-start items-start gap-[15px] w-full max-w-[98%]">
