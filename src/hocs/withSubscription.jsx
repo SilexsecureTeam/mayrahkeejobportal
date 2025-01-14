@@ -21,7 +21,7 @@ function withSubscription(Component, title) {
               Subscription Required
             </h3>
             <p className="text-gray-600 mb-6">
-              Please subscribe to a package to access this feature. Enjoy exclusive benefits and tailored features designed for you!
+              Please subscribe to a package to access this feature. Enjoy benefits and tailored features designed for you!
             </p>
             {/*<SubscriptionPlans subUtils={subUtils} />*/}
           </div>
