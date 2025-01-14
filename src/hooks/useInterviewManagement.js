@@ -47,7 +47,7 @@ const getAllExclusiveInterviews = async (handleSuccess) => {
   if (authDetails?.token !== null || authDetails?.token !== undefined) {
     setLoading(true);
     try {
-      const { data } = await client.get(`/interviews`);
+      const { data } = await client.get(`/interviews?user_type=exclusive`);
       return data.interviews?.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
   
     } catch (error) {
