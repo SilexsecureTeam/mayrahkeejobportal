@@ -29,7 +29,7 @@ function NavBar({ state, toogleIsOpen, isMenuOpen }) {
       <SubscriptionModal isOpen={isSUbOpen} setIsOpen={setIsSUbOpen} />
     
         
-      <nav className="w-full h-[8%] px-2 sm:px-4 md:px-8 flex items-center justify-between bg-white">
+      <nav className="w-full h-[8%] px-2 sm:px-4 md:px-8 flex gap-1 items-center justify-between bg-white">
     
           <MdMenu
             onClick={toogleIsOpen}
@@ -37,7 +37,7 @@ function NavBar({ state, toogleIsOpen, isMenuOpen }) {
           />
         <div className="flex items-center gap-[5px] mr-auto">
           <img src={wheelIcon} className="h-[35px] md:block hidden w-[35px]" />
-          <h1 className="font-semibold text-[18px] md:text-xl leading-none ml-[2px]">{state.title}</h1>
+          <h1 className="font-bold text-[16px] md:text-xl leading-none ml-[2px]">{state?.title}</h1>
         </div>
 
         <div className="flex justify-end items-center pr-2 md:w-[25%] gap-[5px]">
@@ -51,18 +51,18 @@ function NavBar({ state, toogleIsOpen, isMenuOpen }) {
           {notifications?.length === 0 || !notifications ? (
             <PiBellLight
               onClick={() => setIsOpen(true)}
-              className="text-lg cursor-pointer"
+              className="text-lg cursor-pointer mx-2"
             />
           ) : (
             <PiBellRingingDuotone
               onClick={() => setIsOpen(true)}
-              className="text-primaryColor cursor-pointer text-lg animate-bounce"
+              className="text-primaryColor cursor-pointer text-lg animate-bounce md:mx-2"
             />
           )}
        
-        <button onClick={() => setIsSUbOpen(true)} className="flex gap-2 items-center px-2">
+        <button onClick={() => setIsSUbOpen(true)} className="flex gap-2 items-center md:px-2">
             {/* <span className="hidden md:block"> Subscribe </span> */}
-            <IoGift className="animate-bounce" />
+            <IoGift size="20" className="animate-bounce" />
           </button>
       
      

@@ -48,14 +48,14 @@ function SideBar({
         </div>
 
         {/* User Info Section */}
-        <div className="absolute bottom-0 left-0 p-2 flex gap-[5px] items-center w-[220px]">
+        <div className="absolute bottom-0 left-0 p-2 flex gap-[5px] items-end w-[220px]">
           <div className="flex-1 flex-col flex truncate">
             <span className="text-secondaryColor text-sm font-semibold truncate">{authDetails?.user?.name}</span>
             <span className="text-gray-300 text-xs truncate">{authDetails?.user?.email}</span>
           </div>
           <img
             src={details?.logo_image ? getImageURL(details?.logo_image) : "https://via.placeholder.com/150"}
-            className="flex-shrink-0 h-[50px] w-[50px] rounded-full bg-secondaryColor max-[1200px]:mt-[-30px] transition-all duration-500 object-cover"
+            className="flex-shrink-0 h-[60px] w-[60px] rounded-full bg-secondaryColor max-[1200px]:mt-[-30px] transition-all duration-500 object-cover"
           />
         </div>
       </aside>
@@ -64,14 +64,14 @@ function SideBar({
       <aside
         className={`${
           isMenuOpen ? "left-0" : "left-[-100%]"
-        } w-[70%] sm:w-[300px] absolute z-[999] h-screen items-center bg-secondaryColor px-2 pb-2 flex flex-col justify-between`}
+        } w-[70%] sm:w-[300px] absolute z-[999] h-screen items-center bg-secondaryColor px-2 pb-2 flex flex-col`}
       >
         <div className="flex items-center gap-[10px]">
           <MdClose onClick={toogleIsOpen} className="text-primarycolor text-3xl" />
           <img src={mainLogoTwo} className="w-[60%]" />
         </div>
 
-        <nav className="h-[92%] w-full flex flex-col justify-start gap-[20px] divide-y-2">
+        <nav className="h-[90%] overflow-y-auto w-full flex flex-col justify-start gap-[20px] divide-y-2">
           {children[0]}
           <div className="flex flex-col gap-[5px]">
             <h3 className="px-2 text-primary text-sm mt-[10px] font-semibold">Personalise</h3>
@@ -85,14 +85,14 @@ function SideBar({
         </div>
 
         {/* User Info Section (Mobile) */}
-        <div className="absolute bottom-3 right-4 flex gap-3 items-center">
+        <div className="absolute bottom-3 right-4 flex gap-3 items-end">
           <div className="flex-col flex">
             <span className="text-secondaryColor text-sm">{authDetails?.user?.name}</span>
             <span className="text-gray-300 text-xs">{authDetails?.user?.email}</span>
           </div>
           <img
             src={details?.logo_image ? getImageURL(details?.logo_image) : "https://via.placeholder.com/150"}
-            className="h-[45px] w-[45px] rounded-full bg-primaryColor object-cover"
+            className="h-[70px] w-[70px] rounded-full bg-primaryColor object-cover"
           />
         </div>
       </aside>

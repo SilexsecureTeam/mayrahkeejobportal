@@ -38,7 +38,7 @@ function SideBar({ children, authDetails, toogleIsOpen, isMenuOpen }) {
       </div>
 
         {/* user info  */}
-        <div className="max-w-full absolute bottom-3 left-10 pl-2 flex gap-[5px]  items-center">
+        <div className="max-w-full absolute bottom-3 left-10 pl-2 flex gap-[5px]  items-end">
         
           <div className="w-1/5 flex-1 flex flex-col">
             <span className="text-secondaryColor text-sm">
@@ -50,7 +50,7 @@ function SideBar({ children, authDetails, toogleIsOpen, isMenuOpen }) {
           </div>
           <img
              src={candidate?.profile ? `${IMAGE_URL}/${candidate.profile}` : 'https://via.placeholder.com/150'}
-            className="flex-shrink-0 h-[50px] w-[50px] rounded-full bg-secondaryColor max-[1200px]:mt-[-30px] transition-all duration-500 object-cover"
+            className="flex-shrink-0 h-[60px] w-[60px] rounded-full bg-secondaryColor max-[1200px]:mt-[-30px] transition-all duration-500 object-cover"
           />
         </div>
       </aside>
@@ -67,7 +67,7 @@ function SideBar({ children, authDetails, toogleIsOpen, isMenuOpen }) {
           />
           <img src={mainLogoTwo} className="w-[60%]" />
         </div>
-        <nav className="h-[92%] w-full flex flex-col justify-start gap-[20px] divide-y-2">
+        <nav className="h-[92%] overflow-y-auto w-full flex flex-col justify-start gap-[20px] divide-y-2">
           {children[0]}
           <div className="flex flex-col gap-[5px] ">
             <h3 className="px-2 text-primary text-sm mt-[10px] font-semibold">
@@ -83,7 +83,7 @@ function SideBar({ children, authDetails, toogleIsOpen, isMenuOpen }) {
         </div>
 
         {/* user info  */}
-        <div className="absolute bottom-3 right-4 flex gap-3  items-center">
+        <div className="absolute bottom-3 right-4 flex gap-3 items-end">
          
           <div className="flex-col flex">
             <span className="text-secondaryColor text-sm">
@@ -95,7 +95,7 @@ function SideBar({ children, authDetails, toogleIsOpen, isMenuOpen }) {
           </div>
           <img
           src={candidate?.profile ? `${IMAGE_URL}/${candidate.profile}` : 'https://via.placeholder.com/150'}
-            className="h-[45px] w-[45px] rounded-full bg-primaryColor object-cover"
+            className="h-[70px] w-[70px] rounded-full bg-primaryColor object-cover"
           />
         </div>
       </aside>

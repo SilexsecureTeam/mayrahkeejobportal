@@ -173,11 +173,17 @@ function useJobManagement() {
       if (validationError) {
         throw new Error(validationError);
       }
-
-      const response = await client.post(`/job`, {
+      const formDetails={
         employer_id: authDetails?.user.id,
         ...details,
-      });
+      }
+       // Create a new FormData object
+       const formData = new FormData();
+        // Loop over the details object to append each key-value pair to FormData
+      for (const key in formDetails) {
+            formData.append(key, formDetails[key]);  
+       }
+      const response = await client.post(`/job`, formData );
 
       setDetails({});
       await getJobsFromDB();
@@ -206,23 +212,23 @@ function useJobManagement() {
   
       // Loop over the details object to append each key-value pair to FormData
       for (const key in details) {
-        if (details.hasOwnProperty(key)) {
+       // if (details.hasOwnProperty(key)) {
           // If the field is 'qualification' and it's an array, handle it separately
-          if (key === "qualification" && Array.isArray(details[key])) {
-            details[key].forEach((qual) => {
-              formData.append("qualification[]", qual); // Append each qualification as a separate field
-            });
-          } else {
+          // if (key === "qualification" && Array.isArray(details[key])) {
+          //   details[key].forEach((qual) => {
+          //     formData.append("qualification[]", qual); // Append each qualification as a separate field
+          //   });
+          // } else {
             // For other fields, append normally
             formData.append(key, details[key]);
-          }
-        }
+          //}
+        //}
       }
   
-      // Append the image if it exists (assuming it's in details.image)
-      if (details.image) {
-        formData.append('image', details.image); // Adjust based on your actual field name
-      }
+      // // Append the image if it exists (assuming it's in details.image)
+      // if (details.image) {
+      //   formData.append('image', details.image); // Adjust based on your actual field name
+      // }
   
       const response = await client.post(`${apiURL}/job`, formData, {
         headers: {

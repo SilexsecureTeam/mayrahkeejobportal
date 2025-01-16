@@ -63,12 +63,42 @@ const Settings = lazy(() =>
 const HelpCenter = lazy(() => import("../pages/HelpCenter"));
 
 function useApplicantRoute() {
-  const [state, dispatch] = useReducer(ApplicantReducer, applicantOptions[0]);
+  const [state, dispatch] = useReducer(ApplicantReducer, null);
   const { authDetails } = useContext(AuthContext);
   const [isOpen, setIsOpen] = useState(false);
   const [redirectState, setRedirectState] = useState();
 
   const toogleIsOpen = () => setIsOpen(!isOpen);
+
+ // Step 2: Load saved state from localStorage on mount
+ 
+ useEffect(() => {
+  const savedState = localStorage.getItem("sidebarState");
+  
+  // Log saved state for debugging
+  console.log("Saved State:", savedState);
+
+  if (savedState) {
+    // If there's a saved state, dispatch it
+    const parsedState = JSON.parse(savedState);
+    console.log("Parsed State:", parsedState);  // Log the parsed state
+    dispatch(parsedState);  // Dispatch the loaded state
+  } else {
+    // If no saved state, set a default value based on user type
+    const defaultState = applicantOptions[0];
+    console.log("Setting default state:", defaultState);  // Log the default state
+    dispatch(defaultState);  // Dispatch the default state
+  }
+}, []);  // Empty dependency array ensures this runs only once on mount
+
+// Save to localStorage whenever state changes
+useEffect(() => {
+  if (state) {
+    console.log("Saving state to localStorage:", state);  // Log before saving
+    localStorage.setItem("sidebarState", JSON.stringify(state));
+  }
+}, [state]);  // This hook will be triggered every time 'state' changes
+
 
   const setSideBar = (index) => {
     const page = applicantOptions[index];
@@ -133,6 +163,7 @@ function useApplicantRoute() {
                   data={currentOption}
                   dispatch={dispatch}
                   state={state}
+                  setIsOpen={setIsOpen}
                 />
               ))}
             </ul>

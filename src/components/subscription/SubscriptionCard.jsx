@@ -4,14 +4,12 @@ import Spinner from "../Spinner";
 import { PaystackConsumer } from "react-paystack";
 import { IoMdCheckmarkCircleOutline } from "react-icons/io";
 import { SubscriptionContext } from "../../context/SubscriptionContext";
-import useSubscription from "../../hooks/useSubscription";
-
-function SubscriptionCard({ data, setIsOpen }) {
+import { IoGift } from "react-icons/io5";
+function SubscriptionCard({ data, setIsOpen, currentPackage }) {
   const [showPerks, setShowPerks] = useState(false);
   const subUtils = useContext(SubscriptionContext);
 
   const handleOnClick = (reference, data) => {
-    console.log("Triggered");
     subUtils.makePaymentCheck(reference, data);
     if (setIsOpen) {
       setIsOpen(false);
@@ -19,53 +17,66 @@ function SubscriptionCard({ data, setIsOpen }) {
   };
 
   return (
-    <li className="duration-75 cursor-pointer rounded-[10px] group has-[h3]:border-[2px]  flex flex-col items-center justify-between p-3 even:border even:bg-primaryColor even:text-white odd:text-primaryColor odd:border-primaryColor">
-      <div className="flex flex-col items-center h-max">
+    <li
+      className={`${
+        currentPackage?.package_id === data.id
+          ? "opacity-70 pointer-events-none relative"
+          : ""
+      } duration-75 cursor-pointer rounded-[10px] group flex flex-col items-center justify-between p-3 border even:border even:bg-primaryColor even:text-white odd:text-primaryColor odd:border-primaryColor`}
+    >
+    {
+      currentPackage?.package_id === data.id &&
+      <IoGift size="50" className="absolute top-[-10px] left-0 right-0 mx-auto animate-bounce" />
+    }
+      <div className="flex flex-col items-center min-h-40">
+        {/* Title */}
         <h3 className="font-semibold group-odd:border-primaryColor text-center group-even:border-white w-[60%] rounded-[5px] py-1 border text-md">
           {data.title}
         </h3>
-        <span className="font-semibold mt-[10%] text-xl flex gap-2">
+
+        {/* Price */}
+        <span className="font-semibold mt-[10%] text-xl flex gap-2 items-center">
           ₦{FormatPrice(Number(data.price))}
           <button
             onClick={() => setShowPerks(!showPerks)}
-            className="flex text-sm border items-center rounded-md px-2"
+            className="text-sm border rounded-md px-2 py-1 transition-all hover:bg-primaryColor hover:text-white"
           >
-            {!showPerks ? "Perks" : "Desc"}
+            {showPerks ? "Desc" : "Perks"}
           </button>
         </span>
+        <span className="mt-5 text-little">user/month</span>
+
+        {/* Description or Perks */}
         {!showPerks ? (
-          <>
-            <span className="mt-5 text-little">user/month</span>
-            <p className="my-5 text-little text-center w-[90%] ">
-              {data.description}
-            </p>
-          </>
+          <p className="my-5 text-little text-center w-[90%]">
+            {data.description}
+          </p>
         ) : (
-          <>
-            <div className="flex flex-col px-2 h-[80%] text-[12px] items-start justify-center">
-              {data?.permissions.map((current, index) => (
-                <div
-                  key={index}
-                  className="flex gap-2 font-semibold text-lig items-center w-full"
-                >
-                  <IoMdCheckmarkCircleOutline className="text-md" />
-                  <span className="w-[90%]">{current}</span>
-                </div>
-              ))}
-            </div>
-          </>
+          <div className="flex flex-col gap-2 p-2 text-[12px] items-start">
+            {data?.permissions?.map((current, index) => (
+              <div key={index} className="flex gap-2 font-bold text-sm w-full">
+                <IoMdCheckmarkCircleOutline
+                  size="18"
+                  className="flex-shrink-0 text-green-500"
+                />
+                <span>{current}</span>
+              </div>
+            ))}
+          </div>
         )}
       </div>
 
+      {/* Choose Plan Button */}
       <PaystackConsumer {...subUtils.config(data, handleOnClick)}>
         {({ initializePayment }) => (
           <button
             onClick={initializePayment}
-            className={`text-sm ${
-              !true
-                ? "hover:text-[13px] hover:scale-105 duration-75"
-                : "hover:text-little hover:scale-100 duration-75"
-            } relative h-[35px] w-[80%] font-semibold group-odd:bg-primaryColor group-odd:text-white group-even:bg-white group-even:text-primaryColor rounded-md`}
+            className={`text-sm font-semibold w-[80%] h-[35px] rounded-md transition-all ${
+              currentPackage?.package_id === data.id
+                ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                : "group-odd:bg-primaryColor group-odd:text-white group-even:bg-white group-even:text-primaryColor hover:scale-105"
+            }`}
+            disabled={currentPackage?.package_id === data.id}
           >
             Choose Plan
             {subUtils.loading && <Spinner />}

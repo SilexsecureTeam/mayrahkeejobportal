@@ -19,6 +19,7 @@ function DomesticStaff() {
   const [domesticStaffs, setDomesticStaffs] = useState();
   const [loading, setLoading] = useState();
   const [categories, setCategories] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState();
   const [searchResult, setSearcResult] = useState([]);
   const [cartItems, setCartItems] = useState([]);
   const [conditions, setConditions] = useState(false);
@@ -30,8 +31,7 @@ function DomesticStaff() {
       if (!queryParams && !directParams)
         throw new Error("No Query option selected");
       const { data } = await client.get(
-        `/domesticStaff/get-staff?staff_category=staff&${
-          directParams ? directParams : queryParams
+        `/domesticStaff/get-staff?staff_category=staff&${directParams ? directParams : queryParams
         }`
       );
       console.log(data);
@@ -56,9 +56,9 @@ function DomesticStaff() {
   const staffsToDisplay =
     searchResult.length > 0
       ? searchResult?.filter(
-          (current) =>
-            current?.staff_category === "staff" && current?.middle_name !== null
-        )
+        (current) =>
+          current?.staff_category === "staff" && current?.middle_name !== null
+      )
       : [];
 
   const handleCondition = (data, hasCategory) => {
@@ -129,14 +129,15 @@ function DomesticStaff() {
           />
           <h1>Job Descriptions</h1>
           <p className="text-sm">
-            This agreement acknowledges that the employer may only assign tasks
+            {/* This agreement acknowledges that the employer may only assign tasks
             that are directly related to the designated role of the employee.
             Artisan must only perform duties as outlined within the scope of
             their specific role, whether as a housekeeper, driver, or other
             position. Any tasks outside these roles require mutual agreement
             between the employer and the employee. Violation of this policy may
             result in a breach of contract or legal consequences, depending on
-            applicable labor laws..
+            applicable labor laws.. */}
+            {selectedCategory?.description}
           </p>
           <FormButton onClick={() => handleQuerySubmit()} loading={loading}>
             Confirm and Search
@@ -144,8 +145,8 @@ function DomesticStaff() {
         </div>
       </PopUpBox>
       <div className="h-full w-full flex flex-col py-2 gap-[15px] bg-gray-50">
-        <div className="flex w-full justify-between  items-start gap-1">
-          <section className="flex flex-col gap-y-5">
+        <div className="flex flex-col w-full justify-between items-start gap-1">
+          <section className="flex gap-5 justify-between items-center w-full">
             <div
               id="content"
               className="flex flex-col gap-2 bg-green-100 pr-5 p-2 w-[90%] md:w-fit text-xs md:text-sm"
@@ -171,33 +172,34 @@ function DomesticStaff() {
                 in the query parameters to begin your search.
               </p>
             </div>
+            <div className="flex md:items-center gap-5">
 
-            <SearchComponent
-              subCategories={categories.subcategories}
-              handleQuerySubmit={handleCondition}
-              title="Domestic Staff Position"
-            />
+              <button
+                onClick={() => navigate('/company/staff/contract-history')}
+                className="flex items-center gap-2"
+              >
+                <FaFileContract size="24" className="inline md:hidden" />
+                <span className="hidden md:inline border-primaryColor px-3 py-1 border hover:bg-primaryColor hover:text-white text-sm">Contract History</span>
+              </button>
+
+              <button className="my-5" onClick={navigateToCart}>
+                <p className="relative cursor-pointer flex item-center">
+                  <FaShoppingCart size="24" />{" "}
+                  <span className="absolute top-[-15px] right-0 w-max h-max px-1 rounded-full bg-red-700 text-white text-xs">
+                    {cartItems.length || 0}
+                  </span>
+                </p>
+              </button>
+            </div>
           </section>
+          <SearchComponent
+            subCategories={categories.subcategories}
+            handleQuerySubmit={handleCondition}
+            title="Domestic Staff Position"
+            setSelectedCategory={setSelectedCategory}
+          />
 
-          <div className="flex md:items-center gap-5">
-            
-            <button
-              onClick={() => navigate('/company/staff/contract-history')}
-              className="flex items-center gap-2"
-            >
-              <FaFileContract size="24" className="inline md:hidden" />
-              <span className="hidden md:inline  border-primaryColor px-3 py-1 border hover:bg-primaryColor hover:text-white">Contract History</span>
-            </button>
 
-            <button className="my-5" onClick={navigateToCart}>
-              <p className="relative cursor-pointer flex item-center">
-                <FaShoppingCart size="24" />{" "}
-                <span className="absolute top-[-15px] right-0 w-max h-max px-1 rounded-full bg-red-700 text-white text-xs">
-                  {cartItems.length || 0}
-                </span>
-              </p>
-            </button>
-          </div>
         </div>
 
         {staffsToDisplay.length > 0 && (

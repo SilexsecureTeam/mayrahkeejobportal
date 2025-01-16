@@ -22,6 +22,7 @@ function Artisan() {
   const client = axiosClient(authDetails.token);
   const [loading, setLoading] = useState();
   const [categories, setCategories] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState();
   const [searchResult, setSearcResult] = useState([]);
   const navigate = useNavigate();
   const [cartItems, setCartItems] = useState([]);
@@ -141,14 +142,16 @@ function Artisan() {
           />
           <h1>Job Descriptions</h1>
           <p className="text-sm">
-            This agreement acknowledges that the employer may only assign tasks
+            {/* This agreement acknowledges that the employer may only assign tasks
             that are directly related to the designated role of the employee.
             Artisan must only perform duties as outlined within the scope of
             their specific role, whether as a housekeeper, driver, or other
             position. Any tasks outside these roles require mutual agreement
             between the employer and the employee. Violation of this policy may
             result in a breach of contract or legal consequences, depending on
-            applicable labor laws..
+            applicable labor laws.. */}
+            
+            {selectedCategory?.description}
           </p>
 
           <FormButton
@@ -162,8 +165,8 @@ function Artisan() {
         </div>
       </PopUpBox>
       <div className="h-full overflow-y-auto w-full flex flex-col py-2 gap-[15px] bg-gray-50">
-        <div className="flex w-full justify-between items-start gap-1">
-          <section className="flex flex-col gap-y-5">
+        <div className="flex flex-col w-full justify-between items-start gap-1">
+          <section className="flex gap-5 justify-between items-center w-full">
             <div
               id="content"
               className="flex flex-col gap-2 bg-green-100 pr-5 p-2 w-[90%] md:w-fit text-xs md:text-sm"
@@ -189,21 +192,15 @@ function Artisan() {
                 query parameters to begin your search.
               </p>
             </div>
-
-            <SearchComponent
-              subCategories={categories.subcategories}
-              handleQuerySubmit={handleCondition}
-              title="Artisan's Specialized Position"
-            />
-          </section>
-
-          <div className="flex md:items-center gap-5">
+                
+                
+          <div className="ml-auto flex md:items-center gap-5">
             <button
               onClick={() => navigate("/company/staff/contract-history")}
               className="flex items-center gap-2"
             >
               <FaFileContract size="24" className="inline md:hidden" />
-              <span className="hidden md:inline  border-primaryColor px-3 py-1 border hover:bg-primaryColor hover:text-white">Contract History</span>
+              <span className="hidden md:inline border-primaryColor px-3 py-1 border hover:bg-primaryColor hover:text-white text-sm">Contract History</span>
             </button>
 
             <button className="my-5" onClick={navigateToCart}>
@@ -215,6 +212,15 @@ function Artisan() {
               </p>
             </button>
           </div>
+           
+          </section>
+
+          <SearchComponent
+              subCategories={categories.subcategories}
+              handleQuerySubmit={handleCondition}
+              title="Artisan's Specialized Position"
+              setSelectedCategory={setSelectedCategory}
+            />
         </div>
 
         {staffsToDisplay.length > 0 ? (

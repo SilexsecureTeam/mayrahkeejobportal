@@ -3,7 +3,7 @@ import FormButton from "../FormButton";
 import { MdCheckBox, MdCheckBoxOutlineBlank } from "react-icons/md";
 import { useState } from "react";
 
-function SearchComponent({ subCategories, handleQuerySubmit, title = "Subcategory" }) {
+function SearchComponent({ subCategories, handleQuerySubmit, title = "Subcategory", setSelectedCategory }) {
   const {
     register,
     handleSubmit,
@@ -102,10 +102,11 @@ function SearchComponent({ subCategories, handleQuerySubmit, title = "Subcategor
             <select
               className="p-1 border focus:outline-none border-gray-900 rounded-md"
               {...register("subcategory")}
+              onChange={(e)=>setSelectedCategory(subCategories?.find(one=>one.name===e.target.value))}
             >
-              <option selected>-- Select {title} --</option>
+              <option key="" value="" selected="selected">-- Select {title} --</option>
               {subCategories?.map((current) => (
-                <option key={current.id}>{current.name}</option>
+                <option key={current.id} value={current.name}>{current.name}</option>
               ))}
             </select>
           </div>

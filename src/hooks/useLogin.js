@@ -82,7 +82,7 @@ function useLogin(role) {
           }
         }, 1000); // Adjust delay as needed
       }else{
-        FormatError(e, setError, "Registration Error");
+        FormatError(e, setError, "Login Error");
       }
       
     } finally {
