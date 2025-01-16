@@ -20,7 +20,7 @@ function SideBar({ children, authDetails, toogleIsOpen, isMenuOpen }) {
 
   return (
     <>
-      <aside className="w-[18%] min-w-[200px] hidden relative h-full items-center bg-secondaryColor px-2 pb-2 md:flex flex-col justify-end">
+      <aside className="max-w-[220px] hidden relative h-full items-center bg-secondaryColor px-2 pb-2 md:flex flex-col justify-end">
         <img src={mainLogoTwo} className="w-[80%]" />
         <nav className="h-[92%] w-full flex flex-col justify-start gap-[20px] divide-y-2">
           {children[0]}
@@ -38,13 +38,13 @@ function SideBar({ children, authDetails, toogleIsOpen, isMenuOpen }) {
       </div>
 
         {/* user info  */}
-        <div className="max-w-full absolute bottom-3 left-10 pl-2 flex gap-[5px]  items-end">
+        <div className="absolute bottom-0 left-0 p-2 flex gap-[5px] items-end w-[220px]">
         
-          <div className="w-1/5 flex-1 flex flex-col">
-            <span className="text-secondaryColor text-sm">
+          <div className="flex-1 flex flex-col truncate">
+            <span className="text-secondaryColor text-sm truncate">
               {`${authDetails?.user?.first_name} ${authDetails?.user?.last_name}`}
             </span>
-            <span className="text-gray-300 text-[11px]">
+            <span className="text-gray-300 text-[11px] truncate">
               {authDetails?.user?.email}
             </span>
           </div>
@@ -83,13 +83,13 @@ function SideBar({ children, authDetails, toogleIsOpen, isMenuOpen }) {
         </div>
 
         {/* user info  */}
-        <div className="absolute bottom-3 right-4 flex gap-3 items-end">
+        <div className="absolute bottom-0 right-3 p-2 flex gap-3 items-end">
          
-          <div className="flex-col flex">
+          <div className="flex-col flex truncate">
             <span className="text-secondaryColor text-sm">
               {`${authDetails?.user?.first_name} ${authDetails?.user?.last_name}`}
             </span>
-            <span className="text-gray-300 text-[11px]">
+            <span className="text-gray-300 text-[11px] truncate">
               {authDetails?.user?.email}
             </span>
           </div>

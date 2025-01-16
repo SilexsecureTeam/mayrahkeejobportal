@@ -141,7 +141,7 @@ const MyResume = () => {
     // console.log(getResumeById)
     return (
         <div className="h-full text-[#25324b] w-full">
-            <div className="px-8 mt-6">
+            <div className="px-5 mt-6">
                 {getResumeById.data?.length < 1 && <p className='text-red-600'>Resume Empty !!!</p>}
                 <div className="grid md:grid-cols-3 gap-5">
                     {getResumeById.data?.map((resume) => (

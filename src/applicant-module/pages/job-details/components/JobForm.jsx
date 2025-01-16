@@ -153,7 +153,7 @@ const navigate=useNavigate();
                                                             <h3 className="font-bold">{getCandidate.details?.full_name}</h3>
                                                         </div>
                                                     </div>
-                                                    <div className="grid md:grid-cols-3 gap-3">
+                                                    <div className="grid md:grid-cols-3 gap-3 break-all">
                                                         <div className="">
                                                             <p className="font-bold">Address:</p>
                                                             <p>{getCandidate.details?.address}</p>
@@ -167,7 +167,7 @@ const navigate=useNavigate();
                                                             <p className='break-words'>{getCandidate.details?.email}</p>
                                                         </div>
                                                     </div>
-                                                    <div className="flex my-3">
+                                                    <div className="flex flex-wrap my-3 break-all">
                                                         <div className="w-2/4">
                                                             <p className="font-bold text-base">Employment</p>
                                                             <p className="font-medium text-base">Position</p>
@@ -178,7 +178,7 @@ const navigate=useNavigate();
                                                             <p><span>{item.start_date}</span> - <span>{item.end_date}</span></p>
                                                         </div>
                                                     </div>
-                                                    <div className="flex my-3">
+                                                    <div className="flex flex-wrap break-all my-3">
                                                         <div className="w-2/4">
                                                             <p className="font-bold text-base">Education</p>
                                                         </div>

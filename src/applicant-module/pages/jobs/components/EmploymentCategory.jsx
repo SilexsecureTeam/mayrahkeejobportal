@@ -7,10 +7,10 @@ const EmploymentCategory = ({ setEmploymentType }) => {
     return (
         <div>
             <div className="mb-5">
-                <div className="flex justify-between">
+                <div className="flex justify-between" 
+                        onClick={() => setClose(!close)}>
                     <p className="font-bold">Type of Employment</p>
                     <button
-                        onClick={() => setClose(!close)}
                     >{close ? <FaChevronUp /> : <FaChevronDown />}</button>
                 </div>
                 {close && (

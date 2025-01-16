@@ -103,7 +103,7 @@ function FindJob() {
       <Helmet>
         <title>Dashboard | Find Job </title>
       </Helmet>
-      <div className="h-full text-[#25324b] p-4 md:p-8 text-sm w-full">
+      <div className="h-full text-[#25324b] text-sm w-full">
         <div className="px-3 py-5 border mb-2 flex flex-col md:flex-row">
           <div className="relative border-b py-1 px-4 md:px-6 mx-4 w-full md:w-[35%] mb-2 md:mb-0">
             <input

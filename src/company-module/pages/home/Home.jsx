@@ -59,7 +59,7 @@ function Home() {
         <StatsCardWrapper applicants={applicantToReview}  />
         <JobStatsAndSummary>
           <JobStatistic applicants={applicants} byCategory={value} />
-          <div className="flex flex-col w-full md:w-[30%] px-3 h-fit md:h-full justify-between">
+          <div className="flex flex-col w-full md:w-[30%] h-fit md:h-full justify-between">
             <JobOpen data={openJobs} />
             <ApplicantSummary applicants={applicants} byCategory={value} jobs={jobUtils.jobList} />
           </div>

@@ -12,7 +12,7 @@ function withSubscription(Component, title) {
     authDetails?.user?.user_type === "exclusive" ? (
       <Component />
     ) : (
-      <div className="min-h-screen flex justify-center bg-gray-50 px-4">
+      <div className="min-h-screen flex justify-center bg-gray-50">
         {!subUtils?.loading && subUtils?.activePackage ? (
           <Component />
         ) : !subUtils?.loading && !subUtils?.activePackage ? (

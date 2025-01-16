@@ -83,7 +83,7 @@ const exclusiveData=location?.state?.exclusiveData || null;
         edit={edit}
       />
       {isLoading ? (
-        <div className="flex items-center justify-center h-screen">
+        <div className="w-full flex items-center justify-center h-screen">
           <div className="animate-spin border-4 border-gray-200 border-t-primaryColor rounded-full w-8 h-8"></div>
           <span className="ml-3 text-primaryColor font-semibold">
             Loading...
@@ -91,7 +91,7 @@ const exclusiveData=location?.state?.exclusiveData || null;
         </div>
       ) : (
         applicant && (
-          <div className="flex flex-col h-full gap-[5px]">
+          <div className="w-full flex flex-col h-full gap-[5px]">
             <div className="w-full flex justify-between ">
               <h2 className="font-semibold text-md">Applicant's Details</h2>
               {/* 

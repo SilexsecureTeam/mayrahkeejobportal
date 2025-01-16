@@ -17,6 +17,7 @@ function DomesticStaff() {
   const [domesticStaffs, setDomesticStaffs] = useState();
   const [loading, setLoading] = useState();
   const [categories, setCategories] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState();
   const [searchResult, setSearcResult] = useState([]);
   const [cartItems, setCartItems] = useState([]);
   const [conditions, setConditions] = useState(false);
@@ -28,8 +29,7 @@ function DomesticStaff() {
       if (!queryParams && !directParams)
         throw new Error("No Query option selected");
       const { data } = await client.get(
-        `/domesticStaff/get-staff?staff_category=staff&${
-          directParams ? directParams : queryParams
+        `/domesticStaff/get-staff?staff_category=staff&${directParams ? directParams : queryParams
         }`
       );
       console.log(data);
@@ -54,9 +54,9 @@ function DomesticStaff() {
   const staffsToDisplay =
     searchResult.length > 0
       ? searchResult?.filter(
-          (current) =>
-            current?.staff_category === "staff" && current?.middle_name !== null
-        )
+        (current) =>
+          current?.staff_category === "staff" && current?.middle_name !== null
+      )
       : [];
 
   const handleCondition = (data, hasCategory) => {
@@ -123,25 +123,19 @@ function DomesticStaff() {
             className="text-2xl place-self-end cursor-pointer"
             onClick={() => setConditions(!conditions)}
           />
-           <h1>Job Descriptions</h1>
+          <h1 className="text-xl font-bold">Job Descriptions</h1>
           <p className="text-sm">
-            This agreement acknowledges that the employer may only assign tasks
-            that are directly related to the designated role of the employee.
-            Artisan must only perform duties as outlined within the scope of
-            their specific role, whether as a housekeeper, driver, or other
-            position. Any tasks outside these roles require mutual agreement
-            between the employer and the employee. Violation of this policy may
-            result in a breach of contract or legal consequences, depending on
-            applicable labor laws..
+
+            {selectedCategory?.description}
           </p>
           <FormButton onClick={() => handleQuerySubmit()} loading={loading}>
             Confirm and Search
           </FormButton>
         </div>
       </PopUpBox>
-      <div className="h-full w-full flex flex-col px-5 md:px-8 lg:px-12 py-2 gap-[15px]">
-      <div className="flex w-full justify-between items-start gap-1">
-          <section className="flex flex-col gap-y-5">
+      <div className="h-full w-full flex flex-col py-2 gap-[15px]">
+        <div className="flex w-full justify-between items-start gap-1">
+          <section className="flex flex-col gap-y-5 justify-between gap-x-2 px-1">
 
             <div
               id="content"
@@ -165,20 +159,24 @@ function DomesticStaff() {
                 Here you can search for any domestic staff of your choice. Fill in the
                 query parameters to begin your search.
               </p>
-            </div>
-
+            </div>  
             <SearchComponent
-              subCategories={categories.subcategories}
-              handleQuerySubmit={handleCondition}
-              title="Domestic Staff Position"
-            />
+            subCategories={categories.subcategories}
+            handleQuerySubmit={handleCondition}
+            title="Domestic Staff Position"
+            setSelectedCategory={setSelectedCategory}
+          />
+        
           </section>
-
-          <button className="my-5"
-            onClick={navigateToCart}
-          >
-            <p className="relative cursor-pointer flex item-center"><FaShoppingCart size="24" /> <span className="absolute top-[-15px] right-0 w-max h-max px-1 rounded-full bg-red-700 text-white text-xs">{cartItems.length || 0}</span></p>
+          <button className="my-5 ml-auto" onClick={navigateToCart}>
+            <p className="relative cursor-pointer flex item-center">
+              <FaShoppingCart size="24" />{" "}
+              <span className="absolute top-[-15px] right-0 w-max h-max px-1 rounded-full bg-red-700 text-white text-xs">
+                {cartItems?.length || 0}
+              </span>
+            </p>
           </button>
+
         </div>
 
         {staffsToDisplay.length > 0 && (

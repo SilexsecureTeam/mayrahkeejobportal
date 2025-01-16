@@ -84,7 +84,7 @@ console.log(data)
         <div className="w-full border flex flex-col md:flex-row justify-between px-2 py-1 items-center">
           <div className="flex gap-3 items-center w-full md:w-auto">
             <div className="h-12 w-12 bg-gray-300" >
-              <img src={`${IMAGE_URL}${data?.featured_image}`} className="w-full h-full object-cover" />
+              <img src={`${resourceUrl}${data?.featured_image}`} className="w-full h-full object-cover" />
             </div>
 
             <div className="flex flex-col">
