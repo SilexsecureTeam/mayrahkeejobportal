@@ -1,28 +1,32 @@
 import React from "react";
-import Chart from "react-apexcharts"; // Assuming you're using React ApexCharts
+import Chart from "react-apexcharts";
 
 const RoundChart = ({ data }) => {
+  // Define the order and colors of statuses
+  const statusOrder = ["in-review", "interview", "hired", "shortlist", "declined"];
+  const statusColors = ["#FF9900", "#FFFF00", "#00E396", "#008FFB", "#8B0A1A"];
+
   // Count applications by status
   const applicationStatuses = data?.reduce((acc, app) => {
     acc[app.status] = (acc[app.status] || 0) + 1;
     return acc;
   }, {});
 
-  // Prepare data for the chart
+  // Ensure chart data respects the predefined order
   const chartData = {
-    series: Object?.values(applicationStatuses || {}), // Counts of each status
+    series: statusOrder.map((status) => applicationStatuses?.[status] || 0), // Counts of each status
     options: {
       chart: {
         type: "donut",
         width: "100%",
       },
-      labels: Object.keys(applicationStatuses || {}), // Status labels
-      colors: ["#FF9900", "#FFFF00", "#00E396", "#008FFB", "#8B0A1A"], // Colors for each section
+      labels: statusOrder, // Status labels in order
+      colors: statusColors, // Colors corresponding to statuses
       legend: {
         position: "bottom",
         labels: {
           colors: "#FFFFFF", // Set legend text color to white
-        }
+        },
       },
       dataLabels: {
         enabled: true,
