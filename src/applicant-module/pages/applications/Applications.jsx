@@ -13,7 +13,7 @@ import {useLocation} from 'react-router-dom';
 const stages=[
   { label: "All", key: "all" },
   { label: "In Review", key: "in-review" },
-  { label: "Interviewed", key: "interviewed" },
+  { label: "Interviewed", key: "interview" },
   { label: "Shortlisted", key: "shortlist" },
   { label: "Declined", key: "declined" },
   { label: "Hired", key: "hired" },
