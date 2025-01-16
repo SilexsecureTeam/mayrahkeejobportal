@@ -18,7 +18,7 @@ function StatsCardWrapper({ applicants }) {
         let value = [];
         let onClick = () => {};
         if (currentStat.id == 1) {
-          value = applicants?.filter(item=>item.status === "pending);;
+          value = applicants?.filter(item=>item.status === "pending);
           onClick = () => {
             setSideBar(2);
             navigate("/company/applicants");
