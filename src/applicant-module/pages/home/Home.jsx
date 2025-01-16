@@ -105,7 +105,9 @@ function Home() {
   const shortlistedReview = allApplications?.filter(
     (app) => app.status === "shortlist"
   );
-
+const interviews = allApplications?.filter(
+    (app) => app.status === "interview"
+  );
   const getInterviews = (id, setState) => {
     axios
       .get(`${BASE_URL}/interviews/${id}`, {
@@ -169,7 +171,7 @@ function Home() {
                   <p className="font-bold">Total Jobs Applied for</p>
                   <div className="flex justify-between items-end mt-">
                     <p className="text-6xl font-medium">
-                      {getAllApplications.data?.length}
+                      {getAllApplications.data?.length || 0}
                     </p>
                     <div className="">
                       <img src={docsIcon} alt="" className="w-5" />
@@ -184,7 +186,7 @@ function Home() {
                 >
                   <p className="font-bold">Interviewed</p>
                   <div className="flex justify-between items-end mt-4">
-                    <p className="text-6xl font-medium">0</p>
+                    <p className="text-6xl font-medium">{interviews?.length || 0}</p>
                     <div className="">
                       <img src={chatsIcon} alt="" className="w-[60px]" />
                     </div>
@@ -202,7 +204,7 @@ function Home() {
                   <p className="font-bold">In-Review</p>
                   <div className="flex justify-between items-end mt-4">
                     <p className="text-6xl font-medium">
-                      {pendingReview?.length}
+                      {pendingReview?.length || 0}
                     </p>
                     <div className=" text-gray-300">
                       <MdOutlineRateReview size={50} />
@@ -219,7 +221,7 @@ function Home() {
                   <p className="font-bold">Shortlisted</p>
                   <div className="flex justify-between items-end mt-4">
                     <p className="text-6xl font-medium">
-                      {shortlistedReview?.length}
+                      {shortlistedReview?.length || 0}
                     </p>
                     <div className=" text-gray-300">
                       <MdOutlineRemoveRedEye size={50} />
