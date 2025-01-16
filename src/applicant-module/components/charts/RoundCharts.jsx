@@ -17,7 +17,7 @@ const RoundChart = ({ data }) => {
         width: "100%",
       },
       labels: Object.keys(applicationStatuses || {}), // Status labels
-      colors: ["#FF9900", "#00E396", "#008FFB", "#8B0A1A"], // Colors for each section
+      colors: ["#FF9900", "#FFFF00", "#00E396", "#008FFB", "#8B0A1A"], // Colors for each section
       legend: {
         position: "bottom",
         labels: {
