@@ -35,14 +35,14 @@ function Home() {
     }, {});
   }, [applicants]);
 
-  const applicantToReview = useMemo(
+  /*const applicantToReview = useMemo(
     () =>
       applicants?.filter(
         (current) =>
           current.status === stages[0].name || current.status === "pending"
       ),
     [applicants]
-  );
+  );*/
 
   useEffect(() => {
     getApplicantsByEmployee();
@@ -56,7 +56,7 @@ function Home() {
       <div className="h-fit w-full py-5 gap-[15px] flex flex-col">
         <SubscriptionOffer />
         <WelcomeMessage name={authDetails.user.name} />
-        <StatsCardWrapper applicants={applicantToReview}  />
+        <StatsCardWrapper applicants={applicants}  />
         <JobStatsAndSummary>
           <JobStatistic applicants={applicants} byCategory={value} />
           <div className="flex flex-col w-full md:w-[30%] h-fit md:h-full justify-between">
