@@ -7,7 +7,7 @@ import { AuthContext } from "../context/AuthContex";
 function withSubscription(Component, title) {
   const subUtils = useContext(SubscriptionContext);
   const { authDetails } = useContext(AuthContext);
-
+  console.log(subUtils)
   return (
     authDetails?.user?.user_type === "exclusive" ? (
       <Component />

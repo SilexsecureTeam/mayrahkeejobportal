@@ -4,7 +4,7 @@ import { SubscriptionContext } from "../context/SubscriptionContext";
 //import useSubscription from "../hooks/useSubscription";
 
 function SubscriptionPlans({ packages, setIsOpen }) {
-  // const subUtils = useContext(SubscriptionContext);
+   const subUtils = useContext(SubscriptionContext);
   const backUpPackages=packages 
   return (
     <div className="h-full w-full items-center gap-5 overflow-y-auto bg-white flex flex-col">
@@ -13,16 +13,17 @@ function SubscriptionPlans({ packages, setIsOpen }) {
       <p className="w-[40%] p-2 text-center font-semibold text-white bg-primaryColor/50">
         Monthly Plan
       </p>
-      <p className="w-[40%] p-2 text-center font-semibold text-primaryColor">
+      <p className="w-60 p-2 text-center font-semibold text-primaryColor">
         Best Subscription plans for Mayraykee
       </p>
 
-      <ul className="h-[70%] grid grid-cols-responsive2 gap-5 w-full max-w-[1000px]">
+      <ul className="h-[70%] grid grid-cols-responsive2 gap-y-7 md:gap-5 w-full max-w-[1000px]">
         {backUpPackages?.map((current) => (
           <SubscriptionCard
             setIsOpen={setIsOpen}
             key={current.id}
             data={current}
+            currentPackage={subUtils?.activePackage}
           />
         ))}
       </ul>

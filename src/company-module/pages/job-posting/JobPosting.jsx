@@ -51,7 +51,7 @@ function JobPosting({exclusive=null}) {
   const [editJob, setEditJob] = useState(false);
   const jobUtils = useJobManagement();
   const navigate = useNavigate();
-  console.log(exclusive)
+  //console.log(exclusive)
   const handleSuccess = () => {
    if(editJob){
     onSuccess({

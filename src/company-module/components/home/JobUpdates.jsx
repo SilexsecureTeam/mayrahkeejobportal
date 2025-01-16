@@ -22,36 +22,36 @@ function JobUpdates({ jobs, applicants }) {
 
   return (
     <div className="w-full min-h-[250px] border flex flex-col items-start">
-      <section className="flex justify-between items-center gap-2">
-      <div className="h-[50px] text-sm font-semibold p-2 flex items-center border-b">
-        <h3 className="text-green-700">Jobs Updates</h3>
-      </div>
+      <section className="w-full flex justify-between items-center gap-2">
+        <div className="h-[50px] w-max text-sm font-semibold p-2 flex items-center border-b">
+          <h3 className="text-green-700">Jobs Updates</h3>
+        </div>
 
-      {/* Filter Section */}
-      <div className="ml-auto p-3 flex gap-2 lg:gap-4 items-center">
-        {/* Currency Filter */}
-        <select
-          value={currency}
-          onChange={(e) => setCurrency(e.target.value)}
-          className="border p-2 rounded"
-        >
-          <option value="">Select Currency</option>
-          {uniqueCurrencies.map((curr) => (
-            <option key={curr} value={curr}>
-              {curr}
-            </option>
-          ))}
-        </select>
+        {/* Filter Section */}
+        <div className="ml-auto p-3 flex gap-2 lg:gap-4 items-center">
+          {/* Currency Filter */}
+          <select
+            value={currency}
+            onChange={(e) => setCurrency(e.target.value)}
+            className="border p-2 rounded"
+          >
+            <option value="">Select Currency</option>
+            {uniqueCurrencies.map((curr) => (
+              <option key={curr} value={curr}>
+                {curr}
+              </option>
+            ))}
+          </select>
 
-        {/* Salary Input */}
-        <input
-          type="number"
-          placeholder="Enter Salary"
-          value={salaryInput}
-          onChange={(e) => setSalaryInput(e.target.value)}
-          className="border p-2 rounded"
-        />
-      </div>
+          {/* Salary Input */}
+          <input
+            type="number"
+            placeholder="Enter Salary"
+            value={salaryInput}
+            onChange={(e) => setSalaryInput(e.target.value)}
+            className="border p-2 rounded"
+          />
+        </div>
       </section>
 
       {/* Job Listings */}

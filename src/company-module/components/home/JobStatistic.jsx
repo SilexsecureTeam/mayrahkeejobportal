@@ -15,7 +15,7 @@ function JobStatistic({ applicants, byCategory }) {
     switch (status) {
       case "Declined Applicants":
         return applicants.filter((app) => app.status === "declined");
-      case "Interviewed Applicants":
+      case "Shortlisted Applicants":
         return applicants.filter((app) => app.status === "shortlist");
       case "Onboarded Applicants":
         return applicants.filter((app) => app.status === "hired");
@@ -206,7 +206,7 @@ function JobStatistic({ applicants, byCategory }) {
           </div>
         </div>
         <div className="flex gap-5 border-b overflow-x-auto">
-          {options.map((current, index) => (
+          {options?.map((current, index) => (
             <h3
               key={index}
               onClick={() => setActive(current)}
