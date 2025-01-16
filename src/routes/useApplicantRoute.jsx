@@ -170,13 +170,13 @@ useEffect(() => {
           </SideBar>
 
           {/* Routes and dashboard take up 80% of total width and 100% of height*/}
-          <div className="w-full lg:w-[82%] flex divide-y-2 divide-secondaryColor bg-white flex-col h-full">
+          <div className="w-full relative flex divide-y-2 divide-secondaryColor bg-white flex-col h-full">
             <NavBar
               state={state}
               toogleIsOpen={toogleIsOpen}
               isMenuOpen={isOpen}
             />
-            <div className="w-full h-[92%] overflow-y-auto">
+            <div className="w-full h-[92%] overflow-y-auto px-2 sm:px-4 md:px-8">
               <Routes>
                 <Route index element={<Home />} />
                 <Route path="*" element={<NotFound />} />

@@ -122,21 +122,14 @@ function DomesticStaff() {
   return (
     <>
       <PopUpBox isOpen={conditions}>
-        <div className="w-[300px] md:w-[400px] h-fit text-gray-500 p-5 items-center flex flex-col gap-4 bg-white">
+        <div className="w-[300px] md:w-[600px] h-fit text-gray-500 p-5 items-center flex flex-col gap-4 bg-white">
           <MdClose
             className="text-2xl place-self-end cursor-pointer"
             onClick={() => setConditions(!conditions)}
           />
-          <h1>Job Descriptions</h1>
+          <h1 className="text-xl font-bold">Job Descriptions</h1>
           <p className="text-sm">
-            {/* This agreement acknowledges that the employer may only assign tasks
-            that are directly related to the designated role of the employee.
-            Artisan must only perform duties as outlined within the scope of
-            their specific role, whether as a housekeeper, driver, or other
-            position. Any tasks outside these roles require mutual agreement
-            between the employer and the employee. Violation of this policy may
-            result in a breach of contract or legal consequences, depending on
-            applicable labor laws.. */}
+           
             {selectedCategory?.description}
           </p>
           <FormButton onClick={() => handleQuerySubmit()} loading={loading}>

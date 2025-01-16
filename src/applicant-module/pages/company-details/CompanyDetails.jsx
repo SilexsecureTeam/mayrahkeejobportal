@@ -10,6 +10,7 @@ import coffee from "../../../assets/pngs/perks-n-benefits/coffee-cup.png";
 import trainIcon from "../../../assets/pngs/perks-n-benefits/vehicle.png";
 import unity from "../../../assets/pngs/perks-n-benefits/unity.png";
 import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { resourceUrl } from '../../../services/axios-client';
 
 const CompanyDetails = () => {
     const { state } = useLocation();
@@ -17,15 +18,15 @@ const CompanyDetails = () => {
     const navigate = useNavigate();
     const postedDate = new Date(job.created_at);
     const keywordArr = job.search_keywords?.split(',');
-   
+
     return (
         <div className="h-full text-[#25324b] w-full">
             <div className='py-6 border-b mb-8'>
-                <div className="job_header p-6">
+                <div className="job_header p-6 sticky top-0">
                     <div className="p-3 bg-white border">
                         <div className="flex justify-between items-center">
                             <div className="flex">
-                                <img src={headerImg} className="object-cover" width={80} alt={`${job.company_name} logo`} />
+                                <img src={`${resourceUrl}${job?.logo_image}` || headerImg} className="object-cover w-20 h-20 bg-gray-400"  alt={`${job.company_name} logo`} />
                                 <div className="ml-3">
                                     <p className="text-base mb-4 font-bold">{job.company_name}</p>
                                     <p className="mb-3">· {job.location} · {job.type}</p>
@@ -57,10 +58,16 @@ const CompanyDetails = () => {
                         <div className="w-full md:w-1/3 md:pl-4">
                             <h4 className="font-bold mb-4">More Information</h4>
                             <div className="text-sm p-2 bg-gray-100 mb-6">
-                                <div className="flex my-4 bg-gray-300">
-                                    <div className="pt-1 bg-[#56CDAD] w-[50%]"></div>
+                              <div className="flex my-4 bg-gray-300">
+                                    <div
+                                        className="pt-1 bg-[#56CDAD]"
+                                        style={{
+                                            width: `${Math.min((job?.company_size / 100) * 100, 100)}%`,
+                                        }}
+                                    ></div>
                                 </div>
-                                <p><b>5 applied</b> of 10 capacity</p>
+
+                                <p><b>Company size:</b> {job?.company_size}</p>
                             </div>
                             <div className="my-6 border-b">
                                 <div className="flex flex-wrap my-3 justify-between">

@@ -82,8 +82,8 @@ function Companies() {
       <Helmet>
         <title>Dashboard | Browse Companies </title>
       </Helmet>
-      <div className="h-full text-[#25324b] p-4 md:p-8 text-sm w-full">
-        <div className="px-3 py-5 border mb-2 flex flex-col md:flex-row">
+      <div className="h-full text-[#25324b] py-4 md:p-8 text-sm w-full">
+        <div className="py-5 border mb-2 flex flex-col md:flex-row">
           <div className="flex items-center relative border-b py-2 px-6 mx-4 w-full md:w-[35%]">
             <input
               type="text"
@@ -144,9 +144,9 @@ function Companies() {
                         <span className="mr-2 font-medium items-center">
                           Most relevant
                         </span>
-                        <span>
+                        {/* <span>
                           <FaChevronDown size={10} />
-                        </span>
+                        </span> */}
                       </button>
                     </div>
                     <div className="border-l px-2 flex items-center">

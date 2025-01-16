@@ -1,17 +1,18 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
+import { resourceUrl } from '../../../../services/axios-client';
 
 const CompanyGridCard = ({ newApplicant, company}) => {
     const navigate = useNavigate();
 
     return (
         <div
-            onClick={() => {navigate("/applicant/browse-companies/id",  { state: { company: company} }); scrollTo(0,0)}}
+            onClick={() => {navigate(`/applicant/browse-companies/${company?.id}`,  { state: { company: company} }); scrollTo(0,0)}}
             className="border cursor-pointer hover:shadow-inner">
             <div className="p-3 h-full transition-all hover:scale-105">
                 <div className="flex justify-between items-start my-3">
-                    <div>
-                        <img src={newApplicant} width={40} alt="" />
+                    <div className="w-14 h-14 flex-shrink-0 rounded-full border-1 bg-gray-400">
+                        <img src={`${resourceUrl}${company?.logo_image}` || newApplicant} className="rounded-full w-full h-full object-cover" alt="" />
                     </div>
                     <button className="mx-2 py-1 px-2 rounded-full hover:bg-white  bg-green-100 text-green-700 border">Employees: {company.company_size}</button>
                 </div>

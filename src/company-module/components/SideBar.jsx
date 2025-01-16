@@ -85,10 +85,10 @@ function SideBar({
         </div>
 
         {/* User Info Section (Mobile) */}
-        <div className="absolute bottom-3 right-4 flex gap-3 items-end">
-          <div className="flex-col flex">
+        <div className="absolute bottom-0 right-3 p-2 flex gap-3 items-end">
+          <div className="flex-1 flex-col flex truncate">
             <span className="text-secondaryColor text-sm">{authDetails?.user?.name}</span>
-            <span className="text-gray-300 text-xs">{authDetails?.user?.email}</span>
+            <span className="text-gray-300 text-xs truncate">{authDetails?.user?.email}</span>
           </div>
           <img
             src={details?.logo_image ? getImageURL(details?.logo_image) : "https://via.placeholder.com/150"}

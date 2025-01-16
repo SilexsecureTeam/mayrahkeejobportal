@@ -159,7 +159,7 @@ useEffect(() => {
 
     const onlineStatusRef = ref(
       database,
-      "online-status/" + `employer-${authDetails.user.id}`
+      "online-status/" + `employer-${authDetails?.user?.id}`
     );
 
     const handleUnload = () => {

@@ -20,6 +20,7 @@ function Artisan() {
   const client = axiosClient(authDetails.token);
   const [loading, setLoading] = useState();
   const [categories, setCategories] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState();
   const [searchResult, setSearcResult] = useState([]);
   const navigate = useNavigate();
   const [cartItems, setCartItems] = useState([]);
@@ -132,21 +133,14 @@ function Artisan() {
   return (
     <>
       <PopUpBox isOpen={conditions}>
-        <div className="w-[90%] md:w-[40%] md:h-fit text-gray-500 p-5 items-center flex flex-col gap-4 bg-white">
+        <div className="w-[90%] md:w-[600px] md:h-fit text-gray-500 p-5 items-center flex flex-col gap-4 bg-white">
           <MdClose
             className="text-2xl place-self-end cursor-pointer"
             onClick={() => setConditions(!conditions)}
           />
-          <h1>Job Descriptions</h1>
-          <p className="text-sm">
-            This agreement acknowledges that the employer may only assign tasks
-            that are directly related to the designated role of the employee.
-            Artisan must only perform duties as outlined within the scope of
-            their specific role, whether as a housekeeper, driver, or other
-            position. Any tasks outside these roles require mutual agreement
-            between the employer and the employee. Violation of this policy may
-            result in a breach of contract or legal consequences, depending on
-            applicable labor laws..
+          <h1 className="text-xl font-bold">Job Descriptions</h1>
+          <p className="text-sm">      
+            {selectedCategory?.description}
           </p>
     
           <FormButton
@@ -159,7 +153,7 @@ function Artisan() {
           </FormButton>
         </div>
       </PopUpBox>
-      <div className="h-full overflow-y-auto w-full flex flex-col px-5 md:px-8 lg:px-12 py-2 gap-[15px] bg-gray-100">
+      <div className="h-full overflow-y-auto w-full flex flex-col py-2 gap-[15px] bg-gray-100">
         <div className="flex w-full justify-between items-start gap-1">
         <section className="flex flex-col gap-y-5">
         <div
@@ -192,11 +186,12 @@ function Artisan() {
           subCategories={categories.subcategories}
           handleQuerySubmit={handleCondition}
           title="Artisan's Specialized Position" 
+          setSelectedCategory={setSelectedCategory}
         />
 
         </section>
         
-        <button className="my-5" onClick={navigateToCart}>
+        <button className="my-5 ml-auto" onClick={navigateToCart}>
             <p className="relative cursor-pointer flex item-center">
               <FaShoppingCart size="24" />{" "}
               <span className="absolute top-[-15px] right-0 w-max h-max px-1 rounded-full bg-red-700 text-white text-xs">

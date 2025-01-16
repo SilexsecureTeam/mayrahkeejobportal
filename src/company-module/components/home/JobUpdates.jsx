@@ -23,17 +23,17 @@ function JobUpdates({ jobs, applicants }) {
   return (
     <div className="w-full min-h-[250px] border flex flex-col items-start">
       <section className="w-full flex justify-between items-center gap-2">
-        <div className="h-[50px] w-max text-sm font-semibold p-2 flex items-center border-b">
+        <div className="flex-shrink-0 h-[50px] w-max text-sm font-semibold p-2 flex items-center border-b">
           <h3 className="text-green-700">Jobs Updates</h3>
         </div>
 
         {/* Filter Section */}
-        <div className="ml-auto p-3 flex gap-2 lg:gap-4 items-center">
+        <div className="ml-auto p-3 grid grid-cols-2 gap-2 lg:gap-4">
           {/* Currency Filter */}
           <select
             value={currency}
             onChange={(e) => setCurrency(e.target.value)}
-            className="border p-2 rounded"
+            className="border px-1 py-2 md:p-2 rounded text-xs md:text-sm"
           >
             <option value="">Select Currency</option>
             {uniqueCurrencies.map((curr) => (
@@ -49,7 +49,7 @@ function JobUpdates({ jobs, applicants }) {
             placeholder="Enter Salary"
             value={salaryInput}
             onChange={(e) => setSalaryInput(e.target.value)}
-            className="border p-2 rounded"
+            className="border p-2 rounded "
           />
         </div>
       </section>

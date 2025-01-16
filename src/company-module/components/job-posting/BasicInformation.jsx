@@ -9,6 +9,7 @@ import QualificationsForm from "./QualificationsForm";
 import SelectorInput from "./SelectorInput";
 import useJobManagement from "../../../hooks/useJobManagement";
 import { Country, State } from 'country-state-city'
+import { resourceUrl } from "../../../services/axios-client";
 
 const basic_inputs = [
   {
@@ -261,6 +262,9 @@ function BasicInformation({ setCurrentStep, data, jobUtils, validateAndProceed }
 
     initData();
 
+  }, []);
+
+  useEffect(()=>{
     let savedPhoto = null;
     if (savedPhoto === null && jobUtils.details?.featured_image) {
       // Check if the featured image is a Blob/File
@@ -268,7 +272,7 @@ function BasicInformation({ setCurrentStep, data, jobUtils, validateAndProceed }
         savedPhoto = URL.createObjectURL(jobUtils.details.featured_image);
       } else {
         // If it's not a Blob/File, assume it's already a URL
-        savedPhoto = jobUtils.details.featured_image;
+        savedPhoto = `${resourceUrl}${jobUtils.details?.featured_image}`;
       }
 
       setPhotoUrl(savedPhoto);
@@ -279,7 +283,7 @@ function BasicInformation({ setCurrentStep, data, jobUtils, validateAndProceed }
         URL.revokeObjectURL(savedPhoto);
       }
     };
-  }, []);
+  },[jobUtils.details?.featured_image])
 
   useEffect(() => {
     if (jobUtils?.details?.location) {
