@@ -74,10 +74,8 @@ function Meeting({ interview, exclusive=null }) {
   useEffect(() => {
     if (auth.user.role === "employer") {
       getApplicant(interview.candidate_id, setApplicant);
-      setparticipantData(applicant);
     } else {
       getJobById(application?.job_id, setJob);
-      setparticipantData(job);
     }
   }, []);
 
@@ -103,7 +101,7 @@ function Meeting({ interview, exclusive=null }) {
       {joined && joined === "JOINED" ? (
         <div className="h-[90%] w-full md:w-[98%] flex flex-col md:flex-row rounded-[15px] bg-white">
           <div className="flex justify-between flex-col p-2 gap-2 w-full md:w-[70%] h-max">
-            <Participant interview={interview} participantData={participantData} />
+            <Participant interview={interview} data={participant} />
             <CompanyView interview={interview} />
           </div>
           <div className="flex flex-col w-full md:w-[30%]">
