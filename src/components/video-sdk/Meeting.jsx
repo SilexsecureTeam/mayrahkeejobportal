@@ -16,7 +16,6 @@ function Meeting({ interview, exclusive=null }) {
   const { getJobById } = useJobManagement();
   const { getApplicant, application } = useContext(ApplicationContext);
   const [job, setJob] = useState(null);
-  const [participantData, setparticipantData] = useState(null);
   const [applicant, setApplicant] = useState(null);
   const [joined, setJoined] = useState(null);
   const [participant, setParticipant] = useState(null);
@@ -57,7 +56,7 @@ function Meeting({ interview, exclusive=null }) {
     const speakerParticipants = [...participants.values()].find(
       (current) => current.id !== auth.user.role
     );
-  
+  setParticipant(speakerParticipants)
   };
 
   const joinMeeting = () => {
