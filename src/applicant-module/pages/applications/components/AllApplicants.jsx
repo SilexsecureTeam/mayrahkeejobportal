@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect,useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import useJobManagement from "../../../../hooks/useJobManagement";
@@ -7,12 +7,14 @@ import { FormatTextToUppecase } from "../../../../utils/formmaters";
 import { stages } from "../../../../utils/constants";
 import { onPrompt } from "../../../../utils/notifications/onPrompt";
 import { MdMoreHoriz } from "react-icons/md";
+import { ApplicationContext } from "../../../../context/ApplicationContext";
+
 const AllApplicants = ({ app, index }) => {
   const dateCreated = new Date(app?.created_at);
   const navigate = useNavigate();
   const [job, setJob] = useState(null);
   const { getJobById } = useJobManagement();
-
+  const { setApplication } = useContext(ApplicationContext);
   const getBorderColor = () => {
     switch (app?.status) {
       case stages[0].name:
@@ -32,6 +34,7 @@ const AllApplicants = ({ app, index }) => {
 
   const handleClick = () => {
     if (app?.status === stages[1].name) {
+      setApplication({ ...app });
       navigate(`/applicant/applications/${app?.id}`, { state: { app: app } });
     } else if (app?.status === stages[3].name.split("/")[1]) {
       toast.error("Unfortunately your application was declined");

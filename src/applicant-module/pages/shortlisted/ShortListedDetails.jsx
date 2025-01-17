@@ -22,10 +22,11 @@ const ShortListedDetails = () => {
         },
       })
       .then((response) => {
+        console.log("Interview details:", response.data);
         setState(response.data.interview);
       })
       .catch((error) => {
-        console.log(error);
+        console.error("Error fetching interview details:", error);
       });
   };
 
@@ -35,8 +36,10 @@ const ShortListedDetails = () => {
   };
 
   useEffect(() => {
-    getInterviews(state.app?.interview_id, setNewInterview);
-  }, []);
+    if (state.app?.interview_id) {
+      getInterviews(state.app.interview_id, setNewInterview);
+    }
+  }, [state.app?.interview_id]);
 
   // Helper function to format the date and time
   const formatDateTime = (date, time) => {
@@ -79,11 +82,13 @@ const ShortListedDetails = () => {
   };
 
   useEffect(() => {
-    if (newInterview) {
+    if (newInterview?.interview_date && newInterview?.interview_time) {
       const { isLive, hasEnded, countdown } = formatDateTime(
         newInterview.interview_date,
         newInterview.interview_time
       );
+
+      console.log("isLive:", isLive, "hasEnded:", hasEnded, "countdown:", countdown);
 
       setIsLive(isLive);
       setStatusMessage(
@@ -138,7 +143,7 @@ const ShortListedDetails = () => {
 
       {/* Interview Details */}
       <div className="rounded w-full sm:w-[90%] md:w-[80%] border">
-        {[
+        {[ 
           { label: "Interview Name:", value: newInterview?.interviewer_name },
           {
             label: "Interview Date:",
@@ -173,18 +178,17 @@ const ShortListedDetails = () => {
       </div>
 
       {/* Proceed Button */}
-      {state.interviewFinshed || !isLive ? (
-        <span className="text-sm font-semibold">
-          {statusMessage || "Awaiting Candidate Response"}
-        </span>
-      ) : (
+      {isLive && !state.interviewFinshed ? (
         <button
-          disabled={!isLive}
           onClick={handleOnClick}
           className="flex w-full sm:w-auto border mt-5 hover:bg-primaryColor hover:text-white border-primaryColor p-2 text-sm sm:text-little disabled:opacity-50 text-primaryColor"
         >
           Proceed to Interview
         </button>
+      ) : (
+        <span className="text-sm font-semibold">
+          {statusMessage || "Awaiting Candidate Response"}
+        </span>
       )}
     </div>
   );

@@ -16,6 +16,7 @@ function Meeting({ interview, exclusive=null }) {
   const { getJobById } = useJobManagement();
   const { getApplicant, application } = useContext(ApplicationContext);
   const [job, setJob] = useState(null);
+  const [participantData, setparticipantData] = useState(null);
   const [applicant, setApplicant] = useState(null);
   const [joined, setJoined] = useState(null);
   const [participant, setParticipant] = useState(null);
@@ -56,7 +57,7 @@ function Meeting({ interview, exclusive=null }) {
     const speakerParticipants = [...participants.values()].find(
       (current) => current.id !== auth.user.role
     );
-    setParticipant(speakerParticipants);
+  
   };
 
   const joinMeeting = () => {
@@ -73,14 +74,16 @@ function Meeting({ interview, exclusive=null }) {
   useEffect(() => {
     if (auth.user.role === "employer") {
       getApplicant(interview.candidate_id, setApplicant);
+      setparticipantData(applicant);
     } else {
-      getJobById(interview.employer_id, setJob);
+      getJobById(application?.job_id, setJob);
+      setparticipantData(job);
     }
   }, []);
 
   return (
     <>
-      <div className="sticky top-0 w-[98%] md:w-[95%] min-h-16 py-1 md:py-3 flex gap-5 items-center justify-between px-8 bg-primaryColor/60 rounded-md">
+      <div className="sticky top-0 z-10 w-[98%] md:w-[95%] min-h-16 py-1 md:py-3 flex gap-5 items-center justify-between px-8 bg-primaryColor/60 rounded-md">
         <div className="flex flex-col text-white justify-between gap-[5px]">
           <h2 className="font-bold text-lg capitalize">
             {interview?.interviewer_name} interview
@@ -100,7 +103,7 @@ function Meeting({ interview, exclusive=null }) {
       {joined && joined === "JOINED" ? (
         <div className="h-[90%] w-full md:w-[98%] flex flex-col md:flex-row rounded-[15px] bg-white">
           <div className="flex justify-between flex-col p-2 gap-2 w-full md:w-[70%] h-max">
-            <Participant interview={interview} data={participant} />
+            <Participant interview={interview} participantData={participantData} />
             <CompanyView interview={interview} />
           </div>
           <div className="flex flex-col w-full md:w-[30%]">

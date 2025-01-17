@@ -42,7 +42,7 @@ function Application() {
       setView("all")
     }
   }, [location?.state]);
-
+console.log(getAllApplications)
   // Clear randomized list on view change
   useEffect(() => {
     setRandomizedApplications([]);
