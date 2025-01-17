@@ -20,7 +20,7 @@ function InterviewRoom() {
   console.log("auth token", getAuthToken);
   console.log("meeting id", meetingId);
   const exclusive= state?.exclusive;
-  const auth= exclusive ? exclusive : authDetails;
+  const auth= exclusive?.user ? exclusive : authDetails;
   const onClick = async () => {
     const roomId = await createMeeting("");
     setMeetingId(roomId);
