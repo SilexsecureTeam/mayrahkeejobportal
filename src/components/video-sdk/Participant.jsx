@@ -1,6 +1,7 @@
 import { useParticipant } from "@videosdk.live/react-sdk";
 import { useEffect, useMemo, useRef, useState } from "react";
 import ReactPlayer from "react-player";
+import mainLogoTwo from "../../assets/pngs/main-logo-icon.png";
 
 function Participant({ data }) {
   const micRef = useRef(null);
@@ -37,7 +38,7 @@ function Participant({ data }) {
   }, [micStream, micOn]);
 
   return (
-    <li className="w-full h-[450px] relative bg-black/50 justify-center rounded-[10px] min-w-[20%] items-center flex">
+    <li className="w-full h-[450px] relative bg-black/80 justify-center rounded-[10px] min-w-[20%] items-center flex">
       <audio ref={micRef} autoPlay playsInline muted={isLocal} />
 
       {webcamOn ? (
@@ -59,10 +60,13 @@ function Participant({ data }) {
           />
         </div>
       ) : (
-        <img
-          className="h-[450px] w-full object-cover rounded-md"
-          src="https://images.pexels.com/photos/4491440/pexels-photo-4491440.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+       <div  className="h-[450px] w-full rounded-md flex items-center justify-center">
+       <img
+          className="w-60 md:w-80"
+          src={mainLogoTwo}
+          //"https://images.pexels.com/photos/4491440/pexels-photo-4491440.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
         />
+       </div>
       )}
 
       {/* <div

@@ -81,7 +81,7 @@ function ScheduleInterviewModal({
 
   const [meetingId, setMeetingId] = useState(details?.meeting_id);
   const [loadingMeetingId, setLoadingMeetingId] = useState(false); // Loading state for meeting ID
-  console.log(edit, details)
+  // console.log(edit, details)
   const onClick = async () => {
     setLoadingMeetingId(true); // Set loading state to true
     try {
@@ -93,7 +93,15 @@ function ScheduleInterviewModal({
       setLoadingMeetingId(false); // Reset loading state after fetching
     }
   };
-
+useEffect(()=>{
+  console.log(details?.meeting_id)
+ if(details?.meeting_id && details?.meeting_id !== ""){
+  setMeetingId(details?.meeting_id)
+  setSelected(interviewOptions[0])
+ }else{
+  setSelected(interviewOptions[1])
+ }
+},[details?.meeting_id ])
   return (
     isOpen && (
       <div className="h-full z-10 w-full text-gray-600 text-little flex justify-center items-center bg-gray-600/70 fixed top-0 left-0">
