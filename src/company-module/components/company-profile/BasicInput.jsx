@@ -1,4 +1,4 @@
-function BasicInput({ data, details, onTextChange, value = null }) {
+function BasicInput({ data, details, onTextChange, value = null, required=true }) {
   return (
     <div className="w-full flex flex-col gap-[3px]">
       <label className="text-sm font-semibold">{data.label}</label>
@@ -13,7 +13,7 @@ function BasicInput({ data, details, onTextChange, value = null }) {
               : value // Use the original value for other types
         }
         onChange={onTextChange}
-        required={!details[data?.name]}
+        required={required}
         className="p-2 border focus:outline-none min-w-[96%]"
         name={data.name}
         placeholder={data.placeholder}
