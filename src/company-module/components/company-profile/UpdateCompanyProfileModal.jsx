@@ -16,7 +16,7 @@ import "react-quill/dist/quill.snow.css";
 //import useCompanyProfile from "../../../hooks/useCompanyProfile";
 import FormButton from "../../../components/FormButton";
 import { resourceUrl } from "../../../services/axios-client";
-
+import Selector from "../../../components/Selector";
 export const basic_inputs = [
   {
     id: 1,
@@ -44,7 +44,7 @@ export const basic_inputs = [
   },
   {
     id: 4,
-    name: "Company Website",
+    name: "website",
     label: "Company Website",
     type: "text",
     placeholder: "https://www.example.com",
@@ -74,23 +74,24 @@ export const basic_inputs = [
     id: 8,
     name: "sector",
     label: "Sector",
-    type: "text",
+    type: "dropdown",
     placeholder: "technology",
   },
   {
     id: 9,
-    name: "introductory_video_url",
+    name: "introduction_video_url",
     label: "Intorduction video url",
     type: "text",
+    required: false,
     placeholder: "https://www.example.com/video.mp4",
   },
-  {
-    id: 10,
-    name: "network",
-    label: "Network",
-    type: "text",
-    placeholder: "Local Network",
-  },
+  // {
+  //   id: 10,
+  //   name: "network",
+  //   label: "Network",
+  //   type: "text",
+  //   placeholder: "Local Network",
+  // },
   {
     id: 11,
     name: "location",
@@ -110,7 +111,84 @@ export const basic_inputs = [
     name: "profile_url",
     label: "Profile Url",
     type: "text",
+    required: false,
     placeholder: "https://www.example.com/profile",
+  },
+];
+
+
+const jobSectors = [
+  {
+    id: 1,
+    name: "Agriculture",
+    subsections: [
+      { id: 1.1, name: "Crop Production" },
+      { id: 1.2, name: "Animal Husbandry" },
+      { id: 1.3, name: "Agricultural Technology" },
+    ],
+  },
+  {
+    id: 2,
+    name: "Oil and gas",
+    subsections: [
+      { id: 2.1, name: "Exploration" },
+      { id: 2.2, name: "Extraction" },
+      { id: 2.3, name: "Refining" },
+    ],
+  },
+  {
+    id: 3,
+    name: "Manufacturing",
+    subsections: [
+      { id: 3.1, name: "Textiles" },
+      { id: 3.2, name: "Electronics" },
+      { id: 3.3, name: "Automobiles" },
+    ],
+  },
+  {
+    id: 4,
+    name: "Information and communications",
+    subsections: [
+      { id: 4.1, name: "Software Development" },
+      { id: 4.2, name: "Network Administration" },
+      { id: 4.3, name: "Cybersecurity" },
+    ],
+  },
+  {
+    id: 5,
+    name: "Information Technology",
+    subsections: [
+      { id: 5.1, name: "Cloud Computing" },
+      { id: 5.2, name: "Data Science" },
+      { id: 5.3, name: "IT Support" },
+    ],
+  },
+  {
+    id: 6,
+    name: "Construction",
+    subsections: [
+      { id: 6.1, name: "Residential" },
+      { id: 6.2, name: "Commercial" },
+      { id: 6.3, name: "Infrastructure" },
+    ],
+  },
+  {
+    id: 7,
+    name: "Services",
+    subsections: [
+      { id: 7.1, name: "Hospitality" },
+      { id: 7.2, name: "Consulting" },
+      { id: 7.3, name: "Customer Support" },
+    ],
+  },
+  {
+    id: 8,
+    name: "HealthCare",
+    subsections: [
+      { id: 8.1, name: "Clinical Services" },
+      { id: 8.2, name: "Research" },
+      { id: 8.3, name: "Public Health" },
+    ],
   },
 ];
 
@@ -155,27 +233,45 @@ function UpdateCompanyProfileModal({
     retrievalState,
   } = companyHookProps;
   const [campaignPhotos, setCampaignPhotos] = useState([...details?.company_campaign_photos || []]);
-
   const getCampaingPhotoURL = (e) => {
-    const { name } = e.target;
-    const file = e.target.files[0]; //filelist is an object carrying all details of file, .files[0] collects the value from key 0 (not array), and stores it in file
-
+    const { name } = e.target; // Get input name
+    const file = e.target.files[0]; // Access the first selected file
+  
+    // Validate file type
     if (file && (file.type === "image/jpeg" || file.type === "image/png")) {
-      // You can also perform additional actions with the valid file
+      // Generate a temporary URL for the file
       const generatedUrl = URL.createObjectURL(file);
-      if (campaignPhotos.length <= 0) return
-      const list = [...campaignPhotos, { url: generatedUrl, file: file }];
-      const files = list?.map((current) => current.file);
-      if (list.length > 0) {
-        setDetails({ ...details, [name]: files });
-        setCampaignPhotos(list);
-      }
+  
+      // Add the new file to the existing list
+      const updatedList = [...details?.company_campaign_photos, { url: generatedUrl, file }];
+      const updatedFiles = updatedList.map((item) => item.file ? item.file : item);
+  
+      // Update state
+      setDetails((prevDetails) => ({
+        ...prevDetails,
+        [name]: updatedFiles, // Update details for the corresponding input name
+      }));
+      setCampaignPhotos(updatedList);
+  
+      console.log("Updated Campaign Photos:", updatedList);
     } else {
-      // Handle invalid file type
-      alert("Please select a valid JPEG or PNG file.");
+      alert("Please select a valid JPEG or PNG file."); // Handle invalid file type
     }
   };
-
+  
+  useEffect(() => {
+    if (details?.company_campaign_photos?.length > 0) {
+      const newPhotos = details.company_campaign_photos
+        .filter((file) => typeof file === "string" || file instanceof File) // Filter invalid entries
+        .map((file) => ({
+          url: typeof file === "string" ? `${resourceUrl}${file}` : URL.createObjectURL(file),
+          file: typeof file === "string" ? null : file, // Set file to null if it's a string
+        }));
+  
+      setCampaignPhotos(newPhotos);
+    }
+  }, [details?.company_campaign_photos]);
+  
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -190,7 +286,7 @@ function UpdateCompanyProfileModal({
         details?.beenRetreived === retrievalState?.notRetrieved &&
         onInit
       ) {
-     
+
         setIsOpen(true);
       } else {
         setIsOpen(false);
@@ -245,19 +341,28 @@ function UpdateCompanyProfileModal({
 
               {/* Basic Form inputs */}
               {basic_inputs?.map((current) => (
-                <BasicInput
-                  data={current}
-                  details={details}
-                  onTextChange={onTextChange}
-                  key={current.id}
-                />
+                current?.type !== "dropdown" ?
+                  <BasicInput
+                    data={current}
+                    details={details}
+                    onTextChange={onTextChange}
+                    key={current.id}
+                    required={current?.required}
+                  /> : <label>
+                    <strong>{current.label}</strong>
+                    <Selector
+                      data={jobSectors}
+                      selected={jobSectors?.find(one => one.name === details?.sector)}
+                      setSelected={({ name }) => setDetails({ ...details, "sector": name })}
+                    />
+                  </label>
               ))}
 
               {/* Company Profile Text Editor */}
               <div className="flex flex-col gap-[5px]">
                 <span className="text-sm font-semibold">Company Profile</span>
 
-                <div className="flex flex-col gap-[3px] mb-[35px] w-full text-gray-400 justify-between ">
+                <div className="flex flex-col gap-[3px] mb-[35px] w-full text-gray-600 justify-between ">
                   <ReactQuill
                     placeholder="Enter company details...."
                     value={details?.company_profile}
@@ -282,7 +387,9 @@ function UpdateCompanyProfileModal({
                   id="currentCampaignPhoto"
                   className="hidden"
                   type="file"
+                  multiple // Allows multiple file selection
                 />
+
                 <div className="w-full min-h-[100px] flex gap-[3px] items-start border-dashed p-2 border overscroll-x-auto">
                   {campaignPhotos?.map((current, idx) => (
                     <img key={idx}
@@ -304,7 +411,7 @@ function UpdateCompanyProfileModal({
                 <div className="w-full border border-dashed p-2 grid grid-cols-3 gap-[3px]">
                   {social_media_inputs?.map((current) => (
                     <SocialMediaInput
-                    key={current?.id}
+                      key={current?.id}
                       id={current?.id}
                       data={current}
                       socials={details?.social_media}
