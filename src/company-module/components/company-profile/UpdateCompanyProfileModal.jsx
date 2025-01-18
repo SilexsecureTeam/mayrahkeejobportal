@@ -233,6 +233,7 @@ function UpdateCompanyProfileModal({
     retrievalState,
   } = companyHookProps;
   const [campaignPhotos, setCampaignPhotos] = useState([...details?.company_campaign_photos || []]);
+
   const getCampaingPhotoURL = (e) => {
   const { name } = e.target; // Get the input name
   const files = Array.from(e.target.files); // Get all selected files as an array
@@ -247,26 +248,25 @@ function UpdateCompanyProfileModal({
     return;
   }
 
-  // Generate URLs and create an updated list of photos
+  // Generate URLs and create new photo objects
   const newPhotos = validFiles.map((file) => ({
     url: URL.createObjectURL(file), // Generate a temporary URL
     file,
   }));
 
   // Combine existing photos with the new ones
-  const updatedList = [
-    ...(details?.company_campaign_photos || []),
-    ...newPhotos,
-  ];
+  const existingPhotos = details?.company_campaign_photos || [];
+  const updatedList = [...existingPhotos, ...newPhotos];
 
   // Update state
   setDetails((prevDetails) => ({
     ...prevDetails,
-    [name]: updatedList.map((item) => item.file ? item.file : item), // Map files only
+    [name]: updatedList, // Keep both `url` and `file` in the `details` state
   }));
-  setCampaignPhotos(updatedList);
 
-  //console.log("Updated Campaign Photos:", updatedList);
+  setCampaignPhotos(updatedList); // For managing/displaying the list
+
+  console.log("Updated Campaign Photos:", updatedList);
 };
   
   
