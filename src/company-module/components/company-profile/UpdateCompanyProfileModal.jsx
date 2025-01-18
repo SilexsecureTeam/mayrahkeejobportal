@@ -250,30 +250,33 @@ function UpdateCompanyProfileModal({
       file,
     }));
 
-    // Add the new files to the existing list of campaign photos
+    // Append new files to the existing photos list
     const updatedPhotos = [
-      ...details?.company_campaign_photos,
+      ...details?.company_campaign_photos || [],
       ...updatedList, // Append the entire object (with both url and file)
     ];
-    
+
     // Update details state with only the file objects (no URL)
     const updatedFiles = [
-  ...details?.company_campaign_photos, 
-  ...updatedList.map((item) => item.file) // Spread the file objects into the updatedFiles array
-];
+      ...(details?.company_campaign_photos || []), 
+      ...validFiles.map((item) => item.file), // Spread the file objects into the updatedFiles array
+    ];
 
-    // Update state
+    // Update details state with only the file objects
     setDetails((prevDetails) => ({
       ...prevDetails,
       [name]: updatedFiles, // Update details with the file objects
     }));
-    setCampaignPhotos(updatedPhotos); // Update campaignPhotos with the objects (url + file)
+
+    // Update campaignPhotos with the objects (url + file)
+    setCampaignPhotos(updatedPhotos);
 
     console.log("Updated Campaign Photos:", updatedList);
   } else {
     alert("Please select a valid JPEG or PNG file."); // Handle invalid file type
   }
 };
+
 
   
   useEffect(() => {
