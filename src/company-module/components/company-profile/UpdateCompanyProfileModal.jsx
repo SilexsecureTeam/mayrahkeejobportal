@@ -234,41 +234,44 @@ function UpdateCompanyProfileModal({
   } = companyHookProps;
   const [campaignPhotos, setCampaignPhotos] = useState([...details?.company_campaign_photos || []]);
 
-  const getCampaingPhotoURL = (e) => {
-  const { name } = e.target; // Get the input name
-  const files = Array.from(e.target.files); // Get all selected files as an array
+  const getCampaignPhotoURL = (e) => {
+  const { name } = e.target; // Get input name
+  const files = e.target.files; // Access all selected files
 
-  // Validate files and generate URLs
-  const validFiles = files.filter((file) =>
-    file.type === "image/jpeg" || file.type === "image/png"
+  // Validate files
+  const validFiles = Array.from(files).filter(
+    (file) => file.type === "image/jpeg" || file.type === "image/png"
   );
 
-  if (validFiles.length === 0) {
-    alert("Please select valid JPEG or PNG files."); // Handle invalid file types
-    return;
+  if (validFiles.length > 0) {
+    // Generate a temporary URL for each valid file
+    const updatedList = validFiles.map((file) => ({
+      url: URL.createObjectURL(file),
+      file,
+    }));
+
+    // Add the new files to the existing list of campaign photos
+    const updatedPhotos = [
+      ...details?.company_campaign_photos,
+      ...updatedList, // Append the entire object (with both url and file)
+    ];
+    
+    // Update details state with only the file objects (no URL)
+    const updatedFiles = updatedPhotos.map((item) => item.file); // Extract only files (no URLs)
+
+    // Update state
+    setDetails((prevDetails) => ({
+      ...prevDetails,
+      [name]: updatedFiles, // Update details with the file objects
+    }));
+    setCampaignPhotos(updatedList); // Update campaignPhotos with the objects (url + file)
+
+    console.log("Updated Campaign Photos:", updatedList);
+  } else {
+    alert("Please select a valid JPEG or PNG file."); // Handle invalid file type
   }
-
-  // Generate URLs and create new photo objects
-  const newPhotos = validFiles.map((file) => ({
-    url: URL.createObjectURL(file), // Generate a temporary URL
-    file,
-  }));
-
-  // Combine existing photos with the new ones
-  const existingPhotos = details?.company_campaign_photos || [];
-  const updatedList = [...existingPhotos, ...newPhotos];
-
-  // Update state
-  setDetails((prevDetails) => ({
-    ...prevDetails,
-    [name]: updatedList, // Keep both `url` and `file` in the `details` state
-  }));
-
-  setCampaignPhotos(updatedList); // For managing/displaying the list
-
-  console.log("Updated Campaign Photos:", updatedList);
 };
-  
+
   
   useEffect(() => {
     if (details?.company_campaign_photos?.length > 0) {
