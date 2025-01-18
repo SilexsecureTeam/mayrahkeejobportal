@@ -239,7 +239,7 @@ function UpdateCompanyProfileModal({
   const files = e.target.files; // Access all selected files
 
   // Validate files
-  const validFiles = Array.from(files)?.filter(
+  const validFiles = Array.from(files).filter(
     (file) => file.type === "image/jpeg" || file.type === "image/png"
   );
 
@@ -250,33 +250,31 @@ function UpdateCompanyProfileModal({
       file,
     }));
 
-    // Accumulate new campaign photos with URLs and files
+    // Add the new files to the existing list of campaign photos
     const updatedPhotos = [
-      ...details?.company_campaign_photos || [],
+      ...details?.company_campaign_photos,
       ...updatedList, // Append the entire object (with both url and file)
     ];
-
-    // Accumulate only the file objects (no URL) for details state
+    
+    // Update details state with only the file objects (no URL)
     const updatedFiles = [
-      ...(details?.company_campaign_photos || []), 
-      ...validFiles.map((item) => item.file), // Spread the file objects into the updatedFiles array
-    ];
+  details?.company_campaign_photos?.map((item) => item), 
+  ...updatedList.map((item) => item.file) // Spread the file objects into the updatedFiles array
+];
 
-    // Update campaignPhotos with the objects (url + file)
-    setCampaignPhotos(updatedPhotos);
-
-    // Now set details after processing all files
+    // Update state
     setDetails((prevDetails) => ({
       ...prevDetails,
-      [name]: updatedFiles, // Update details with the file objects (no URL)
+      [name]: updatedFiles, // Update details with the file objects
     }));
+    setCampaignPhotos(updatedPhotos); // Update campaignPhotos with the objects (url + file)
 
     console.log("Updated Campaign Photos:", updatedList);
   } else {
-    alert("Please select a valid JPEG or PNG file."); // Handle invalid file type
+    alert("Please select a valid JPEG or PNG file."
+); // Handle invalid file type
   }
 };
-
 
 
   
