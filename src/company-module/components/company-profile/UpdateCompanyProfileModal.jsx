@@ -362,7 +362,7 @@ function UpdateCompanyProfileModal({
               <div className="flex flex-col gap-[5px]">
                 <span className="text-sm font-semibold">Company Profile</span>
 
-                <div className="flex flex-col gap-[3px] mb-[35px] w-full text-gray-600 justify-between ">
+                <div className="flex flex-col gap-[3px] mb-[30px] w-full text-gray-600 justify-between ">
                   <ReactQuill
                     placeholder="Enter company details...."
                     value={details?.company_profile}
@@ -374,7 +374,7 @@ function UpdateCompanyProfileModal({
               </div>
 
               {/* Campaign Photos */}
-              <div className="w-full flex flex-col gap-[3px] mt-2">
+              <div className="w-full flex flex-col gap-[3px] mt-10">
                 <label
                   htmlFor="currentCampaignPhoto"
                   className="text-sm font-semibold flex w-full justify-between items-center"
