@@ -259,7 +259,7 @@ function UpdateCompanyProfileModal({
     // Update details state with only the file objects (no URL)
     const updatedFiles = [
   ...details?.company_campaign_photos, 
-  ...validFiles.map((item) => item.file) // Spread the file objects into the updatedFiles array
+  ...updatedList.map((item) => item.file) // Spread the file objects into the updatedFiles array
 ];
 
     // Update state
@@ -267,7 +267,7 @@ function UpdateCompanyProfileModal({
       ...prevDetails,
       [name]: updatedFiles, // Update details with the file objects
     }));
-    setCampaignPhotos(updatedList); // Update campaignPhotos with the objects (url + file)
+    setCampaignPhotos(updatedPhotos); // Update campaignPhotos with the objects (url + file)
 
     console.log("Updated Campaign Photos:", updatedList);
   } else {
