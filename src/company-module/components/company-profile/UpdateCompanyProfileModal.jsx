@@ -374,12 +374,12 @@ function UpdateCompanyProfileModal({
               </div>
 
               {/* Campaign Photos */}
-              <div className="w-full flex flex-col gap-[3px]">
+              <div className="w-full flex flex-col gap-[3px] mt-2">
                 <label
                   htmlFor="currentCampaignPhoto"
                   className="text-sm font-semibold flex w-full justify-between items-center"
                 >
-                  Capaign Photos <FaRegEdit className="cursor-pointer" />
+                  Capaign Photos <FaRegEdit size="24" className="cursor-pointer" />
                 </label>
                 <input
                   name="company_campaign_photos"
