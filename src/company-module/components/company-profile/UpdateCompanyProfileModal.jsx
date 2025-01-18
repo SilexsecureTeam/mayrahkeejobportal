@@ -258,7 +258,7 @@ function UpdateCompanyProfileModal({
     
     // Update details state with only the file objects (no URL)
     const updatedFiles = [
-  details?.company_campaign_photos?.map((item) => item), 
+  ...details?.company_campaign_photos?.map((item) => item), 
   ...updatedList.map((item) => item.file) // Spread the file objects into the updatedFiles array
 ];
 
