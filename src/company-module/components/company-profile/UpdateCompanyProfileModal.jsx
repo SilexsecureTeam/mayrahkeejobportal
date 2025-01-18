@@ -234,30 +234,41 @@ function UpdateCompanyProfileModal({
   } = companyHookProps;
   const [campaignPhotos, setCampaignPhotos] = useState([...details?.company_campaign_photos || []]);
   const getCampaingPhotoURL = (e) => {
-    const { name } = e.target; // Get input name
-    const file = e.target.files[0]; // Access the first selected file
+  const { name } = e.target; // Get the input name
+  const files = Array.from(e.target.files); // Get all selected files as an array
+
+  // Validate files and generate URLs
+  const validFiles = files.filter((file) =>
+    file.type === "image/jpeg" || file.type === "image/png"
+  );
+
+  if (validFiles.length === 0) {
+    alert("Please select valid JPEG or PNG files."); // Handle invalid file types
+    return;
+  }
+
+  // Generate URLs and create an updated list of photos
+  const newPhotos = validFiles.map((file) => ({
+    url: URL.createObjectURL(file), // Generate a temporary URL
+    file,
+  }));
+
+  // Combine existing photos with the new ones
+  const updatedList = [
+    ...(details?.company_campaign_photos || []),
+    ...newPhotos,
+  ];
+
+  // Update state
+  setDetails((prevDetails) => ({
+    ...prevDetails,
+    [name]: updatedList.map((item) => item.file ? item.file : item), // Map files only
+  }));
+  setCampaignPhotos(updatedList);
+
+  //console.log("Updated Campaign Photos:", updatedList);
+};
   
-    // Validate file type
-    if (file && (file.type === "image/jpeg" || file.type === "image/png")) {
-      // Generate a temporary URL for the file
-      const generatedUrl = URL.createObjectURL(file);
-  
-      // Add the new file to the existing list
-      const updatedList = [...details?.company_campaign_photos, { url: generatedUrl, file }];
-      const updatedFiles = updatedList.map((item) => item.file ? item.file : item);
-  
-      // Update state
-      setDetails((prevDetails) => ({
-        ...prevDetails,
-        [name]: updatedFiles, // Update details for the corresponding input name
-      }));
-      setCampaignPhotos(updatedList);
-  
-      console.log("Updated Campaign Photos:", updatedList);
-    } else {
-      alert("Please select a valid JPEG or PNG file."); // Handle invalid file type
-    }
-  };
   
   useEffect(() => {
     if (details?.company_campaign_photos?.length > 0) {
@@ -390,7 +401,7 @@ function UpdateCompanyProfileModal({
                   multiple // Allows multiple file selection
                 />
 
-                <div className="w-full min-h-[100px] flex gap-[3px] items-start border-dashed p-2 border overscroll-x-auto">
+                <div className="w-full min-h-[100px] flex gap-[3px] items-start border-dashed p-2 border overflow-x-auto">
                   {campaignPhotos?.map((current, idx) => (
                     <img key={idx}
                       className="h-[80px] w-[80px] border"
