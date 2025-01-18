@@ -10,6 +10,7 @@ function SideBarItem({ data, dispatch, state, setIsOpen }) {
     if(data.type === 'LOG-OUT'){
       localStorage.clear()
       setAuthDetails(null);
+      dispatch({ });
       navigate(data.route, {replace: true});
     }else{
       dispatch({ ...data });
