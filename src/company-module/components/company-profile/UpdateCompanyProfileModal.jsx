@@ -400,7 +400,7 @@ function UpdateCompanyProfileModal({
                 </label>
                 <input
                   name="company_campaign_photos"
-                  onChange={getCampaingPhotoURL}
+                  onChange={getCampaignPhotoURL}
                   id="currentCampaignPhoto"
                   className="hidden"
                   type="file"
