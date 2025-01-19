@@ -45,6 +45,7 @@ function CartedStaffs() {
       setSelectedItems([...selectedItems, item]);
     }
   };
+  console.log(data)
 
   //cart ui logic ended
   const navigateToStaff = (staff) =>
@@ -54,13 +55,16 @@ function CartedStaffs() {
 
   //cart items from api
   const getCartItems = async () => {
+    const type=data.type
     try {
       const { data } = await client.post("staff-cart/get", {
         user_id: authDetails.user.id,
         user_type: authDetails.user.role,
       });
       if (data.cart_items) {
-        setCartItems(data.cart_items);
+        setCartItems(data.cart_items?.filter(
+          (current) => current.domestic_staff.staff_category === type
+        ));
       } else {
         setCartItems([]);
       }

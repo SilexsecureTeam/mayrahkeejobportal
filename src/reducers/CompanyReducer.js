@@ -11,7 +11,7 @@ function CompanyReducer(state, action) {
           together the state. and return true to break out of loop (some),
           else return false and continue to loop through the elements
         */
-    if (element.type === action.type) {
+    if (element?.type === action?.type) {
       payload = { ...action };
       return true;
     }

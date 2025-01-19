@@ -7,6 +7,7 @@ import { BASE_URL } from "../utils/base";
 import { user } from './../utils/dummies';
 import MainAxios from "../services/axios-main";
 // import AddCurrency from './../admin-module/pages/settings/Currency/AddCurrency';
+import { onFailure } from "../utils/notifications/OnFailure";
 
 const PROFILE_DETAILS_KEY = "Admin Profile Detaials Database";
 
@@ -360,6 +361,30 @@ function UseAdminManagement() {
       setLoading(false);
     }
   };
+  const updateSector = async (id, sector) => {
+    try {
+      setLoading(true);
+      const response = await client.post("/sectors", {id: id, ...sector});
+      return response.data;
+    } catch (error) {
+      console.error("Error updating sector:", error);
+      return null;
+    } finally {
+      setLoading(false);
+    }
+  };
+  const updateSubsector = async (id, subsector) => {
+    try {
+      setLoading(true);
+      const response = await client.post("/sub-sectors", {id: id, ...subsector});
+      return response.data;
+    } catch (error) {
+      console.error("Error updating sector:", error);
+      return null;
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const createSubsector = async (subsector) => {
     try {
@@ -371,6 +396,111 @@ function UseAdminManagement() {
     }
   };
 
+
+
+
+  ///////
+
+  const getStaffSectors = async () => {
+    try {
+      setLoading(true);
+      const response = await client.get("/staff-categories");
+      const sectors = response.data.data;
+      console.log(sectors);
+
+      return sectors;
+    } catch (error) {
+      console.error("Error fetching sectors:", error);
+      return null;
+    } finally {
+      setLoading(false);
+    }
+  };
+
+
+  const createStaffSector = async (sector) => {
+    try {
+      setLoading(true);
+      const response = await client.post("/staff-categories/create", sector);
+      return response.data;
+    } catch (error) {
+      console.error("Error creating sector:", error);
+      return null;
+    } finally {
+      setLoading(false);
+    }
+  };
+  const updateStaffSector = async (id, sector) => {
+    try {
+      setLoading(true);
+      const response = await client.post("/staff-categories/create", {id: id, ...sector});
+      return response.data;
+    } catch (error) {
+      console.error("Error updating sector:", error);
+      return null;
+    } finally {
+      setLoading(false);
+    }
+  };
+  const updateStaffSubsector = async (id, subsector) => {
+    try {
+      setLoading(true);
+      const response = await client.post("/staff-categories/subcategory/create", {id: id, ...subsector});
+      return response.data;
+    } catch (error) {
+      console.error("Error updating sector:", error);
+      return null;
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const createStaffSubsector = async (subsector) => {
+    try {
+      const response = await client.post("/staff-categories/subcategory/create", subsector);
+      return response.data;
+    } catch (error) {
+      console.error("Error creating subsector:", error);
+      const errorDetails = Object.entries(error?.response?.data?.errors || {})
+        .map(([key, value]) => `${key}: ${value}`)
+        .join("\n") || error?.message;
+
+      onFailure({ message: "Subcategory Creation Failed", error: errorDetails });
+      return null;
+    }
+  };
+
+  const deleteStaffSectorById = async (id) => {
+    try {
+      setLoading(true);
+      const response = await client.delete(`/staff-categories/${id}`);
+      return response.data;
+    } catch (error) {
+      console.error("Error deleting sector:", error);
+      return null;
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const deleteStaffSubsectorById = async (id) => {
+    try {
+      setLoading(true);
+      const response = await client.delete(`/staff-categories/subcategory/${id}`);
+      return response.data;
+    } catch (error) {
+      console.error("Error deleting subsector:", error);
+      return null;
+      const errorDetails = Object.entries(error?.response?.data?.errors || {})
+        .map(([key, value]) => `${key}: ${value}`)
+        .join("\n") || error?.message;
+
+      onFailure({ message: "Error", error: errorDetails });
+    } finally {
+      setLoading(false);
+    }
+  }
+  ///
   const createSectorWithSubsectors = async (sector, subsectors) => {
     try {
       setLoading(true);
@@ -400,6 +530,11 @@ function UseAdminManagement() {
       return response.data;
     } catch (error) {
       console.error("Error deleting sector:", error);
+       const errorDetails = Object.entries(error?.response?.data?.errors || {})
+        .map(([key, value]) => `${key}: ${value}`)
+        .join("\n") || error?.message;
+
+      onFailure({ message: "Error", error: errorDetails });
       return null;
     } finally {
       setLoading(false);
@@ -414,6 +549,11 @@ function UseAdminManagement() {
     } catch (error) {
       console.error("Error deleting subsector:", error);
       return null;
+      const errorDetails = Object.entries(error?.response?.data?.errors || {})
+        .map(([key, value]) => `${key}: ${value}`)
+        .join("\n") || error?.message;
+
+      onFailure({ message: "Error", error: errorDetails });
     } finally {
       setLoading(false);
     }
@@ -660,10 +800,19 @@ const updateFeaturedJobs = async (id, status) => {
     AddFormCurrency,
     getSectors,
     createSector,
+    updateSector,
     createSubsector,
+    updateSubsector,
+    getStaffSectors,
+    createStaffSector,
+    updateStaffSector,
+    createStaffSubsector,
+    updateStaffSubsector,
     createSectorWithSubsectors,
     deleteSectorById,
     deleteSubsectorById,
+    deleteStaffSectorById,
+    deleteStaffSubsectorById,
     getCurrencies,
     deleteCurrencyById,
     adminLogin,

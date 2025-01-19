@@ -14,6 +14,7 @@ export const JobContextProvider = ({ children }) => {
     addJob,
     deleteJob,
     deactivateJob,
+    getSectors,
     getJobById,
     getJobsByApplicant
   } = useJobManagement();
@@ -31,6 +32,7 @@ export const JobContextProvider = ({ children }) => {
         onTextChange,
         setDetails,
         addJob,
+        getSectors,
         deleteJob,
         deactivateJob,
         getJobById,

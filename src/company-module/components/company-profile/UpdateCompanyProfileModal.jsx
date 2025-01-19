@@ -8,7 +8,7 @@ import {
   FaTwitter,
   FaInstagram,
 } from "react-icons/fa";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import BasicInput from "./BasicInput";
 import SocialMediaInput from "./SocialMediaInput";
 import ReactQuill from "react-quill";
@@ -17,6 +17,7 @@ import "react-quill/dist/quill.snow.css";
 import FormButton from "../../../components/FormButton";
 import { resourceUrl } from "../../../services/axios-client";
 import Selector from "../../../components/Selector";
+import {JobContext} from "../../../context/JobContext";
 export const basic_inputs = [
   {
     id: 1,
@@ -117,81 +118,6 @@ export const basic_inputs = [
 ];
 
 
-const jobSectors = [
-  {
-    id: 1,
-    name: "Agriculture",
-    subsections: [
-      { id: 1.1, name: "Crop Production" },
-      { id: 1.2, name: "Animal Husbandry" },
-      { id: 1.3, name: "Agricultural Technology" },
-    ],
-  },
-  {
-    id: 2,
-    name: "Oil and gas",
-    subsections: [
-      { id: 2.1, name: "Exploration" },
-      { id: 2.2, name: "Extraction" },
-      { id: 2.3, name: "Refining" },
-    ],
-  },
-  {
-    id: 3,
-    name: "Manufacturing",
-    subsections: [
-      { id: 3.1, name: "Textiles" },
-      { id: 3.2, name: "Electronics" },
-      { id: 3.3, name: "Automobiles" },
-    ],
-  },
-  {
-    id: 4,
-    name: "Information and communications",
-    subsections: [
-      { id: 4.1, name: "Software Development" },
-      { id: 4.2, name: "Network Administration" },
-      { id: 4.3, name: "Cybersecurity" },
-    ],
-  },
-  {
-    id: 5,
-    name: "Information Technology",
-    subsections: [
-      { id: 5.1, name: "Cloud Computing" },
-      { id: 5.2, name: "Data Science" },
-      { id: 5.3, name: "IT Support" },
-    ],
-  },
-  {
-    id: 6,
-    name: "Construction",
-    subsections: [
-      { id: 6.1, name: "Residential" },
-      { id: 6.2, name: "Commercial" },
-      { id: 6.3, name: "Infrastructure" },
-    ],
-  },
-  {
-    id: 7,
-    name: "Services",
-    subsections: [
-      { id: 7.1, name: "Hospitality" },
-      { id: 7.2, name: "Consulting" },
-      { id: 7.3, name: "Customer Support" },
-    ],
-  },
-  {
-    id: 8,
-    name: "HealthCare",
-    subsections: [
-      { id: 8.1, name: "Clinical Services" },
-      { id: 8.2, name: "Research" },
-      { id: 8.3, name: "Public Health" },
-    ],
-  },
-];
-
 export const social_media_inputs = [
   {
     id: 1,
@@ -232,52 +158,60 @@ function UpdateCompanyProfileModal({
     updateCompanyProfile,
     retrievalState,
   } = companyHookProps;
+  const { getSectors } = useContext(JobContext);
+  
   const [campaignPhotos, setCampaignPhotos] = useState([...details?.company_campaign_photos || []]);
+  const [sectorList, setSectorList] = useState([]);
 
   const getCampaignPhotoURL = (e) => {
-  const { name } = e.target; // Get input name
-  const files = e.target.files; // Access all selected files
+    const { name } = e.target; // Get input name
+    const files = e.target.files; // Access all selected files
 
-  // Validate files
-  const validFiles = Array.from(files).filter(
-    (file) => file.type === "image/jpeg" || file.type === "image/png"
-  );
+    // Validate files
+    const validFiles = Array.from(files).filter(
+      (file) => file.type === "image/jpeg" || file.type === "image/png"
+    );
 
-  if (validFiles.length > 0) {
-    // Generate a temporary URL for each valid file
-    const updatedList = validFiles.map((file) => ({
-      url: URL.createObjectURL(file),
-      file,
-    }));
+    if (validFiles.length > 0) {
+      // Generate a temporary URL for each valid file
+      const updatedList = validFiles.map((file) => ({
+        url: URL.createObjectURL(file),
+        file,
+      }));
 
-    // Add the new files to the existing list of campaign photos
-    const updatedPhotos = [
-      ...details?.company_campaign_photos,
-      ...updatedList, // Append the entire object (with both url and file)
-    ];
-    
-    // Update details state with only the file objects (no URL)
-    const updatedFiles = [
-  ...details?.company_campaign_photos?.map((item) => item), 
-  ...updatedList.map((item) => item.file) // Spread the file objects into the updatedFiles array
-];
+      // Add the new files to the existing list of campaign photos
+      const updatedPhotos = [
+        ...details?.company_campaign_photos,
+        ...updatedList, // Append the entire object (with both url and file)
+      ];
 
-    // Update state
-    setDetails((prevDetails) => ({
-      ...prevDetails,
-      [name]: updatedFiles, // Update details with the file objects
-    }));
-    setCampaignPhotos(updatedPhotos); // Update campaignPhotos with the objects (url + file)
+      // Update details state with only the file objects (no URL)
+      const updatedFiles = [
+        ...details?.company_campaign_photos?.map((item) => item),
+        ...updatedList.map((item) => item.file) // Spread the file objects into the updatedFiles array
+      ];
 
-    console.log("Updated Campaign Photos:", updatedList);
-  } else {
-    alert("Please select a valid JPEG or PNG file."
-); // Handle invalid file type
-  }
-};
+      // Update state
+      setDetails((prevDetails) => ({
+        ...prevDetails,
+        [name]: updatedFiles, // Update details with the file objects
+      }));
+      setCampaignPhotos(updatedPhotos); // Update campaignPhotos with the objects (url + file)
 
+      console.log("Updated Campaign Photos:", updatedList);
+    } else {
+      alert("Please select a valid JPEG or PNG file."
+      ); // Handle invalid file type
+    }
+  };
 
-  
+useEffect(()=>{
+ const init= async()=>{
+  const jobSectors= await getSectors();
+  setSectorList(jobSectors || [])
+ }
+ init();
+},[])
   useEffect(() => {
     if (details?.company_campaign_photos?.length > 0) {
       const newPhotos = details.company_campaign_photos
@@ -286,11 +220,12 @@ function UpdateCompanyProfileModal({
           url: typeof file === "string" ? `${resourceUrl}${file}` : URL.createObjectURL(file),
           file: typeof file === "string" ? null : file, // Set file to null if it's a string
         }));
-  
+
       setCampaignPhotos(newPhotos);
     }
-  }, [details?.company_campaign_photos]);
-  
+    //console.log(details)
+  }, [details]);
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -312,6 +247,26 @@ function UpdateCompanyProfileModal({
       }
     }, 1000);
   }, [details?.beenRetreived]);
+  const handleRemovePhoto = (index) => {
+    // Remove the selected photo from the campaignPhotos state
+    const updatedPhotos = campaignPhotos.filter((_, idx) => idx !== index);
+
+    // Filter out the resourceUrl variable dynamically if present in the strings
+    setDetails((prevDetails) => ({
+      ...prevDetails,
+      company_campaign_photos: updatedPhotos.map((photo) => {
+        if (photo.file) {
+          return photo.file; // Return the File object for new uploads
+        }
+        // Remove the resourceUrl prefix dynamically
+        return photo.url.replace(new RegExp(resourceUrl, 'g'), '').trim();
+      }),
+    }));
+
+    // Update the campaignPhotos state
+    setCampaignPhotos(updatedPhotos);
+  };
+
 
   return (
     isOpen && (
@@ -370,8 +325,9 @@ function UpdateCompanyProfileModal({
                   /> : <label>
                     <strong>{current.label}</strong>
                     <Selector
-                      data={jobSectors}
-                      selected={jobSectors?.find(one => one.name === details?.sector)}
+                      key={current.id}
+                      data={sectorList || []}
+                      selected={sectorList?.find(one => one.name === details?.sector) || null}
                       setSelected={({ name }) => setDetails({ ...details, "sector": name })}
                     />
                   </label>
@@ -411,10 +367,19 @@ function UpdateCompanyProfileModal({
 
                 <div className="w-full min-h-[100px] flex gap-[3px] items-start border-dashed p-2 border overflow-x-auto">
                   {campaignPhotos?.map((current, idx) => (
-                    <img key={idx}
-                      className="h-[80px] w-[80px] border"
-                      src={current.url}
-                    />
+                    <div key={idx} className="relative h-[80px] w-[80px] border">
+                      <img
+                        className="h-full w-full object-cover"
+                        src={current.url}
+                        alt={`Campaign ${idx}`}
+                      />
+                      <button
+                        onClick={() => handleRemovePhoto(idx)}
+                        className="absolute top-[-5px] right-[-5px] bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-[20px]"
+                      >
+                        &times;
+                      </button>
+                    </div>
                   ))}
                 </div>
               </div>

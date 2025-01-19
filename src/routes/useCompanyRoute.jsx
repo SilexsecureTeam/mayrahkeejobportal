@@ -134,7 +134,7 @@ function useCompanyRoute() {
   } else {
     // If no saved state, set a default value based on user type
     const defaultState = activeOptions[0];
-    console.log("Setting default state:", defaultState);  // Log the default state
+    //console.log("Setting default state:", defaultState);  // Log the default state
     dispatch(defaultState);  // Dispatch the default state
   }
 }, []);  // Empty dependency array ensures this runs only once on mount
@@ -142,17 +142,12 @@ function useCompanyRoute() {
 // Save to localStorage whenever state changes
 useEffect(() => {
   if (state) {
-    console.log("Saving state to localStorage:", state);  // Log before saving
+    //console.log("Saving state to localStorage:", state);  // Log before saving
     localStorage.setItem("sidebarState", JSON.stringify(state));
   }
 }, [state]);  // This hook will be triggered every time 'state' changes
 
 
-
-  const setSideBar = (index) => {
-    const page = companyOptions[index];
-    dispatch({ ...page });
-  };
 
   useEffect(() => {
     const clearDb = async () => await clear();
@@ -183,6 +178,10 @@ useEffect(() => {
     };
   }, []);
 
+  const setSideBar = (index) => {
+    const page = activeOptions[index];
+    dispatch(page);
+  };
   return (
     <>
       {authDetails?.user?.role === "employer" ? (
