@@ -40,6 +40,7 @@ function MarketPlace({handleAddToCart}) {
 
       if (data.contracts) {
         setContractItems(data.contracts);
+        console.log(data.contracts)
       } else {
         setContractItems([]);
       }

@@ -20,12 +20,12 @@ export const highlightKeyword = (sentence, keyword) => {
     `<span class="${keyword.color} font-bold cursor-pointer hover:underline ">${keyword.name}</span>`
   );
 };
-
 export const FormatPrice = (price, removecode = false) => {
   return `${!removecode ? '' : ''}${price.toLocaleString(navigator.language, {
-    minmumFractionDigits: 0,
+    minimumFractionDigits: 0, // Fixed the typo here
   })}`;
 };
+
 export const FormatNumber = (price) => {
   return `${price.toLocaleString(navigator.language, {
     minmumFractionDigits: 0,
