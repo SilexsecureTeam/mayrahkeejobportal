@@ -158,7 +158,7 @@ window.scrollTo(0,0);
 
                 </div>
                 {/* Filter Options */}
-                <div className="grid grid-cols-responsive3 gap-3">
+                <div className="grid grid-cols-responsive3 gap-3 justify-center">
                   {/* Category Dropdown */}
                   <div className="flex flex-col">
                     <label htmlFor="category" className="text-sm font-medium text-gray-600 mb-2">Category</label>
@@ -196,7 +196,7 @@ window.scrollTo(0,0);
                     </select>
                   </div>
 
-                  {/* Age Range Dropdown */}
+                  {/* Age Range Dropdown
                   <div className="flex flex-col">
                     <label htmlFor="age_range" className="text-sm font-medium text-gray-600 mb-2">Age Range</label>
                     <select
@@ -211,7 +211,7 @@ window.scrollTo(0,0);
                       <option value="36-45">36-45</option>
                       <option value="46+">46+</option>
                     </select>
-                  </div>
+                  </div> */}
 
                   {/* Gender Dropdown */}
                   <div className="flex flex-col">

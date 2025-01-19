@@ -8,84 +8,11 @@ import Footer from "../components/Landing/Footer";
 import useJobManagement from "../hooks/useJobManagement";
 import { Helmet } from "react-helmet";
 import { Link } from 'react-router-dom'
-const jobSectors = [
-  {
-    id: 1,
-    name: "Agriculture",
-    subsections: [
-      { id: 1.1, name: "Crop Production" },
-      { id: 1.2, name: "Animal Husbandry" },
-      { id: 1.3, name: "Agricultural Technology" },
-    ],
-  },
-  {
-    id: 2,
-    name: "Oil and gas",
-    subsections: [
-      { id: 2.1, name: "Exploration" },
-      { id: 2.2, name: "Extraction" },
-      { id: 2.3, name: "Refining" },
-    ],
-  },
-  {
-    id: 3,
-    name: "Manufacturing",
-    subsections: [
-      { id: 3.1, name: "Textiles" },
-      { id: 3.2, name: "Electronics" },
-      { id: 3.3, name: "Automobiles" },
-    ],
-  },
-  {
-    id: 4,
-    name: "Information and communications",
-    subsections: [
-      { id: 4.1, name: "Software Development" },
-      { id: 4.2, name: "Network Administration" },
-      { id: 4.3, name: "Cybersecurity" },
-    ],
-  },
-  {
-    id: 5,
-    name: "Information Technology",
-    subsections: [
-      { id: 5.1, name: "Cloud Computing" },
-      { id: 5.2, name: "Data Science" },
-      { id: 5.3, name: "IT Support" },
-    ],
-  },
-  {
-    id: 6,
-    name: "Construction",
-    subsections: [
-      { id: 6.1, name: "Residential" },
-      { id: 6.2, name: "Commercial" },
-      { id: 6.3, name: "Infrastructure" },
-    ],
-  },
-  {
-    id: 7,
-    name: "Services",
-    subsections: [
-      { id: 7.1, name: "Hospitality" },
-      { id: 7.2, name: "Consulting" },
-      { id: 7.3, name: "Customer Support" },
-    ],
-  },
-  {
-    id: 8,
-    name: "HealthCare",
-    subsections: [
-      { id: 8.1, name: "Clinical Services" },
-      { id: 8.2, name: "Research" },
-      { id: 8.3, name: "Public Health" },
-    ],
-  },
-];
 
 const JobSearchPage = () => {
-  const { getEmployentTypes, getCurrencies } = useJobManagement();
+  const { getEmployentTypes, getCurrencies, getSectors } = useJobManagement();
   const [jobs, setJobs] = useState([]);
+  const [jobSectors, setJobSectors] = useState([]);
   const [loading, setLoading] = useState(false);
   const [filters, setFilters] = useState({
     keyword: "",
@@ -107,7 +34,9 @@ const JobSearchPage = () => {
   useEffect(() => {
     const initData = async () => {
       const employementListResult = await getEmployentTypes();
+      const sectors = await getSectors();
       setEmployementList(employementListResult);
+      setJobSectors(sectors)
     };
 
     initData();
