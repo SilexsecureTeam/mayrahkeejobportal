@@ -9,10 +9,17 @@ function Settings() {
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-6 py-4">
                 <SettingsCard
                     rightIcon={<BsNewspaper />}
-                    title="Manage Sectors"
-                    subtitle="Provide personal details and how we can reach you"
+                    title="Manage Job Sectors"
+                    subtitle="Add all the sectors and subsectors available for job"
                     smallTextIcon={<FaPlus/>}
                     link="/admin/settings/sectors"
+                     />
+                     <SettingsCard
+                    rightIcon={<BsNewspaper />}
+                    title="Manage Staff Sectors"
+                    subtitle="Add all the sectors and subsectors available for staff"
+                    smallTextIcon={<FaPlus/>}
+                    link="/admin/settings/staff-sectors"
                      />
                 <SettingsCard
                     rightIcon={<TbShieldHalf/>}

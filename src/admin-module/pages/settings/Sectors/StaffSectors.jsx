@@ -7,9 +7,9 @@ import UseAdminManagement from '../../../../hooks/useAdminManagement';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { FaArrowLeftLong } from 'react-icons/fa6';
-import SectorModal from './SectorModal'; // Modal for Add/Edit
+import StaffSectorModal from './StaffSectorModal'; // Modal for Add/Edit
 
-export default function Sectors() {
+export default function StaffSectors() {
     const [sectors, setSectors] = useState([]);
     const [selectedProducts, setSelectedProducts] = useState(null);
     const [activeIndex, setActiveIndex] = useState(0);
@@ -20,20 +20,20 @@ export default function Sectors() {
     const [isSubsector, setIsSubsector] = useState(false);
     const navigate = useNavigate();
     const { 
-        getSectors, 
-        deleteSectorById, 
-        deleteSubsectorById, 
-        createSector, 
-        createSubsector, 
-        updateSector, 
-        updateSubsector 
+        getStaffSectors, 
+        deleteStaffSectorById, 
+        deleteStaffSubsectorById, 
+        createStaffSector, 
+        createStaffSubsector, 
+        updateStaffSector, 
+        updateStaffSubsector 
     } = UseAdminManagement();
 
     useEffect(() => {
         const fetchSectors = async () => {
             setFetchSectorsLoading(true);
             try {
-                const data = await getSectors();
+                const data = await getStaffSectors();
                 if (data) {
                     setSectors(data);
                 } else {
@@ -86,14 +86,14 @@ export default function Sectors() {
             
             let response;
             if (activeIndex === 1) {
-                response = await deleteSectorById(id);
+                response = await deleteStaffSectorById(id);
             } else if (activeIndex === 2) {
-                response = await deleteSubsectorById(id);
+                response = await deleteStaffSubsectorById(id);
             }
     
             // Check if the response contains a 'message' indicating successful deletion
             if (response && response.message && response.message.includes("successfully")) {
-                const updatedData = await getSectors();
+                const updatedData = await getStaffSectors();
                 setSectors(updatedData);
                 toast.success(`${activeIndex === 2 ? 'Subsector' : 'Sector'} deleted successfully`);
             } else {
@@ -117,19 +117,19 @@ export default function Sectors() {
             // Decide API endpoint based on activeIndex and operation type (edit or create)
             if (editData) {
                 response = isSubsector
-                    ? await updateSubsector(editData.id, data)
-                    : await updateSector(editData.id, data);
+                    ? await updateStaffSubsector(editData.id, data)
+                    : await updateStaffSector(editData.id, data);
             } else {
                 response = isSubsector
-                    ? await createSubsector(data)
-                    : await createSector(data);
+                    ? await createStaffSubsector(data)
+                    : await createStaffSector(data);
             }
     
             // Check response for success
             if (response?.message?.includes("successfully")) {
                 toast.success(`${isSubsector ? "Subsector" : "Sector"} ${editData ? "updated" : "added"} successfully`);
                 setIsModalOpen(false); // Close modal only on success
-                const updatedData = await getSectors();
+                const updatedData = await getStaffSectors();
                 setSectors(updatedData); // Refresh data
             } else {
                 throw new Error(response?.message || "Unknown error occurred");
@@ -155,11 +155,11 @@ export default function Sectors() {
                 </button>
             </div>
             <div className="flex flex-col md:flex-row justify-between items-center mb-4 text-center md:text-left">
-                <h1 className="text-2xl font-bold mb-4 md:mb-0"> job Sector Management</h1>
+                <h1 className="text-2xl font-bold mb-4 md:mb-0">Staff Sector Management</h1>
                 <button
                     disabled={loading || fetchSectorsLoading}
                     onClick={handleAdd}
-                    className="bg-green-700 px-4 py-2 text-white rounded-md flex items-center justify-center font-medium"
+                    className="bg-green-700 px-4 py-2 text-white rounded-md flex items-center justify-center"
                 >
                     <FaPlus className="mr-2" />
                     {activeIndex === 2 ? 'Add Subsector' : 'Add Sector'}
@@ -208,7 +208,7 @@ export default function Sectors() {
                 </>
             )}
             {isModalOpen && (
-                <SectorModal
+                <StaffSectorModal
                     isOpen={isModalOpen}
                     onClose={() => setIsModalOpen(false)}
                     onSubmit={handleModalSubmit}

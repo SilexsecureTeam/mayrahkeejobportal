@@ -17,6 +17,7 @@ import EmployerCandidates from "../admin-module/pages/employers/EmployerCandidat
 import EmployerStaff from "../admin-module/pages/employers/EmployerStaff";
 import CandidateStaff from "../admin-module/pages/candidate/CandidateStaff";
 import Sectors from "../admin-module/pages/settings/Sectors/Sectors";
+import StaffSectors from "../admin-module/pages/settings/Sectors/StaffSectors";
 import AddCategory from "../admin-module/pages/settings/Sectors/AddCategory";
 import Currency from "../admin-module/pages/settings/Currency/curremcy";
 import AddCurrency from "../admin-module/pages/settings/Currency/AddCurrency";
@@ -190,6 +191,7 @@ function useAdminRoute() {
                         <Route path="/domestic-staff/details/:id" element={<DomesticStaffDetails />} />
                         <Route path="/settings" element={<Settings />} />
                         <Route path="/settings/sectors" element={<Sectors />} />
+                        <Route path="/settings/staff-sectors" element={<StaffSectors />} />
                         <Route path="/settings/sectors/categories" element={<AddCategory />} />
                         <Route path="/settings/currency" element={<Currency />} />
                         <Route path="/settings/currency/add" element={<AddCurrency />} />
