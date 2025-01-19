@@ -43,11 +43,13 @@ const ContactUs = () => {
               <form className="mt-3">
                 <div className="flex gap-4">
                   <input
+                  required="required"
                     type="text"
                     placeholder="First Name"
                     className="w-full p-3 border border-gray-400 placeholder:text-gray-400 text-sm font-medium rounded-full"
                   />
                   <input
+                  required="required"
                     type="text"
                     placeholder="Last Name"
                     className="w-full p-3 border border-gray-400 placeholder:text-gray-400 text-sm font-medium rounded-full"
@@ -56,6 +58,7 @@ const ContactUs = () => {
                 <div className="relative w-full mt-4">
                   <FiMail className="absolute left-4 top-0 bottom-0 my-auto text-gray-400" />
                   <input
+                  required="required"
                     type="email"
                     placeholder="Your email address"
                     className="w-full pl-10 p-3 border border-gray-400 placeholder:text-gray-400 text-sm font-medium rounded-full"
@@ -64,6 +67,7 @@ const ContactUs = () => {
                 <div className="relative w-full mt-4">
                   <FiPhone className="absolute left-4 top-0 bottom-0 my-auto text-gray-400" />
                   <input
+                  required="required"
                     type="text"
                     placeholder="Your phone number"
                     className="w-full pl-10 p-3 border border-gray-400 placeholder:text-gray-400 text-sm font-medium rounded-full"
@@ -72,6 +76,7 @@ const ContactUs = () => {
                 <textarea
                   placeholder="How can we help?"
                   maxLength={200}
+                  required="required"
                   className="w-full p-3 mt-4 border rounded-2xl border-gray-400 placeholder:text-gray-400 text-sm font-medium"
                   rows="4"
                 ></textarea>
