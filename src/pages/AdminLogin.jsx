@@ -5,7 +5,7 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import UseAdminManagement from "../hooks/useAdminManagement";
 import { AuthContext } from "../context/AuthContex";
-import MainLogo from "../assets/svgs/main-logo.svg";
+import MainLogo from "../assets/pngs/main-logo-icon.png";
 import { FaEye, FaEyeSlash, FaSpinner } from "react-icons/fa";
 
 function AdminLogin() {
