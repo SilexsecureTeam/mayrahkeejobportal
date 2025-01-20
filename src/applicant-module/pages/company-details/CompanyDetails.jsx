@@ -5,7 +5,7 @@ import { FaArrowLeft } from "react-icons/fa";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { resourceUrl } from '../../../services/axios-client';
 import { onSuccess } from '../../../utils/notifications/OnSuccess';
-import onFailure from '../../../utils/notifications/onFailure';
+import {onFailure} from '../../../utils/notifications/OnFailure';
 
 const CompanyDetails = () => {
     const { state } = useLocation();
