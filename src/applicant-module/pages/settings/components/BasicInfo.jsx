@@ -252,62 +252,94 @@ const BasicInfo = ({ setIsOpen }) => {
   }, [socialHandles]);
 
   const handleSubmit = (e) => {
-    console.log(details)
     e.preventDefault();
     setErrorMsg(null);
     setLoading(true);
     setGetCandidate((prev) => {
-      return {
-        ...prev,
-        isDataNeeded: false,
-      };
-    });
-    // details.country = countryInfo?.name;
-    // details.state = selectState;
-    axios
-      .post(`${BASE_URL}/candidate/UpdateCandidate/${user.id}`, details, {
-        headers: {
-          Authorization: `Bearer ${authDetails.token}`,
-          "Content-Type": "multipart/form-data",
-        },
-      })
-      .then((response) => {
-        console.log(response);
-        onSuccess({
-          message: "Profile",
-          success: response.data.message,
-        });
-        setIsOpen(false);
-        localStorage.setItem(
-          "userDetails",
-          JSON.stringify(response.data.candidate)
-        );
-        // setUserUpdate(updateData)
-        setLoading(false);
-        
-        navigate('/applicant/public-profile')
-        setGetCandidate((prev) => {
-          return {
+        return {
             ...prev,
-            isDataNeeded: true,
-          };
-        });
-        // toast.success("successful");
-      })
-      .catch((error) => {
-        console.log(error);
-        if (error.response) {
-          setErrorMsg({ stack: error.response.data.message });
-          setShowMsg(true);
-          setLoading(false);
-        } else {
-          console.log(error);
-          setErrorMsg({ network: error.message });
-          setShowMsg(true);
-          setLoading(false);
+            isDataNeeded: false,
+        };
+    });
+
+    const formData = new FormData();
+
+    // Loop through the details object and append each field to formData only if it's not null, undefined, or empty string
+    for (let key in details) {
+        if (details.hasOwnProperty(key)) {
+            const value = details[key];
+
+            // Check for fields that must be files
+            if (key === 'profile') {
+                if (value instanceof File) {
+                    formData.append(key, value); // Append the file if it's a file
+                }
+            }
+            else if (key === 'background_profile' || key === 'nin_slip' || key === 'introduction_video') {
+                // Check for file fields
+                if (value instanceof File) {
+                    formData.append(key, value);
+                }
+            }
+            // Handle social_media_handle if it's an array
+            else if (key === 'social_media_handle' && Array.isArray(value)) {
+                value.forEach((item, index) => {
+                    formData.append(`${key}[]`, item); // Append each item as an array element
+                });
+            }
+            // For other fields, append normally
+            else if (value !== null && value !== undefined && value !== '') {
+                formData.append(key, value);
+            }
         }
-      });
-  };
+    }
+
+    // Additional fields like country and state can be appended if needed
+    // formData.append("country", countryInfo?.name);
+    // formData.append("state", selectState);
+
+    axios
+        .post(`${BASE_URL}/candidate/UpdateCandidate/${user.id}`, formData, {
+            headers: {
+                Authorization: `Bearer ${authDetails.token}`,
+                "Content-Type": "multipart/form-data",
+            },
+        })
+        .then((response) => {
+            console.log(response);
+            onSuccess({
+                message: "Profile",
+                success: response.data.message,
+            });
+            setIsOpen(false);
+            localStorage.setItem(
+                "userDetails",
+                JSON.stringify(response.data.candidate)
+            );
+            setLoading(false);
+
+            navigate('/applicant/public-profile');
+            setGetCandidate((prev) => {
+                return {
+                    ...prev,
+                    isDataNeeded: true,
+                };
+            });
+        })
+        .catch((error) => {
+            console.log(error);
+            if (error.response) {
+                setErrorMsg({ stack: error.response.data.message });
+                setShowMsg(true);
+                setLoading(false);
+            } else {
+                setErrorMsg({ network: error.message });
+                setShowMsg(true);
+                setLoading(false);
+            }
+        });
+};
+
   const getImageURL = (e) => {
     const { name } = e.target;
     const file = e.target.files[0]; //filelist is an object carrying all details of file, .files[0] collects the value from key 0 (not array), and stores it in file

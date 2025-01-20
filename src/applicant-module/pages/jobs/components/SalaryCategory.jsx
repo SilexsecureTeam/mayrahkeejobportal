@@ -7,7 +7,7 @@ const SalaryCategory = ({ setSalaryRange }) => {
     return (
         <div>
             <div className="mb-5">
-                <div className="flex justify-between" onClick={() => setClose(!close)}>
+                <div className="flex justify-between cursor-pointer" onClick={() => setClose(!close)}>
                     <p className="font-bold">Salary Range</p>
                     <button
                     >{close ? <FaChevronUp /> : <FaChevronDown />}</button>
