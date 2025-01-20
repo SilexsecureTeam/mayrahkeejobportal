@@ -7,7 +7,7 @@ import JobApplicationForm from './components/JobApplicationForm';
 import { ResourceContext } from '../../../context/ResourceContext';
 import { resourceUrl } from '../../../services/axios-client';
 import { onSuccess } from '../../../utils/notifications/OnSuccess';
-import { onFailure } from '../../../utils/notifications/onFailure';
+import onFailure from '../../../utils/notifications/onFailure';
 
 const JobDetails = () => {
     const { state } = useLocation();
