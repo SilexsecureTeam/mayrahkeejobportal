@@ -54,7 +54,7 @@ const StaffSectorModal = ({ isOpen, onClose, onSubmit, initialData, loading, sec
                 {/* Modal Header */}
                 <div className="flex justify-between items-center border-b pb-4">
                     <h2 className="text-lg font-semibold text-gray-800">
-                        {initialData ? 'Edit Sector' : 'Add Sector'}
+                        {initialData ? `Edit ${isSubsector ? "Subsector" : "Sector"}` : `Add ${isSubsector ? "Subsector" : "Sector"}`}
                     </h2>
                     <button
                         onClick={onClose}
