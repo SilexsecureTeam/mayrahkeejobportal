@@ -47,7 +47,7 @@ Don't miss out—join us today to apply.
             await navigator.share({
                 title: `Exciting Opportunity by Mayrahkee Africa: ${job.job_title}`,
                 text: shareText,
-                url: `${window.location.origin}/register`,
+                //url: `${window.location.origin}/register`,
             });
             onSuccess({
                 message: "Sharing Successful",
