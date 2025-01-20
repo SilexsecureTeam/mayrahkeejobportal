@@ -14,60 +14,54 @@ const CompanyDetails = () => {
     const keywordArr = job?.search_keywords?.split(",");
 
     const shareCompanyDetails = async () => {
-        const shareText = `
+    const shareText = `
 🏢 **Company Name:** ${job.company_name}
 📍 **Location:** ${job.location}
 💼 **Sector:** ${job.sector}
 🌐 **Website:** ${job.profile_url}
-        
-Check out more details here: ${window.location.href}
-        `;
 
-        const shareImage = `${resourceUrl}${job?.logo_image || headerImg}`; // The logo image URL or fallback image
+This opportunity is brought to you by **Mayrahkee Africa**!  
+Discover more and join us today to explore opportunities.
 
-        try {
-            if (navigator.share) {
-                await navigator.share({
-                    title: `Explore ${job.company_name}`,
-                    text: shareText,
-                    url: window.location.href,
-                    files: [
-                        new File(
-                            [await fetch(shareImage).then((res) => res.blob())],
-                            "company-logo.jpg",
-                            { type: "image/jpeg" }
-                        ),
-                    ],
-                });
-                onSuccess({
-                    message: "Sharing Successful",
-                    success: "Company details shared successfully with an image!",
-                });
-            } else {
-                await navigator.clipboard.writeText(shareText);
-                onSuccess({
-                    message: "Sharing Successful",
-                    success: "Company details copied to clipboard! Share it manually.",
-                });
+🔗 [Register and Learn More Here!](${window.location.origin}/register)
+    `;
 
-            }
-        } catch (error) {
-            if (error.name === "AbortError") {
-                onFailure({
-                    message: "Sharing Error",
-                    error: "Sharing process was cancelled.",
-                });
-
-            } else {
-                console.error("Error sharing company details:", error);
-                onFailure({
-                    message: "Sharing Error",
-                    error: "An error occurred while sharing.",
-                });
-
-            }
+    try {
+        if (navigator.share) {
+            // Use the native share API without an image
+            await navigator.share({
+                title: `Explore Opportunities at ${job.company_name}`,
+                text: shareText,
+                url: `${window.location.origin}/register`, // Registration page
+            });
+            onSuccess({
+                message: "Sharing Successful",
+                success: "Company details shared successfully!",
+            });
+        } else {
+            // Fallback: copy text to clipboard
+            await navigator.clipboard.writeText(shareText);
+            onSuccess({
+                message: "Sharing Successful",
+                success: "Company details copied to clipboard! Share it manually.",
+            });
         }
-    };
+    } catch (error) {
+        if (error.name === "AbortError") {
+            onFailure({
+                message: "Sharing Cancelled",
+                error: "You cancelled the sharing process.",
+            });
+        } else {
+            console.error("Error sharing company details:", error);
+            onFailure({
+                message: "Sharing Error",
+                error: "An error occurred while sharing.",
+            });
+        }
+    }
+};
+    
 
     return (
         <div className="h-full text-[#25324b] w-full">
