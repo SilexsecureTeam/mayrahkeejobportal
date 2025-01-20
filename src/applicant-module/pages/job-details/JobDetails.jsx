@@ -39,38 +39,27 @@ const JobDetails = () => {
     `;
 
     try {
-        // Fetch and prepare the job image if available
-        let file;
-        if (job.image_url) {
-            const response = await fetch(job.image_url); // Ensure job.image_url is valid
-            const imageBlob = await response.blob();
-            file = new File([imageBlob], "job-image.png", { type: imageBlob.type });
-        }
-
-        // Check if sharing with files is supported
-        if (navigator.canShare && navigator.canShare({ files: file ? [file] : [] })) {
-            // Share with or without an image
+        if (navigator.share) {
+            // Use native sharing API without the image
             await navigator.share({
                 title: `Exciting Opportunity: ${job.job_title}`,
                 text: shareText,
                 url: window.location.href,
-                ...(file ? { files: [file] } : {}), // Include the image file if available
             });
             onSuccess({
                 message: "Sharing Successful",
                 success: "Job details shared successfully!",
             });
         } else {
-            // Fallback to clipboard sharing if files are not supported
+            // Fallback: copy text to clipboard
             await navigator.clipboard.writeText(shareText);
             onFailure({
                 message: "Sharing Unsupported",
-                error: "Your browser does not support sharing with files. Job details copied to clipboard!",
+                error: "Your browser does not support sharing. Job details copied to clipboard!",
             });
         }
     } catch (error) {
         if (error.name === "AbortError") {
-            // Handle user cancelling the share action
             onFailure({
                 message: "Sharing Cancelled",
                 error: "You cancelled the sharing process.",
