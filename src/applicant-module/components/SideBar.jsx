@@ -42,7 +42,7 @@ function SideBar({ children, authDetails, toogleIsOpen, isMenuOpen }) {
         
           <div className="flex-1 flex flex-col truncate">
             <span className="text-secondaryColor text-sm truncate">
-              {`${authDetails?.user?.first_name} ${authDetails?.user?.last_name}`}
+              {`${candidate?.full_name}`}
             </span>
             <span className="text-gray-300 text-[11px] truncate">
               {authDetails?.user?.email}
@@ -86,7 +86,7 @@ function SideBar({ children, authDetails, toogleIsOpen, isMenuOpen }) {
         <div className="absolute bottom-0 right-3 p-2 flex gap-3 items-end">
          
           <div className="flex-col flex truncate">
-            <span className="text-secondaryColor text-sm">
+            <span className="text-secondaryColor text-sm truncate">
               {`${authDetails?.user?.first_name} ${authDetails?.user?.last_name}`}
             </span>
             <span className="text-gray-300 text-[11px] truncate">

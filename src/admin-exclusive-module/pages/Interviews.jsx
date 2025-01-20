@@ -206,9 +206,9 @@ const Interviews = () => {
         setIsOpen={setIsOpen}
         edit={true}
       />
-      <div className="p-8 min-h-max bg-gray-200 flex flex-col gap-y-2">
+      <div className="p-8 min-h-max bg-gray-200/60 flex flex-col gap-y-2">
 
-        <p className="sticky top-18 bg-transparent ml-auto my-2 flex items-center gap-2 font-medium">
+        <p className="sticky top-18 bg-transparent ml-auto my-2 flex items-center gap-2 text-md font-bold">
           View Interviews
         </p>
 
@@ -239,7 +239,7 @@ const Interviews = () => {
                     alt="Employer Logo"
                   />
                   <h3 className="text-lg font-bold mt-auto text-green-800">{row?.interviewer_name}</h3>
-                  <p className="text-sm text-gray-600 my-2">{formattedDate} at {formattedTime}</p>
+                  <p className="text-sm text-gray-600 my-2 font-medium">{formattedDate} at {formattedTime}</p>
                   {isLive ? (
                     <p className="mt-1 text-green-600 font-semibold">Status: Live</p>
                   ) : hasEnded ? (
