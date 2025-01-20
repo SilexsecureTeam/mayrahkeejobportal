@@ -5,13 +5,19 @@ import { useLocation } from 'react-router-dom';
 import headerImg from '../../../assets/pngs/detail-logo.png';
 import JobApplicationForm from './components/JobApplicationForm';
 import { ResourceContext } from '../../../context/ResourceContext';
+import { resourceUrl } from '../../../services/axios-client';
+import { onSuccess } from '../../../utils/notifications/OnSuccess';
+import { onFailure } from '../../../utils/notifications/onFailure';
 
 const JobDetails = () => {
     const { state } = useLocation();
     const job = state?.job;
+    console.log(state)
 
     const { getResumeById, setGetResumeById } = useContext(ResourceContext);
-
+    useEffect(() => {
+        window.scrollTo(0, 0)
+    }, [])
     useEffect(() => {
         setGetResumeById((prev) => ({
             ...prev,
@@ -21,6 +27,60 @@ const JobDetails = () => {
 
     const postedDate = new Date(job.created_at);
     const keywordArr = job.search_keywords?.split(',');
+
+    const shareJobDetails = async (job) => {
+        const shareText = `
+🌟 **Job Title:** ${job.job_title}
+📍 **Location:** ${job.location}
+💼 **Type:** ${job.type}
+📅 **Apply Before:** ${job.application_deadline_date}
+
+🔗 [Click here to apply!](${window.location.href})
+    `;
+
+        try {
+            // Fetch and prepare the job image
+            const response = await fetch(job.image_url); // Ensure job.image_url is valid
+            const imageBlob = await response.blob();
+            const file = new File([imageBlob], "job-image.png", { type: imageBlob.type });
+
+            if (navigator.canShare && navigator.canShare({ files: [file] })) {
+                // Share with image
+                await navigator.share({
+                    title: `Exciting Opportunity: ${job.job_title}`,
+                    text: shareText,
+                    url: window.location.href,
+                    files: [file], // Include the image file
+                });
+                onSuccess({
+                    message: "Sharing Successful",
+                    success: "Job details shared successfully with an image!",
+                });
+            } else {
+                // Fallback for unsupported browsers
+                await navigator.clipboard.writeText(shareText);
+                onFailure({
+                    message: "Sharing Error",
+                    error: "Job details copied to clipboard! Share it manually.",
+                });
+
+            }
+        } catch (error) {
+            if (error.name === "AbortError") {
+                // Show a message when the user cancels sharing
+                onFailure({
+                    message: "Sharing Cancelled",
+                    error: "You cancelled the sharing process.",
+                });
+            } else {
+                console.error("Error sharing job details:", error);
+                onFailure({
+                    message: "Sharing Error",
+                    error: "An error occurred while sharing.",
+                });
+            }
+        }
+    };
 
     return (
         <div className="w-full min-h-full text-[#25324b]">
@@ -32,7 +92,7 @@ const JobDetails = () => {
                     <div className="flex gap-2 flex-wrap justify-between items-center">
                         {/* Left Section: Job Info */}
                         <div className="flex items-start space-x-4">
-                            <img src={headerImg} alt="Header Logo" className="w-20" />
+                            <img src={`${resourceUrl}/${job?.featured_image}`} alt="Job" className="w-20" />
                             <div>
                                 <p className="text-lg font-bold mb-2">{job.job_title}</p>
                                 <p className="text-sm mb-1">· {job.location} · {job.type}</p>
@@ -44,7 +104,10 @@ const JobDetails = () => {
 
                         {/* Right Section: Share and Application */}
                         <div className="flex items-center space-x-3">
-                            <button className="p-2 rounded-full border hover:bg-gray-100">
+                            <button onClick={() => shareJobDetails({
+                                ...job,
+                                image_url: `${resourceUrl}/${job?.featured_image}`, // Pass the header image or any valid job image URL
+                            })} className="p-2 rounded-full border hover:bg-gray-100">
                                 <BsShare />
                             </button>
                             <JobApplicationForm
@@ -86,14 +149,14 @@ const JobDetails = () => {
                 <div className="w-full md:w-1/5">
                     <h4 className="font-bold mb-2">About this role</h4>
                     <div className="bg-gray-100 p-4 rounded-md mb-6">
-                        <div className="relative h-2 bg-gray-300 rounded-full mb-2">
+                        {/* <div className="relative h-2 bg-gray-300 rounded-full mb-2">
                             <div
                                 className="absolute top-0 left-0 h-2 bg-green-500 rounded-full"
                                 style={{ width: '50%' }}
                             ></div>
-                        </div>
+                        </div> */}
                         <p className="text-sm">
-                            <b>5 applied</b> of 10 capacity
+                            <b>{job?.number_of_participants || 0}  Applicants Expected</b>
                         </p>
                     </div>
 
