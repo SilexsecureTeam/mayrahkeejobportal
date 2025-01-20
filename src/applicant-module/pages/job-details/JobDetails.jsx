@@ -35,16 +35,19 @@ const JobDetails = () => {
 💼 **Type:** ${job.type}
 📅 **Apply Before:** ${job.application_deadline_date}
 
-🔗 [Click here to apply!](${window.location.href})
+This exciting opportunity is brought to you by **Mayrahkee Africa**! 
+Don't miss out—join us today to apply.
+
+🔗 [Register and Apply Here!](${window.location.origin}/registration)
     `;
 
     try {
         if (navigator.share) {
             // Use native sharing API without the image
             await navigator.share({
-                title: `Exciting Opportunity: ${job.job_title}`,
+                title: `Exciting Opportunity by Mayrahkee Africa: ${job.job_title}`,
                 text: shareText,
-                url: window.location.href,
+                url: `${window.location.origin}/register`,
             });
             onSuccess({
                 message: "Sharing Successful",
@@ -73,7 +76,7 @@ const JobDetails = () => {
         }
     }
 };
-                
+    
 
     return (
         <div className="w-full min-h-full text-[#25324b]">
@@ -97,10 +100,7 @@ const JobDetails = () => {
 
                         {/* Right Section: Share and Application */}
                         <div className="flex items-center space-x-3">
-                            <button onClick={() => shareJobDetails({
-                                ...job,
-                                image_url: `${resourceUrl}/${job?.featured_image}`, // Pass the header image or any valid job image URL
-                            })} className="p-2 rounded-full border hover:bg-gray-100">
+                            <button onClick={() => shareJobDetails(job)} className="p-2 rounded-full border hover:bg-gray-100">
                                 <BsShare />
                             </button>
                             <JobApplicationForm
