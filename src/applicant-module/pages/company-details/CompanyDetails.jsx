@@ -23,7 +23,7 @@ const CompanyDetails = () => {
 This opportunity is brought to you by **Mayrahkee Africa**!  
 Discover more and join us today to explore opportunities.
 
-🔗 [Register and Learn More Here!](${window.location.origin}/register)
+🔗 [Register and Learn More Here!](${window.location.origin}/registration)
     `;
 
     try {
@@ -32,7 +32,7 @@ Discover more and join us today to explore opportunities.
             await navigator.share({
                 title: `Explore Opportunities at ${job.company_name}`,
                 text: shareText,
-                url: `${window.location.origin}/register`, // Registration page
+                //url: `${window.location.origin}/register`,
             });
             onSuccess({
                 message: "Sharing Successful",
