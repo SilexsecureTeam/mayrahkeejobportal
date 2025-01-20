@@ -2,8 +2,9 @@ import { useContext, useEffect, useState } from "react";
 import { axiosClient } from "../services/axios-client";
 import { AuthContext } from "../context/AuthContex";
 import { onFailure } from "../utils/notifications/OnFailure";
+import { onSuccess } from "../utils/notifications/OnSuccess";
 import { FormatError } from "../utils/formmaters";
-
+import { set, get, del, keys } from "idb-keyval";
 export const COMPANY_PROFILE_Key = "Company Profile Database";
 
 function useExclusiveProfile(exclusiveID) {
@@ -86,33 +87,40 @@ function useExclusiveProfile(exclusiveID) {
     }
   };
 
-  //Function to map details to a form data
   const mapToFormData = () => {
     const formData = new FormData();
-    Object.keys(details).map((current) => {
+    
+    Object.keys(details).forEach((current) => {
       const key = current;
       const val = details[current];
+      
       if (val) {
-        if (details.hasOwnProperty(key) && Array.isArray(val)) {
-          if (val.length !== 0) {
-            details[key].forEach((file) => {
-              if (typeof file === "object") {
-                formData.append(`${key}[]`, file);
-              }
-            });
-          }
+        if (Array.isArray(val)) {
+          // Append all values in the array, whether strings or files
+          val.forEach((item) => {
+            if (typeof item === "object") {
+              // It's a file, append it
+              formData.append(`${key}[]`, item);
+            } else if (typeof item === "string") {
+              // It's a string (existing path), append it
+              formData.append(`${key}[]`, item);
+            }
+          });
         } else {
-          if (key === "logo_image" && typeof val === "string") {
+          if (key === 'logo_image' && typeof val === 'string') {
+            // Skip existing logo image URL
             return;
           } else {
-            formData.append(current, details[current]);
+            formData.append(current, val);
           }
         }
       }
     });
-
+  
     return formData;
   };
+  
+
 
   //Api request to update profile
   const updateCompanyProfile = async (handleSuccess) => {
@@ -126,6 +134,10 @@ function useExclusiveProfile(exclusiveID) {
       );
 
       //On success, save response data to index db
+   
+      setDetails({...details, ...response.data?.employer})
+      await set(COMPANY_PROFILE_Key, response.data?.employer);
+      onSuccess({"message": "Profile Update", success:response?.message || "Successful"});
       handleSuccess();
     } catch (error) {
       console.log(error);
@@ -149,15 +161,21 @@ function useExclusiveProfile(exclusiveID) {
       onFailure(error);
     }
   }, [error]);
+useEffect(() => {
+    //Initailise value from index db
+    const initValue = async () => {
+      try {
+        //const storedValue = await get(COMPANY_PROFILE_Key);
+        if (details.employer_id) {
+          await getProfile();
+        }
+      } catch (error) {
+        FormatError(error, setError, "Index Error");
+      }
+    };
 
-  // useEffect(() => {
-  //   //Initailise value from index db
-  //   const initValue = async () => {
-  //       await getProfile();
-  //   };
-
-  //   initValue();
-  // }, []);
+    initValue();
+  }, [details.employer_id]);
 
   return {
     loading,

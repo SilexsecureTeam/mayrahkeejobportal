@@ -7,6 +7,7 @@ import {
   FaLinkedin,
   FaTwitter,
   FaInstagram,
+  FaTimes,
 } from "react-icons/fa";
 import { useEffect, useState, useContext } from "react";
 import BasicInput from "./BasicInput";
@@ -163,47 +164,43 @@ function UpdateCompanyProfileModal({
   const [campaignPhotos, setCampaignPhotos] = useState([...details?.company_campaign_photos || []]);
   const [sectorList, setSectorList] = useState([]);
 
-  const getCampaignPhotoURL = (e) => {
-    const { name } = e.target; // Get input name
-    const files = e.target.files; // Access all selected files
+  
+const getCampaignPhotoURL = (e) => {
+  const { name } = e.target;
+  const files = e.target.files;
 
-    // Validate files
-    const validFiles = Array.from(files).filter(
-      (file) => file.type === "image/jpeg" || file.type === "image/png"
-    );
+  // Validate files
+  const validFiles = Array.from(files)?.filter(
+    (file) => file.type === "image/jpeg" || file.type === "image/png"
+  );
 
-    if (validFiles.length > 0) {
-      // Generate a temporary URL for each valid file
-      const updatedList = validFiles.map((file) => ({
-        url: URL.createObjectURL(file),
-        file,
-      }));
+  if (validFiles.length > 0) {
+    const updatedList = validFiles.map((file) => ({
+      url: URL.createObjectURL(file),
+      file,
+    }));
 
-      // Add the new files to the existing list of campaign photos
-      const updatedPhotos = [
-        ...details?.company_campaign_photos,
-        ...updatedList, // Append the entire object (with both url and file)
-      ];
+    const updatedPhotos = [
+      ...(details?.company_campaign_photos || []),
+      ...updatedList,
+    ];
 
-      // Update details state with only the file objects (no URL)
-      const updatedFiles = [
-        ...details?.company_campaign_photos?.map((item) => item),
-        ...updatedList.map((item) => item.file) // Spread the file objects into the updatedFiles array
-      ];
+    const updatedFiles = [
+      ...(Array.isArray(details?.company_campaign_photos) ? details?.company_campaign_photos?.map((item) => item) : []),
+      ...updatedList.map((item) => item.file),
+    ];
 
-      // Update state
-      setDetails((prevDetails) => ({
-        ...prevDetails,
-        [name]: updatedFiles, // Update details with the file objects
-      }));
-      setCampaignPhotos(updatedPhotos); // Update campaignPhotos with the objects (url + file)
+    setDetails((prevDetails) => ({
+      ...prevDetails,
+      [name]: updatedFiles,
+    }));
+    setCampaignPhotos(updatedPhotos);
 
-      console.log("Updated Campaign Photos:", updatedList);
-    } else {
-      alert("Please select a valid JPEG or PNG file."
-      ); // Handle invalid file type
-    }
-  };
+    console.log("Updated Campaign Photos:", updatedPhotos);
+  } else {
+    alert("Please select a valid JPEG or PNG file.");
+  }
+};
 
 useEffect(()=>{
  const init= async()=>{
@@ -354,16 +351,19 @@ useEffect(()=>{
                   htmlFor="currentCampaignPhoto"
                   className="text-sm font-semibold flex w-full justify-between items-center"
                 >
-                  Capaign Photos <FaRegEdit size="24" className="cursor-pointer" />
-                </label>
-                <input
+                  Capaign Photos <span className="relative">
+                  <FaRegEdit size="24" className="cursor-pointer" />
+                  <input
                   name="company_campaign_photos"
                   onChange={getCampaignPhotoURL}
                   id="currentCampaignPhoto"
-                  className="hidden"
+                  className="hidden absolute w-full h-full"
                   type="file"
                   multiple // Allows multiple file selection
                 />
+                  </span>
+                </label>
+                
 
                 <div className="w-full min-h-[100px] flex gap-[3px] items-start border-dashed p-2 border overflow-x-auto">
                   {campaignPhotos?.map((current, idx) => (
@@ -373,12 +373,12 @@ useEffect(()=>{
                         src={current.url}
                         alt={`Campaign ${idx}`}
                       />
-                      <button
+                      <span
                         onClick={() => handleRemovePhoto(idx)}
-                        className="absolute top-[-5px] right-[-5px] bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-[20px]"
+                        className="absolute top-[-5px] right-[-5px] bg-red-500 font-bold text-white rounded-full w-5 h-5 flex items-center justify-center cursor-pointer"
                       >
-                        &times;
-                      </button>
+                        <FaTimes size="15" />
+                      </span>
                     </div>
                   ))}
                 </div>

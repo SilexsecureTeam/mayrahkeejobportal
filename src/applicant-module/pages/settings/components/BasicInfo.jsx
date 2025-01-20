@@ -678,7 +678,7 @@ const BasicInfo = ({ setIsOpen }) => {
                               value={selectedLanguages}
                               name="languages"
                               onChange={handleOnChange}
-                              className="border flex flex-wrap w-full p-2 pb-1"
+                              className="border flex flex-wrap gap-2 w-full p-2 pb-1"
                             >
                               {[
                                 "English",
@@ -775,7 +775,7 @@ const BasicInfo = ({ setIsOpen }) => {
                             value={details.personal_profile}
                             name="personal_profile"
                             onChange={handleOnChange}
-                            className="mt-1 min-h-[100px] block w-full focus:outline-green-400 border"
+                            className="mt-1 min-h-[100px] block w-full focus:outline-green-400 p-2 border"
                             id=""
                           ></textarea>
                         </div>

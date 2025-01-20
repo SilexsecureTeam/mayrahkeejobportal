@@ -1,7 +1,9 @@
 import { useState, useEffect, React } from "react";
 import { Button, Popover, Typography } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 const Interview = ({ getInterviews, shortListed }) => {
+  const navigate=useNavigate();
   const [newInterview, setNewInterview] = useState();
   const [anchorEl, setAnchorEl] = useState(null);
 
@@ -20,6 +22,14 @@ const Interview = ({ getInterviews, shortListed }) => {
   }, []);
   console.log(newInterview);
   const date = new Date(newInterview?.interview_date);
+  // Handle navigation to the interview room
+  
+  const navigateToApplications = (key) => {
+    
+    navigate("/applicant/applications",{state:{id: `${key}`}});
+  setSideBar(3);
+};
+
   return (
     <>
       <Popover
@@ -41,14 +51,15 @@ const Interview = ({ getInterviews, shortListed }) => {
         disableRestoreFocus
       >
         <Typography sx={{ p: 1 }}>
-          <div className="h-fit flex flex-col gap-2 w-fit p-2 rounded-[15px]">
+          <div className="h-fit flex flex-col gap-2 w-96 p-2 rounded-[15px]">
             <strong className="border-b">Interview Details</strong>
             
             <span >Interviewer: {newInterview?.interviewer_name}</span>
             <span>Date: {(new Date(newInterview?.interview_date)).toLocaleDateString()}</span>
             
             <span>Time: {newInterview?.interview_time}</span>
-            <span>Meeting Id: {newInterview?.meeting_id}</span>
+            {newInterview?.meeting_id && <span>Meeting Id: {newInterview?.meeting_id}</span>}
+            {newInterview?.location && <span>Location: {newInterview?.location}</span>}
             <span>Notes: {newInterview?.notes}</span>
             </div>
         </Typography>
@@ -71,6 +82,12 @@ const Interview = ({ getInterviews, shortListed }) => {
                 </p>
                 <p className="font-bold">{shortListed?.employer_name}</p>
               </div>
+              <button
+                onClick={()=>navigateToApplications("shortlist")}
+                className="border hover:bg-primaryColor hover:text-white border-primaryColor px-2 text-sm sm:text-little text-primaryColor"
+              >
+                View
+              </button>
             </div>
           </div>
         </div>
