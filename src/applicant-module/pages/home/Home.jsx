@@ -251,7 +251,7 @@ const interviews = allApplications?.filter(
 
             <div className="w-full md:w-[50%] font-medium border py-3 text-sm">
               <div className="px-3 border-b">
-                <p className="font-bold my-3">Upcomming Interviews</p>
+                <p className="font-bold my-3">Upcoming Interviews</p>
               </div>
               <div className="px-3 flex border-b justify-between items-center">
                 <p className=" my-3">

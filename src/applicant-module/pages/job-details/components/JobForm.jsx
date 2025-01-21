@@ -5,7 +5,7 @@ import { AuthContext } from '../../../../context/AuthContex'
 import { ResourceContext } from '../../../../context/ResourceContext'
 import { onSuccess } from '../../../../utils/notifications/OnSuccess';
 import { FcApproval } from 'react-icons/fc';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const JobForm = ({ setIsOpen, getCandidate, job, resume, updateAllApplications }) => {
 const navigate=useNavigate();
@@ -123,7 +123,8 @@ const navigate=useNavigate();
                 <div className="update_form py-6">
                     <div>
                         <div className="grid md:grid-cols-2 gap-3 mb-4">
-                            {resume?.map((item) => {
+                            {resume?.length > 0 ?
+                             resume?.map((item) => {
                                 const active = activeResume === item.id
                                 return (
                                     <>
@@ -139,7 +140,7 @@ const navigate=useNavigate();
                                             className={`p-4 cursor-pointer border relative rounded shadow-2xl justify-between flex-col flex ${active ? "bg-green-100" : ""}`}>
                                             <div>
                                                 <div className="flex justify-between w-full">
-                                                    <p>{item.title}</p>
+                                                    <p className="text-green-600 font-medium">{item.title}</p>
                                                     <span className='absolute right-0 top-0'> {active && (<FcApproval size={30}/>)}</span>
                                                 </div>
                                                 <div className="details">
@@ -206,7 +207,12 @@ const navigate=useNavigate();
                                         </div>
                                     </>
                                 )
-                            })}
+                            }):(
+                                <div className="flex flex-col gap-2 items-center justify-center">
+                                    <p className="text-sm tet-gray-700">Please you need to create a resume</p>
+                                    <Link to="/applicant/my-resume" className="rounde-md text-sm px-3 py-1 bg-green-600 text-white font-medium">Create Resume</Link>
+                                </div>
+                            )}
                         </div>
                         <form onSubmit={handleSubmit}>
                             <div className=" md:w-">
