@@ -102,8 +102,10 @@ function useLogin(role) {
         message: "Reset succesful",
         success: "A reset otp has been sent to your email",
       });
+      return true;
     } catch (error) {
       FormatError(error, setError, "Reset Error");
+      return false
     } finally {
       setLoading(false);
     }
