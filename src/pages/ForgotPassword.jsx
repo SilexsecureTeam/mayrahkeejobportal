@@ -86,10 +86,22 @@ function ForgotPassword() {
             <FormButton
               loading={loading}
               onClick={() => {
-                forgotPassword(email, role).then(() => {
-                  setShowResetPassword(true);
-                });
-              }}
+  forgotPassword(email, role)
+    .then((response) => {
+      // Assuming the API response has a success indicator, e.g., `response.success`
+      if (response?.success) {
+        setShowResetPassword(true);
+      } else {
+        // Handle the error case if the response indicates failure
+        console.error("Password reset failed", response?.message || "Unknown error");
+      }
+    })
+    .catch((error) => {
+      // Handle network or other unexpected errors
+      console.error("Error during forgot password request", error);
+    });
+}}
+
             >
               Verify
             </FormButton>
