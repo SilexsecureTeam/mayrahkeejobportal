@@ -7,7 +7,7 @@ function Applicants({ applicants, exclusive=false }) {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedApplicant, setSelectedApplicant] = useState(null);
   const [filteredApplicants, setFilteredApplicants] = useState(applicants);
- 
+ console.log(applicants)
   useEffect(() => {
     console.log(searchTerm)
     // Filter applicants based on the search term

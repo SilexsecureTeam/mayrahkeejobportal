@@ -53,7 +53,7 @@ function FindJob() {
         ? job.type?.toLowerCase().includes(employmentType?.toLowerCase())
         : true;
       const matchesCategory = category
-        ? job.search_keywords?.toLowerCase().includes(category?.toLowerCase())
+        ? job.sector?.toLowerCase().includes(category?.toLowerCase())
         : true;
       const matchesJobLevel = jobLevel
         ? job.career_level?.toLowerCase() === jobLevel?.toLowerCase()

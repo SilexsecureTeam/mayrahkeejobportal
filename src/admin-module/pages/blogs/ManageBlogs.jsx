@@ -35,28 +35,47 @@ function ManageBlogs() {
   };
 
   const featurePost = async (post, checked) => {
-    console.log(post);
-    const val = checked ? '1' : '0';
-
+    const val = checked ? "1" : "0";
+  
     try {
-      const { data } = await client.put(`/blog/posts/${post.id}`, { feature_post: val });
+      // Define fields to exclude
+      const excludedFields = ["main_image", "secondary_image"];
+  
+      // Filter the `post` object to exclude image fields
+      const filteredPost = Object.keys(post).reduce((acc, key) => {
+        if (!excludedFields.includes(key)) {
+          acc[key] = post[key];
+        }
+        return acc;
+      }, {});
+  
+      // Send the filtered post data to the API
+      const { data } = await client.post(`/blog/posts`, { ...filteredPost, feature_post: val });
+  
       if (data.data) {
-        await getAllBlogs();
+        // await getAllBlogs(); // Uncomment if necessary to refresh blog list
         onSuccess({
-          message: 'Blog Update Status',
-          success: 'Updated successfully'
+          message: "Blog Update Status",
+          success: "Updated successfully",
         });
+         // Update the blogs state by replacing the matching blog
+      setBlogs((prevBlogs) =>
+        prevBlogs.map((blog) =>
+          blog.id === data.data.id ? { ...blog, ...data.data } : blog
+        )
+      );
+        console.log(data.data); // Log the filtered post object for debugging
         return true;
       }
     } catch (error) {
       onFailure({
-        message: 'Blog Update Error',
-        error: 'Failed to update'
+        message: "Blog Update Error",
+        error: "Failed to update",
       });
       return false;
     }
   };
-
+  
   useEffect(() => {
     getAllBlogs();
   }, []);

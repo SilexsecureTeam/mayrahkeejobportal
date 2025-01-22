@@ -3,6 +3,8 @@ import UseAdminManagement from "../../../hooks/useAdminManagement";
 import DataTableComponent from "../../components/DataTable/DataTableComponent";
 import { FaArrowLeftLong } from "react-icons/fa6";
 import ToggleSwitch from "./Tools/ToggleBtn";
+import { onFailure } from "../../../utils/notifications/OnFailure";
+import { onSuccess } from "../../../utils/notifications/OnSuccess";
 
 function AllJobs() {
   const { loading, getAllJobs, updateFeaturedJobs } = UseAdminManagement();
@@ -14,29 +16,53 @@ function AllJobs() {
       const data = await getAllJobs();
       const sortedData = data.sort((a, b) => b.id - a.id);
       if (data) {
-        const updatedJobs = sortedData.map((job) => ({
-          ...job,
-          isFeatured: job.feature_jobs === "1", 
-        }));
-        setJobs(updatedJobs);
+        // const updatedJobs = sortedData.map((job) => ({
+        //   ...job,
+        //   isFeatured: job.feature_jobs === "1", 
+        // }));
+        setJobs(sortedData);
       } else {
         console.error("No data received");
       }
     })();
   }, []);
 
-  const handleToggle = async (id, currentStatus) => {
-    setLoadingToggles((prev) => ({ ...prev, [id]: true })); // Set loading for specific toggle
-    const updatedStatus = currentStatus ? "0" : "1"; 
-    const response = await updateFeaturedJobs(id, updatedStatus);
-    if (response) {
-      const updatedJobs = jobs.map((job) =>
-        job.id === id ? { ...job, isFeatured: !currentStatus } : job
-      );
-      setJobs(updatedJobs);
-      setLoadingToggles((prev) => ({ ...prev, [id]: false })); // Set loading to false for specific toggle
+  const handleToggle = async (job, currentStatus) => {
+    const id = job.id;
+  
+    // Immediately set loading state
+    setLoadingToggles((prev) => ({ ...prev, [id]: true })); 
+  
+    const updatedStatus = currentStatus ? "0" : "1";
+  
+    try {
+      const response = await updateFeaturedJobs(job, updatedStatus);
+  
+      if (response) {
+        // Optimistically update state immediately after success
+        setJobs((prevJobs) =>
+          prevJobs.map((job) =>
+            job.id === id ? { ...job, feature_jobs: updatedStatus } : job
+          )
+        );
+  
+        onSuccess({
+          message: "Job Update Status",
+          success: "Updated successfully",
+        });
+      }
+    } catch (error) {
+      onFailure({
+        message: "Job Update Error",
+        error: "Failed to update",
+      });
+    } finally {
+      // Ensure loading state is removed
+      setLoadingToggles((prev) => ({ ...prev, [id]: false }));
     }
   };
+  
+  
 
   const heading = ["ID", "Title", "Salary Type", "Sector", "Type", "Status", "Featured Jobs"];
 
@@ -49,9 +75,9 @@ function AllJobs() {
     [heading[5].toLowerCase()]: job.status,
     [heading[6].toLowerCase()]: (
       <ToggleSwitch
-        isOn={job.isFeatured}
+        isOn={job.feature_jobs === "1"}
         isLoading={loadingToggles[job.id]} // Pass loading state for specific toggle
-        onToggle={() => handleToggle(job.id, job.isFeatured)}
+        onToggle={() => handleToggle(job, job?.feature_jobs === "0" ? false : true)}
       />
     ),
   }));

@@ -69,7 +69,8 @@ const CreateBlog = () => {
         { key: "title", label: "Blog Title" },
         { key: "blog_category_id", label: "Blog Category" },
         { key: "blog_sub_category_id", label: "Blog Subcategory" },
-        { key: "description", label: "Blog Content"}
+        { key: "description", label: "Blog Content" },
+        { key: "main_image", label: "Blog Image" }
       ];
   
       // Find missing fields
@@ -81,10 +82,10 @@ const CreateBlog = () => {
         const missingFieldLabels = missingFields.map((field) => field.label).join(", ");
         onFailure({
           message: "Incomplete Information",
-          error: `Please provide the following required fields: ${missingFieldLabels}.`,
+          error: `Please ensure you provide the following details ${missingFieldLabels}.`,
         });
         setLoading(false);
-        console.log(missingFieldLabels)
+        console.log(missingFieldLabels);
         return;
       }
   
@@ -101,16 +102,21 @@ const CreateBlog = () => {
               "secondary_image"
             ].includes(key)
           ) {
-            acc[key] = blog[key];
+            // Exclude `main_image` if it is a string (indicating an existing image)
+            if (!(key === "main_image" && !(blog[key] instanceof File))) {
+              acc[key] = blog[key];
+            }
           }
           return acc;
         }, {});
+  
         const formData = new FormData();
         Object.keys(filteredBlog).forEach((key) => {
           if (key !== "readingTime") {
-            formData.append(key, blog[key]);
+            formData.append(key, filteredBlog[key]);
           }
         });
+  
         apiFunc = client.post(`/blog/posts`, formData, {
           headers: {
             "Content-Type": "multipart/form-data",
@@ -118,8 +124,9 @@ const CreateBlog = () => {
         });
       } else {
         const formData = new FormData();
+        
         Object.keys(blog).forEach((key) => {
-          if (key !== "readingTime") {
+          if (key !== "readingTime" && !(key === "main_image" && !(blog[key] instanceof File)) && !(key === "secondary_image" && !(blog[key] instanceof File))) {
             formData.append(key, blog[key]);
           }
         });
@@ -138,7 +145,7 @@ const CreateBlog = () => {
       });
       navigate("/admin/blogs");
     } catch (error) {
-      console.log(error)
+      console.log(error);
       onFailure({
         message: editBlog ? "Edit Post Error" : "Post Error",
         error: `An error occurred while ${editBlog ? "updating" : "posting"} the blog.`,
