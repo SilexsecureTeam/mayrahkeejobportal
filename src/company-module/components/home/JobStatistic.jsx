@@ -1,7 +1,3 @@
-}
-
-export default JobStatistic;
-        
 import React, { useState } from "react";
 import ReactApexChart from "react-apexcharts";
 
@@ -295,4 +291,3 @@ function JobStatistic({ applicants, byCategory }) {
 }
 
 export default JobStatistic;
-                                           
