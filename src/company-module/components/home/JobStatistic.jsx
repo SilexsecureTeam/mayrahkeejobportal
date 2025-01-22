@@ -3,9 +3,11 @@ import ReactApexChart from "react-apexcharts";
 
 const options = [
   "Overview",
-  "Declined Applicants",
+  "In-Review Applicants",
+  "Shortlisted Applicants",
   "Interviewed Applicants",
   "Onboarded Applicants",
+  "Declined Applicants"
 ];
 
 function JobStatistic({ applicants, byCategory }) {
@@ -17,7 +19,11 @@ function JobStatistic({ applicants, byCategory }) {
         return applicants.filter((app) => app.status === "declined");
       case "Shortlisted Applicants":
         return applicants.filter((app) => app.status === "shortlist");
-      case "Onboarded Applicants":
+      case "In-Review Applicants":
+        return applicants.filter((app) => app.status === "in-review");
+        case "Interviewed Applicants":
+        return applicants.filter((app) => app.status === "interview");
+        case "Onboarded Applicants":
         return applicants.filter((app) => app.status === "hired");
       default:
         return applicants; // Overview includes all
@@ -28,7 +34,7 @@ function JobStatistic({ applicants, byCategory }) {
     const filteredApplicants = filterApplicants(active);
 
     if (active === "Overview") {
-      const applicantByStatus = { declined: [], shortlist: [], hired: [] };
+      const applicantByStatus = { declined: [], shortlist: [], hired: [], interview:[], inReview:[] };
 
       Object.keys(byCategory).forEach((cat) => {
         const jobId = byCategory[cat][0].job_id;
@@ -38,6 +44,18 @@ function JobStatistic({ applicants, byCategory }) {
           jobTitle,
           count: applicants.filter(
             (app) => app.job_id === jobId && app.status === "declined"
+          ).length,
+        });
+        applicantByStatus.interview.push({
+          jobTitle,
+          count: applicants.filter(
+            (app) => app.job_id === jobId && app.status === "interview"
+          ).length,
+        });
+        applicantByStatus.inReview.push({
+          jobTitle,
+          count: applicants.filter(
+            (app) => app.job_id === jobId && app.status === "in-review"
           ).length,
         });
         applicantByStatus.shortlist.push({
@@ -63,7 +81,15 @@ function JobStatistic({ applicants, byCategory }) {
           },
           {
             name: "Interviewed",
+            data: applicantByStatus.interview.map((item) => item.count),
+          },
+            {
+            name: "Shortlisted",
             data: applicantByStatus.shortlist.map((item) => item.count),
+          },  
+          {
+            name: "InReview",
+            data: applicantByStatus.inReview.map((item) => item.count),
           },
           {
             name: "Onboarded",
@@ -91,9 +117,11 @@ function JobStatistic({ applicants, byCategory }) {
 
   const getChartConfig = () => {
     const colorPalette = {
-      Rejected: "#FF6347", // Tomato Red
-      Interviewed: "#FFA500", // Orange
-      Onboarded: "#32CD32", // Lime Green
+Rejected: "#FF6347", // Tomato Red
+Interviewed: "#FFFF00", // Yellow
+InReview: "#FFA500", // Orange
+Shortlisted: "#03055B", // Navy Blue
+Onboarded: "#32CD32", // Lime Green
       default: "#1E90FF", // Dodger Blue for other cases
     };
 
