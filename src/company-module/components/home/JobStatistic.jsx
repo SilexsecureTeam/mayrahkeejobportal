@@ -21,9 +21,9 @@ function JobStatistic({ applicants, byCategory }) {
         return applicants.filter((app) => app.status === "shortlist");
       case "In-Review Applicants":
         return applicants.filter((app) => app.status === "in-review");
-        case "Interviewed Applicants":
+      case "Interviewed Applicants":
         return applicants.filter((app) => app.status === "interview");
-        case "Onboarded Applicants":
+      case "Onboarded Applicants":
         return applicants.filter((app) => app.status === "hired");
       default:
         return applicants; // Overview includes all
@@ -34,7 +34,7 @@ function JobStatistic({ applicants, byCategory }) {
     const filteredApplicants = filterApplicants(active);
 
     if (active === "Overview") {
-      const applicantByStatus = { declined: [], shortlist: [], hired: [], interview:[], inReview:[] };
+      const applicantByStatus = { declined: [], shortlist: [], hired: [], interview: [], inReview: [] };
 
       Object.keys(byCategory).forEach((cat) => {
         const jobId = byCategory[cat][0].job_id;
@@ -42,33 +42,23 @@ function JobStatistic({ applicants, byCategory }) {
 
         applicantByStatus.declined.push({
           jobTitle,
-          count: applicants.filter(
-            (app) => app.job_id === jobId && app.status === "declined"
-          ).length,
+          count: applicants.filter((app) => app.job_id === jobId && app.status === "declined").length,
         });
         applicantByStatus.interview.push({
           jobTitle,
-          count: applicants.filter(
-            (app) => app.job_id === jobId && app.status === "interview"
-          ).length,
+          count: applicants.filter((app) => app.job_id === jobId && app.status === "interview").length,
         });
         applicantByStatus.inReview.push({
           jobTitle,
-          count: applicants.filter(
-            (app) => app.job_id === jobId && app.status === "in-review"
-          ).length,
+          count: applicants.filter((app) => app.job_id === jobId && app.status === "in-review").length,
         });
         applicantByStatus.shortlist.push({
           jobTitle,
-          count: applicants.filter(
-            (app) => app.job_id === jobId && app.status === "shortlist"
-          ).length,
+          count: applicants.filter((app) => app.job_id === jobId && app.status === "shortlist").length,
         });
         applicantByStatus.hired.push({
           jobTitle,
-          count: applicants.filter(
-            (app) => app.job_id === jobId && app.status === "hired"
-          ).length,
+          count: applicants.filter((app) => app.job_id === jobId && app.status === "hired").length,
         });
       });
 
@@ -83,10 +73,10 @@ function JobStatistic({ applicants, byCategory }) {
             name: "Interviewed",
             data: applicantByStatus.interview.map((item) => item.count),
           },
-            {
+          {
             name: "Shortlisted",
             data: applicantByStatus.shortlist.map((item) => item.count),
-          },  
+          },
           {
             name: "InReview",
             data: applicantByStatus.inReview.map((item) => item.count),
@@ -117,11 +107,11 @@ function JobStatistic({ applicants, byCategory }) {
 
   const getChartConfig = () => {
     const colorPalette = {
-Rejected: "#FF6347", // Tomato Red
-Interviewed: "#FFFF00", // Yellow
-InReview: "#FFA500", // Orange
-Shortlisted: "#03055B", // Navy Blue
-Onboarded: "#32CD32", // Lime Green
+      Rejected: "#FF6347", // Tomato Red
+      Interviewed: "#FFFF00", // Yellow
+      InReview: "#FFA500", // Orange
+      Shortlisted: "#03055B", // Navy Blue
+      Onboarded: "#32CD32", // Lime Green
       default: "#1E90FF", // Dodger Blue for other cases
     };
 
@@ -156,6 +146,8 @@ Onboarded: "#32CD32", // Lime Green
             colorPalette.Rejected,
             colorPalette.Interviewed,
             colorPalette.Onboarded,
+            colorPalette.InReview,
+            colorPalette.Shortlisted,
           ],
           title: { text: "Overview of All Applicants", style: { fontSize: "16px" } },
           legend: {
