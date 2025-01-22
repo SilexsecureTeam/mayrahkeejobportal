@@ -42,23 +42,33 @@ function JobStatistic({ applicants, byCategory }) {
 
         applicantByStatus.declined.push({
           jobTitle,
-          count: applicants.filter((app) => app.job_id === jobId && app.status === "declined").length,
+          count: applicants.filter(
+            (app) => app.job_id === jobId && app.status === "declined"
+          ).length,
         });
         applicantByStatus.interview.push({
           jobTitle,
-          count: applicants.filter((app) => app.job_id === jobId && app.status === "interview").length,
+          count: applicants.filter(
+            (app) => app.job_id === jobId && app.status === "interview"
+          ).length,
         });
         applicantByStatus.inReview.push({
           jobTitle,
-          count: applicants.filter((app) => app.job_id === jobId && app.status === "in-review").length,
+          count: applicants.filter(
+            (app) => app.job_id === jobId && app.status === "in-review"
+          ).length,
         });
         applicantByStatus.shortlist.push({
           jobTitle,
-          count: applicants.filter((app) => app.job_id === jobId && app.status === "shortlist").length,
+          count: applicants.filter(
+            (app) => app.job_id === jobId && app.status === "shortlist"
+          ).length,
         });
         applicantByStatus.hired.push({
           jobTitle,
-          count: applicants.filter((app) => app.job_id === jobId && app.status === "hired").length,
+          count: applicants.filter(
+            (app) => app.job_id === jobId && app.status === "hired"
+          ).length,
         });
       });
 
@@ -110,8 +120,8 @@ function JobStatistic({ applicants, byCategory }) {
       Rejected: "#FF6347", // Tomato Red
       Interviewed: "#FFFF00", // Yellow
       InReview: "#FFA500", // Orange
-      Shortlisted: "#03055B", // Navy Blue
-      Onboarded: "#32CD32", // Lime Green
+      Shortlisted: "#03055B", // Lime Green
+      Onboarded: "#32CD32", // Navy Blue
       default: "#1E90FF", // Dodger Blue for other cases
     };
 
@@ -145,9 +155,9 @@ function JobStatistic({ applicants, byCategory }) {
           colors: [
             colorPalette.Rejected,
             colorPalette.Interviewed,
-            colorPalette.Onboarded,
+            colorPalette.Shortlisted, // Use Shortlisted's color for the 3rd series
             colorPalette.InReview,
-            colorPalette.Shortlisted,
+            colorPalette.Onboarded, // Use Onboarded's color for the 5th series
           ],
           title: { text: "Overview of All Applicants", style: { fontSize: "16px" } },
           legend: {
@@ -165,8 +175,18 @@ function JobStatistic({ applicants, byCategory }) {
                     (a, b) => a + b,
                     0
                   )}`;
-                case "Onboarded":
+                case "Shortlisted":
                   return `${seriesName}: ${chartData.series[2].data.reduce(
+                    (a, b) => a + b,
+                    0
+                  )}`;
+                case "InReview":
+                  return `${seriesName}: ${chartData.series[3].data.reduce(
+                    (a, b) => a + b,
+                    0
+                  )}`;
+                case "Onboarded":
+                  return `${seriesName}: ${chartData.series[4].data.reduce(
                     (a, b) => a + b,
                     0
                   )}`;
