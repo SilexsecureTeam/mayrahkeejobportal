@@ -15,8 +15,8 @@ function JobStatistic({ applicants, byCategory }) {
     switch (status) {
       case "Declined Applicants":
         return applicants.filter((app) => app.status === "declined");
-      case "Shortlisted Applicants":
-        return applicants.filter((app) => app.status === "shortlist");
+      case "Interviewed Applicants":
+        return applicants.filter((app) => app.status === "interview");
       case "Onboarded Applicants":
         return applicants.filter((app) => app.status === "hired");
       default:
@@ -91,8 +91,8 @@ function JobStatistic({ applicants, byCategory }) {
 
   const getChartConfig = () => {
     const colorPalette = {
-      Rejected: "#FF6347", // Tomato Red
-      Interviewed: "#FFA500", // Orange
+      Rejected: "#FF0000", // Tomato Red
+      Interviewed: "#FFFF00", // Orange
       Onboarded: "#32CD32", // Lime Green
       default: "#1E90FF", // Dodger Blue for other cases
     };
