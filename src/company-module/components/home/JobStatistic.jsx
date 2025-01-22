@@ -125,6 +125,9 @@ function JobStatistic({ applicants, byCategory }) {
       default: "#1E90FF", // Dodger Blue for other cases
     };
 
+    console.log("Chart Data: ", chartData);  // Debugging chartData
+    console.log("Active Tab: ", active);  // Debugging active tab selection
+
     // For the Overview tab
     if (active === "Overview") {
       return {
@@ -219,6 +222,8 @@ function JobStatistic({ applicants, byCategory }) {
       }
     });
 
+    console.log("Dynamic Colors: ", dynamicColors); // Debugging dynamic colors
+
     return {
       options: {
         chart: { type: "bar", toolbar: { show: false } },
@@ -291,3 +296,4 @@ function JobStatistic({ applicants, byCategory }) {
 }
 
 export default JobStatistic;
+                
