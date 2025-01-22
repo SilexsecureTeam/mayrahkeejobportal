@@ -64,7 +64,7 @@ function Trow({ data, featurePost, refresh }) {
             checked={condition}
             disabled={loading || deleting}
             onChange={async (e) => {
-              // console.log(e.currentTarget.checked);
+              console.log(e.currentTarget.checked);
               setLoading(true)
               await featurePost(data, e.currentTarget.checked);
               setLoading(false)

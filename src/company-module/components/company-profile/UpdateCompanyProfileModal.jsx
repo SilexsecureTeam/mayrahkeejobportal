@@ -18,7 +18,7 @@ import "react-quill/dist/quill.snow.css";
 import FormButton from "../../../components/FormButton";
 import { resourceUrl } from "../../../services/axios-client";
 import Selector from "../../../components/Selector";
-import {JobContext} from "../../../context/JobContext";
+import { JobContext } from "../../../context/JobContext";
 export const basic_inputs = [
   {
     id: 1,
@@ -160,55 +160,55 @@ function UpdateCompanyProfileModal({
     retrievalState,
   } = companyHookProps;
   const { getSectors } = useContext(JobContext);
-  
+
   const [campaignPhotos, setCampaignPhotos] = useState([...details?.company_campaign_photos || []]);
   const [sectorList, setSectorList] = useState([]);
 
-  
-const getCampaignPhotoURL = (e) => {
-  const { name } = e.target;
-  const files = e.target.files;
 
-  // Validate files
-  const validFiles = Array.from(files)?.filter(
-    (file) => file.type === "image/jpeg" || file.type === "image/png"
-  );
+  const getCampaignPhotoURL = (e) => {
+    const { name } = e.target;
+    const files = e.target.files;
 
-  if (validFiles.length > 0) {
-    const updatedList = validFiles.map((file) => ({
-      url: URL.createObjectURL(file),
-      file,
-    }));
+    // Validate files
+    const validFiles = Array.from(files)?.filter(
+      (file) => file.type === "image/jpeg" || file.type === "image/png"
+    );
 
-    const updatedPhotos = [
-      ...(details?.company_campaign_photos || []),
-      ...updatedList,
-    ];
+    if (validFiles.length > 0) {
+      const updatedList = validFiles.map((file) => ({
+        url: URL.createObjectURL(file),
+        file,
+      }));
 
-    const updatedFiles = [
-      ...(Array.isArray(details?.company_campaign_photos) ? details?.company_campaign_photos?.map((item) => item) : []),
-      ...updatedList.map((item) => item.file),
-    ];
+      const updatedPhotos = [
+        ...(details?.company_campaign_photos || []),
+        ...updatedList,
+      ];
 
-    setDetails((prevDetails) => ({
-      ...prevDetails,
-      [name]: updatedFiles,
-    }));
-    setCampaignPhotos(updatedPhotos);
+      const updatedFiles = [
+        ...(Array.isArray(details?.company_campaign_photos) ? details?.company_campaign_photos?.map((item) => item) : []),
+        ...updatedList.map((item) => item.file),
+      ];
 
-    console.log("Updated Campaign Photos:", updatedPhotos);
-  } else {
-    alert("Please select a valid JPEG or PNG file.");
-  }
-};
+      setDetails((prevDetails) => ({
+        ...prevDetails,
+        [name]: updatedFiles,
+      }));
+      setCampaignPhotos(updatedPhotos);
 
-useEffect(()=>{
- const init= async()=>{
-  const jobSectors= await getSectors();
-  setSectorList(jobSectors || [])
- }
- init();
-},[])
+      console.log("Updated Campaign Photos:", updatedPhotos);
+    } else {
+      alert("Please select a valid JPEG or PNG file.");
+    }
+  };
+
+  useEffect(() => {
+    const init = async () => {
+      const jobSectors = await getSectors();
+      setSectorList(jobSectors || [])
+    }
+    init();
+  }, [])
   useEffect(() => {
     if (details?.company_campaign_photos?.length > 0) {
       const newPhotos = details.company_campaign_photos
@@ -347,27 +347,30 @@ useEffect(()=>{
 
               {/* Campaign Photos */}
               <div className="w-full flex flex-col gap-[3px] mt-10">
-                <label
-                  htmlFor="currentCampaignPhoto"
+                <div
                   className="text-sm font-semibold flex w-full justify-between items-center"
                 >
-                  Capaign Photos <span className="relative">
-                  <FaRegEdit size="24" className="cursor-pointer" />
-                  <input
-                  name="company_campaign_photos"
-                  onChange={getCampaignPhotoURL}
-                  id="currentCampaignPhoto"
-                  className="hidden absolute w-full h-full"
-                  type="file"
-                  multiple // Allows multiple file selection
-                />
-                  </span>
-                </label>
-                
+                  Capaign Photos <label
+                    htmlFor="currentCampaignPhoto" className="relative overflow-hidden">
+                    <FaRegEdit size="24" className="cursor-pointer" />
+                    <input
+                      name="company_campaign_photos"
+                      onChange={getCampaignPhotoURL}
+                      id="currentCampaignPhoto"
+                      className="hidden absolute w-full h-full"
+                      type="file"
+                      multiple // Allows multiple file selection
+                    />
+                  </label>
+                </div>
 
-                <div className="w-full min-h-[100px] flex gap-[3px] items-start border-dashed p-2 border overflow-x-auto">
+
+                <div className="w-full min-h-[100px] flex gap-[5px] items-start border-dashed p-2 border overflow-x-auto">
                   {campaignPhotos?.map((current, idx) => (
-                    <div key={idx} className="relative h-[80px] w-[80px] border">
+                    <div
+                      key={idx}
+                      className="flex-shrink-0 relative h-[80px] w-[80px] border border-gray-300"
+                    >
                       <img
                         className="h-full w-full object-cover"
                         src={current.url}
@@ -377,11 +380,12 @@ useEffect(()=>{
                         onClick={() => handleRemovePhoto(idx)}
                         className="absolute top-[-5px] right-[-5px] bg-red-500 font-bold text-white rounded-full w-5 h-5 flex items-center justify-center cursor-pointer"
                       >
-                        <FaTimes size="15" />
+                        <FaTimes size="12" />
                       </span>
                     </div>
                   ))}
                 </div>
+
               </div>
 
               {/* Social Media Inputs */}

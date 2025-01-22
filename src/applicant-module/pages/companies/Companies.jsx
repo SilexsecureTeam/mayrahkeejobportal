@@ -83,8 +83,8 @@ function Companies() {
         <title>Dashboard | Browse Companies </title>
       </Helmet>
       <div className="h-full text-[#25324b] py-4 md:p-8 text-sm w-full">
-        <div className="py-5 border mb-2 flex flex-col md:flex-row">
-          <div className="flex items-center relative border-b py-2 px-6 mx-4 w-full md:w-[35%]">
+        <div className="py-5 border mb-2 flex flex-col md:flex-row px-2">
+          <div className="flex items-center relative border-b py-2 px-6 mx-4 w-full ">
             <input
               type="text"
               placeholder="Search messages"
@@ -96,7 +96,7 @@ function Companies() {
               <CiSearch size={20} />
             </span>
           </div>
-          <div className="flex items-center relative border-b py-2 px-6 mx-4 w-full md:w-[35%]">
+          {/* <div className="flex items-center relative border-b py-2 px-6 mx-4 w-full md:w-[35%]">
             <select
               onChange={(e) => setSelectedLocation(e.target.value)}
               className="pl-[10px] focus:outline-none w-full"
@@ -113,7 +113,7 @@ function Companies() {
             <span className="absolute text-primary top-0 left-0 p-2">
               <GrLocation size={20} />
             </span>
-          </div>
+          </div> */}
           <button className="bg-green-700 text-white py-2 px-6 hover:bg-green-900 font-medium mt-2 md:mt-0">
             Search
           </button>

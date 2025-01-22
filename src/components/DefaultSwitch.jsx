@@ -1,15 +1,16 @@
 import React from "react";
+import { FaSpinner } from "react-icons/fa";
 
 function DefaultSwitch({ enabled, setEnabled, onClick, loading }) {
   return (
     <div
-      className={`flex items-center justify-center ${
-        loading ? "cursor-wait" : "cursor-pointer"
-      }`}
+      className={`flex items-center justify-center ${loading ? "cursor-wait" : "cursor-pointer"}`}
       onClick={!loading ? onClick : undefined}
     >
       {loading ? (
-        <div className="loader h-5 w-5 border-2 border-blue-500 rounded-full animate-spin" />
+        <div className="flex justify-center items-center w-10 h-5 bg-gray-300 rounded-full">
+          <FaSpinner className="text-blue-500 animate-spin" size={20} />
+        </div>
       ) : (
         <div
           className={`relative w-10 h-5 bg-gray-300 rounded-full ${

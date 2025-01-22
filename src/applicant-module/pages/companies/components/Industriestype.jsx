@@ -8,7 +8,7 @@ const Insdustriestype = ({ setIndustry }) => {
         <div>
             <div className="mb-5">
                 <div className="flex justify-between cursor-pointer" onClick={() => setClose(!close)}>
-                    <p className="font-bold">Indusries</p>
+                    <p className="font-bold">Industries</p>
                     <button
                         
                     >{close ? <FaChevronUp /> : <FaChevronDown />}</button>

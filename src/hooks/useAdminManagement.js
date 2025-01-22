@@ -133,9 +133,9 @@ function UseAdminManagement() {
   const getCandidates = async () => {
     try {
       setLoading(true);
-      console.log("Fetching employers...");
+      console.log("Fetching candiidate...");
       const response = await client.get(`/candidate/getCandidate`);
-      console.log("Employers fetched:", response.data);
+      console.log("candiidate fetched:", response.data);
       return response.data.candidateAuths;
     } catch (error) {
       console.error("Error fetching employers:", error);
@@ -759,11 +759,22 @@ const deleteAdminById = async (id) => {
 
 }
 
-const updateFeaturedJobs = async (id, status) => {
+const updateFeaturedJobs = async (job, status) => {
   try {
+     // Define fields to exclude
+      const excludedFields = ["featured_image"];
+  
+      // Filter the `post` object to exclude image fields
+      const filteredJob = Object.keys(job).reduce((acc, key) => {
+        if (!excludedFields.includes(key)) {
+          acc[key] = job[key];
+        }
+        return acc;
+      }, {});
     setLoading(true);
-    const response = await client.put(`/jobs/update-feature-job/${id}`, {
-      featured: status,
+    const response = await client.post(`/job`, {
+      ...filteredJob,
+      feature_jobs: status,
     }, {
       headers: {
         "Content-Type": "application/json",

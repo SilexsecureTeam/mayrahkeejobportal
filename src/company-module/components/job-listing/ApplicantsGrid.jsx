@@ -4,26 +4,37 @@ const stages = [
   {
     id: 1,
     name: 'in-review',
-    border_color: 'border-[#ffb836]',
+    label: 'in-review',
+    border_color: 'border-orange-500',
   },
   {
     id: 3,
     name: 'pending',
+    label: 'pending',
     border_color: 'border-[#5cbbff]',
   },
   {
     id: 1,
     name: 'shortlist',
+    label: 'shortlisted',
     border_color: 'border-[#4640de]',
+  },
+  {
+    id: 3,
+    name: 'interview',
+    label: 'interviewed',
+    border_color: 'border-[#ffb836]',
   },
   {
     id: 2,
     name: 'hired',
+    label: 'hired',
     border_color: 'border-green-500',
   },
   {
     id: 3,
     name: 'declined',
+    label: 'declined',
     border_color: 'border-red-500',
   },
 ];

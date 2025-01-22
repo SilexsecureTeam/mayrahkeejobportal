@@ -22,7 +22,7 @@ function AllCandidate() {
   }, []); // Dependency array ensures this runs only when getEmployers changes
 
   const heading = ["ID", "Name", "Email",  "Status", "Gender" ];
-  const data = candidates.map(candidate => ({
+  const data = candidates?.map(candidate => ({
     [heading[0].toLowerCase()]: candidate.id,
     [heading[1].toLowerCase()]: candidate.first_name + " " + (candidate?.middle_name || "") + " " + candidate.last_name,
     [heading[2].toLowerCase()]: candidate.email,
