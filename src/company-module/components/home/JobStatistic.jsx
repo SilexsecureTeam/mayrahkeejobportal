@@ -37,7 +37,7 @@ function JobStatistic({ applicants, byCategory }) {
     // For "Overview", we return counts for each category
     if (active === "Overview") {
       const applicantByStatus = { declined: 0, shortlist: 0, hired: 0, interview: 0, inReview: 0 };
-      
+
       // Count applicants by each status
       applicants.forEach((app) => {
         switch (app.status) {
@@ -184,4 +184,3 @@ function JobStatistic({ applicants, byCategory }) {
 }
 
 export default JobStatistic;
-            
