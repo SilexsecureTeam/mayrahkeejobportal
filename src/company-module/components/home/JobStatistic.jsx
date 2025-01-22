@@ -1,3 +1,7 @@
+}
+
+export default JobStatistic;
+        
 import React, { useState } from "react";
 import ReactApexChart from "react-apexcharts";
 
@@ -117,7 +121,7 @@ function JobStatistic({ applicants, byCategory }) {
 
   const getChartConfig = () => {
     const colorPalette = {
-      Rejected: "#FF0000", // Tomato Red
+      Rejected: "#FF6347", // Tomato Red
       Interviewed: "#FFFF00", // Yellow
       InReview: "#FFA500", // Orange
       Shortlisted: "#03055B", // Lime Green
@@ -291,4 +295,4 @@ function JobStatistic({ applicants, byCategory }) {
 }
 
 export default JobStatistic;
-        
+                                           
