@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+
+        import React, { useState } from "react";
 import ReactApexChart from "react-apexcharts";
 
 const options = [
@@ -117,7 +118,7 @@ function JobStatistic({ applicants, byCategory }) {
 
   const getChartConfig = () => {
     const colorPalette = {
-      Rejected: "#FF0000", // Tomato Red
+      Rejected: "#FF6347", // Tomato Red
       Interviewed: "#FFFF00", // Yellow
       InReview: "#FFA500", // Orange
       Shortlisted: "#03055B", // Lime Green
@@ -125,11 +126,20 @@ function JobStatistic({ applicants, byCategory }) {
       default: "#1E90FF", // Dodger Blue for other cases
     };
 
+    let colors = []; // Declare an empty colors array
+
     console.log("Chart Data: ", chartData);  // Debugging chartData
     console.log("Active Tab: ", active);  // Debugging active tab selection
 
     // For the Overview tab
     if (active === "Overview") {
+      colors = [
+        colorPalette.Rejected,
+        colorPalette.Interviewed,
+        colorPalette.Shortlisted, // Use Shortlisted's color for the 3rd series
+        colorPalette.InReview,
+        colorPalette.Onboarded, // Use Onboarded's color for the 5th series
+      ];
       return {
         options: {
           chart: { type: "bar", stacked: true, toolbar: { show: false } },
@@ -156,13 +166,7 @@ function JobStatistic({ applicants, byCategory }) {
               },
             },
           ],
-          colors: [
-            colorPalette.Rejected,
-            colorPalette.Interviewed,
-            colorPalette.Shortlisted, // Use Shortlisted's color for the 3rd series
-            colorPalette.InReview,
-            colorPalette.Onboarded, // Use Onboarded's color for the 5th series
-          ],
+          colors: colors,
           title: { text: "Overview of All Applicants", style: { fontSize: "16px" } },
           legend: {
             position: "top",
@@ -224,6 +228,8 @@ function JobStatistic({ applicants, byCategory }) {
 
     console.log("Dynamic Colors: ", dynamicColors); // Debugging dynamic colors
 
+    colors = dynamicColors; // Assign dynamic colors to the colors array
+
     return {
       options: {
         chart: { type: "bar", toolbar: { show: false } },
@@ -237,7 +243,7 @@ function JobStatistic({ applicants, byCategory }) {
         plotOptions: {
           bar: { columnWidth: "50%", barHeight: "80%" },
         },
-        colors: dynamicColors, // Apply the dynamic colors for the other tabs
+        colors: colors, // Apply the dynamic colors for the other tabs
         title: { text: `${active} by Job`, style: { fontSize: "16px" } },
       },
       series: [
@@ -266,35 +272,25 @@ function JobStatistic({ applicants, byCategory }) {
           {options?.map((current, index) => (
             <h3
               key={index}
+              className={`cursor-pointer py-1 ${active === current ? "font-semibold border-b-4 border-primary text-primary" : "text-gray-500"}`}
               onClick={() => setActive(current)}
-              className={`text-little py-1 border-b cursor-pointer ${
-                active === current ? "border-primaryColor" : ""
-              } w-fit font-semibold`}
             >
               {current}
             </h3>
           ))}
         </div>
       </div>
-      <div className="w-full p-2 items-center flex h-fit justify-center overflow-x-auto">
-        {chartConfig ? (
-          <ReactApexChart
-            options={chartConfig.options}
-            series={chartConfig.series}
-            type={chartConfig.options.chart.type}
 
-            height={Math.min(
-              500,
-              Math.max(300, chartData.categories.length * 40)
-            )} // Dynamic height
-          />
-        ) : (
-          <span>No data available</span>
-        )}
+      <div className="px-5 py-2">
+        <ReactApexChart
+          options={chartConfig.options}
+          series={chartConfig.series}
+          type="bar"
+          height={250}
+        />
       </div>
     </div>
   );
 }
 
 export default JobStatistic;
-                                      
