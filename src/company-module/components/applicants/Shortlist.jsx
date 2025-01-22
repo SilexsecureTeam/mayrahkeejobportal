@@ -71,42 +71,44 @@ function Shortlist({ data, exclusive, toogleInterview, setEdit }) {
   }, [interview]);
 
   const formatDateTime = (date, time) => {
-    const combinedDateTime = new Date(`${date.split(' ')[0]}T${time}`);
-    const now = new Date();
-    const endTime = new Date(combinedDateTime.getTime() + 60 * 60 * 1000);
-    
-    const isLive = now >= combinedDateTime && now <= endTime;
-    const hasEnded = now > endTime;
+  const combinedDateTime = new Date(`${date.split(' ')[0]}T${time}`);
+  const now = new Date();
+  const endTime = new Date(combinedDateTime.getTime() + 60 * 60 * 1000); // Assuming interview lasts 1 hour
+  
+  const isLive = now >= combinedDateTime && now <= endTime;
+  const hasEnded = now > endTime;
+  let countdown = null;
 
-    let countdown = null;
-    if (!isLive && !hasEnded && now < combinedDateTime) {
-      const diff = combinedDateTime - now;
+  if (!isLive && !hasEnded) {
+    const diff = combinedDateTime - now;
+    if (diff > 0) {
       const days = Math.floor(diff / (1000 * 60 * 60 * 24));
       const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
       const minutes = Math.floor((diff / (1000 * 60)) % 60);
       const seconds = Math.floor((diff / 1000) % 60);
       countdown = `${days}d ${hours}h ${minutes}m ${seconds}s`;
     }
+  }
 
-    const formattedDate = combinedDateTime.toLocaleDateString('en-US', {
-      weekday: 'long',
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-    });
-    const formattedTime = combinedDateTime.toLocaleTimeString('en-US', {
-      hour: '2-digit',
-      minute: '2-digit',
-    });
+  const formattedDate = combinedDateTime.toLocaleDateString('en-US', {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  });
+  const formattedTime = combinedDateTime.toLocaleTimeString('en-US', {
+    hour: '2-digit',
+    minute: '2-digit',
+  });
 
-    return {
-      isLive,
-      hasEnded,
-      formattedDate,
-      formattedTime,
-      countdown,
-    };
+  return {
+    isLive,
+    hasEnded,
+    formattedDate,
+    formattedTime,
+    countdown,
   };
+};
 
   return (
     interview && (
