@@ -91,8 +91,8 @@ function JobStatistic({ applicants, byCategory }) {
 
   const getChartConfig = () => {
     const colorPalette = {
-      Rejected: "#FF0000", // Tomato Red
-      Interviewed: "#FFFF00", // Orange
+      Rejected: "#FF6347", // Tomato Red
+      Interviewed: "#FFA500", // Orange
       Onboarded: "#32CD32", // Lime Green
       default: "#1E90FF", // Dodger Blue for other cases
     };
