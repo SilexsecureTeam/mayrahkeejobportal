@@ -117,11 +117,11 @@ function JobStatistic({ applicants, byCategory }) {
 
   const getChartConfig = () => {
     const colorPalette = {
-      Rejected: "#FF6347", // Tomato Red
+      Rejected: "#FF0000", // Pure Red
       Interviewed: "#FFFF00", // Yellow
       InReview: "#FFA500", // Orange
-      Shortlisted: "#03055B", // Lime Green
-      Onboarded: "#32CD32", // Navy Blue
+      Shortlisted: "#03055B", // Navy Blue
+      Onboarded: "#32CD32", // Lime Green
       default: "#1E90FF", // Dodger Blue for other cases
     };
 
@@ -155,9 +155,9 @@ function JobStatistic({ applicants, byCategory }) {
           colors: [
             colorPalette.Rejected,
             colorPalette.Interviewed,
-            colorPalette.Shortlisted, // Use Shortlisted's color for the 3rd series
+            colorPalette.Shortlisted,
             colorPalette.InReview,
-            colorPalette.Onboarded, // Use Onboarded's color for the 5th series
+            colorPalette.Onboarded,
           ],
           title: { text: "Overview of All Applicants", style: { fontSize: "16px" } },
           legend: {
@@ -202,7 +202,7 @@ function JobStatistic({ applicants, byCategory }) {
 
     const dynamicColors = chartData.categories.map(
       (_, index) =>
-        ["#FF6347", "#FFA500", "#32CD32", "#1E90FF", "#FFD700", "#6A5ACD"][
+        ["#FF0000", "#FFA500", "#32CD32", "#1E90FF", "#FFD700", "#6A5ACD"][
           index % 6
         ] // Cycle through colors
     );
@@ -268,7 +268,7 @@ function JobStatistic({ applicants, byCategory }) {
             height={Math.min(
               500,
               Math.max(300, chartData.categories.length * 40)
-            )} // Dynamic height
+            )}
           />
         ) : (
           <span>No data available</span>
