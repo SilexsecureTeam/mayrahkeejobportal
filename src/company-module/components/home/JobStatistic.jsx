@@ -13,7 +13,6 @@ const options = [
 function JobStatistic({ applicants, byCategory }) {
   const [active, setActive] = useState(options[0]);
 
-  // Helper function to filter applicants based on the selected status.
   const filterApplicants = (status) => {
     switch (status) {
       case "Declined Applicants":
@@ -34,50 +33,83 @@ function JobStatistic({ applicants, byCategory }) {
   const generateChartData = () => {
     const filteredApplicants = filterApplicants(active);
 
-    // For "Overview", we return counts for each category
     if (active === "Overview") {
-      const applicantByStatus = { declined: 0, shortlist: 0, hired: 0, interview: 0, inReview: 0 };
+      const applicantByStatus = { declined: [], shortlist: [], hired: [], interview: [], inReview: [] };
 
-      // Count applicants by each status
-      applicants.forEach((app) => {
-        switch (app.status) {
-          case "declined":
-            applicantByStatus.declined += 1;
-            break;
-          case "shortlist":
-            applicantByStatus.shortlist += 1;
-            break;
-          case "hired":
-            applicantByStatus.hired += 1;
-            break;
-          case "interview":
-            applicantByStatus.interview += 1;
-            break;
-          case "in-review":
-            applicantByStatus.inReview += 1;
-            break;
-          default:
-            break;
-        }
+      Object.keys(byCategory).forEach((cat) => {
+        const jobId = byCategory[cat][0].job_id;
+        const jobTitle = byCategory[cat][0].job_title;
+
+        applicantByStatus.declined.push({
+          jobTitle,
+          count: applicants.filter(
+            (app) => app.job_id === jobId && app.status === "declined"
+          ).length,
+        });
+        applicantByStatus.interview.push({
+          jobTitle,
+          count: applicants.filter(
+            (app) => app.job_id === jobId && app.status === "interview"
+          ).length,
+        });
+        applicantByStatus.inReview.push({
+          jobTitle,
+          count: applicants.filter(
+            (app) => app.job_id === jobId && app.status === "in-review"
+          ).length,
+        });
+        applicantByStatus.shortlist.push({
+          jobTitle,
+          count: applicants.filter(
+            (app) => app.job_id === jobId && app.status === "shortlist"
+          ).length,
+        });
+        applicantByStatus.hired.push({
+          jobTitle,
+          count: applicants.filter(
+            (app) => app.job_id === jobId && app.status === "hired"
+          ).length,
+        });
       });
 
       return {
-        categories: ["Declined", "Shortlisted", "Interviewed", "Onboarded", "In-Review"],
+        categories: Object.keys(byCategory).map((cat) => byCategory[cat][0].job_title),
         series: [
-          { name: "Rejected", data: [applicantByStatus.declined] },
-          { name: "Shortlisted", data: [applicantByStatus.shortlist] },
-          { name: "Interviewed", data: [applicantByStatus.interview] },
-          { name: "Onboarded", data: [applicantByStatus.hired] },
-          { name: "In Review", data: [applicantByStatus.inReview] },
+          {
+            name: "Rejected",
+            data: applicantByStatus.declined.map((item) => item.count),
+          },
+          {
+            name: "Interviewed",
+            data: applicantByStatus.interview.map((item) => item.count),
+          },
+          {
+            name: "Shortlisted",
+            data: applicantByStatus.shortlist.map((item) => item.count),
+          },
+          {
+            name: "InReview",
+            data: applicantByStatus.inReview.map((item) => item.count),
+          },
+          {
+            name: "Onboarded",
+            data: applicantByStatus.hired.map((item) => item.count),
+          },
         ],
       };
     }
 
-    // For other tabs (like "Interviewed Applicants", "Shortlisted Applicants", etc.)
-    const applicantCount = filteredApplicants.length;
+    const applicantByCategory = {};
+    Object.keys(byCategory).forEach((cat) => {
+      const jobApplicants = filteredApplicants.filter(
+        (app) => app.job_id === byCategory[cat][0].job_id
+      );
+      applicantByCategory[byCategory[cat][0].job_title] = jobApplicants.length;
+    });
+
     return {
-      categories: [active],
-      series: [{ name: active, data: [applicantCount] }],
+      categories: Object.keys(applicantByCategory),
+      series: Object.values(applicantByCategory),
     };
   };
 
@@ -85,7 +117,7 @@ function JobStatistic({ applicants, byCategory }) {
 
   const getChartConfig = () => {
     const colorPalette = {
-      Rejected: "#FF6347", // Tomato Red
+      Rejected: "#FF0000", // Tomato Red
       Interviewed: "#FFFF00", // Yellow
       InReview: "#FFA500", // Orange
       Shortlisted: "#03055B", // Lime Green
@@ -93,29 +125,108 @@ function JobStatistic({ applicants, byCategory }) {
       default: "#1E90FF", // Dodger Blue for other cases
     };
 
-    const colorMap = {
-      "Declined Applicants": colorPalette.Rejected,
-      "Interviewed Applicants": colorPalette.Interviewed,
-      "Shortlisted Applicants": colorPalette.Shortlisted,
-      "In-Review Applicants": colorPalette.InReview,
-      "Onboarded Applicants": colorPalette.Onboarded,
-    };
+    console.log("Chart Data: ", chartData);  // Debugging chartData
+    console.log("Active Tab: ", active);  // Debugging active tab selection
 
-    // For Overview, we want all colors, for other tabs, we show just the one color
-    const chartColors =
-      active === "Overview"
-        ? [
+    // For the Overview tab
+    if (active === "Overview") {
+      return {
+        options: {
+          chart: { type: "bar", stacked: true, toolbar: { show: false } },
+          xaxis: {
+            categories: chartData.categories,
+            labels: {
+              rotate: -45,
+              style: { fontSize: "10px" },
+            },
+          },
+          plotOptions: {
+            bar: {
+              columnWidth: "50%",
+              barHeight: "80%", // Adjusted bar height
+              dataLabels: { position: "top" },
+            },
+          },
+          responsive: [
+            {
+              breakpoint: 768,
+              options: {
+                xaxis: { labels: { rotate: -30, style: { fontSize: "8px" } } },
+                legend: { position: "bottom" },
+              },
+            },
+          ],
+          colors: [
             colorPalette.Rejected,
             colorPalette.Interviewed,
-            colorPalette.Shortlisted,
-            colorPalette.Onboarded,
+            colorPalette.Shortlisted, // Use Shortlisted's color for the 3rd series
             colorPalette.InReview,
-          ]
-        : [colorMap[active] || colorPalette.default];
+            colorPalette.Onboarded, // Use Onboarded's color for the 5th series
+          ],
+          title: { text: "Overview of All Applicants", style: { fontSize: "16px" } },
+          legend: {
+            position: "top",
+            horizontalAlign: "center",
+            formatter: (seriesName, opts) => {
+              switch (seriesName) {
+                case "Rejected":
+                  return `${seriesName}: ${chartData.series[0].data.reduce(
+                    (a, b) => a + b,
+                    0
+                  )}`;
+                case "Interviewed":
+                  return `${seriesName}: ${chartData.series[1].data.reduce(
+                    (a, b) => a + b,
+                    0
+                  )}`;
+                case "Shortlisted":
+                  return `${seriesName}: ${chartData.series[2].data.reduce(
+                    (a, b) => a + b,
+                    0
+                  )}`;
+                case "InReview":
+                  return `${seriesName}: ${chartData.series[3].data.reduce(
+                    (a, b) => a + b,
+                    0
+                  )}`;
+                case "Onboarded":
+                  return `${seriesName}: ${chartData.series[4].data.reduce(
+                    (a, b) => a + b,
+                    0
+                  )}`;
+                default:
+                  return seriesName;
+              }
+            },
+          },
+        },
+        series: chartData.series,
+      };
+    }
+
+    // For other tabs (like "Declined Applicants", "Interviewed Applicants", etc.)
+    const dynamicColors = chartData.categories.map((category) => {
+      switch (category) {
+        case "Declined Applicants":
+          return colorPalette.Rejected; // Rejected applicants will be red
+        case "Interviewed Applicants":
+          return colorPalette.Interviewed; // Interviewed will be yellow
+        case "Shortlisted Applicants":
+          return colorPalette.Shortlisted; // Shortlisted will be lime green
+        case "In-Review Applicants":
+          return colorPalette.InReview; // In-review will be orange
+        case "Onboarded Applicants":
+          return colorPalette.Onboarded; // Onboarded will be navy green
+        default:
+          return colorPalette.default; // Default case, fallback color
+      }
+    });
+
+    console.log("Dynamic Colors: ", dynamicColors); // Debugging dynamic colors
 
     return {
       options: {
-        chart: { type: "bar", stacked: true, toolbar: { show: false } },
+        chart: { type: "bar", toolbar: { show: false } },
         xaxis: {
           categories: chartData.categories,
           labels: {
@@ -126,17 +237,15 @@ function JobStatistic({ applicants, byCategory }) {
         plotOptions: {
           bar: { columnWidth: "50%", barHeight: "80%" },
         },
-        colors: chartColors, // Dynamically set the color for each tab
+        colors: dynamicColors, // Apply the dynamic colors for the other tabs
         title: { text: `${active} by Job`, style: { fontSize: "16px" } },
-        legend: {
-          position: "top",
-          horizontalAlign: "center",
-          formatter: (seriesName) => {
-            return `${seriesName}: ${chartData.series[0].data[0]}`;
-          },
-        },
       },
-      series: chartData.series,
+      series: [
+        {
+          name: active,
+          data: chartData.series,
+        },
+      ],
     };
   };
 
@@ -173,7 +282,11 @@ function JobStatistic({ applicants, byCategory }) {
             options={chartConfig.options}
             series={chartConfig.series}
             type={chartConfig.options.chart.type}
-            height={Math.min(500, Math.max(300, chartData.categories.length * 40))} // Dynamic height
+
+            height={Math.min(
+              500,
+              Math.max(300, chartData.categories.length * 40)
+            )} // Dynamic height
           />
         ) : (
           <span>No data available</span>
@@ -184,3 +297,4 @@ function JobStatistic({ applicants, byCategory }) {
 }
 
 export default JobStatistic;
+                                      
