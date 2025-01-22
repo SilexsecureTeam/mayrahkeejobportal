@@ -117,11 +117,11 @@ function JobStatistic({ applicants, byCategory }) {
 
   const getChartConfig = () => {
     const colorPalette = {
-      Rejected: "#FF0000", // Pure Red
+      Rejected: "#FF6347", // Tomato Red
       Interviewed: "#FFFF00", // Yellow
       InReview: "#FFA500", // Orange
-      Shortlisted: "#03055B", // Navy Blue
-      Onboarded: "#32CD32", // Lime Green
+      Shortlisted: "#03055B", // Lime Green
+      Onboarded: "#32CD32", // Navy Blue
       default: "#1E90FF", // Dodger Blue for other cases
     };
 
@@ -155,9 +155,9 @@ function JobStatistic({ applicants, byCategory }) {
           colors: [
             colorPalette.Rejected,
             colorPalette.Interviewed,
-            colorPalette.Shortlisted,
+            colorPalette.Shortlisted, // Use Shortlisted's color for the 3rd series
             colorPalette.InReview,
-            colorPalette.Onboarded,
+            colorPalette.Onboarded, // Use Onboarded's color for the 5th series
           ],
           title: { text: "Overview of All Applicants", style: { fontSize: "16px" } },
           legend: {
@@ -200,12 +200,23 @@ function JobStatistic({ applicants, byCategory }) {
       };
     }
 
-    const dynamicColors = chartData.categories.map(
-      (_, index) =>
-        ["#FF0000", "#FFA500", "#32CD32", "#1E90FF", "#FFD700", "#6A5ACD"][
-          index % 6
-        ] // Cycle through colors
-    );
+    // For other tabs, use dynamic colors based on category
+    const dynamicColors = chartData.categories.map((category) => {
+      switch (category) {
+        case "Declined Applicants":
+          return colorPalette.Rejected; // Rejected applicants will be red
+        case "Interviewed Applicants":
+          return colorPalette.Interviewed; // Interviewed will be yellow
+        case "Shortlisted Applicants":
+          return colorPalette.Shortlisted; // Shortlisted will be lime green
+        case "In-Review Applicants":
+          return colorPalette.InReview; // In-review will be orange
+        case "Onboarded Applicants":
+          return colorPalette.Onboarded; // Onboarded will be navy green
+        default:
+          return colorPalette.default; // Default case, fallback color
+      }
+    });
 
     return {
       options: {
@@ -220,7 +231,7 @@ function JobStatistic({ applicants, byCategory }) {
         plotOptions: {
           bar: { columnWidth: "50%", barHeight: "80%" },
         },
-        colors: dynamicColors,
+        colors: dynamicColors, // Apply the dynamic colors
         title: { text: `${active} by Job`, style: { fontSize: "16px" } },
       },
       series: [
@@ -268,7 +279,7 @@ function JobStatistic({ applicants, byCategory }) {
             height={Math.min(
               500,
               Math.max(300, chartData.categories.length * 40)
-            )}
+            )} // Dynamic height
           />
         ) : (
           <span>No data available</span>
