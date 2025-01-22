@@ -1,14 +1,11 @@
-
-        import React, { useState } from "react";
+import React, { useState } from "react";
 import ReactApexChart from "react-apexcharts";
 
 const options = [
   "Overview",
-  "In-Review Applicants",
-  "Shortlisted Applicants",
+  "Declined Applicants",
   "Interviewed Applicants",
   "Onboarded Applicants",
-  "Declined Applicants"
 ];
 
 function JobStatistic({ applicants, byCategory }) {
@@ -20,10 +17,6 @@ function JobStatistic({ applicants, byCategory }) {
         return applicants.filter((app) => app.status === "declined");
       case "Shortlisted Applicants":
         return applicants.filter((app) => app.status === "shortlist");
-      case "In-Review Applicants":
-        return applicants.filter((app) => app.status === "in-review");
-      case "Interviewed Applicants":
-        return applicants.filter((app) => app.status === "interview");
       case "Onboarded Applicants":
         return applicants.filter((app) => app.status === "hired");
       default:
@@ -35,7 +28,7 @@ function JobStatistic({ applicants, byCategory }) {
     const filteredApplicants = filterApplicants(active);
 
     if (active === "Overview") {
-      const applicantByStatus = { declined: [], shortlist: [], hired: [], interview: [], inReview: [] };
+      const applicantByStatus = { declined: [], shortlist: [], hired: [] };
 
       Object.keys(byCategory).forEach((cat) => {
         const jobId = byCategory[cat][0].job_id;
@@ -45,18 +38,6 @@ function JobStatistic({ applicants, byCategory }) {
           jobTitle,
           count: applicants.filter(
             (app) => app.job_id === jobId && app.status === "declined"
-          ).length,
-        });
-        applicantByStatus.interview.push({
-          jobTitle,
-          count: applicants.filter(
-            (app) => app.job_id === jobId && app.status === "interview"
-          ).length,
-        });
-        applicantByStatus.inReview.push({
-          jobTitle,
-          count: applicants.filter(
-            (app) => app.job_id === jobId && app.status === "in-review"
           ).length,
         });
         applicantByStatus.shortlist.push({
@@ -82,15 +63,7 @@ function JobStatistic({ applicants, byCategory }) {
           },
           {
             name: "Interviewed",
-            data: applicantByStatus.interview.map((item) => item.count),
-          },
-          {
-            name: "Shortlisted",
             data: applicantByStatus.shortlist.map((item) => item.count),
-          },
-          {
-            name: "InReview",
-            data: applicantByStatus.inReview.map((item) => item.count),
           },
           {
             name: "Onboarded",
@@ -119,27 +92,12 @@ function JobStatistic({ applicants, byCategory }) {
   const getChartConfig = () => {
     const colorPalette = {
       Rejected: "#FF6347", // Tomato Red
-      Interviewed: "#FFFF00", // Yellow
-      InReview: "#FFA500", // Orange
-      Shortlisted: "#03055B", // Lime Green
-      Onboarded: "#32CD32", // Navy Blue
+      Interviewed: "#FFA500", // Orange
+      Onboarded: "#32CD32", // Lime Green
       default: "#1E90FF", // Dodger Blue for other cases
     };
 
-    let colors = []; // Declare an empty colors array
-
-    console.log("Chart Data: ", chartData);  // Debugging chartData
-    console.log("Active Tab: ", active);  // Debugging active tab selection
-
-    // For the Overview tab
     if (active === "Overview") {
-      colors = [
-        colorPalette.Rejected,
-        colorPalette.Interviewed,
-        colorPalette.Shortlisted, // Use Shortlisted's color for the 3rd series
-        colorPalette.InReview,
-        colorPalette.Onboarded, // Use Onboarded's color for the 5th series
-      ];
       return {
         options: {
           chart: { type: "bar", stacked: true, toolbar: { show: false } },
@@ -166,7 +124,11 @@ function JobStatistic({ applicants, byCategory }) {
               },
             },
           ],
-          colors: colors,
+          colors: [
+            colorPalette.Rejected,
+            colorPalette.Interviewed,
+            colorPalette.Onboarded,
+          ],
           title: { text: "Overview of All Applicants", style: { fontSize: "16px" } },
           legend: {
             position: "top",
@@ -183,18 +145,8 @@ function JobStatistic({ applicants, byCategory }) {
                     (a, b) => a + b,
                     0
                   )}`;
-                case "Shortlisted":
-                  return `${seriesName}: ${chartData.series[2].data.reduce(
-                    (a, b) => a + b,
-                    0
-                  )}`;
-                case "InReview":
-                  return `${seriesName}: ${chartData.series[3].data.reduce(
-                    (a, b) => a + b,
-                    0
-                  )}`;
                 case "Onboarded":
-                  return `${seriesName}: ${chartData.series[4].data.reduce(
+                  return `${seriesName}: ${chartData.series[2].data.reduce(
                     (a, b) => a + b,
                     0
                   )}`;
@@ -208,27 +160,12 @@ function JobStatistic({ applicants, byCategory }) {
       };
     }
 
-    // For other tabs (like "Declined Applicants", "Interviewed Applicants", etc.)
-    const dynamicColors = chartData.categories.map((category) => {
-      switch (category) {
-        case "Declined Applicants":
-          return colorPalette.Rejected; // Rejected applicants will be red
-        case "Interviewed Applicants":
-          return colorPalette.Interviewed; // Interviewed will be yellow
-        case "Shortlisted Applicants":
-          return colorPalette.Shortlisted; // Shortlisted will be lime green
-        case "In-Review Applicants":
-          return colorPalette.InReview; // In-review will be orange
-        case "Onboarded Applicants":
-          return colorPalette.Onboarded; // Onboarded will be navy green
-        default:
-          return colorPalette.default; // Default case, fallback color
-      }
-    });
-
-    console.log("Dynamic Colors: ", dynamicColors); // Debugging dynamic colors
-
-    colors = dynamicColors; // Assign dynamic colors to the colors array
+    const dynamicColors = chartData.categories.map(
+      (_, index) =>
+        ["#FF6347", "#FFA500", "#32CD32", "#1E90FF", "#FFD700", "#6A5ACD"][
+          index % 6
+        ] // Cycle through colors
+    );
 
     return {
       options: {
@@ -243,7 +180,7 @@ function JobStatistic({ applicants, byCategory }) {
         plotOptions: {
           bar: { columnWidth: "50%", barHeight: "80%" },
         },
-        colors: colors, // Apply the dynamic colors for the other tabs
+        colors: dynamicColors,
         title: { text: `${active} by Job`, style: { fontSize: "16px" } },
       },
       series: [
@@ -272,22 +209,30 @@ function JobStatistic({ applicants, byCategory }) {
           {options?.map((current, index) => (
             <h3
               key={index}
-              className={`cursor-pointer py-1 ${active === current ? "font-semibold border-b-4 border-primary text-primary" : "text-gray-500"}`}
               onClick={() => setActive(current)}
+              className={`text-little py-1 border-b cursor-pointer ${
+                active === current ? "border-primaryColor" : ""
+              } w-fit font-semibold`}
             >
               {current}
             </h3>
           ))}
         </div>
       </div>
-
-      <div className="px-5 py-2">
-        <ReactApexChart
-          options={chartConfig.options}
-          series={chartConfig.series}
-          type="bar"
-          height={250}
-        />
+      <div className="w-full p-2 items-center flex h-fit justify-center overflow-x-auto">
+        {chartConfig ? (
+          <ReactApexChart
+            options={chartConfig.options}
+            series={chartConfig.series}
+            type={chartConfig.options.chart.type}
+            height={Math.min(
+              500,
+              Math.max(300, chartData.categories.length * 40)
+            )} // Dynamic height
+          />
+        ) : (
+          <span>No data available</span>
+        )}
       </div>
     </div>
   );
