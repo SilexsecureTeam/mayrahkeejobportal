@@ -89,7 +89,7 @@ function ForgotPassword() {
   forgotPassword(email, role)
     .then((response) => {
       // Assuming the API response has a success indicator, e.g., `response.success`
-      if (response?.success) {
+      if (response) {
         setShowResetPassword(true);
       } else {
         // Handle the error case if the response indicates failure
