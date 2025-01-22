@@ -117,7 +117,7 @@ function JobStatistic({ applicants, byCategory }) {
 
   const getChartConfig = () => {
     const colorPalette = {
-      Rejected: "#FF6347", // Tomato Red
+      Rejected: "#FF0000", // Tomato Red
       Interviewed: "#FFFF00", // Yellow
       InReview: "#FFA500", // Orange
       Shortlisted: "#03055B", // Lime Green
@@ -125,6 +125,7 @@ function JobStatistic({ applicants, byCategory }) {
       default: "#1E90FF", // Dodger Blue for other cases
     };
 
+    // For the Overview tab
     if (active === "Overview") {
       return {
         options: {
@@ -200,7 +201,7 @@ function JobStatistic({ applicants, byCategory }) {
       };
     }
 
-    // For other tabs, use dynamic colors based on category
+    // For other tabs (like "Declined Applicants", "Interviewed Applicants", etc.)
     const dynamicColors = chartData.categories.map((category) => {
       switch (category) {
         case "Declined Applicants":
@@ -231,7 +232,7 @@ function JobStatistic({ applicants, byCategory }) {
         plotOptions: {
           bar: { columnWidth: "50%", barHeight: "80%" },
         },
-        colors: dynamicColors, // Apply the dynamic colors
+        colors: dynamicColors, // Apply the dynamic colors for the other tabs
         title: { text: `${active} by Job`, style: { fontSize: "16px" } },
       },
       series: [
@@ -290,3 +291,4 @@ function JobStatistic({ applicants, byCategory }) {
 }
 
 export default JobStatistic;
+        
