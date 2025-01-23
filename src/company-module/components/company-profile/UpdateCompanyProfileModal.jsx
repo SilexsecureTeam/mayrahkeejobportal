@@ -350,7 +350,7 @@ function UpdateCompanyProfileModal({
                 <div
                   className="text-sm font-semibold flex w-full justify-between items-center"
                 >
-                  Capaign Photos <label
+                  Company Photos <label
                     htmlFor="currentCampaignPhoto" className="relative overflow-hidden">
                     <FaRegEdit size="24" className="cursor-pointer" />
                     <input
