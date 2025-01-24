@@ -19,7 +19,7 @@ const SectionHeader = ({ title, subtitle, img, reads="" , time="" }) => {
         </article>}
       </section>
       {<figure className="w-full h-80 my-4">
-        <img src={`${img ? img : "https://via.placeholder.com/150/000000/FFFFFF?text=Image+Not+Found"}`} alt="image" className="mb-4 w-full h-full object-cover" />
+        <img src={`${img ? img : "https://via.placeholder.com/150/000000/FFFFFF?text=Image+Not+Found"}`} alt="image" className="mb-4 w-full h-full object-contain" />
       </figure>}
     </div>
   );

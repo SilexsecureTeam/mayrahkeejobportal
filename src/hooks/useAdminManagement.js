@@ -8,6 +8,7 @@ import { user } from './../utils/dummies';
 import MainAxios from "../services/axios-main";
 // import AddCurrency from './../admin-module/pages/settings/Currency/AddCurrency';
 import { onFailure } from "../utils/notifications/OnFailure";
+import { FormatError } from "../utils/formmaters";
 
 const PROFILE_DETAILS_KEY = "Admin Profile Detaials Database";
 
@@ -790,6 +791,64 @@ const updateFeaturedJobs = async (job, status) => {
   }
 };
 
+  const getPackages = async () => {
+    setLoading(true);
+    try {
+      const { data } = await client.get("/packages");
+      const userPackage = data.data.sort((a,b) => Number(a.price) - Number(b.price))
+
+      return userPackage;
+    } catch (error) {
+      return null;
+      FormatError(error, setError, "Package Error");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  
+  const createPackage = async (pkg) => {
+    try {
+      setLoading(true);
+      const response = await client.post("/packages", pkg);
+      return response.data;
+    } catch (error) {
+      FormatError(error, setError, "Package Creation Error");
+      return null;
+    } finally {
+      setLoading(false);
+    }
+  };
+  const updatePackage = async (id, pkg) => {
+    try {
+      setLoading(true);
+      const response = await client.put(`/packages/${id}`, pkg);
+      return response.data;
+    } catch (error) {
+      FormatError(error, setError, "Package Update Error");
+      return null;
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  
+const deletePackageById = async (id) => {
+  try {
+    setLoading(true)
+    const response = await client.delete(`/packages/${id}`)
+    return true
+  }
+  catch (error) {
+    FormatError(error, setError, "Package Removal Error");
+    return false
+  }
+  finally {
+    setLoading(false)
+  }
+
+}
+
   return {
     loading,
     profileDetails,
@@ -840,6 +899,11 @@ const updateFeaturedJobs = async (job, status) => {
     getAllAdmins,
     deleteAdminById,
     updateFeaturedJobs,
+    getPackages,
+    createPackage,
+    updatePackage,
+    deletePackageById
+    
   };
 }
 
