@@ -88,9 +88,9 @@ function RegistrationFormTwo({ state, dispatch, role, setRole }) {
       () => {
         onSuccess({
           message: "Registration Successful",
-          success: "Navigating to login",
+          success: "An OTP has been sent to your email ",
         });
-        navigate("/login");
+        navigate("/registration/email_verification");
       },
       role
     );
