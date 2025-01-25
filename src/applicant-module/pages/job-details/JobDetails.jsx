@@ -11,9 +11,28 @@ import {onFailure} from '../../../utils/notifications/OnFailure';
 
 const JobDetails = () => {
     const { state } = useLocation();
+    const [currencyList, setCurrencyList]=useState([])
+    const [currency, setCurrency]=useState()
+    
     const job = state?.job;
     console.log(state)
-
+const { getCurrencies } = useJobManagement();
+    
+    useEffect(() => {
+    const initData = async () => {
+        const currencyResult= await getCurrencies()
+      setCurrencyList(currencyResult);
+    };
+    initData();
+  }, []);
+    useEffect(() => {
+        if(job?.currency && currencyList){
+    setCurrency(job?.currency
+      ? currencyList?.find(one => one?.name === job?.currency)
+      : null);
+        }
+  }, [currencyList]);
+    
     const { getResumeById, setGetResumeById } = useContext(ResourceContext);
     useEffect(() => {
         window.scrollTo(0, 0)
@@ -176,7 +195,7 @@ Don't miss out—join us today to apply.
                         </div>
                         <div className="flex flex-wrap justify-between gap-2">
                             <p>Currency</p>
-                            <p className="font-medium">{job.currency}</p>
+                            <p className="font-medium">{currency?.code}</p>
                         </div>
                     </div>
 
