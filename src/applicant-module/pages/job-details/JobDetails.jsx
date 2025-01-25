@@ -32,7 +32,7 @@ const JobDetails = () => {
         };
 
         fetchCurrencies();
-    }, [getCurrencies]);
+    }, []);
 
     useEffect(() => {
         if (job?.currency && currencyList.length > 0) {
