@@ -9,7 +9,7 @@ import { resourceUrl } from '../../../services/axios-client';
 import { onSuccess } from '../../../utils/notifications/OnSuccess';
 import { onFailure } from '../../../utils/notifications/OnFailure';
 import { State } from 'country-state-city';
-import { useJobManagement } from '../../../hooks/useJobManagement';
+import useJobManagement from '../../../hooks/useJobManagement';
 
 const JobDetails = () => {
     const { state } = useLocation();
