@@ -908,21 +908,27 @@ const BasicInfo = ({ setIsOpen }) => {
                           />
                         </div>
 
-                        <div className="">
-                          <label className="block">
-                            <span className="block text-sm font-medium text-slate-700">
-                              My introduction video
-                            </span>
-                            <input
-                              type="file"
-                              accept=".mp4"
-                              name="introduction_video"
-                              onChange={handleOnChange}
-                              placeholder="Jakegyll@gmail.com"
-                              className="mt-1 block p-1 focus:outline-none w-full border"
-                            />
-                          </label>
-                        </div>
+                        <div>
+  <label class="block">
+    <span class="block text-sm font-medium text-slate-700">
+      My introduction video
+    </span>
+    <input
+      type="file"
+      accept=".mp4"
+      name="introduction_video"
+      class="mt-1 block p-1 focus:outline-none w-full border"
+      onchange="if(this.files[0] && this.files[0].size > 2 * 1024 * 1024) { 
+                  alert('File size must not exceed 2MB. Please select a smaller file.'); 
+                  this.value = ''; 
+                }"
+    />
+    <small class="text-sm text-gray-500">
+      File size should not exceed 2MB. Only MP4 files are allowed.
+    </small>
+  </label>
+</div>
+                        
                         
                       </div>
                     </div>
