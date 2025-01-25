@@ -617,7 +617,7 @@ const BasicInfo = ({ setIsOpen }) => {
                               <option value="">-- select --</option>
                               <option value="ond">OND</option>
                               <option value="hnd">HND</option>
-                              <option value="diploma">DILOMA</option>
+                              <option value="diploma">DIPLOMA</option>
                               <option value="bsc">Bachelor Degree</option>
                               <option value="msc">Master's Degree</option>
                             </select>
