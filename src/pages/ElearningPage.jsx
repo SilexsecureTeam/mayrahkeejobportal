@@ -32,7 +32,9 @@ const ElearningPage = () => {
     // Handle fetched data
     useEffect(() => {
         if (getAllCourses?.data) {
-            setCourses(getAllCourses.data);
+            setCourses(
+  getAllCourses.data.sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at))
+);
             setLoading(false);
         }
     }, [getAllCourses]);
