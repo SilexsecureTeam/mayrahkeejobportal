@@ -178,7 +178,7 @@ Don't miss out—join us today to apply.
                         </div>
                         <div className="flex flex-wrap justify-between gap-2">
                             <p>Currency</p>
-                            <p className="font-medium">{currency?.code}</p>
+                            <p className="font-medium">{currency?.code} ({currency?.country ? ` (${currency?.country})` : ''})</p>
                         </div>
                     </div>
 
