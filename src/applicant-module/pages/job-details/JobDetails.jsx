@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { BsShare } from 'react-icons/bs';
 import { FaRegCheckCircle } from 'react-icons/fa';
 import { useLocation } from 'react-router-dom';
@@ -7,36 +7,44 @@ import JobApplicationForm from './components/JobApplicationForm';
 import { ResourceContext } from '../../../context/ResourceContext';
 import { resourceUrl } from '../../../services/axios-client';
 import { onSuccess } from '../../../utils/notifications/OnSuccess';
-import {onFailure} from '../../../utils/notifications/OnFailure';
+import { onFailure } from '../../../utils/notifications/OnFailure';
+import { State } from 'country-state-city';
+import { useJobManagement } from '../../../hooks/useJobManagement';
 
 const JobDetails = () => {
     const { state } = useLocation();
-    const [currencyList, setCurrencyList]=useState([])
-    const [currency, setCurrency]=useState()
-    
     const job = state?.job;
-    console.log(state)
-const { getCurrencies } = useJobManagement();
-    
-    useEffect(() => {
-    const initData = async () => {
-        const currencyResult= await getCurrencies()
-      setCurrencyList(currencyResult);
-    };
-    initData();
-  }, []);
-    useEffect(() => {
-        if(job?.currency && currencyList){
-    setCurrency(job?.currency
-      ? currencyList?.find(one => one?.name === job?.currency)
-      : null);
-        }
-  }, [currencyList]);
-    
+
+    const [currencyList, setCurrencyList] = useState([]);
+    const [currency, setCurrency] = useState(null);
+
+    const { getCurrencies } = useJobManagement();
     const { getResumeById, setGetResumeById } = useContext(ResourceContext);
+
     useEffect(() => {
-        window.scrollTo(0, 0)
-    }, [])
+        const fetchCurrencies = async () => {
+            try {
+                const currencyResult = await getCurrencies();
+                setCurrencyList(currencyResult || []);
+            } catch (error) {
+                console.error('Error fetching currencies:', error);
+            }
+        };
+
+        fetchCurrencies();
+    }, [getCurrencies]);
+
+    useEffect(() => {
+        if (job?.currency && currencyList.length > 0) {
+            const matchedCurrency = currencyList.find((curr) => curr.name === job.currency);
+            setCurrency(matchedCurrency || null);
+        }
+    }, [job, currencyList]);
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
+
     useEffect(() => {
         setGetResumeById((prev) => ({
             ...prev,
@@ -44,80 +52,64 @@ const { getCurrencies } = useJobManagement();
         }));
     }, [setGetResumeById]);
 
-    const postedDate = new Date(job.created_at);
-    const keywordArr = job.search_keywords?.split(',');
+    const postedDate = job ? new Date(job.created_at) : new Date();
+    const keywordArr = job?.search_keywords?.split(',') || [];
 
-    const shareJobDetails = async (job) => {
-    const shareText = `
-🌟 **Job Title:** ${job.job_title}
-📍 **Location:** ${job.location}
-💼 **Type:** ${job.type}
-📅 **Apply Before:** ${job.application_deadline_date}
+    const shareJobDetails = async (jobDetails) => {
+        const shareText = `
+🌟 **Job Title:** ${jobDetails.job_title}
+📍 **Location:** ${jobDetails.location}
+💼 **Type:** ${jobDetails.type}
+📅 **Apply Before:** ${jobDetails.application_deadline_date}
 
 This exciting opportunity is brought to you by **Mayrahkee Africa**! 
 Don't miss out—join us today to apply.
 
 🔗 [Register and Apply Here!](${window.location.origin}/registration)
-    `;
+        `;
 
-    try {
-        if (navigator.share) {
-            // Use native sharing API without the image
-            await navigator.share({
-                title: `Exciting Opportunity by Mayrahkee Africa: ${job.job_title}`,
-                text: shareText,
-                //url: `${window.location.origin}/register`,
-            });
-            onSuccess({
-                message: "Sharing Successful",
-                success: "Job details shared successfully!",
-            });
-        } else {
-            // Fallback: copy text to clipboard
-            await navigator.clipboard.writeText(shareText);
+        try {
+            if (navigator.share) {
+                await navigator.share({
+                    title: `Exciting Opportunity by Mayrahkee Africa: ${jobDetails.job_title}`,
+                    text: shareText,
+                });
+                onSuccess({
+                    message: 'Sharing Successful',
+                    success: 'Job details shared successfully!',
+                });
+            } else {
+                await navigator.clipboard.writeText(shareText);
+                onFailure({
+                    message: 'Sharing Unsupported',
+                    error: 'Your browser does not support sharing. Job details copied to clipboard!',
+                });
+            }
+        } catch (error) {
+            console.error('Error sharing job details:', error);
             onFailure({
-                message: "Sharing Unsupported",
-                error: "Your browser does not support sharing. Job details copied to clipboard!",
+                message: 'Sharing Error',
+                error: 'An error occurred while sharing.',
             });
         }
-    } catch (error) {
-        if (error.name === "AbortError") {
-            onFailure({
-                message: "Sharing Cancelled",
-                error: "You cancelled the sharing process.",
-            });
-        } else {
-            console.error("Error sharing job details:", error);
-            onFailure({
-                message: "Sharing Error",
-                error: "An error occurred while sharing.",
-            });
-        }
-    }
-};
-    
+    };
 
     return (
         <div className="w-full min-h-full text-[#25324b]">
-            {/* Header Section */}
-            <div
-                className="sticky top-0 bg-white z-10 p-6 border-b mb-8 shadow-md"
-            >
+            <div className="sticky top-0 bg-white z-10 p-6 border-b mb-8 shadow-md">
                 <div className="p-6 bg-white border rounded-md">
                     <div className="flex gap-2 flex-wrap justify-between items-center">
-                        {/* Left Section: Job Info */}
                         <div className="flex items-start space-x-4">
                             <img src={`${resourceUrl}/${job?.featured_image}`} alt="Job" className="w-20" />
                             <div>
-                                <p className="text-lg font-bold mb-2">{job.job_title}</p>
-                                <p className="text-sm mb-1">· {job.location} · {job.type}</p>
+                                <p className="text-lg font-bold mb-2">{job?.job_title}</p>
+                                <p className="text-sm mb-1">· {job?.location} · {job?.type}</p>
                                 <p className="text-sm">
-                                    <b>Address:</b> {job.office_address}
+                                    <b>Address:</b> {job?.office_address}
                                 </p>
                             </div>
                         </div>
 
-                        {/* Right Section: Share and Application */}
                         <div className="flex items-center space-x-3">
                             <button onClick={() => shareJobDetails(job)} className="p-2 rounded-full border hover:bg-gray-100">
                                 <BsShare />
@@ -132,23 +124,21 @@ Don't miss out—join us today to apply.
                 </div>
             </div>
 
-            {/* Main Content */}
             <div className="flex flex-col md:flex-row px-6 min-h-full">
-                {/* Left Column */}
                 <div className="w-full md:w-4/5 pr-4">
                     <div className="mb-6">
                         <h4 className="font-bold mb-2">Description</h4>
-                        <p dangerouslySetInnerHTML={{ __html: job.job_description }} />
+                        <p dangerouslySetInnerHTML={{ __html: job?.job_description }} />
                     </div>
 
                     <div className="mb-6">
                         <h4 className="font-bold mb-2">Experience</h4>
-                        <p dangerouslySetInnerHTML={{ __html: job.experience }} />
+                        <p dangerouslySetInnerHTML={{ __html: job?.experience }} />
                     </div>
 
                     <div className="mb-6">
                         <h4 className="font-bold mb-2">Qualifications</h4>
-                        {job.qualification?.map((each, i) => (
+                        {job?.qualification?.map((each, i) => (
                             <div key={i} className="flex items-center space-x-2 mb-2">
                                 <FaRegCheckCircle className="text-green-500" />
                                 <span>{each}</span>
@@ -157,25 +147,18 @@ Don't miss out—join us today to apply.
                     </div>
                 </div>
 
-                {/* Right Column */}
                 <div className="w-full md:w-1/5">
                     <h4 className="font-bold mb-2">About this role</h4>
                     <div className="bg-gray-100 p-4 rounded-md mb-6">
-                        {/* <div className="relative h-2 bg-gray-300 rounded-full mb-2">
-                            <div
-                                className="absolute top-0 left-0 h-2 bg-green-500 rounded-full"
-                                style={{ width: '50%' }}
-                            ></div>
-                        </div> */}
                         <p className="text-sm">
-                            <b>{job?.number_of_participants || 0}  Applicants Expected</b>
+                            <b>{job?.number_of_participants || 0} Applicants Expected</b>
                         </p>
                     </div>
 
                     <div className="space-y-3 border-b pb-4">
                         <div className="flex flex-wrap justify-between gap-2">
                             <p>Apply Before</p>
-                            <p className="font-medium">{job.application_deadline_date}</p>
+                            <p className="font-medium">{job?.application_deadline_date}</p>
                         </div>
                         <div className="flex flex-wrap justify-between gap-2">
                             <p>Job Posted On</p>
@@ -183,15 +166,15 @@ Don't miss out—join us today to apply.
                         </div>
                         <div className="flex flex-wrap justify-between gap-2">
                             <p>Email</p>
-                            <p className="font-medium break-words">{job.email}</p>
+                            <p className="font-medium break-words">{job?.email}</p>
                         </div>
                         <div className="flex flex-wrap justify-between gap-2">
                             <p>Job Type</p>
-                            <p className="font-medium">{job.type}</p>
+                            <p className="font-medium">{job?.type}</p>
                         </div>
                         <div className="flex flex-wrap justify-between gap-2">
                             <p>Salary Type</p>
-                            <p className="font-medium">{job.salary_type}</p>
+                            <p className="font-medium">{job?.salary_type}</p>
                         </div>
                         <div className="flex flex-wrap justify-between gap-2">
                             <p>Currency</p>
@@ -202,7 +185,7 @@ Don't miss out—join us today to apply.
                     <div className="my-6">
                         <h4 className="font-bold mb-2">Categories</h4>
                         <div className="flex flex-wrap gap-2">
-                            {keywordArr?.map((each, index) => (
+                            {keywordArr.map((each, index) => (
                                 <button
                                     key={index}
                                     className="px-3 py-1 rounded-full bg-teal-50 text-teal-400 odd:bg-amber-100 odd:text-amber-500"
