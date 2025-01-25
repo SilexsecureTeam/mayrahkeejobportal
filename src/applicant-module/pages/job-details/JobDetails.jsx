@@ -8,7 +8,7 @@ import { ResourceContext } from '../../../context/ResourceContext';
 import { resourceUrl } from '../../../services/axios-client';
 import { onSuccess } from '../../../utils/notifications/OnSuccess';
 import { onFailure } from '../../../utils/notifications/OnFailure';
-import { State } from 'country-state-city';
+import { Country } from 'country-state-city';
 import useJobManagement from '../../../hooks/useJobManagement';
 
 const JobDetails = () => {
@@ -36,8 +36,15 @@ const JobDetails = () => {
 
     useEffect(() => {
         if (job?.currency && currencyList.length > 0) {
-            const matchedCurrency = currencyList.find((curr) => curr.name === job.currency);
-            setCurrency(matchedCurrency || null);
+            const curr = currencyList.find(one => one.name === job.currency);
+            if (curr) {
+                // Get the country name using Country-State-City library
+                const country = Country.getAllCountries().find(c => c.isoCode === curr.name);
+                setCurrency({
+                    code: curr.code,
+                    country: country ? country.name : null,
+                });
+            }
         }
     }, [job, currencyList]);
 
