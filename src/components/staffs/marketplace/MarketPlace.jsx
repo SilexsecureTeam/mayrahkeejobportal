@@ -3,10 +3,14 @@ import { AuthContext } from "../../../context/AuthContex";
 import { axiosClient } from "../../../services/axios-client";
 import TableHead from "./TableHead";
 import TableRow from "./TableRow";
+import { useLocation } from "react-router-dom";
 
 const navOptions = ["Active Contracts", "Market Place"];
 
 function MarketPlace({handleAddToCart}) {
+  const location = useLocation();
+  const { data } = location?.state ? location?.state : { data: null };
+  console.log(data)
   const { authDetails } = useContext(AuthContext);
   const client = axiosClient(authDetails.token);
   const [activeOption, setActiveOption] = useState(navOptions[0]);
@@ -15,11 +19,14 @@ function MarketPlace({handleAddToCart}) {
   const [marketList, setMarketList] = useState([]);
 
   const getMarketList = async () => {
+    const type=data.type;
     try {
       const { data } = await client.get("/domesticStaff/get-staff");
 
       if (data.domesticStaff) {
-        setMarketList(data.domesticStaff);
+        setMarketList(!type ? data.domesticStaff : data.domesticStaff?.filter(
+          (current) => current.staff_category === type
+        ) .filter((current) => Number(current.availability_status) === 1));
       } else {
         setMarketList([]);
       }
@@ -32,6 +39,7 @@ function MarketPlace({handleAddToCart}) {
   };
 
   const getContractItems = async () => {
+    const type=data.type;
     try {
       const { data } = await client.post("/contracts/details", {
         user_id: authDetails.user.id,
@@ -39,8 +47,9 @@ function MarketPlace({handleAddToCart}) {
       });
 
       if (data.contracts) {
-        setContractItems(data.contracts);
-        console.log(data.contracts)
+        setContractItems(!type ? data.contracts : data.contracts?.filter(
+          (current) => current.staff_category === type
+        ));
       } else {
         setContractItems([]);
       }
@@ -59,24 +68,26 @@ function MarketPlace({handleAddToCart}) {
 
   return (
     <div className="w-full space-y-8 pb-5">
-      <nav className="flex bg-gray-50 gap-5 px-2">
+      <nav className="flex bg-gray-50 gap-5 px-2 my-2">
         {navOptions.map((current) => (
           <a
             href="#"
             key={current}
             onClick={() => setActiveOption(current)}
-            className={`py-2 ${
+            className={`flex items-center gap-2 py-2 ${
               activeOption === current
                 ? "font-semibold border-b-2 border-green-500"
                 : ""
             }`}
           >
-            {current}
+            <span>{current}</span> <span className="flex items-center justify-center px-2 rounded-full bg-gray-700 text-white">{current === navOptions[0] ? contractItems?.length : marketList?.length}</span>
           </a>
         ))}
       </nav>
 
       {activeOption === navOptions[0] && (
+        <>
+        <strong className="text-xl text-gray-700 font-medium pt-4">Your contracts</strong>
         <TableHead>
           {contractItems.length > 0 &&
             contractItems
@@ -84,16 +95,21 @@ function MarketPlace({handleAddToCart}) {
               .reverse()
               .map((current, index) => <TableRow key={current.id + index} data={current} />)}
         </TableHead>
+
+        </>
+        
       )}
       {activeOption === navOptions[1] && (
+        <>
+        <strong className="text-xl text-gray-700 font-medium pt-4">Only available staff are shown here</strong>
         <TableHead isMarket={true} >
           {marketList.length > 0 &&
             marketList
-              .filter((current) => current.middle_name)
-              .map((current, index) => (
+             .map((current, index) => (
                 <TableRow isMarket={true} key={current.id + index} data={current} handleAddToCart={handleAddToCart} />
               ))}
         </TableHead>
+        </>
       )}
     </div>
   );

@@ -92,7 +92,7 @@ export default function SubscriptionPackages() {
   return (
     <div className="p-4">
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold text-green-800">
+        <h1 className="text-xl md:text-2xl font-bold text-green-800">
           Subscription Packages
         </h1>
         <button

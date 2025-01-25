@@ -108,7 +108,7 @@ function FindJob() {
           <div className="relative border-b py-1 px-4 md:px-6 mx-4 w-full md:w-[35%] mb-2 md:mb-0">
             <input
               type="text"
-              placeholder="Search messages"
+              placeholder="Search Job"
               onChange={(e) => setJobTitle(e.target.value)}
               value={jobTitle}
               className="pl-[10px] focus:outline-none w-full"
@@ -123,7 +123,7 @@ function FindJob() {
               className="pl-[10px] focus:outline-none w-full"
             >
               <option value={''} id={'030'}>
-                  -- select location --
+                Select Location
                 </option>
               {State.getStatesOfCountry("NG").map((current) => (
                 <option value={current.name} id={current.name}>

@@ -51,6 +51,7 @@ const DomesticStaffs = lazy(() =>
 );
 const SuccessPage = lazy(() => import("../components/SuccessPage"));
 const StaffDetails = lazy(() => import('../components/applicant-details-ui/ApplicantDetails'))
+const ContractHistory = lazy(() => import('../components/staffs/ContractHistory'))
 
 
 const ShortListedDetails = lazy(() =>
@@ -201,7 +202,8 @@ useEffect(() => {
                 <Route path=":category/:id" element={<StaffDetails />} />
                 <Route path="staff/cart" element={<CartedStaffs />} />
                 <Route path="staff/success" element={<SuccessPage />} />
-
+                <Route path="staff/contract-history" element={<ContractHistory/>}/>  
+                 
                 {/* testing routes */}
                 <Route path="applicant-detail" element={<ApplicantDetails />} />
                 <Route path="application-detail" element={<AllApplication />} />
