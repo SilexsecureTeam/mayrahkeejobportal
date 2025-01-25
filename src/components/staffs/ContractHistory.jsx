@@ -4,32 +4,17 @@ import { axiosClient } from "../../services/axios-client";
 import TableHead from "./marketplace/TableHead";
 import TableRow from "./marketplace/TableRow";
 import { onFailure } from "../../utils/notifications/OnFailure";
+import { useLocation } from "react-router-dom";
 
 function ContractHistory() {
   const { authDetails } = useContext(AuthContext);
   const client = axiosClient(authDetails.token);
-
+  const location = useLocation();
+  const { data } = location?.state ? location?.state : { data: null };
+  console.log(data)
   const [contractItems, setContractItems] = useState([]);
-  const [marketList, setMarketList] = useState([]);
-
-  const getMarketList = async () => {
-    try {
-      const { data } = await client.get("/domesticStaff/get-staff");
-
-      if (data.domesticStaff) {
-        setMarketList(data.domesticStaff);
-      } else {
-        setMarketList([]);
-      }
-    } catch (error) {
-      onFailure({
-        message: "soemthing went wrong",
-        error: "Error retriving carted items",
-      });
-    }
-  };
-
   const getContractItems = async () => {
+    const type=data.type;
     try {
       const { data } = await client.post("/contracts/details", {
         user_id: authDetails.user.id,
@@ -37,7 +22,9 @@ function ContractHistory() {
       });
 
       if (data?.contracts) {
-        setContractItems(data.contracts);
+        setContractItems(!type ? data.contracts : data.contracts?.filter(
+          (current) => current.staff_category === type
+        ));
       } else {
         setContractItems([]);
       }

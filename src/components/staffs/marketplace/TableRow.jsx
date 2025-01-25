@@ -54,7 +54,7 @@ function TableRow({ data, isMarket = false, handleAddToCart }) {
 
       {/* Price */}
       <td className="text-left py-3 px-2 w-1/5">
-        <span className="truncate">{FormatPrice(2000)}</span>
+        <span className="truncate">{FormatPrice(parseFloat(data?.expected_salary))}</span>
       </td>
 
       {/* Start Date (conditionally rendered) */}

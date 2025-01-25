@@ -4,7 +4,7 @@ import { AuthContext } from "../../../context/AuthContex";
 import { onFailure } from "../../../utils/notifications/OnFailure";
 import { MdClose } from "react-icons/md";
 import SearchComponent from "../../../components/staffs/SearchComponent";
-import { FaExclamationCircle, FaShoppingCart } from "react-icons/fa";
+import { FaExclamationCircle, FaShoppingCart,FaFileContract } from "react-icons/fa";
 import StaffCard from "../../../components/staffs/StaffCard";
 import PopUpBox from "../../../components/PopUpBox";
 import FormButton from "../../../components/FormButton";
@@ -134,8 +134,8 @@ function DomesticStaff() {
         </div>
       </PopUpBox>
       <div className="h-full w-full flex flex-col py-2 gap-[15px]">
-        <div className="flex w-full justify-between items-start gap-1">
-          <section className="flex flex-col gap-y-5 justify-between gap-x-2 px-1">
+        <div className="flex flex-col w-full justify-between items-start gap-1">
+          <section className="w-full flex gap-y-5 items-center gap-x-2 px-1">
 
             <div
               id="content"
@@ -160,23 +160,37 @@ function DomesticStaff() {
                 query parameters to begin your search.
               </p>
             </div>  
-            <SearchComponent
+            
+            <button
+              onClick={() => navigate("/applicant/staff/contract-history", {
+                state: {
+                  data: { type: "staff" },
+                }
+              })}
+              className="flex items-center gap-2 ml-auto"
+            >
+              <FaFileContract size="24" className="inline md:hidden" />
+              <span className="hidden md:inline border-primaryColor px-3 py-1 border hover:bg-primaryColor hover:text-white text-sm">Contract History</span>
+            </button>   
+            
+            <button className="my-5" onClick={navigateToCart}>
+              <p className="relative cursor-pointer flex item-center">
+                <FaShoppingCart size="24" />{" "}
+                <span className="absolute top-[-15px] right-0 w-max h-max px-1 rounded-full bg-red-700 text-white text-xs">
+                  {cartItems.length || 0}
+                </span>
+              </p>
+            </button>     
+          </section>
+          
+          <SearchComponent
             subCategories={categories.subcategories}
             handleQuerySubmit={handleCondition}
             title="Domestic Staff Position"
             setSelectedCategory={setSelectedCategory}
           />
-        
-          </section>
-          <button className="my-5 ml-auto" onClick={navigateToCart}>
-            <p className="relative cursor-pointer flex item-center">
-              <FaShoppingCart size="24" />{" "}
-              <span className="absolute top-[-15px] right-0 w-max h-max px-1 rounded-full bg-red-700 text-white text-xs">
-                {cartItems?.length || 0}
-              </span>
-            </p>
-          </button>
 
+          
         </div>
 
         {staffsToDisplay.length > 0 && (

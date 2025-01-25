@@ -141,7 +141,7 @@ function Artisan() {
             onClick={() => setConditions(!conditions)}
           />
           <h1 className="text-xl font-bold">Job Descriptions</h1>
-          <p className="text-sm">      
+          <p className="text-sm">
             {selectedCategory?.description}
           </p>
 
@@ -183,35 +183,38 @@ function Artisan() {
                 query parameters to begin your search.
               </p>
             </div>
-                
-                
-          <div className="ml-auto flex md:items-center gap-5">
-            <button
-              onClick={() => navigate("/company/staff/contract-history")}
-              className="flex items-center gap-2"
-            >
-              <FaFileContract size="24" className="inline md:hidden" />
-              <span className="hidden md:inline border-primaryColor px-3 py-1 border hover:bg-primaryColor hover:text-white text-sm">Contract History</span>
-            </button>
 
-            <button className="my-5 ml-auto" onClick={navigateToCart}>
-              <p className="relative cursor-pointer flex item-center">
-                <FaShoppingCart size="24" />{" "}
-                <span className="absolute top-[-15px] right-0 w-max h-max px-1 rounded-full bg-red-700 text-white text-xs">
-                  {cartItems.length || 0}
-                </span>
-              </p>
-            </button>
-          </div>
-           
+
+            <div className="ml-auto flex md:items-center gap-5">
+              <button
+                onClick={() => navigate("/company/staff/contract-history", {
+                  state: {
+                    data: {type: "artisan" },
+                }})}
+                className="flex items-center gap-2"
+              >
+                <FaFileContract size="24" className="inline md:hidden" />
+                <span className="hidden md:inline border-primaryColor px-3 py-1 border hover:bg-primaryColor hover:text-white text-sm">Contract History</span>
+              </button>
+
+              <button className="my-5 ml-auto" onClick={navigateToCart}>
+                <p className="relative cursor-pointer flex item-center">
+                  <FaShoppingCart size="24" />{" "}
+                  <span className="absolute top-[-15px] right-0 w-max h-max px-1 rounded-full bg-red-700 text-white text-xs">
+                    {cartItems.length || 0}
+                  </span>
+                </p>
+              </button>
+            </div>
+
           </section>
 
           <SearchComponent
-              subCategories={categories.subcategories}
-              handleQuerySubmit={handleCondition}
-              title="Artisan's Specialized Position"
-              setSelectedCategory={setSelectedCategory}
-            />
+            subCategories={categories.subcategories}
+            handleQuerySubmit={handleCondition}
+            title="Artisan's Specialized Position"
+            setSelectedCategory={setSelectedCategory}
+          />
         </div>
 
         {staffsToDisplay.length > 0 ? (

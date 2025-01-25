@@ -168,7 +168,10 @@ function DomesticStaff() {
             <div className="flex md:items-center gap-5">
 
               <button
-                onClick={() => navigate('/company/staff/contract-history')}
+               onClick={() => navigate("/company/staff/contract-history", {
+                  state: {
+                    data: {type: "staff" },
+                }})}
                 className="flex items-center gap-2"
               >
                 <FaFileContract size="24" className="inline md:hidden" />
