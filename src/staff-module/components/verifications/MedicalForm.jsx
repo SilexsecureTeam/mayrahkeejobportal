@@ -7,6 +7,7 @@ import { FormatError } from "../../../utils/formmaters";
 import { onFailure } from "../../../utils/notifications/OnFailure";
 import { AuthContext } from "../../../context/AuthContex";
 import { axiosClient, resourceUrl } from "../../../services/axios-client";
+import { toast } from "react-toastify";
 
 const formFields = ["hospital_name", "contact_detail"];
 
@@ -32,7 +33,15 @@ function MedicalForm() {
   const getMedicalRecords = (e) => {
     const { name } = e.target;
     const file = e.target.files[0]; //filelist is an object carrying all details of file, .files[0] collects the value from key 0 (not array), and stores it in file
-
+    if (file && (file.size > (1024 * 1024))) {
+      const maxSizeMB = ((1024 * 1024) / (1024 * 1024)).toFixed(2); // Convert file size limit to MB
+      const fileSizeMB = (file.size / (1024 * 1024)).toFixed(2); // Convert uploaded file size to MB
+      e.target.value=null;
+      // Truncate long file names to 20 characters for better UI readability
+      const truncatedFileName = file.name.length > 10 ? `${file.name.substring(0, 10)}...` : file.name;
+      toast.error(`File size of "${truncatedFileName}" exceeds the limit of ${maxSizeMB} MB. The uploaded file is ${fileSizeMB} MB. Please select a smaller file.`);
+      return null;
+    }
     if (
       file &&
       [
@@ -144,7 +153,7 @@ function MedicalForm() {
                 {currentKey == "medical_report_docs" ? (
                   <a
                     className="text-blue-300 underline"
-                    href={`${resourceUrl}/${value}`}
+                    href={`${resourceUrl}${value}`}
                   >
                     Document link
                   </a>
@@ -174,9 +183,9 @@ function MedicalForm() {
             const inputType = currentKey == "member_since" ? "date" : "text";
             return (
               <div className="flex flex-col gap-1">
-                <label className="lowercase capitalize font-medium">{labelText}</label>
+                <label className="capitalize font-medium">{labelText}</label>
                 <input
-                  className="p-1 border focus:outline-none border-gray-900  rounded-md"
+                  className="p-1 border focus:outline-none border-gray-500  rounded-md"
                   type={inputType}
                   defaultValue={detail}
                   {...register(currentKey)}
@@ -187,11 +196,12 @@ function MedicalForm() {
           <div className="flex flex-col gap-1">
             <label className="capitalize font-medium">Add File</label>
             <input
-              className="p-1 border focus:outline-none border-gray-900  rounded-md"
+              className="p-1 border focus:outline-none border-gray-500  rounded-md"
               type="file"
               accept=".pdf, .doc, .jpeg, .jpg"
               onChange={getMedicalRecords}
             />
+             <small class="px-2 mb-2 text-XS text-gray-500 font-medium">File size should not exceed 1MB. Only accepts *.pdf, .doc, .jpeg,..*</small>
           </div>
 
           <div></div>

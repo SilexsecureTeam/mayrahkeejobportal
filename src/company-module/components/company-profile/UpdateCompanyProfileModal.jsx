@@ -283,7 +283,7 @@ function UpdateCompanyProfileModal({
               {/* Logo Input */}
               <div className="flex flex-col">
                 <span className="text-sm font-semibold">Company Icon</span>
-                <div className="w-[20%] mt-[5px] flex items-start justify-start relative">
+                <div className="w-[20%] mt-[5px] flex flex-col items-start justify-start relative">
                   <img
                     className="h-[50px] w-[50px] rounded-full"
                     src={
@@ -296,6 +296,7 @@ function UpdateCompanyProfileModal({
                     id="displayPic"
                     name="logo_image"
                     type="file"
+                    accept=".jpeg, .png, .jpg,"
                     onChange={(e) => {
                       getImageURL(e, setDisplayPic, setDetails);
                     }}
@@ -307,6 +308,8 @@ function UpdateCompanyProfileModal({
                   >
                     <FaRegEdit />
                   </label>
+                  <small class="text-xs text-gray-500">
+                File size should not exceed 1MB. </small>
                 </div>
               </div>
 
@@ -355,6 +358,7 @@ function UpdateCompanyProfileModal({
                     <FaRegEdit size="24" className="cursor-pointer" />
                     <input
                       name="company_campaign_photos"
+                      accept=".jpeg, .png, .jpg,"
                       onChange={getCampaignPhotoURL}
                       id="currentCampaignPhoto"
                       className="hidden absolute w-full h-full"
@@ -365,6 +369,7 @@ function UpdateCompanyProfileModal({
                 </div>
 
 
+                <section>
                 <div className="w-full min-h-[100px] flex gap-[5px] items-start border-dashed p-2 border overflow-x-auto">
                   {campaignPhotos?.map((current, idx) => (
                     <div
@@ -385,6 +390,10 @@ function UpdateCompanyProfileModal({
                     </div>
                   ))}
                 </div>
+                <small class="text-xs text-gray-500">
+                Images should not exceed 3MB. </small>
+                </section>
+                
 
               </div>
 

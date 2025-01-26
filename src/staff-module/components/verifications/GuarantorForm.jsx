@@ -139,7 +139,7 @@ function GuarantorForm() {
           <div className="flex flex-col gap-1">
             <label className="capitalize font-medium">Title</label>
             <select
-              className="p-1 border focus:outline-none border-gray-900 rounded-md"
+              className="p-1 border focus:outline-none border-gray-500 rounded-md"
               required
               {...register("title")}
             >
@@ -157,7 +157,7 @@ function GuarantorForm() {
               <div className="flex flex-col gap-1" key={currentKey}>
                 <label className="capitalize font-medium">{labelText}</label>
                 <input
-                  className="p-1 border focus:outline-none border-gray-900 rounded-md"
+                  className="p-1 border focus:outline-none border-gray-500 rounded-md"
                   type={inputType}
                   required
                   {...register(currentKey)}
@@ -170,7 +170,7 @@ function GuarantorForm() {
             <label className="font-medium">Religion</label>
             <select
               required
-              className="p-1 border focus:outline-none border-gray-900 rounded-md"
+              className="p-1 border focus:outline-none border-gray-500 rounded-md"
               {...register("religion")}
             >
               <option>Christianity</option>

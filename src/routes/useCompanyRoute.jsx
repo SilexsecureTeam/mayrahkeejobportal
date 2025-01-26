@@ -187,7 +187,7 @@ useEffect(() => {
       {authDetails?.user?.role === "employer" ? (
         <CompanyRouteContextProvider setSideBar={setSideBar}>
           <SubscriptionModal redirectState={redirectState} />
-          <main className="h-screen w-screen relative flex">
+          <main className="h-screen w-screen relative flex overflow-hidden">
             {/* Side bar takes up 20% of total width and 100% of height */}
 
             <SideBar
@@ -240,10 +240,10 @@ useEffect(() => {
                   <Route index element={<Home />} />
                   <Route path="*" element={<NotFound />} />
 
-                  <Route path="messages" element={<Messages />} />
+                  <Route path="messages" element={withSubscription(Messages, "Messages")} />
                   <Route
                     path="job-posting"
-                    element={withSubscription(JobPosting, "Job Posting")}
+                    element={withSubscription(JobPosting, "Job")}
                   />
 
                   <Route path="applicants/*">

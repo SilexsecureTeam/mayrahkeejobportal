@@ -79,7 +79,7 @@ function Resume() {
             }}
           />
           <span className="text-little text-gray-500">
-            The resume must be a file of type: pdf, doc, docx.
+            The resume must be a file of type: pdf, doc, docx. must not exceed 1MB
           </span>
           <FormButton
             loading={loading}
