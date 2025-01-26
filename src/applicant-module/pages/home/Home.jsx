@@ -161,9 +161,9 @@ const interviews = allApplications?.filter(
               </button>
             </div> */}
           </div>
-          <div className="md:flex-row flex-col flex  mt-8 gap-2">
-            <div className=" w-full md:w-[17%]  flex justify-between md:flex-col ">
-              <div className="pb-1 h-full md:w-full w-[45%] md:h-1/2">
+          <div className="lg:flex-row flex-col flex  mt-8 gap-2">
+            <div className=" w-full lg:w-[20%] flex justify-between lg:flex-col ">
+              <div className="pb-1 h-full lg:w-full w-[45%] lg:h-1/2">
                 <div
                   onClick={navigateToApplications}
                   className="border text-white transition duration-400 bg-lightgreen h-full cursor-pointer mb-4 p-3 pb-0 flex flex-col justify-between"
@@ -179,7 +179,7 @@ const interviews = allApplications?.filter(
                   </div>
                 </div>
               </div>
-              <div className="pt-1 h-full md:w-full w-[45%]  md:h-1/2">
+              <div className="pt-1 h-full lg:w-full w-[45%]  lg:h-1/2">
                 <div
                   onClick={()=>navigateToApplications("interview")}
                   className="border bg-yellow-300 text-white transition duration-400 h-full cursor-pointer mb-4 p-3 pb-0 flex flex-col justify-between"
@@ -194,8 +194,8 @@ const interviews = allApplications?.filter(
                 </div>
               </div>
             </div>
-            <div className=" w-full md:w-[17%]  flex justify-between md:flex-col ">
-              <div className="pt-1 h-full md:w-full w-[45%]  md:h-1/2">
+            <div className=" w-full lg:w-[20%] flex justify-between lg:flex-col ">
+              <div className="pt-1 h-full lg:w-full w-[45%]  lg:h-1/2">
                 <div
                 key="in-review"
                   onClick={()=>navigateToApplications("in-review")}
@@ -213,7 +213,7 @@ const interviews = allApplications?.filter(
                   </div>
                 </div>
               </div>
-              <div className="pt-1 h-full md:w-full w-[45%]  md:h-1/2">
+              <div className="pt-1 h-full lg:w-full w-[45%]  lg:h-1/2">
                 <div
                   onClick={()=>navigateToApplications("shortlist")}
                   className="border bg-lightblue text-white transition duration-400 h-full cursor-pointer mb-4 p-3 pb-0 flex flex-col justify-between"
@@ -232,7 +232,7 @@ const interviews = allApplications?.filter(
               </div>
             </div>
 
-            <div className="w-full flex flex-col items-center justify-center md:w-[25%] bg-primaryColor text-white border md:text-center lg:flex lg:flex-row lg:items-center lg:justify-between lg:w-auto">
+            <div className="w-full flex flex-col items-center justify-center bg-primaryColor text-white border lg:text-center lg:flex lg:flex-row lg:items-center lg:justify-between lg:w-auto">
               <div className="p-3 w-full lg:w-1/2">
                 <p className="font-bold text-center lg:text-left">Jobs Application Status</p>
                 <div className="my-5 flex flex-col items-center lg:flex-row lg:items-center lg:justify-start">
@@ -249,7 +249,7 @@ const interviews = allApplications?.filter(
               </div>
             </div>
 
-            <div className="w-full md:w-[50%] font-medium border py-3 text-sm">
+            <div className="w-full font-medium border py-3 text-sm">
               <div className="px-3 border-b">
                 <p className="font-bold my-3">Upcoming Interviews</p>
               </div>

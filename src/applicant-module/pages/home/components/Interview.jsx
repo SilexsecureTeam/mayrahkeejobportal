@@ -71,26 +71,34 @@ const Interview = ({ getInterviews, shortListed }) => {
         onMouseLeave={handlePopoverClose}
         className="border-b cursor-pointer"
       >
-        <div className="px-3 my-3 flex items-center">
-          <p className="w-1/6 font-medium">{date.toLocaleTimeString()}</p>
-          <div className="bg-[#47AA4933] rounded w-5/6 p-3">
-            <div className="flex items-center">
-              <div className="size-12 mr-3 rounded-full bg-gray-100"></div>
-              <div className="w-80 divide-y-1 divide-inherit">
-                <p className="prime_text border-b border-4 font-medium">
-                  {newInterview?.interviewer_name}
-                </p>
-                <p className="font-bold">{shortListed?.employer_name}</p>
-              </div>
-              <button
-                onClick={()=>navigateToApplications("shortlist")}
-                className="border hover:bg-primaryColor hover:text-white border-primaryColor px-2 text-sm sm:text-little text-primaryColor"
-              >
-                View
-              </button>
-            </div>
-          </div>
-        </div>
+        <div className="px-3 my-3 flex items-center gap-2 flex-wrap">
+  {/* Date and Time */}
+  <p className="font-medium break-all">
+    {date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
+  </p>
+
+  {/* Content Wrapper */}
+  <div className="bg-[#47AA4933] rounded p-3 min-w-20 flex-grow">
+    <div className="flex items-center flex-wrap justify-between gap-3">
+      {/* Interviewer and Employer Details */}
+      <div className="divide-y-1 divide-inherit">
+        <p className="prime_text border-b border-4 font-medium">
+          {newInterview?.interviewer_name || "N/A"}
+        </p>
+        <p className="font-bold">{shortListed?.employer_name || "N/A"}</p>
+      </div>
+
+      {/* View Button */}
+      <button
+        onClick={() => navigateToApplications("shortlist")}
+        className="border hover:bg-primaryColor hover:text-white border-primaryColor px-2 text-sm sm:text-little text-primaryColor"
+      >
+        View
+      </button>
+    </div>
+  </div>
+</div>
+
       </div>
     </>
   );

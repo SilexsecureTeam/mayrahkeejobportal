@@ -11,6 +11,8 @@ import { onFailure } from "../../../utils/notifications/OnFailure";
 import { useLocation, useNavigate } from "react-router-dom";
 import { FaSpinner } from "react-icons/fa";
 import { IMAGE_URL } from "../../../utils/base";
+import { toast } from "react-toastify";
+
 
 const CreateBlog = () => {
   const { authDetails } = useContext(AuthContext);
@@ -159,6 +161,11 @@ const CreateBlog = () => {
   const handleImageChange = (event) => {
     const file = event.target.files[0];
     if (file) {
+      if (file.size > 1 * 1024 * 1024) {
+        toast.error("File size exceeds the file size limit of 1MB.");
+        event.target.value = null
+        return
+      }
       setBlog((prevDetails) => ({
         ...prevDetails,
         main_image: file,

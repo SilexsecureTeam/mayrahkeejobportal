@@ -155,10 +155,9 @@ function UpdateExclusiveProfileModal({
     // Update the campaignPhotos state
     setCampaignPhotos(updatedPhotos);
   };
-
   return (
     <PopUpBox isOpen={isOpen}>
-      <div className="bg-white w-[60%] rounded-md h-[95%] px-3  py-3">
+      <div className="bg-white w-[90%] max-w-[600px] rounded-md h-[95%] px-3  py-3">
         <button
           onClick={toogleProfileUpdateModal}
           className="flex gap-1 border px-1 rounded-lg py-1 items-center bg-red-500 text-white font-semibold"
@@ -174,33 +173,36 @@ function UpdateExclusiveProfileModal({
           >
             {/* Logo Input */}
             <div className="flex flex-col">
-              <span className="text-sm font-semibold">Company Icon</span>
-              <div className="w-[20%] mt-[5px] flex items-start justify-start relative">
-                <img
-                  className="h-[50px] w-[50px] rounded-full"
-                  src={
-                    displayPic
-                      ? displayPic
-                      : `${resourceUrl}/${details?.logo_image}`
-                  }
-                />
-                <input
-                  id="displayPic"
-                  name="logo_image"
-                  type="file"
-                  onChange={(e) => {
-                    getImageURL(e, setDisplayPic, setDetails);
-                  }}
-                  className="hidden"
-                />
-                <label
-                  htmlFor="displayPic"
-                  className="absolute right-12  top-0 cursor-pointer text-primaryColor text-lg"
-                >
-                  <FaRegEdit />
-                </label>
+                <span className="text-sm font-semibold">Company Icon</span>
+                <div className="w-[20%] mt-[5px] flex flex-col items-start justify-start relative">
+                  <img
+                    className="h-[50px] w-[50px] rounded-full"
+                    src={
+                      displayPic
+                        ? displayPic
+                        : `${resourceUrl}/${details?.logo_image}`
+                    }
+                  />
+                  <input
+                    id="displayPic"
+                    name="logo_image"
+                    type="file"
+                    accept=".jpeg, .png, .jpg,"
+                    onChange={(e) => {
+                      getImageURL(e, setDisplayPic, setDetails);
+                    }}
+                    className="hidden"
+                  />
+                  <label
+                    htmlFor="displayPic"
+                    className="absolute right-12  top-0 cursor-pointer text-primaryColor text-lg"
+                  >
+                    <FaRegEdit />
+                  </label>
+                  <small class="text-xs text-gray-500">
+                File size should not exceed 1MB. </small>
+                </div>
               </div>
-            </div>
 
             {/* Basic Form inputs */}
             {basic_inputs?.map((current) => (
@@ -239,43 +241,51 @@ function UpdateExclusiveProfileModal({
 
             {/* Campaign Photos */}
             <div className="w-full flex flex-col gap-[3px] mt-10">
-              <label
-                htmlFor="currentCampaignPhoto"
-                className="text-sm font-semibold flex w-full justify-between items-center"
-              >
-                Capaign Photos <span className="relative">
-                  <FaRegEdit size="24" className="cursor-pointer" />
-                  <input
-                    name="company_campaign_photos"
-                    onChange={getCampaignPhotoURL}
-                    id="currentCampaignPhoto"
-                    className="hidden absolute w-full h-full"
-                    type="file"
-                    multiple // Allows multiple file selection
-                  />
-                </span>
-              </label>
-
-
-              <div className="w-full min-h-[100px] flex gap-[3px] items-start border-dashed p-2 border overflow-x-auto">
-                {campaignPhotos?.map((current, idx) => (
-                  <div key={idx} className="relative h-[80px] w-[80px] border">
-                    <img
-                      className="h-full w-full object-cover"
-                      src={current.url}
-                      alt={`Campaign ${idx}`}
+                <div
+                  className="text-sm font-semibold flex w-full justify-between items-center"
+                >
+                  Company Photos <label
+                    htmlFor="currentCampaignPhoto" className="relative overflow-hidden">
+                    <FaRegEdit size="24" className="cursor-pointer" />
+                    <input
+                      name="company_campaign_photos"
+                      accept=".jpeg, .png, .jpg,"
+                      onChange={getCampaignPhotoURL}
+                      id="currentCampaignPhoto"
+                      className="hidden absolute w-full h-full"
+                      type="file"
+                      multiple // Allows multiple file selection
                     />
-                    <span
-                      onClick={() => handleRemovePhoto(idx)}
-                      className="absolute top-[-5px] right-[-5px] bg-red-500 font-bold text-white rounded-full w-5 h-5 flex items-center justify-center cursor-pointer"
-                    >
-                      <FaTimes size="15" />
-                    </span>
-                  </div>
-                ))}
-              </div>
-            </div>
+                  </label>
+                </div>
 
+
+                <section>
+                <div className="w-full min-h-[100px] flex gap-[5px] items-start border-dashed p-2 border overflow-x-auto">
+                  {campaignPhotos?.map((current, idx) => (
+                    <div
+                      key={idx}
+                      className="flex-shrink-0 relative h-[80px] w-[80px] border border-gray-300"
+                    >
+                      <img
+                        className="h-full w-full object-cover"
+                        src={current.url}
+                        alt={`Campaign ${idx}`}
+                      />
+                      <span
+                        onClick={() => handleRemovePhoto(idx)}
+                        className="absolute top-[-5px] right-[-5px] bg-red-500 font-bold text-white rounded-full w-5 h-5 flex items-center justify-center cursor-pointer"
+                      >
+                        <FaTimes size="12" />
+                      </span>
+                    </div>
+                  ))}
+                </div>
+                <small class="text-xs text-gray-500">
+                Images should not exceed 3MB. </small>
+                </section>
+                </div>
+                
             {/* Social Media Inputs */}
             <div className="w-full flex flex-col gap-[3px]">
               <label

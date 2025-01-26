@@ -125,7 +125,7 @@ const BasicInfo = ({ setIsOpen }) => {
   useEffect(() => {
     console.log(details)
     updateFirstLetter(details?.means_of_identification)
-    
+
   }, [details])
   function updateFirstLetter(word) {
     if (word) {
@@ -154,7 +154,7 @@ const BasicInfo = ({ setIsOpen }) => {
   // console.log(getAllFaculty.data)
   const handleOnChange = (e) => {
     const { value, name, files, type, checked } = e.target;
-  console.log(name, type, value)
+    console.log(name, type, value)
     // Define the dynamic file size limits for different files
     const FILE_SIZE_LIMITS = {
       'introduction_video': 2 * 1024 * 1024,  // 2 MB for introduction video
@@ -162,12 +162,12 @@ const BasicInfo = ({ setIsOpen }) => {
       'background_profile': 3.8 * 1024 * 1024,  // 3.8 MB for background profile
       // Add other files as needed
     };
-  
-  
+
+
     if (name === "means_of_identification") {
       updateFirstLetter(value);
     }
-  
+
     if (name === "country") {
       const countryInfoDetails = Country.getCountryByCode(countries?.find(one => one.name === value)?.isoCode);
       setCountryInfo(countryInfoDetails);
@@ -190,23 +190,23 @@ const BasicInfo = ({ setIsOpen }) => {
         };
       });
     }
-  
+
     // Handle file size validation with dynamic limits
     if (type === "file" && files.length > 0) {
       const file = files[0];
-      const fileSizeLimit = Object.keys(FILE_SIZE_LIMITS).find((key) => name.toLowerCase().includes(key)) 
-                            ? FILE_SIZE_LIMITS[name] 
-                            : 1 * 1024 * 1024; // Default to 1 MB if no specific limit is found
-  
+      const fileSizeLimit = Object.keys(FILE_SIZE_LIMITS).find((key) => name.toLowerCase().includes(key))
+        ? FILE_SIZE_LIMITS[name]
+        : 1 * 1024 * 1024; // Default to 1 MB if no specific limit is found
+
       if (file.size > fileSizeLimit) {
         const maxSizeMB = (fileSizeLimit / (1024 * 1024)).toFixed(2); // Convert file size limit to MB
-      const fileSizeMB = (file.size / (1024 * 1024)).toFixed(2); // Convert uploaded file size to MB
+        const fileSizeMB = (file.size / (1024 * 1024)).toFixed(2); // Convert uploaded file size to MB
 
-      // Truncate long file names to 20 characters for better UI readability
-      const truncatedFileName = file.name.length > 10 ? `${file.name.substring(0, 10)}...` : file.name;
+        // Truncate long file names to 20 characters for better UI readability
+        const truncatedFileName = file.name.length > 10 ? `${file.name.substring(0, 10)}...` : file.name;
 
 
-        toast.error( `File size of "${truncatedFileName}" exceeds the limit of ${maxSizeMB} MB. The uploaded file is ${fileSizeMB} MB. Please select a smaller file.`);
+        toast.error(`File size of "${truncatedFileName}" exceeds the limit of ${maxSizeMB} MB. The uploaded file is ${fileSizeMB} MB. Please select a smaller file.`);
         setDetails((prev) => {
           // Reset the file input if it's too large
           return {
@@ -214,7 +214,7 @@ const BasicInfo = ({ setIsOpen }) => {
             [name]: null, // Prevent the file from being added to state
           };
         });
-        e.target.value=null
+        e.target.value = null
         return; // Exit the function if the file is too large
       } else {
         setDetails((prev) => {
@@ -233,7 +233,7 @@ const BasicInfo = ({ setIsOpen }) => {
         };
       });
     }
-  
+
     if (name === "languages") {
       const selectedLanguageOptions = Array.from(
         e.target.selectedOptions,
@@ -255,11 +255,11 @@ const BasicInfo = ({ setIsOpen }) => {
         setSelectedLanguages([...newList]);
       }
     }
-  
+
     // Reset error message once everything is processed
     setErrorMsg(null);
   };
-  
+
 
   const handleOutline = (event) => {
     setDetails((prev) => {
@@ -376,9 +376,9 @@ const BasicInfo = ({ setIsOpen }) => {
   const getImageURL = (e) => {
     const { name } = e.target;
     const file = e.target.files[0]; //filelist is an object carrying all details of file, .files[0] collects the value from key 0 (not array), and stores it in file
-    if (file && file.size > 1*1024*1024) {
+    if (file && file.size > 1 * 1024 * 1024) {
       toast.error("File size exceeds the file size limit of 1MB.");
-      e.target.value= null
+      e.target.value = null
       return
     }
     if (file && (file.type === "image/jpeg" || file.type === "image/png")) {
@@ -632,8 +632,8 @@ const BasicInfo = ({ setIsOpen }) => {
                             />
                           </label>
                           <small class="text-sm text-gray-500">
-                              File size should not exceed 1MB. Only accepts .jpeg, .png, .jpg are allowed.
-                            </small>
+                            File size should not exceed 1MB. Only accepts .jpeg, .png, .jpg are allowed.
+                          </small>
                         </div>
                       </div>
                     </div>

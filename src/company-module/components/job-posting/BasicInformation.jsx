@@ -10,6 +10,7 @@ import SelectorInput from "./SelectorInput";
 import useJobManagement from "../../../hooks/useJobManagement";
 import { Country, State } from 'country-state-city'
 import { resourceUrl } from "../../../services/axios-client";
+import { toast } from "react-toastify";
 
 const basic_inputs = [
   {
@@ -100,7 +101,7 @@ const salaryTypeData = [
 ];
 
 function BasicInformation({ setCurrentStep, data, jobUtils, validateAndProceed }) {
-  const { getEmployentTypes, getCurrencies,getSectors,getSubSectors } = useJobManagement();
+  const { getEmployentTypes, getCurrencies, getSectors, getSubSectors } = useJobManagement();
   const [salaryRange, setSalaryRange] = useState([5000, 22000]);
   const [jobSectorList, setJobSectorList] = useState([]);
   const [selectedType, setSelectedType] = useState(jobUtils?.details?.type && jobUtils?.details?.type);
@@ -128,7 +129,11 @@ function BasicInformation({ setCurrentStep, data, jobUtils, validateAndProceed }
   const getPhotoURL = (e) => {
     const { name } = e.target;
     const file = e.target.files[0];
-
+   if (file && file.size > 1 * 1024 * 1024) {
+      toast.error("File size exceeds the file size limit of 1MB.");
+      e.target.value = null
+      return
+    }
     if (file && (file.type === "image/jpeg" || file.type === "image/png")) {
       const generatedUrl = URL.createObjectURL(file);
       setPhotoUrl(generatedUrl);
@@ -158,14 +163,14 @@ function BasicInformation({ setCurrentStep, data, jobUtils, validateAndProceed }
 
 
 
-      
+
     };
 
     initData();
 
   }, []);
 
-  useEffect(()=>{
+  useEffect(() => {
     let savedPhoto = null;
     if (savedPhoto === null && jobUtils.details?.featured_image) {
       // Check if the featured image is a Blob/File
@@ -184,7 +189,7 @@ function BasicInformation({ setCurrentStep, data, jobUtils, validateAndProceed }
         URL.revokeObjectURL(savedPhoto);
       }
     };
-  },[jobUtils.details?.featured_image])
+  }, [jobUtils.details?.featured_image])
 
   useEffect(() => {
     if (jobUtils?.details?.location) {
@@ -326,12 +331,16 @@ function BasicInformation({ setCurrentStep, data, jobUtils, validateAndProceed }
             <input
               id="photo_url"
               onChange={getPhotoURL}
+              accept=".png, .jpg, .jpeg"
               name="featured_image"
               type="file"
               className="hidden"
             />
           </div>
-          <span className="text-xs text-gray-400">Only JPEG or PNG</span>
+          <small class="text-xs text-gray-400 max-w-40 text-center">
+            File size should not exceed 1MB. Only accepts .jpeg, .png, .jpg are allowed.
+          </small>
+
         </div>
       </div>
       <SelectorInput

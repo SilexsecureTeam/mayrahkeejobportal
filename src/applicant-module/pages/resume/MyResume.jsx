@@ -9,6 +9,7 @@ import axios from 'axios';
 import { FcApproval } from 'react-icons/fc';
 import { onSuccess } from '../../../utils/notifications/OnSuccess';
 import Resume from './components/Resume';
+import { toast } from 'react-toastify';
 
 const MyResume = () => {
     const { authDetails } = useContext(AuthContext);
@@ -61,6 +62,13 @@ const MyResume = () => {
 
     const handleOnChange = (e) => {
         const { value, name, files, type, checked } = e.target;
+        const file = e.target.files[0]; //filelist is an object carrying all details of file, .files[0] collects the value from key 0 (not array), and stores it in file
+
+        if (file && file.size > 1 * 1024 * 1024) {
+            toast.error("File size exceeds the file size limit of 1MB.");
+            e.target.value = null
+            return
+        }
         if (name === "resume") {
             setResumePicker(true)
         }
@@ -175,9 +183,12 @@ const MyResume = () => {
                                             <label htmlFor='resume' className="cursor-pointer flex">
                                                 <span className="text-sm  bg-green-100 rounded border p-4 font-medium text-slate-700 text-nowrap">Add Resume</span>
                                                 <span> {resumePicker && (<FcApproval />)}</span>
-                                                <input type="file" id='resume' name='resume' placeholder='url' onChange={handleOnChange}
+                                                <input type="file" accept=".pdf, .docx," id='resume' name='resume' placeholder='url' onChange={handleOnChange}
                                                     className="mt-1 invisible p-1 focus:outline-none w-full border" />
                                             </label>
+                                            <small class="text-sm text-gray-500">
+                                                File size should not exceed 1MB. Only accepts .pdf, .docx, are allowed.
+                                            </small>
                                         </div>
                                         <div className='mb-5'>
                                             <label className="block">
@@ -234,9 +245,12 @@ const MyResume = () => {
                                             <label htmlFor='portfolio' className="cursor-pointer flex">
                                                 <span className="text-sm  bg-green-100 rounded border p-4 font-medium text-slate-700 text-nowrap">Add Portfolio</span>
                                                 <span> {portfolioPicker && (<FcApproval />)}</span>
-                                                <input type="file" id='portfolio' name='portfolio' placeholder='portfolio' onChange={handleOnChange}
+                                                <input type="file" id='portfolio' accept=".pdf, .docx," name='portfolio' placeholder='portfolio' onChange={handleOnChange}
                                                     className="mt-1 invisible p-1 focus:outline-none w-full border" />
                                             </label>
+                                            <small class="text-sm text-gray-500">
+                                                File size should not exceed 1MB. Only accepts .pdf, .docx, are allowed.
+                                            </small>
                                         </div>
                                         <p className="font-medium text-base my-6"> Previous Work Experience</p>
                                         <div className='mb-5'>

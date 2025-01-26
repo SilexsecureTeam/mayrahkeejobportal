@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import mainLogo from "../../assets/svgs/main-logo.svg";
 import mainLogoTwo from "../../assets/pngs/main-logo-icon.png";
 import useCompanyProfile from "../../hooks/useCompanyProfile";
@@ -14,27 +14,45 @@ function SideBar({
   isMenuOpen,
 }) {
   const { details } = useCompanyProfile();
+  const [greenSectionHeight, setGreenSectionHeight] = useState(160); // Default height in pixels
+
+  useEffect(() => {
+    // Dynamically calculate the height of the green section
+    const updateGreenSectionHeight = () => {
+      const greenSection = document.querySelector(".green-section");
+      if (greenSection) {
+        setGreenSectionHeight(greenSection.offsetHeight);
+      }
+    };
+
+    updateGreenSectionHeight();
+    window.addEventListener("resize", updateGreenSectionHeight);
+    return () => window.removeEventListener("resize", updateGreenSectionHeight);
+  }, []);
 
   const getImageURL = (image) => {
-   
-
     if (typeof image === "string") {
-      return `${resourceUrl}/${image}`
-     
+      return `${resourceUrl}/${image}`;
     } else {
       const generatedUrl = URL.createObjectURL(image);
-      return generatedUrl
+      return generatedUrl;
     }
   };
+
   return (
     <>
       {/* Main Sidebar */}
-      <aside className="max-w-[220px] hidden h-full items-center bg-secondaryColor px-2 pb-2 lg:flex flex-col justify-between">
+      <aside className="max-w-[220px] hidden relative min-h-screen bg-secondaryColor px-2 pb-2 md:flex flex-col">
         {/* Logo */}
-        <img src={mainLogoTwo} className="w-[80%]" />
+        <img src={mainLogoTwo} className="w-[80%] mb-4" alt="Logo" />
 
         {/* Navigation */}
-        <nav className="h-[92%] w-full flex flex-col justify-start gap-[20px] divide-y-2">
+        <nav
+          className="flex flex-col gap-[20px] divide-y-2 overflow-y-auto"
+          style={{
+            maxHeight: `calc(100vh - ${greenSectionHeight}px)`, // Adjust maxHeight based on green section height
+          }}
+        >
           {children[0]}
           <div className="flex flex-col gap-[5px]">
             <h3 className="px-2 text-primary text-sm mt-[10px] font-semibold">More</h3>
@@ -43,7 +61,10 @@ function SideBar({
         </nav>
 
         {/* Decorative Green Slide */}
-        <div className="absolute bottom-0 left-0 w-full h-40 overflow-hidden">
+        <div
+          className="absolute bottom-0 left-0 w-full green-section overflow-hidden"
+          style={{ height: `${greenSectionHeight}px` }}
+        >
           <div className="w-[500px] h-full relative bg-primaryColor transform -rotate-12 origin-bottom-right" />
         </div>
 
@@ -56,6 +77,7 @@ function SideBar({
           <img
             src={details?.logo_image ? getImageURL(details?.logo_image) : "https://via.placeholder.com/150"}
             className="flex-shrink-0 h-[60px] w-[60px] rounded-full bg-secondaryColor max-[1200px]:mt-[-30px] transition-all duration-500 object-cover"
+            alt="User"
           />
         </div>
       </aside>
@@ -68,10 +90,15 @@ function SideBar({
       >
         <div className="flex items-center gap-[10px]">
           <MdClose onClick={toogleIsOpen} className="text-primarycolor text-3xl" />
-          <img src={mainLogoTwo} className="w-[60%]" />
+          <img src={mainLogoTwo} className="w-[60%]" alt="Logo" />
         </div>
 
-        <nav className="h-[90%] overflow-y-auto w-full flex flex-col justify-start gap-[20px] divide-y-2">
+        <nav
+          className="h-[90%] overflow-y-auto w-full flex flex-col justify-start gap-[20px] divide-y-2"
+          style={{
+            maxHeight: `calc(100vh - ${greenSectionHeight}px)`, // Adjust maxHeight based on green section height
+          }}
+        >
           {children[0]}
           <div className="flex flex-col gap-[5px]">
             <h3 className="px-2 text-primary text-sm mt-[10px] font-semibold">Personalise</h3>
@@ -80,7 +107,10 @@ function SideBar({
         </nav>
 
         {/* Decorative Green Slide */}
-        <div className="absolute bottom-0 left-0 w-full h-32 overflow-hidden">
+        <div
+          className="absolute bottom-0 left-0 w-full green-section"
+          style={{ height: `${greenSectionHeight}px` }}
+        >
           <div className="w-[120%] h-full relative bg-primaryColor transform -rotate-12 origin-bottom-right" />
         </div>
 
@@ -93,6 +123,7 @@ function SideBar({
           <img
             src={details?.logo_image ? getImageURL(details?.logo_image) : "https://via.placeholder.com/150"}
             className="h-[70px] w-[70px] rounded-full bg-primaryColor object-cover"
+            alt="User"
           />
         </div>
       </aside>

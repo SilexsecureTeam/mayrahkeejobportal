@@ -1,18 +1,7 @@
 import React, { useState } from "react";
-
 const UploadSlider = ({ handleImageChange, image }) => {
   const [upload, setUpload] = useState(""); // Temporary state to hold uploaded image preview
 
-  const handleImageUpload = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setUpload(reader.result); // Set preview image
-      };
-      reader.readAsDataURL(file);
-    }
-  };
 
   const handleAttach = () => {
     if (upload) {
@@ -23,9 +12,11 @@ const UploadSlider = ({ handleImageChange, image }) => {
 
   return (
     <div>
-      <label className="block text-sm font-medium text-gray-700 mb-2 px-2">
+      <label className="block text-sm font-medium text-gray-700 px-2">
         Upload Slider
       </label>
+      <small class="px-2 mb-2 text-sm text-gray-400 font-medium">
+                File size should not exceed 1MB. </small>
       <div className="flex items-center gap-4">
         <input
           type="file"
