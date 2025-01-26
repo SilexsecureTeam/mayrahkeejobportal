@@ -57,7 +57,7 @@ function SideBar({ children, authDetails, toogleIsOpen, isMenuOpen }) {
         {/* Green Slide */}
         <div
           className="absolute bottom-0 left-0 w-full green-section overflow-hidden"
-          style={{ height: `${greenSectionHeight}px` }}
+          style={{ height: `${160}px` }}
         >
           <div className="w-[500px] h-full bg-primaryColor transform -rotate-12 origin-bottom-right" />
         </div>
@@ -86,9 +86,9 @@ function SideBar({ children, authDetails, toogleIsOpen, isMenuOpen }) {
 
       {/* Mobile Sidebar */}
       <aside
-        className={`${
+        className={`h-screen ${
           isMenuOpen ? "left-0" : "left-[-100%]"
-        } w-[300px] absolute z-[999] h-screen bg-secondaryColor px-2 pb-2 flex flex-col`}
+        } w-[300px] absolute z-[999] h-screen bg-secondaryColor px-2 pb-2 flex flex-col overflow-hidden`}
       >
         {/* Close Button and Logo */}
         <div className="flex items-center gap-[10px]">
@@ -103,7 +103,7 @@ function SideBar({ children, authDetails, toogleIsOpen, isMenuOpen }) {
         <nav
           className="flex-1 w-full flex flex-col gap-[20px] divide-y-2 overflow-y-auto mt-4"
           style={{
-            maxHeight: `calc(100vh - ${greenSectionHeight}px)`,
+            maxHeight: `calc(100vh - ${160}px)`,
           }}
         >
           {children[0]}
@@ -118,7 +118,7 @@ function SideBar({ children, authDetails, toogleIsOpen, isMenuOpen }) {
         {/* Green Slide */}
         <div
           className="absolute bottom-0 left-0 w-full green-section"
-          style={{ height: `${greenSectionHeight}px` }}
+          style={{ height: `${120}px` }}
         >
           <div className="w-[120%] h-full bg-primaryColor transform -rotate-12 origin-bottom-right" />
         </div>

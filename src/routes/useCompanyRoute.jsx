@@ -240,10 +240,10 @@ useEffect(() => {
                   <Route index element={<Home />} />
                   <Route path="*" element={<NotFound />} />
 
-                  <Route path="messages" element={<Messages />} />
+                  <Route path="messages" element={withSubscription(Messages, "Messages")} />
                   <Route
                     path="job-posting"
-                    element={withSubscription(JobPosting, "Job Posting")}
+                    element={withSubscription(JobPosting, "Job")}
                   />
 
                   <Route path="applicants/*">

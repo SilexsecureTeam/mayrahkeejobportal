@@ -50,7 +50,7 @@ function SideBar({
         <nav
           className="flex flex-col gap-[20px] divide-y-2 overflow-y-auto"
           style={{
-            maxHeight: `calc(100vh - ${greenSectionHeight}px)`, // Adjust maxHeight based on green section height
+            maxHeight: `calc(100vh - ${160}px)`, // Adjust maxHeight based on green section height
           }}
         >
           {children[0]}
@@ -63,7 +63,7 @@ function SideBar({
         {/* Decorative Green Slide */}
         <div
           className="absolute bottom-0 left-0 w-full green-section overflow-hidden"
-          style={{ height: `${greenSectionHeight}px` }}
+          style={{ height: `${160}px` }}
         >
           <div className="w-[500px] h-full relative bg-primaryColor transform -rotate-12 origin-bottom-right" />
         </div>
@@ -84,7 +84,7 @@ function SideBar({
 
       {/* Mobile Sidebar */}
       <aside
-        className={`${
+        className={`h-screen overflow-hidden ${
           isMenuOpen ? "left-0" : "left-[-100%]"
         } w-[70%] sm:w-[300px] absolute z-[999] h-screen items-center bg-secondaryColor px-2 pb-2 flex flex-col`}
       >
@@ -96,7 +96,7 @@ function SideBar({
         <nav
           className="h-[90%] overflow-y-auto w-full flex flex-col justify-start gap-[20px] divide-y-2"
           style={{
-            maxHeight: `calc(100vh - ${greenSectionHeight}px)`, // Adjust maxHeight based on green section height
+            maxHeight: `calc(100vh - ${160}px)`, // Adjust maxHeight based on green section height
           }}
         >
           {children[0]}
@@ -109,7 +109,7 @@ function SideBar({
         {/* Decorative Green Slide */}
         <div
           className="absolute bottom-0 left-0 w-full green-section"
-          style={{ height: `${greenSectionHeight}px` }}
+          style={{ height: `${160}px` }}
         >
           <div className="w-[120%] h-full relative bg-primaryColor transform -rotate-12 origin-bottom-right" />
         </div>
