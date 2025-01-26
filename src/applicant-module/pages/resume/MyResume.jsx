@@ -187,7 +187,7 @@ const MyResume = () => {
                                                     className="mt-1 invisible p-1 focus:outline-none w-full border" />
                                             </label>
                                             <small class="text-sm text-gray-500">
-                                                File size should not exceed 1MB. Only accepts .pdf, .docx, are allowed.
+                                                File size should not exceed 1MB. Only *.pdf, .docx* are allowed.
                                             </small>
                                         </div>
                                         <div className='mb-5'>
@@ -245,11 +245,11 @@ const MyResume = () => {
                                             <label htmlFor='portfolio' className="cursor-pointer flex">
                                                 <span className="text-sm  bg-green-100 rounded border p-4 font-medium text-slate-700 text-nowrap">Add Portfolio</span>
                                                 <span> {portfolioPicker && (<FcApproval />)}</span>
-                                                <input type="file" id='portfolio' accept=".pdf, .docx," name='portfolio' placeholder='portfolio' onChange={handleOnChange}
+                                                <input type="file" id='portfolio' accept=".pdf, .docx" name='portfolio' placeholder='portfolio' onChange={handleOnChange}
                                                     className="mt-1 invisible p-1 focus:outline-none w-full border" />
                                             </label>
                                             <small class="text-sm text-gray-500">
-                                                File size should not exceed 1MB. Only accepts .pdf, .docx, are allowed.
+                                                File size should not exceed 1MB. Only *.pdf, .docx* are allowed.
                                             </small>
                                         </div>
                                         <p className="font-medium text-base my-6"> Previous Work Experience</p>
