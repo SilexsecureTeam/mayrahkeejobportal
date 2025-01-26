@@ -15,7 +15,7 @@ const packagePermissions = activePackage
 
 const hasPermission =
   authDetails?.user?.user_type === "exclusive" ||
-  packagePermissions?.some((permission) => permission.toLowerCase() === title?.toLowerCase());
+  packagePermissions?.some((permission) => permission.toLowerCase().includes(title?.toLowerCase()));
 
 
   return hasPermission ? (
