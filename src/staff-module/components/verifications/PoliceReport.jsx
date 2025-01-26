@@ -150,7 +150,7 @@ function PoliceReport() {
                 setSelectStates(states);
                 setSelectedCountry(Country.getCountryByCode(e.target.value));
               }}
-              className="p-1 border w-full focus:outline-none border-gray-900 text-sm rounded-md"
+              className="p-1 border w-full focus:outline-none border-gray-500 text-sm rounded-md"
             >
               <option value="">-- select --</option>
               {countries.map((country) => (
@@ -176,7 +176,7 @@ function PoliceReport() {
                 setSelectState(State.getStateByCode(e.target.value));
                 setSelectCities(cities);
               }}
-              className="p-1 border w-full focus:outline-none text-sm border-gray-900  rounded-md"
+              className="p-1 border w-full focus:outline-none text-sm border-gray-500  rounded-md"
             >
               <option value="">-- select --</option>
               {selectStates?.map((each) => (
@@ -196,7 +196,7 @@ function PoliceReport() {
                 setSelectCity(e.target.value);
               }}
               name="local_gov"
-              className="p-1 border w-full focus:outline-none border-gray-900 text-sm rounded-md"
+              className="p-1 border w-full focus:outline-none border-gray-500 text-sm rounded-md"
             >
               <option value="">-- select --</option>
               {selectCities?.map((city) => (
@@ -216,7 +216,7 @@ function PoliceReport() {
               <div className="flex flex-col gap-1">
                 <label className="capitalize font-medium">{labelText}</label>
                 <input
-                  className="p-1 border focus:outline-none border-gray-900  rounded-md"
+                  className="p-1 border focus:outline-none border-gray-500  rounded-md"
                   type={inputType}
                   defaultValue={detail}
                   {...register(currentKey)}
@@ -231,7 +231,7 @@ function PoliceReport() {
                 const file = e.target.files[0];
                 setFile(file);
               }}
-              className="p-1 border focus:outline-none border-gray-900  rounded-md"
+              className="p-1 border focus:outline-none border-gray-500  rounded-md"
               type="file"
               accept=".pdf, .doc, .jpeg, .jpg"
             />

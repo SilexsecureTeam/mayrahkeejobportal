@@ -9,7 +9,7 @@ function DefaultSwitch({ enabled, setEnabled, onClick, loading }) {
     >
       {loading ? (
         <div className="flex justify-center items-center w-10 h-5 bg-gray-300 rounded-full">
-          <FaSpinner className="text-blue-500 animate-spin" size={20} />
+          <FaSpinner className="text-green-500 animate-spin" size="20" />
         </div>
       ) : (
         <div

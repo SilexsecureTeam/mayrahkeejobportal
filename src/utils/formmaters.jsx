@@ -138,7 +138,18 @@ export const getImageURL = (e, setStateFunctionUrl, setDetails) => {
 export const getDocument = (e, setDetails) => {
   const { name } = e.target;
   const file = e.target.files[0]; //filelist is an object carrying all details of file, .files[0] collects the value from key 0 (not array), and stores it in file
+  if (file && (file.size > (1024 * 1024))) {
+    const maxSizeMB = ((1024 * 1024) / (1024 * 1024)).toFixed(2); // Convert file size limit to MB
+    const fileSizeMB = (file.size / (1024 * 1024)).toFixed(2); // Convert uploaded file size to MB
 
+    // Truncate long file names to 20 characters for better UI readability
+    const truncatedFileName = file.name.length > 10 ? `${file.name.substring(0, 10)}...` : file.name;
+
+
+    toast.error(`File size of "${truncatedFileName}" exceeds the limit of ${maxSizeMB} MB. The uploaded file is ${fileSizeMB} MB. Please select a smaller file.`);
+    
+    return null;
+  }
   const validTypes = [
     "application/pdf",
     "application/msword",

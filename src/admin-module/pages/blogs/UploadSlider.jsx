@@ -15,8 +15,7 @@ const UploadSlider = ({ handleImageChange, image }) => {
       <label className="block text-sm font-medium text-gray-700 px-2">
         Upload Slider
       </label>
-      <small class="px-2 mb-2 text-sm text-gray-400 font-medium">
-                File size should not exceed 1MB. </small>
+      <small class="px-2 mb-2 text-sm text-gray-400 font-medium">File size should not exceed 1MB. </small>
       <div className="flex items-center gap-4">
         <input
           type="file"
