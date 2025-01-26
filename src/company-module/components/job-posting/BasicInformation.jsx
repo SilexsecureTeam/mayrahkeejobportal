@@ -338,7 +338,7 @@ function BasicInformation({ setCurrentStep, data, jobUtils, validateAndProceed }
             />
           </div>
           <small class="text-xs text-gray-400 max-w-40 text-center">
-            File size should not exceed 1MB. Only accepts .jpeg, .png, .jpg are allowed.
+            File size should not exceed 1MB. Only *.jpeg, .png, .jpg* are allowed.
           </small>
 
         </div>
