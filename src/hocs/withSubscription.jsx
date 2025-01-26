@@ -7,13 +7,16 @@ import { AuthContext } from "../context/AuthContex";
 function withSubscription(Component, title) {
   const subUtils = useContext(SubscriptionContext);
   const { authDetails } = useContext(AuthContext);
-  const permissions=subUtils?.packages.find(one=>one.id === subUtils?.activePackage?.package_id)
-  // Check if the user type is "exclusive" or if the permissions include the title
-  const hasPermission =
-    authDetails?.user?.user_type === "exclusive" ||
-    permissions?.some(
-      (permission) => permission.toLowerCase() === title.toLowerCase()
-    );
+  
+const activePackage = subUtils?.activePackage;
+const packagePermissions = activePackage
+  ? subUtils?.packages?.find((pkg) => pkg.id === activePackage.package_id)?.permissions || []
+  : [];
+
+const hasPermission =
+  authDetails?.user?.user_type === "exclusive" ||
+  packagePermissions?.some((permission) => permission.toLowerCase() === title.toLowerCase());
+
 
   return hasPermission ? (
     <Component />
