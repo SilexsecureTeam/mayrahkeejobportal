@@ -120,8 +120,9 @@ function useJobManagement() {
       salary_type: "Salary Type",
       min_salary: "Minimum Salary",
       max_salary: "Maximum Salary",
-      experience: "Experience",
+      experience: "Qualification Requirements",
       currency: "Currency",
+      career_level: "Career Level",
       application_deadline_date: "Application Deadline Date",
       office_address: "Office Address",
       location: "Location",
@@ -145,7 +146,7 @@ function useJobManagement() {
       "preferred_age",
     ];
 
-    const stage2Fields = ["job_title", "job_description", "experience"];
+    const stage2Fields = ["job_title", "job_description", "experience","career_level"];
 
     let fieldsToValidate = [];
 
