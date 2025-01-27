@@ -49,6 +49,7 @@ export const basic_inputs = [
     name: "website",
     label: "Company Website",
     type: "text",
+    required: false,
     placeholder: "https://www.example.com",
   },
   {
