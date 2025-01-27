@@ -179,13 +179,14 @@ function useJobManagement() {
     setLoading(true);
     try {
       const validationError = validateJobDetails({ id: 2 });
+      
+      if (validationError) {
+        throw new Error(validationError);
+      }
       if (currentPackage?.number_of_jobs <= jobList?.length) {
         throw new Error(
           `Job limit reached. Your package allows posting up to ${currentPackage?.number_of_jobs} jobs.`
         );
-      }
-      if (validationError) {
-        throw new Error(validationError);
       }
       const formDetails={
         employer_id: authDetails?.user.id,
