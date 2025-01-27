@@ -1,7 +1,7 @@
 function BasicInput({ data, details, onTextChange, value = null, required=true }) {
   return (
     <div className="w-full flex flex-col gap-[3px]">
-      <label className="text-sm font-semibold">{data.label}</label>
+      <label className="text-sm font-semibold flex gap-1">{data.label} {required &&& <strong className="text-red-500">*</strong> }</label>
       <input
         value={
           details[data?.name]
