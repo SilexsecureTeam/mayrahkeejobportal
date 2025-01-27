@@ -64,10 +64,9 @@ const MyResume = () => {
         const { value, name, files, type, checked } = e.target;
         const file = e.target.files[0]; //filelist is an object carrying all details of file, .files[0] collects the value from key 0 (not array), and stores it in file
 
-        if (file && file.size > 1 * 1024 * 1024) {
+        if (type==="file" && (file && file.size > 1 * 1024 * 1024)) {
             toast.error("File size exceeds the file size limit of 1MB.");
-            e.target.value = null
-            return
+            return;
         }
         if (name === "resume") {
             setResumePicker(true)
