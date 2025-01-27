@@ -11,10 +11,10 @@ import { database } from "../../../utils/firebase";
 import { IMAGE_URL } from "../../../utils/base";
 
 function ChatComponent({ selectedChat, setSelectedChat, applicationUtils }) {
-  const chatContainer = useRef(null);
+  // const chatContainer = useRef(null);
   const [currentEmployer, setCurrentEmployer] = useState();
   const { authDetails } = useContext(AuthContext);
-  const [containerWidth, setContainerWidth] = useState("90%");
+  //const [containerWidth, setContainerWidth] = useState("90%");
   const [message, setMessage] = useState("");
   const { details } = useCompanyProfile();
   const { loading, messages, sendMessage, getMessages, setMessages, firebaseMessaging } =
@@ -36,18 +36,18 @@ function ChatComponent({ selectedChat, setSelectedChat, applicationUtils }) {
     });
   };
 
-  useEffect(() => {
-    const updateContainerWidth = () => {
-      if (chatContainer.current) {
-        setContainerWidth(chatContainer.current.clientWidth);
-      }
-    };
-    updateContainerWidth();
-    window.addEventListener("resize", updateContainerWidth);
-    return () => {
-      window.removeEventListener("resize", updateContainerWidth);
-    };
-  }, []);
+  // useEffect(() => {
+  //   const updateContainerWidth = () => {
+  //     if (chatContainer.current) {
+  //       setContainerWidth(chatContainer.current.clientWidth);
+  //     }
+  //   };
+  //   updateContainerWidth();
+  //   window.addEventListener("resize", updateContainerWidth);
+  //   return () => {
+  //     window.removeEventListener("resize", updateContainerWidth);
+  //   };
+  // }, []);
 
   const openCommunication = () => {
     if (!currentEmployer) return;
@@ -78,9 +78,7 @@ function ChatComponent({ selectedChat, setSelectedChat, applicationUtils }) {
   return (
     currentEmployer && (
       <div
-        ref={chatContainer}
-        className="w-full md:w-3/4 flex flex-col items-center overflow-y-auto chat-container"
-      >
+        className="w-full lg:w-3/4 flex flex-col items-center overflow-y-auto relative h-full">
         <div className="h-max border-b flex w-full">
           <div className="flex w-full items-center p-2 gap-[10px]">
             <img
@@ -125,9 +123,9 @@ function ChatComponent({ selectedChat, setSelectedChat, applicationUtils }) {
 
               const positions = getPositions(current.sender_type);
               return (
-                <li
+                <div
                   key={index}
-                  className={`flex w-[60%] md:w-[50%] gap-[10px] mt-3 ${positions[0]}`}
+                  className={`flex w-max max-w-60 lg:max-w-72 gap-[10px] mt-3 ${positions[0]}`}
                 >
                   <img
                     src={positions[2]}
@@ -139,11 +137,11 @@ function ChatComponent({ selectedChat, setSelectedChat, applicationUtils }) {
                     <span className="text-little font-semibold">
                       {positions[3] ? positions[3] : "you"}
                     </span>
-                    <p className="p-2 mt-2 rounded-md bg-gray-200">
+                    <p className="p-2 mt-2 rounded-md bg-gray-200 text-sm">
                       {current.message}
                     </p>
                   </div>
-                </li>
+                </div>
               );
             })
           ) : (
@@ -152,16 +150,16 @@ function ChatComponent({ selectedChat, setSelectedChat, applicationUtils }) {
         </div>
 
         <div
-          className="flex items-center justify-between bg-white p-2 fixed bottom-0 border-t"
-          style={{ width: containerWidth }}
+          className="flex items-center justify-between bg-white p-2 absolute w-full bottom-0 h-max border-t"
+          
         >
           <img src={clipIcon} className="h-[20px]" alt="Attach" />
-          <input
+          <textarea
             value={message}
             onChange={(e) => setMessage(e.target.value)}
-            className="flex-1 h-full p-2 focus:outline-none text-sm"
+            className="flex-1 p-2 focus:outline-none text-sm h-10"
             placeholder="Reply Message"
-          />
+          ></textarea>
           <button
             onClick={onSendButtonClick}
             className="h-fit p-2 w-8 flex justify-center items-center bg-primaryColor text-white rounded-md"

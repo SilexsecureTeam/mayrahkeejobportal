@@ -9,26 +9,31 @@ function withSubscription(Component, title) {
   const { authDetails } = useContext(AuthContext);
   
 const activePackage = subUtils?.activePackage;
-const packagePermissions = activePackage
-  ? subUtils?.packages?.find((pkg) => pkg.id === activePackage.package_id)?.permissions || []
-  : [];
+const currentPackage = activePackage
+  ? subUtils?.packages?.find((pkg) => pkg.id === activePackage.package_id)
+  : {};
+  const hasPermission =
+  authDetails?.user?.user_type === "exclusive" || // Always true for "exclusive" user type
+  (title?.toLowerCase() === "job" && // For "job", check number_of_jobs > 0
+    currentPackage?.number_of_jobs > 0) ||
+  (title?.toLowerCase() === "candidate" && // For "candidate", check number_of_candidates > 0
+    currentPackage?.number_of_candidates > 0) ||
+  (title?.toLowerCase() === "message" && // For "message", allow only Premium or Plus packages
+    ["Mayrahkee Premium", "Mayrahkee Plus"].includes(currentPackage?.title));
 
-const hasPermission =
-  authDetails?.user?.user_type === "exclusive" ||
-  packagePermissions?.some((permission) => permission.toLowerCase().includes(title?.toLowerCase()));
 
 
   return hasPermission ? (
     <Component />
   ) : (
-    <div className="min-h-screen flex justify-center bg-gray-50">
+    <div className="h-full flex pt-10 justify-center bg-gray-50">
       {!subUtils?.loading && subUtils?.activePackage ? (
         <div className="h-max w-full bg-white rounded-lg p-6 text-center">
-          <h3 className="text-2xl font-bold mb-4 text-red-600">
-            Permission Denied
+          <h3 className="text-2xl font-bold mb-4 text-green-700">
+           Subscription Upgrade
           </h3>
           <p className="text-gray-600 font-bold mb-6">
-            You do not have the required permissions to access this feature. Please upgrade your subscription you have access to this package.
+            You do not have the required permissions to access this feature. Please upgrade your subscription to be able to access this package.
           </p>
         </div>
       ) : !subUtils?.loading && !subUtils?.activePackage ? (

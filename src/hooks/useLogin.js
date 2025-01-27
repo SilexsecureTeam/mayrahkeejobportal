@@ -127,6 +127,7 @@ function useLogin(role) {
         message: "Reset succesful",
         success: "Your passwod has been succesfull resetr",
       });
+      navigate("/login");
     } catch (error) {
       FormatError(error, setError, "Reset Error");
     } finally {

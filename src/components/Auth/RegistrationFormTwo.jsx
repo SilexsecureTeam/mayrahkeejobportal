@@ -90,6 +90,15 @@ function RegistrationFormTwo({ state, dispatch, role, setRole }) {
           message: "Registration Successful",
           success: "An OTP has been sent to your email ",
         });
+        localStorage.setItem(
+          "__reg_info",
+          JSON.stringify({
+            ...staffsRegDetails,
+            role: role,
+            password: "__",
+            re_enter_password: "__",
+          })
+        );
         navigate("/registration/email_verification");
       },
       role

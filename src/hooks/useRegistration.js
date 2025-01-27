@@ -95,7 +95,7 @@ function useRegistration(role) {
       const dataCopy = JSON.parse(JSON.stringify(data));
 
       const response = await client.post(
-        `/${regSessionDetails.role}/verifyOtp`,
+        `/${regSessionDetails?.role || "domesticStaff"}/verifyOtp`,
         dataCopy
       );
       onSuccess();

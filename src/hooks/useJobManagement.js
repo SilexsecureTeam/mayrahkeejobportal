@@ -3,6 +3,7 @@ import { axiosClient } from "../services/axios-client";
 import { set, get, del, keys, clear } from "idb-keyval";
 import { FormatError } from "../utils/formmaters";
 import { AuthContext } from "../context/AuthContex";
+import { SubscriptionContext } from "../context/SubscriptionContext";
 import { onFailure } from "../utils/notifications/OnFailure";
 import axios from 'axios';
 
@@ -10,6 +11,12 @@ export const JOB_MANAGEMENT_Key = "Job Management Database";
 export const apiURL = "https://dash.mayrahkeeafrica.com/api";
 
 function useJobManagement() {
+  const subUtils = useContext(SubscriptionContext);
+  const activePackage=subUtils?.activePackage;
+  const currentPackage = activePackage
+  ? subUtils?.packages?.find((pkg) => pkg.id === activePackage.package_id)
+  : {};
+
   const { authDetails } = useContext(AuthContext);
   const client = axiosClient(authDetails?.token, true);
   const [loading, setLoading] = useState(false);
@@ -37,7 +44,7 @@ function useJobManagement() {
     office_address: "",
     location: "",
     maps_location: "",
-    number_of_participants: 10,
+    number_of_participants: currentPackage?.number_of_candidates,
   });
   const [jobList, setJobList] = useState([]);
   const [applicantJobs, setApplicantJobs] = useState([]);
@@ -170,6 +177,11 @@ function useJobManagement() {
     setLoading(true);
     try {
       const validationError = validateJobDetails({ id: 2 });
+      if (currentPackage?.number_of_jobs <= jobList?.length) {
+        throw new Error(
+          `Job limit reached. Your package allows posting up to ${currentPackage?.number_of_jobs} jobs.`
+        );
+      }
       if (validationError) {
         throw new Error(validationError);
       }

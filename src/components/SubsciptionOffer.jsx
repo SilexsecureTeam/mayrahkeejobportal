@@ -13,7 +13,7 @@ function SubscriptionOffer() {
     <>
       <SubscriptionModal isOpen={isOpen} setIsOpen={setIsOpen} />
       {(!activePackage && authDetails?.user?.user_type !== "exclusive") && (
-        <div className="w-full  text-white h-[10vh] flex items-center justify-between px-5 bg-lightblue/50">
+        <div className="w-full  text-white py-2 flex items-center justify-between px-5 bg-lightblue/50">
           <div className="flex flex-col *:animate-pulse ">
             <h1 className="font-semibold flex gap-2 items-center">
               Subscription Offers

@@ -38,7 +38,7 @@ function MessageHead({current, selectedChat, setSelectedChat}) {
     <li
       key={current.id}
       onClick={() => setSelectedChat(current)}
-      className={`border-l border-r md:border-0 md:border-b md:items-center min-w-20 md:w-full flex ${
+      className={`border-l border-r lg:border-0 lg:border-b lg:items-center min-w-20 lg:w-full flex ${
         selectedChat?.id === current.id
           ? "bg-primaryColor text-white"
           : "bg-opacity-0 text-black hover:bg-gray-100 hover:text-black "

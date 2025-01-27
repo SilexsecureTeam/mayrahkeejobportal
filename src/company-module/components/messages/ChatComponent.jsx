@@ -22,7 +22,7 @@ function ChatComponent({ selectedChat, setSelectedChat, applicationUtils }) {
     useContext(ChatContext);
 
   const onSendButtonClick = () => {
-    if(message == ""){
+    if (message == "") {
       toast.error("Enter a message");
       return
     }
@@ -48,7 +48,7 @@ function ChatComponent({ selectedChat, setSelectedChat, applicationUtils }) {
 
     onValue(messageRef, (snapshot) => {
       const data = snapshot.val();
-      getMessages(currentCandidate.candidate_id, () => {});
+      getMessages(currentCandidate.candidate_id, () => { });
       console.log("Message Data", data);
     });
   };
@@ -86,7 +86,7 @@ function ChatComponent({ selectedChat, setSelectedChat, applicationUtils }) {
   return (
     <div
       ref={chatContainer}
-      className="w-full md:w-3/4 flex flex-col items-center overflow-y-auto chat-container"
+      className="w-full lg:w-3/4 flex flex-col items-center overflow-y-auto chat-container relative"
     >
       {/* Loader for messages */}
       {loading && (
@@ -123,17 +123,17 @@ function ChatComponent({ selectedChat, setSelectedChat, applicationUtils }) {
                 const getPositions = (sender) => {
                   return sender === "candidate"
                     ? [
-                        "",
-                        "",
-                        `${resourceUrl}/${currentCandidate.profile}`,
-                        currentCandidate.full_name.split(" ", 1),
-                      ]
+                      "",
+                      "",
+                      `${resourceUrl}/${currentCandidate.profile}`,
+                      currentCandidate.full_name.split(" ", 1),
+                    ]
                     : [
-                        "flex-row-reverse place-self-end",
-                        "items-end",
-                        `${resourceUrl}/${details.logo_image}`,
-                        "You",
-                      ];
+                      "flex-row-reverse place-self-end",
+                      "items-end",
+                      `${resourceUrl}/${details.logo_image}`,
+                      "You",
+                    ];
                 };
 
                 const positions = getPositions(current.sender_type);
@@ -141,7 +141,7 @@ function ChatComponent({ selectedChat, setSelectedChat, applicationUtils }) {
                 return (
                   <li
                     key={index}
-                    className={`flex w-[60%] md:w-[50%] gap-[10px] mt-3 ${positions[0]}`}
+                    className={`flex w-[60%] lg:w-[50%] gap-[10px] mt-3 ${positions[0]}`}
                   >
                     <img
                       src={positions[2]}
@@ -165,14 +165,13 @@ function ChatComponent({ selectedChat, setSelectedChat, applicationUtils }) {
 
           {/* Message Input */}
           <div
-            className="flex items-center justify-between bg-white p-2 fixed bottom-0 border-t"
-            style={{ width: containerWidth }}
+            className="flex items-center justify-between bg-white p-2 absolute w-full bottom-0 h-max border-t"
           >
             <img src={clipIcon} className="h-[20px]" alt="Attach" />
             <textarea
               value={message}
               onChange={(e) => setMessage(e.target.value)}
-              className="flex-1 h-10 p-2 focus:outline-none text-sm"
+              className="flex-1 p-2 focus:outline-none text-sm h-10"
               placeholder="Reply Message"
             ></textarea>
             <button
@@ -180,9 +179,9 @@ function ChatComponent({ selectedChat, setSelectedChat, applicationUtils }) {
               className="h-fit p-2 w-8 flex justify-center items-center bg-primaryColor text-white rounded-md"
             >
               {loading ? (
-                <BiLoaderCircle className="animate-spin" />
+                <BiLoaderCircle className="animate-spin text-white" />
               ) : (
-                <img src={sendIcon} className="h-4" alt="Send" />
+                <img src={sendIcon} alt="Send" title="send" className="h-[15px]" />
               )}
             </button>
           </div>

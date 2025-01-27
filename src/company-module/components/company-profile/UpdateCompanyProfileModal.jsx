@@ -159,7 +159,7 @@ function UpdateCompanyProfileModal({
     updateCompanyProfile,
     retrievalState,
   } = companyHookProps;
-  const { getSectors } = useContext(JobContext);
+  const { getSectors } = useContext(JobContext) ?? {};
 
   const [campaignPhotos, setCampaignPhotos] = useState([...details?.company_campaign_photos || []]);
   const [sectorList, setSectorList] = useState([]);
