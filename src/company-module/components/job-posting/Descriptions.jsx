@@ -11,6 +11,7 @@ const descriptions = [
     name: "job_description",
     desc: "Job responsibilities must be describe by one position",
     placeholder: "List out all Responsibilities",
+    required: true
   },
   {
     id: 2,
@@ -29,6 +30,7 @@ const basic_inputs = [
     type: "text",
     placeholder: "e.g FrontEnd Dev",
     prompt: "Here you state the job title",
+    required: true
   },
   {
     id: 2,
