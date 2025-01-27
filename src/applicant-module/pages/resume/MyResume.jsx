@@ -174,16 +174,16 @@ const MyResume = () => {
                                         </div>
                                         <div className='mb-5'>
                                             <label className="block">
-                                                <span className="block font-medium text-slate-700">Title of Resume * </span>
-                                                <input onChange={handleOnChange} type="text" value={details.title} name='title' placeholder='e.g, my professional resume'
+                                                <span className="block font-medium text-slate-700 flex gap-1">Title of Resume <strong className="text-red-500">*</strong> </span>
+                                                <input onChange={handleOnChange} type="text" required value={details.title} name='title' placeholder='e.g, my professional resume'
                                                     className="mt-1 block p-2 focus:outline-none w-full border" />
                                             </label>
                                         </div>
                                         <div className="my-4 pt-5">
                                             <label htmlFor='resume' className="cursor-pointer flex">
-                                                <span className="text-sm  bg-green-100 rounded border p-4 font-medium text-slate-700 text-nowrap">Add Resume</span>
+                                                <span className="text-sm  bg-green-100 rounded border p-4 font-medium text-slate-700 text-nowrap">Add Resume </span>
                                                 <span> {resumePicker && (<FcApproval />)}</span>
-                                                <input type="file" accept=".pdf, .docx," id='resume' name='resume' placeholder='url' onChange={handleOnChange}
+                                                <input type="file" accept=".pdf, .docx," id='resume' name='resume' placeholder='url' required onChange={handleOnChange}
                                                     className="mt-1 invisible p-1 focus:outline-none w-full border" />
                                             </label>
                                             <small class="text-sm text-gray-500">
@@ -192,23 +192,23 @@ const MyResume = () => {
                                         </div>
                                         <div className='mb-5'>
                                             <label className="block">
-                                                <span className="block font-medium text-slate-700">Education (Institution) </span>
-                                                <input onChange={handleOnChange} type="text" value={details.educational_institution} name='educational_institution' placeholder='Name of Educational Institution'
+                                                <span className="block font-medium text-slate-700 flex gap-1">Education (Institution) <strong className="text-red-500">*</strong> </span>
+                                                <input onChange={handleOnChange} type="text" required value={details.educational_institution} name='educational_institution' placeholder='Name of Educational Institution'
                                                     className="mt-1 block p-2 focus:outline-none w-full border" />
                                             </label>
                                         </div>
 
                                         <div className='mb-5'>
                                             <label className="block">
-                                                <span className="block font-medium text-slate-700">Year of Entry</span>
-                                                <input onChange={handleOnChange} type="text" value={details.year_of_entry} name='year_of_entry' placeholder='e.g 2020'
+                                                <span className="block font-medium text-slate-700 flex gap-1">Year of Entry <strong className="text-red-500">*</strong> </span>
+                                                <input onChange={handleOnChange} type="text" required value={details.year_of_entry} name='year_of_entry' placeholder='e.g 2020'
                                                     className="mt-1 block p-2 focus:outline-none w-full border" />
                                             </label>
                                         </div>
                                         <div className='mb-5'>
                                             <label className="block">
-                                                <span className="block font-medium text-slate-700">Year of Graduation</span>
-                                                <input onChange={handleOnChange} type="text" value={details.year_of_graduation} name='year_of_graduation' placeholder='e.g 2020'
+                                                <span className="block font-medium text-slate-700 flex gap-1">Year of Graduation <strong className="text-red-500">*</strong> </span>
+                                                <input onChange={handleOnChange} type="text" required value={details.year_of_graduation} name='year_of_graduation' placeholder='e.g 2020'
                                                     className="mt-1 block p-2 focus:outline-none w-full border" />
                                             </label>
                                         </div>
