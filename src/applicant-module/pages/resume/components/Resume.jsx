@@ -56,7 +56,7 @@ const Resume = ({ resume, setGetResumeById, authDetails, getCandidate }) => {
     <div className="p-5 border rounded shadow-lg justify-between flex-col flex">
       <div>
         <div className="flex border-b justify-between font-semibold text-primaryColor items-center w-full">
-          <p>{resume.title}</p>
+          <p className="capitalize truncate" >{resume.title}</p>
           <EditResume resume={resume} />
         </div>
         <div className="details mt-4">
@@ -67,20 +67,20 @@ const Resume = ({ resume, setGetResumeById, authDetails, getCandidate }) => {
           </div>
           <div className="details flex justify-center">
             <div className="md:w-[90%] flex flex-col gap-3">
-              <div className="flex justify-between">
+              <div className="flex justify-between gap-2">
                 <p className="font-bold">Address:</p>
                 <p>{getCandidate.details?.address}</p>
               </div>
-              <div className="flex justify-between">
+              <div className="flex justify-between gap-2">
                 <p className="font-bold">Phone: </p>
                 <p> {getCandidate.details?.phone_number} </p>
               </div>
-              <div className="flex justify-between">
+              <div className="flex justify-between gap-2">
                 <p className="font-bold text-base">Email</p>
                 <p className="font-medium">{getCandidate.details?.email}</p>
               </div>
 
-              <div className="flex justify-between">
+              <div className="flex justify-between gap-2">
                 <p className="font-medium text-base">Position</p>
                 <p className="">{resume.position_held}</p>
               </div>
@@ -89,7 +89,7 @@ const Resume = ({ resume, setGetResumeById, authDetails, getCandidate }) => {
                 <p className="font-bold text-base">Awarding Institution</p>
                 <p className="font-medium">{resume.awarding_institution}</p>
               </div>}
-              <div className="flex justify-between">
+              <div className="flex justify-between gap-2">
                 <p className="font-medium text-base">Duration</p>
                 <p>
                   <span>{resume.start_date}</span> to{" "}
