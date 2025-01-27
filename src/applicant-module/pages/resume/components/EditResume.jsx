@@ -143,7 +143,7 @@ const EditResume = ({ resume }) => {
                                     <div className="my-4 pt-5">
                                         <label htmlFor='resume' className="cursor-pointer flex">
                                             <span className="text-sm  bg-green-100 rounded border p-4 font-medium text-slate-700 text-nowrap">Add Resume</span>
-                                            <span> {resumePicker && (<FcApproval />)}</span>
+                                            <span> {(resumePicker || details?.resume) && (<FcApproval />)}</span>
                                             <input type="file" id='resume' name='resume' placeholder='url' onChange={handleOnChange}
                                                 className="mt-1 invisible p-1 focus:outline-none w-full border" />
                                         </label>
