@@ -14,6 +14,7 @@ export default function SubscriptionModal({
     price: "",
     duration: "",
     number_of_jobs: "", // New field
+    number_of_candidates: "",
     permissions: [],
   });
 
@@ -123,7 +124,18 @@ export default function SubscriptionModal({
             />
           </div>
           <div>
-            <label className="block font-medium mb-2">Perks (Permissions)</label>
+            <label className="block font-medium mb-1">Number of Applicants</label>
+            <input
+              type="number"
+              name="number_of_candidates"
+              value={formData.number_of_candidates}
+              onChange={handleChange}
+              className="w-full px-3 py-2 border rounded-md"
+              required
+            />
+          </div>
+          <div>
+            <label className="block font-medium mb-2">Perks</label>
             {formData.permissions.map((perk, index) => (
               <div key={index} className="flex items-center gap-2 mb-2">
                 <input

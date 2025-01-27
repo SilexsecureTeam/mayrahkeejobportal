@@ -235,12 +235,12 @@ useEffect(() => {
                 toogleIsOpen={toogleIsOpen}
                 isMenuOpen={isOpen}
               />
-              <div className="w-full h-[92%] overflow-y-auto px-2 sm:px-4 md:px-8">
+              <div className="w-full h-[92%] overflow-y-auto px-2 lg:px-4">
                 <Routes>
                   <Route index element={<Home />} />
                   <Route path="*" element={<NotFound />} />
 
-                  <Route path="messages" element={withSubscription(Messages, "Messaging")} />
+                  <Route path="messages" element={withSubscription(Messages, "Message")} />
                   <Route
                     path="job-posting"
                     element={withSubscription(JobPosting, "Job")}
@@ -249,11 +249,11 @@ useEffect(() => {
                   <Route path="applicants/*">
                     <Route
                       index
-                      element={withSubscription(Applicants, "Applicant")}
+                      element={withSubscription(Applicants, "candidate")}
                     />
                     <Route
                       path="detail/:id"
-                      element={withSubscription(SingleApplicant)}
+                      element={withSubscription(SingleApplicant, "candidate")}
                     />
                   </Route>
 
@@ -268,14 +268,14 @@ useEffect(() => {
                   <Route path="job-listing/*">
                     <Route
                       index
-                      element={withSubscription(JobListing, "Job Listing")}
+                      element={withSubscription(JobListing, "Job")}
                     />
-                    <Route path="type/:id" element={<JobType />} />
+                    <Route path="type/:id" element={withSubscription(JobType, "Job")} />
                   </Route>
 
                   <Route
                     path="schedule"
-                    element={withSubscription(Schedule, "Schedule")}
+                    element={withSubscription(Schedule, "job")}
                   />
 
                   <Route path="settings" element={<Settings />} />

@@ -40,7 +40,7 @@ function NavBar({ state, toogleIsOpen, isMenuOpen }) {
           <h1 className="font-bold text-[16px] md:text-xl leading-none ml-[2px]">{state?.title}</h1>
         </div>
 
-        <div className="flex justify-end items-center pr-2 md:w-[25%] gap-[5px]">
+        <div className="flex justify-end items-center pr-2 gap-[5px]">
           <Link
             to={"/company/job-posting"}
             className="border px-[5px] flex py-[5px] font-semibold justify-center items-center gap-[3px] text-sm bg-primaryColor text-white"

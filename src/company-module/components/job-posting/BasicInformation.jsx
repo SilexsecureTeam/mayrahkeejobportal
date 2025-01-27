@@ -57,17 +57,28 @@ const basic_inputs = [
     prompt: "Here you specify search keywords",
     verification: "At least 4 characters"
   },
-  {
-    id: 7,
-    name: "experience",
-    label: "Minimum years of Experience",
-    type: "number",
-    placeholder: "e.g 2",
-    min: 2,
-    max: 70,
-    prompt: "Here you specify experience in years",
-    verification: "At least 2 years"
-  },
+  // {
+  //   id: 7,
+  //   name: "number_of_participants",
+  //   label: "Number of epected participants",
+  //   type: "number",
+  //   placeholder: "e.g 2",
+  //   min: 2,
+  //   max: 50,
+  //   prompt: "Here you specify the number of applicants you are expecting for this job",
+  //   verification: "At least 1"
+  // },
+  // {
+  //   id: 7,
+  //   name: "experience",
+  //   label: "Minimum years of Experience",
+  //   type: "number",
+  //   placeholder: "e.g 2",
+  //   min: 2,
+  //   max: 70,
+  //   prompt: "Here you specify experience in years",
+  //   verification: "At least 2 years"
+  // },
 ];
 
 const genderData = [
