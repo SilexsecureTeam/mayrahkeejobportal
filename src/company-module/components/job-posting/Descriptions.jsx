@@ -140,6 +140,7 @@ function Descriptions({
           label: "Career Level",
           prompt: "Here you select prefered career level",
           name: "career_level",
+          required: true
         }}
         listData={careerData}
         jobUtils={jobUtils}
