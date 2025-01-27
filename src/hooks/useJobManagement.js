@@ -111,6 +111,7 @@ function useJobManagement() {
       job_title: "Job Title",
       job_description: "Job Responsibilities",
       featured_image: "Featured Image",
+      gender: "Gender",
       sector: "Job Sector",
       subsector: "Job Subsector",
       type: "Type of Employment",
