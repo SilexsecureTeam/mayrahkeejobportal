@@ -131,6 +131,7 @@ function useJobManagement() {
       "sector",
       "featured_image",
       "type",
+      "gender",
       "salary_type",
       "currency",
       "location",
