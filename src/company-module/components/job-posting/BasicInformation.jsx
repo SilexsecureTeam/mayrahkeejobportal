@@ -122,7 +122,7 @@ function BasicInformation({ setCurrentStep, data, jobUtils, validateAndProceed }
   const [jobSectorList, setJobSectorList] = useState([]);
   const [selectedType, setSelectedType] = useState(jobUtils?.details?.type && jobUtils?.details?.type);
   const [currentQualification, setCurrentQualification] = useState("");
-  const [selectedGender, setSelectedGender] = useState(jobUtils?.details?.salary_type ? genderData?.find(one => one.name === jobUtils?.details?.gender) : genderData[0]);
+  const [selectedGender, setSelectedGender] = useState(jobUtils?.details?.salary_type && genderData?.find(one => one.name === jobUtils?.details?.gender));
   const [selectedSector, setSelectedSector] = useState();
   const [subSectorList, setSubSectorList] = useState(null);
   const [selectedSubSector, setSelectedSubSector] = useState(null);
