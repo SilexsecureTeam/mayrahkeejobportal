@@ -316,8 +316,8 @@ function BasicInformation({ setCurrentStep, data, jobUtils, validateAndProceed }
       {/* Featured Image */}
       <div className="flex flex-col sm:flex-row gap-4 items-center border-b py-4">
         <div className="flex flex-col w-full sm:max-w-[25%] gap-2">
-          <h3 className="text-gray-700 text-sm font-semibold">
-            Featured Image
+          <h3 className="text-gray-700 text-sm font-semibold flex gap-1">
+            Featured Image <strong className="text-red-500">*</strong>
           </h3>
           <span className="text-xs text-gray-400">
             Here you upload image for job
