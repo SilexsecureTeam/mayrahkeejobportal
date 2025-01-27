@@ -485,8 +485,8 @@ const BasicInfo = ({ setIsOpen }) => {
                     <div className="w-full md:w-4/6">
                       <div className="mb-4">
                         <label className="block">
-                          <span className="block text-sm font-medium text-slate-700">
-                            Full Name
+                          <span className="block text-sm font-medium text-slate-700 flex gap-1">
+                            Full Name <strong className="text-red-500">*</strong>
                           </span>
                           <input
                             type="text"
@@ -500,8 +500,8 @@ const BasicInfo = ({ setIsOpen }) => {
                       <div className="grid grid-cols-2 gap-4">
                         <div className="">
                           <label className="block">
-                            <span className="block text-sm font-medium text-slate-700">
-                              Phone Number
+                            <span className="block text-sm font-medium text-slate-700 flex gap-1">
+                              Phone Number <strong className="text-red-500">*</strong>
                             </span>
                             <input
                               type="text"
@@ -515,8 +515,8 @@ const BasicInfo = ({ setIsOpen }) => {
                         </div>
                         <div className="">
                           <label className="block">
-                            <span className="block text-sm font-medium text-slate-700">
-                              Email
+                            <span className="block text-sm font-medium text-slate-700 flex gap-1">
+                              Email <strong className="text-red-500">*</strong>
                             </span>
                             <input
                               type="email"
@@ -561,8 +561,8 @@ const BasicInfo = ({ setIsOpen }) => {
                         </div>
                         <div className="">
                           <label className="block">
-                            <span className="block text-sm font-medium text-slate-700 mb-1">
-                              Select Type of ID
+                            <span className="block text-sm font-medium text-slate-700 mb-1 flex gap-1">
+                              Select Type of ID <strong className="text-red-500">*</strong>
                             </span>
                             <select
                               value={details?.means_of_identification}
