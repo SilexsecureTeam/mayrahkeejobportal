@@ -20,6 +20,7 @@ const basic_inputs = [
     type: "text",
     placeholder: "e.g hr@example.com",
     prompt: "Here you input the company email",
+    required: true
   },
   {
     id: 2,
@@ -30,7 +31,8 @@ const basic_inputs = [
     min: 18,
     max: 100,
     prompt: "Here you input preferred average age (years)",
-    verification: "At least 18 years"
+    verification: "At least 18 years",
+    required: true
   },
   {
     id: 3,
@@ -39,6 +41,7 @@ const basic_inputs = [
     type: "date",
     placeholder: "e.g some date",
     prompt: "Here you set an application deadline",
+    required: true
   },
   {
     id: 4,
@@ -47,6 +50,7 @@ const basic_inputs = [
     type: "text",
     placeholder: "e.g victoria Island, Lagos street",
     prompt: "Here you insert the office address",
+    required: true
   },
   {
     id: 6,
@@ -55,7 +59,8 @@ const basic_inputs = [
     type: "text",
     placeholder: "e.g Tech",
     prompt: "Here you specify search keywords",
-    verification: "At least 4 characters"
+    verification: "At least 4 characters",
+    required: true
   },
   // {
   //   id: 7,
@@ -378,6 +383,7 @@ function BasicInformation({ setCurrentStep, data, jobUtils, validateAndProceed }
           label: "Sub-Sector",
           prompt: "Here you select subsector based on the job sector",
           name: "subsector",
+          required: true 
         }}
         listData={subSectorList}
         jobUtils={jobUtils}
@@ -399,8 +405,8 @@ function BasicInformation({ setCurrentStep, data, jobUtils, validateAndProceed }
       {/* Employment Types */}
       <div className="flex flex-col sm:flex-row gap-4 border-b py-4">
         <div className="flex flex-col gap-2 w-full sm:max-w-[25%]">
-          <h3 className="text-gray-700 text-sm font-semibold">
-            Type of Employment
+          <h3 className="text-gray-700 text-sm font-semibold flex gap-1">
+            Type of Employment <strong className="text-red-500">*</strong>
           </h3>
           <span className="text-xs text-gray-400">
             You can select multiple types of employment
@@ -425,6 +431,7 @@ function BasicInformation({ setCurrentStep, data, jobUtils, validateAndProceed }
           label: "Location",
           prompt: "Here you select job location",
           name: "location",
+          required: true
         }}
         listData={State.getStatesOfCountry('NG')}
         jobUtils={jobUtils}
@@ -441,6 +448,7 @@ function BasicInformation({ setCurrentStep, data, jobUtils, validateAndProceed }
           label: "Gender",
           prompt: "Here you select preferred Gender",
           name: "gender",
+          required: true
         }}
         listData={genderData}
         jobUtils={jobUtils}
@@ -453,6 +461,7 @@ function BasicInformation({ setCurrentStep, data, jobUtils, validateAndProceed }
           label: "Salary Type",
           prompt: "Here you select how the job pays",
           name: "salary_type",
+          required: true
         }}
         listData={salaryTypeData}
         jobUtils={jobUtils}
@@ -465,6 +474,7 @@ function BasicInformation({ setCurrentStep, data, jobUtils, validateAndProceed }
           label: "Currency",
           prompt: "Here you select the currency",
           name: "currency",
+          required: true
         }}
         listData={currencyList}
         jobUtils={jobUtils}
@@ -474,7 +484,7 @@ function BasicInformation({ setCurrentStep, data, jobUtils, validateAndProceed }
       {/* Salary */}
       <div className="flex flex-col sm:flex-row gap-4 border-b py-4">
         <div className="flex flex-col gap-2 sm:max-w-[25%] w-full">
-          <h3 className="text-gray-700 text-sm font-semibold">Salary</h3>
+          <h3 className="text-gray-700 text-sm font-semibold flex gap-1">Salary<strong className="text-red-500">*</strong></h3>
           <span className="text-xs text-gray-400">
             Please specify the estimated salary range for the role. *You can
             leave this blank.
