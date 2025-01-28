@@ -229,15 +229,22 @@ const MyResume = () => {
                                         </div>
                                         <div className='mb-5'>
                                             <label className="block">
-                                                <span className="block font-medium text-slate-700">Qualification Title</span>
+                                                <span className="block font-medium text-slate-700">Qualification</span>
                                                 <input onChange={handleOnChange} type="text" value={details.qualification_title} name='qualification_title' placeholder=' Academy Title'
                                                     className="mt-1 block p-2 focus:outline-none w-full border" />
                                             </label>
                                         </div>
                                         <div className='mb-5'>
                                             <label className="block">
-                                                <span className="block font-medium text-slate-700">Year Attended</span>
+                                                <span className="block font-medium text-slate-700">Year Of Entry</span>
                                                 <input onChange={handleOnChange} type="text" value={details.year_attended} name='year_attended' placeholder=' Academy Title'
+                                                    className="mt-1 block p-2 focus:outline-none w-full border" />
+                                            </label>
+                                        </div>
+                                        <div className='mb-5'>
+                                            <label className="block">
+                                                <span className="block font-medium text-slate-700">Year Of Graduation</span>
+                                                <input onChange={handleOnChange} type="text" value={details.year_of_graduation} name='year_attended' placeholder=' Academy Title'
                                                     className="mt-1 block p-2 focus:outline-none w-full border" />
                                             </label>
                                         </div>
