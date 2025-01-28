@@ -28,7 +28,7 @@ function SubscriptionCard({ data, setIsOpen, currentPackage }) {
       currentPackage?.package_id === data.id &&
       <IoGift size="50" className="absolute top-[-10px] left-0 right-0 mx-auto animate-bounce" />
     }
-      <div className="flex flex-col items-center min-h-40">
+      <div className="flex flex-col items-center max-h-96 overflow-y-auto">
         {/* Title */}
         <h3 className="font-semibold group-odd:border-primaryColor text-center group-even:border-white w-[60%] rounded-[5px] py-1 border text-md">
           {data.title}
