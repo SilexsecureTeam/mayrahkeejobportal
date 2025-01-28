@@ -26,7 +26,7 @@ function SubscriptionCard({ data, setIsOpen, currentPackage }) {
     >
     {
       currentPackage?.package_id === data.id &&
-      <IoGift size="50" className="absolute top-[-10px] left-0 right-0 mx-auto animate-bounce" />
+      <IoGift size="50" className="absolute top-[-10px] left-0 right-0 mx-auto animate-bounce z-5" />
     }
       <div className="flex flex-col items-center h-96 overflow-y-auto">
         {/* Title */}
