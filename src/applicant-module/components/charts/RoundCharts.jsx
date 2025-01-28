@@ -3,7 +3,7 @@ import Chart from "react-apexcharts";
 
 const RoundChart = ({ data }) => {
   // Define the order and colors of statuses
-  const statusOrder = ["In-review", "Shortlist", "Interview", "Declined", "Hired"];
+  const statusOrder = ["In-Review", "Shortlist", "Interview", "Declined", "Hired"];
   const statusColors = ["#FF9900", "#008FFB", "#FFFF00", "#8B0A1A", "#00E396"];
 
   // Count applications by status
