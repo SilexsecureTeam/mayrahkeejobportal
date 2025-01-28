@@ -169,11 +169,11 @@ const interviews = allApplications?.filter(
                   className="border text-white transition duration-400 bg-lightgreen h-full cursor-pointer mb-4 p-3 pb-0 flex flex-col justify-between"
                 >
                   <p className="font-bold">Total Jobs Applied for</p>
-                  <div className="flex justify-between items-end mt-">
+                  <div className="flex justify-between items-end mt-4">
                     <p className="text-6xl font-medium">
                       {getAllApplications.data?.length || 0}
                     </p>
-                    <div className="">
+                    <div className="mb-2">
                       <img src={docsIcon} alt="" className="w-5" />
                     </div>
                   </div>
@@ -187,7 +187,7 @@ const interviews = allApplications?.filter(
                   <p className="font-bold">Interviewed</p>
                   <div className="flex justify-between items-end mt-4">
                     <p className="text-6xl font-medium">{interviews?.length || 0}</p>
-                    <div className="">
+                    <div className="mb-2">
                       <img src={chatsIcon} alt="" className="w-[60px]" />
                     </div>
                   </div>
