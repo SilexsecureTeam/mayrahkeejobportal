@@ -79,23 +79,29 @@ const Resume = ({ resume, setGetResumeById, authDetails, getCandidate }) => {
                 <p className="font-bold text-base">Email</p>
                 <p className="font-medium">{getCandidate.details?.email}</p>
               </div>
-
-              <div className="flex justify-between gap-2">
-                <p className="font-medium text-base">Position</p>
-                <p className="">{resume.position_held}</p>
-              </div>
               
               {resume.awarding_institution && <div className="flex justify-between text-[#dbc87c]">
                 <p className="font-bold text-base">Awarding Institution</p>
                 <p className="font-medium">{resume?.awarding_institution} {resume?.year_attended && `(${resume.year_attended} - ${resume?.year_of_graduation || 'Till present'})`}</p>
               </div>}
+              <>
+              {<div className="flex justify-between gap-2">
+                <p className="font-medium text-base">Previous Company</p>
+                <p className="">{resume.company_name}</p>
+              </div>
               <div className="flex justify-between gap-2">
+                <p className="font-medium text-base">Position Held</p>
+                <p className="">{resume.position_held}</p>
+              </div>
+              {resume.start_date && <div className="flex justify-between gap-2">
                 <p className="font-medium text-base">Duration</p>
                 <p>
-                  <span>{resume.start_date}</span> to{" "}
-                  <span>{resume.end_date}</span>
+                  <span>{resume.start_date} - {resume.end_date || "Till present"}</span>
+                
                 </p>
-              </div>
+              </div>}
+            </>}
+              
               <div className="flex my-3">
                 <div className="w-2/5">
                   <p className="font-bold text-base">Education</p>
