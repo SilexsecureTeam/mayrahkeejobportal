@@ -5,7 +5,7 @@ import TableHead from "./marketplace/TableHead";
 import TableRow from "./marketplace/TableRow";
 import { onFailure } from "../../utils/notifications/OnFailure";
 import { useLocation } from "react-router-dom";
-import {<FaArrowLeftLong} from "react-icons/fa6"
+import {FaArrowLeftLong} from "react-icons/fa6"
 function ContractHistory() {
   const { authDetails } = useContext(AuthContext);
   const client = axiosClient(authDetails.token);
