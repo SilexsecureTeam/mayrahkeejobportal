@@ -19,6 +19,7 @@ const descriptions = [
     name: "experience",
     desc: "Outline the qualifications required for the Job",
     placeholder: "Begin to type...",
+    required: true
   },
 ];
 
