@@ -141,7 +141,7 @@ function Artisan() {
             onClick={() => setConditions(!conditions)}
           />
           <h1 className="text-xl font-bold">Job Descriptions</h1>
-          <p className="flex-1 text-sm overflow-y-auto">
+          <p className="flex-1 text-sm overflow-y-auto mb-auto">
             {selectedCategory?.description}
           </p>
 
