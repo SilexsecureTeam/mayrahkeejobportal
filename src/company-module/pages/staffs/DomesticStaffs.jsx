@@ -128,7 +128,7 @@ function DomesticStaff() {
             onClick={() => setConditions(!conditions)}
           />
           <h1 className="text-xl font-bold">Job Descriptions</h1>
-          <p className="text-sm">
+          <p className="text-sm overflow-y-auto">
            
             {selectedCategory?.description}
           </p>
