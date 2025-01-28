@@ -133,22 +133,17 @@ function Artisan() {
   return (
     <>
       <PopUpBox isOpen={conditions}>
-        <div className="w-[90%] md:w-[600px] md:h-fit text-gray-500 p-5 items-center flex flex-col gap-4 bg-white">
+        <div className="w-[300px] md:w-[600px] h-max max-h-[400px] text-gray-500 p-5 items-center flex flex-col gap-4 bg-white">
           <MdClose
-            className="text-2xl place-self-end cursor-pointer"
+            className="flex-shrink-0 text-2xl text-red-600 place-self-end cursor-pointer"
             onClick={() => setConditions(!conditions)}
           />
           <h1 className="text-xl font-bold">Job Descriptions</h1>
-          <p className="text-sm">
+          <p className="text-sm overflow-y-auto flex-1">
+           
             {selectedCategory?.description}
           </p>
-
-          <FormButton
-            onClick={() => {
-              handleQuerySubmit();
-            }}
-            loading={loading}
-          >
+          <FormButton onClick={() => handleQuerySubmit()} loading={loading}>
             Confirm and Search
           </FormButton>
         </div>
