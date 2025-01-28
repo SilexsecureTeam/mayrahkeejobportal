@@ -122,7 +122,7 @@ function DomesticStaff() {
   return (
     <>
       <PopUpBox isOpen={conditions}>
-        <div className="w-[300px] md:w-[600px] h-fit text-gray-500 p-5 items-center flex flex-col gap-4 bg-white">
+        <div className="w-[300px] md:w-[600px] h-[90%] max-h-[400px] text-gray-500 p-5 items-center flex flex-col gap-4 bg-white">
           <MdClose
             className="text-2xl place-self-end cursor-pointer"
             onClick={() => setConditions(!conditions)}
