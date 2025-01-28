@@ -162,13 +162,13 @@ const interviews = allApplications?.filter(
             </div> */}
           </div>
           <div className="lg:flex-row flex-col flex  mt-8 gap-2">
-            <div className=" w-full lg:w-[20%] flex justify-between lg:flex-col ">
+            <div className=" w-full lg:w-[20%] flex justify-between lg:flex-col capitalize">
               <div className="pb-1 h-full lg:w-full w-[45%] lg:h-1/2">
                 <div
                   onClick={navigateToApplications}
                   className="border text-white transition duration-400 bg-lightgreen h-full cursor-pointer mb-4 p-3 pb-0 flex flex-col justify-between"
                 >
-                  <p className="font-bold">Total Jobs Applied for</p>
+                  <p className="font-bold capitalize">Total Jobs Applied for</p>
                   <div className="flex justify-between items-end mt-4">
                     <p className="text-6xl font-medium">
                       {getAllApplications.data?.length || 0}
@@ -184,7 +184,7 @@ const interviews = allApplications?.filter(
                   onClick={()=>navigateToApplications("interview")}
                   className="border bg-yellow-300 text-white transition duration-400 h-full cursor-pointer mb-4 p-3 pb-0 flex flex-col justify-between"
                 >
-                  <p className="font-bold">Interviewed</p>
+                  <p className="font-bold capitalize">Interviewed</p>
                   <div className="flex justify-between items-end mt-4">
                     <p className="text-6xl font-medium">{interviews?.length || 0}</p>
                     <div className="mb-2">
