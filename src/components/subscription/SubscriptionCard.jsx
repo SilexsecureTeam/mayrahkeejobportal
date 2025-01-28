@@ -6,7 +6,7 @@ import { IoMdCheckmarkCircleOutline } from "react-icons/io";
 import { SubscriptionContext } from "../../context/SubscriptionContext";
 import { IoGift } from "react-icons/io5";
 function SubscriptionCard({ data, setIsOpen, currentPackage }) {
-  const [showPerks, setShowPerks] = useState(false);
+  const [showPerks, setShowPerks] = useState(currentPackage?.package_id === data?.id);
   const subUtils = useContext(SubscriptionContext);
 
   const handleOnClick = (reference, data) => {
@@ -48,7 +48,7 @@ function SubscriptionCard({ data, setIsOpen, currentPackage }) {
 
         {/* Description or Perks */}
         {!showPerks ? (
-          <article className="font-medium">
+          <article className="font-medium flex flex-col items-center my-2">
           <p>Jobs: {data?.number_of_jobs || 0}</p>
           <p>Applicants: {data?.number_of_candidates || 0}</p>
           <p className="my-5 text-little text-center w-[90%]">
