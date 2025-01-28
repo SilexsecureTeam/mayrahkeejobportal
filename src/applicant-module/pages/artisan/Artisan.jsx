@@ -5,7 +5,6 @@ import { onFailure } from "../../../utils/notifications/OnFailure";
 import SearchComponent from "../../../components/staffs/SearchComponent";
 import { FaExclamationCircle, FaShoppingCart, FaFileContract } from "react-icons/fa";
 import {
-import {
   MdCheck,
   MdCheckBox,
   MdCheckBoxOutlineBlank,
