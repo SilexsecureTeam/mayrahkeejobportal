@@ -5,7 +5,7 @@ import TableHead from "./marketplace/TableHead";
 import TableRow from "./marketplace/TableRow";
 import { onFailure } from "../../utils/notifications/OnFailure";
 import { useLocation } from "react-router-dom";
-
+import {<FaArrowLeftLong} from "react-icons/fa6"
 function ContractHistory() {
   const { authDetails } = useContext(AuthContext);
   const client = axiosClient(authDetails.token);
@@ -42,6 +42,13 @@ function ContractHistory() {
   }, []);
   return (
     <div className="h-full w-full flex flex-col py-5 gap-[15px]">
+      <button
+          type="button"
+          onClick={() => navigate(-1)}
+          className="flex items-center gap-2 outline outline-offset-5 outline-green-500 px-4 py-2 rounded text-green-500 hover:bg-green-100"
+        >
+       <FaArrowLeftLong className="me-4 text-green-500" />Back
+        </button>
       <span>Here is a detailed track record of all your contract history.</span>
       <TableHead>
         {contractItems.length > 0 &&
