@@ -68,15 +68,15 @@ const Resume = ({ resume, setGetResumeById, authDetails, getCandidate }) => {
           <div className="details flex justify-center">
             <div className="md:w-[90%] flex flex-col gap-3">
               <div className="flex justify-between gap-2">
-                <p className="font-bold">Address:</p>
+                <p className="font-medium">Address:</p>
                 <p>{getCandidate.details?.address}</p>
               </div>
               <div className="flex justify-between gap-2">
-                <p className="font-bold">Phone: </p>
+                <p className="font-medium">Phone: </p>
                 <p> {getCandidate.details?.phone_number} </p>
               </div>
               <div className="flex justify-between gap-2">
-                <p className="font-bold text-base">Email:</p>
+                <p className="font-medium text-base">Email:</p>
                 <p className="">{getCandidate.details?.email}</p>
               </div>
               
