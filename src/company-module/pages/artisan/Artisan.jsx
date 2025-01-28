@@ -135,7 +135,7 @@ function Artisan() {
   return (
     <>
       <PopUpBox isOpen={conditions}>
-        <div className="w-[90%] md:w-[600px] md:h-fit text-gray-500 p-5 items-center flex flex-col gap-4 bg-white">
+        <div className="w-[90%] md:w-[600px] h-[90%] max-h-[400px] overflow-y-auto text-gray-500 p-5 items-center flex flex-col gap-4 bg-white">
           <MdClose
             className="text-2xl place-self-end cursor-pointer"
             onClick={() => setConditions(!conditions)}
