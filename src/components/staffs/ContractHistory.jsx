@@ -44,8 +44,8 @@ function ContractHistory() {
     <div className="h-full w-full flex flex-col py-5 gap-[15px]">
       <button
           type="button"
-          onClick={() => navigate(-1)}
-          className="flex items-center gap-2 outline outline-offset-5 outline-green-500 px-4 py-2 rounded text-green-500 hover:bg-green-100"
+          onClick={() => window.history.back()}
+          className="w-max flex items-center gap-2 outline outline-offset-5 outline-green-500 px-4 py-2 rounded text-green-500 hover:bg-green-100"
         >
        <FaArrowLeftLong className="me-4 text-green-500" />Back
         </button>
