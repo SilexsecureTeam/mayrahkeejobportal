@@ -27,7 +27,7 @@ const BasicInfo = ({ setIsOpen }) => {
 
   const candidate = getCandidate.data?.details;
   //const countries = Country.getAllCountries();
-  const countries = const desiredCountries = Country.getAllCountries()?.filter(country => ['NG', 'GH', 'CM', 'CD', 'GB', 'US'].includes(country.code));
+  const countries = Country.getAllCountries()?.filter(country => ['NG', 'GH', 'CM', 'CD', 'GB', 'US'].includes(country.code));
   const states = State.getAllStates();
   const cities = City.getAllCities();
 
