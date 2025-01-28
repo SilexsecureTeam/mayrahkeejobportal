@@ -5,6 +5,7 @@ import { onFailure } from "../../../utils/notifications/OnFailure";
 import SearchComponent from "../../../components/staffs/SearchComponent";
 import { FaExclamationCircle, FaShoppingCart, FaFileContract } from "react-icons/fa";
 import {
+import {
   MdCheck,
   MdCheckBox,
   MdCheckBoxOutlineBlank,
@@ -14,7 +15,7 @@ import StaffCard from "../../../components/staffs/StaffCard";
 import { useNavigate } from "react-router-dom";
 import PopUpBox from "../../../components/PopUpBox";
 import FormButton from "../../../components/FormButton";
-
+import {<FaArrowLeftLong} from "react-icons/fa6"
 function Artisan() {
   const { authDetails } = useContext(AuthContext);
   const client = axiosClient(authDetails.token);
@@ -132,6 +133,13 @@ function Artisan() {
 
   return (
     <>
+      <button
+          type="button"
+          onClick={() => navigate(-1)}
+          className="flex items-center gap-2 outline outline-offset-5 outline-green-500 px-4 py-2 rounded text-green-500 hover:bg-green-100"
+        >
+       <FaArrowLeftLong className="me-4 text-green-500" />Back
+        </button>
       <PopUpBox isOpen={conditions}>
         <div className="w-[300px] md:w-[600px] h-max max-h-[400px] text-gray-500 p-5 items-center flex flex-col gap-4 bg-white">
           <MdClose
