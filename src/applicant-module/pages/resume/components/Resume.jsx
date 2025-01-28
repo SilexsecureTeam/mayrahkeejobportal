@@ -84,8 +84,9 @@ const Resume = ({ resume, setGetResumeById, authDetails, getCandidate }) => {
                 <p className="font-bold text-base">Awarding Institution</p>
                 <p className="font-medium">{resume?.awarding_institution} {resume?.year_attended && `(${resume.year_attended} - ${resume?.year_of_graduation || 'Till present'})`}</p>
               </div>}
-              <>
-              {<div className="flex justify-between gap-2">
+              
+              {<>
+              <div className="flex justify-between gap-2">
                 <p className="font-medium text-base">Previous Company</p>
                 <p className="">{resume.company_name}</p>
               </div>
