@@ -30,7 +30,7 @@ function SubscriptionCard({ data, setIsOpen, currentPackage }) {
     }
       <div className="flex flex-col items-center h-96 overflow-y-auto">
         {/* Title */}
-        <h3 className="sticky top-0 font-semibold group-odd:border-primaryColor text-center group-even:border-white w-[60%] rounded-[5px] py-1 border text-md">
+        <h3 className="sticky top-0 font-semibold group-odd:bg-primaryColor group-odd:border-primaryColor text-center group-even:bg-white group-even:border-white w-[60%] rounded-[5px] py-1 border text-md">
           {data.title}
         </h3>
 
