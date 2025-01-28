@@ -39,7 +39,7 @@ function SearchComponent({ subCategories, handleQuerySubmit, title = "Subcategor
         <span className="text-sm md:text-md font-semibold">
           Select the queries you will want to search by
         </span>
-        <div className="flex flex-wrap items-stretch justify-start gap-3 border-b pb-2 text-gray-700 w-full mt-2">
+        <div className="flex flex-wrap items-stretch justify-start gap-3 border-b pb-2 text-gray-700 w-full mt-2 font-bold">
           <div className="flex items-center gap-2 text-sm md:text-xl leading-none cursor-pointer" onClick={toogleCategory}>
             {byCategory ? (
               <MdCheckBox className="flex-shrink-0" />
