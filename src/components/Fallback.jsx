@@ -22,7 +22,7 @@ function FallbackComponent() {
         lottieRef={lottieRef}
         // style={{ height: "25%" }}
         className="w-[40%] md:w-[25%]"
-        animationData={searcherAnim}
+        animationData={profileViewer}
       />
       <img src={mainLogoTwo} className="w-[15%]"/>
     </main>
