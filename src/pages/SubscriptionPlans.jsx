@@ -14,7 +14,7 @@ function SubscriptionPlans({ packages, setIsOpen }) {
         Monthly Plan
       </p>
       <p className="w-60 p-2 text-center font-semibold text-primaryColor">
-        Best Subscription plans for Mayraykee
+        Best Subscription plans for Mayrahkee
       </p>
 
       <ul className="h-[70%] grid grid-cols-responsive2 gap-y-7 md:gap-5 w-full max-w-[1000px]">

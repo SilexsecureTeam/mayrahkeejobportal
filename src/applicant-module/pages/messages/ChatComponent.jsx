@@ -151,7 +151,6 @@ function ChatComponent({ selectedChat, setSelectedChat, applicationUtils }) {
 
         <div
           className="flex items-center justify-between bg-white p-2 absolute w-full bottom-0 h-max border-t"
-          
         >
           <img src={clipIcon} className="h-[20px]" alt="Attach" />
           <textarea

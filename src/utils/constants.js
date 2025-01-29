@@ -112,7 +112,7 @@ export const applicantOptions = [
     route: "/applicant/my-resume",
     icon: profileIconResume,
     iconActive: profileIconActive,
-  },
+  }
 ];
 
 export const companyOptions = [
@@ -157,6 +157,12 @@ export const companyOptions = [
     route: "/company/schedule",
     icon: calanderIcon,
     iconActive: searchIconActive,
+  },{
+    type: "PACKAGES",
+    title: "Subscriptions",
+    route: "/company/subscription",
+    icon: profileIconResume,
+    iconActive: profileIconActive, 
   },
 ];
 
