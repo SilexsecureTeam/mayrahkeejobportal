@@ -12,7 +12,7 @@ function SubscriptionPackages() {
   return (
     (
       <div className="h-full z-50 w-full text-gray-400 text-little flex justify-center items-center">
-        <div className="w-full min-h-full p-4 flex flex-col rounded-[10px] bg-white border">
+        <div className="w-full h-full p-4 flex flex-col rounded-[10px] bg-white border pb-8">
           <SubscriptionPlans
             packages={subUtils.packages}
             
