@@ -157,6 +157,12 @@ export const companyOptions = [
     route: "/company/schedule",
     icon: calanderIcon,
     iconActive: searchIconActive,
+  },  {
+    type: "PACKAGES",
+    title: "Subscription Packages",
+    route: "/company/subscriptions",
+    icon: calanderIcon,
+    iconActive: searchIconActive,
   },
 ];
 
