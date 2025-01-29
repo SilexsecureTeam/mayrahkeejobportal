@@ -103,7 +103,7 @@ export const applicantOptions = [
     type: "PROFILE",
     title: "My Public Profile",
     route: "/applicant/public-profile",
-    icon: profileIcon,
+    icon: multipleProfilesIcon,
     iconActive: profileIconActive,
   },
   {
