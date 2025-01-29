@@ -193,8 +193,8 @@ useEffect(() => {
           <SubscriptionModal redirectState={redirectState} />
           <main className="h-screen w-screen relative flex overflow-hidden">
             {/* Side bar takes up 20% of total width and 100% of height */}
-
-            <SideBar
+            <
+              SideBar
               companyHookProps={companyHookProps}
               authDetails={authDetails}
               toogleIsOpen={toogleIsOpen}
@@ -227,7 +227,7 @@ useEffect(() => {
             </SideBar>
 
             {/* Routes and dashboard take up 80% of total width and 100% of height*/}
-            <div className="w-full relative flex divide-y-2 divide-secondaryColor bg-white flex-col h-full">
+            <div className="flex-1 w-full relative flex divide-y-2 divide-secondaryColor bg-white flex-col h-full">
               <UpdateCompanyProfileModal
                 isOpen={redirectState}
                 setIsOpen={setRedirectState}
