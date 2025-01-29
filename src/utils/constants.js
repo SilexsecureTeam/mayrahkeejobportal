@@ -134,7 +134,7 @@ export const companyOptions = [
     type: "APPLICANTS",
     title: "All Applicants",
     route: "/company/applicants",
-    icon: ProfileIcon,
+    icon: profileIcon,
     iconActive: documentIconActive,
   },
   {
