@@ -103,7 +103,7 @@ export const applicantOptions = [
     type: "PROFILE",
     title: "My Public Profile",
     route: "/applicant/public-profile",
-    icon: multipleProfilesIcon,
+    icon: profileIcon,
     iconActive: profileIconActive,
   },
   {
@@ -134,7 +134,7 @@ export const companyOptions = [
     type: "APPLICANTS",
     title: "All Applicants",
     route: "/company/applicants",
-    icon: profileIcon,
+    icon: multipleProfilesIcon,
     iconActive: documentIconActive,
   },
   {
@@ -157,14 +157,12 @@ export const companyOptions = [
     route: "/company/schedule",
     icon: calanderIcon,
     iconActive: searchIconActive,
-
   },{
     type: "PACKAGES",
     title: "Subscriptions",
     route: "/company/subscription",
     icon: profileIconResume,
     iconActive: profileIconActive, 
-
   },
 ];
 
@@ -180,7 +178,7 @@ export const companyExclusiveOptions = [
     type: "APPLICANTS",
     title: "All Applicants",
     route: "/company/applicants",
-    icon: multipleProflesIcon,
+    icon: multipleProfilesIcon,
     iconActive: documentIconActive,
   },
   {
