@@ -1,9 +1,8 @@
 import React, { useEffect, useRef } from "react";
 import profileViewer from "../assets/anim/profile-viewer.json";
-import searcherAnim from "../assets/anim/searcher-anim.json";
+//import searcherAnim from "../assets/anim/searcher-anim.json";
 import Lottie from "lottie-react";
 import mainLogoTwo from '../assets/pngs/main-logo-icon.png'
-
 
 function FallbackComponent() {
   const lottieRef = useRef();

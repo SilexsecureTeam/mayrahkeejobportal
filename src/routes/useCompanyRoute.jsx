@@ -23,6 +23,7 @@ import useCompanyProfile from "../hooks/useCompanyProfile";
 import withSubscription from "../hocs/withSubscription";
 import useSubscription from "../hooks/useSubscription";
 import SubscriptionModal from "../components/subscription/SubscriptionModal";
+import SubscriptionPlans from "../pages/SubscriptionPlans";
 import { ApplicationContextProvider } from "../context/ApplicationContext";
 import {
   CompanyRouteContext,
@@ -44,6 +45,8 @@ const SideBarItem = lazy(() =>
 );
 
 //Route Pages
+const SubscriptionPackages = lazy(() => import("../components/subscription/SubscriptionPackages"));
+
 const Home = lazy(() => import("../company-module/pages/home/Home"));
 const Messages = lazy(() =>
   import("../company-module/pages/messages/Messages")
@@ -97,7 +100,8 @@ function useCompanyRoute() {
   const { authDetails } = useContext(AuthContext);
   const [redirectState, setRedirectState] = useState();
   const [isOpen, setIsOpen] = useState(false);
-
+  const [subPage, setSubPage] = useState(true);
+  
   const activeReducer = authDetails?.user?.user_type === 'regular' ? CompanyReducer : CompanyExclusiveReducer
   const activeOptions = authDetails?.user?.user_type === 'regular' ? companyOptions : companyExclusiveOptions
   const activeUtilOptions = authDetails?.user?.user_type === 'regular' ? adminUtilOptions : exclusiveUtilOptions
@@ -245,7 +249,10 @@ useEffect(() => {
                     path="job-posting"
                     element={withSubscription(JobPosting, "Job")}
                   />
-
+                   <Route
+                  path="subscription" 
+                  element={<SubscriptionPackages />}
+                />
                   <Route path="applicants/*">
                     <Route
                       index

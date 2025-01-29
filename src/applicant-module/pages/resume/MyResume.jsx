@@ -277,14 +277,14 @@ const MyResume = () => {
                                         <div className='mb-5'>
                                             <label className="block">
                                                 <span className="block font-medium text-slate-700">Start Date</span>
-                                                <input onChange={handleOnChange} type="date" value={details.start_date} name='start_date' placeholder='Enter your new email'
+                                                <input onChange={handleOnChange} type="date" value={details.start_date} name='start_date' min="1600-01-01" max="2999-12-31" placeholder='Enter your new email'
                                                     className="mt-1 block p-2 focus:outline-none w-full border" />
                                             </label>
                                         </div>
                                         <div className='mb-5'>
                                             <label className="block">
                                                 <span className="block font-medium text-slate-700">End Date</span>
-                                                <input onChange={handleOnChange} type="date" value={details.end_date} name='end_date' placeholder='Enter your new email'
+                                                <input onChange={handleOnChange} type="date" value={details.end_date} name='end_date' min="1600-01-01" max="2999-12-31" placeholder='Enter your new email'
                                                     className="mt-1 block p-2 focus:outline-none w-full border" />
                                             </label>
                                         </div>
