@@ -17,7 +17,7 @@ function SubscriptionPlans({ packages, setIsOpen }) {
         Best Subscription plans for Mayrahkee
       </p>
 
-      <ul className="grid grid-cols-responsive2 gap-y-7 md:gap-5 w-full">
+      <ul className="grid grid-cols-responsive gap-y-7 md:gap-5 w-full">
         {backUpPackages?.map((current) => (
           <SubscriptionCard
             setIsOpen={setIsOpen}
