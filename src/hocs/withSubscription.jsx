@@ -48,7 +48,7 @@ const currentPackage = activePackage
           {/*<SubscriptionPlans subUtils={subUtils} />*/}
         </div>
       ) : (
-        <div className="flex flex-col items-center">
+        <div className="flex flex-col items-center justify-center">
           <FaSpinner size="24" className="animate-spin" />
           <span className="mt-4 text-lg font-medium text-gray-500">
             Checking subscription status, please wait...
