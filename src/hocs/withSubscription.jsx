@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import SubscriptionPlans from "../pages/SubscriptionPlans";
-import Spinner from "../components/Spinner";
+import {FaSpinner} from "react-icons/fa";
 import { SubscriptionContext } from "../context/SubscriptionContext";
 import { AuthContext } from "../context/AuthContex";
 
@@ -49,7 +49,7 @@ const currentPackage = activePackage
         </div>
       ) : (
         <div className="flex flex-col items-center">
-          <Spinner />
+          <FaSpinner size="24" className="animate-spin" />
           <span className="mt-4 text-lg font-medium text-gray-500">
             Checking subscription status, please wait...
           </span>
