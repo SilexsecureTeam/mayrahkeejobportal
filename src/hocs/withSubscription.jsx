@@ -50,7 +50,7 @@ const currentPackage = activePackage
       ) : (
         <div className="flex flex-col items-center justify-center">
           <FaSpinner size="24" className="animate-spin" />
-          <span className="mt-4 text-lg font-medium text-gray-500">
+          <span className="mt-4 text-xl md:text-lg font-medium text-gray-500 text-center">
             Checking subscription status, please wait...
           </span>
         </div>
