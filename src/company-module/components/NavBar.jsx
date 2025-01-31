@@ -60,10 +60,10 @@ function NavBar({ state, toogleIsOpen, isMenuOpen }) {
             />
           )}
        
-        <button onClick={() => setIsSUbOpen(true)} className="flex gap-2 items-center md:px-2">
-            {/* <span className="hidden md:block"> Subscribe </span> */}
+          {/*<button onClick={() => setIsSUbOpen(true)} className="flex gap-2 items-center md:px-2">
+             <span className="hidden md:block"> Subscribe </span> 
             <IoGift size="20" className="animate-bounce" />
-          </button>
+          </button>*/}
       
      
         </div>
