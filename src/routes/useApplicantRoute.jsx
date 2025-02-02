@@ -137,7 +137,7 @@ useEffect(() => {
 
   return authDetails?.user.role === "candidate" ? (
     <ApplicantRouteContextProvider setSideBar={setSideBar}>
-      <main className="h-screen w-screen flex">
+      <main className="h-screen w-screen relative flex overflow-hidden">
         <ResourceContextProvider>
           {/* Side bar takes up 20% of total width and 100% of height */}
           <SideBar
@@ -171,13 +171,13 @@ useEffect(() => {
           </SideBar>
 
           {/* Routes and dashboard take up 80% of total width and 100% of height*/}
-          <div className="relative flex divide-y-2 divide-secondaryColor bg-white flex-col h-full">
+          <div className="flex-1 w-full relative flex divide-y-2 divide-secondaryColor bg-white flex-col h-full">
             <NavBar
               state={state}
               toogleIsOpen={toogleIsOpen}
               isMenuOpen={isOpen}
             />
-            <div className="w-full h-[92%] overflow-y-auto px-2 sm:px-4 md:px-8">
+            <div className="w-full h-[92%] overflow-y-auto px-2 lg:px-4">
               <Routes>
                 <Route index element={<Home />} />
                 <Route path="*" element={<NotFound />} />
