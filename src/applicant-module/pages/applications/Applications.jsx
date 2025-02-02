@@ -163,7 +163,7 @@ console.log(getAllApplications)
               </button>
             </div>
           </div>
-          <div className="my-3 flex flex-col items-stretch overflow-x-auto">
+          <div className="w-full my-3 flex flex-col items-stretch overflow-x-auto">
             {filteredApplications.map((app, index) => (
                   <AllApplicants key={app.id} app={app} index={index} />
                 ))}
