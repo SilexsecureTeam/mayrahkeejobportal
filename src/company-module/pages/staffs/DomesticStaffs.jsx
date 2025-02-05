@@ -103,8 +103,8 @@ function DomesticStaff() {
       setLoading(true);
 
       try {
-        const { data } = await client.get("/staff-categories/2");
-        setCategories(data.data);
+        const { data } = await client.get("/staff-categories");
+        setCategories(data.data?.filter(one=>one.name.toLowerCase().includes("staff"))[0] || []);
       } catch (error) {
         onFailure({
           message: "Staff Error",
