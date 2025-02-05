@@ -115,9 +115,8 @@ function Artisan() {
       setLoading(true);
 
       try {
-        const { data } = await client.get("/staff-categories/1");
-        const response = await client.get("/staff-categories/1");
-        setCategories(data.data);
+        const { data } = await client.get("/staff-categories");
+        setCategories(data.data?.filter(one=>one.name.toLowerCase().includes("artisan"))[0] || [])
       } catch (error) {
         onFailure({
           message: "Artisan Error",
