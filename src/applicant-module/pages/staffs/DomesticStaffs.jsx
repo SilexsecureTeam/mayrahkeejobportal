@@ -99,9 +99,9 @@ function DomesticStaff() {
       setLoading(true);
 
       try {
-        const { data } = await client.get("/staff-categories/2");
-        setCategories(data.data);
-      } catch (error) {
+        const { data } = await client.get("/staff-categories");
+        setCategories(data.data?.filter(one=>one.name.toLowerCase().includes("staff"))[0] || []);
+     } catch (error) {
         onFailure({
           message: "Staff Error",
           error: "Failed to retrieve subcategories",
