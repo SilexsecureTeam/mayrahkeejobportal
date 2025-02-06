@@ -33,11 +33,15 @@ function Home() {
     setGetAllApplications,
     getAllJobs,
     setGetAllJobs,
+    getCandidate
   } = useContext(ResourceContext);
+  
   const { authDetails, userUpdate } = useContext(AuthContext);
   const { setSideBar } = useApplicationManagement();
   const hour = now.getHours();
+  
   const user = authDetails?.user;
+  const candidate = getCandidate.data?.details?.full_name ? getCandidate.data?.details?.full_name : `${user?.first_name || "N/A"}`;
   const navigate = useNavigate();
 
   const currentDate = now.toLocaleDateString("en-US", {
@@ -146,7 +150,7 @@ const interviews = allApplications?.filter(
           <div className="flex justify-between ">
             <div className="">
               <h4 className="font-bold text-2xl mb-2  ">
-                Good {timeOfDay}, {user.first_name}
+                Good {timeOfDay}, {candidate}
               </h4>
               <p>
                 Here is what’s happening with your job search applications from{" "}
