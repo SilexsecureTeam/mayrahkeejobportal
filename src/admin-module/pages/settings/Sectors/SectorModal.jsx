@@ -39,7 +39,6 @@ const SectorModal = ({ isOpen, onClose, onSubmit, initialData, loading, sectors,
         }
         try {
             await onSubmit(formData);
-            onClose();
         } catch (error) {
             console.error('Error submitting form:', error);
         }
