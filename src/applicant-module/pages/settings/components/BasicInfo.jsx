@@ -81,7 +81,7 @@ const BasicInfo = ({ setIsOpen }) => {
     candidate_id: user.id ? user.id : "",
     // full_name: user.full_name ? user.full_name : "",
     profile: candidate?.profile || null,
-    full_name: user?.first_name ? ` ${user.first_name} ${user.last_name}` : "",
+    full_name: candidate?.full_name ? (candidate?.full_name) : (user?.first_name ? ` ${user.first_name} ${user.last_name}` : "") ,
     date_of_birth: candidate?.date_of_birth ? candidate?.date_of_birth : "",
     gender: candidate?.gender ? candidate?.gender : "",
     phone_number: candidate?.phone_number ? candidate?.phone_number : "",
