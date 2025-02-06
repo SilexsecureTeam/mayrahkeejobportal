@@ -51,7 +51,7 @@ export default function Sectors() {
     const items = [
         { label: 'Overview', icon: 'pi pi-list' },
         { label: 'Manage Sectors', icon: 'pi pi-list' },
-        { label: 'Manage Sub sectors', icon: 'pi pi-info-circle' }
+        { label: 'Manage Sub Sectors', icon: 'pi pi-info-circle' }
     ];
 
     const handleAddSubcategory = () => {
@@ -174,7 +174,7 @@ export default function Sectors() {
                 </button>
             </div>
             <div className="w-full overflow-x-auto">
-                <TabMenu model={items} activeIndex={activeIndex} onTabChange={(e) => setActiveIndex(e.index)} />
+                <TabMenu model={items} activeIndex={activeIndex} onTabChange={(e) => setActiveIndex(e.index)} style={{display: "flex", alignItems:"stretch"}}/>
             </div>
             {fetchSectorsLoading ? (
                 <div className="flex justify-center items-center mt-5">
