@@ -155,14 +155,14 @@ export default function Sectors() {
                 </button>
             </div>
             <div className="flex flex-col md:flex-row justify-between items-center mb-4 text-center md:text-left">
-                <h1 className="text-2xl font-bold mb-4 md:mb-0"> job Sector Management</h1>
+                <h1 className="text-2xl font-bold mb-4 md:mb-0 capitalize"> job Sector Management</h1>
                 <button
                     disabled={loading || fetchSectorsLoading}
                     onClick={handleAdd}
                     className="bg-green-700 px-4 py-2 text-white rounded-md flex items-center justify-center font-medium"
                 >
                     <FaPlus className="mr-2" />
-                    {activeIndex === 2 ? 'Add Subsector' : 'Add Sector'}
+                    {activeIndex === 2 ? 'Add SubSector' : 'Add Sector'}
                 </button>
             </div>
             <div className="w-full md:w-auto">
@@ -196,7 +196,7 @@ export default function Sectors() {
                     )}
                     {activeIndex === 2 && (
                         <SectorTable
-                            title="Manage Sub sectors"
+                            title="Manage Sub Sectors"
                             products={sectors}
                             selectedProducts={selectedProducts}
                             setSelectedProducts={setSelectedProducts}
