@@ -173,8 +173,8 @@ export default function Sectors() {
                     {activeIndex === 2 ? 'Add SubSector' : 'Add Sector'}
                 </button>
             </div>
-            <div className="and w-auto">
-                <TabMenu model={items} activeIndex={activeIndex} onTabChange={(e) => setActiveIndex(e.index)} style={{display: "flex", alignItems:"stretch", width:"auto"}}/>
+            <div className="w-full md:w-auto">
+                <TabMenu model={items} activeIndex={activeIndex} onTabChange={(e) => setActiveIndex(e.index)} />
             </div>
             {fetchSectorsLoading ? (
                 <div className="flex justify-center items-center mt-5">
