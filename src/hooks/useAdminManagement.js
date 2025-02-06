@@ -332,10 +332,10 @@ function UseAdminManagement() {
       // Fetch subcategories for each sector
       const sectorsWithSubcategories = await Promise.all(
         sectors.map(async (sector) => {
-          const subResponse = await client.get(`/sub-sectors/${sector.id}`);
+          //const subResponse = await client.get(`/sub-sectors/${sector.id}`);
           return {
             ...sector,
-            subcategories: subResponse.data.data,
+            subcategories: sector?.sub_sectors,
           };
         })
       );
