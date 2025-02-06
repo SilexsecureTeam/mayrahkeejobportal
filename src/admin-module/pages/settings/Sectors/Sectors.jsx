@@ -122,7 +122,8 @@ export default function Sectors() {
             } else {
                 const existingSector=sectors?.find(one=> one?.name?.toLowerCase() === data?.name?.toLowerCase())
                 if(existingSector){
-                    toast.error(`A sector with the name ${data?.name} already exists`)
+                    toast.error(`A sector with the name ${data?.name} already exists`);
+                    return;
                 }else{
                 response = isSubsector
                     ? await createSubsector(data)
