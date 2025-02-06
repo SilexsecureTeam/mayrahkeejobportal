@@ -113,6 +113,11 @@ export default function StaffSectors() {
         try {
             setLoading(true);
             let response;
+            const existingSector=sectors?.find(one=> one?.name?.toLowerCase().trim() === data?.name?.toLowerCase().trim())
+                if(existingSector){
+                    toast.error(`A sector with the name ${data?.name} already exists`);
+                    return;
+                }
     
             // Decide API endpoint based on activeIndex and operation type (edit or create)
             if (editData) {
