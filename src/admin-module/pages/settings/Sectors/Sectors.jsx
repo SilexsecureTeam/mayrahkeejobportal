@@ -120,9 +120,14 @@ export default function Sectors() {
                     ? await updateSubsector(editData.id, data)
                     : await updateSector(editData.id, data);
             } else {
+                const existingSector=sectors?.find(one=> one?.name?.toLowerCase() === data?.name?.toLowerCase())
+                if(existingSector){
+                    toast.error(`A sector with the name ${data?.name} already exists`)
+                }else{
                 response = isSubsector
                     ? await createSubsector(data)
                     : await createSector(data);
+                }
             }
     
             // Check response for success
