@@ -126,7 +126,7 @@ export default function Sectors() {
             }
     
             // Check response for success
-            if (response?.message?.includes("successfully")) {
+            if (response && response.message && response.message.includes("successfully")) {
                 toast.success(`${isSubsector ? "Subsector" : "Sector"} ${editData ? "updated" : "added"} successfully`);
                 setIsModalOpen(false); // Close modal only on success
                 const updatedData = await getSectors();
