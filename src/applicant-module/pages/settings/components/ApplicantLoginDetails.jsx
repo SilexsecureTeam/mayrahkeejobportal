@@ -47,7 +47,7 @@ const ApplicantLoginDetails = ({ authDetails }) => {
                   <div className="mb-6 border-b border-dashed pb-8">
                     <label className="block">
                       <span className="block text-sm font-medium text-slate-700">
-                        Enter our old Password
+                        Enter Current Password
                       </span>
                       <input
                         required

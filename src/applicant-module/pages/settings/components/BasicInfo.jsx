@@ -501,7 +501,7 @@ const BasicInfo = ({ setIsOpen }) => {
                       <div className="grid grid-cols-2 gap-4">
                         <div className="">
                           <label className="block">
-                            <span className="block text-sm font-medium text-slate-700 flex gap-1">
+                            <span className="text-sm font-medium text-slate-700 flex gap-1">
                               Phone Number <strong className="text-red-500">*</strong>
                             </span>
                             <input

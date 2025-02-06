@@ -28,7 +28,7 @@ const FirstUpdateForm = () => {
             </button> */}
             <UseModal header={header} setIsOpen={setChecker} isOpen={checker} >
                 <p>Please complete your Registrration</p>
-                <NewForm setIsOpen={setIsOpen}/>
+                <BasicInfo setIsOpen={setIsOpen}/>
             </UseModal>
         </>
     )

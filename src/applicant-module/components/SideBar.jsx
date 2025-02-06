@@ -7,7 +7,6 @@ import { IMAGE_URL } from "../../utils/base";
 function SideBar({ children, authDetails, toogleIsOpen, isMenuOpen }) {
   const { getCandidate, setGetCandidate } = useContext(ResourceContext);
   const [greenSectionHeight, setGreenSectionHeight] = useState(160); // Default height in pixels
-
   useEffect(() => {
     setGetCandidate((prev) => ({
       ...prev,
@@ -66,7 +65,9 @@ function SideBar({ children, authDetails, toogleIsOpen, isMenuOpen }) {
         <div className="absolute bottom-0 left-0 p-2 flex gap-[5px] items-end w-full">
           <div className="flex-1 flex flex-col truncate">
             <span className="text-secondaryColor text-sm truncate">
-              {candidate?.full_name || "N/A"}
+              {candidate?.full_name ? candidate?.full_name : `${authDetails?.user?.first_name || "N/A"} ${
+                authDetails?.user?.last_name || "N/A"
+              }`}
             </span>
             <span className="text-gray-300 text-[11px] truncate">
               {authDetails?.user?.email || "N/A"}
@@ -127,7 +128,7 @@ function SideBar({ children, authDetails, toogleIsOpen, isMenuOpen }) {
         <div className="absolute bottom-0 right-3 p-2 flex gap-3 items-end">
           <div className="flex flex-col truncate">
             <span className="text-secondaryColor text-sm truncate">
-              {`${authDetails?.user?.first_name || "N/A"} ${
+              {candidate?.full_name ? candidate?.full_name : `${authDetails?.user?.first_name || "N/A"} ${
                 authDetails?.user?.last_name || "N/A"
               }`}
             </span>

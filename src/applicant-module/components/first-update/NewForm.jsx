@@ -288,7 +288,7 @@ const NewForm = ({ setIsOpen }) => {
                                             <div className="mb-4">
                                                 <label className="block">
                                                     <span className="block text-sm font-medium text-slate-700">Full Name</span>
-                                                    <input type="text" value={details.full_name} name='full_name' onChange={handleOnChange}
+                                                    <input type="text" required value={details.full_name} name='full_name' onChange={handleOnChange}
                                                         className="mt-1 block p-1 focus:outline-none w-full border" />
                                                 </label>
                                             </div>
@@ -296,7 +296,7 @@ const NewForm = ({ setIsOpen }) => {
                                                 <div className="">
                                                     <label className="block">
                                                         <span className="block text-sm font-medium text-slate-700">Phone Number</span>
-                                                        <input type="text"
+                                                        <input type="text" required
                                                             value={details.phone_number} name='phone_number' onChange={handleOnChange}
                                                             placeholder='+44 1245 572 135'
                                                             className="mt-1 block p-1 focus:outline-none w-full border" />
@@ -346,7 +346,7 @@ const NewForm = ({ setIsOpen }) => {
                                                 {/* <div className="">
                                                     <label className="block">
                                                         <span className="block text-sm font-medium text-slate-700">Type of ID</span>
-                                                        <input type="text" value={details.means_of_identification} name='means_of_identification' onChange={handleOnChange}
+                                                        <input type="text" required value={details.means_of_identification} name='means_of_identification' onChange={handleOnChange}
                                                             className="mt-1 block p-1 focus:outline-none w-full border" />
                                                     </label>
                                                 </div> */}
@@ -391,6 +391,7 @@ const NewForm = ({ setIsOpen }) => {
                                                     <label className="block">
                                                         <span className="block text-sm font-medium text-slate-700 mb-1">Educational Qualification</span>
                                                         <select
+                                                        required
                                                             value={details.educational_qualification} name='educational_qualification'
                                                             onChange={handleOnChange}
                                                             id="" className='border w-full focus:outline-none p-2 pb-1'>
@@ -407,6 +408,7 @@ const NewForm = ({ setIsOpen }) => {
                                                     <label className="block">
                                                         <span className="block text-sm font-medium text-slate-700 mb-1">Work Experience</span>
                                                         <select
+
                                                             value={details.work_experience} name='work_experience' onChange={handleOnChange}
                                                             className='border w-full focus:outline-none p-2 pb-1'>
                                                             <option value="">-- select --</option>
@@ -437,6 +439,7 @@ const NewForm = ({ setIsOpen }) => {
                                                     <label className="block">
                                                         <span className="block text-sm font-medium text-slate-700 mb-1">Salary Type</span>
                                                         <select
+                                                        required
                                                             value={details.salary_type} name='salary_type' onChange={handleOnChange}
                                                             className='border w-full focus:outline-none p-2 pb-1'>
                                                             <option value="">-- select --</option>
@@ -449,7 +452,8 @@ const NewForm = ({ setIsOpen }) => {
                                                 <div className="mb-4">
                                                     <label className="block">
                                                         <span className="block text-sm font-medium text-slate-700">Salary (₦)</span>
-                                                        <input type="numbber"
+                                                        <input type="number"
+
                                                             value={details.salary} name='salary' onChange={handleOnChange}
                                                             className="mt-1 block p-1 focus:outline-none w-full border" />
                                                     </label>
@@ -457,7 +461,7 @@ const NewForm = ({ setIsOpen }) => {
                                                 <div className="mb-4">
                                                     <label className="block">
                                                         <span className="block text-sm font-medium text-slate-700">Preferred Job Role</span>
-                                                        <input type="text"
+                                                        <input type="text" required
                                                             value={details.preferred_job_role} name='preferred_job_role' onChange={handleOnChange}
                                                             className="mt-1 block p-1 focus:outline-none w-full border" />
                                                     </label>
@@ -466,6 +470,7 @@ const NewForm = ({ setIsOpen }) => {
                                                         <span className="block text-sm font-medium text-slate-700">Personal Profile</span>
                                                     </label>
                                                     <textarea
+                                                        required
                                                         value={details.personal_profile} name='personal_profile' onChange={handleOnChange}
                                                         className="mt-1 block w-full focus:outline-green-400 border" id=""></textarea>
                                                 </div>
@@ -609,16 +614,7 @@ const NewForm = ({ setIsOpen }) => {
                                                             className="mt-1 block p-1 focus:outline-none w-full border" />
                                                     </label>
                                                 </div>
-                                                <div className="">
-                                                    <label className="block">
-                                                        <span className="block text-sm font-medium text-slate-700">Password</span>
-                                                        <input type="password"
-                                                            value={details.password}
-                                                            name='password' onChange={handleOnChange}
-                                                            placeholder='Jakegyll@gmail.com'
-                                                            className="mt-1 block p-1 focus:outline-none w-full border" />
-                                                    </label>
-                                                </div>
+                                        
                                             </div>
                                         </div>
                                     </div>
