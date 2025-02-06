@@ -113,6 +113,12 @@ export default function Sectors() {
         try {
             setLoading(true);
             let response;
+
+            const existingSector=sectors?.find(one=> one?.name?.toLowerCase().trim() === data?.name?.toLowerCase().trim())
+                if(existingSector){
+                    toast.error(`A sector with the name ${data?.name} already exists`);
+                    return;
+                }
     
             // Decide API endpoint based on activeIndex and operation type (edit or create)
             if (editData) {
@@ -120,15 +126,11 @@ export default function Sectors() {
                     ? await updateSubsector(editData.id, data)
                     : await updateSector(editData.id, data);
             } else {
-                const existingSector=sectors?.find(one=> one?.name?.toLowerCase() === data?.name?.toLowerCase())
-                if(existingSector){
-                    toast.error(`A sector with the name ${data?.name} already exists`);
-                    return;
-                }else{
+                
                 response = isSubsector
                     ? await createSubsector(data)
                     : await createSector(data);
-                }
+            
             }
     
             // Check response for success
@@ -171,7 +173,7 @@ export default function Sectors() {
                     {activeIndex === 2 ? 'Add SubSector' : 'Add Sector'}
                 </button>
             </div>
-            <div className="w-full md:w-auto">
+            <div className="w-full overflow-x-auto">
                 <TabMenu model={items} activeIndex={activeIndex} onTabChange={(e) => setActiveIndex(e.index)} />
             </div>
             {fetchSectorsLoading ? (
