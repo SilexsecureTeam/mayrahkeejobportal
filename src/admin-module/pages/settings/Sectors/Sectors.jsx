@@ -49,8 +49,8 @@ export default function Sectors() {
     }, []);
 
     const items = [
-        { label: 'Overview', icon: 'pi pi-list' },
-        { label: 'Manage Sectors', icon: 'pi pi-list' },
+        { label: 'Overview', icon: 'pi pi-info-circle' },
+        { label: 'Manage Sectors', icon: 'pi pi-info-circle' },
         { label: 'Manage Sub Sectors', icon: 'pi pi-info-circle' }
     ];
 
@@ -173,7 +173,7 @@ export default function Sectors() {
                     {activeIndex === 2 ? 'Add SubSector' : 'Add Sector'}
                 </button>
             </div>
-            <div className="w-full md:w-auto">
+            <div className="and w-auto">
                 <TabMenu model={items} activeIndex={activeIndex} onTabChange={(e) => setActiveIndex(e.index)} style={{display: "flex", alignItems:"stretch", width:"auto"}}/>
             </div>
             {fetchSectorsLoading ? (
