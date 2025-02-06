@@ -41,7 +41,7 @@ function Home() {
   const hour = now.getHours();
   
   const user = authDetails?.user;
-  const candidate = getCandidate.data?.details?.full_name ? getCandidate.data?.details?.full_name : `${user?.first_name || "N/A"}`;
+  const candidate = getCandidate.data?.details?.full_name ? getCandidate.data?.details?.full_name?.split(" ")[0] : `${user?.first_name || "N/A"}`;
   const navigate = useNavigate();
 
   const currentDate = now.toLocaleDateString("en-US", {
