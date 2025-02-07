@@ -174,7 +174,9 @@ function useAdminRoute() {
                         <Route path="/login" element={<AdminLogin />} />
                         <Route path="/logout" element={<AdminLogout />} />
                         {authDetails?.user?.role?.includes("admin") ?
-                        (<Route path="/reset-pwd" element={<AdminResetPwd />} />
+                        (
+                          <>
+                        <Route path="/reset-pwd" element={<AdminResetPwd />} />
                         <Route path="/settings/register" element={<AdminRegistrationForm />} />
                         <Route path="/forget-pwd" element={<AdminForgotPassword />} />
                         <Route path="/change-pwd" element={<AdminChangePassword />} />
@@ -221,7 +223,7 @@ function useAdminRoute() {
                         <Route path="/police-reports" element={<AllPoliceReports />} />
                         <Route path="/blogs" element={<Blogs />} />
                         <Route path="/create-blog" element={<CreateBlog />} />
-                        ): (
+                          </>): (
         <Navigate to={"/admin/login"} replace />
       )}
                       </Routes>
