@@ -231,7 +231,7 @@ function useAdminRoute() {
           </ResourceContextProvider>
         </AdminManagementContextProvider>
       ) : (
-        <Navigate to={"/"} replace />
+        <Navigate to={"/admin/login"} replace />
       )}
     </>
   );
