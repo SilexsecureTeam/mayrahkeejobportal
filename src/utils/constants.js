@@ -491,8 +491,8 @@ export const adminOptions = [
     type: "Blogs",
     title: "Blogs",
     route: "/admin/blogs",
-    icon: policeIcon,
-    iconActive: policeIcon,
+    icon: ApplyForJob,
+    iconActive: ApplyForJob,
   },
 ];
 
