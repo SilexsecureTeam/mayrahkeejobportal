@@ -71,7 +71,7 @@ function SideBar({
         {/* User Info Section */}
         <div className="absolute bottom-0 left-0 p-2 flex gap-[5px] items-end w-[220px]">
           <div className="flex-1 flex-col flex truncate">
-            <span className="text-secondaryColor text-sm font-semibold truncate">{authDetails?.user?.name}</span>
+            <span className="text-secondaryColor text-sm font-semibold truncate">{details?.company_name ? details?.company_name : authDetails?.user?.name || "N/A"}</span>
             <span className="text-gray-300 text-xs truncate">{authDetails?.user?.email}</span>
           </div>
           <img
@@ -117,7 +117,7 @@ function SideBar({
         {/* User Info Section (Mobile) */}
         <div className="absolute bottom-0 right-3 p-2 flex gap-3 items-end">
           <div className="flex-1 flex-col flex truncate">
-            <span className="text-secondaryColor text-sm">{authDetails?.user?.name}</span>
+            <span className="text-secondaryColor text-sm">{details?.company_name ? details?.company_name : authDetails?.user?.name || "N/A"}</span>
             <span className="text-gray-300 text-xs truncate">{authDetails?.user?.email}</span>
           </div>
           <img
