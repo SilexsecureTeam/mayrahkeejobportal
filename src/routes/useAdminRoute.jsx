@@ -224,7 +224,7 @@ function useAdminRoute() {
                         <Route path="/blogs" element={<Blogs />} />
                         <Route path="/create-blog" element={<CreateBlog />} />
                           </>): (
-        <Navigate to={"/admin/login"} replace />
+        <Navigate to="/login" />
       )}
                       </Routes>
                     </PrimeReactProvider>
