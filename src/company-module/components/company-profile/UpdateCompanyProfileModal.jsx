@@ -148,6 +148,7 @@ function UpdateCompanyProfileModal({
   setIsOpen,
   onInit = false,
   companyHookProps,
+  plain=false
 }) {
   const [displayPic, setDisplayPic] = useState("");
   const [socials, setSocials] = useState(["", "", "", ""]);
@@ -268,12 +269,12 @@ function UpdateCompanyProfileModal({
 
   return (
     isOpen && (
-      <div className="h-full z-10 w-full text-gray-600 text-little flex justify-center items-center bg-gray-600/70 fixed top-0 left-0">
-        <div className="w-[90%] sm:max-w-[600px] h-[90%] p-2 flex flex-col  rounded-[10px]  bg-white border">
-          <IoMdCloseCircle
+      <div className={`h-full w-full text-gray-600 text-little flex justify-center items-center bg-gray-600/70 ${!plain && "fixed top-0 left-0 z-10"}`}>
+        <div className={`${plain ?"w-full h-full":"w-[90%] sm:max-w-[600px] h-[90%] rounded-[10px] border"} bg-white p-2 flex flex-col`}>
+          {!plain && <IoMdCloseCircle
             onClick={() => setIsOpen(false)}
             className="text-lg place-self-end  cursor-pointer"
-          />
+          />}
           <div className="w-full px-2 flex gap-[10px] flex-col h-[90%] ">
             <h3 className="font-semibold text-lg border-b pb-2 text-gray-600">{`Update Company Profile`}</h3>
 
@@ -309,7 +310,7 @@ function UpdateCompanyProfileModal({
                   >
                     <FaRegEdit />
                   </label>
-                  <small class="text-xs text-gray-500">
+                  <small className="text-xs text-gray-500">
                 File size should not exceed 1MB. </small>
                 </div>
               </div>
@@ -391,7 +392,7 @@ function UpdateCompanyProfileModal({
                     </div>
                   ))}
                 </div>
-                <small class="text-xs text-gray-500">
+                <small className="text-xs text-gray-500">
                 Images should not exceed 3MB. </small>
                 </section>
                 
