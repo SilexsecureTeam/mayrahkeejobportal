@@ -90,7 +90,7 @@ function RegistrationFormTwo({ state, dispatch, role, setRole }) {
           "__reg_info",
           JSON.stringify({
             ...staffsRegDetails,
-            role: role,
+            //role: role,
             password: "__",
             re_enter_password: "__",
           })
