@@ -124,7 +124,7 @@ function useCompanyProfile() {
       );
 
       //On success, save response data to index db
-      setDetails({...details, ...response.data?.employer})
+      setDetails({...details, ...response.data?.employer, beenRetreived: retrievalState.retrieved})
       await set(COMPANY_PROFILE_Key, response.data?.employer);
       onSuccess({"message": "Profile Update", success:response?.message || "Successful"});
       handleSuccess();
