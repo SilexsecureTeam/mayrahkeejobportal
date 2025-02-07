@@ -20,7 +20,7 @@ function SelectorInput({ data, listData, jobUtils, selected, setSelected }) {
             placeholder={data.placeholder}
           /> */}
 
-          <div className="min-w-[300px]">
+          <div className="md:min-w-[300px]">
           <Selector
             data={listData}
             selected={selected}
