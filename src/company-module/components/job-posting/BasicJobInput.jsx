@@ -3,7 +3,7 @@ function BasicJobInput({ data, jobUtils }) {
     <div className="flex flex-col sm:flex-row gap-4 border-b py-2 text-little">
       <div className="flex flex-col w-full sm:max-w-[25%] gap-2">
         <h3 className="text-gray-700 text-sm font-semibold flex gap-1">{data.label} {data?.required && <strong className="text-red-500">*</strong>}</h3>
-        <span className="text-little text-gray-600">{data.prompt}</span>
+        {/* <span className="text-little text-gray-600">{data.prompt}</span> */}
       </div>
 
       <div className="flex flex-col gap-1 w-full sm:max-w-[70%]">

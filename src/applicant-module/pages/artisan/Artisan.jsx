@@ -139,8 +139,7 @@ function Artisan() {
             onClick={() => setConditions(!conditions)}
           />
           <h1 className="text-xl font-bold">Job Descriptions</h1>
-          <div className="text-sm overflow-y-auto flex-1 prose">
-           
+          <div className="text-sm overflow-y-auto flex-1 prose"> 
           <p dangerouslySetInnerHTML={{ __html: selectedCategory?.description}} />
           </div>
           <FormButton onClick={() => handleQuerySubmit()} loading={loading}>

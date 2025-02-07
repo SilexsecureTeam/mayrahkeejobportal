@@ -48,11 +48,11 @@ const SectorModal = ({ isOpen, onClose, onSubmit, initialData, loading, sectors,
 
     return (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-            <div className="bg-white w-full max-w-md mx-auto rounded-lg shadow-lg p-6">
+            <div className="bg-white w-full max-w-md mx-auto rounded-lg shadow-lg p-6  h-max max-h-[90%] overflow-y-auto">
                 {/* Modal Header */}
                 <div className="flex justify-between items-center border-b pb-4">
                     <h2 className="text-lg font-semibold text-gray-800">
-                        {initialData ? `Edit ${isSubsector ? "Subsector" : "Sector"}` : `Add ${isSubsector ? "Subsector" : "Sector"}`}
+                        {initialData ? `Edit ${isSubsector ? "SubSector" : "Sector"}` : `Add ${isSubsector ? "SubSector" : "Sector"}`}
                     </h2>
                     <button
                         onClick={onClose}

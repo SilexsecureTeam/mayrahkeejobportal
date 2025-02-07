@@ -152,11 +152,11 @@ const field_sections = {
       options: ["Single", "Married", "Divorced", "Widowed"],
       field_name: "marital_status",
     },
-    {
-      name: "Date I Joined Mayrahkee",
-      type: "date",
-      field_name: "member_since",
-    },
+    // {
+    //   name: "Date I Joined Mayrahkee",
+    //   type: "date",
+    //   field_name: "member_since",
+    // },
   ],
 };
 
@@ -368,7 +368,7 @@ function ProfileForm({ setToMain }) {
                     // const labelText = currentKey.replace(/_/g, " ").toUpperCase();
 
                     const inputType =
-                      currentKey == "member_since" ? "date" : "text";
+                      currentKey == "member_since" ? "date" : currentKey?.type;
                     return (
                       <div className="flex flex-col gap-1">
                         <label>
@@ -377,6 +377,7 @@ function ProfileForm({ setToMain }) {
                         </label>
                         {currentKey.type !== "select" ? (
                           <input
+                          required
                             className="p-1 border focus:outline-none border-gray-900  rounded-md"
                             type={inputType}
                             defaultValue={detail}
@@ -384,6 +385,7 @@ function ProfileForm({ setToMain }) {
                           />
                         ) : (
                           <select
+                          required
                             className="p-1 border focus:outline-none border-gray-900  rounded-md"
                             type={inputType}
                             defaultValue={detail}
