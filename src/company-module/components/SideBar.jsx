@@ -13,7 +13,7 @@ function SideBar({
   toogleIsOpen,
   isMenuOpen,
 }) {
-  const { details } = useCompanyProfile();
+  const { details } = companyHookProps;
   const [greenSectionHeight, setGreenSectionHeight] = useState(160); // Default height in pixels
 
   useEffect(() => {
