@@ -84,7 +84,7 @@ const SectorTable = ({
 
     return (
         <div className="card">
-            <h2 className="font-bold text-2xl my-2">{title}</h2>
+            <h2 className="font-bold text-2xl my-2 capitalize">{title}</h2>
             <DataTable
                 value={products}
                 dataKey="id"
@@ -102,14 +102,14 @@ const SectorTable = ({
                                     className="flex justify-between items-center gap-2 space-y-1"
                                 >
                                     <span>{sub.name}</span>
-                                    {title === 'Manage Sub sectors' &&
+                                    {title === 'Manage SubSectors' &&
                                         subcategoryActionBodyTemplate(sub)}
                                 </div>
                             ))}
                         </div>
                     )}
                 />
-                {title !== 'Overview' && title !== 'Manage Sub sectors' && (
+                {title !== 'Overview' && title !== 'Manage SubSectors' && (
                     <Column header="Actions" body={actionBodyTemplate} />
                 )}
             </DataTable>

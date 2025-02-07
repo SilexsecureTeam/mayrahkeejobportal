@@ -112,6 +112,13 @@ export const applicantOptions = [
     route: "/applicant/my-resume",
     icon: profileIconResume,
     iconActive: profileIconActive,
+  },
+  {
+    type: "BLOG",
+    title: "Blogs",
+    route: "/blogs",
+    icon: ApplyForJob,
+    iconActive: ApplyForJob,
   }
 ];
 
@@ -164,6 +171,13 @@ export const companyOptions = [
     icon: profileIconResume,
     iconActive: profileIconActive, 
   },
+  {
+    type: "BLOG",
+    title: "Blogs",
+    route: "/blogs",
+    icon: ApplyForJob,
+    iconActive: ApplyForJob,
+  }
 ];
 
 export const companyExclusiveOptions = [
@@ -202,6 +216,13 @@ export const companyExclusiveOptions = [
     icon: calanderIcon,
     iconActive: searchIconActive,
   },
+  {
+    type: "BLOG",
+    title: "Blogs",
+    route: "/blogs",
+    icon: ApplyForJob,
+    iconActive: ApplyForJob,
+  }
 ];
 
 export const exclusiveUtilOptions = [
@@ -318,8 +339,8 @@ export const staffOptions = [
     type: "profile",
     title: "Profile",
     route: "/staff/profile",
-    icon: homeIcon,
-    iconActive: homeIconActive,
+    icon: profileIcon,
+    iconActive: profileIconActive,
   },
   {
     type: "verifications",
@@ -335,6 +356,13 @@ export const staffOptions = [
     icon: profileIconResume,
     iconActive: profileIconActive,
   },
+  {
+    type: "blog",
+    title: "Blogs",
+    route: "/blogs",
+    icon: ApplyForJob,
+    iconActive: ApplyForJob,
+  }
 ];
 
 export const staffUtilOptions = [

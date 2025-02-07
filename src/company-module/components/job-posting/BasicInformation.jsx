@@ -324,9 +324,9 @@ function BasicInformation({ setCurrentStep, data, jobUtils, validateAndProceed }
           <h3 className="text-gray-700 text-sm font-semibold flex gap-1">
             Featured Image <strong className="text-red-500">*</strong>
           </h3>
-          <span className="text-xs text-gray-400">
+          {/* <span className="text-xs text-gray-400">
             Here you upload image for job
-          </span>
+          </span> */}
         </div>
 
         <div className="flex flex-col gap-2 items-center">
@@ -408,9 +408,9 @@ function BasicInformation({ setCurrentStep, data, jobUtils, validateAndProceed }
           <h3 className="text-gray-700 text-sm font-semibold flex gap-1">
             Type of Employment <strong className="text-red-500">*</strong>
           </h3>
-          <span className="text-xs text-gray-400">
+          {/* <span className="text-xs text-gray-400">
             You can select multiple types of employment
-          </span>
+          </span> */}
         </div>
 
         <div className="flex flex-col gap-2">
@@ -485,10 +485,10 @@ function BasicInformation({ setCurrentStep, data, jobUtils, validateAndProceed }
       <div className="flex flex-col sm:flex-row gap-4 border-b py-4">
         <div className="flex flex-col gap-2 sm:max-w-[25%] w-full">
           <h3 className="text-gray-700 text-sm font-semibold flex gap-1">Salary<strong className="text-red-500">*</strong></h3>
-          <span className="text-xs text-gray-400">
+          {/* <span className="text-xs text-gray-400">
             Please specify the estimated salary range for the role. *You can
             leave this blank.
-          </span>
+          </span> */}
         </div>
         <div className="flex flex-col w-full sm:w-[50%] gap-4">
           <div className="flex items-center justify-between">

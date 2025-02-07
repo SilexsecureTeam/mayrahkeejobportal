@@ -105,7 +105,7 @@ function SearchComponent({ subCategories, handleQuerySubmit, title = "Subcategor
               onChange={(e)=>setSelectedCategory(subCategories?.find(one=>one.name===e.target.value))}
             >
               <option key="" value="" selected="selected">-- Select {title} --</option>
-              {subCategories?.map((current) => (
+              {subCategories?.sort((a,b)=>a.name.localeCompare(b.name))?.map((current) => (
                 <option key={current.id} value={current.name}>{current.name}</option>
               ))}
             </select>

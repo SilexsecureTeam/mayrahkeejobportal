@@ -138,7 +138,7 @@ export default function SubscriptionPackages() {
              <p className="text-gray-600 mt-2">{pkg.description}</p>
               <div className="mt-4">
                 <p className="font-medium">Price: ₦{pkg.price}</p>
-                <p className="font-medium">Duration: {pkg.duration} months</p>
+                <p className="font-medium">Duration: per job</p>
               </div>
               {pkg?.permissions?.length >0 &&<ul className="mt-4 text-sm text-gray-700 list-disc list-inside capitalize">
                 <p className="font-bold mb-2 text-xl text-gray-700">Perks:</p>

@@ -19,14 +19,14 @@ export default function StaffSectors() {
     const [fetchSectorsLoading, setFetchSectorsLoading] = useState(false); // Specific loading state for fetching sectors
     const [isSubsector, setIsSubsector] = useState(false);
     const navigate = useNavigate();
-    const { 
-        getStaffSectors, 
-        deleteStaffSectorById, 
-        deleteStaffSubsectorById, 
-        createStaffSector, 
-        createStaffSubsector, 
-        updateStaffSector, 
-        updateStaffSubsector 
+    const {
+        getStaffSectors,
+        deleteStaffSectorById,
+        deleteStaffSubsectorById,
+        createStaffSector,
+        createStaffSubsector,
+        updateStaffSector,
+        updateStaffSubsector
     } = UseAdminManagement();
 
     useEffect(() => {
@@ -51,7 +51,7 @@ export default function StaffSectors() {
     const items = [
         { label: 'Overview', icon: 'pi pi-list' },
         { label: 'Manage Sectors', icon: 'pi pi-list' },
-        { label: 'Manage Sub sectors', icon: 'pi pi-info-circle' }
+        { label: 'Manage SubSectors', icon: 'pi pi-info-circle' }
     ];
 
     const handleAddSubcategory = () => {
@@ -83,14 +83,14 @@ export default function StaffSectors() {
     const handleDelete = async (id) => {
         try {
             setLoading(true);
-            
+
             let response;
             if (activeIndex === 1) {
                 response = await deleteStaffSectorById(id);
             } else if (activeIndex === 2) {
                 response = await deleteStaffSubsectorById(id);
             }
-    
+
             // Check if the response contains a 'message' indicating successful deletion
             if (response && response.message && response.message.includes("successfully")) {
                 const updatedData = await getStaffSectors();
@@ -107,18 +107,26 @@ export default function StaffSectors() {
             setLoading(false);
         }
     };
-    
+
 
     const handleModalSubmit = async (data) => {
         try {
             setLoading(true);
             let response;
-            const existingSector=sectors?.find(one=> one?.name?.toLowerCase().trim() === data?.name?.toLowerCase().trim())
-                if(existingSector){
-                    toast.error(`A sector with the name ${data?.name} already exists`);
-                    return;
+            const sectorName = data?.name?.toLowerCase().trim();
+            const existingSector = data?.category_id
+                ? sectors?.find(sector => sector.id === data?.category_id)
+                    ?.subcategories?.find(sub => sub?.name?.toLowerCase().trim() === sectorName)
+                : sectors?.find(sec => sec?.name?.toLowerCase().trim() === sectorName);
+            if (!editData && existingSector) {
+                if (data?.category_id) {
+                    toast.error(`"${data?.name}" is already a subsector of the selected category.`);
+                } else {
+                    toast.error(`A category with the name "${data?.name}" already exists.`);
                 }
-    
+                return;
+            }
+
             // Decide API endpoint based on activeIndex and operation type (edit or create)
             if (editData) {
                 response = isSubsector
@@ -129,7 +137,7 @@ export default function StaffSectors() {
                     ? await createStaffSubsector(data)
                     : await createStaffSector(data);
             }
-    
+
             // Check response for success
             if (response?.message?.includes("successfully")) {
                 toast.success(`${isSubsector ? "Subsector" : "Sector"} ${editData ? "updated" : "added"} successfully`);
@@ -141,12 +149,12 @@ export default function StaffSectors() {
             }
         } catch (err) {
             console.error(err);
-            toast.error(`Failed to ${editData ? 'edit':'add'} ${isSubsector ? 'subsector':'sector'}`);
+            toast.error(`Failed to ${editData ? 'edit' : 'add'} ${isSubsector ? 'subsector' : 'sector'}`);
         } finally {
             setLoading(false);
         }
     };
-    
+
 
     return (
         <div className="card px-2">
@@ -161,14 +169,14 @@ export default function StaffSectors() {
             </div>
             <div className="flex flex-col md:flex-row justify-between items-center mb-4 text-center md:text-left">
                 <h1 className="text-2xl font-bold mb-4 md:mb-0">Staff Sector Management</h1>
-                <button
+                {activeIndex === 2 && <button
                     disabled={loading || fetchSectorsLoading}
                     onClick={handleAdd}
                     className="bg-green-700 px-4 py-2 text-white rounded-md flex items-center justify-center"
                 >
                     <FaPlus className="mr-2" />
-                    {activeIndex === 2 ? 'Add Subsector' : 'Add Sector'}
-                </button>
+                    {activeIndex === 2 ? 'Add SubSector' : 'Add Sector'}
+                </button>}
             </div>
             <div className="w-full md:w-auto">
                 <TabMenu model={items} activeIndex={activeIndex} onTabChange={(e) => setActiveIndex(e.index)} />
@@ -201,7 +209,7 @@ export default function StaffSectors() {
                     )}
                     {activeIndex === 2 && (
                         <SectorTable
-                            title="Manage Sub sectors"
+                            title="Manage SubSectors"
                             products={sectors}
                             selectedProducts={selectedProducts}
                             setSelectedProducts={setSelectedProducts}

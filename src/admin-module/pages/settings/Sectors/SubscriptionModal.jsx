@@ -12,7 +12,7 @@ export default function SubscriptionModal({
     title: "",
     description: "",
     price: "",
-    duration: "",
+    // duration: "",
     number_of_jobs: "", // New field
     number_of_candidates: "",
     permissions: [],
@@ -56,7 +56,7 @@ export default function SubscriptionModal({
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-      <div className="bg-white w-96 h-[90%] overflow-x-auto md:w-md rounded-md shadow-md pb-6 px-6 relative">
+      <div className="bg-white w-96 lg:w-[600px] h-[90%] overflow-x-auto md:w-md rounded-md shadow-md pb-6 px-6 relative">
         <div className="bg-white sticky top-0 right-4 flex gap-2 pt-6 justify-between items-center">
           <h2 className="text-lg font-bold mb-4">
             {initialData ? "Edit Package" : "Add Package"}
@@ -101,7 +101,7 @@ export default function SubscriptionModal({
               required
             />
           </div>
-          <div>
+          {/* <div>
             <label className="block font-medium mb-1">Duration (Months)</label>
             <input
               type="number"
@@ -111,7 +111,7 @@ export default function SubscriptionModal({
               className="w-full px-3 py-2 border rounded-md"
               required
             />
-          </div>
+          </div> */}
           <div>
             <label className="block font-medium mb-1">Number of Jobs</label>
             <input

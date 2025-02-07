@@ -19,14 +19,14 @@ export default function Sectors() {
     const [fetchSectorsLoading, setFetchSectorsLoading] = useState(false); // Specific loading state for fetching sectors
     const [isSubsector, setIsSubsector] = useState(false);
     const navigate = useNavigate();
-    const { 
-        getSectors, 
-        deleteSectorById, 
-        deleteSubsectorById, 
-        createSector, 
-        createSubsector, 
-        updateSector, 
-        updateSubsector 
+    const {
+        getSectors,
+        deleteSectorById,
+        deleteSubsectorById,
+        createSector,
+        createSubsector,
+        updateSector,
+        updateSubsector
     } = UseAdminManagement();
 
     useEffect(() => {
@@ -49,9 +49,10 @@ export default function Sectors() {
     }, []);
 
     const items = [
-        { label: 'Overview', icon: 'pi pi-info-circle' },
-        { label: 'Manage Sectors', icon: 'pi pi-info-circle' },
+        { label: 'Overview', icon: 'pi pi-list' },
+        { label: 'Manage Sectors', icon: 'pi pi-list' },
         { label: 'Manage Sub Sectors', icon: 'pi pi-info-circle' }
+
     ];
 
     const handleAddSubcategory = () => {
@@ -83,14 +84,14 @@ export default function Sectors() {
     const handleDelete = async (id) => {
         try {
             setLoading(true);
-            
+
             let response;
             if (activeIndex === 1) {
                 response = await deleteSectorById(id);
             } else if (activeIndex === 2) {
                 response = await deleteSubsectorById(id);
             }
-    
+
             // Check if the response contains a 'message' indicating successful deletion
             if (response && response.message && response.message.includes("successfully")) {
                 const updatedData = await getSectors();
@@ -107,32 +108,40 @@ export default function Sectors() {
             setLoading(false);
         }
     };
-    
+
 
     const handleModalSubmit = async (data) => {
         try {
             setLoading(true);
             let response;
 
-            const existingSector=sectors?.find(one=> one?.name?.toLowerCase().trim() === data?.name?.toLowerCase().trim())
-                if(existingSector){
-                    toast.error(`A sector with the name ${data?.name} already exists`);
-                    return;
+            const sectorName = data?.name?.toLowerCase().trim();
+            const existingSector = data?.sector_id
+                ? sectors?.find(sector => sector.id === data?.sector_id)
+                    ?.subcategories?.find(sub => sub?.name?.toLowerCase().trim() === sectorName)
+                : sectors?.find(sec => sec?.name?.toLowerCase().trim() === sectorName);
+            if (existingSector) {
+                if (data?.sector_id) {
+                    toast.error(`"${data?.name}" is already a subsector of the selected category.`);
+                } else {
+                    toast.error(`A category with the name "${data?.name}" already exists.`);
                 }
-    
+                return;
+            }
+
             // Decide API endpoint based on activeIndex and operation type (edit or create)
             if (editData) {
                 response = isSubsector
                     ? await updateSubsector(editData.id, data)
                     : await updateSector(editData.id, data);
             } else {
-                
+
                 response = isSubsector
                     ? await createSubsector(data)
                     : await createSector(data);
-            
+
             }
-    
+
             // Check response for success
             if (response && response.message && response.message.includes("successfully")) {
                 toast.success(`${isSubsector ? "Subsector" : "Sector"} ${editData ? "updated" : "added"} successfully`);
@@ -144,12 +153,12 @@ export default function Sectors() {
             }
         } catch (err) {
             console.error(err);
-            toast.error(`Failed to ${editData ? 'edit':'add'} ${isSubsector ? 'subsector':'sector'}`);
+            toast.error(`Failed to ${editData ? 'edit' : 'add'} ${isSubsector ? 'subsector' : 'sector'}`);
         } finally {
             setLoading(false);
         }
     };
-    
+
 
     return (
         <div className="card px-2">
@@ -204,7 +213,7 @@ export default function Sectors() {
                     )}
                     {activeIndex === 2 && (
                         <SectorTable
-                            title="Manage Sub Sectors"
+                            title="Manage SubSectors"
                             products={sectors}
                             selectedProducts={selectedProducts}
                             setSelectedProducts={setSelectedProducts}

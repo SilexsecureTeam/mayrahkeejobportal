@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
 import Selector from '../../../../components/Selector';
-
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
 const StaffSectorModal = ({ isOpen, onClose, onSubmit, initialData, loading, sectors, isSubsector = false }) => {
     const [formData, setFormData] = useState({
         name: '',
@@ -50,11 +51,11 @@ const StaffSectorModal = ({ isOpen, onClose, onSubmit, initialData, loading, sec
 
     return (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-            <div className="bg-white w-full max-w-md mx-auto rounded-lg shadow-lg p-6">
+            <div className="bg-white w-full max-w-md mx-auto h-max max-h-[90%] rounded-lg shadow-lg p-6 overflow-y-auto">
                 {/* Modal Header */}
                 <div className="flex justify-between items-center border-b pb-4">
                     <h2 className="text-lg font-semibold text-gray-800">
-                        {initialData ? `Edit ${isSubsector ? "Subsector" : "Sector"}` : `Add ${isSubsector ? "Subsector" : "Sector"}`}
+                        {initialData ? `Edit ${isSubsector ? "Subsector" : "Sector"}` : `Add ${isSubsector ? "SubSector" : "Sector"}`}
                     </h2>
                     <button
                         onClick={onClose}
@@ -78,10 +79,10 @@ const StaffSectorModal = ({ isOpen, onClose, onSubmit, initialData, loading, sec
                                 </label>
                                 <Selector
                                     data={sectors}
-                                    selected={sectors?.find(one=>one.id === formData.category_id)}
+                                    selected={sectors?.find(one => one.id === formData.category_id)}
                                     setSelected={({ id }) => setFormData({ ...formData, "category_id": id })}
                                 />
-                               
+
                             </div>
                         )}
                         <div>
@@ -101,24 +102,27 @@ const StaffSectorModal = ({ isOpen, onClose, onSubmit, initialData, loading, sec
                                 className="p-3 py-2 mt-1 block w-full border border-gray-400 shadow-sm"
                             />
                         </div>
-                        {isSubsector &&(
+                        {isSubsector && (
                             <div>
-                            <label
-                                htmlFor="name"
-                                className="block text-sm font-medium text-gray-700"
-                            >
-                                Description
-                            </label>
-                            <textarea
-                                type="text"
-                                id="name"
-                                name="description"
-                                value={formData.description}
-                                onChange={handleChange}
-                                required
-                                 className="p-3 py-1 mt-1 block w-full border border-gray-400 shadow-sm h-20"
-                            ></textarea>
-                        </div>)
+                                <label
+                                    htmlFor="name"
+                                    className="block text-sm font-medium text-gray-700"
+                                >
+                                    Description
+                                </label>
+                                <ReactQuill
+                                    placeholder="Write your content here..."
+                                    value={formData.description}
+                                    className="custom-quill-editor" // Custom class for styling
+                                    onChange={(text) => {
+                                        setFormData((prev) => ({
+                                            ...prev,
+                                            description: text, // Properly update the specific field in the object
+                                        }));
+                                    }
+                                    }
+                                />
+                            </div>)
                         }
 
 
