@@ -45,10 +45,15 @@ function useLogin(role) {
           email: loginDetails.email,
           password: loginDetails.password,
         });
+        if(response?.user?.staff_category !== role){
+           throw new Error("User not found")
+          return
+        }else{
         setAuthDetails({
           token: response.data.token,
           user: response.data.user,
         });
+        }
       }
       onSuccess();
       saveSession()
