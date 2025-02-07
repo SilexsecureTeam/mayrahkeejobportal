@@ -2,7 +2,7 @@ import { clear } from "idb-keyval";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-function SideBarItem({ data, dispatch, state }) {
+function SideBarItem({ data, dispatch, state, setIsOpen }) {
   
   const navigate = useNavigate();
 
@@ -14,6 +14,7 @@ function SideBarItem({ data, dispatch, state }) {
     } else {
       dispatch({ ...data });
       navigate(data.route);
+      setIsOpen(false)
     }
   };
 
