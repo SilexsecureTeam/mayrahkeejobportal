@@ -1,10 +1,3 @@
-// import { useState } from "react";
-// import Header from "../../components/job-listing/Header";
-// import JobDetails from "../../components/job-listing/JobDetails";
-// import Analytics from "../../components/job-listing/Analytics";
-// import Overview from "../../components/settings/Notification";
-// import SocialLinks from "../../components/settings/SocialLinks";
-// import Team from "../../components/settings/Team";
 
 const options = [
   {
@@ -14,8 +7,6 @@ const options = [
 ];
 
 import React, { useContext, useState } from 'react'
-// import BasicInfo from './components/BasicInfo';
-// import ApplicantLoginDetails from './components/ApplicantLoginDetails';
 import { AuthContext } from '../../../context/AuthContex';
 import Notification from "../../components/settings/Notification";
 import UpdateCompanyProfileModal from "../../components/company-profile/UpdateCompanyProfileModal";
@@ -39,7 +30,7 @@ const Settings = () => {
   return (
     <div className="h-full text-[#25324b] w-full">
       <div className="mt-6">
-        <div className="sticky top-0 flex border-b pt-4 bg-white">
+        <div className="sticky top-0 flex border-b pt-4 bg-white z-50">
           <button onClick={() => handleActive("profile")} className={`p-2 mx-3 border-green-700 ${active === "profile" ? "border-b-2 font-medium" : ""}`}>Company Profile</button>
           <button onClick={() => handleActive("notifications")} className={`p-2 mx-3 border-green-700 ${active === "notifications" ? "border-b-2 font-medium" : ""}`}>Notifications</button>
           {/* <button onClick={() => handleActive("notification")} className={`p-2 mx-3 border-green-700 ${active === "notification" ? "border-b-2 font-medium" : ""}`}>Notifications</button> */}
