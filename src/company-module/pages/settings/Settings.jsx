@@ -25,7 +25,7 @@ const Settings = () => {
   };
 
   const user = authDetails?.user
-  const [active, setActive] = useState("profile")
+  const [active, setActive] = useState(user?.role==="employer" ? "profile": "notifications")
   const handleActive = (event) => setActive(event);
   return (
     <div className="h-full text-[#25324b] w-full">
