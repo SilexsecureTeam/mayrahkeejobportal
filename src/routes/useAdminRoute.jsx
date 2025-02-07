@@ -122,7 +122,7 @@ function useAdminRoute() {
 
   return (
     <>
-      {true ? (
+      {authDetails?.user?.role?.includes("admin") ? (
         <AdminManagementContextProvider>
           <ResourceContextProvider>
             <AdminRouteContextProvider setSideBar={setSideBar}>
