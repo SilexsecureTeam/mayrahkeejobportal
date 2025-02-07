@@ -111,7 +111,7 @@ function RegistrationFormTwo({ state, dispatch, role, setRole }) {
         //setSubCategory();
       } else if (role == "staff") {
         const { data } = await client.get("/staff-categories");
-        setSubCategories(data.data?.filter(one=>one.name.toLowerCase().includes("artisan"))[0]?.subcategories);
+        setSubCategories(data.data?.filter(one=>one.name.toLowerCase().includes("staff"))[0]?.subcategories);
         //setSubCategory(data.data.subcategories[0]);
       }
     };
