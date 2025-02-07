@@ -16,6 +16,7 @@ import { CompanyRouteContext } from "../../../context/CompanyRouteContext";
 import { generateDateRange } from "../../../utils/formmaters";
 import SubscriptionOffer from "../../../components/SubsciptionOffer";
 import useApplicationManagement from "../../../hooks/useApplicationManagement";
+import useCompanyProfile from "../../../hooks/useCompanyProfile";
 
 function Home() {
   const { authDetails } = useContext(AuthContext);
@@ -24,7 +25,7 @@ function Home() {
   const { setSideBar } = useContext(CompanyRouteContext);
   const { getApplicantsByEmployee, applicants } = useApplicationManagement()
   const { jobList } = jobUtils;
-
+  const { details } = useCompanyProfile();
   const openJobs = useMemo(() => 
     jobList?.filter((current) => current.status === "1" || current.status === "approved"),
     [jobList]
@@ -59,7 +60,7 @@ function Home() {
       </Helmet>
       <div className="h-fit w-full py-5 gap-[15px] flex flex-col">
         <SubscriptionOffer />
-        <WelcomeMessage name={authDetails.user.name} />
+        <WelcomeMessage name={details?.company_name ? details?.company_name : authDetails?.user?.name} />
         <StatsCardWrapper applicants={applicants}  />
         <JobStatsAndSummary>
           <JobStatistic applicants={applicants} byCategory={value} />
