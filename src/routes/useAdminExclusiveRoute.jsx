@@ -129,7 +129,7 @@ function useAdminRoute() {
                 isMenuOpen={isOpen}
               />
             )}
-            <div className="w-full h-[92%] overflow-y-auto">
+            <div className="w-full h-[92%] overflow-y-auto px-2 md:px-5 lg-px-8">
               <Routes>
                 <Route index element={<Dashboard />} />
 
