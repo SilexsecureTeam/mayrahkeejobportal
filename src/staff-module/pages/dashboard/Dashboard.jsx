@@ -17,6 +17,8 @@ import { useNavigate } from "react-router-dom";
 import { StaffManagementContext } from "../../../context/StaffManagementModule";
 import DefaultSwitch from "../../../components/DefaultSwitch";
 import useStaffUser from "../../../hooks/useStaffUser";
+import { onFailure } from "../../../utils/notifications/OnFailure";
+import { axiosClient } from "../../../services/axios-client";
 
 function Dashboard() {
   const { authDetails } = useContext(AuthContext);
@@ -24,9 +26,11 @@ function Dashboard() {
   const { profileDetails, getStaffProfile } = useContext(
     StaffManagementContext
   );
-
+  const client = axiosClient(authDetails.token);
+  
   const [availablityStatus, setAvailabiltyStatus] = useState();
   const [loading, setloading] = useState(false);
+  const [category, setCategory] = useState([]);
   const { updateAvailabilityStatus, getStyling, allStatus } = useStaffUser();
 
   const filterVerificationDetails =
@@ -46,6 +50,25 @@ function Dashboard() {
     setSideBar(index);
   };
 
+  
+  useEffect(() => {
+    const initData = async () => {
+      try {
+        const { data } = await client.get("/staff-categories");
+        const sub=data.data?.find(one=>one.name.toLowerCase().includes(profileDetails?.staff_category))?.subcategories || []
+        const cat=sub?.find(one=>one.name=== profileDetails?.subcategory)
+        console.log(cat)
+        setCategory(cat);
+      } catch (error) {
+        onFailure({
+          message: "Duties Error",
+          error: "Failed to retrieve duties",
+        });
+      }
+    };
+
+    initData();
+  },[profileDetails])
   useEffect(() => {
     if (profileDetails && profileDetails["availability_status"] === "1") {
       setAvailabiltyStatus(true);
@@ -64,20 +87,20 @@ function Dashboard() {
           <div className="flex justify-between ">
             <div className="">
               <h4 className="font-bold text-2xl mb-2  ">
-                Welcome back, {authDetails.user.first_name}{" "}
-                {authDetails.user.surname}
+                Welcome back, {authDetails?.user?.first_name}{" "}
+                {authDetails?.user?.surname}
               </h4>
               <p>
                 Here a summary of your recent activities {generateDateRange()}
               </p>
             </div>
-            <div>
+            {/* <div>
               <button className="border p-2 hidden md:flex items-center">
                 {" "}
                 {generateDateRange()}
                 <RiCalendarEventLine className="ml-2 " size={15} />
               </button>
-            </div>
+            </div> */}
           </div>
           <div className="md:flex-row flex-col flex justify-between  mt-8 gap-2">
             <div className=" w-full md:w-[23%]  flex justify-between md:flex-col ">
@@ -180,47 +203,61 @@ function Dashboard() {
           </div>
         </div>
 
-        <div className="my-5">
-          <div className="border">
-            <div className="p-3 flex  gap-10 border-b">
-              <p className="font-bold text-base">Availability Status</p>
-              <DefaultSwitch
-                enabled={availablityStatus}
-                // disabled={loading}
-                onClick={async () => {
-                  console.log("clicked");
-                  setloading(true);
-                  const result = await updateAvailabilityStatus(
-                    authDetails.user.id,
-                    availablityStatus ? "0" : "1"
-                  );
-                  if (result) {
-                    setAvailabiltyStatus(!availablityStatus);
-                  }
-                  setloading(false);
-                }}
-              />
-            </div>
-            <div className="p-3 h-[30vh] overflow-y-auto no_scroll_bar">
-              <div className="my-4 flex justify-center">
-                <div className="flex items-center cursor-pointer  hover:opacity-90">
-                  <p className="text-md leading-7 tracking-wider">
-                    We've introduced a user-friendly feature just for you,
-                    giving you the power to control your availability status
-                    with a simple toggle. This means you can easily let others
-                    know whether you're currently available for work or not.
-                    With just one click, you can update your status in
-                    real-time—whether you're ready to take on new opportunities
-                    or need to mark yourself as unavailable. This feature is
-                    designed to give you control over how you're seen by
-                    potential employers or clients, allowing you to manage your
-                    own schedule.
-                  </p>
-                </div>
-              </div>
-            </div>
+        <div className="my-5 min-h-80">
+  <div className="border flex flex-col">
+    {/* Availability Status Section */}
+    <div className="p-3 flex gap-10 border-b">
+      <p className="font-bold text-base">Availability Status</p>
+      <DefaultSwitch
+        enabled={availablityStatus}
+        disabled={loading}
+        loading={loading}
+        onClick={async () => {
+          console.log("clicked");
+          setloading(true);
+          const result = await updateAvailabilityStatus(
+            authDetails.user.id,
+            availablityStatus ? "0" : "1"
+          );
+          if (result) {
+            setAvailabiltyStatus(!availablityStatus);
+          }
+          setloading(false);
+        }}
+      />
+    </div>
+
+    {/* Grid Items Section */}
+    <div className="p-3 flex-1">
+      <div className="my-4 flex justify-center">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 hover:opacity-90">
+          {/* Scrollable Left Grid Item */}
+          <div className="overflow-y-auto max-h-80 p-2 border">
+            <p className="text-md leading-7 tracking-wider">
+              We've introduced a user-friendly feature just for you,
+              giving you the power to control your availability status
+              with a simple toggle. This means you can easily let others
+              know whether you're currently available for work or not.
+              With just one click, you can update your status in
+              real-time—whether you're ready to take on new opportunities
+              or need to mark yourself as unavailable. This feature is
+              designed to give you control over how you're seen by
+              potential employers or clients, allowing you to manage your
+              own schedule.
+            </p>
+          </div>
+
+          {/* Scrollable Right Grid Item */}
+          <div className="border max-h-80 overflow-y-auto">
+            <strong className="text-xl sticky top-0 bg-green-700 text-white p-2 mb-4">Responsibilities</strong>
+            <p className="prose p-2 my-2" dangerouslySetInnerHTML={{ __html: category?.description }} />
           </div>
         </div>
+      </div>
+    </div>
+  </div>
+</div>
+
       </div>
     </>
   );

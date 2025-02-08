@@ -150,13 +150,15 @@ export const getDocument = (e, setDetails) => {
     
     return null;
   }
+
+    console.log(file)
   const validTypes = [
     "application/pdf",
     "application/msword",
     "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
   ];
 
-  if (validTypes.includes(file.type)) {
+  if (file && validTypes.includes(file.type)) {
     // You can also perform additional actions with the valid file
     const generatedUrl = URL.createObjectURL(file);
     setDetails(file);
@@ -164,6 +166,7 @@ export const getDocument = (e, setDetails) => {
     // Handle invalid file type
     alert("Please select a valid JPEG or PNG file.");
   }
+
 };
 
 export const onTextChange = (e, details, setDetails) => {

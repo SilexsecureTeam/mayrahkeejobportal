@@ -47,7 +47,7 @@ function FindStaff() {
   useEffect(() => {
     if (categories.length > 0 && id) {
       const matchedCategory = categories.find(
-        (category) => category.name.toLowerCase() === id.toLowerCase()
+        (category) => category.name.toLowerCase().includes(id.toLowerCase())
       );
       if (matchedCategory) {
         setSelectedCategory(matchedCategory.name);
@@ -126,7 +126,7 @@ function FindStaff() {
         staff.surname?.toLowerCase().includes(searchInput.toLowerCase())
     )
     : searchResult;
-window.scrollTo(0,0);
+  window.scrollTo(0, 0);
   return (
     categories && searchResult && (
       <>
@@ -262,21 +262,23 @@ window.scrollTo(0,0);
               </div>
 
               {/* Results */}
-              <div className="mt-5">
+              <div className="mt-5 bg-gray-100 flex justify-center items-center min-h-60">
                 {loading ? (
-                  <div className="flex justify-center items-center mt-10 min-h-60 bg-gray-100">
+                  <div className="flex justify-center items-center mt-10">
                     <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-green-600"></div>
                   </div>
                 ) : (
-                  <div className="grid grid-cols-responsive2 gap-4 bg-gray-100 p-2">
+                  <>
                     {filteredSearchResult?.length > 0 ? (
-                      filteredSearchResult.map((staff) => (
+                      <div className="grid grid-cols-responsive2 gap-4 p-2">
+                     { filteredSearchResult.map((staff) => (
                         <StaffCard key={staff.id} staff={staff} />
-                      ))
+                        ))}
+                      </div>
                     ) : (
-                      <p>No {selectedCategory} found matching your criteria.</p>
+                      <p className="font-medium text-xl self-start">No {selectedCategory} found matching your criteria.</p>
                     )}
-                  </div>
+                  </>
                 )}
               </div>
             </div>

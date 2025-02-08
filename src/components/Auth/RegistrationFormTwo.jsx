@@ -117,6 +117,7 @@ function RegistrationFormTwo({ state, dispatch, role, setRole }) {
     };
 
     getSubCategories();
+    setSubCategory(null)
   }, [role]);
 
 
