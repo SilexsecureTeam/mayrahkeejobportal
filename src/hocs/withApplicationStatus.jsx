@@ -44,7 +44,7 @@ function withApplicationStatus(Component) {
     }
 
     if (status === "approved") {
-      return <Component {...props} />;
+      return <Component />;
     }
 
     if (status === "rejected") {
