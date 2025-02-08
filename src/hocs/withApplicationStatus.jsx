@@ -4,7 +4,7 @@ import { FaSpinner } from "react-icons/fa";
 
 function withApplicationStatus(Component) {
     const { authDetails } = useContext(AuthContext);
-  console.log("hey",authDetails?.user)
+  //console.log("hey",authDetails?.user)
     // if (loading) {
     //   return (
     //     <div className="flex flex-col items-center justify-center h-full">
