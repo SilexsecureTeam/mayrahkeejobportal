@@ -8,6 +8,7 @@ import StaffReducer from "../reducers/StaffReducer";
 import { StaffRouteContextProvider } from "../context/StaffRouteContext";
 import { StaffManagementContextProvider } from "../context/StaffManagementModule";
 import StaffCard from "../components/staffs/StaffCard";
+import withApplicationStatus from "../hocs/withApplicationStatus";
 
 //Util Component
 const NavBar = lazy(() => import("../staff-module/components/NavBar"));
@@ -104,8 +105,8 @@ function useStaffRoute() {
                     <Route index element={<Dashboard />} />
                     {/* <Route path="*" element={<NotFound />} /> */}
                     <Route path="profile" element={<Home />} />
-                    <Route path="verifications" element={<Verifications />} />
-                    <Route path="resume" element={<Resume />} />
+                    <Route path="verifications" element={withApplicationStatus(Verifications)} />
+                    <Route path="resume" element={withApplicationStatus(Resume)} />
                     <Route path="settings" element={<Settings />} />
                     <Route path="help-center" element={<HelpCenter />} />
                   </Routes>
