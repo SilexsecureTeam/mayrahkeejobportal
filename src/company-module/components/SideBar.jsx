@@ -86,7 +86,7 @@ function SideBar({
       <aside
         className={`h-screen overflow-hidden ${
           isMenuOpen ? "left-0" : "left-[-100%]"
-        } w-[70%] sm:w-[300px] absolute z-[999] h-screen items-center bg-secondaryColor px-2 pb-2 flex flex-col`}
+        } w-[300px] absolute z-[999] h-screen items-center bg-secondaryColor px-2 pb-2 flex flex-col`}
       >
         <div className="flex items-center gap-[10px]">
           <MdClose onClick={toogleIsOpen} className="text-primarycolor text-3xl" />
@@ -115,9 +115,9 @@ function SideBar({
         </div>
 
         {/* User Info Section (Mobile) */}
-        <div className="absolute bottom-0 right-3 p-2 flex gap-3 items-end">
+        <div className="absolute bottom-0 right-3 p-2 flex gap-3 items-end w-[300px]">
           <div className="flex-1 flex-col flex truncate">
-            <span className="text-secondaryColor text-sm">{authDetails?.user?.name || "N/A"}</span>
+            <span className="text-secondaryColor text-sm font-semibold truncate ">{authDetails?.user?.name || "N/A"}</span>
             <span className="text-gray-300 text-xs truncate">{authDetails?.user?.email}</span>
           </div>
           <img
