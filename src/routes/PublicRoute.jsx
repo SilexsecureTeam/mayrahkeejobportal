@@ -13,7 +13,7 @@ const NotFound = lazy(() => import("../pages/404"));
 const RecruitmentPage = lazy(() => import("../pages/RecruitmentPage"));
 const AboutUs = lazy(() => import("../pages/AboutUs"));
 const Help = lazy(() => import("../pages/Help"));
-const ContactForm = lazy(() => import("../pages/ContactForm"));
+const ContactPage = lazy(() => import("../pages/ContactPage"));
 const FAQ = lazy(() => import("../pages/FAQ"));
 const PrivacyPolicy = lazy(() => import("../pages/PrivacyPolicy"));
 const TermsConditions = lazy(() => import("../pages/TermsConditions"));
@@ -39,7 +39,7 @@ function PublicRoute() {
           <Route path="/help" element={<Help />} />
           <Route
             path="/contact"
-            element={<ContactForm />}
+            element={<ContactPage />}
           />
           <Route path="/faq" element={<FAQ />} />
           <Route path="/find-jobs" element={<JobSearchPage />} />

@@ -13,6 +13,7 @@ import CartedStaffs from "../components/staffs/CartedStaffs";
 import ApplicantDetails from "../components/applicant-details-ui/ApplicantDetails";
 import AllApplication from "../components/applicant-details-ui/AllApplication";
 import Application from "../components/applicant-details-ui/Application";
+import withApplicationStatus from "../hocs/withApplicationStatus";
 //Util Components
 const NavBar = lazy(() => import("../applicant-module/components/NavBar"));
 const SideBar = lazy(() => import("../applicant-module/components/SideBar"));
@@ -182,34 +183,34 @@ useEffect(() => {
                 <Route index element={<Home />} />
                 <Route path="*" element={<NotFound />} />
 
-                <Route path="messages" element={<Messages />} />
-                <Route path="applications" element={<Applications />} />
+                <Route path="messages" element={withApplicationStatus(Messages)} />
+                <Route path="applications" element={withApplicationStatus(Applications)} />
                 <Route
                   path="applications/:id"
                   element={<ShortListedDetails />}
                 />
-                <Route path="find-job" element={<FindJob />} />
-                <Route path="find-job/:id" element={<JobDetails />} />
-                <Route path="browse-companies" element={<Companies />} />
+                <Route path="find-job" element={withApplicationStatus(FindJob)} />
+                <Route path="find-job/:id" element={withApplicationStatus(JobDetails)} />
+                <Route path="browse-companies" element={withApplicationStatus(Companies)} />
                 <Route
                   path="browse-companies/:id"
-                  element={<CompanyDetails />}
+                  element={withApplicationStatus(CompanyDetails)}
                 />
 
-                <Route path="artisan" element={<Artisan />} />
-                <Route path="domestic-staffs" element={<DomesticStaffs />} />
-                <Route path="staff/cart" element={<CartedStaffs />} />
-                <Route path=":category/:id" element={<StaffDetails />} />
-                <Route path="staff/cart" element={<CartedStaffs />} />
-                <Route path="staff/success" element={<SuccessPage />} />
-                <Route path="staff/contract-history" element={<ContractHistory/>}/>  
+                <Route path="artisan" element={withApplicationStatus(Artisan)} />
+                <Route path="domestic-staffs" element={withApplicationStatus(DomesticStaffs)} />
+                <Route path="staff/cart" element={withApplicationStatus(CartedStaffs)} />
+                <Route path=":category/:id" element={withApplicationStatus(StaffDetails)} />
+                <Route path="staff/cart" element={withApplicationStatus(CartedStaffs)} />
+                <Route path="staff/success" element={withApplicationStatus(SuccessPage)} />
+                <Route path="staff/contract-history" element={withApplicationStatus(ContractHistory)}/>  
                  
                 {/* testing routes */}
-                <Route path="applicant-detail" element={<ApplicantDetails />} />
-                <Route path="application-detail" element={<AllApplication />} />
+                <Route path="applicant-detail" element={withApplicationStatus(ApplicantDetails)} />
+                <Route path="application-detail" element={withApplicationStatus(AllApplication)} />
                 <Route
                   path="application-detail/:id"
-                  element={<Application />}
+                  element={withApplicationStatus(Application)}
                 />
 
                 {/* <Route
