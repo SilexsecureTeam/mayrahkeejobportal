@@ -4,17 +4,7 @@ import { FaSpinner } from "react-icons/fa";
 
 function withApplicationStatus(Component) {
     const { authDetails } = useContext(AuthContext);
-  //console.log("hey",authDetails?.user)
-    // if (loading) {
-    //   return (
-    //     <div className="flex flex-col items-center justify-center h-full">
-    //       <FaSpinner size="24" className="animate-spin text-gray-500" />
-    //       <span className="mt-4 text-xl md:text-lg font-medium text-gray-500 text-center">
-    //         Checking application status, please wait...
-    //       </span>
-    //     </div>
-    //   );
-    // }
+  const ValidComponent=()=>Component;
     const status = authDetails?.user?.status?.toLowerCase();
 
     if (!status) {
@@ -44,7 +34,7 @@ function withApplicationStatus(Component) {
     }
 
     if (status === "approved") {
-      return <Component />;
+      return <ValidComponent />;
     }
 
     if (status === "rejected") {

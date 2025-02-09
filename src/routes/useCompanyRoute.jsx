@@ -20,7 +20,9 @@ import RedirectModal from "../components/RedirectModal";
 import UpdateCompanyProfileModal from "../company-module/components/company-profile/UpdateCompanyProfileModal";
 import { clear} from "idb-keyval";
 import useCompanyProfile from "../hooks/useCompanyProfile";
+import withApplicationStatus from "../hocs/withApplicationStatus";
 import withSubscription from "../hocs/withSubscription";
+
 import useSubscription from "../hooks/useSubscription";
 import SubscriptionModal from "../components/subscription/SubscriptionModal";
 import SubscriptionPlans from "../pages/SubscriptionPlans";
@@ -138,6 +140,7 @@ function useCompanyRoute() {
   } else {
     // If no saved state, set a default value based on user type
     const defaultState = activeOptions[0];
+    
     //console.log("Setting default state:", defaultState);  // Log the default state
     dispatch(defaultState);  // Dispatch the default state
   }
@@ -186,6 +189,7 @@ useEffect(() => {
     const page = activeOptions[index];
     dispatch(page);
   };
+  const WithProtection=(Component, title)=>withApplicationStatus(withSubscription(Component, title))
   return (
     <>
       {authDetails?.user?.role === "employer" ? (
@@ -244,10 +248,10 @@ useEffect(() => {
                   <Route index element={<Home />} />
                   <Route path="*" element={<NotFound />} />
 
-                  <Route path="messages" element={withSubscription(Messages, "Message")} />
+                  <Route path="messages" element={WithProtection(Messages, "Message")} />
                   <Route
                     path="job-posting"
-                    element={withSubscription(JobPosting, "Job")}
+                    element={WithProtection(JobPosting,  "Job")}
                   />
                    <Route
                   path="subscription" 
@@ -256,33 +260,33 @@ useEffect(() => {
                   <Route path="applicants/*">
                     <Route
                       index
-                      element={withSubscription(Applicants, "candidate")}
+                      element={WithProtection(Applicants, "candidate")}
                     />
                     <Route
                       path="detail/:id"
-                      element={withSubscription(SingleApplicant, "candidate")}
+                      element={WithProtection(SingleApplicant, "candidate")}
                     />
                   </Route>
 
                   <Route path="company-profile" element={<CompanyProfile />} />
-                  <Route path="artisan" element={<Artisan />} />
-                  <Route path="domestic-staffs" element={<DomesticStaffs />} />
-                  <Route path=":category/:id" element={<StaffDetails />} />
-                  <Route path="staff/cart" element={<CartedStaffs />} />
-                  <Route path="staff/success" element={<SuccessPage/>}/>  
-                  <Route path="staff/contract-history" element={<ContractHistory/>}/>  
+                  <Route path="artisan" element={withApplicationStatus(Artisan)} />
+                  <Route path="domestic-staffs" element={withApplicationStatus(DomesticStaffs)} />
+                  <Route path=":category/:id" element={withApplicationStatus(StaffDetails)} />
+                  <Route path="staff/cart" element={withApplicationStatus(CartedStaffs)} />
+                  <Route path="staff/success" element={withApplicationStatus(SuccessPage)}/>  
+                  <Route path="staff/contract-history" element={withApplicationStatus(ContractHistory)}/>  
                  
                   <Route path="job-listing/*">
                     <Route
                       index
-                      element={withSubscription(JobListing, "Job")}
+                      element={WithProtection(JobListing, "Job")}
                     />
-                    <Route path="type/:id" element={withSubscription(JobType, "Job")} />
+                    <Route path="type/:id" element={WithProtection(JobType, "Job")} />
                   </Route>
 
                   <Route
                     path="schedule"
-                    element={withSubscription(Schedule, "job")}
+                    element={WithProtection(Schedule, "job")}
                   />
 
                   <Route path="settings" element={<Settings />} />
@@ -293,7 +297,7 @@ useEffect(() => {
           </main>
         </CompanyRouteContextProvider>
       ) : (
-        <Navigate to={"/"} replace />
+        <Navigate to={"/login"} replace />
       )}
     </>
   );

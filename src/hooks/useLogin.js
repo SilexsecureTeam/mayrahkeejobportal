@@ -7,6 +7,7 @@ import { onSuccess } from "../utils/notifications/OnSuccess";
 import { SessionContext } from "../context/SessionContext";
 import {useNavigate} from 'react-router-dom'
 import useRegistration from "./useRegistration";
+import { resetTimer } from "../components/Auth/EmailVerification";
 function useLogin(role) {
   const navigate=useNavigate();
   const [loginDetails, setLoginDetails] = useState({
@@ -81,7 +82,7 @@ function useLogin(role) {
       
           if (userConfirmation) {
             navigate("/registration/email_verification");
-            resendOtp();
+            resendOtp(resetTimer);
           } else {
             console.log("User chose to stay on the current page.");
           }
