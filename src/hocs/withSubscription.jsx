@@ -7,7 +7,7 @@ import { AuthContext } from "../context/AuthContex";
 function withSubscription(Component, title) {
   const subUtils = useContext(SubscriptionContext);
   const { authDetails } = useContext(AuthContext);
-  const validComponent=()=>Component;
+  
 const activePackage = subUtils?.activePackage;
 const currentPackage = activePackage
   ? subUtils?.packages?.find((pkg) => pkg.id === activePackage.package_id)
@@ -24,7 +24,7 @@ const currentPackage = activePackage
 
 
   return hasPermission ? (
-    <validComponent />
+    <Component />
   ) : (
     <div className="h-full flex pt-10 justify-center bg-gray-50">
       {!subUtils?.loading && subUtils?.activePackage ? (
