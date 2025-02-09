@@ -106,23 +106,23 @@ function SideBar({
           </div>
         </nav>
 
-        {/* Decorative Green Slide */}
+              {/* Decorative Green Slide */}
         <div
-          className="absolute bottom-0 left-0 w-full green-section"
+          className="absolute bottom-0 left-0 w-full green-section overflow-hidden"
           style={{ height: `${160}px` }}
         >
-          <div className="w-[120%] h-full relative bg-primaryColor transform -rotate-12 origin-bottom-right" />
+          <div className="w-[500px] h-full relative bg-primaryColor transform -rotate-12 origin-bottom-right" />
         </div>
 
-        {/* User Info Section (Mobile) */}
-        <div className="absolute bottom-0 right-3 p-2 flex gap-3 items-end w-[300px]">
+        {/* User Info Section */}
+        <div className="absolute bottom-0 left-0 p-2 flex gap-[5px] items-end w-[280px]">
           <div className="flex-1 flex-col flex truncate">
-            <span className="text-secondaryColor text-sm font-semibold truncate ">{authDetails?.user?.name || "N/A"}</span>
+            <span className="text-secondaryColor text-sm font-semibold truncate">{authDetails?.user?.name || "N/A"}</span>
             <span className="text-gray-300 text-xs truncate">{authDetails?.user?.email}</span>
           </div>
           <img
             src={details?.logo_image ? getImageURL(details?.logo_image) : "https://via.placeholder.com/150"}
-            className="h-[70px] w-[70px] rounded-full bg-primaryColor object-cover"
+            className="flex-shrink-0 h-[60px] w-[60px] rounded-full bg-secondaryColor max-[1200px]:mt-[-30px] transition-all duration-500 object-cover"
             alt="User"
           />
         </div>
