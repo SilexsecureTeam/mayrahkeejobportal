@@ -270,7 +270,7 @@ useEffect(() => {
                   </Route>
 
                   <Route path="company-profile" element={<CompanyProfile />} />
-                  <Route path="artisan" element=WithNormal(artisan)} />
+                  <Route path="artisan" element={WithNormal(artisan)} />
                   <Route path="domestic-staffs" element={WithNormal(DomesticStaffs)} />
                   <Route path=":category/:id" element={withApplicationStatus(StaffDetails)} />
                   <Route path="staff/cart" element={withApplicationStatus(CartedStaffs)} />
