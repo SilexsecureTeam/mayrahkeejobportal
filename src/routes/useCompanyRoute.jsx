@@ -190,7 +190,8 @@ useEffect(() => {
     dispatch(page);
   };
   const WithProtection=(Component, title)=>withApplicationStatus(withSubscription(Component, title))
-  return (
+  const WithNormal=(Component)=>withApplicationStatus(Component);
+  return 
     <>
       {authDetails?.user?.role === "employer" ? (
         <CompanyRouteContextProvider setSideBar={setSideBar}>
@@ -269,8 +270,8 @@ useEffect(() => {
                   </Route>
 
                   <Route path="company-profile" element={<CompanyProfile />} />
-                  <Route path="artisan" element={withApplicationStatus(Artisan)} />
-                  <Route path="domestic-staffs" element={withApplicationStatus(DomesticStaffs)} />
+                  <Route path="artisan" element={WithNormal(artisan)} />
+                  <Route path="domestic-staffs" element={WithNormal(DomesticStaffs)} />
                   <Route path=":category/:id" element={withApplicationStatus(StaffDetails)} />
                   <Route path="staff/cart" element={withApplicationStatus(CartedStaffs)} />
                   <Route path="staff/success" element={withApplicationStatus(SuccessPage)}/>  
