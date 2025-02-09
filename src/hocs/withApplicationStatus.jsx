@@ -1,10 +1,6 @@
-import { useContext } from "react";
-import { AuthContext } from "../context/AuthContex";
-import { FaSpinner } from "react-icons/fa";
-
 function withApplicationStatus(Component) {
+  return function WrappedComponent(props) {
     const { authDetails } = useContext(AuthContext);
-  const ValidComponent=()=>Component;
     const status = authDetails?.user?.status?.toLowerCase();
 
     if (!status) {
@@ -34,7 +30,7 @@ function withApplicationStatus(Component) {
     }
 
     if (status === "approved") {
-      return <ValidComponent />;
+      return <Component {...props} />; // ✅ Correct way to return the wrapped component
     }
 
     if (status === "rejected") {
@@ -73,7 +69,7 @@ function withApplicationStatus(Component) {
         </p>
       </div>
     );
-
+  };
 }
 
 export default withApplicationStatus;
