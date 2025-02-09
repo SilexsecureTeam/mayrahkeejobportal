@@ -62,7 +62,7 @@ function SideBar({ children, authDetails, toogleIsOpen, isMenuOpen }) {
         </div>
 
         {/* User Info */}
-        <div className="absolute bottom-0 left-0 p-2 flex gap-[5px] items-end w-full">
+        <div className="absolute bottom-0 left-0 p-2 flex gap-[5px] items-end w-[270px]">
           <div className="flex-1 flex flex-col truncate">
             <span className="text-secondaryColor text-sm truncate">
               {candidate?.full_name ? candidate?.full_name : `${authDetails?.user?.first_name || "N/A"} ${
@@ -115,19 +115,18 @@ function SideBar({ children, authDetails, toogleIsOpen, isMenuOpen }) {
             {children[1]}
           </div>
         </nav>
-
-        {/* Green Slide */}
+{/* Green Slide */}
         <div
-          className="absolute bottom-0 left-0 w-full green-section"
-          style={{ height: `${120}px` }}
+          className="absolute bottom-0 left-0 w-full green-section overflow-hidden"
+          style={{ height: `${160}px` }}
         >
-          <div className="w-[120%] h-full bg-primaryColor transform -rotate-12 origin-bottom-right" />
+          <div className="w-[500px] h-full bg-primaryColor transform -rotate-12 origin-bottom-right" />
         </div>
 
         {/* User Info */}
-        <div className="absolute bottom-0 right-3 p-2 flex gap-3 items-end w-[300px]">
-          <div className="flex flex-col truncate">
-            <span className="text-secondaryColor text-sm font-semibold truncate">
+        <div className="absolute bottom-0 left-0 p-2 flex gap-[5px] items-end w-[270px]">
+          <div className="flex-1 flex flex-col truncate">
+            <span className="text-secondaryColor text-sm truncate">
               {candidate?.full_name ? candidate?.full_name : `${authDetails?.user?.first_name || "N/A"} ${
                 authDetails?.user?.last_name || "N/A"
               }`}
@@ -142,7 +141,7 @@ function SideBar({ children, authDetails, toogleIsOpen, isMenuOpen }) {
                 ? `${IMAGE_URL}/${candidate.profile}`
                 : "https://via.placeholder.com/150"
             }
-            className="h-[70px] w-[70px] rounded-full bg-primaryColor object-cover"
+            className="h-[60px] w-[60px] rounded-full bg-secondaryColor object-cover"
             alt="User"
           />
         </div>
