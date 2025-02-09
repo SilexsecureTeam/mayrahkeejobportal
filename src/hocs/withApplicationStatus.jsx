@@ -1,11 +1,10 @@
-
-import { useContext } from "react";
+import React, { useContext } from "react";
 import { AuthContext } from "../context/AuthContex";
 import { FaSpinner } from "react-icons/fa";
 
 function withApplicationStatus(Component) {
     const { authDetails } = useContext(AuthContext);
-  const ValidComponent=()=>Component;
+  const ValidComponent=()=>React.isValidElement(Component) ? Component : <Component />;
     const status = authDetails?.user?.status?.toLowerCase();
 
     if (!status) {

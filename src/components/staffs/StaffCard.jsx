@@ -290,7 +290,7 @@ function StaffCard({ data, contract = null, cartItems, getCartItems }) {
         <div className="flex flex-col gap-2 py-2 mt-[50px]">
           <span className="flex items-center justify-between gap-2 text-md font-semibold">
             Name:
-            <span className="text-sm w-[60%] text-start font-normal text-gray-500">
+            <span className="text-sm w-[60%] text-start font-normal text-gray-500 capitalize">
               {getField("first_name")} {getField("surname")}
             </span>
           </span>
@@ -298,7 +298,7 @@ function StaffCard({ data, contract = null, cartItems, getCartItems }) {
           <span className="flex gap-2 items-center justify-between text-md font-semibold">
             Age Range:
             <span className="text-sm w-[60%] text-start font-normal text-gray-500">
-              {getField("age")} Years
+              {getField("age") ?? `${getField("age")} Years`}
             </span>
           </span>
 
@@ -340,7 +340,7 @@ function StaffCard({ data, contract = null, cartItems, getCartItems }) {
           <span className="flex gap-2 items-center justify-between text-md truncate font-semibold">
             Langages:
             <span className="text-sm w-[60%] flex text-start font-normal text-gray-500">
-              {getField("languages_spoken").map((current, idx) => (
+              {getField("languages_spoken") ?? getField("languages_spoken")?.map((current, idx) => (
                 <span key={idx} className="group">
                   {current}
                   <span className="group-last:hidden">, </span>
@@ -366,7 +366,7 @@ function StaffCard({ data, contract = null, cartItems, getCartItems }) {
           <span className="flex gap-2 items-center justify-between text-md truncate font-semibold">
             Years of Experience:
             <span className="text-sm w-[60%] text-start font-normal text-gray-500">
-              {getField("years_of_experience")} Years
+              {getField("years_of_experience") ?? `getField("years_of_experience") Years`} 
             </span>
           </span>
 
