@@ -208,7 +208,7 @@ function Dashboard() {
     {/* Availability Status Section */}
     <div className="p-3 flex gap-10 border-b">
       <p className="font-bold text-base">Availability Status</p>
-      <DefaultSwitch
+      {(profileDetails?.status === "pending" || profileDetails?.status === "approved") ? <DefaultSwitch
         enabled={availablityStatus}
         disabled={loading}
         loading={loading}
@@ -224,7 +224,7 @@ function Dashboard() {
           }
           setloading(false);
         }}
-      />
+      /> :<strong className={`capitalize font-medium ${profileDetails?.status === "rejected" ? "text-red-500" :"text-brown-300"}`}>{profileDetails?.status}</strong>}
     </div>
 
     {/* Grid Items Section */}
@@ -233,7 +233,7 @@ function Dashboard() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 hover:opacity-90">
           {/* Scrollable Left Grid Item */}
           <div className="overflow-y-auto max-h-80 p-2 border">
-            <p className="text-md leading-7 tracking-wider">
+            {(profileDetails?.status === "pending" || profileDetails?.status === "approved") ? <p className="text-md leading-7 tracking-wider">
               We've introduced a user-friendly feature just for you,
               giving you the power to control your availability status
               with a simple toggle. This means you can easily let others
@@ -244,7 +244,7 @@ function Dashboard() {
               designed to give you control over how you're seen by
               potential employers or clients, allowing you to manage your
               own schedule.
-            </p>
+            </p> : <p className="text-md leading-7 tracking-wider">We appreciate your interest in our service, Unfortunately your application has been {profileDetails?.status}! If you'd like feedback on your application. please contact our support team.</p>}
           </div>
 
           {/* Scrollable Right Grid Item */}

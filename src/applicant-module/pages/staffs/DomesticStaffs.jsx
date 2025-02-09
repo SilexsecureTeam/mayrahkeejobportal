@@ -55,7 +55,8 @@ function DomesticStaff() {
     searchResult.length > 0
       ? searchResult?.filter(
         (current) =>
-          current?.staff_category === "staff" && current?.middle_name !== null
+          current?.staff_category === "staff" &&
+        (current?.status === "pending" || current?.status === "approved")
       )
       : [];
 
@@ -196,7 +197,7 @@ function DomesticStaff() {
         {staffsToDisplay.length > 0 && (
           <div className="flex flex-col gap-3 mt-5">
             <span className="font-semibold text-yellow-600">
-              Showing Search You Result
+            Showing You Search Result
             </span>
             <ul className="w-full grid grid-cols-responsive3 gap-2">
               {staffsToDisplay?.map((current) => (

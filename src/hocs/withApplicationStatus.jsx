@@ -34,7 +34,6 @@ function withApplicationStatus(Component) {
     }
 
     if (status === "approved") {
-      console.log("granted")
       return <ValidComponent />;
     }
 

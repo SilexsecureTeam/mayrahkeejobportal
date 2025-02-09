@@ -82,7 +82,7 @@ function Artisan() {
       ? searchResult?.filter(
         (current) =>
           current?.staff_category === "artisan" &&
-          current?.middle_name !== null
+          (current?.status === "pending" || current?.status === "approved")
       )
       : [];
 
@@ -208,7 +208,7 @@ function Artisan() {
         {staffsToDisplay.length > 0 ? (
           <div className="flex flex-col gap-3 mt-5">
             <span className="font-semibold text-yellow-600">
-              Showing Search You Result
+            Showing You Search Result
             </span>
             <ul className="w-full grid grid-cols-responsive gap-4">
               {staffsToDisplay?.map((current) => (

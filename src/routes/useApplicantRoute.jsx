@@ -134,6 +134,7 @@ useEffect(() => {
       handleUnload();
       window.removeEventListener("unload", handleUnload);
     };
+    
   }, []);
 
   return authDetails?.user.role === "candidate" ? (
