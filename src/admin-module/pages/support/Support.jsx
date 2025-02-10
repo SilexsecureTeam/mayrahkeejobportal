@@ -52,7 +52,7 @@ const Support = () => {
 
     return (
         <div className="p-6 bg-white shadow-md rounded-lg">
-            <h2 className="text-2xl font-semibold mb-4">Feedback Messages</h2>
+            <h2 className="text-2xl font-semibold mb-4 text-green-800">Support & Feedback</h2>
             <div className="w-full overflow-x-auto">
                 <table className="w-full min-w-[500px] border-collapse border border-gray-300">
                     <thead>
