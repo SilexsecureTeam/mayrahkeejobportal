@@ -32,7 +32,7 @@ const Support = () => {
             return
         };
         setLoading(true);
-        client.post(`/contact`, { message: reply.text })
+        client.post(`/contact`, { id:reply?.id reply: reply.text })
             .then(() => {
                 setMessages((prev) =>
                     prev.map((msg) =>
@@ -58,6 +58,7 @@ const Support = () => {
                             <th className="p-3 border">User</th>
                             <th className="p-3 border">Email</th>
                             <th className="p-3 border">Message</th>
+                            <th className="p-3 border">Status</th>
                             <th className="p-3 border">Action</th>
                         </tr>
                     </thead>
@@ -79,7 +80,7 @@ const Support = () => {
                                     </span>
                                 </td>
 
-                                {/* <td className="p-3 border">
+                            <td className="p-3 border">
                   <span
                     className={`px-2 py-1 rounded-full text-sm font-medium ${
                       msg?.status === "Replied" ? "bg-green-200 text-green-700" : "bg-yellow-200 text-yellow-700"
@@ -87,14 +88,14 @@ const Support = () => {
                   >
                     {msg?.status || "Pending"}
                   </span>
-                </td> */}
+                </td> 
                                 <td className="p-3 border">
                                     {msg?.status !== "Replied" && (
                                         <button
                                             className="bg-green-600 text-white px-3 py-1 text-sm rounded-lg hover:bg-green-700 transition"
                                             onClick={() => openReplyModal(msg)}
                                         >
-                                            View
+                                            {msg.status === "Replied" ? "View" : "Reply"}
                                         </button>
                                     )}
                                 </td>
@@ -138,12 +139,14 @@ const Support = () => {
                             </button>
 
                             {/* Mailto Button */}
-                            <a
+                            <button
+                                disabled={loading}
                                 className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 flex items-center justify-center gap-2"
-                                href={`mailto:${selectedMessage?.email}?subject=Reply to your message&body=${encodeURIComponent(reply.text)}`}
+                                //href={`mailto:${selectedMessage?.email}?subject=Reply to your message&body=${encodeURIComponent(reply.text)}`}
+                                onClick={handleReplySubmit}
                             >
-                                Send Reply
-                            </a>
+                                Reply {loading&& <FaSpinner className="animate-spin" />}
+                            </button>
                         </div>
 
                     </div>
