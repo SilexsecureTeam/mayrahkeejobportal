@@ -19,7 +19,7 @@ const Support = () => {
 
     const openReplyModal = (msg) => {
         setSelectedMessage(msg);
-        setReply({ id: msg.id, text: "" });
+        setReply({ id: msg.id, text: msg?.reply || "" });
     };
 
     const handleReplyChange = (e) => {
@@ -141,14 +141,14 @@ const Support = () => {
                             </button>
 
                             {/* Mailto Button */}
-                            <button
-                                disabled={loading}
+                            {selectedMessage?.status !== "Resolved" &&<button
+                                disabled={loading || selectedMessage?.status === "Resolved"}
                                 className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 flex items-center justify-center gap-2"
                                 //href={`mailto:${selectedMessage?.email}?subject=Reply to your message&body=${encodeURIComponent(reply.text)}`}
                                 onClick={handleReplySubmit}
                             >
                                 Reply {loading&& <FaSpinner className="animate-spin" />}
-                            </button>
+                            </button>}
                         </div>
 
                     </div>
