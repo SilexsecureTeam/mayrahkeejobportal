@@ -5,13 +5,14 @@ import { FiMail, FiPhone } from "react-icons/fi";
 import { FaSpinner } from "react-icons/fa";
 import { onSuccess } from "../utils/notifications/OnSuccess";
 import { onFailure } from "../utils/notifications/OnFailure";
+import { BASE_URL } from "../utils/base";
 
 const ContactForm = ({ variant = "standard" }) => {
   const client = axiosClient();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
-    subject: "",
+    title: "",
     message: "",
   });
   const [isFormValid, setIsFormValid] = useState(false);
@@ -49,7 +50,7 @@ const ContactForm = ({ variant = "standard" }) => {
       }
     }
 
-    if (name === "subject") {
+    if (name === "title") {
       if (!value.trim()) {
         errorMessage = "Subject is required";
       } else if (value.length < 3) {
@@ -100,7 +101,7 @@ const ContactForm = ({ variant = "standard" }) => {
     if (key === "email" && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
       errorMessage = "Enter a valid email address";
     }
-    if (key === "subject" && value.length < 3) {
+    if (key === "title" && value.length < 3) {
       errorMessage = "Subject must be at least 3 characters";
     }
     if (key === "message" && value.length < 10) {
@@ -128,9 +129,9 @@ if (Object.keys(newErrors).length > 0) {
 setLoading(true);
 
 try {
-  const response = await client.post("https://fabform.io/f/your-form-id", formData);
-
-  if (!response.ok) throw new Error("Failed to submit the form. Please try again.");
+  const response = await client.post(`/contact`, formData);
+  console.log(response)
+  if (!response?.data?.message?.includes("successfully")) throw new Error("Failed to submit the form. Please try again.");
 
   onSuccess({ message: "Form Submission", success: "Message sent successfully!" });
 
@@ -191,15 +192,15 @@ return (
             <div className=" w-full mt-4">
               <input
                 type="text"
-                name="subject"
+                name="title"
                 placeholder="Subject"
-                value={formData.subject}
+                value={formData.title}
                 onChange={handleChange}
-                className={`w-full pl-5 p-3 border rounded-full ${errors.subject ? "border-red-500" : formData.subject ? "border-green-500" : "border-gray-400"
+                className={`w-full pl-5 p-3 border rounded-full ${errors.title ? "border-red-500" : formData.title ? "border-green-500" : "border-gray-400"
                   }`}
               />
-              <p className={`text-sm ${errors.subject ? "text-red-500" : "text-green-500"}`}>
-                {errors.subject || (formData.subject ? "✓ Looks good!" : "")}
+              <p className={`text-sm ${errors.title ? "text-red-500" : "text-green-500"}`}>
+                {errors.title || (formData.title ? "✓ Looks good!" : "")}
               </p>
             </div>
 
@@ -246,10 +247,10 @@ return (
             </div>
           </div>
           <div>
-            <input type="text" name="subject" placeholder="Subject" value={formData.subject} onChange={handleChange}
-              className={`w-full p-2 border rounded ${errors.subject ? "border-red-500" : formData.subject ? "border-green-500" : "border-gray-300"}`} />
-            <p className={`text-sm ${errors.subject ? "text-red-500" : "text-green-500"}`}>
-              {errors.subject || (formData.subject ? "✓ Looks good!" : "")}
+            <input type="text" name="title" placeholder="Subject" value={formData.title} onChange={handleChange}
+              className={`w-full p-2 border rounded ${errors.title ? "border-red-500" : formData.title ? "border-green-500" : "border-gray-300"}`} />
+            <p className={`text-sm ${errors.title ? "text-red-500" : "text-green-500"}`}>
+              {errors.title || (formData.title ? "✓ Looks good!" : "")}
             </p>
           </div>
           <div>

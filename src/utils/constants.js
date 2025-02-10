@@ -493,6 +493,12 @@ export const adminOptions = [
     route: "/admin/blogs",
     icon: ApplyForJob,
     iconActive: ApplyForJob,
+  },{
+    type: "Support",
+    title: "Support",
+    route: "/admin/support",
+    icon: helpIcon,
+    iconActive: helpIcon,
   },
 ];
 
