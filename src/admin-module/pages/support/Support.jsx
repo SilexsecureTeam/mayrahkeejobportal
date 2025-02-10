@@ -5,7 +5,7 @@ import { axiosClient } from "../../../services/axios-client";
 import { FaSpinner } from "react-icons/fa";
 
 const Support = () => {
-    const client = axiosClient(authDetails?.token);
+    const client = axiosClient();
     const [messages, setMessages] = useState([]);
     const [selectedMessage, setSelectedMessage] = useState(null);
     const [loading, setLoading] = useState(false);
