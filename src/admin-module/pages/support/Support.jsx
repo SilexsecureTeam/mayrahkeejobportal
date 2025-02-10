@@ -33,7 +33,7 @@ const Support = () => {
             return
         };
         setLoading(true);
-        client.post(`/contact/${reply?.id}/reply`, { reply: reply.text })
+        client.put(`/contact/${reply?.id}/reply`, { reply: reply.text })
             .then(() => {
                 setMessages((prev) =>
                     prev.map((msg) =>
