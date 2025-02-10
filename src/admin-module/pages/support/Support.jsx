@@ -3,9 +3,8 @@ import { onSuccess } from "../../../utils/notifications/OnSuccess";
 import { onFailure } from "../../../utils/notifications/OnFailure";
 import { axiosClient } from "../../../services/axios-client";
 import { FaSpinner } from "react-icons/fa";
-import { AuthContext } from "../../../context/AuthContex";
+
 const Support = () => {
-    const {authDetails}=useContext(AuthContext);
     const client = axiosClient(authDetails?.token);
     const [messages, setMessages] = useState([]);
     const [selectedMessage, setSelectedMessage] = useState(null);
