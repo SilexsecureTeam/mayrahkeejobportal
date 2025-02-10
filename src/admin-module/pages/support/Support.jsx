@@ -32,7 +32,7 @@ const Support = () => {
             return
         };
         setLoading(true);
-        client.post(`/contact`, { id:reply?.id reply: reply.text })
+        client.post(`/contact/${reply?.id}/reply`, { reply: reply.text })
             .then(() => {
                 setMessages((prev) =>
                     prev.map((msg) =>
@@ -76,7 +76,7 @@ const Support = () => {
                                     <span
                                     // onClick={() => openReplyModal(msg)}
                                     >
-                                        {/* View Message */} {msg?.message?.length > 15 ? msg?.message : `${msg?.message?.slice(0, 15)}...`}
+                                        {/* View Message */} {msg?.message?.length > 15 ? `${msg?.message?.slice(0, 15)}...` : msg?.message}
                                     </span>
                                 </td>
 
