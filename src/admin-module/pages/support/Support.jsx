@@ -36,7 +36,7 @@ const Support = () => {
             .then(() => {
                 setMessages((prev) =>
                     prev.map((msg) =>
-                        msg?.id === reply.id ? { ...msg, status: "Replied", reply: reply.text } : msg
+                        msg?.id === reply.id ? { ...msg, status: "Resolved", reply: reply.text } : msg
                     )
                 );
                 setReply({ id: null, text: "" });
@@ -85,19 +85,19 @@ const Support = () => {
                             <td className="p-3 border">
                   <span
                     className={`px-2 py-1 rounded-full text-sm font-medium ${
-                      msg?.status === "Replied" ? "bg-green-200 text-green-700" : "bg-yellow-200 text-yellow-700"
+                      msg?.status === "Resolved" ? "bg-green-200 text-green-700" : "bg-yellow-200 text-yellow-700"
                     }`}
                   >
                     {msg?.status || "Pending"}
                   </span>
                 </td> 
                                 <td className="p-3 border">
-                                    {msg?.status !== "Replied" && (
+                                    {(
                                         <button
                                             className="bg-green-600 text-white px-3 py-1 text-sm rounded-lg hover:bg-green-700 transition"
                                             onClick={() => openReplyModal(msg)}
                                         >
-                                            {msg.status === "Replied" ? "View" : "Reply"}
+                                            {msg.status === "Resolved" ? "View" : "Reply"}
                                         </button>
                                     )}
                                 </td>
