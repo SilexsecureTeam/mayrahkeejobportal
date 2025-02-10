@@ -3,9 +3,10 @@ import { onSuccess } from "../../../utils/notifications/OnSuccess";
 import { onFailure } from "../../../utils/notifications/OnFailure";
 import { axiosClient } from "../../../services/axios-client";
 import { FaSpinner } from "react-icons/fa";
-
+import { AuthContext } from "../../../context/AuthContex";
 const Support = () => {
-    const client = axiosClient();
+    const {authDetails}=useContext(AuthContext);
+    const client = axiosClient(authDetails?.token);
     const [messages, setMessages] = useState([]);
     const [selectedMessage, setSelectedMessage] = useState(null);
     const [loading, setLoading] = useState(false);
@@ -42,8 +43,10 @@ const Support = () => {
                 setReply({ id: null, text: "" });
                 setSelectedMessage(null);
                 onSuccess({ message: "Success", success: "Reply sent successfully" });
+                setLoading(false)
             })
             .catch((err) => {
+                setLoading(false)
                 onFailure({ message: "Error Occurred", error: err?.message || "Failed to send reply" });
             });
     };
