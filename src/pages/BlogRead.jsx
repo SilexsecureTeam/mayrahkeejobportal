@@ -9,7 +9,7 @@ import { toast } from 'react-toastify';
 import { Helmet } from 'react-helmet';
 import { resourceUrl } from '../services/axios-client';
 
-const BlogRead = ({public=true}) => {
+const BlogRead = ({general=true}) => {
     const { id } = useParams(); // Get the blog ID from the URL
     const [blog, setBlog] = useState(null); // Store the fetched blog data
     const [loading, setLoading] = useState(false); // Loading state
@@ -69,8 +69,8 @@ const BlogRead = ({public=true}) => {
                 reads={blog.readingTime}
                 time={new Date(blog.created_at).toLocaleDateString()}
             />
-            <div className={public ? "relative max-w-[1400px] w-full mx-auto" : "w-full"}>
-                <div className={public ? "block":"hidden"}><Navbar /></div>
+            <div className={general ? "relative max-w-[1400px] w-full mx-auto" : "w-full"}>
+                <div className={general ? "block":"hidden"}><Navbar /></div>
                 <main className="relative mb-20 px-5 h-auto flex flex-col gap-5">
                     <div className="prose">
                         <p dangerouslySetInnerHTML={{ __html: blog?.description}} />
