@@ -214,7 +214,7 @@ useEffect(() => {
                   path="application-detail/:id"
                   element={withApplicationStatus(Application)}
                 />
-                <Route path="/blogs" element={<BlogList general={false} />} />
+                <Route path="/blogs" element={<BlogList general={false} direct="/applicant/" />} />
                 <Route path="/blogs/:id" element={<BlogRead general={false} />} />
          
 
