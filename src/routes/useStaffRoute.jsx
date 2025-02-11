@@ -27,6 +27,8 @@ const Resume = lazy(() =>
 );
 const HelpCenter = lazy(() => import("../pages/HelpCenter"));
 const Settings = lazy(() => import("../company-module/pages/settings/Settings"));
+const BlogList = lazy(() => import("../pages/BlogList"));
+const BlogRead = lazy(() => import("../pages/BlogRead"));
 
 function useStaffRoute() {
   const [state, dispatch] = useReducer(StaffReducer, staffOptions[0]);
@@ -109,6 +111,8 @@ function useStaffRoute() {
                     <Route path="resume" element={withApplicationStatus(Resume)} />
                     <Route path="settings" element={<Settings />} />
                     <Route path="help-center" element={<HelpCenter />} />
+                                    <Route path="/blogs" element={<BlogList general={false} />} />
+                <Route path="/blogs/:id" element={<BlogRead general={false} />} />
                   </Routes>
                 </div>
               </div>
