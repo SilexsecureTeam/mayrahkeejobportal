@@ -291,8 +291,9 @@ useEffect(() => {
                     element={WithProtection(Schedule, "job")}
                   />
 
-                                  <Route path="/blogs" element={<BlogList general={false} direct="/company/" />} />
+                <Route path="/blogs" element={<BlogList general={false} direct="/company/" />} />
                 <Route path="/blogs/:id" element={<BlogRead general={false} />} />
+         
 
                   <Route path="settings" element={<Settings />} />
                   <Route path="help-center" element={<HelpCenter />} />
