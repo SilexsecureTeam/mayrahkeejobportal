@@ -63,7 +63,8 @@ const Settings = lazy(() =>
   import("../applicant-module/pages/settings/Settings")
 );
 const HelpCenter = lazy(() => import("../pages/HelpCenter"));
-
+const BlogList = lazy(() => import("../pages/BlogList"));
+const BlogRead = lazy(() => import("../pages/BlogRead"));
 function useApplicantRoute() {
   const [state, dispatch] = useReducer(ApplicantReducer, null);
   const { authDetails } = useContext(AuthContext);
@@ -213,6 +214,9 @@ useEffect(() => {
                   path="application-detail/:id"
                   element={withApplicationStatus(Application)}
                 />
+                <Route path="/blogs" element={<BlogList />} />
+                <Route path="/blogs/:id" element={<BlogRead />} />
+         
 
                 {/* <Route
                   path="staff/:category/:id"
