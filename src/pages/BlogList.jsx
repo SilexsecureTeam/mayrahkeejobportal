@@ -241,7 +241,7 @@ const BlogList = ({general=true, direct="/"}) => {
                     )}
                 </main>
             </div>
-            <Footer />
+            <div className={general ? "block":"hidden"}><Footer /></div>
         </>
     );
 };
