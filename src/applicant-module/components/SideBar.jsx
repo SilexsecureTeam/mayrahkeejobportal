@@ -62,7 +62,7 @@ function SideBar({ children, authDetails, toogleIsOpen, isMenuOpen }) {
         </div>
 
         {/* User Info */}
-        <div className="absolute bottom-0 left-0 p-2 flex gap-[5px] items-end w-[270px]">
+        <div className="absolute bottom-0 left-0 p-2 flex gap-[5px] items-end w-[220px]">
           <div className="flex-1 flex flex-col truncate">
             <span className="text-secondaryColor text-sm truncate">
               {candidate?.full_name ? candidate?.full_name : `${authDetails?.user?.first_name || "N/A"} ${
