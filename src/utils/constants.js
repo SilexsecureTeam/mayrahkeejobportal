@@ -116,7 +116,7 @@ export const applicantOptions = [
   {
     type: "BLOG",
     title: "Blogs",
-    route: "/blogs",
+    route: "/applicant/blogs",
     icon: ApplyForJob,
     iconActive: ApplyForJob,
   }
@@ -174,7 +174,7 @@ export const companyOptions = [
   {
     type: "BLOG",
     title: "Blogs",
-    route: "/blogs",
+    route: "/company/blogs",
     icon: ApplyForJob,
     iconActive: ApplyForJob,
   }
@@ -219,7 +219,7 @@ export const companyExclusiveOptions = [
   {
     type: "BLOG",
     title: "Blogs",
-    route: "/blogs",
+    route: "/company/blogs",
     icon: ApplyForJob,
     iconActive: ApplyForJob,
   }
@@ -359,7 +359,7 @@ export const staffOptions = [
   {
     type: "blog",
     title: "Blogs",
-    route: "/blogs",
+    route: "/staff/blogs",
     icon: ApplyForJob,
     iconActive: ApplyForJob,
   }
