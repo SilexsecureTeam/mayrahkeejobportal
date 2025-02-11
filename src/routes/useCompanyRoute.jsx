@@ -96,6 +96,8 @@ const Settings = lazy(() =>
 const HelpCenter = lazy(() => import("../pages/HelpCenter"));
 
 const NotFound = lazy(() => import("../company-module/pages/404"));
+const BlogList = lazy(() => import("../pages/BlogList"));
+const BlogRead = lazy(() => import("../pages/BlogRead"));
 
 function useCompanyRoute() {
 
@@ -288,6 +290,9 @@ useEffect(() => {
                     path="schedule"
                     element={WithProtection(Schedule, "job")}
                   />
+
+                                  <Route path="/blogs" element={<BlogList general={false} />} />
+                <Route path="/blogs/:id" element={<BlogRead general={false} />} />
 
                   <Route path="settings" element={<Settings />} />
                   <Route path="help-center" element={<HelpCenter />} />
