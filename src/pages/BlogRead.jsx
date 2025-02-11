@@ -77,7 +77,7 @@ const BlogRead = ({general=true}) => {
                     </div>
                 </main>
             </div>
-            <Footer />
+            <div className={general ? "block":"hidden"}><Footer /></div>
         </>
     );
 };
