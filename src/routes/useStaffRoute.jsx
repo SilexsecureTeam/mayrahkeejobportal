@@ -111,7 +111,7 @@ function useStaffRoute() {
                     <Route path="resume" element={withApplicationStatus(Resume)} />
                     <Route path="settings" element={<Settings />} />
                     <Route path="help-center" element={<HelpCenter />} />
-                                    <Route path="/blogs" element={<BlogList general={false} />} />
+                                    <Route path="/blogs" element={<BlogList general={false} direct="/staff/" />} />
                 <Route path="/blogs/:id" element={<BlogRead general={false} />} />
                   </Routes>
                 </div>
