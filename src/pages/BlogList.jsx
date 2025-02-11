@@ -7,7 +7,7 @@ import { ResourceContext } from "../context/ResourceContext";
 import { Helmet } from 'react-helmet';
 import { resourceUrl } from '../services/axios-client';
 
-const BlogList = () => {
+const BlogList = ({public=true}) => {
     const {
         setGetAllBlogPosts,
         getAllBlogPosts,
@@ -115,8 +115,8 @@ const BlogList = () => {
             <Helmet>
                 <title>Mayrahkee | Blogs</title>
             </Helmet>
-            <div className="relative max-w-[1400px] w-full mx-auto">
-                <Navbar />
+            <div className={public ? "relative max-w-[1400px] w-full mx-auto" : "w-full"}>
+                <div className={public ? "block":"hidden"}><Navbar /></div>
                 <main className="relative my-24 px-5 h-auto flex flex-col gap-5">
                     {/* Search and Categories */}
                     <div className="flex flex-col md:flex-row md:gap-x-10 mt-3 md:items-end md:overflow-x-auto">
