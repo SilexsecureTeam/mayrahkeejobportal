@@ -7,7 +7,7 @@ import { ResourceContext } from "../context/ResourceContext";
 import { Helmet } from 'react-helmet';
 import { resourceUrl } from '../services/axios-client';
 
-const BlogList = ({general=true}) => {
+const BlogList = ({general=true, direct="/"}) => {
     const {
         setGetAllBlogPosts,
         getAllBlogPosts,
@@ -203,7 +203,7 @@ const BlogList = ({general=true}) => {
                                 <article
                                     onClick={() => {
                                         scrollTo(0, 0);
-                                        navigate(`/blogs/${blog.id}`);
+                                        navigate(`${direct}blogs/${blog.id}`);
                                     }}
                                     key={blog.id}
                                     className="cursor-pointer bg-white rounded-lg shadow overflow-hidden"
