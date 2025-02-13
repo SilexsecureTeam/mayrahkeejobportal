@@ -10,6 +10,7 @@ import "@mantine/core/styles.css";
 import { ApplicationContextProvider } from "./context/ApplicationContext";
 import { JobContextProvider } from "./context/JobContext";
 import { InterviewContextProvider } from "./context/InterviewContext";
+import { ResourceContextProvider } from "./context/ResourceContext";
 import { NotificationContextProvider } from "./context/NotificationContext";
 import InterviewRoom from "./components/video-sdk/InterviewRoom";
 import { SessionContextProvider } from "./context/SessionContext";
@@ -39,84 +40,87 @@ function App() {
   return (
     <>
       <AuthContextProvider>
-        <MantineProvider>
-          <SubscriptionContextProvider>
-            <ChatContextProvider>
-              <ApplicationContextProvider>
-                <JobContextProvider>
-                  <InterviewContextProvider>
-                    <NotificationContextProvider>
-                      <Suspense fallback={<FallBack />}>
-                        <Router>
-                          <SessionContextProvider>
-                            <Routes>
-                              <Route path="/login" element={<Login />} />
-                             
-                              <Route
-                                path="/super/admin/login"
-                                element={<AdminLogin />}
-                              />
-                              <Route
-                                path="/super/admin/otp-verification"
-                                element={<AdminOTP />}
-                              />
+        <ResourceContextProvider>
+          <MantineProvider>
+            <SubscriptionContextProvider>
+              <ChatContextProvider>
+                <ApplicationContextProvider>
+                  <JobContextProvider>
+                    <InterviewContextProvider>
+                      <NotificationContextProvider>
+                        <Suspense fallback={<FallBack />}>
+                          <Router>
+                            <SessionContextProvider>
+                              <Routes>
+                                <Route path="/login" element={<Login />} />
 
-                              {/* <Route path="/registration" element={<Registration />} /> */}
-                             
+                                <Route
+                                  path="/super/admin/login"
+                                  element={<AdminLogin />}
+                                />
+                                <Route
+                                  path="/super/admin/otp-verification"
+                                  element={<AdminOTP />}
+                                />
 
-                              {/* Dashboard Routes using the dashboard hook */}
-                              {/* Other Routes can go here using thier hook e.g adminDashboardRoute */}
-                              <Route
-                                path="/*"
-                                element={<PublicRoutes />}
-                              />
-                              <Route
-                                path="/applicant/*"
-                                element={<ApplicantRoutes />}
-                              />
-                              <Route
-                                path="/registration/*"
-                                element={<RegistrationRoute />}
-                              />
-                              <Route
-                                path="/company/*"
-                                element={<CompanyRoutes />}
-                              />
-                              <Route
-                                path="/staff/*"
-                                element={<StaffRoutes />}
-                              />
-                              <Route
-                                path="/admin/*"
-                                element={<AdminRoutes />}
-                              />
+                                {/* <Route path="/registration" element={<Registration />} /> */}
 
-                              <Route
-                                path="/admin-exclusives/*"
-                                element={<AdminExclusivesRoute />}
-                              />
 
-                              <Route
-                                path="/interview-room"
-                                element={<InterviewRoom />}
-                              />
-                              <Route
-                                path="/forgot-password"
-                                element={<ForgotPassword />}
-                              />
-        
-                            </Routes>
-                          </SessionContextProvider>
-                        </Router>
-                      </Suspense>
-                    </NotificationContextProvider>
-                  </InterviewContextProvider>
-                  <ToastContainer autoClose={2000} draggable />
-                </JobContextProvider>
-              </ApplicationContextProvider>
-            </ChatContextProvider>
-          </SubscriptionContextProvider>
-        </MantineProvider>
+                                {/* Dashboard Routes using the dashboard hook */}
+                                {/* Other Routes can go here using thier hook e.g adminDashboardRoute */}
+                                <Route
+                                  path="/*"
+                                  element={<PublicRoutes />}
+                                />
+                                <Route
+                                  path="/applicant/*"
+                                  element={<ApplicantRoutes />}
+                                />
+                                <Route
+                                  path="/registration/*"
+                                  element={<RegistrationRoute />}
+                                />
+                                <Route
+                                  path="/company/*"
+                                  element={<CompanyRoutes />}
+                                />
+                                <Route
+                                  path="/staff/*"
+                                  element={<StaffRoutes />}
+                                />
+                                <Route
+                                  path="/admin/*"
+                                  element={<AdminRoutes />}
+                                />
+
+                                <Route
+                                  path="/admin-exclusives/*"
+                                  element={<AdminExclusivesRoute />}
+                                />
+
+                                <Route
+                                  path="/interview-room"
+                                  element={<InterviewRoom />}
+                                />
+                                <Route
+                                  path="/forgot-password"
+                                  element={<ForgotPassword />}
+                                />
+
+                              </Routes>
+                            </SessionContextProvider>
+                          </Router>
+                        </Suspense>
+                      </NotificationContextProvider>
+                    </InterviewContextProvider>
+                    <ToastContainer autoClose={2000} draggable />
+                  </JobContextProvider>
+                </ApplicationContextProvider>
+              </ChatContextProvider>
+            </SubscriptionContextProvider>
+          </MantineProvider>
+        </ResourceContextProvider>
+
       </AuthContextProvider>
     </>
   );

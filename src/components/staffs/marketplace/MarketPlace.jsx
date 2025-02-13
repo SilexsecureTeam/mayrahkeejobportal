@@ -4,13 +4,14 @@ import { axiosClient } from "../../../services/axios-client";
 import TableHead from "./TableHead";
 import TableRow from "./TableRow";
 import { useLocation } from "react-router-dom";
+import { onFailure } from "../../../utils/notifications/OnFailure";
 
 const navOptions = ["Active Contracts", "Market Place"];
 
 function MarketPlace({handleAddToCart}) {
   const location = useLocation();
   const { data } = location?.state ? location?.state : { data: null };
-  console.log(data)
+
   const { authDetails } = useContext(AuthContext);
   const client = axiosClient(authDetails.token);
   const [activeOption, setActiveOption] = useState(navOptions[0]);

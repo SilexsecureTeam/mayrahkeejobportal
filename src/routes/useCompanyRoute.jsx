@@ -5,14 +5,15 @@ import {
   Route,
   Routes,
   useNavigate,
+  useLocation
 } from "react-router-dom";
 import ApplicantReducer from "../reducers/ApplicantReducer";
 import {
-  applicantOptions,
   companyOptions,
   adminUtilOptions,
   companyExclusiveOptions,
   exclusiveUtilOptions,
+  extraOptions
 } from "../utils/constants";
 import CompanyReducer from "../reducers/CompanyReducer";
 import { AuthContext } from "../context/AuthContex";
@@ -106,57 +107,38 @@ function useCompanyRoute() {
   const [isOpen, setIsOpen] = useState(false);
   const [subPage, setSubPage] = useState(true);
   
-  const activeReducer = authDetails?.user?.user_type === 'regular' ? CompanyReducer : CompanyExclusiveReducer
-  const activeOptions = authDetails?.user?.user_type === 'regular' ? companyOptions : companyExclusiveOptions
-  const activeUtilOptions = authDetails?.user?.user_type === 'regular' ? adminUtilOptions : exclusiveUtilOptions
+  const activeReducer = authDetails?.user?.user_type === 'regular' ? CompanyReducer : CompanyExclusiveReducer;
+  const activeOptions = authDetails?.user?.user_type === 'regular' ? companyOptions : companyExclusiveOptions;
+  const activeUtilOptions = authDetails?.user?.user_type === 'regular' ? adminUtilOptions : exclusiveUtilOptions;
   
-  
+
+  const options=[...activeOptions, activeUtilOptions, ...extraOptions]
+  console.log(options)
   const [state, dispatch] = useReducer(activeReducer,null);
   
-
-  // const [redirectState, setRedirectState] = useState();
   const navigate = useNavigate();
   const companyHookProps = useCompanyProfile();
-
   const toogleIsOpen = () => setIsOpen(!isOpen);
-
-  // const navigateToProfile = (setIsOpen) => {
-  //   const profile = companyOptions[3];
-  //   navigate(profile.route);
-  //   dispatch({ ...profile });
-  //   setIsOpen(false);
-  // };
- // Step 2: Load saved state from localStorage on mount
- 
- useEffect(() => {
-  const savedState = localStorage.getItem("sidebarState");
+  const { pathname }=useLocation();
   
-  // Log saved state for debugging
-  console.log("Saved State:", savedState);
-
-  if (savedState) {
-    // If there's a saved state, dispatch it
-    const parsedState = JSON.parse(savedState);
-    console.log("Parsed State:", parsedState);  // Log the parsed state
-    dispatch(parsedState);  // Dispatch the loaded state
-  } else {
-    // If no saved state, set a default value based on user type
-    const defaultState = activeOptions[0];
-    
-    //console.log("Setting default state:", defaultState);  // Log the default state
+  useEffect(() => {
+   const savedState = localStorage.getItem("sidebarState") ? JSON.parse(localStorage.getItem("sidebarState")) : options[0];
+   console.log(pathname)
+   if (savedState && pathname === "/applicant") {
+     // If no saved state, set a default value based on user type
+    const defaultState = options[0];
     dispatch(defaultState);  // Dispatch the default state
-  }
-}, []);  // Empty dependency array ensures this runs only once on mount
-
+   } else{
+     dispatch(savedState);  // Dispatch the loaded state
+   }
+ }, []);  // Empty dependency array ensures this runs only once on mount
+ 
 // Save to localStorage whenever state changes
 useEffect(() => {
   if (state) {
-    //console.log("Saving state to localStorage:", state);  // Log before saving
     localStorage.setItem("sidebarState", JSON.stringify(state));
   }
 }, [state]);  // This hook will be triggered every time 'state' changes
-
-
 
   useEffect(() => {
     const clearDb = async () => await clear();
@@ -188,7 +170,8 @@ useEffect(() => {
   }, []);
 
   const setSideBar = (index) => {
-    const page = activeOptions[index];
+    const page = options[index];
+    console.log(index, page)
     dispatch(page);
   };
   const WithProtection=(Component, title)=>withApplicationStatus(withSubscription(Component, title))
@@ -198,8 +181,7 @@ useEffect(() => {
         <CompanyRouteContextProvider setSideBar={setSideBar}>
           <SubscriptionModal redirectState={redirectState} />
           <main className="h-screen w-screen relative flex overflow-hidden">
-            {/* Side bar takes up 20% of total width and 100% of height */}
-            <
+           <
               SideBar
               companyHookProps={companyHookProps}
               authDetails={authDetails}
@@ -233,7 +215,7 @@ useEffect(() => {
             </SideBar>
 
             {/* Routes and dashboard take up 80% of total width and 100% of height*/}
-            <div className="flex-1 w-full relative flex divide-y-2 divide-secondaryColor bg-white flex-col h-full">
+            <div className="flex-1 w-2/3 relative flex divide-y-2 divide-secondaryColor bg-white flex-col h-full">
               <UpdateCompanyProfileModal
                 isOpen={redirectState}
                 setIsOpen={setRedirectState}

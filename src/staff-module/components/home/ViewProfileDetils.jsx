@@ -51,11 +51,11 @@ function ViewProfileDetails() {
           <div className="grid grid-cols-2 gap-x-3 gap-y-8 p-2 w-full text-gray-600 break-words">
             {filterProfileDetails.map((currentKey, index) => {
               const detail = profileDetails[currentKey];
-              const labelText = currentKey.replace(/_/g, " ").toUpperCase();
+              const labelText = currentKey.replace(/_/g, " ").toLowerCase();
 
               return (
                 <div key={index} className="flex flex-col gap-1">
-                  <label className="px-2 py-1 font-semibold  bg-gray-50">{labelText}</label>
+                  <label className="px-2 py-1 font-semibold  bg-gray-50 capitalize">{labelText}</label>
                   {currentKey !== "languages_spoken" ? <p className="px-2  text-wrap">{detail ? detail : "Pending" }</p>
                   :<div className="flex flex-wrap gap-2 px-2">
                     {detail?.map(lang=>(<p>{lang}</p>))}

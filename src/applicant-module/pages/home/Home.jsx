@@ -25,6 +25,8 @@ import axios from "axios";
 import { ApplicantRouteContext } from "../../../context/ApplicantRouteContext";
 import { useNavigate } from "react-router-dom";
 import useApplicationManagement from "../../../hooks/useApplicationManagement";
+import { GoDiscussionOutdated } from "react-icons/go";
+import { GrDocumentText } from "react-icons/gr";
 
 const now = new Date();
 function Home() {
@@ -37,7 +39,7 @@ function Home() {
   } = useContext(ResourceContext);
   
   const { authDetails, userUpdate } = useContext(AuthContext);
-  const { setSideBar } = useApplicationManagement();
+  const { setSideBar } = useContext(ApplicantRouteContext);
   const hour = now.getHours();
   
   const user = authDetails?.user;
@@ -178,7 +180,7 @@ const interviews = allApplications?.filter(
                       {getAllApplications.data?.length || 0}
                     </p>
                     <div className="mb-2">
-                      <img src={docsIcon} alt="" className="w-5" />
+                    <GrDocumentText size="30" />
                     </div>
                   </div>
                 </div>
@@ -192,7 +194,7 @@ const interviews = allApplications?.filter(
                   <div className="flex justify-between items-end mt-4">
                     <p className="text-6xl font-medium">{interviews?.length || 0}</p>
                     <div className="mb-2">
-                      <img src={chatsIcon} alt="" className="w-[60px]" />
+                      <GoDiscussionOutdated size="30" />
                     </div>
                   </div>
                 </div>
@@ -211,7 +213,7 @@ const interviews = allApplications?.filter(
                       {pendingReview?.length || 0}
                     </p>
                     <div className=" text-gray-300">
-                      <MdOutlineRateReview size={50} />
+                      <MdOutlineRateReview size="30" />
                       {/* <img src={docsIcon} alt="" className="w-10" /> */}
                     </div>
                   </div>
@@ -228,8 +230,8 @@ const interviews = allApplications?.filter(
                       {shortlistedReview?.length || 0}
                     </p>
                     <div className=" text-gray-300">
-                      <MdOutlineRemoveRedEye size={50} />
-                      {/* <img src={chatsIcon} alt="" className="w-[60px]" /> */}
+                      <MdOutlineRemoveRedEye size="30" />
+                      {/* <img src={chatsIcon} alt="" className="w-5" /> */}
                     </div>
                   </div>
                 </div>

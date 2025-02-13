@@ -71,8 +71,8 @@ const BlogRead = ({general=true}) => {
             />
             <div className={general ? "relative max-w-[1400px] w-full mx-auto" : "w-full"}>
                 <div className={general ? "block":"hidden"}><Navbar /></div>
-                <main className="relative mb-20 px-5 h-auto flex flex-col gap-5">
-                    <div className="prose">
+                <main className="w-full relative mb-20 px-5 h-auto flex flex-col gap-5">
+                    <div className="prose max-w-full">
                         <p dangerouslySetInnerHTML={{ __html: blog?.description}} />
                     </div>
                 </main>

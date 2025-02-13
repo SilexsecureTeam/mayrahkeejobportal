@@ -5,6 +5,7 @@ import "react-toastify/dist/ReactToastify.css";
 import UseAdminManagement from "../../../../hooks/useAdminManagement";
 import SubscriptionModal from "./SubscriptionModal"; // Modal for Add/Edit
 import ConfirmationModal from "./ConfirmationModal"; // Modal for Delete Confirmation
+import { FaArrowLeftLong } from "react-icons/fa6";
 
 export default function SubscriptionPackages() {
   const [packages, setPackages] = useState([]);
@@ -91,6 +92,13 @@ export default function SubscriptionPackages() {
 
   return (
     <div className="p-4">
+    <button
+        type="button"
+        onClick={() => window.history.back()}
+        className="flex items-center gap-2 outline outline-offset-5 outline-green-500 px-4 py-2 rounded text-green-500 hover:bg-green-100"
+      >
+        <FaArrowLeftLong className="me-4 text-green-500" />Back
+      </button>
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-xl md:text-2xl font-bold text-green-800">
           Subscription Packages

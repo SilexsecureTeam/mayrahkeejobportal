@@ -250,7 +250,14 @@ export const exclusiveUtilOptions = [
 ];
 
 
-
+export const extraOptions = [
+  {
+    type: "JOB-POSTING",
+    title: "Job Posting"
+    // icon: clipboardIcon,
+    // iconActive: profileIconActive,
+  },
+]
 export const utilOptions = [
   {
     type: "ARTISAN",
