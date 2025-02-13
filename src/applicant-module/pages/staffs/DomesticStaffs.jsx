@@ -12,7 +12,7 @@ import { useNavigate } from "react-router-dom";
 
 function DomesticStaff() {
   const navigate = useNavigate();
-  const { authDetails } = useContext(AuthContext);
+ const { authDetails } = useContext(AuthContext);
   const client = axiosClient(authDetails.token);
   const [domesticStaffs, setDomesticStaffs] = useState();
   const [loading, setLoading] = useState();

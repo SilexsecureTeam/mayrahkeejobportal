@@ -1,9 +1,8 @@
 import { lazy, useContext, useEffect, useReducer, useState } from "react";
-import { Navigate, Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import ApplicantReducer from "../reducers/ApplicantReducer";
 import { applicantOptions, utilOptions } from "../utils/constants";
 import { AuthContext } from "../context/AuthContex";
-import ResourceContextProvider from "../context/ResourceContext";
 import { clear } from "idb-keyval";
 import { ApplicantRouteContextProvider } from "../context/ApplicantRouteContext";
 import { ref, set } from "firebase/database";
@@ -72,39 +71,30 @@ function useApplicantRoute() {
   const [redirectState, setRedirectState] = useState();
 
   const toogleIsOpen = () => setIsOpen(!isOpen);
-
- // Step 2: Load saved state from localStorage on mount
- 
- useEffect(() => {
-  const savedState = localStorage.getItem("sidebarState");
+  const options=[...applicantOptions, ...utilOptions]
+  const { pathname }=useLocation();
   
-  // Log saved state for debugging
-  console.log("Saved State:", savedState);
-
-  if (savedState) {
-    // If there's a saved state, dispatch it
-    const parsedState = JSON.parse(savedState);
-    console.log("Parsed State:", parsedState);  // Log the parsed state
-    dispatch(parsedState);  // Dispatch the loaded state
-  } else {
+ useEffect(() => {
+  const savedState = localStorage.getItem("sidebarState") ? JSON.parse(localStorage.getItem("sidebarState")) : options[0];
+  if (savedState && pathname === "/applicant") {
     // If no saved state, set a default value based on user type
-    const defaultState = applicantOptions[0];
-    console.log("Setting default state:", defaultState);  // Log the default state
-    dispatch(defaultState);  // Dispatch the default state
+   const defaultState = options[0];
+   dispatch(defaultState);  // Dispatch the default state
+  } else{
+    dispatch(savedState);  // Dispatch the loaded state
   }
 }, []);  // Empty dependency array ensures this runs only once on mount
-
 // Save to localStorage whenever state changes
 useEffect(() => {
   if (state) {
-    console.log("Saving state to localStorage:", state);  // Log before saving
+    //console.log("Saving state to localStorage:", state);  // Log before saving
     localStorage.setItem("sidebarState", JSON.stringify(state));
   }
 }, [state]);  // This hook will be triggered every time 'state' changes
 
-
   const setSideBar = (index) => {
-    const page = applicantOptions[index];
+    const page = options[index];
+    //console.log(page)
     dispatch({ ...page });
   };
 
@@ -141,7 +131,6 @@ useEffect(() => {
   return authDetails?.user.role === "candidate" ? (
     <ApplicantRouteContextProvider setSideBar={setSideBar}>
       <main className="h-screen w-screen relative flex overflow-hidden">
-        <ResourceContextProvider>
           {/* Side bar takes up 20% of total width and 100% of height */}
           <SideBar
             authDetails={authDetails}
@@ -174,13 +163,13 @@ useEffect(() => {
           </SideBar>
 
           {/* Routes and dashboard take up 80% of total width and 100% of height*/}
-          <div className="flex-1 w-full relative flex divide-y-2 divide-secondaryColor bg-white flex-col h-full">
+          <div className="flex-1 w-2/3 relative flex divide-y-2 divide-secondaryColor bg-white flex-col h-full">
             <NavBar
               state={state}
               toogleIsOpen={toogleIsOpen}
               isMenuOpen={isOpen}
             />
-            <div className="w-full h-[92%] overflow-y-auto px-2 lg:px-4">
+            <div className="flex-1 w-full h-[92%] overflow-y-auto px-2 lg:px-4">
               <Routes>
                 <Route index element={<Home />} />
                 <Route path="*" element={<NotFound />} />
@@ -231,7 +220,6 @@ useEffect(() => {
               </Routes>
             </div>
           </div>
-        </ResourceContextProvider>
       </main>
     </ApplicantRouteContextProvider>
   ) : (

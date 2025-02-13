@@ -60,6 +60,8 @@ function useLogin(role) {
       saveSession()
     } catch (e) {
       console.log(e)
+      // Format and display the error immediately
+      FormatError(e, setError, "Incomplete Registration");
       if (e?.response?.data?.message?.toLowerCase()?.includes("not verified")) {
         localStorage.setItem(
           "__reg_info",
@@ -70,9 +72,6 @@ function useLogin(role) {
           })
         )
         console.log("complete registration");
-        
-        // Format and display the error immediately
-        FormatError(e, setError, "Incomplete Registration");
       
         // Optional: Delay the confirmation box slightly to ensure UI updates
         setTimeout(() => {

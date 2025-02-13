@@ -12,6 +12,8 @@ import { PaystackConsumer } from "react-paystack";
 import useCart from "../../hooks/useCart";
 import MarketPlace from "./marketplace/MarketPlace";
 import PopUpBox from "../PopUpBox";
+import {FaArrowLeftLong} from "react-icons/fa6"
+
 import FormButton from "../FormButton";
 
 function CartedStaffs() {
@@ -100,6 +102,13 @@ function CartedStaffs() {
 
   return (
     <>
+    <button
+          type="button"
+          onClick={() => window.history.back()}
+          className="w-max flex items-center gap-2 outline outline-offset-5 outline-green-500 px-4 py-2 rounded text-green-500 hover:bg-green-100"
+        >
+       <FaArrowLeftLong className="me-4 text-green-500" />Back
+        </button>
       <PopUpBox isOpen={conditions}>
         <div className="w-[90%] md:w-[40%] md:h-fit text-gray-500 p-5 items-center flex flex-col gap-4 bg-white">
           <MdClose

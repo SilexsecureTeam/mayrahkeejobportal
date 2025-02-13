@@ -6,7 +6,6 @@ import { IMAGE_URL } from "../../utils/base";
 
 function SideBar({ children, authDetails, toogleIsOpen, isMenuOpen }) {
   const { getCandidate, setGetCandidate } = useContext(ResourceContext);
-  const [greenSectionHeight, setGreenSectionHeight] = useState(160); // Default height in pixels
   useEffect(() => {
     setGetCandidate((prev) => ({
       ...prev,
@@ -15,21 +14,6 @@ function SideBar({ children, authDetails, toogleIsOpen, isMenuOpen }) {
   }, [setGetCandidate]);
 
   const candidate = getCandidate.data?.details;
-
-  useEffect(() => {
-    // Dynamically calculate the height of the green section
-    const updateGreenSectionHeight = () => {
-      const greenSection = document.querySelector(".green-section");
-      if (greenSection) {
-        setGreenSectionHeight(greenSection.offsetHeight);
-      }
-    };
-
-    updateGreenSectionHeight();
-    window.addEventListener("resize", updateGreenSectionHeight);
-    return () => window.removeEventListener("resize", updateGreenSectionHeight);
-  }, []);
-
   return (
     <>
       {/* Desktop Sidebar */}
@@ -41,7 +25,7 @@ function SideBar({ children, authDetails, toogleIsOpen, isMenuOpen }) {
         <nav
           className="flex flex-col gap-[20px] divide-y-2 overflow-y-auto"
           style={{
-            maxHeight: `calc(100vh - ${greenSectionHeight + 10}px)`,
+            maxHeight: `calc(100vh - ${160 + 10}px)`,
           }}
         >
           {children[0]}
@@ -65,9 +49,8 @@ function SideBar({ children, authDetails, toogleIsOpen, isMenuOpen }) {
         <div className="absolute bottom-0 left-0 p-2 flex gap-[5px] items-end w-[220px]">
           <div className="flex-1 flex flex-col truncate">
             <span className="text-secondaryColor text-sm truncate">
-              {candidate?.full_name ? candidate?.full_name : `${authDetails?.user?.first_name || "N/A"} ${
-                authDetails?.user?.last_name || "N/A"
-              }`}
+              {candidate?.full_name ? candidate?.full_name : `${authDetails?.user?.first_name || "N/A"} ${authDetails?.user?.last_name || "N/A"
+                }`}
             </span>
             <span className="text-gray-300 text-[11px] truncate">
               {authDetails?.user?.email || "N/A"}
@@ -87,9 +70,8 @@ function SideBar({ children, authDetails, toogleIsOpen, isMenuOpen }) {
 
       {/* Mobile Sidebar */}
       <aside
-        className={`h-screen ${
-          isMenuOpen ? "left-0" : "left-[-100%]"
-        } w-[300px] absolute z-[999] h-screen bg-secondaryColor px-2 pb-2 flex flex-col overflow-hidden`}
+        className={`h-screen ${isMenuOpen ? "left-0" : "left-[-100%]"
+          } w-[300px] absolute z-[999] h-screen bg-secondaryColor px-2 pb-2 flex flex-col overflow-hidden`}
       >
         {/* Close Button and Logo */}
         <div className="flex items-center gap-[10px]">
@@ -115,7 +97,7 @@ function SideBar({ children, authDetails, toogleIsOpen, isMenuOpen }) {
             {children[1]}
           </div>
         </nav>
-{/* Green Slide */}
+        {/* Green Slide */}
         <div
           className="absolute bottom-0 left-0 w-full green-section overflow-hidden"
           style={{ height: `${160}px` }}
@@ -127,9 +109,8 @@ function SideBar({ children, authDetails, toogleIsOpen, isMenuOpen }) {
         <div className="absolute bottom-0 left-0 p-2 flex gap-[5px] items-end w-[270px]">
           <div className="flex-1 flex flex-col truncate">
             <span className="text-secondaryColor text-sm truncate">
-              {candidate?.full_name ? candidate?.full_name : `${authDetails?.user?.first_name || "N/A"} ${
-                authDetails?.user?.last_name || "N/A"
-              }`}
+              {candidate?.full_name ? candidate?.full_name : `${authDetails?.user?.first_name || "N/A"} ${authDetails?.user?.last_name || "N/A"
+                }`}
             </span>
             <span className="text-gray-300 text-[11px] truncate">
               {authDetails?.user?.email || "N/A"}

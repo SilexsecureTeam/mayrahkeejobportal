@@ -33,6 +33,7 @@ const BlogList = ({general=true, direct="/"}) => {
             ...prev,
             isDataNeeded: true,
         }));
+        console.log(general)
     }, []);
 
 
@@ -115,7 +116,7 @@ const BlogList = ({general=true, direct="/"}) => {
             <Helmet>
                 <title>Mayrahkee | Blogs</title>
             </Helmet>
-            <div className={general ? "relative max-w-[1400px] w-full mx-auto" : "w-full"}>
+            <div className={general ? "relative max-w-[1400px] w-full mx-auto" : "relative w-full"}>
                 <div className={general ? "block":"hidden"}><Navbar /></div>
                 <main className="relative my-24 px-5 h-auto flex flex-col gap-5">
                     {/* Search and Categories */}
@@ -198,7 +199,7 @@ const BlogList = ({general=true, direct="/"}) => {
                             <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-green-600"></div>
                         </div>
                     ) : filteredBlogs?.reverse()?.length > 0 ? (
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 gap-y-10">
+                        <div className="w-full grid grid-cols-responsive gap-6 gap-y-10">
                             {filteredBlogs.map((blog) => (
                                 <article
                                     onClick={() => {

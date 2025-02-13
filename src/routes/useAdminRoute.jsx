@@ -81,11 +81,28 @@ function useAdminRoute() {
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
-
-
-
   const toogleIsOpen = () => setIsOpen(!isOpen);
-
+  useEffect(() => {
+    const savedState = localStorage.getItem("sidebarState");
+    if (savedState) {
+      // If there's a saved state, dispatch it
+      const parsedState = JSON.parse(savedState);
+      dispatch(parsedState);  // Dispatch the loaded state
+    } else {
+      // If no saved state, set a default value based on user type
+      const defaultState = adminOptions[0];
+      
+      dispatch(defaultState);  // Dispatch the default state
+    }
+  }, []);  // Empty dependency array ensures this runs only once on mount
+  
+  // Save to localStorage whenever state changes
+  useEffect(() => {
+    if (state) {
+      localStorage.setItem("sidebarState", JSON.stringify(state));
+    }
+  }, [state]);  // This hook will be triggered every time 'state' changes
+  
   const setSideBar = (index) => {
     const page = adminOptions[index];
     dispatch({ ...page });
