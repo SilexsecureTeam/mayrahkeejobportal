@@ -1,5 +1,5 @@
 import { lazy, useContext, useEffect, useReducer, useState } from "react";
-import { Navigate, Route, Routes, useNavigate } from "react-router-dom";
+import { Navigate, Route, Routes, useNavigate, useLocation } from "react-router-dom";
 import { staffOptions, staffUtilOptions } from "../utils/constants";
 import { AuthContext } from "../context/AuthContex";
 import { clear } from "idb-keyval";
