@@ -129,6 +129,7 @@ const Support = () => {
                             rows="4"
                             placeholder="Enter reply..."
                             value={reply.text}
+                            disabled={selectedMessage?.status === "Resolved"}
                             onChange={handleReplyChange}
                         ></textarea>
 
