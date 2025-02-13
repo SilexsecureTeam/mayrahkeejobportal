@@ -70,7 +70,7 @@ const Resume = () => {
         headers: { "Content-Type": "multipart/form-data" },
       });
 
-      getStaffProfile();
+      await getStaffProfile();
       onSuccess({ message: "Upload Success", success: "Resume updated successfully" });
 
       setActiveTab("View Resume");
@@ -156,7 +156,7 @@ const Resume = () => {
                 <a href={resumeUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 px-4 py-2 bg-gray-200 rounded-md hover:bg-gray-300 transition-all">
                   <FiEye className="w-5 h-5" /> View File
                 </a>
-                <a href={resumeUrl} download className="flex items-center gap-2 px-4 py-2 bg-primaryColor text-white rounded-md hover:bg-blue-700 transition-all">
+                <a href={resumeUrl} download className="flex items-center gap-2 px-4 py-2 bg-primaryColor text-white rounded-md hover:bg-green-800 transition-all">
                   <FiDownload className="w-5 h-5" /> Download
                 </a>
               </div>
