@@ -113,8 +113,8 @@ function Dashboard() {
                   <p className="pl-2 text-2xl font-medium">Completed</p>
                   <div className="flex justify-between items-end mt-">
                     <p className="text-2xl font-medium"></p>
-                    <div className="text-gray-300">
-                      <GrDocumentText size="30 mb-1" />
+                    <div className="text-gray-300 mb-1">
+                      <GrDocumentText size="30" />
                     </div>
                   </div>
                 </div>
