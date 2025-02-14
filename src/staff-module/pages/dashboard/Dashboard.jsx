@@ -19,8 +19,7 @@ import DefaultSwitch from "../../../components/DefaultSwitch";
 import useStaffUser from "../../../hooks/useStaffUser";
 import { onFailure } from "../../../utils/notifications/OnFailure";
 import { axiosClient } from "../../../services/axios-client";
-import { GoDiscussionOutdated } from "react-icons/go";
-import { GrUpload } from "react-icons/gr";
+import { GrDocumentText, GrUpload } from "react-icons/gr";
 function Dashboard() {
   const { authDetails } = useContext(AuthContext);
   const { setSideBar } = useContext(StaffRouteContext);
