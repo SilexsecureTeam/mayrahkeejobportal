@@ -104,7 +104,7 @@ function Dashboard() {
           </div>
           <div className="md:flex-row flex-col flex justify-between  mt-8 gap-2">
             <div className=" w-full md:w-[23%]  flex justify-between md:flex-col ">
-              <div className="pb-1 h-full md:w-full w-[45%] md:h-1/2">
+              <div className="pb-1 min-h-24 md:w-full w-[45%] md:h-1/2">
                 <div
                   onClick={() => navigateToPage("/staff/profile", 1)}
                   className="border text-white transition duration-400 bg-lightgreen h-full cursor-pointer mb-4 p-3 pb-0 flex flex-col justify-between"
@@ -113,13 +113,13 @@ function Dashboard() {
                   <p className="pl-2 text-2xl font-medium">Completed</p>
                   <div className="flex justify-between items-end mt-">
                     <p className="text-2xl font-medium"></p>
-                    <div className="">
-                      <GrDocumentText size="30" />
+                    <div className="text-gray-300">
+                      <GrDocumentText size="30 mb-1" />
                     </div>
                   </div>
                 </div>
               </div>
-              <div className="pt-1 h-full md:w-full w-[45%]  md:h-1/2">
+              <div className="pt-1 min-h-24 md:w-full w-[45%]  md:h-1/2">
                 <div
                   onClick={() => navigateToPage("/staff/resume", 2)}
                   className="border bg-darkblue text-white transition duration-400 h-full cursor-pointer mb-4 p-3 pb-0 flex flex-col justify-between"
@@ -128,7 +128,7 @@ function Dashboard() {
                   <p className="pl-2 text-2xl font-medium">Uploaded</p>
                   <div className="flex justify-between items-end mt-4">
                     <p className="text-6xl font-medium"></p>
-                    <div className="">
+                    <div className="text-gray-300 mb-1">
                       <GrUpload size="30" />
                     </div>
                   </div>
@@ -136,7 +136,7 @@ function Dashboard() {
               </div>
             </div>
             <div className=" w-full md:w-[23%]  flex justify-between md:flex-col ">
-              <div className="pt-1 h-full md:w-full w-[45%]  md:h-1/2">
+              <div className="pt-1 min-h-24 md:w-full w-[45%]  md:h-1/2">
                 <div
                   onClick={() => navigateToPage("/staff/verifications", 2)}
                   className="border  bg-lightorange text-white transition duration-400 h-full cursor-pointer mb-4 p-3 pb-0 flex flex-col justify-between"
@@ -152,7 +152,7 @@ function Dashboard() {
                   </div>
                 </div>
               </div>
-              <div className="pt-1 h-full md:w-full w-[45%]  md:h-1/2">
+              <div className="pt-1 min-h-24 md:w-full w-[45%]  md:h-1/2">
                 <div
                   onClick={() => navigateToPage("/staff/help-center", 5)}
                   className="border bg-lightblue text-white transition duration-400 h-full cursor-pointer mb-4 p-3 pb-0 flex flex-col justify-between"
