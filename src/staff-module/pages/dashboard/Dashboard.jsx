@@ -20,7 +20,7 @@ import useStaffUser from "../../../hooks/useStaffUser";
 import { onFailure } from "../../../utils/notifications/OnFailure";
 import { axiosClient } from "../../../services/axios-client";
 import { GoDiscussionOutdated } from "react-icons/go";
-import { GrDocumentText } from "react-icons/gr";
+import { GrUpload } from "react-icons/gr";
 function Dashboard() {
   const { authDetails } = useContext(AuthContext);
   const { setSideBar } = useContext(StaffRouteContext);
@@ -130,7 +130,7 @@ function Dashboard() {
                   <div className="flex justify-between items-end mt-4">
                     <p className="text-6xl font-medium"></p>
                     <div className="">
-                      <GoDiscussionOutdated size="30" />
+                      <GrUpload size="30" />
                     </div>
                   </div>
                 </div>
