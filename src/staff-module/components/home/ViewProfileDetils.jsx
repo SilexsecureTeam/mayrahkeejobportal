@@ -58,7 +58,9 @@ function ViewProfileDetails() {
                   <label className="px-2 py-1 font-semibold  bg-gray-50 capitalize">{labelText}</label>
                   {currentKey !== "languages_spoken" ? <p className="px-2  text-wrap">{detail ? detail : "Pending" }</p>
                   :<div className="flex flex-wrap gap-2 px-2">
-                    {detail?.map(lang=>(<p>{lang}</p>))}
+                    {detail?.map((lang, index) => (
+<p key={index}>{lang}{index < detail.length - 1 && ', '}</p>
+))}
                   </div>}
                 </div>
               );
