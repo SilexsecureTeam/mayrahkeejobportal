@@ -146,7 +146,7 @@ function PublicProfile() {
                 <IoLanguageOutline className="mr-2" />
                 <div>
                   <p>Language</p>
-                  <p>{candidate?.languages}</p>
+                  <p className="capitalize">{candidate?.languages}</p>
                 </div>
               </div>
             </div>

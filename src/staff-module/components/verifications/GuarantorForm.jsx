@@ -69,7 +69,7 @@ function GuarantorForm() {
     }
   };
 
-  const garatorFields = () => {
+  const guarantorFields = () => {
     const fields = [];
     Object.keys(currentGurantor)?.forEach((current) => {
       if (
@@ -117,7 +117,7 @@ function GuarantorForm() {
 
       {typeof currentGurantor !== "undefined" && (
         <div className="grid grid-cols-2 gap-x-3 gap-y-5 p-2 w-full text-gray-600">
-          {garatorFields()?.map((currentKey) => {
+          {guarantorFields()?.map((currentKey) => {
             const value = currentGurantor[currentKey];
             const labelText = labelMapping[currentKey] || currentKey.replace(/_/g, " ");
 

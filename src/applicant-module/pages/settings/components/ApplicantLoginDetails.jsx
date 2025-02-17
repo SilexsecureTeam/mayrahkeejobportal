@@ -52,7 +52,7 @@ const ApplicantLoginDetails = ({ authDetails }) => {
                       <input
                         required
                         type="password"
-                        placeholder="Enter your old password"
+                        placeholder="Enter your current password"
                         className="mt-1 block p-2 focus:outline-none w-full border"
                       />
                     </label>
@@ -65,7 +65,7 @@ const ApplicantLoginDetails = ({ authDetails }) => {
                       <input
                         required
                         type="password"
-                        placeholder="Enter your old password"
+                        placeholder="Enter your new password"
                         className="mt-1 block p-2 focus:outline-none w-full border"
                       />
                     </label>
@@ -96,9 +96,9 @@ const ApplicantLoginDetails = ({ authDetails }) => {
                         authDetails.user.role
                       )
                     }
-                    className="cursor-pointer gap-4 mt-2 flex items-center hover:underline hover:text-primaryColor capitalize"
+                    className="cursor-pointer gap-4 mt-2 flex items-center hover:underline hover:text-primaryColor"
                   >
-                    Request for otp
+                    Request for Otp
                     {loading && <FaSpinner className="animate-spin" />}
                   </span>
                   <div className="my-3">
