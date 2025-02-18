@@ -615,7 +615,7 @@ const BasicInfo = ({ setIsOpen }) => {
                               />
                             </label>
                             <small class="text-sm text-gray-500">
-                              File size should not exceed 1MB. Only accepts .jpeg, .png, .jpg are allowed.
+                              File size should not exceed 1MB. Only accepts .jpeg, .png, .jpg.
                             </small>
                           </div>
                         )}
@@ -633,7 +633,7 @@ const BasicInfo = ({ setIsOpen }) => {
                             />
                           </label>
                           <small class="text-sm text-gray-500">
-                            File size should not exceed 1MB. Only accepts .jpeg, .png, .jpg are allowed.
+                            File size should not exceed 1MB. Only accepts .jpeg, .png, .jpg.
                           </small>
                         </div>
                       </div>
@@ -730,7 +730,7 @@ const BasicInfo = ({ setIsOpen }) => {
                                 "Hausa",
                                 "French",
                                 "Yoruba",
-                                "igbo",
+                                "Igbo",
                               ].map((current) => (
                                 <div className="flex items-center gap-1">
                                   {findLanguage(current.toLocaleLowerCase()) ? (
