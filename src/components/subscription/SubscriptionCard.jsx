@@ -44,11 +44,11 @@ function SubscriptionCard({ data, setIsOpen, currentPackage }) {
             {showPerks ? "Desc" : "Perks"}
           </button>
         </span>
-        <span className="mt-5 text-little">user/month</span>
-         {/* <article className="font-medium flex flex-col items-center my-2">
-          <p>Jobs: {data?.number_of_jobs || 0}</p>
-          <p>Applicants: {data?.number_of_candidates || 0}</p>
-          </article> */}
+        {/*<span className="mt-5 text-little">user/month</span>*/}
+          <article className="font-medium flex flex-col items-center my-2">
+          <p>No. of Jobs: {data?.number_of_jobs || 0}</p>
+          <p>Duration: {0}</p>
+          </article> 
         {/* Description or Perks */}
         {!showPerks ? (
            <p className="my-5 text-little text-center w-[90%]">
