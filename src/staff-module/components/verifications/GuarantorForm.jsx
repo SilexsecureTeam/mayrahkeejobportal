@@ -24,6 +24,7 @@ const labelMapping = {
   first_name: "First Name",
   mobile_phone: "Mobile Phone",
   dob: "Date of Birth",
+  religion:"Religion",
   email: "Email",
   occupation: "Occupation",
   residential_address: "Residential Address",
@@ -119,12 +120,13 @@ function GuarantorForm() {
         <div className="grid grid-cols-2 gap-x-3 gap-y-5 p-2 w-full text-gray-600">
           {guarantorFields()?.map((currentKey) => {
             const value = currentGurantor[currentKey];
-            const labelText = labelMapping[currentKey] || currentKey.replace(/_/g, " ");
+            const labelText = labelMapping[currentKey] || null;
 
             return (
+              labelText &&
               <div className="flex flex-col gap-1 break-all" key={currentKey}>
                 <label className="capitalize font-medium" >{labelText}</label>
-                <label>{value}</label>
+                <label>{currentKey === "dob" ? value?.split("-").reverse().join("-") :value}</label>
               </div>
             );
           })}
@@ -175,13 +177,13 @@ function GuarantorForm() {
             >
               <option>Christianity</option>
               <option>Islam</option>
-              <option>Traditional Religion</option>
-              <option>Hinduism</option>
+              <option>Traditional</option>
+              {/* <option>Hinduism</option>
               <option>Buddhism</option>
               <option>Sikhism</option>
               <option>Judaism</option>
               <option>Baha'i</option>
-              <option>Others</option>
+              <option>Others</option> */}
             </select>
           </div>
 

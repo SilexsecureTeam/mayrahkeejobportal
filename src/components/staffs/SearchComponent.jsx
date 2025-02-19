@@ -175,8 +175,7 @@ function SearchComponent({ subCategories, handleQuerySubmit, title = "Subcategor
               <option selected>-- Select Religion --</option>
               {["Christianity",
                 "Islam",
-                "Traditional",
-                "Not A Criteria"].map((current) => (
+                "Traditional"].map((current) => (
                   <option key={current}>{current}</option>
                 ))}
             </select>

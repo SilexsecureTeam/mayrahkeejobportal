@@ -10,7 +10,7 @@ import { onSuccess } from '../../../utils/notifications/OnSuccess';
 import { onFailure } from '../../../utils/notifications/OnFailure';
 import { Country } from 'country-state-city';
 import useJobManagement from '../../../hooks/useJobManagement';
-
+ 
 const JobDetails = () => {
     const { state } = useLocation();
     const job = state?.job;

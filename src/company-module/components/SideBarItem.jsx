@@ -8,7 +8,7 @@ const {setAuthDetails} = useContext(AuthContext)
  
   const navigateToPage = () => {
     if (data.type === "LOG-OUT") {
-      localStorage.clear();
+      sessionStorage.clear();
       dispatch({ });
       setAuthDetails(null);
       navigate(data.route, { replace: true });
