@@ -98,7 +98,7 @@ const ApplicantLoginDetails = ({ authDetails }) => {
                     }
                     className="cursor-pointer gap-4 mt-2 flex items-center hover:underline hover:text-primaryColor"
                   >
-                    Request for Otp
+                    Request for OTP
                     {loading && <FaSpinner className="animate-spin" />}
                   </span>
                   <div className="my-3">
