@@ -44,7 +44,7 @@ function useJobManagement() {
     office_address: "",
     location: "",
     maps_location: "",
-    number_of_participants: currentPackage?.number_of_candidates,
+    number_of_participants: currentPackage?.number_of_candidates || 0,
   });
   const [jobList, setJobList] = useState([]);
   const [applicantJobs, setApplicantJobs] = useState([]);

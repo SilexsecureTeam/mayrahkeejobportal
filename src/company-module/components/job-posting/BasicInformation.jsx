@@ -39,7 +39,9 @@ const basic_inputs = [
     name: "application_deadline_date",
     label: "Application Deadline",
     type: "date",
-    placeholder: "e.g some date",
+    placeholder: "dd-mm-yyy",
+    min:new Date().toISOString().split('T')[0],
+    max:"4040-12-31",
     prompt: "Here you set an application deadline",
     required: true
   },
@@ -166,24 +168,24 @@ function BasicInformation({ setCurrentStep, data, jobUtils, validateAndProceed }
       const employementListResult = await getEmployentTypes();
       const currencyResult = await getCurrencies();
       const sectors = await getSectors();
-      // const subSectors = await getSubSectors();
       setJobSectorList(sectors)
-      console.log(sectors)
       setEmployementList(employementListResult);
-      //setJobSectorList(jobSectors)
-      setCurrencyList(currencyResult);
+      console.log(Country.getAllCountries())
+      const currencyWithCountry=currencyResult?.map((item)=>{
+        const country = Country.getAllCountries().find(c => item.name?.startsWith(c.isoCode));
+        return{
+            ...item,
+            name: `${item?.name} ${country ? `(${country?.name})` : ''}`,
+        };
+      })
+      console.log(currencyWithCountry)
+      setCurrencyList(currencyWithCountry);
       if (employementListResult.length > 0) {
         setSelectedType(jobUtils.details.type
           && employementListResult?.find(one => one?.name === jobUtils?.details?.type));
       }
-
-
-
-
     };
-
     initData();
-
   }, []);
 
   useEffect(() => {
@@ -196,10 +198,8 @@ function BasicInformation({ setCurrentStep, data, jobUtils, validateAndProceed }
         // If it's not a Blob/File, assume it's already a URL
         savedPhoto = `${resourceUrl}${jobUtils.details?.featured_image}`;
       }
-
       setPhotoUrl(savedPhoto);
     }
-
     return () => {
       if (savedPhoto) {
         URL.revokeObjectURL(savedPhoto);
@@ -224,26 +224,20 @@ function BasicInformation({ setCurrentStep, data, jobUtils, validateAndProceed }
       : null);
   }, [currencyList]);
   useEffect(() => {
-    //console.log(jobUtils?.details?.sector, selectedSector)
-    // Find the sector from jobUtils.details or default to the first one
-    if (jobSectorList && jobUtils?.details?.sector) {
+   if (jobSectorList && jobUtils?.details?.sector) {
       const sector = jobUtils?.details?.sector
         ? jobSectorList?.find(one => one?.name === jobUtils?.details?.sector)
         : null;
 
       setSelectedSector(sector);
-
       // Set subsectors list based on the selected sector
       setSubSectorList(sector?.subsections || []);
       // Find the selected subsector or default to the first one in the subsector list
       const subsector = jobUtils?.details?.subsector
         ? sector?.sub_sectors?.find(one => one?.name === jobUtils?.details?.subsector)
         : null;
-
       setSelectedSubSector(subsector);
     }
-
-
   }, [jobSectorList, jobUtils?.details?.sector]);
 
   useEffect(() => {
@@ -265,7 +259,6 @@ function BasicInformation({ setCurrentStep, data, jobUtils, validateAndProceed }
     }
   }, [selectedSubSector]);
 
-
   useEffect(() => {
     jobUtils.setDetails((prevDetails) => ({
       ...prevDetails,
@@ -284,7 +277,6 @@ function BasicInformation({ setCurrentStep, data, jobUtils, validateAndProceed }
     selectedSubSector,
     selectedLocation,
   ]);
-
 
   // Validation function before proceeding to the next step
   const handleValidateAndProceed = () => {
@@ -306,7 +298,6 @@ function BasicInformation({ setCurrentStep, data, jobUtils, validateAndProceed }
   };
 
   //console.log(State.getStatesOfCountry('NG'))
-
   return (
     <div className="flex flex-col w-full p-4 gap-4">
       {/* Basic Info */}

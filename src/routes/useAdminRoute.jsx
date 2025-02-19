@@ -143,7 +143,7 @@ function useAdminRoute() {
     <>
       {true ? (
         <AdminManagementContextProvider>
-          <ResourceContextProvider>
+          {/* <ResourceContextProvider> */}
             <AdminRouteContextProvider setSideBar={setSideBar}>
               <main className="h-screen w-screen relative flex">
                 {/* Conditionally render the sidebar */}
@@ -249,7 +249,7 @@ function useAdminRoute() {
                 </div>
               </main>
             </AdminRouteContextProvider>
-          </ResourceContextProvider>
+          {/* </ResourceContextProvider> */}
         </AdminManagementContextProvider>
       ) : (
         <Navigate to={"/admin/login"} replace />

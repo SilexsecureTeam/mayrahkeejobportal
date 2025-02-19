@@ -3,18 +3,26 @@ import { onSuccess } from "../../../utils/notifications/OnSuccess";
 import { onFailure } from "../../../utils/notifications/OnFailure";
 import { axiosClient } from "../../../services/axios-client";
 import { FaSpinner } from "react-icons/fa";
+import UseAdminManagement from "../../../hooks/useAdminManagement";
 
 const Support = () => {
     const client = axiosClient();
+    const { getSupport, loading } = UseAdminManagement();
     const [messages, setMessages] = useState([]);
     const [selectedMessage, setSelectedMessage] = useState(null);
-    const [loading, setLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
     const [reply, setReply] = useState({ id: null, text: "" });
-
     useEffect(() => {
-        client.get(`/contact`)
-            .then((res) => setMessages(res?.data?.data))
-            .catch((err) => onFailure({ message: "Error Occurred", error: err?.message || "An error occurred while fetching" }));
+        const fetchSupport = async () => {
+            try {
+                const res = await getSupport();
+                setMessages(res)
+            } catch (err) {
+                onFailure({ message: "Error Occurred", error: err?.message || "An error occurred while fetching" })
+            };
+        }
+        console.log(loading)
+        fetchSupport()
     }, []);
 
     const openReplyModal = (msg) => {
@@ -31,7 +39,7 @@ const Support = () => {
             onFailure({ message: "Error Occurred", error: "Enter a suitable reply" });
             return
         };
-        setLoading(true);
+        setIsLoading(true);
         client.put(`/contact/${reply?.id}/reply`, { reply: reply.text })
             .then(() => {
                 setMessages((prev) =>
@@ -42,10 +50,10 @@ const Support = () => {
                 setReply({ id: null, text: "" });
                 setSelectedMessage(null);
                 onSuccess({ message: "Success", success: "Reply sent successfully" });
-                setLoading(false)
+                setIsLoading(false)
             })
             .catch((err) => {
-                setLoading(false)
+                setIsLoading(false)
                 onFailure({ message: "Error Occurred", error: err?.message || "Failed to send reply" });
             });
     };
@@ -54,57 +62,63 @@ const Support = () => {
         <div className="p-6 bg-white shadow-md rounded-lg">
             <h2 className="text-2xl font-semibold mb-4 text-green-800">Feedback & Support </h2>
             <div className="w-full overflow-x-auto">
-                <table className="w-full min-w-[500px] border-collapse border border-gray-300">
-                    <thead>
-                        <tr className="bg-gray-100 text-left">
-                            <th className="p-3 border">User</th>
-                            <th className="p-3 border">Email</th>
-                            <th className="p-3 border">Message</th>
-                            <th className="p-3 border">Status</th>
-                            <th className="p-3 border">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {messages?.sort((a, b) => new Date(b.created_at) - new Date(a.created_at))?.map((msg) => (
-                            <tr key={msg?.id} className="border-t hover:bg-gray-50">
-                                <td className="p-3 border">{msg?.name}</td>
-                                <td className="p-3 border max-w-xs truncate">
-                                    <span
-                                    >
-                                        {msg?.email}
-                                    </span>
-                                </td>
-                                <td className="p-3 border max-w-xs truncate">
-                                    <span
-                                    // onClick={() => openReplyModal(msg)}
-                                    >
-                                        {/* View Message */} {msg?.message?.length > 15 ? `${msg?.message?.slice(0, 15)}...` : msg?.message}
-                                    </span>
-                                </td>
-
-                            <td className="p-3 border">
-                  <span
-                    className={`px-2 py-1 rounded-full text-sm font-medium ${
-                      msg?.status === "Resolved" ? "bg-green-200 text-green-700" : "bg-yellow-200 text-yellow-700"
-                    }`}
-                  >
-                    {msg?.status || "Pending"}
-                  </span>
-                </td> 
-                                <td className="p-3 border">
-                                    {(
-                                        <button
-                                            className="bg-green-600 text-white px-3 py-1 text-sm rounded-lg hover:bg-green-700 transition"
-                                            onClick={() => openReplyModal(msg)}
-                                        >
-                                            {msg.status === "Resolved" ? "View" : "Reply"}
-                                        </button>
-                                    )}
-                                </td>
+                {loading ? (
+                    <div className="flex justify-center items-center">
+                        <FaSpinner className="animate-spin text-3xl" />Loading...
+                    </div>
+                )
+                    :
+                    <table className="w-full min-w-[500px] border-collapse border border-gray-300">
+                        <thead>
+                            <tr className="bg-gray-100 text-left">
+                                <th className="p-3 border">User</th>
+                                <th className="p-3 border">Email</th>
+                                <th className="p-3 border">Message</th>
+                                <th className="p-3 border">Status</th>
+                                <th className="p-3 border">Action</th>
                             </tr>
-                        ))}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            {messages?.sort((a, b) => new Date(b.created_at) - new Date(a.created_at))?.map((msg) => (
+                                <tr key={msg?.id} className="border-t hover:bg-gray-50">
+                                    <td className="p-3 border">{msg?.name}</td>
+                                    <td className="p-3 border max-w-xs truncate">
+                                        <span
+                                        >
+                                            {msg?.email}
+                                        </span>
+                                    </td>
+                                    <td className="p-3 border max-w-xs truncate">
+                                        <span
+                                        // onClick={() => openReplyModal(msg)}
+                                        >
+                                            {/* View Message */} {msg?.message?.length > 15 ? `${msg?.message?.slice(0, 15)}...` : msg?.message}
+                                        </span>
+                                    </td>
+
+                                    <td className="p-3 border">
+                                        <span
+                                            className={`px-2 py-1 rounded-full text-sm font-medium ${msg?.status === "Resolved" ? "bg-green-200 text-green-700" : "bg-yellow-200 text-yellow-700"
+                                                }`}
+                                        >
+                                            {msg?.status || "Pending"}
+                                        </span>
+                                    </td>
+                                    <td className="p-3 border">
+                                        {(
+                                            <button
+                                                className="bg-green-600 text-white px-3 py-1 text-sm rounded-lg hover:bg-green-700 transition"
+                                                onClick={() => openReplyModal(msg)}
+                                            >
+                                                {msg.status === "Resolved" ? "View" : "Reply"}
+                                            </button>
+                                        )}
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                }
             </div>
 
             {/* Modal for Replying */}
@@ -142,13 +156,13 @@ const Support = () => {
                             </button>
 
                             {/* Mailto Button */}
-                            {selectedMessage?.status !== "Resolved" &&<button
-                                disabled={loading || selectedMessage?.status === "Resolved"}
+                            {selectedMessage?.status !== "Resolved" && <button
+                                disabled={isLoading || selectedMessage?.status === "Resolved"}
                                 className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 flex items-center justify-center gap-2"
                                 //href={`mailto:${selectedMessage?.email}?subject=Reply to your message&body=${encodeURIComponent(reply.text)}`}
                                 onClick={handleReplySubmit}
                             >
-                                Reply {loading&& <FaSpinner className="animate-spin" />}
+                                Reply {isLoading && <FaSpinner className="animate-spin" />}
                             </button>}
                         </div>
 

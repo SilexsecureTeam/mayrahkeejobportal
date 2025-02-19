@@ -201,7 +201,7 @@ const interviews = allApplications?.filter(
               </div>
             </div>
             <div className=" w-full lg:w-[20%] flex justify-between lg:flex-col ">
-              <div className="pt-1 h-full lg:w-full w-[45%]  lg:h-1/2">
+              <div className="pb-1 h-full lg:w-full w-[45%] lg:h-1/2">
                 <div
                 key="in-review"
                   onClick={()=>navigateToApplications("in-review")}

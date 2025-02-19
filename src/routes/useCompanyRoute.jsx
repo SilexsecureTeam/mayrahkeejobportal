@@ -112,8 +112,8 @@ function useCompanyRoute() {
   const activeUtilOptions = authDetails?.user?.user_type === 'regular' ? adminUtilOptions : exclusiveUtilOptions;
   
 
-  const options=[...activeOptions, activeUtilOptions, ...extraOptions]
-  console.log(options)
+  const options=[...activeOptions, ...activeUtilOptions, ...extraOptions]
+  //console.log(options)
   const [state, dispatch] = useReducer(activeReducer,null);
   
   const navigate = useNavigate();
@@ -123,8 +123,8 @@ function useCompanyRoute() {
   
   useEffect(() => {
    const savedState = localStorage.getItem("sidebarState") ? JSON.parse(localStorage.getItem("sidebarState")) : options[0];
-   console.log(pathname)
-   if (savedState && pathname === "/applicant") {
+   //console.log(pathname)
+   if (savedState && pathname === "/company") {
      // If no saved state, set a default value based on user type
     const defaultState = options[0];
     dispatch(defaultState);  // Dispatch the default state
@@ -171,10 +171,11 @@ useEffect(() => {
 
   const setSideBar = (index) => {
     const page = options[index];
-    console.log(index, page)
+    //console.log(index, page)
     dispatch(page);
   };
-  const WithProtection=(Component, title)=>withApplicationStatus(withSubscription(Component, title))
+  // const WithProtection=(Component, title)=>withApplicationStatus(withSubscription(Component, title))
+  const WithProtection=(Component, title)=>withSubscription(Component, title)
   return (
     <>
       {authDetails?.user?.role === "employer" ? (

@@ -8,7 +8,7 @@ function SideBarItem({ data, dispatch, state, setIsOpen }) {
   const navigateToPage = () => {
   
     if(data.type === 'LOG-OUT'){
-      localStorage.clear()
+      sessionStorage.clear()
       setAuthDetails(null);
       dispatch({ });
       navigate(data.route, {replace: true});

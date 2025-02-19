@@ -45,10 +45,10 @@ function SubscriptionCard({ data, setIsOpen, currentPackage }) {
           </button>
         </span>
         <span className="mt-5 text-little">user/month</span>
-         <article className="font-medium flex flex-col items-center my-2">
+         {/* <article className="font-medium flex flex-col items-center my-2">
           <p>Jobs: {data?.number_of_jobs || 0}</p>
           <p>Applicants: {data?.number_of_candidates || 0}</p>
-          </article>
+          </article> */}
         {/* Description or Perks */}
         {!showPerks ? (
            <p className="my-5 text-little text-center w-[90%]">

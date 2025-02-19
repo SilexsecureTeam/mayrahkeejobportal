@@ -849,6 +849,18 @@ const deletePackageById = async (id) => {
 
 }
 
+const getSupport = async () => {
+  setLoading(true);
+  try {
+    const response = await client.get("/contact");
+    return response?.data?.data;
+  } catch (error) {
+    return null;
+  } finally {
+    setLoading(false);
+  }
+};
+
   return {
     loading,
     profileDetails,
@@ -902,8 +914,8 @@ const deletePackageById = async (id) => {
     getPackages,
     createPackage,
     updatePackage,
-    deletePackageById
-    
+    deletePackageById,
+    getSupport
   };
 }
 
