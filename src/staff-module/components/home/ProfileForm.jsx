@@ -61,12 +61,7 @@ const field_sections = {
       options: [
         "Christianity",
         "Islam",
-        "Bahai",
-        "Odinani",
-        "Ifa",
-        "Isho",
-        "Kwagh-hir",
-        "Malamism",
+        "Traditional"
       ],
       field_name: "religion",
     },
