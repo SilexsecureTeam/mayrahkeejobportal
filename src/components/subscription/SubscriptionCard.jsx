@@ -75,7 +75,7 @@ function SubscriptionCard({ data, setIsOpen, currentPackage }) {
       {data?.title?.toLowerCase().includes("exclusive") ?
         
         <button
-        onClick={navigate("/company/help-center")}
+        onClick={()=>navigate("/company/help-center")}
             className={`text-sm font-semibold w-[80%] h-[35px] rounded-md transition-all ${
               currentPackage?.package_id === data.id
                 ? "bg-gray-300 text-gray-500 cursor-not-allowed"
