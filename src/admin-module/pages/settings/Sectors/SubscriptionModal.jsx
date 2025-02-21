@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { FaSpinner, FaPlus, FaTrash, FaTimes } from "react-icons/fa";
+import { convertDays } from "../../../../utils/constants";
 
 export default function SubscriptionModal({
   isOpen,
@@ -96,6 +97,7 @@ export default function SubscriptionModal({
               type="number"
               name="price"
               value={formData.price}
+              min={0}
               onChange={handleChange}
               className="w-full px-3 py-2 border rounded-md"
               required
@@ -108,8 +110,10 @@ export default function SubscriptionModal({
               name="duration"
               value={formData.duration}
               onChange={handleChange}
+              min={1}
               className="w-full px-3 py-2 border rounded-md"
             />
+            <small className="text-xs text-green-700 font-medium p-3">{convertDays(formData.duration)}</small>
           </div>
           <div>
             <label className="block font-medium mb-1">Number of Jobs</label>
@@ -117,6 +121,7 @@ export default function SubscriptionModal({
               type="number"
               name="number_of_jobs"
               value={formData.number_of_jobs}
+              min={1}
               onChange={handleChange}
               className="w-full px-3 py-2 border rounded-md"
               required
@@ -128,6 +133,7 @@ export default function SubscriptionModal({
               type="number"
               name="number_of_candidates"
               value={formData.number_of_candidates}
+              min={1}
               onChange={handleChange}
               className="w-full px-3 py-2 border rounded-md"
               required

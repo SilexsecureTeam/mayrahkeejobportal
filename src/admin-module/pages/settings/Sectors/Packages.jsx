@@ -6,6 +6,7 @@ import UseAdminManagement from "../../../../hooks/useAdminManagement";
 import SubscriptionModal from "./SubscriptionModal"; // Modal for Add/Edit
 import ConfirmationModal from "./ConfirmationModal"; // Modal for Delete Confirmation
 import { FaArrowLeftLong } from "react-icons/fa6";
+import { convertDays } from "../../../../utils/constants";
 
 export default function SubscriptionPackages() {
   const [packages, setPackages] = useState([]);
@@ -67,6 +68,7 @@ export default function SubscriptionPackages() {
 
   const handleModalSubmit = async (data) => {
     setModalLoading(true);
+    
     try {
       if (selectedPackage) {
         const response = await updatePackage(selectedPackage.id, data);
@@ -74,10 +76,18 @@ export default function SubscriptionPackages() {
           toast.success("Package updated successfully");
         }
       } else {
+        const packageName = data?.title?.toLowerCase().trim();
+    const existingPackage = packages?.find(pkg => pkg?.title?.toLowerCase().trim()?.includes(packageName));
+    if (existingPackage) {
+      toast.error(`A Package of this type already exist.`);
+      setModalLoading(false);
+      return;
+  }else{
         const response = await createPackage(data);
         if (response) {
           toast.success("Package added successfully");
         }
+      }
       }
       setIsModalOpen(false);
       fetchPackages();
@@ -146,7 +156,7 @@ export default function SubscriptionPackages() {
              <p className="text-gray-600 mt-2">{pkg.description}</p>
               <div className="mt-4">
                 <p className="font-medium">Price: ₦{pkg.price}</p>
-                <p className="font-medium">Duration: per job</p>
+                <p className="font-medium">Duration: {convertDays(pkg?.duration)}</p>
               </div>
               {pkg?.permissions?.length >0 &&<ul className="mt-4 text-sm text-gray-700 list-disc list-inside capitalize">
                 <p className="font-bold mb-2 text-xl text-gray-700">Perks:</p>

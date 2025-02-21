@@ -5,10 +5,12 @@ import { PaystackConsumer } from "react-paystack";
 import { IoMdCheckmarkCircleOutline } from "react-icons/io";
 import { SubscriptionContext } from "../../context/SubscriptionContext";
 import { IoGift } from "react-icons/io5";
+import { convertDays } from "../../utils/constants";
+import { useNavigate } from "react-router-dom";
 function SubscriptionCard({ data, setIsOpen, currentPackage }) {
   const [showPerks, setShowPerks] = useState(currentPackage?.package_id === data?.id);
   const subUtils = useContext(SubscriptionContext);
-
+  const navigate=useNavigate();
   const handleOnClick = (reference, data) => {
     subUtils.makePaymentCheck(reference, data);
     if (setIsOpen) {
@@ -39,7 +41,7 @@ function SubscriptionCard({ data, setIsOpen, currentPackage }) {
           {data?.title?.toLowerCase().includes("exclusive") ? "Contract" : FormatPrice(Number(data.price))}
           <button
             onClick={() => setShowPerks(!showPerks)}
-            className="text-sm border rounded-md px-2 py-1 transition-all hover:bg-primaryColor hover:text-white"
+            className="text-sm border odd:border-primaryColor rounded-md px-2 py-1 transition-all hover:bg-primaryColor hover:text-white"
           >
             {showPerks ? "Desc" : "Perks"}
           </button>
@@ -47,7 +49,7 @@ function SubscriptionCard({ data, setIsOpen, currentPackage }) {
         {/*<span className="mt-5 text-little">user/month</span>*/}
           <article className="font-medium flex flex-col items-center my-2">
           <p>No. of Jobs: {data?.number_of_jobs || 0}</p>
-          <p>Duration: {0}</p>
+          <p>Duration: {convertDays(data?.duration)}</p>
           </article> 
         {/* Description or Perks */}
         {!showPerks ? (
@@ -70,7 +72,21 @@ function SubscriptionCard({ data, setIsOpen, currentPackage }) {
       </div>
 
       {/* Choose Plan Button */}
-      <PaystackConsumer {...subUtils.config(data, handleOnClick)}>
+      {data?.title?.toLowerCase().includes("exclusive") ?
+        
+        <button
+        onClick={navigate("/company/help-center")}
+            className={`text-sm font-semibold w-[80%] h-[35px] rounded-md transition-all ${
+              currentPackage?.package_id === data.id
+                ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                : "group-odd:bg-primaryColor group-odd:text-white group-even:bg-white group-even:text-primaryColor hover:scale-105"
+            }`}
+            disabled={currentPackage?.package_id === data.id}
+          >
+            Contact Mayrahkee Support
+            </button>
+  
+      :<PaystackConsumer {...subUtils.config(data, handleOnClick)}>
         {({ initializePayment }) => (
           <button
             onClick={initializePayment}
@@ -86,6 +102,7 @@ function SubscriptionCard({ data, setIsOpen, currentPackage }) {
           </button>
         )}
       </PaystackConsumer>
+      }
     </li>
   );
 }
