@@ -9,7 +9,7 @@ import { onSuccess } from "../utils/notifications/OnSuccess";
 const PACKAGES_KEY = "Packahes Database";
 
 function useSubscription() {
-  const PUBLIC_KEY = import.meta.env.VITE_TEST_PUBLIC_KEY;
+ 
   const { authDetails } = useContext(AuthContext);
   const [activePackage, setActivePackage] = useState();
   const client = axiosClient(authDetails?.token);
@@ -127,7 +127,7 @@ function useSubscription() {
     reference: new Date().getTime().toString(),
     email: authDetails?.user?.email,
     amount: priceInKobo,
-    publicKey: PUBLIC_KEY,
+    publicKey: import.meta.env.VITE_TEST_PUBLIC_KEY,
     text: "Paystack Button Implementation",
     onSuccess: onSuccessHandler, // Call onSuccessHandler for successful payments
     onClose: onClose,           // Call onClose if the user cancels the payment
