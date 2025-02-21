@@ -53,7 +53,7 @@ function NavBar({ state, toogleIsOpen, isMenuOpen }) {
             <img src={plusIcon} className="h-[15px] w-[15px]" />
             Post a Job
           </button>
-          {notifications?.length === 0 || !notifications ? (
+          {/* {notifications?.length === 0 || !notifications ? (
             <PiBellLight
               onClick={() => setIsOpen(true)}
               className="text-lg cursor-pointer mx-2"
@@ -63,7 +63,7 @@ function NavBar({ state, toogleIsOpen, isMenuOpen }) {
               onClick={() => setIsOpen(true)}
               className="text-primaryColor cursor-pointer text-lg animate-bounce md:mx-2"
             />
-          )}
+          )} */}
 
           {/*<button onClick={() => setIsSUbOpen(true)} className="flex gap-2 items-center md:px-2">
              <span className="hidden md:block"> Subscribe </span> 
