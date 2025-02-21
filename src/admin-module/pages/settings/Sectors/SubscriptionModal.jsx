@@ -12,8 +12,8 @@ export default function SubscriptionModal({
     title: "",
     description: "",
     price: "",
-    // duration: "",
-    number_of_jobs: "", // New field
+    duration: "",
+    number_of_jobs: "", 
     number_of_candidates: "",
     permissions: [],
   });
@@ -101,17 +101,16 @@ export default function SubscriptionModal({
               required
             />
           </div>
-          {/* <div>
-            <label className="block font-medium mb-1">Duration (Months)</label>
+          <div>
+            <label className="block font-medium mb-1">Duration (Days)</label>
             <input
               type="number"
               name="duration"
               value={formData.duration}
               onChange={handleChange}
               className="w-full px-3 py-2 border rounded-md"
-              required
             />
-          </div> */}
+          </div>
           <div>
             <label className="block font-medium mb-1">Number of Jobs</label>
             <input
