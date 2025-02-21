@@ -794,3 +794,16 @@ export const ethnicGroups = [
   "Atyap"]
 
   
+  export const convertDays=(days)=> {
+    if (days < 7) {
+        return `${days} day(s)`;
+    } else if (days < 14) {
+        return `1 week`;
+    } else if (days < 30) {
+        return `${Math.floor(days / 7)} weeks`;
+    } else if (days < 365) {
+        return `${Math.floor(days / 30)} month(s)`;
+    } else {
+        return `${Math.floor(days / 365)} year(s)`;
+    }
+}
