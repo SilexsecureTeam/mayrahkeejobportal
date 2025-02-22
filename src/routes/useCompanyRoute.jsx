@@ -131,12 +131,6 @@ dispatch(options[0]);
   }, [pathname]);
 
 // Save to localStorage whenever state changes
-useEffect(() => {
-  if (state) {
-    localStorage.setItem("sidebarState", JSON.stringify(state));
-  }
-}, [state]);  // This hook will be triggered every time 'state' changes
-
   useEffect(() => {
     const clearDb = async () => await clear();
 
