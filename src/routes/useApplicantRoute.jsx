@@ -114,7 +114,7 @@ dispatch(options[0]);
   }, []);
 
   return authDetails?.user.role === "candidate" ? (
-    <ApplicantRouteContextProvider setSideBar={setSideBar}>
+    <ApplicantRouteContextProvider>
       <main className="h-screen w-screen relative flex overflow-hidden">
           {/* Side bar takes up 20% of total width and 100% of height */}
           <SideBar
