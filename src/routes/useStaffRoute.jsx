@@ -42,23 +42,14 @@ function useStaffRoute() {
   const { pathname }=useLocation();
   const options=[...staffOptions, ...staffUtilOptions]
   useEffect(() => {
-   const savedState = localStorage.getItem("sidebarState") ? JSON.parse(localStorage.getItem("sidebarState")) : options[0];
-   if (savedState && pathname === "/staff") {
-     // If no saved state, set a default value based on user type
-    const defaultState = options[0];
-    dispatch(defaultState);  // Dispatch the default state
-   } else{
-     dispatch(savedState);  // Dispatch the loaded state
-   }
- }, []);  // Empty dependency array ensures this runs only once on mount
- // Save to localStorage whenever state changes
- useEffect(() => {
-   if (state) {
-     //console.log("Saving state to localStorage:", state);  // Log before saving
-     localStorage.setItem("sidebarState", JSON.stringify(state));
-   }
- }, [state]);  // This hook will be triggered every time 'state' changes
- 
+    const matchedOption = options.find((opt) => pathname===opt?.route);
+    if (matchedOption) {
+      dispatch(matchedOption);
+    }else{
+dispatch(options[0]);
+    }
+  }, [pathname]);
+  
   const setSideBar = (index) => {
     const page = staffOptions[index];
     dispatch({ ...page });
