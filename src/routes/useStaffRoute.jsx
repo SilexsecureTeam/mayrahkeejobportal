@@ -90,6 +90,7 @@ dispatch(options[0]);
                       data={currentOption}
                       dispatch={dispatch}
                       state={state}
+                      setIsOpen={setIsOpen}
                     />
                   ))}
                 </ul>
@@ -100,8 +101,8 @@ dispatch(options[0]);
                       key={currentOption.type}
                       data={currentOption}
                       dispatch={dispatch}
-                      dispatch={dispatch}
                       state={state}
+                      setIsOpen={setIsOpen}
                     />
                   ))}
                 </ul>
