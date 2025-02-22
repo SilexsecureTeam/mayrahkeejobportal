@@ -114,7 +114,7 @@ function useCompanyRoute() {
 
   const options=[...activeOptions, ...activeUtilOptions, ...extraOptions]
   //console.log(options)
-  const [state, dispatch] = useReducer(activeReducer,null);
+  const [state, dispatch] = useReducer(activeReducer,options[0]);
   
   const navigate = useNavigate();
   const companyHookProps = useCompanyProfile();
@@ -122,17 +122,14 @@ function useCompanyRoute() {
   const { pathname }=useLocation();
   
   useEffect(() => {
-   const savedState = localStorage.getItem("sidebarState") ? JSON.parse(localStorage.getItem("sidebarState")) : options[0];
-   //console.log(pathname)
-   if (savedState && pathname === "/company") {
-     // If no saved state, set a default value based on user type
-    const defaultState = options[0];
-    dispatch(defaultState);  // Dispatch the default state
-   } else{
-     dispatch(savedState);  // Dispatch the loaded state
-   }
- }, []);  // Empty dependency array ensures this runs only once on mount
- 
+    const matchedOption = options.find((opt) => pathname===opt?.route);
+    if (matchedOption) {
+      dispatch(matchedOption);
+    }else{
+dispatch(options[0]);
+    }
+  }, [pathname]);
+
 // Save to localStorage whenever state changes
 useEffect(() => {
   if (state) {
