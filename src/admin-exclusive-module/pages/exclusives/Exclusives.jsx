@@ -18,7 +18,7 @@ function Exclusives() {
       <div className="px-4 md:px-8 py-6 flex flex-col gap-6 bg-gray-50 min-h-screen">
         {/* Header Section */}
         <div className="flex items-center justify-between">
-          <h1 className="text-2xl font-bold text-gray-700">Exclusives Management</h1>
+          <h1 className="text-2xl font-bold text-gray-700">Exclusive Management</h1>
           <button
             onClick={toogleExclusiveModal}
             className="px-4 py-2 bg-green-600 hover:bg-green-700 transition duration-150 rounded-md text-white font-medium shadow-sm"

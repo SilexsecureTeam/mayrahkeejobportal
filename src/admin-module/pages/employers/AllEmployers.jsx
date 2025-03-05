@@ -23,7 +23,7 @@ function AllEmployers() {
   }, []);
 
   // Table Headings
-  const heading = ["ID", "Name", "Profile", "Image", "Status"];
+  const heading = ["ID", "Name","Registered", "Profile", "Image", "Status"];
 
  
   const data = employers.map(item => {
@@ -32,6 +32,7 @@ function AllEmployers() {
     return {
       id: item.id,                                     
       name: employerDetails.company_name,
+      registered: new Date(item.created_at).toLocaleDateString('en-GB', {day: '2-digit', month:'2-digit', year:'numeric'}),
       profile: employerDetails.company_profile,
       image: (
         <img 
