@@ -5,7 +5,7 @@ import { PaystackConsumer } from "react-paystack";
 import { IoMdCheckmarkCircleOutline } from "react-icons/io";
 import { SubscriptionContext } from "../../context/SubscriptionContext";
 import { IoGift } from "react-icons/io5";
-import { convertDays } from "../../utils/constants";
+import { } from "../../utils/constants";
 import { useNavigate } from "react-router-dom";
 function SubscriptionCard({ data, setIsOpen, currentPackage }) {
   const [showPerks, setShowPerks] = useState(currentPackage?.package_id === data?.id);
@@ -49,7 +49,7 @@ function SubscriptionCard({ data, setIsOpen, currentPackage }) {
         {/*<span className="mt-5 text-little">user/month</span>*/}
           <article className="font-medium flex flex-col items-center my-2">
           <p>No. of Jobs: {data?.number_of_jobs || 0}</p>
-          <p>Duration: {convertDays(data?.duration)}</p>
+          <p>Duration: {data?.duration} day(s)</p>
           </article> 
         {/* Description or Perks */}
         {!showPerks ? (

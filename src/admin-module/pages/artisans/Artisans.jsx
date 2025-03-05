@@ -69,7 +69,7 @@ function Artisan() {
             <DashboardCard
               leftIcon={<FiUsers />}
               title={artisanCount}
-              subtitle="Total Artisans"
+              subtitle="Total Registered Artisans"
               smallText="2 new Ad-hoc staff added"
               smallTextIcon={<FaPlus />}
               link={"/admin/artisans/all"}

@@ -74,12 +74,12 @@ const [rejected,setRejected] = useState(0)
             </div>
             <div className="bg-red-700 text-white px-4 py-12 rounded-md flex flex-col items-start">
               <h3 className="text-xl font-bold">{rejected}</h3>
-              <p>rejected</p>
+              <p>Rejected</p>
             </div>
-            <div className="bg-cyan-950 text-white px-4 py-12 rounded-md flex flex-col items-start">
+            {/* <div className="bg-cyan-950 text-white px-4 py-12 rounded-md flex flex-col items-start">
               <h3 className="text-xl font-bold">{candidateCount}</h3>
               <p>Total Jobs Applied</p>
-            </div>
+            </div> */}
           </div>
           <div className="mt-8">
             <CandidateUsageChart candidates={candidates} />

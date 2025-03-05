@@ -242,11 +242,23 @@ const DataTableComponent = ({ data, name, heading, isLoading, allowEdit }) => {
                   filterPlaceholder={`Search ${head}`}
                   body={
                     head.toLowerCase() === "profile"
-                      ? (rowData) => <div dangerouslySetInnerHTML={{ __html: rowData.profile }} />
+                      ? (rowData) => {
+                        const parseHtml = (html) => {
+                          const doc = new DOMParser().parseFromString(html, "text/html");
+                          return doc.body.textContent || "";
+                        };
+
+                        return (
+                          <div className="line-clamp-2">
+                            {rowData.profile ?parseHtml(rowData.profile) : null}
+                          </div>
+                        );
+                      }
                       : head.toLowerCase() === "status"
-                      ? statusBodyTemplate
-                      : null
+                        ? statusBodyTemplate
+                        : null
                   }
+
                 />
               )
           )}
@@ -264,12 +276,12 @@ const DataTableComponent = ({ data, name, heading, isLoading, allowEdit }) => {
           name === "employer"
             ? "Change Status"
             : name === "artisan"
-            ? "Edit Artisan"
-            : name === "job"
-            ? "Edit Job"
-            : name === 'admins'
-            ? "Edit Admin"
-            : "Edit Domestic Staff"
+              ? "Edit Artisan"
+              : name === "job"
+                ? "Edit Job"
+                : name === 'admins'
+                  ? "Edit Admin"
+                  : "Edit Domestic Staff"
         }
         modal
         className="p-fluid overflow-y-auto"

@@ -406,7 +406,7 @@ export const adminExclusiveOptions = [
   },
   {
     type: "All Exclusives",
-    title: "Exclusives",
+    title: "Exclusive Subscribers",
     route: "/admin-exclusives/lists",
     icon: peopleIcon,
     iconActive: peopleIcon,

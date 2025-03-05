@@ -32,6 +32,7 @@ function AllDomesticStaff() {
   const heading = [
     "ID",
     "Name",
+    "Registered",
     "Email",
     "Subcategory",
     "Job",
@@ -52,14 +53,15 @@ function AllDomesticStaff() {
         : staff.middle_name) +
       " " +
       staff.surname,
-    [heading[2].toLowerCase()]: staff.email,
-    [heading[3].toLowerCase()]: staff.subcategory,
-    [heading[4].toLowerCase()]: staff.job_type,
-    [heading[5].toLowerCase()]: staff.status,
-    [heading[6].toLowerCase()]: staff.years_of_experience,
-    [heading[7].toLowerCase()]: staff.current_salary,
-    [heading[8].toLowerCase()]: staff.expected_salary,
-    [heading[9].toLowerCase()]: staff.location,
+    [heading[2].toLowerCase()]: new Date(staff.created_at).toLocaleDateString('en-GB', {day: '2-digit', month:'2-digit', year:'numeric'}),
+    [heading[3].toLowerCase()]: staff.email,
+    [heading[4].toLowerCase()]: staff.subcategory,
+    [heading[5].toLowerCase()]: staff.job_type,
+    [heading[6].toLowerCase()]: staff.status,
+    [heading[7].toLowerCase()]: staff.years_of_experience,
+    [heading[8].toLowerCase()]: staff.current_salary,
+    [heading[9].toLowerCase()]: staff.expected_salary,
+    [heading[10].toLowerCase()]: staff.location,
   }));
 
   return (

@@ -245,12 +245,12 @@ dispatch(options[0]);
                   </Route>
 
                   <Route path="company-profile" element={<CompanyProfile />} />
-                  <Route path="artisan" element={withApplicationStatus(Artisan)} />
-                  <Route path="domestic-staffs" element={withApplicationStatus(DomesticStaffs)} />
-                  <Route path=":category/:id" element={withApplicationStatus(StaffDetails)} />
-                  <Route path="staff/cart" element={withApplicationStatus(CartedStaffs)} />
-                  <Route path="staff/success" element={withApplicationStatus(SuccessPage)}/>  
-                  <Route path="staff/contract-history" element={withApplicationStatus(ContractHistory)}/>  
+                  <Route path="artisan" element={<Artisan />} />
+                  <Route path="domestic-staffs" element={<DomesticStaffs />} />
+                  <Route path=":category/:id" element={<StaffDetails />} />
+                  <Route path="staff/cart" element={<CartedStaffs />} />
+                  <Route path="staff/success" element={<SuccessPage />}/>  
+                  <Route path="staff/contract-history" element={<ContractHistory />}/>  
                  
                   <Route path="job-listing/*">
                     <Route

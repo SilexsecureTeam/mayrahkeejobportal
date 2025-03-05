@@ -159,34 +159,34 @@ dispatch(options[0]);
                 <Route index element={<Home />} />
                 <Route path="*" element={<NotFound />} />
 
-                <Route path="messages" element={withApplicationStatus(Messages)} />
-                <Route path="applications" element={withApplicationStatus(Applications)} />
+                <Route path="messages" element={<Messages />} />
+                <Route path="applications" element={<Applications />} />
                 <Route
                   path="applications/:id"
                   element={<ShortListedDetails />}
                 />
-                <Route path="find-job" element={withApplicationStatus(FindJob)} />
-                <Route path="find-job/:id" element={withApplicationStatus(JobDetails)} />
-                <Route path="browse-companies" element={withApplicationStatus(Companies)} />
+                <Route path="find-job" element={<FindJob />} />
+                <Route path="find-job/:id" element={<JobDetails />} />
+                <Route path="browse-companies" element={<Companies />} />
                 <Route
                   path="browse-companies/:id"
-                  element={withApplicationStatus(CompanyDetails)}
+                  element={<CompanyDetails />}
                 />
 
-                <Route path="artisan" element={withApplicationStatus(Artisan)} />
-                <Route path="domestic-staffs" element={withApplicationStatus(DomesticStaffs)} />
-                <Route path="staff/cart" element={withApplicationStatus(CartedStaffs)} />
-                <Route path=":category/:id" element={withApplicationStatus(StaffDetails)} />
-                <Route path="staff/cart" element={withApplicationStatus(CartedStaffs)} />
-                <Route path="staff/success" element={withApplicationStatus(SuccessPage)} />
-                <Route path="staff/contract-history" element={withApplicationStatus(ContractHistory)}/>  
+                <Route path="artisan" element={<Artisan />} />
+                <Route path="domestic-staffs" element={<DomesticStaffs />} />
+                <Route path="staff/cart" element={<CartedStaffs />} />
+                <Route path=":category/:id" element={<StaffDetails />} />
+                <Route path="staff/cart" element={<CartedStaffs />} />
+                <Route path="staff/success" element={<SuccessPage />} />
+                <Route path="staff/contract-history" element={<ContractHistory />}/>  
                  
                 {/* testing routes */}
-                <Route path="applicant-detail" element={withApplicationStatus(ApplicantDetails)} />
-                <Route path="application-detail" element={withApplicationStatus(AllApplication)} />
+                <Route path="applicant-detail" element={<ApplicantDetails />} />
+                <Route path="application-detail" element={<AllApplication />} />
                 <Route
                   path="application-detail/:id"
-                  element={withApplicationStatus(Application)}
+                  element={<Application />}
                 />
                 <Route path="/blogs" element={<BlogList general={false} direct="/applicant/" />} />
                 <Route path="/blogs/:id" element={<BlogRead general={false} />} />

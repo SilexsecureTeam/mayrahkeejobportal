@@ -55,7 +55,7 @@ function Employers() {
             <DashboardCard
               leftIcon={<FiUsers />}
               title={employersCount}
-              subtitle="Total Employers"
+              subtitle="Total Registered Employers"
               smallText="2 new Ad-hoc staff added"
               smallTextIcon={<FaPlus />}
               link={"/admin/employers/all"}
