@@ -63,7 +63,6 @@ const DataTableComponent = ({ data, name, heading, isLoading, allowEdit }) => {
   );
 
   const editData = async (e, rowData) => {
-    e.stopPropagation();
     setEditDialog(true);
     setSelectedData(rowData);
   };
