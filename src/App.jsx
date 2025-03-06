@@ -63,7 +63,7 @@ function App() {
   } 
 />
                               
-                                </div>
+                      
                                 <Route
                                   path="/super/admin/otp-verification"
                                   element={<AdminOTP />}
