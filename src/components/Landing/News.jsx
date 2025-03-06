@@ -17,36 +17,35 @@ const News = () => {
             isDataNeeded: true,
         }));
     }, []);
-const calculateReadingTime = (text) => {
-    const wordsPerMinute = 200;
-    const words = text.split(/\s+/).length;
-    const minutes = Math.ceil(words / wordsPerMinute);
-    return minutes;
-};
+    const calculateReadingTime = (text) => {
+        const wordsPerMinute = 200;
+        const words = text.split(/\s+/).length;
+        const minutes = Math.ceil(words / wordsPerMinute);
+        return minutes;
+    };
 
 
     useEffect(() => {
-    if (getAllBlogPosts?.data) {
-        const fetchedBlogs = getAllBlogPosts.data.data.filter(one=>one?.feature_post === "1");
+        if (getAllBlogPosts?.data) {
+            const fetchedBlogs = getAllBlogPosts?.data?.data?.filter((one) => one?.feature_post === "1") //  featured posts
+                .sort((a, b) => new Date(b.created_at) - new Date(a.created_at)) // Sort by latest
+                .slice(0, 4); // Get only the latest 5
 
-        // Add reading time to each blog
-        const blogsWithReadingTime = fetchedBlogs.map((blog) => ({
-            ...blog,
-            readingTime: calculateReadingTime(blog?.description || ""),
-        }));
+            // Add reading time to each blog
+            const blogsWithReadingTime = fetchedBlogs.map((blog) => ({
+                ...blog,
+                readingTime: calculateReadingTime(blog?.description || ""),
+            }));
 
-        setBlogs(blogsWithReadingTime);
+            setBlogs(blogsWithReadingTime);
+            // Set the most recent post
+            const sortedBlogs = blogsWithReadingTime
+            setRecent(sortedBlogs?.[0] || null);
 
-        // Set the most recent post
-        const sortedBlogs = blogsWithReadingTime.slice().sort(
-            (a, b) => new Date(b.time_posted) - new Date(a.time_posted)
-        );
-        setRecent(sortedBlogs?.[0] || null);
-
-        // Set other recent news
-        setNews(sortedBlogs?.slice(1, 4) || []);
-    }
-}, [getAllBlogPosts]);
+            // Set other recent news
+            setNews(sortedBlogs?.slice(1) || []);
+        }
+    }, [getAllBlogPosts]);
 
 
     return (
@@ -105,7 +104,7 @@ const calculateReadingTime = (text) => {
                 )}
 
                 {/* Other recent news */}
-                <div className="w-full md:w-1/2 flex flex-col gap-2 overflow-y-auto max-h-[550px]">
+                <div className="w-full md:w-1/2 flex flex-col gap-3 overflow-y-auto max-h-[550px]">
                     {news.map((newsItem) => (
                         <section
                             key={newsItem?.id}
@@ -115,7 +114,7 @@ const calculateReadingTime = (text) => {
                             }}
                             className="flex justify-between items-stretch cursor-pointer"
                         >
-                            <div className="w-28 min-h-28 md:w-32 md:h-auto lg:w-40 lg:h-auto flex-shrink-0">
+                            <div className="w-28 h-28 md:w-32 md:h-auto md:max-h-[180px] lg:w-40 lg:h-auto flex-shrink-0">
                                 <img
                                     className="w-full h-full object-cover rounded-md"
                                     src={newsItem?.main_image ? `${resourceUrl}${newsItem?.main_image}` : "https://via.placeholder.com/150"}

@@ -48,6 +48,7 @@ function App() {
                   <JobContextProvider>
                     <InterviewContextProvider>
                       <NotificationContextProvider>
+                      <ToastContainer autoClose={2000} draggable />
                         <Suspense fallback={<FallBack />}>
                           <Router>
                             <SessionContextProvider>
@@ -113,7 +114,7 @@ function App() {
                         </Suspense>
                       </NotificationContextProvider>
                     </InterviewContextProvider>
-                    <ToastContainer autoClose={2000} draggable />
+                    
                   </JobContextProvider>
                 </ApplicationContextProvider>
               </ChatContextProvider>

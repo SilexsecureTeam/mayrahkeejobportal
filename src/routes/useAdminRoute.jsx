@@ -73,7 +73,6 @@ const Support = lazy(() => import("../admin-module/pages/support/Support"));
 
 
 function useAdminRoute() {
-  const path = useLocation().pathname;
   // const [state, dispatch] = useReducer(AdminReducer, adminOptions.find((option) => option.route === path));
   const [state, dispatch] = useReducer(AdminReducer, adminOptions[0]);
   const { authDetails } = useContext(AuthContext);
@@ -82,27 +81,17 @@ function useAdminRoute() {
   const navigate = useNavigate();
   const location = useLocation();
   const toogleIsOpen = () => setIsOpen(!isOpen);
+  const { pathname } = useLocation();
+
   useEffect(() => {
-    const savedState = localStorage.getItem("sidebarState");
-    if (savedState) {
-      // If there's a saved state, dispatch it
-      const parsedState = JSON.parse(savedState);
-      dispatch(parsedState);  // Dispatch the loaded state
+    const matchedOption = adminOptions.find((opt) => pathname === opt?.route);
+    if (matchedOption) {
+      dispatch(matchedOption);
     } else {
-      // If no saved state, set a default value based on user type
-      const defaultState = adminOptions[0];
-      
-      dispatch(defaultState);  // Dispatch the default state
+      dispatch(adminOptions[0]);
     }
-  }, []);  // Empty dependency array ensures this runs only once on mount
-  
-  // Save to localStorage whenever state changes
-  useEffect(() => {
-    if (state) {
-      localStorage.setItem("sidebarState", JSON.stringify(state));
-    }
-  }, [state]);  // This hook will be triggered every time 'state' changes
-  
+  }, [pathname]);
+
   const setSideBar = (index) => {
     const page = adminOptions[index];
     dispatch({ ...page });
@@ -144,111 +133,111 @@ function useAdminRoute() {
       {true ? (
         <AdminManagementContextProvider>
           {/* <ResourceContextProvider> */}
-            <AdminRouteContextProvider setSideBar={setSideBar}>
-              <main className="h-screen w-screen relative flex">
-                {/* Conditionally render the sidebar */}
+          <AdminRouteContextProvider setSideBar={setSideBar}>
+            <main className="h-screen w-screen relative flex">
+              {/* Conditionally render the sidebar */}
+              {!shouldHideNavBar && (
+                <AdminSideBar
+                  authDetails={authDetails}
+                  toogleIsOpen={toogleIsOpen}
+                  isMenuOpen={isOpen}
+                >
+                  <ul className="flex flex-col gap-[10px]">
+                    {adminOptions.map((currentOption) => (
+                      <AdminSideBarItem
+                        key={currentOption.type}
+                        data={currentOption}
+                        dispatch={dispatch}
+                        state={state}
+                        setIsOpen={setIsOpen}
+                      />
+                    ))}
+                  </ul>
+
+                  <ul className="flex flex-col gap-[10px]">
+                    {adminnUtilOptions.map((currentOption) => (
+                      <AdminSideBarItem
+                        key={currentOption.type}
+                        data={currentOption}
+                        dispatch={dispatch}
+                        state={state}
+                        setIsOpen={setIsOpen}
+                      />
+                    ))}
+                  </ul>
+                </AdminSideBar>
+              )}
+
+              {/* Routes and dashboard take up 80% of total width and 100% of height */}
+              <div className={`relative flex divide-y-2 divide-secondaryColor bg-white flex-col h-full ${!shouldHideNavBar ? 'md:w-[82%] w-full' : 'w-full'}`}>
                 {!shouldHideNavBar && (
-                  <AdminSideBar
-                    authDetails={authDetails}
+                  <NavBar
+                    state={state}
                     toogleIsOpen={toogleIsOpen}
                     isMenuOpen={isOpen}
-                  >
-                    <ul className="flex flex-col gap-[10px]">
-                      {adminOptions.map((currentOption) => (
-                        <AdminSideBarItem
-                          key={currentOption.type}
-                          data={currentOption}
-                          dispatch={dispatch}
-                          state={state}
-                          setIsOpen={setIsOpen}
-                        />
-                      ))}
-                    </ul>
-
-                    <ul className="flex flex-col gap-[10px]">
-                      {adminnUtilOptions.map((currentOption) => (
-                        <AdminSideBarItem
-                          key={currentOption.type}
-                          data={currentOption}
-                          dispatch={dispatch}
-                          state={state}
-                          setIsOpen={setIsOpen}
-                        />
-                      ))}
-                    </ul>
-                  </AdminSideBar>
+                  />
                 )}
+                <div className="w-full h-[92%] overflow-y-auto px-2 md:px-5 lg-px-8">
+                  <PrimeReactProvider value={{ unstyled: true, pt: Tailwind }}>
+                    <Routes>
+                      <Route path="/login" element={<AdminLogin />} />
+                      <Route path="/logout" element={<AdminLogout />} />
+                      <Route path="/reset-pwd" element={<AdminResetPwd />} />
+                      <Route path="/settings/register" element={<AdminRegistrationForm />} />
+                      <Route path="/forget-pwd" element={<AdminForgotPassword />} />
+                      <Route path="/change-pwd" element={<AdminChangePassword />} />
+                      <Route index element={<Dashboard />} />
+                      <Route path="/employers" element={<Employers />} />
 
-                {/* Routes and dashboard take up 80% of total width and 100% of height */}
-                <div className={`relative flex divide-y-2 divide-secondaryColor bg-white flex-col h-full ${!shouldHideNavBar ? 'md:w-[82%] w-full' : 'w-full'}`}>
-                  {!shouldHideNavBar && (
-                    <NavBar
-                      state={state}
-                      toogleIsOpen={toogleIsOpen}
-                      isMenuOpen={isOpen}
-                    />
-                  )}
-                  <div className="w-full h-[92%] overflow-y-auto px-2 md:px-5 lg-px-8">
-                    <PrimeReactProvider value={{ unstyled: true, pt: Tailwind }}>
-                      <Routes>
-                        <Route path="/login" element={<AdminLogin />} />
-                        <Route path="/logout" element={<AdminLogout />} />
-                        <Route path="/reset-pwd" element={<AdminResetPwd />} />
-                        <Route path="/settings/register" element={<AdminRegistrationForm />} />
-                        <Route path="/forget-pwd" element={<AdminForgotPassword />} />
-                        <Route path="/change-pwd" element={<AdminChangePassword />} />
-                        <Route index element={<Dashboard />} />
-                        <Route path="/employers" element={<Employers />} />
-                        
-                        <Route path="/employers/all" element={<AllEmployers />} />
-                        <Route path="/employer/details/:id" element={<EmployerDetails />} />
-                        <Route path="/employer-jobs/details/:id" element={<JobsByEmployerDetails />} />
-                        <Route path="/employer/alljobs/:id" element={<AllDataJobsPostedEmployer />} />
-                        <Route path="/employer/applied-jobs/:id" element={<AppliedJobs />} />
-                        <Route path="/employer/:id/candidates" element={<EmployerCandidates />} />
-                        <Route path="/employer/:id/staffs" element={<EmployerStaff />} />
-                        <Route path="/domestic-staff" element={<DomesticStaff />} />
-                        <Route path="/domestic-staff/all" element={<AllDomesticStaff />} />
-                        <Route path="/domestic-staff/details/:id" element={<DomesticStaffDetails />} />
-                        <Route path="/settings" element={<Settings />} />
-                        <Route path="/settings/sectors" element={<Sectors />} />
-                        <Route path="/settings/staff-sectors" element={<StaffSectors />} />
-                        <Route path="/settings/packages" element={<Packages />} />
-                        
-                        <Route path="/settings/sectors/categories" element={<AddCategory />} />
-                        <Route path="/settings/currency" element={<Currency />} />
-                        <Route path="/settings/currency/add" element={<AddCurrency />} />
-                        <Route path="/settings/salary" element={<Salaries />} />
-                        <Route path="/settings/salary/add" element={<AddSalary />} />
-                        <Route path="/settings/security" element={<Security />} />
-                        <Route path="/settings/security/admins" element={<AllAdmins />} />
-                        <Route path="/help-center" element={<HelpCenter />} />
-                        <Route path="/artisan" element={<Artisan />} />
-                        <Route path="/artisans/all" element={<AllArtisans />} />
-                        <Route path="/artisan/details/:id" element={<ArtisanDetails />} />
-                        <Route path="/candidates" element={<Candidates />} />
-                        <Route path="/candidates/all" element={<AllCandidate />} />
-                        <Route path="/candidate/details/:id" element={<CandidateDetails />} />
-                        <Route path="/candidate/:id/staffs" element={<CandidateStaff />} />
-                        <Route path="/job-listing" element={<JobListing />} />
-                        <Route path="/jobs" element={<AllJobs />} />
-                        <Route path="/job/details/:id" element={<JobDescriptionPage />} />
-                        <Route path="/guarantors" element={<AllGuarantors />} />
-                        <Route path="/medical-histories" element={<AllMedicalHistories />} />
+                      <Route path="/employers/all" element={<AllEmployers />} />
+                      <Route path="/employer/details/:id" element={<EmployerDetails />} />
+                      <Route path="/employer-jobs/details/:id" element={<JobsByEmployerDetails />} />
+                      <Route path="/employer/alljobs/:id" element={<AllDataJobsPostedEmployer />} />
+                      <Route path="/employer/applied-jobs/:id" element={<AppliedJobs />} />
+                      <Route path="/employer/:id/candidates" element={<EmployerCandidates />} />
+                      <Route path="/employer/:id/staffs" element={<EmployerStaff />} />
+                      <Route path="/domestic-staff" element={<DomesticStaff />} />
+                      <Route path="/domestic-staff/all" element={<AllDomesticStaff />} />
+                      <Route path="/domestic-staff/details/:id" element={<DomesticStaffDetails />} />
+                      <Route path="/settings" element={<Settings />} />
+                      <Route path="/settings/sectors" element={<Sectors />} />
+                      <Route path="/settings/staff-sectors" element={<StaffSectors />} />
+                      <Route path="/settings/packages" element={<Packages />} />
+
+                      <Route path="/settings/sectors/categories" element={<AddCategory />} />
+                      <Route path="/settings/currency" element={<Currency />} />
+                      <Route path="/settings/currency/add" element={<AddCurrency />} />
+                      <Route path="/settings/salary" element={<Salaries />} />
+                      <Route path="/settings/salary/add" element={<AddSalary />} />
+                      <Route path="/settings/security" element={<Security />} />
+                      <Route path="/settings/security/admins" element={<AllAdmins />} />
+                      <Route path="/help-center" element={<HelpCenter />} />
+                      <Route path="/artisan" element={<Artisan />} />
+                      <Route path="/artisans/all" element={<AllArtisans />} />
+                      <Route path="/artisan/details/:id" element={<ArtisanDetails />} />
+                      <Route path="/candidates" element={<Candidates />} />
+                      <Route path="/candidates/all" element={<AllCandidate />} />
+                      <Route path="/candidate/details/:id" element={<CandidateDetails />} />
+                      <Route path="/candidate/:id/staffs" element={<CandidateStaff />} />
+                      <Route path="/job-listing" element={<JobListing />} />
+                      <Route path="/jobs" element={<AllJobs />} />
+                      <Route path="/job/details/:id" element={<JobDescriptionPage />} />
+                      <Route path="/guarantors" element={<AllGuarantors />} />
+                      <Route path="/medical-histories" element={<AllMedicalHistories />} />
 
 
-                        <Route path="/police-reports" element={<AllPoliceReports />} />
-                        <Route path="/blogs" element={<Blogs />} />
-                        <Route path="/create-blog" element={<CreateBlog />} />
+                      <Route path="/police-reports" element={<AllPoliceReports />} />
+                      <Route path="/blogs" element={<Blogs />} />
+                      <Route path="/create-blog" element={<CreateBlog />} />
 
-                        <Route path="/support" element={<Support />} />
+                      <Route path="/support" element={<Support />} />
 
-                      </Routes>
-                    </PrimeReactProvider>
-                  </div>
+                    </Routes>
+                  </PrimeReactProvider>
                 </div>
-              </main>
-            </AdminRouteContextProvider>
+              </div>
+            </main>
+          </AdminRouteContextProvider>
           {/* </ResourceContextProvider> */}
         </AdminManagementContextProvider>
       ) : (
