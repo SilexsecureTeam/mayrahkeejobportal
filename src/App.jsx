@@ -54,11 +54,13 @@ function App() {
                             <SessionContextProvider>
                               <Routes>
                                 <Route path="/login" element={<Login />} />
-
+                                <div className="px-2 md:px-5 lg-px-8">
+                                
                                 <Route
-                                  path="/super/admin/login"
+                                  path="/admin/login"
                                   element={<AdminLogin />}
                                 />
+                                </div>
                                 <Route
                                   path="/super/admin/otp-verification"
                                   element={<AdminOTP />}
