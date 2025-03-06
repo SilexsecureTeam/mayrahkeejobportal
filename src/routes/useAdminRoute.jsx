@@ -233,7 +233,7 @@ function useAdminRoute() {
 
                       <Route path="/support" element={<Support />} />
       </>): (
-        <Navigate to={"/admin/login"} replace />
+        <Navigate to={"/"} replace />
       )}
 
                     </Routes>
