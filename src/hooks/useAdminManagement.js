@@ -115,7 +115,6 @@ function UseAdminManagement() {
 
 
   const updateStatus = async (data) => {
-    console.log(data)
     try {
       setLoading(true);
       const response = await MainAxios.post("update-status", data);
@@ -134,9 +133,7 @@ function UseAdminManagement() {
   const getCandidates = async () => {
     try {
       setLoading(true);
-      console.log("Fetching candiidate...");
       const response = await client.get(`/candidate/getCandidate`);
-      console.log("candiidate fetched:", response.data);
       return response.data.candidateAuths;
     } catch (error) {
       console.error("Error fetching employers:", error);
@@ -152,7 +149,6 @@ function UseAdminManagement() {
     try {
       setLoading(true);
       const response = await client.get(`/candidate/getCandidate/${id}`);
-      console.log(response?.data?.details)
       return response.data.details;
     } catch (error) {
       return null;
@@ -205,8 +201,6 @@ function UseAdminManagement() {
 
       // Wait for all promises to resolve
       const updatedData = await Promise.all(promises);
-
-      console.log(updatedData);
       return updatedData;
     } catch (error) {
       console.error('Error fetching employer domestic staff:', error);
@@ -236,8 +230,6 @@ function UseAdminManagement() {
 
       // Wait for all promises to resolve
       const updatedData = await Promise.all(promises);
-
-      console.log(updatedData);
       return updatedData;
     } catch (error) {
       console.error('Error fetching employer domestic staff:', error);
@@ -295,7 +287,6 @@ function UseAdminManagement() {
   const AddFormCurrency = async (currencyData) => {
     try {
       setLoading(true);
-      console.log("Sending currency data to API:", currencyData);
       const response = await client.post("/currencies", currencyData);
       return response;
     } catch (error) {
@@ -328,7 +319,6 @@ function UseAdminManagement() {
       setLoading(true);
       const response = await client.get("/sectors");
       const sectors = response.data.data;
-      console.log(sectors);
       // Fetch subcategories for each sector
       const sectorsWithSubcategories = await Promise.all(
         sectors.map(async (sector) => {
@@ -407,8 +397,6 @@ function UseAdminManagement() {
       setLoading(true);
       const response = await client.get("/staff-categories");
       const sectors = response.data.data;
-      console.log(sectors);
-
       return sectors;
     } catch (error) {
       console.error("Error fetching sectors:", error);
@@ -578,7 +566,6 @@ function UseAdminManagement() {
     try {
       setLoading(true);
       const response = await client.post('/admin/logout');
-      console.log("response", response.status);
       return response.status;
     } catch (error) {
       console.error('Error', error);
@@ -596,7 +583,6 @@ function UseAdminManagement() {
     try {
       setLoading(true)
       const response = await client.post('/admin/register', data)
-      console.log("response registration", response);
       return response
 
     } catch (error) {
@@ -614,8 +600,6 @@ function UseAdminManagement() {
     try {
       setLoading(true)
       const response = await MainAxios.post('/admin/changePassword', data)
-      console.log("response", response);
-      
       return response
     }
     catch (error) {
@@ -781,7 +765,6 @@ const updateFeaturedJobs = async (job, status) => {
         "Content-Type": "application/json",
       },
     });
-    console.log("response", response);
     return response.data;
   } catch (error) {
     console.error("Error updating jobs", error);

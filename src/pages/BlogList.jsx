@@ -6,6 +6,7 @@ import { FaSearch } from 'react-icons/fa';
 import { ResourceContext } from "../context/ResourceContext";
 import { Helmet } from 'react-helmet';
 import { resourceUrl } from '../services/axios-client';
+import { parseHtml } from '../utils/formmaters';
 
 const BlogList = ({general=true, direct="/"}) => {
     const {
@@ -33,7 +34,6 @@ const BlogList = ({general=true, direct="/"}) => {
             ...prev,
             isDataNeeded: true,
         }));
-        console.log(general)
     }, []);
 
 
@@ -46,7 +46,7 @@ const BlogList = ({general=true, direct="/"}) => {
 
     useEffect(() => {
         if (getAllBlogPosts?.data) {
-            const fetchedBlogs = getAllBlogPosts.data.data;
+            const fetchedBlogs = getAllBlogPosts?.data?.data?.filter((one) => one?.feature_post === "1");
 
             // Add reading time to each blog
             const blogsWithReadingTime = fetchedBlogs.map((blog) => ({
@@ -222,7 +222,8 @@ const BlogList = ({general=true, direct="/"}) => {
                                         <h4 className="font-bold text-xl md:my-2 lg:my-3">
                                             {blog.title}
                                         </h4>
-                                        <p className="text-sm text-gray-500 mb-1 md:mb-3" dangerouslySetInnerHTML={{ __html: `${blog?.description?.slice(0, 100)}...` }}>
+                                        <p className="text-sm text-gray-500 mb-1 md:mb-3">
+                                        {parseHtml(`${blog?.description?.slice(0, 100)}...`)}
                                         </p>
                                         <article className="flex items-center justify-between gap-1 md:gap-3">
                                             <small className="mt-2 text-gray-400 flex items-center">

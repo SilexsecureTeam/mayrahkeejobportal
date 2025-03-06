@@ -8,8 +8,7 @@ function AdminSideBarItem({ data, dispatch, state, setIsOpen }) {
   const {setAuthDetails} = useContext(AuthContext)
   const navigateToPage = () => {
     if (data.type === "LOG-OUT") {
-      localStorage.clear();
-      clear();
+      sessionStorage.clear();
       setAuthDetails(null);
       navigate(data.route, { replace: true });
     } else {

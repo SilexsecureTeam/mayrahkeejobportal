@@ -8,6 +8,14 @@ export const handleOnChange = (e, setDetails) => {
   });
 };
 
+export const parseHtml = (inputString) => {
+  if (typeof inputString !== "string") return ""; // Ensure it's a string
+
+  const doc = new DOMParser().parseFromString(inputString, "text/html");
+  return doc.body.textContent || inputString; // If no HTML, return original text
+};
+
+
 export const formatTime = (seconds) => {
   const minutes = Math.floor(seconds / 60);
   const remainingSeconds = seconds % 60;
