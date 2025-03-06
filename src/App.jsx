@@ -54,12 +54,14 @@ function App() {
                             <SessionContextProvider>
                               <Routes>
                                 <Route path="/login" element={<Login />} />
-                                <Route path="/admin/login" element={<div className="px-2 md:px-5 lg-px-8"></div>} >
-                                <Route
-                                  index
-                                  element={<AdminLogin />}
-                                />
-                                </Route>
+                                <Route 
+  path="/admin/login" 
+  element={
+    <div className="px-2 md:px-5 lg:px-8">
+      <AdminLogin />
+    </div>
+  } 
+/>
                               
                                 </div>
                                 <Route
