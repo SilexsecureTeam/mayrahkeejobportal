@@ -56,7 +56,7 @@ function DomesticStaff() {
             <DashboardCard
               leftIcon={<FiUsers />}
               title={domesticsCount}
-              subtitle="Total Domestic Staff"
+              subtitle="Total Registered Domestic Staff"
               smallText="2 new Ad-hoc staff added"
               smallTextIcon={<FaPlus />}
               link={"/admin/domestic-staff/all"}
