@@ -129,7 +129,7 @@ function useAdminRoute() {
   // };
 
   return (
-    <>
+
         <AdminManagementContextProvider>
           {/* <ResourceContextProvider> */}
           <AdminRouteContextProvider setSideBar={setSideBar}>
@@ -180,7 +180,8 @@ function useAdminRoute() {
                   <PrimeReactProvider value={{ unstyled: true, pt: Tailwind }}>
                     <Routes>
                       <Route path="/login" element={<AdminLogin />} />
-                      {authDetails?.user.role === "admin" ?(
+                      {authDetails?.user?.role === "admin" ? (
+      <>
                       <Route path="/logout" element={<AdminLogout />} />
                       <Route path="/reset-pwd" element={<AdminResetPwd />} />
                       <Route path="/settings/register" element={<AdminRegistrationForm />} />
@@ -231,7 +232,7 @@ function useAdminRoute() {
                       <Route path="/create-blog" element={<CreateBlog />} />
 
                       <Route path="/support" element={<Support />} />
-                      ): (
+      </>): (
         <Navigate to={"/admin/login"} replace />
       )}
 
@@ -243,7 +244,6 @@ function useAdminRoute() {
           </AdminRouteContextProvider>
           {/* </ResourceContextProvider> */}
         </AdminManagementContextProvider>
-    </>
   );
 }
 
