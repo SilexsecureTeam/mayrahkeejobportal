@@ -58,7 +58,7 @@ const [rejected,setRejected] = useState(0)
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6 p-4">
             <div className="bg-orange-400 text-white px-4 py-12 rounded-md flex flex-col items-start cursor-pointer" onClick={() => navigate('/admin/candidates/all')}>
               <h3 className="text-xl font-bold">{candidateCount}</h3>
-              <p>All Candidates</p>
+              <p>All Registered Candidates</p>
             </div>
             <div className="bg-yellow-500 text-white px-4 py-12 rounded-md flex flex-col items-start">
               <h3 className="text-xl font-bold">{pending}</h3>
