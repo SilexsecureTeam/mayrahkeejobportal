@@ -66,11 +66,11 @@ const [rejected,setRejected] = useState(0)
             </div>
             <div className="bg-green-500 text-white px-4 py-12 rounded-md flex flex-col items-start">
               <h3 className="text-xl font-bold">{approved}</h3>
-              <p>approved</p>
+              <p>Approved</p>
             </div>
             <div className="bg-blue-700 text-white px-4 py-12 rounded-md flex flex-col items-start">
               <h3 className="text-xl font-bold">{suspend}</h3>
-              <p>suspend</p>
+              <p>Suspended</p>
             </div>
             <div className="bg-red-700 text-white px-4 py-12 rounded-md flex flex-col items-start">
               <h3 className="text-xl font-bold">{rejected}</h3>
