@@ -33,7 +33,7 @@ function PublicProfile() {
         <title>Dashboard | Public Profile</title>
       </Helmet>
       <div className="h-full w-full">
-        <div className="flex flex-wrap md:flex-nowrap">
+        <div className="flex flex-wrap lg:flex-nowrap">
           <div className="w-full lg:w-2/3 mb-4 lg:mb-0">
             <div className="border rounded-lg overflow-hidden">
               <div

@@ -208,7 +208,7 @@ const navigate=useNavigate();
                                     </>
                                 )
                             }):(
-                                <div className="flex flex-col gap-2 items-center justify-center">
+                                <div className="flex flex-col gap-2 items-center justify-center mx-auto">
                                     <p className="text-sm tet-gray-700">Please you need to create a resume</p>
                                     <Link to="/applicant/my-resume" className="rounde-md text-sm px-3 py-1 bg-green-600 text-white font-medium">Create Resume</Link>
                                 </div>

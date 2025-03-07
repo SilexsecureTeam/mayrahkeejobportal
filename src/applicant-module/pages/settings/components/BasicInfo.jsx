@@ -153,6 +153,37 @@ const BasicInfo = ({ setIsOpen }) => {
   // };
 
   // console.log(getAllFaculty.data)
+
+  useEffect(() => {
+    if (details?.country) {
+      const selectedCountry = countries?.find(one => one.name === details?.country);
+      if (selectedCountry) {
+        const countryInfoDetails = Country.getCountryByCode(selectedCountry.isoCode);
+        setCountryInfo(countryInfoDetails);
+  
+        const states = State.getStatesOfCountry(selectedCountry.isoCode);
+        setSelectStates(states);
+        setSelectCity([]); // Reset cities when country changes
+      }
+    }
+  }, [details?.country, countries]);
+  
+  useEffect(() => {
+    if (details?.state && details?.country) {
+      const selectedCountry = countries?.find(one => one.name === details?.country);
+      if (selectedCountry) {
+        const states = State.getStatesOfCountry(selectedCountry.isoCode);
+        const selectedState = states?.find(one => one.name === details?.state);
+        
+        if (selectedState) {
+          const cities = City.getCitiesOfState(selectedCountry.isoCode, selectedState.isoCode);
+          setSelectCity(cities);
+        }
+      }
+    }
+  }, [details?.state, details?.country, countries]);
+  
+
   const handleOnChange = (e) => {
     const { value, name, files, type, checked } = e.target;
     console.log(name, type, value)
@@ -174,9 +205,10 @@ const BasicInfo = ({ setIsOpen }) => {
       setCountryInfo(countryInfoDetails);
       const states = State.getStatesOfCountry(countryInfoDetails?.isoCode);
       setSelectStates(states);
-    } else if (name === "state") {
-      const cities = City.getCitiesOfState(countryInfo.isoCode, value);
+    } else if (name === "state") { 
+      const cities = City.getCitiesOfState(countries?.find(one => one.name === countryInfo)?.isoCode, value);
       setSelectCity(cities);
+     
       const stateName = State.getStateByCode(value, countryInfo.isoCode);
       setSelectState(stateName);
       setDetails((prev) => {
@@ -419,9 +451,9 @@ const BasicInfo = ({ setIsOpen }) => {
   return (
     <div className="max-w-full text-[#515B6F] text-base overflow-x-hidden">
       <div className="my-4">
-        <div className="max-w-full flex flex-wrap md:flex-nowrap gap-4 items-center pb-6 border-b">
+        <div className="max-w-full flex flex-wrap lg:flex-nowrap gap-4 items-center pb-6 border-b">
           {/* Left Section */}
-          <div className="w-full md:w-1/3 pr-0 md:pr-5 text-center md:text-left">
+          <div className="w-full lg:w-1/3 pr-0 lg:pr-5 text-center lg:text-left">
             <p className="font-medium mb-2 text-slate-950">Profile Photo</p>
             <p>
               This image will be shown publicly as your profile picture, it will help recruiters recognize you!
@@ -429,7 +461,7 @@ const BasicInfo = ({ setIsOpen }) => {
           </div>
 
           {/* Right Section */}
-          <div className="w-full flex flex-col md:flex-row justify-center items-center flex-wrap gap-4">
+          <div className="w-full flex flex-col lg:flex-row justify-center items-center flex-wrap gap-4">
             {/* Profile Image */}
             <div className="ring-green-200 ring-4 rounded-full bg-gray-300">
               <img
@@ -446,7 +478,7 @@ const BasicInfo = ({ setIsOpen }) => {
             {/* Upload Section */}
             <label
               htmlFor="image"
-              className="min-h-32 w-full md:w-[90%] md:min-w-[24rem] cursor-pointer bg-green-50 border-2 border-green-500 border-dashed p-3 md:p-5 rounded"
+              className="min-h-32 w-full lg:w-[90%] lg:min-w-[24rem] cursor-pointer bg-green-50 border-2 border-green-500 border-dashed p-3 lg:p-5 rounded"
             >
               <div className="text-center">
                 <div className="flex justify-center">
@@ -477,13 +509,13 @@ const BasicInfo = ({ setIsOpen }) => {
         <div className="update_form py-6">
           <div>
             <form onSubmit={handleSubmit}>
-              <div className=" md:w-">
+              <div className=" lg:w-">
                 <div className="border-b py-6">
-                  <div className="flex flex-col md:flex-row gap-2">
-                    <div className="font-medium w-full md:w-2/6 text-slate-900">
+                  <div className="flex flex-col lg:flex-row gap-2">
+                    <div className="font-medium w-full lg:w-2/6 text-slate-900">
                       <p>Personal Information</p>
                     </div>
-                    <div className="w-full md:w-4/6">
+                    <div className="w-full lg:w-4/6">
                       <div className="mb-4">
                         <label className="block">
                           <span className="block text-sm font-medium text-slate-700 flex gap-1">
@@ -641,11 +673,11 @@ const BasicInfo = ({ setIsOpen }) => {
                   </div>
                 </div>
                 <div className="border-b py-6">
-                  <div className="flex flex-col md:flex-row gap-2">
-                    <div className="font-medium w-full md:w-2/6 text-slate-900">
+                  <div className="flex flex-col lg:flex-row gap-2">
+                    <div className="font-medium w-full lg:w-2/6 text-slate-900">
                       <p>Professional Details</p>
                     </div>
-                    <div className="w-full md:w-4/6">
+                    <div className="w-full lg:w-4/6">
                       <div className="grid grid-cols-2 gap-4">
                         <div className="">
                           <label className="block">
@@ -846,11 +878,11 @@ const BasicInfo = ({ setIsOpen }) => {
                                     </div> */}
                 </div>
                 <div className="w-full border-b mb-8 py-6">
-                  <div className="flex flex-col md:flex-row">
-                    <div className="font-medium w-full md:w-2/6 text-slate-900">
+                  <div className="flex flex-col lg:flex-row">
+                    <div className="font-medium w-full lg:w-2/6 text-slate-900">
                       <p>Contact Details</p>
                     </div>
-                    <div className="w-full md:w-4/6">
+                    <div className="w-full lg:w-4/6">
                       <div className="mb-4">
                         <label className="block">
                           <span className="block text-sm font-medium text-slate-700">
