@@ -23,20 +23,20 @@ const CompanyGridCard = ({ newApplicant, company }) => {
                         />
                     </div>
                     <button className="mx-2 py-1 px-2 rounded-full bg-green-100 text-green-700 border transition-all hover:bg-white hover:scale-105">
-                        Employees: {company.company_size}
+                        Employees: {company?.company_size}
                     </button>
                 </div>
                 <div>
                     <p><b>{company.company_name}</b></p>
-                    <p className="mb-2">{company.location}</p>
-                    <p className="mb-2">{company.address}</p>
+                    <p className="mb-2">{company?.location}</p>
+                    <p className="mb-2">{company?.address}</p>
                     <div className="flex flex-wrap items-start my-6">
                         <button className="mr-2 mt-2 py-1 px-2 border-green-500 rounded-full bg-white hover:bg-green-100 text-green-700 border transition-all hover:scale-105">
-                            {company.sector}
+                            {company?.sector}
                         </button>
-                        <button className="mr-2 mt-2 py-1 px-2 rounded-full bg-green-100 hover:bg-white text-green-700 border transition-all hover:scale-105">
+                        {company.network && <button className="mr-2 mt-2 py-1 px-2 rounded-full bg-green-100 hover:bg-white text-green-700 border transition-all hover:scale-105">
                             {company.network}
-                        </button>
+                        </button>}
                     </div>
                 </div>
             </div>
