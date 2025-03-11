@@ -24,7 +24,9 @@ function ListingRow({ data, applicants, isExclusive = false }) {
       {/* Job Title */}
       <td className="text-center py-[5px]">
         <div className="flex justify-center font-semibold items-center gap-[5px]">
-          <span>{data.job_title}</span>
+          <span>{data.job_title.length > 15 ? 
+  `${data.job_title.substring(0, 15)}...` : 
+  data.job_title}</span>
         </div>
       </td>
 
