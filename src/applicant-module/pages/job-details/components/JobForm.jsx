@@ -93,7 +93,7 @@ const navigate=useNavigate();
             .catch((error) => {
                 console.log(error)
                 if (error.response) {
-                    setErrorMsg(error.response.data.message)
+                    setErrorMsg(error.response.data.message || error?.response?.data?.error || "An error occured")
                     setShowMsg(true)
                     setLoading(false);
                 } else {
