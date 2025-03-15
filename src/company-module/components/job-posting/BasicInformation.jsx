@@ -493,10 +493,10 @@ function BasicInformation({ setCurrentStep, data, jobUtils, validateAndProceed }
                   value={jobUtils.details.min_salary || ""}
                   onChange={(e) => {
                     const minSalary = Number(e.target.value);
-                    if (minSalary <= jobUtils.details.max_salary) {
+                    if (minSalary < jobUtils.details.max_salary) {
                       jobUtils.setDetails({
                         ...jobUtils.details,
-                        min_salary: minSalary,
+                        min_salary: e.target.value,
                       });
                     }
                   }}
@@ -514,10 +514,10 @@ function BasicInformation({ setCurrentStep, data, jobUtils, validateAndProceed }
                   value={jobUtils.details.max_salary || ""}
                   onChange={(e) => {
                     const maxSalary = Number(e.target.value);
-                    if (maxSalary >= jobUtils.details.min_salary) {
+                    if (maxSalary > jobUtils.details.min_salary) {
                       jobUtils.setDetails({
                         ...jobUtils.details,
-                        max_salary: maxSalary,
+                        max_salary: e.target.value,
                       });
                     }
                   }}

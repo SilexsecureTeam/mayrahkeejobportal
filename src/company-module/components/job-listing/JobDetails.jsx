@@ -204,7 +204,7 @@ console.log(data)
                 {data?.search_keywords?.split(",").map((keyword, index) => (
                   <span
                     key={index}
-                    className="text-sm py-1 px-2 text-amber-500 bg-amber-300 rounded-full text-center"
+                    className="text-sm py-1 px-2 text-amber-800 bg-amber-300 rounded-full text-center"
                   >
                     {keyword}
                   </span>
@@ -220,7 +220,7 @@ console.log(data)
                 {data?.qualification?.map((current, index) => (
                   <span
                     key={index}
-                    className="text-sm py-1 px-2 text-green-400 bg-green-200 rounded-full text-center"
+                    className="text-sm py-1 px-2 text-green-800 bg-green-200 rounded-full text-center"
                   >
                     {current}
                   </span>
