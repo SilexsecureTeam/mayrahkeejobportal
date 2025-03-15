@@ -186,9 +186,9 @@ function useJobManagement() {
       if (validationError) {
         throw new Error(validationError);
       }
-      if (currentPackage?.number_of_jobs <= jobList?.length) {
+      if (Number(activePackage?.available_jobs) > 0) {
         throw new Error(
-          `Job limit reached. Your package allows posting up to ${currentPackage?.number_of_jobs} jobs.`
+          `Job Posting limit reached. Your package allows posting up to ${activePackage?.available_jobs} jobs.`
         );
       }
       const formDetails={

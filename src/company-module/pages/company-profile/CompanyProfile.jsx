@@ -19,7 +19,6 @@ import useExclusiveProfile from "../../../hooks/useExclusiveProfile";
 
 function CompaniesProfile({ exclusiveId = null }) {
   const [displayPic, setDisplayPic] = useState("");
-  console.log("Exclusive", exclusiveId);
   const companyHookProps = exclusiveId
     ? useExclusiveProfile(exclusiveId)
     : useCompanyProfile();

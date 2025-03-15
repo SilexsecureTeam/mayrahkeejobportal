@@ -1,19 +1,19 @@
 import React, { useContext, useEffect, useState } from "react";
 import mainLogo from "../../assets/svgs/main-logo.svg";
 import mainLogoTwo from "../../assets/pngs/main-logo-icon.png";
-import useCompanyProfile from "../../hooks/useCompanyProfile";
+import {CompanyRouteContext} from "../../context/CompanyRouteContext";
 import { resourceUrl } from "../../services/axios-client";
-import { MdClose } from "react-icons/md";
+import { MdClose, MdAccountCircle } from "react-icons/md";
 import wheelIcon from "../../assets/pngs/wheel-icon-black.png";
 
 function SideBar({
   children,
   authDetails,
-  companyHookProps,
   toogleIsOpen,
   isMenuOpen,
+  companyHookProps
 }) {
-  const { details } = useCompanyProfile();
+  const { globalDetails } = useContext(CompanyRouteContext);
   const [greenSectionHeight, setGreenSectionHeight] = useState(160); // Default height in pixels
 
   useEffect(() => {
@@ -30,14 +30,6 @@ function SideBar({
     return () => window.removeEventListener("resize", updateGreenSectionHeight);
   }, []);
 
-  const getImageURL = (image) => {
-    if (typeof image === "string") {
-      return `${resourceUrl}/${image}`;
-    } else {
-      const generatedUrl = URL.createObjectURL(image);
-      return generatedUrl;
-    }
-  };
 
   return (
     <>
@@ -71,14 +63,20 @@ function SideBar({
         {/* User Info Section */}
         <div className="absolute bottom-0 left-0 p-2 flex gap-[5px] items-end w-[220px]">
           <div className="flex-1 flex-col flex truncate">
-            <span className="text-secondaryColor text-sm font-semibold truncate">{authDetails?.user?.name || "N/A"}</span>
+            <span className="text-secondaryColor text-sm font-semibold truncate">{(globalDetails?.company_name || authDetails?.user?.name) || "N/A"}</span>
             <span className="text-gray-300 text-xs truncate">{authDetails?.user?.email}</span>
           </div>
-          <img
-            src={details?.logo_image ? getImageURL(details?.logo_image) : "https://via.placeholder.com/150"}
-            className="flex-shrink-0 h-[60px] w-[60px] rounded-full bg-secondaryColor max-[1200px]:mt-[-30px] transition-all duration-500 object-cover"
+          <figure  className="flex-shrink-0 h-[60px] w-[60px] rounded-full bg-secondaryColor max-[1200px]:mt-[-30px] transition-all duration-500 object-cover">
+          {!globalDetails?.logo_image ?
+            <MdAccountCircle className="w-[80%] rounded-full" />
+            :
+            <img
+            src={`${resourceUrl}/${globalDetails?.logo_image}`}
             alt="User"
-          />
+            className="w-full rounded-full"
+          />}
+          </figure>
+          
         </div>
       </aside>
 
@@ -117,14 +115,19 @@ function SideBar({
         {/* User Info Section */}
         <div className="absolute bottom-0 left-0 p-2 flex gap-[5px] items-end w-[280px]">
           <div className="flex-1 flex-col flex truncate">
-            <span className="text-secondaryColor text-sm font-semibold truncate">{authDetails?.user?.name || "N/A"}</span>
+            <span className="text-secondaryColor text-sm font-semibold truncate">{(globalDetails?.company_name || authDetails?.user?.name) || "N/A"}</span>
             <span className="text-gray-300 text-xs truncate">{authDetails?.user?.email}</span>
           </div>
-          <img
-            src={details?.logo_image ? getImageURL(details?.logo_image) : "https://via.placeholder.com/150"}
-            className="flex-shrink-0 h-[60px] w-[60px] rounded-full bg-secondaryColor max-[1200px]:mt-[-30px] transition-all duration-500 object-cover"
+          <figure  className="flex-shrink-0 h-[60px] w-[60px] rounded-full bg-secondaryColor max-[1200px]:mt-[-30px] transition-all duration-500 object-cover">
+          {!globalDetails?.logo_image ?
+            <MdAccountCircle className="w-[80%] rounded-full" />
+            :
+            <img
+            src={`${resourceUrl}/${globalDetails?.logo_image}`}
             alt="User"
-          />
+            className="w-full rounded-full"
+          />}
+          </figure>
         </div>
       </aside>
     </>

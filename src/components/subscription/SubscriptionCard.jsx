@@ -38,7 +38,7 @@ function SubscriptionCard({ data, setIsOpen, currentPackage }) {
 
         {/* Price */}
         <span className="font-semibold mt-[10%] text-xl flex gap-2 items-center">
-          {data?.title?.toLowerCase().includes("exclusive") ? "Contract" : FormatPrice(Number(data.price))}
+          {data?.title?.toLowerCase().includes("exclusive") ? "Contract" : `₦ ${FormatPrice(Number(data.price))}`}
           <button
             onClick={() => setShowPerks(!showPerks)}
             className="text-sm border odd:border-primaryColor rounded-md px-2 py-1 transition-all hover:bg-primaryColor hover:text-white"
