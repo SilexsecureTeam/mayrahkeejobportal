@@ -51,14 +51,14 @@ function SideBar({
             <span className="text-secondaryColor text-sm font-semibold truncate">{(globalDetails?.company_name || authDetails?.user?.name) || "N/A"}</span>
             <span className="text-gray-300 text-xs truncate">{authDetails?.user?.email}</span>
           </div>
-          <figure  className="flex-shrink-0 h-[60px] w-[60px] rounded-full bg-secondaryColor max-[1200px]:mt-[-30px] flex items-center justify-center transition-all duration-500 object-cover">
+          <figure  className="flex-shrink-0 h-[60px] w-[60px] overflow-hidden rounded-full bg-secondaryColor max-[1200px]:mt-[-30px] flex items-center justify-center transition-all duration-500 object-cover">
           {!globalDetails?.logo_image ?
             <MdAccountCircle size={45} className="w-[80%] rounded-full" />
             :
             <img
             src={`${resourceUrl}/${globalDetails?.logo_image}`}
             alt="User"
-            className="w-full rounded-full"
+            className="w-full h-full rounded-full object-cover"
           />}
           </figure>
           
