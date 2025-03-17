@@ -58,7 +58,7 @@ function SideBar({
             <img
             src={`${resourceUrl}/${globalDetails?.logo_image}`}
             alt="User"
-            className="w-full h-full rounded-full object-cover"
+            className="h-[60px] w-[60px] rounded-full object-cover"
           />}
           </figure>
           
