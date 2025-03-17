@@ -56,14 +56,14 @@ function SideBar({ children, authDetails, toogleIsOpen, isMenuOpen }) {
               {authDetails?.user?.email || "N/A"}
             </span>
           </div>
-          <figure className="h-[60px] w-[60px] rounded-full bg-secondaryColor object-cover flex items-center justify-center">
+          <figure className="h-[60px] w-[60px] rounded-full overflow-hidden bg-secondaryColor object-cover flex items-center justify-center">
             {!candidate?.profile ?
               <MdAccountCircle size={45} />
               :
               <img
                 src={`${IMAGE_URL}/${candidate.profile}`}
                 alt="User"
-                className="rounded-full"
+                className="h-[60px] w-[60px] rounded-full object-cover"
               />}
           </figure>
           </div>
@@ -118,14 +118,14 @@ function SideBar({ children, authDetails, toogleIsOpen, isMenuOpen }) {
             </span>
           </div>
 
-          <figure className="h-[60px] w-[60px] rounded-full bg-secondaryColor object-cover flex items-center justify-center">
+          <figure className="h-[60px] w-[60px] rounded-full overflow-hidden bg-secondaryColor object-cover flex items-center justify-center">
             {!candidate?.profile ?
               <MdAccountCircle size={45} />
               :
               <img
                 src={`${IMAGE_URL}/${candidate.profile}`}
                 alt="User"
-                className="rounded-full"
+                className="h-[60px] w-[60px] rounded-full object-cover"
               />}
           </figure>
         </div>
