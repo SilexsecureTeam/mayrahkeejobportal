@@ -372,7 +372,6 @@ const BasicInfo = ({ setIsOpen }) => {
         },
       })
       .then((response) => {
-        console.log(response);
         onSuccess({
           message: "Profile",
           success: response.data.message,
