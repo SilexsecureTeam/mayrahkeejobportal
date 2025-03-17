@@ -21,7 +21,7 @@ function ProfileHeader({ children, isOpen, setIsOpen, details }) {
       <div className="flex-shrink-0 w-full md:w-fit flex items-center justify-center relative p-4 md:my-2">
         <img
           className="h-[80px] w-[80px] rounded-full object-cover border-2"
-          src={details?.logo_image ? getImageURL(details?.logo_image) : wheelIcon}
+          src={details?.logo_image ? `${resourceUrl}/${details?.logo_image}` : wheelIcon}
           alt="Profile"
         />
       </div>

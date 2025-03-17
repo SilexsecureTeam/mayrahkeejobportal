@@ -2,14 +2,14 @@ import { useCallback, useContext, useEffect, useState } from "react";
 import { axiosClient } from "../services/axios-client";
 import { AuthContext } from "../context/AuthContex";
 import { get, set } from "idb-keyval";
-import { FormatError } from "../utils/formmaters";
+import { FormatError, extractErrorMessage } from "../utils/formmaters";
 import { onFailure } from "../utils/notifications/OnFailure";
 import { onSuccess } from "../utils/notifications/OnSuccess";
 
 const PACKAGES_KEY = "Packahes Database";
 
 function useSubscription() {
- 
+
   const { authDetails } = useContext(AuthContext);
   const [activePackage, setActivePackage] = useState();
   const client = axiosClient(authDetails?.token);
@@ -18,7 +18,7 @@ function useSubscription() {
     error: "",
   });
   const [packages, setPackages] = useState([]);
-  
+
   const [loading, setLoading] = useState(false);
   // console.log(activePackage)
   const interviewPackages = packages.filter(
@@ -35,7 +35,7 @@ function useSubscription() {
     setLoading(true);
     try {
       const { data } = await client.get("/packages");
-      const userPackage = data.data.sort((a,b) => Number(a.price) - Number(b.price))
+      const userPackage = data.data.sort((a, b) => Number(a.price) - Number(b.price))
 
       setPackages(userPackage);
       await set(PACKAGES_KEY, userPackage);
@@ -52,17 +52,17 @@ function useSubscription() {
       const { data } = await client.get(
         `/user-package-payment/${authDetails?.user?.id}`
       );
-      if (data.data.length !== 0) {
-        const byAscendingOrder = data.data.sort(
-          (a, b) => new Date(a.created_at) - new Date(b.created_at)
-        );
-        setActivePackage(byAscendingOrder[byAscendingOrder.length - 1]);
+      if (data?.data) {
+        // const byAscendingOrder = data.data.sort(
+        //   (a, b) => new Date(a.created_at) - new Date(b.created_at)
+        // );
+        setActivePackage(data?.data);
       } else {
         setActivePackage(null);
       }
     } catch (error) {
-      FormatError(error, setError, "Subscription Error");
-      setActivePackage(2);
+      setError({message:"Subscription Error", error:extractErrorMessage(error)})
+      setActivePackage(null);
     } finally {
       setLoading(false);
     }
@@ -86,58 +86,58 @@ function useSubscription() {
     }
   }, []);
 
- const config = (data, handleSuccess) => {
-  const priceInKobo = Number(data.price) * 100;
+  const config = (data, handleSuccess) => {
+    const priceInKobo = Number(data.price) * 100;
 
-  // This function is triggered when the user closes the payment modal (cancels)
-  const onClose = () => {
-    // Set an error state if the user cancels the payment
-    onFailure({
-      message: "Payment was canceled",
-      error: "Payment Cancellation Error",
-    });
-   
+    // This function is triggered when the user closes the payment modal (cancels)
+    const onClose = () => {
+      // Set an error state if the user cancels the payment
+      onFailure({
+        message: "Payment was canceled",
+        error: "Payment Cancellation Error",
+      });
+
+    };
+
+    // This function is triggered when the payment is successful but might need validation
+    const onSuccessHandler = (reference) => {
+      handleSuccess(reference, data);
+      onSuccess({
+        message: "Payment Successful",
+        success: "Hang on, validating payment...",
+      });
+    };
+
+    // This function handles any error during the payment process
+    const onError = (error) => {
+      // Set an error state when there's an issue with payment
+      setError({
+        message: error.message || "An error occurred during payment",
+        error: "Payment Error",
+      });
+
+      // Show error notification
+      onFailure({
+        message: "Payment failed",
+        error: "There was an issue with your payment. Please try again.",
+      });
+    };
+
+    return {
+      reference: new Date().getTime().toString(),
+      email: authDetails?.user?.email,
+      amount: priceInKobo,
+      publicKey: import.meta.env.VITE_LIVE_PUBLIC_KEY,
+      text: "Paystack Button Implementation",
+      onSuccess: onSuccessHandler, // Call onSuccessHandler for successful payments
+      onClose: onClose,           // Call onClose if the user cancels the payment
+      onError: onError,           // Call onError if there's an issue
+    };
   };
 
-  // This function is triggered when the payment is successful but might need validation
-  const onSuccessHandler = (reference) => {
-    handleSuccess(reference, data);
-    onSuccess({
-      message: "Payment Successful",
-      success: "Hang on, validating payment...",
-    });
-  };
-
-  // This function handles any error during the payment process
-  const onError = (error) => {
-    // Set an error state when there's an issue with payment
-    setError({
-      message: error.message || "An error occurred during payment",
-      error: "Payment Error",
-    });
-
-    // Show error notification
-    onFailure({
-      message: "Payment failed",
-      error: "There was an issue with your payment. Please try again.",
-    });
-  };
-
-  return {
-    reference: new Date().getTime().toString(),
-    email: authDetails?.user?.email,
-    amount: priceInKobo,
-    publicKey: import.meta.env.VITE_LIVE_PUBLIC_KEY,
-    text: "Paystack Button Implementation",
-    onSuccess: onSuccessHandler, // Call onSuccessHandler for successful payments
-    onClose: onClose,           // Call onClose if the user cancels the payment
-    onError: onError,           // Call onError if there's an issue
-  };
-};
 
 
-
-let idx=0;
+  let idx = 0;
 
   useEffect(() => {
     const initVals = async () => {
@@ -149,16 +149,16 @@ let idx=0;
           await getPackages()
         }
       } catch (error) {
-         console.log('Caught Error')
+        console.log('Caught Error')
       }
-     
+
     };
-if(authDetails?.user?.role === "employer"){
-  getActivePackage();
-  initVals();
-  console.log("render of subscription",( idx+1))
-}
-  
+    if (authDetails?.user?.role === "employer") {
+      getActivePackage();
+      initVals();
+      console.log("render of subscription", (idx + 1))
+    }
+
   }, [authDetails?.user]);
 
   useEffect(() => {

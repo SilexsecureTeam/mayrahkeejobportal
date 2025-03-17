@@ -168,9 +168,8 @@ function BasicInformation({ setCurrentStep, data, jobUtils, validateAndProceed }
       const employementListResult = await getEmployentTypes();
       const currencyResult = await getCurrencies();
       const sectors = await getSectors();
-      setJobSectorList(sectors)
+      setJobSectorList(sectors?.sort((a,b)=>a.name.toLowerCase().localeCompare(b.name.toLowerCase())))
       setEmployementList(employementListResult);
-      console.log(Country.getAllCountries())
       const currencyWithCountry=currencyResult?.map((item)=>{
         const country = Country.getAllCountries().find(c => item.name?.startsWith(c.isoCode));
         return{
@@ -178,7 +177,6 @@ function BasicInformation({ setCurrentStep, data, jobUtils, validateAndProceed }
             name: `${item?.name} ${country ? `(${country?.name})` : ''}`,
         };
       })
-      console.log(currencyWithCountry)
       setCurrencyList(currencyWithCountry);
       if (employementListResult.length > 0) {
         setSelectedType(jobUtils.details.type
@@ -236,7 +234,7 @@ function BasicInformation({ setCurrentStep, data, jobUtils, validateAndProceed }
       const subsector = jobUtils?.details?.subsector
         ? sector?.sub_sectors?.find(one => one?.name === jobUtils?.details?.subsector)
         : null;
-      setSelectedSubSector(subsector);
+      setSelectedSubSector(subsector?.sort((a,b)=>a.name.toLowerCase().localeCompare(b.name.toLowerCase())));
     }
   }, [jobSectorList, jobUtils?.details?.sector]);
 
@@ -297,7 +295,6 @@ function BasicInformation({ setCurrentStep, data, jobUtils, validateAndProceed }
     return true;
   };
 
-  //console.log(State.getStatesOfCountry('NG'))
   return (
     <div className="flex flex-col w-full p-4 gap-4">
       {/* Basic Info */}
@@ -514,7 +511,7 @@ function BasicInformation({ setCurrentStep, data, jobUtils, validateAndProceed }
                   value={jobUtils.details.max_salary || ""}
                   onChange={(e) => {
                     const maxSalary = Number(e.target.value);
-                    if (maxSalary > jobUtils.details.min_salary) {
+                    if (maxSalary >= jobUtils.details.min_salary) {
                       jobUtils.setDetails({
                         ...jobUtils.details,
                         max_salary: e.target.value,
