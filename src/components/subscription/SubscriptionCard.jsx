@@ -12,7 +12,7 @@ function SubscriptionCard({ data, setIsOpen, currentPackage }) {
   const subUtils = useContext(SubscriptionContext);
   const navigate=useNavigate();
   const handleOnClick = (reference, data) => {
-    subUtils.makePaymentCheck(reference, data);
+    subUtils?.makePaymentCheck(reference, data);
     if (setIsOpen) {
       setIsOpen(false);
     }
@@ -20,11 +20,7 @@ function SubscriptionCard({ data, setIsOpen, currentPackage }) {
 
   return (
     <li
-      className={`${
-        currentPackage?.package_id === data.id
-          ? "opacity-70 pointer-events-none relative"
-          : ""
-      } duration-75 cursor-pointer rounded-[10px] group flex flex-col items-center justify-between p-3 border even:border even:bg-primaryColor even:text-white odd:text-primaryColor odd:border-primaryColor`}
+      className="relative duration-75 rounded-[10px] group flex flex-col items-center justify-between p-3 border even:border even:bg-primaryColor even:text-white odd:text-primaryColor odd:border-primaryColor"
     >
     {
       currentPackage?.package_id === data.id &&
@@ -46,9 +42,10 @@ function SubscriptionCard({ data, setIsOpen, currentPackage }) {
             {showPerks ? "Desc" : "Perks"}
           </button>
         </span>
-        {/*<span className="mt-5 text-little">user/month</span>*/}
+        {/* feature */}
           <article className="font-medium flex flex-col items-center my-2">
           <p>No. of Jobs: {data?.number_of_jobs || 0}</p>
+          {currentPackage?.package_id === data.id && <p>Available Jobs: {currentPackage?.available_jobs}</p>}
           <p>Duration: {data?.duration} day(s)</p>
           </article> 
         {/* Description or Perks */}
@@ -76,29 +73,20 @@ function SubscriptionCard({ data, setIsOpen, currentPackage }) {
         
         <button
         onClick={()=>navigate("/company/help-center")}
-            className={`text-sm font-semibold w-[80%] h-[35px] rounded-md transition-all ${
-              currentPackage?.package_id === data.id
-                ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-                : "group-odd:bg-primaryColor group-odd:text-white group-even:bg-white group-even:text-primaryColor hover:scale-105"
-            }`}
+            className="text-sm font-semibold w-[80%] h-[35px] rounded-md transition-all group-odd:bg-primaryColor group-odd:text-white group-even:bg-white group-even:text-primaryColor hover:scale-105"
             disabled={currentPackage?.package_id === data.id}
           >
             Contact Mayrahkee Support
             </button>
   
-      :<PaystackConsumer {...subUtils.config(data, handleOnClick)}>
+      :<PaystackConsumer {...subUtils?.config(data, handleOnClick)}>
         {({ initializePayment }) => (
           <button
             onClick={initializePayment}
-            className={`text-sm font-semibold w-[80%] h-[35px] rounded-md transition-all ${
-              currentPackage?.package_id === data.id
-                ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-                : "group-odd:bg-primaryColor group-odd:text-white group-even:bg-white group-even:text-primaryColor hover:scale-105"
-            }`}
-            disabled={currentPackage?.package_id === data.id}
+            className="text-sm font-semibold w-[80%] h-[35px] rounded-md transition-all group-odd:bg-primaryColor group-odd:text-white group-even:bg-white group-even:text-primaryColor hover:scale-105"
           >
             Choose Plan
-            {subUtils.loading && <Spinner />}
+            {subUtils?.loading && <Spinner />}
           </button>
         )}
       </PaystackConsumer>

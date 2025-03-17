@@ -164,7 +164,7 @@ function UpdateCompanyProfileModal({
   const { getSectors } = useContext(JobContext) ?? {};
 
   const [newDetails, setNewDetails] = useState({});
-  const [campaignPhotos, setCampaignPhotos] = useState([...newDetails?.company_campaign_photos || []]);
+  const [campaignPhotos, setCampaignPhotos] = useState([...details?.company_campaign_photos || []]);
   const [sectorList, setSectorList] = useState([]);
 
 useEffect(()=>{
@@ -174,52 +174,42 @@ useEffect(()=>{
 },[isOpen])
   
 
-  const getCampaignPhotoURL = (e) => {
-    const { name } = e.target;
-    const files = e.target.files;
-  
-    // Convert FileList to array and filter only valid JPEG/PNG files
-    const validFiles = Array.from(files).filter(
-      (file) => file.type === "image/jpeg" || file.type === "image/png"
-    );
-  
-    if (validFiles.length === 0) {
-      alert("Please select only JPEG or PNG files.");
-      e.target.value = ""; // Nullify upload
-      return;
-    }
-  
-    // Get the existing files (if any)
-    const existingFiles = Array.isArray(newDetails?.company_campaign_photos)
-      ? newDetails?.company_campaign_photos
-      : [];
-  
-    // Calculate the total size including existing files
-    const totalSize = [...existingFiles, ...validFiles].reduce(
-      (acc, file) => acc + file.size,
-      0
-    );
-  
-    if (totalSize > 2 * 1024 * 1024) {
-      onFailure({message:"File Upload error", error:"The total file size must not exceed 2MB."});
-      e.target.value = ""; // Nullify upload
-      return;
-    }
-  
-    // Map files to URLs for preview
+ 
+const getCampaignPhotoURL = (e) => {
+  const { name } = e.target;
+  const files = e.target.files;
+
+  // Validate files
+  const validFiles = Array.from(files)?.filter(
+    (file) => file.type === "image/jpeg" || file.type === "image/png"
+  );
+
+  if (validFiles.length > 0) {
     const updatedList = validFiles.map((file) => ({
       url: URL.createObjectURL(file),
       file,
     }));
-  
-    const updatedPhotos = [...existingFiles, ...updatedList];
-  
+
+    const updatedPhotos = [
+      ...(newDetails?.company_campaign_photos || []),
+      ...updatedList,
+    ];
+
+    const updatedFiles = [
+      ...(Array.isArray(newDetails?.company_campaign_photos) ? newDetails?.company_campaign_photos?.map((item) => item) : []),
+      ...updatedList.map((item) => item.file),
+    ];
+
     setNewDetails((prevDetails) => ({
       ...prevDetails,
-      [name]: updatedPhotos.map((item) => item.file),
+      [name]: updatedFiles,
     }));
     setCampaignPhotos(updatedPhotos);
-  };
+  } else {
+    alert("Please select a valid JPEG or PNG file.");
+  }
+};
+
   
 
   useEffect(() => {
