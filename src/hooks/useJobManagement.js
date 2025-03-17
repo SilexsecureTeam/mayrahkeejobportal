@@ -186,7 +186,7 @@ function useJobManagement() {
       if (validationError) {
         throw new Error(validationError);
       }
-      if (Number(activePackage?.available_jobs) == 0) {
+      if (Number(activePackage?.available_jobs) < 1) {
         throw new Error(
           `Job Posting limit reached. Please Top-Up your subscription`
         );
