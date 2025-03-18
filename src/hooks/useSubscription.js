@@ -69,6 +69,7 @@ function useSubscription() {
   };
 
   const makePaymentCheck = useCallback(async (reference, data) => {
+    console.log(authDetails)
     setLoading(true);
     try {
       const response = await client.post("/package-payment", {

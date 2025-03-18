@@ -170,6 +170,7 @@ function useCompanyProfile() {
             ...storedValue,
             beenRetreived: retrievalState.retrieved,
           });
+          setGlobalDetails({...storedValue})
         } else {
           await getProfileInfo();
         }
@@ -177,7 +178,6 @@ function useCompanyProfile() {
         FormatError(error, setError, "Index Error");
       }
     };
-
     initValue();
   }, []);
 

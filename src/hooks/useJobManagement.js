@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { axiosClient } from "../services/axios-client";
 import { set, get, del, keys, clear } from "idb-keyval";
-import { FormatError } from "../utils/formmaters";
+import { FormatError, extractErrorMessage } from "../utils/formmaters";
 import { AuthContext } from "../context/AuthContex";
 import { SubscriptionContext } from "../context/SubscriptionContext";
 import { onFailure } from "../utils/notifications/OnFailure";
@@ -11,7 +11,7 @@ export const JOB_MANAGEMENT_Key = "Job Management Database";
 export const apiURL = "https://dash.mayrahkeeafrica.com/api";
 
 function useJobManagement() {
-  const subUtils = useContext(SubscriptionContext);
+  const subUtils = useContext(SubscriptionContext); 
   const activePackage = subUtils?.activePackage;
   const currentPackage = activePackage
     ? subUtils?.packages?.find((pkg) => pkg.id === activePackage.package_id)
@@ -217,6 +217,7 @@ function useJobManagement() {
 
       setDetails({});
       await getJobsFromDB();
+      subUtils?.getActivePackage()
       handleSuccess();
     } catch (error) {
       const errorDetails = Object.entries(error?.response?.data?.errors || {})
@@ -272,7 +273,7 @@ function useJobManagement() {
       await getJobsFromDB();
       handleSuccess();
     } catch (error) {
-      onFailure({ message: "Submission Failed", error: error?.response?.data?.message || error?.message });
+      onFailure({ message: "Submission Failed", error: extractErrorMessage(error) });
     } finally {
       setLoading(false);
     }
@@ -297,7 +298,7 @@ function useJobManagement() {
       handleSuccess();
 
     } catch (error) {
-      onFailure({ message: "Submission Failed", error: error.message });
+      onFailure({ message: "Submission Failed", error: extractErrorMessage(error) });
     } finally {
       setLoading(false);
     }
