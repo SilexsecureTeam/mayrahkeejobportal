@@ -21,7 +21,6 @@ function JobDetails({ data, jobUtils, applicants, exclusive }) {
   const [addJob, setAddJob] = useState(false);
   const [isDeleteOpen, setIsDeleteOpened] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-console.log(data)
   const navigate = useNavigate();
   const toogleJobModal = () => setAddJob(!addJob);
   const handleEdit = () => {

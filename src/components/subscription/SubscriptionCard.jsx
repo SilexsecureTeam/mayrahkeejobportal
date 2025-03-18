@@ -82,6 +82,7 @@ function SubscriptionCard({ data, setIsOpen, currentPackage }) {
       :<PaystackConsumer {...subUtils?.config(data, handleOnClick)}>
         {({ initializePayment }) => (
           <button
+            disabled={subUtils?.loading}
             onClick={initializePayment}
             className="text-sm font-semibold w-[80%] h-[35px] rounded-md transition-all group-odd:bg-primaryColor group-odd:text-white group-even:bg-white group-even:text-primaryColor hover:scale-105"
           >

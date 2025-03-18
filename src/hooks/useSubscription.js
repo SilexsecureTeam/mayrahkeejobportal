@@ -69,6 +69,7 @@ function useSubscription() {
   };
 
   const makePaymentCheck = useCallback(async (reference, data) => {
+    console.log(authDetails)
     setLoading(true);
     try {
       const response = await client.post("/package-payment", {
@@ -127,7 +128,7 @@ function useSubscription() {
       reference: new Date().getTime().toString(),
       email: authDetails?.user?.email,
       amount: priceInKobo,
-      publicKey: import.meta.env.VITE_TEST_PUBLIC_KEY,
+      publicKey: import.meta.env.VITE_LIVE_PUBLIC_KEY,
       text: "Paystack Button Implementation",
       onSuccess: onSuccessHandler, // Call onSuccessHandler for successful payments
       onClose: onClose,           // Call onClose if the user cancels the payment
