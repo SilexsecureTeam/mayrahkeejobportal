@@ -1,14 +1,15 @@
-import React, { useState } from "react";
+import React, { useContext } from "react";
 import mainLogoTwo from "../../assets/pngs/main-logo-icon.png";
 import { MdClose, MdAccountCircle } from "react-icons/md";
 import { ResourceContext } from "../../context/ResourceContext";
 import { IMAGE_URL } from "../../utils/base";
+import { StaffManagementContext } from "../../context/StaffManagementModule";
 
 function SideBar({ children, authDetails, toogleIsOpen, isMenuOpen }) {
-  const imgUrl = authDetails?.user?.profile_image
-  const user = authDetails?.user
-  const [greenSectionHeight, setGreenSectionHeight] = useState(160); // Default height in pixels
-
+  
+   const { profileDetails } = useContext(
+      StaffManagementContext
+    );
   return (
     <>
       {/* Desktop Sidebar */}
@@ -20,7 +21,7 @@ function SideBar({ children, authDetails, toogleIsOpen, isMenuOpen }) {
         <nav
           className="flex flex-col gap-[20px] divide-y-2 overflow-y-auto"
           style={{
-            maxHeight: `calc(100vh - ${greenSectionHeight + 10}px)`,
+            maxHeight: `calc(100vh - ${160 + 10}px)`,
           }}
         >
           {children[0]}
@@ -44,20 +45,20 @@ function SideBar({ children, authDetails, toogleIsOpen, isMenuOpen }) {
         <div className="absolute bottom-0 left-0 p-2 flex gap-[5px] items-end w-[220px]">
           <div className="flex-1 flex flex-col truncate">
             <span className="text-secondaryColor text-sm truncate">
-              {`${user?.first_name || "N/A"} ${user?.surname || "N/A"
+              {`${profileDetails?.first_name || "N/A"} ${profileDetails?.surname || "N/A"
                 }`}
             </span>
             <span className="text-gray-300 text-[11px] truncate">
-              {user?.email || "N/A"}
+              {profileDetails?.email || "N/A"}
             </span>
           </div>
 
           <figure className="h-[60px] w-[60px] rounded-full overflow-hidden bg-secondaryColor object-cover flex items-center justify-center">
-          {!user?.profile_image ?
+          {!profileDetails?.profile_image ?
             <MdAccountCircle size={45} />
             :
             <img
-              src={`${IMAGE_URL}/${user?.profile_image}`}
+              src={`${IMAGE_URL}/${profileDetails?.profile_image}`}
               alt="User"
               className="h-[60px] w-[60px] rounded-full object-cover"
             />}
@@ -107,19 +108,19 @@ function SideBar({ children, authDetails, toogleIsOpen, isMenuOpen }) {
         <div className="absolute bottom-0 right-3 p-2 flex gap-3 items-end w-[270px]">
           <div className="flex flex-col truncate">
             <span className="text-secondaryColor text-sm truncate">
-              {`${user?.first_name || "N/A"} ${user?.surname || "N/A"
+              {`${profileDetails?.first_name || "N/A"} ${profileDetails?.surname || "N/A"
                 }`}
             </span>
             <span className="text-gray-300 text-[11px] truncate">
-              {user?.email || "N/A"}
+              {profileDetails?.email || "N/A"}
             </span>
           </div>
           <figure className="h-[60px] w-[60px] rounded-full overflow-hidden bg-secondaryColor object-cover flex items-center justify-center">
-          {!user?.profile_image ?
+          {!profileDetails?.profile_image ?
             <MdAccountCircle size={45} />
             :
             <img
-              src={`${IMAGE_URL}/${user?.profile_image}`}
+              src={`${IMAGE_URL}/${profileDetails?.profile_image}`}
               alt="User"
               className="h-[60px] w-[60px] rounded-full object-cover"
             />}

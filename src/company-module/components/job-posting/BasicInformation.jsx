@@ -25,7 +25,7 @@ const basic_inputs = [
   {
     id: 2,
     name: "preferred_age",
-    label: "Application Age Limit",
+    label: "Minimum Age Limit",
     type: "number",
     placeholder: "e.g 18",
     min: 18,
@@ -240,7 +240,7 @@ function BasicInformation({ setCurrentStep, data, jobUtils, validateAndProceed }
 
   useEffect(() => {
     if (selectedSector) {
-      setSubSectorList(selectedSector?.sub_sectors || []);
+      setSubSectorList(selectedSector?.sub_sectors?.sort((a,b)=>a.name.toLowerCase().localeCompare(b.name.toLowerCase())) || []);
       const matchingSubsector = selectedSector?.sub_sectors?.find(
         (one) => one?.name === jobUtils?.details?.subsector
       );

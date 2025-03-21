@@ -185,8 +185,15 @@ function ProfileForm({ setToMain }) {
   const [imageUrl, setImageUrl] = useState();
 
   const onSubmit = async (data) => {
-    setLoading(true);
-
+   
+  if (!file && profileDetails?.profile_image == null) {
+    onFailure({
+      error: "Profile Image Required",
+      message: "Please upload a profile image before submitting.",
+    });
+    return
+  }
+  setLoading(true);
     // Filter out placeholder values from select fields
     const filteredData = Object.fromEntries(
       Object.entries(data).filter(
@@ -215,8 +222,9 @@ function ProfileForm({ setToMain }) {
         error: "Failed to update",
         message: "Something went wrong",
       });
+      setLoading(false);
     }
-    setLoading(false);
+   
   };
 
   // Guard clause to prevent rendering before profileDetails is loaded

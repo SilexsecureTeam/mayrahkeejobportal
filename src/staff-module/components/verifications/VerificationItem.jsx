@@ -9,8 +9,7 @@ function VerificationItem({ currentKey, profileDetails, updateTrackRecord }) {
   const { updateAvailabilityStatus, getStyling, allStatus } = useStaffUser();
   const avaliabliltyDetail = profileDetails[currentKey];
   const { authDetails } = useContext(AuthContext);
-  console.log(profileDetails)
-
+ 
   const detail =
     allStatus.find((current) => current === profileDetails[currentKey]) ||
     "Not Recorded";

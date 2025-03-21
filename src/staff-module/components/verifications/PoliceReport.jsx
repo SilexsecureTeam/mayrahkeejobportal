@@ -111,12 +111,12 @@ function PoliceReport() {
 
       {typeof currentRecord !== "undefined" && (
         <div className="grid grid-cols-2 gap-x-3 gap-y-5 p-2 w-full text-gray-600">
-          {recordFields()?.map((currentKey) => {
+          {recordFields()?.map((currentKey, idx) => {
             const value = currentRecord[currentKey];
             const labelText = currentKey.replace(/_/g, " ");
 
             return (
-              <div className="flex flex-col gap-1">
+              <div key={idx} className="flex flex-col gap-1">
                 <label className="capitalize font-medium">{labelText}</label>
                 {currentKey == "police_report_file" ? (
                   <a
