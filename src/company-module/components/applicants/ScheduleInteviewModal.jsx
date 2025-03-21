@@ -170,7 +170,7 @@ useEffect(()=>{
                       onClick={onClick}
                       className="w-fit px-2 py-1 bg-primaryColor rounded-[5px] text-white text-little font-semibold flex items-center"
                     >
-                      <span>Generate Meeting Id</span>
+                      <span>Generate Meeting ID</span>
                       {loadingMeetingId && (
                         <FaSpinner className="ml-2 animate-spin" /> // Add Tailwind's animate-spin class
                       )}

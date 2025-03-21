@@ -57,7 +57,6 @@ function Dashboard() {
         const { data } = await client.get("/staff-categories");
         const sub=data.data?.find(one=>one.name.toLowerCase().includes(profileDetails?.staff_category))?.subcategories || []
         const cat=sub?.find(one=>one.name=== profileDetails?.subcategory)
-        console.log(cat)
         setCategory(cat);
       } catch (error) {
         onFailure({
@@ -110,7 +109,7 @@ function Dashboard() {
                   className="border text-white transition duration-400 bg-lightgreen h-full cursor-pointer mb-4 p-3 pb-0 flex flex-col justify-between"
                 >
                   <p className="font-bold">Profile Update</p>
-                  <p className="pl-2 text-2xl font-medium">Completed</p>
+                  <p className="pl-2 text-2xl font-medium">{profileDetails?.profile_image ? "Completed":"Pending"}</p>
                   <div className="flex justify-between items-end mt-">
                     <p className="text-2xl font-medium"></p>
                     <div className="text-gray-300 mb-1">
@@ -125,7 +124,7 @@ function Dashboard() {
                   className="border bg-darkblue text-white transition duration-400 h-full cursor-pointer mb-4 p-3 pb-0 flex flex-col justify-between"
                 >
                   <p className="font-bold">Resume</p>
-                  <p className="pl-2 text-2xl font-medium">Uploaded</p>
+                  <p className="pl-2 text-2xl font-medium">{profileDetails?.resume ? "Uploaded":"Pending"}</p>
                   <div className="flex justify-between items-end mt-4">
                     <p className="text-6xl font-medium"></p>
                     <div className="text-gray-300 mb-1">
@@ -180,14 +179,14 @@ function Dashboard() {
                     allStatus.find(
                       (current) => current === profileDetails[currentKey]
                     ) || "Not Recorded";
-                  const labelText = currentKey.replace(/_/g, " ").toUpperCase();
+                  const labelText = currentKey.replace(/_/g, " ").toLowerCase();
 
                   return (
                     <div
                       onClick={() => navigateToPage("/staff/verifications", 2)}
                       className="p-2 cursor-pointer hover:bg-gray-100 flex justify-between w-full"
                     >
-                      <span>{labelText}</span>
+                      <span className="capitalize">{labelText}</span>
                       <span
                         className={`${getStyling(
                           detail
@@ -236,14 +235,15 @@ function Dashboard() {
             {(profileDetails?.status === "pending" || profileDetails?.status === "approved") ? <p className="text-md leading-7 tracking-wider">
               We've introduced a user-friendly feature just for you,
               giving you the power to control your availability status
-              with a simple toggle. This means you can easily let others
+              with a simple toggle. 
+              {/* This means you can easily let others
               know whether you're currently available for work or not.
               With just one click, you can update your status in
               real-time—whether you're ready to take on new opportunities
               or need to mark yourself as unavailable. This feature is
               designed to give you control over how you're seen by
               potential employers or clients, allowing you to manage your
-              own schedule.
+              own schedule. */}
             </p> : <p className="text-md leading-7 tracking-wider">We appreciate your interest in our service, Unfortunately your application has been {profileDetails?.status}! If you'd like feedback on your application. please contact our support team.</p>}
           </div>
 

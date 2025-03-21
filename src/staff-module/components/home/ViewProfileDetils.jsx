@@ -40,8 +40,7 @@ function ViewProfileDetails() {
         currentKey === 'marital_status'
     );
 
-  console.log(`${resourceUrl}${profileDetails?.profile_image}`)
-  return (
+ return (
     <div className="w-full flex flex-col gap-10">
       <h1 className="text-xl text-green-700 font-semibold">Your Profile Information</h1>
       <figure className="h-[100px] w-[100px] rounded-full overflow-hidden bg-secondaryColor flex items-center justify-center text-gray-500 border border-[#dee2e6]">

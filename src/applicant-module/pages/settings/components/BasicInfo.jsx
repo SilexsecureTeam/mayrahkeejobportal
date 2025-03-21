@@ -489,7 +489,7 @@ const BasicInfo = ({ setIsOpen }) => {
                   <span className="text-green-500 font-medium">
                     Click to replace
                   </span>{" "}
-                  or drag and drop
+                  or Drag and Drop
                 </p>
                 <p>PNG, JPG (max. File size 1MB)</p>
                 <input

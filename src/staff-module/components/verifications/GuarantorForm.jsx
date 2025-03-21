@@ -188,7 +188,7 @@ function GuarantorForm() {
           </div>
 
           <div></div>
-          <FormButton loading={isLoading}>Upload Guarantor Details</FormButton>
+          <FormButton loading={isLoading}>Save Guarantor Details</FormButton>
         </form>
       )}
     </div>

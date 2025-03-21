@@ -40,7 +40,7 @@ export const basic_inputs = [
   {
     id: 3,
     name: "phone_number",
-    label: "Company Phone",
+    label: "Company Phone Number",
     required: true,
     type: "tel",
     placeholder: "Enter Company Phone",
