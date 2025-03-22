@@ -141,7 +141,7 @@ function Dashboard() {
                   className="border  bg-lightorange text-white transition duration-400 h-full cursor-pointer mb-4 p-3 pb-0 flex flex-col justify-between"
                 >
                   <p className="font-bold">Verifications</p>
-                  <p className="pl-2 text-2xl font-medium">In-Review</p>
+                  <p className="pl-2 text-2xl font-medium">{profileDetails?.status === "approved" ? "Verified" : "Under-Review"}</p>
                   <div className="flex justify-between items-end mt-4">
                     <p className="text- font-medium"></p>
                     <div className=" text-gray-300">
