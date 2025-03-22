@@ -8,6 +8,7 @@ function SideBarItem({ data, dispatch, state, setIsOpen }) {
 const {setAuthDetails} = useContext(AuthContext)
   const navigateToPage = () => {
     if (data.type === "LOG-OUT") {
+      clear()
       sessionStorage.clear()
       dispatch({});
       setAuthDetails(null)
