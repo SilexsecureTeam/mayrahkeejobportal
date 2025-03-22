@@ -184,9 +184,9 @@ function Dashboard() {
                   return (
                     <div
                       onClick={() => navigateToPage("/staff/verifications", 2)}
-                      className="p-2 cursor-pointer hover:bg-gray-100 flex justify-between w-full"
+                      className="p-2 cursor-pointer hover:bg-gray-100 flex justify-between gap-2 w-full"
                     >
-                      <span className="capitalize">{labelText}</span>
+                      <span className="capitalize">{labelText}:</span>
                       <span
                         className={`${getStyling(
                           detail
