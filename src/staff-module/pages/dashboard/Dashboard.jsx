@@ -190,7 +190,7 @@ function Dashboard() {
                       <span
                         className={`${getStyling(
                           detail
-                        )} text-black uppercase font-semibold"`}
+                        )} text-black capitalize font-semibold"`}
                       >
                         {detail}
                       </span>
