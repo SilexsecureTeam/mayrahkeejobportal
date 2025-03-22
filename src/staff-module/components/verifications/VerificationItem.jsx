@@ -61,7 +61,7 @@ function VerificationItem({ currentKey, profileDetails, updateTrackRecord }) {
         </div>
       ) : (
         <div key={currentKey} className="flex gap-1 w-full max-w-[600px] justify-between">
-          <label className="capitalize">{labelText}</label>
+          <label className="capitalize">{labelText}:</label>
           <span
             className={`${getStyling(
               detail
