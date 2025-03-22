@@ -65,7 +65,7 @@ function VerificationItem({ currentKey, profileDetails, updateTrackRecord }) {
           <span
             className={`${getStyling(
               detail
-            )} text-black uppercase font-semibold"`}
+            )} text-black capitalize font-semibold"`}
           >
             {detail}
           </span>
