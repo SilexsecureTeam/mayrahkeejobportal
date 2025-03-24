@@ -21,9 +21,14 @@ function SubscriptionCard({ data, setIsOpen, currentPackage }) {
   };
 
   const handleQuantityChange = (e) => {
-    const value = Math.max(1, Number(e.target.value)); // Prevent zero/negative numbers
-    setQuantity(value);
-  };
+  const value = e.target.value;
+  if (value === "") {
+    setQuantity(""); // Allow empty input temporarily
+  } else {
+    setQuantity(Math.max(1, Number(value))); // Prevent zero/negative numbers
+  }
+};
+
 
   return (
     <li className="relative duration-75 rounded-[10px] group flex flex-col items-center justify-between p-3 border even:border even:bg-primaryColor even:text-white odd:text-primaryColor odd:border-primaryColor">
