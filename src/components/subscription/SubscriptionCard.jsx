@@ -31,7 +31,7 @@ function SubscriptionCard({ data, setIsOpen, currentPackage }) {
 
 
   return (
-    <li className="relative duration-75 rounded-[10px] group flex flex-col items-center justify-between p-3 border even:border even:bg-primaryColor even:text-white odd:text-primaryColor odd:border-primaryColor">
+    <li className="group relative duration-75 rounded-[10px] group flex flex-col items-center justify-between p-3 border even:border even:bg-primaryColor even:text-white odd:text-primaryColor odd:border-primaryColor">
       {currentPackage?.package_id === data.id && (
         <IoGift size="50" className="absolute top-[-10px] left-0 right-0 mx-auto animate-bounce z-10" />
       )}
@@ -54,16 +54,16 @@ function SubscriptionCard({ data, setIsOpen, currentPackage }) {
         </span>
 
         {/* Quantity Input */}
-        <div className="mt-3">
+        {!data?.title?.toLowerCase().includes("exclusive") &&<div className="mt-3 text-center">
           <label className="block text-sm font-medium">Quantity</label>
           <input
             type="number"
             min="1"
             value={quantity}
             onChange={handleQuantityChange}
-            className="w-20 text-center border border-gray-300 rounded-md py-1 px-2"
+            className="font-medium w-20 text-center border-2 group-even:border-white group-odd:border-primaryColor bg-transparent rounded-md py-1 px-2"
           />
-        </div>
+        </div>}
 
         {/* Features */}
         <article className="font-medium flex flex-col items-center my-2">

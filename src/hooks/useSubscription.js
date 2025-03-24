@@ -72,6 +72,7 @@ function useSubscription() {
     console.log(authDetails)
     setLoading(true);
     try {
+      if(authDetails?.user?.id){
       const response = await client.post("/package-payment", {
         package_id: data.id,
         amount: data.price,
@@ -81,6 +82,7 @@ function useSubscription() {
         employee_auth_id: authDetails?.user?.id,
       });
       getActivePackage();
+    }
     } catch (error) {
       FormatError(error, setError, "Payment Error");
     } finally {
