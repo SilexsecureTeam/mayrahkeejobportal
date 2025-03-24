@@ -19,6 +19,9 @@ function SubscriptionCard({ data, setIsOpen, currentPackage }) {
       setIsOpen(false);
     }
   };
+  const handlePayment = (initializePayment) => {
+      initializePayment();
+  };
 
   const handleQuantityChange = (e) => {
   const value = e.target.value;
@@ -106,15 +109,15 @@ function SubscriptionCard({ data, setIsOpen, currentPackage }) {
           {({ initializePayment }) => (
             <button
               disabled={subUtils?.loading}
-              onClick={initializePayment}
+              onClick={() => handlePayment(initializePayment)}
               className="text-sm font-semibold w-[80%] h-[35px] rounded-md transition-all group-odd:bg-primaryColor group-odd:text-white group-even:bg-white group-even:text-primaryColor hover:scale-105"
             >
               Choose Plan
-              {subUtils?.loading && <Spinner />}
             </button>
           )}
         </PaystackConsumer>
       )}
+      {subUtils?.loading && <Spinner />}
     </li>
   );
 }

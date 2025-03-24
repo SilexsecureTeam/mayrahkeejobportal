@@ -18,7 +18,9 @@ function useSubscription() {
     error: "",
   });
   const [packages, setPackages] = useState([]);
-
+  const userId = authDetails?.user?.id;
+  const userRole = authDetails?.user?.role;
+  const userEmail = authDetails?.user?.email;
   const [loading, setLoading] = useState(false);
   // console.log(activePackage)
   const interviewPackages = packages.filter(
@@ -29,7 +31,7 @@ function useSubscription() {
   // console.log(interviePackages)
   const isInterviewPackge = (interviewPackages?.find(
     (current) => current?.id === activePackage?.package_id
-  ) || authDetails?.user?.role?.match('admin') || authDetails?.user?.user_type === 'exclusive') ? true : false;
+  ) || userRole?.match('admin') || authDetails?.user?.user_type === 'exclusive') ? true : false;
 
   const getPackages = async () => {
     setLoading(true);
@@ -47,6 +49,7 @@ function useSubscription() {
   };
 
   const getActivePackage = async () => {
+    if (!userId) return;
     setLoading(true);
     try {
       const { data } = await client.get(
@@ -69,73 +72,45 @@ function useSubscription() {
   };
 
   const makePaymentCheck = useCallback(async (reference, data) => {
-    console.log(authDetails)
+    if (!userId) return;
     setLoading(true);
     try {
-      if(authDetails?.user?.id){
-      const response = await client.post("/package-payment", {
+      await client.post("/package-payment", {
         package_id: data.id,
         amount: data.price,
         quantity: data?.quantity,
         transaction_id: reference.reference,
         payment_status: "successful",
-        employee_auth_id: authDetails?.user?.id,
+        employee_auth_id: userId,
       });
       getActivePackage();
-    }
     } catch (error) {
       FormatError(error, setError, "Payment Error");
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [userId]);
 
   const config = (data, handleSuccess) => {
     const priceInKobo = Number(data.price) * 100;
 
-    // This function is triggered when the user closes the payment modal (cancels)
-    const onClose = () => {
-      // Set an error state if the user cancels the payment
-      onFailure({
-        message: "Payment was canceled",
-        error: "Payment Cancellation Error",
-      });
-
-    };
-
-    // This function is triggered when the payment is successful but might need validation
-    const onSuccessHandler = (reference) => {
-      handleSuccess(reference, data);
-      onSuccess({
-        message: "Payment Successful",
-        success: "Hang on, validating payment...",
-      });
-    };
-
-    // This function handles any error during the payment process
-    const onError = (error) => {
-      // Set an error state when there's an issue with payment
-      setError({
-        message: error.message || "An error occurred during payment",
-        error: "Payment Error",
-      });
-
-      // Show error notification
-      onFailure({
-        message: "Payment failed",
-        error: "There was an issue with your payment. Please try again.",
-      });
-    };
-
     return {
       reference: new Date().getTime().toString(),
-      email: authDetails?.user?.email,
+      email: userEmail,
       amount: priceInKobo,
       publicKey: import.meta.env.VITE_TEST_PUBLIC_KEY,
       text: "Paystack Button Implementation",
-      onSuccess: onSuccessHandler, // Call onSuccessHandler for successful payments
-      onClose: onClose,           // Call onClose if the user cancels the payment
-      onError: onError,           // Call onError if there's an issue
+      onSuccess: (reference) => {
+        handleSuccess(reference, data);
+        onSuccess({ message: "Payment Successful", success: "Hang on, validating payment..." });
+      },
+      onClose: () => {
+        onFailure({ message: "Payment was canceled", error: "Payment Cancellation Error" });
+      },
+      onError: (error) => {
+        setError({ message: error.message || "An error occurred during payment", error: "Payment Error" });
+        onFailure({ message: "Payment failed", error: "There was an issue with your payment. Please try again." });
+      },
     };
   };
 
@@ -157,11 +132,10 @@ function useSubscription() {
       }
 
     };
-    if (authDetails?.user?.role === "employer") {
+    if (userRole === "employer") {
       getActivePackage();
       initVals();
-      console.log("render of subscription", (idx + 1))
-    }
+      }
 
   }, [authDetails?.user]);
 
