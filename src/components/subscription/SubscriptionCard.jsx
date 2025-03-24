@@ -99,7 +99,7 @@ function SubscriptionCard({ data, setIsOpen, currentPackage }) {
       ) : (
         <PaystackConsumer
           {...subUtils?.config(
-            { ...data, price: Number(data.price) * quantity }, // Update price with quantity
+            { ...data, price: Number(data.price) * quantity, quantity: quantity }, // Update price with quantity
             handleOnClick
           )}
         >
