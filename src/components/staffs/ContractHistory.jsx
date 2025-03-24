@@ -11,7 +11,6 @@ function ContractHistory() {
   const client = axiosClient(authDetails.token);
   const location = useLocation();
   const { data } = location?.state ? location?.state : { data: null };
-  console.log(data)
   const [contractItems, setContractItems] = useState([]);
   const getContractItems = async () => {
     const type=data.type;
@@ -22,9 +21,11 @@ function ContractHistory() {
       });
 
       if (data?.contracts) {
-        setContractItems(!type ? data.contracts : data.contracts?.filter(
-          (current) => current.staff_category === type
-        ));
+        setContractItems(
+          !type ? data.contracts : data.contracts.filter(
+            (current) => current.staff_category === type
+          )
+        );
       } else {
         setContractItems([]);
       }
@@ -39,7 +40,7 @@ function ContractHistory() {
   useEffect(() => {
     getContractItems();
     // getMarketList();
-  }, []);
+  }, [data]);
   return (
     <div className="h-full w-full flex flex-col py-5 gap-[15px]">
       <button

@@ -109,7 +109,7 @@ function Dashboard() {
                   className="border text-white transition duration-400 bg-lightgreen h-full cursor-pointer mb-4 p-3 pb-0 flex flex-col justify-between"
                 >
                   <p className="font-bold">Profile Update</p>
-                  <p className="pl-2 text-2xl font-medium">{profileDetails?.profile_image ? "Completed":"Pending"}</p>
+                  <p className="pl-2 text-xl font-bold break-all">{profileDetails?.profile_image ? "Completed":"Pending"}</p>
                   <div className="flex justify-between items-end mt-">
                     <p className="text-2xl font-medium"></p>
                     <div className="text-gray-300 mb-1">
@@ -124,7 +124,7 @@ function Dashboard() {
                   className="border bg-darkblue text-white transition duration-400 h-full cursor-pointer mb-4 p-3 pb-0 flex flex-col justify-between"
                 >
                   <p className="font-bold">Resume</p>
-                  <p className="pl-2 text-2xl font-medium">{profileDetails?.resume ? "Uploaded":"Pending"}</p>
+                  <p className="pl-2 text-xl font-bold">{profileDetails?.resume ? "Uploaded":"Pending"}</p>
                   <div className="flex justify-between items-end mt-4">
                     <p className="text-6xl font-medium"></p>
                     <div className="text-gray-300 mb-1">
@@ -141,7 +141,7 @@ function Dashboard() {
                   className="border  bg-lightorange text-white transition duration-400 h-full cursor-pointer mb-4 p-3 pb-0 flex flex-col justify-between"
                 >
                   <p className="font-bold">Verifications</p>
-                  <p className="pl-2 text-2xl font-medium">{profileDetails?.status === "approved" ? "Verified" : "Under-Review"}</p>
+                  <p className="pl-2 text-xl font-bold">{profileDetails?.status === "approved" ? "Verified" : "Under-Review"}</p>
                   <div className="flex justify-between items-end mt-4">
                     <p className="text- font-medium"></p>
                     <div className=" text-gray-300">
@@ -157,7 +157,7 @@ function Dashboard() {
                   className="border bg-lightblue text-white transition duration-400 h-full cursor-pointer mb-4 p-3 pb-0 flex flex-col justify-between"
                 >
                   <p className="font-bold">Help Center</p>
-                  <p className="pl-2 text-2xl font-medium">Get Help</p>
+                  <p className="pl-2 text-xl font-bold">Get Help</p>
                   <div className="flex justify-between items-end mt-4">
                     <p className="text-6xl font-medium"></p>
                     <div className=" text-gray-300">
