@@ -75,6 +75,7 @@ function useSubscription() {
       const response = await client.post("/package-payment", {
         package_id: data.id,
         amount: data.price,
+        quantity: data?.quantity,
         transaction_id: reference.reference,
         payment_status: "successful",
         employee_auth_id: authDetails?.user?.id,
