@@ -49,7 +49,7 @@ function WorkExperience() {
       getWorkExperiences();
       reset();
       onSuccess({
-        message: "Experience uploaded",
+        message: "Experience Saved!",
         success: "Submitted succesfully, awaiting review",
       });
     } catch (error) {
@@ -129,7 +129,7 @@ function WorkExperience() {
             );
           })}
 
-          <FormButton loading={isLoading}>Upload Work Experience</FormButton>
+          <FormButton loading={isLoading}>Save Work Experience</FormButton>
         </form>
       }
 
