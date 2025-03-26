@@ -70,7 +70,7 @@ function StaffCard({ data, contract = null, cartItems, getCartItems }) {
       await getCartItems();
       onSuccess({
         message: "User sucessfully added",
-        success: "Domestic staff added to cart successfully",
+        success: "Staff added to cart successfully",
       });
       
     } catch (error) {
@@ -95,7 +95,7 @@ function StaffCard({ data, contract = null, cartItems, getCartItems }) {
       await getCartItems();
       onSuccess({
         message: "User sucessfully removed",
-        success: "Domestic staff removed from cart successfully",
+        success: "Staff removed from cart successfully",
       });
       
     } catch (error) {
@@ -141,7 +141,7 @@ function StaffCard({ data, contract = null, cartItems, getCartItems }) {
       });
       onSuccess({
         message: "User sucessfully added",
-        success: "Domestic staff added to cart successfully",
+        success: "Staff added to cart successfully",
       });
 
       navigate(`/company/staff/staff/${data.id}`, {
