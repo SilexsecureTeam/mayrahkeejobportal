@@ -34,31 +34,23 @@ Discover more and join us today to explore opportunities.
                 text: shareText,
                 //url: `${window.location.origin}/register`,
             });
-            onSuccess({
-                message: "Sharing Successful",
-                success: "Company details shared successfully!",
-            });
         } else {
             // Fallback: copy text to clipboard
             await navigator.clipboard.writeText(shareText);
-            onSuccess({
-                message: "Sharing Successful",
-                success: "Company details copied to clipboard! Share it manually.",
-            });
         }
     } catch (error) {
-        if (error.name === "AbortError") {
-            onFailure({
-                message: "Sharing Cancelled",
-                error: "You cancelled the sharing process.",
-            });
-        } else {
-            console.error("Error sharing company details:", error);
-            onFailure({
-                message: "Sharing Error",
-                error: "An error occurred while sharing.",
-            });
-        }
+        // if (error.name === "AbortError") {
+        //     onFailure({
+        //         message: "Sharing Cancelled",
+        //         error: "You cancelled the sharing process.",
+        //     });
+        // } else {
+        //     console.error("Error sharing company details:", error);
+        //     onFailure({
+        //         message: "Sharing Error",
+        //         error: "An error occurred while sharing.",
+        //     });
+        // }
     }
 };
     

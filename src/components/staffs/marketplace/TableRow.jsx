@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { resourceUrl } from "../../../services/axios-client";
-import { FormatPrice } from "../../../utils/formmaters";
+import { formatDate, FormatPrice } from "../../../utils/formmaters";
 import { useContext } from "react";
 import { AuthContext } from "../../../context/AuthContex";
 
@@ -60,7 +60,7 @@ function TableRow({ data, isMarket = false, handleAddToCart }) {
       {/* Start Date (conditionally rendered) */}
       {!isMarket && (
         <td className="text-left py-3 px-2 w-1/5">
-          <span className="truncate">{data.start_date}</span>
+          <span className="truncate">{formatDate(data.start_date)}</span>
         </td>
       )}
 

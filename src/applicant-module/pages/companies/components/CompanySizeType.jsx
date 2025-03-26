@@ -20,7 +20,7 @@ const CompanySizeType = ({setCompanySize}) => {
                         values={{
                             name: "comapnySize",
                             value: "1-49",
-                            label: "small",
+                            label: "Small",
                             id: "101"
                         }} />
                         <CustomizedCheckbox 
