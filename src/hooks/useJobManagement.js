@@ -33,7 +33,7 @@ function useJobManagement() {
     email: "",
     salary_type: "",
     min_salary: 0,
-    max_salary: 10000,
+    max_salary: 0,
     experience: "",
     career_level: "",
     currency: "",
