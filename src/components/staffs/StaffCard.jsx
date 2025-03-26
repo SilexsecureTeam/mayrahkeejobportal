@@ -340,12 +340,7 @@ function StaffCard({ data, contract = null, cartItems, getCartItems }) {
           <span className="flex gap-2 items-center justify-between text-md truncate font-semibold">
             Langages:
             <span className="text-sm w-[60%] flex text-start font-normal text-gray-500">
-              {getField("languages_spoken") ?? getField("languages_spoken")?.map((current, idx) => (
-                <span key={idx} className="group">
-                  {current}
-                  <span className="group-last:hidden">, </span>
-                </span>
-              ))}
+              {getField("languages_spoken") ?? getField("languages_spoken")?.join(', ')}
             </span>
           </span>
 
