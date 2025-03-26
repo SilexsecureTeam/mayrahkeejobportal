@@ -9,7 +9,7 @@ import {
   MdOutlineRemoveRedEye,
 } from "react-icons/md";
 import { RiCalendarEventLine } from "react-icons/ri";
-import { generateDateRange } from "../../../utils/formmaters";
+import { generateDateRange, parseHtml } from "../../../utils/formmaters";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../../context/AuthContex";
 import { StaffRouteContext } from "../../../context/StaffRouteContext";
@@ -27,9 +27,11 @@ function Dashboard() {
     StaffManagementContext
   );
   const client = axiosClient(authDetails.token);
-  
+
   const [availablityStatus, setAvailabiltyStatus] = useState();
   const [loading, setloading] = useState(false);
+  const [showFullDescription, setShowFullDescription] = useState(false);
+
   const [category, setCategory] = useState([]);
   const { updateAvailabilityStatus, getStyling, allStatus } = useStaffUser();
 
@@ -50,13 +52,13 @@ function Dashboard() {
     setSideBar(index);
   };
 
-  
+
   useEffect(() => {
     const initData = async () => {
       try {
         const { data } = await client.get("/staff-categories");
-        const sub=data.data?.find(one=>one.name.toLowerCase().includes(profileDetails?.staff_category))?.subcategories || []
-        const cat=sub?.find(one=>one.name=== profileDetails?.subcategory)
+        const sub = data.data?.find(one => one.name.toLowerCase().includes(profileDetails?.staff_category))?.subcategories || []
+        const cat = sub?.find(one => one.name === profileDetails?.subcategory)
         setCategory(cat);
       } catch (error) {
         onFailure({
@@ -67,7 +69,7 @@ function Dashboard() {
     };
 
     initData();
-  },[profileDetails])
+  }, [profileDetails])
   useEffect(() => {
     if (profileDetails && profileDetails["availability_status"] === "1") {
       setAvailabiltyStatus(true);
@@ -109,7 +111,7 @@ function Dashboard() {
                   className="border text-white transition duration-400 bg-lightgreen h-full cursor-pointer mb-4 p-3 pb-0 flex flex-col justify-between"
                 >
                   <p className="font-bold">Profile Update</p>
-                  <p className="pl-2 text-xl font-bold break-all">{profileDetails?.profile_image ? "Completed":"Pending"}</p>
+                  <p className="pl-2 text-xl font-bold break-all">{profileDetails?.profile_image ? "Completed" : "Pending"}</p>
                   <div className="flex justify-between items-end mt-">
                     <p className="text-2xl font-medium"></p>
                     <div className="text-gray-300 mb-1">
@@ -124,7 +126,7 @@ function Dashboard() {
                   className="border bg-darkblue text-white transition duration-400 h-full cursor-pointer mb-4 p-3 pb-0 flex flex-col justify-between"
                 >
                   <p className="font-bold">Resume</p>
-                  <p className="pl-2 text-xl font-bold">{profileDetails?.resume ? "Uploaded":"Pending"}</p>
+                  <p className="pl-2 text-xl font-bold">{profileDetails?.resume ? "Uploaded" : "Pending"}</p>
                   <div className="flex justify-between items-end mt-4">
                     <p className="text-6xl font-medium"></p>
                     <div className="text-gray-300 mb-1">
@@ -203,60 +205,68 @@ function Dashboard() {
         </div>
 
         <div className="my-5 min-h-80">
-  <div className="border flex flex-col">
-    {/* Availability Status Section */}
-    <div className="p-3 flex gap-10 border-b">
-      <p className="font-bold text-base">Availability Status</p>
-      {(profileDetails?.status === "pending" || profileDetails?.status === "approved") ? <DefaultSwitch
-        enabled={availablityStatus}
-        disabled={loading}
-        loading={loading}
-        onClick={async () => {
-          console.log("clicked");
-          setloading(true);
-          const result = await updateAvailabilityStatus(
-            authDetails.user.id,
-            availablityStatus ? "0" : "1"
-          );
-          if (result) {
-            setAvailabiltyStatus(!availablityStatus);
-          }
-          setloading(false);
-        }}
-      /> :<strong className={`capitalize font-medium ${profileDetails?.status === "rejected" ? "text-red-500" :"text-brown-300"}`}>{profileDetails?.status}</strong>}
-    </div>
+          <div className="border flex flex-col">
+            {/* Availability Status Section */}
+            <div className="p-3 flex gap-10 border-b">
+              <p className="font-bold text-base">Availability Status</p>
+              {(profileDetails?.status === "pending" || profileDetails?.status === "approved") ? <DefaultSwitch
+                enabled={availablityStatus}
+                disabled={loading}
+                loading={loading}
+                onClick={async () => {
+                  console.log("clicked");
+                  setloading(true);
+                  const result = await updateAvailabilityStatus(
+                    authDetails.user.id,
+                    availablityStatus ? "0" : "1"
+                  );
+                  if (result) {
+                    setAvailabiltyStatus(!availablityStatus);
+                  }
+                  setloading(false);
+                }}
+              /> : <strong className={`capitalize font-medium ${profileDetails?.status === "rejected" ? "text-red-500" : "text-brown-300"}`}>{profileDetails?.status}</strong>}
+            </div>
 
-    {/* Grid Items Section */}
-    <div className="p-3 flex-1">
-      <div className="my-4 flex justify-center">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 hover:opacity-90">
-          {/* Scrollable Left Grid Item */}
-          <div className="overflow-y-auto max-h-80 p-2 border">
-            {(profileDetails?.status === "pending" || profileDetails?.status === "approved") ? <p className="text-md leading-7 tracking-wider">
-              We've introduced a user-friendly feature just for you,
-              giving you the power to control your availability status
-              with a simple toggle. 
-              {/* This means you can easily let others
-              know whether you're currently available for work or not.
-              With just one click, you can update your status in
-              real-time—whether you're ready to take on new opportunities
-              or need to mark yourself as unavailable. This feature is
-              designed to give you control over how you're seen by
-              potential employers or clients, allowing you to manage your
-              own schedule. */}
-            </p> : <p className="text-md leading-7 tracking-wider">We appreciate your interest in our service, Unfortunately your application has been {profileDetails?.status}! If you'd like feedback on your application. please contact our support team.</p>}
-          </div>
+            {/* Grid Items Section */}
+            <div className="p-3 flex-1">
+              <div className="my-4 flex justify-center">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 hover:opacity-90">
+                  {/* Scrollable Left Grid Item */}
+                  <div className="overflow-y-auto max-h-80 p-2 border">
+                    {(profileDetails?.status === "pending" || profileDetails?.status === "approved") ? <p className="text-md leading-7 tracking-wider">
+                      We've introduced a user-friendly feature just for you,
+                      giving you the power to control your availability status
+                      with a simple toggle.
+                    </p> : <p className="text-md leading-7 tracking-wider">We appreciate your interest in our service, Unfortunately your application has been {profileDetails?.status}! If you'd like feedback on your application. please contact our support team.</p>}
+                  </div>
 
-          {/* Scrollable Right Grid Item */}
-          <div className="border max-h-80 overflow-y-auto">
-            <strong className="text-xl sticky top-0 bg-green-700 text-white p-2 mb-4">Responsibilities</strong>
-            <p className="prose p-2 my-2" dangerouslySetInnerHTML={{ __html: category?.description }} />
+                  {/* Scrollable Right Grid Item */}
+                  <div className="border max-h-80 overflow-y-auto">
+                    <strong className="text-xl sticky top-0 bg-green-700 text-white p-2 mb-4">
+                      Responsibilities
+                    </strong>
+                    <p className="prose p-2 my-2">
+                      {category?.description && parseHtml(
+                        showFullDescription
+                          ? category?.description
+                          : category?.description?.slice(0, 100) + "..."
+                      )}
+                    </p>
+                    {category?.description?.length > 100 && (
+                      <button
+                        onClick={() => setShowFullDescription(!showFullDescription)}
+                        className="text-blue-600 font-semibold mt-2"
+                      >
+                        {showFullDescription ? "Read Less" : "Read More"}
+                      </button>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-    </div>
-  </div>
-</div>
 
       </div>
     </>

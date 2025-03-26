@@ -72,7 +72,7 @@ function SubscriptionCard({ data, setIsOpen, currentPackage }) {
         <article className="font-medium flex flex-col items-center my-2">
           <p>No. of Jobs: {data?.number_of_jobs || 0}</p>
           {currentPackage?.package_id === data.id && <p>Available Jobs: {currentPackage?.available_jobs}</p>}
-          <p>Duration: {data?.duration} day(s)</p>
+          <p>Duration: {data?.duration} {data?.duration > 1 ? "days": "day"}</p>
         </article>
 
         {/* Description or Perks */}

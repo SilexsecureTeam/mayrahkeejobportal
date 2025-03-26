@@ -5,6 +5,7 @@ import TableHead from "./TableHead";
 import TableRow from "./TableRow";
 import { useLocation } from "react-router-dom";
 import { onFailure } from "../../../utils/notifications/OnFailure";
+import { extractErrorMessage } from "../../../utils/formmaters";
 
 const navOptions = ["Active Contracts", "Market Place"];
 
@@ -32,10 +33,13 @@ function MarketPlace({handleAddToCart}) {
         setMarketList([]);
       }
     } catch (error) {
+      const errorMessage=extractErrorMessage(error);
+      if(errorMessage !== "Contract(s) not found"){
       onFailure({
-        message: "soemthing went wrong",
-        error: "Error retriving carted items",
+        message: "Something went wrong",
+        error: errorMessage,
       });
+    }
     }
   };
 
@@ -55,10 +59,13 @@ function MarketPlace({handleAddToCart}) {
         setContractItems([]);
       }
     } catch (error) {
+      const errorMessage=extractErrorMessage(error);
+      if(errorMessage !== "Contract(s) not found"){
       onFailure({
-        message: "soemthing went wrong",
-        error: "Error retriving carted items",
+        message: "Something went wrong",
+        error: errorMessage,
       });
+    }
     }
   };
 

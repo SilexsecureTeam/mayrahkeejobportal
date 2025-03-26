@@ -10,6 +10,7 @@ import { onSuccess } from '../../../utils/notifications/OnSuccess';
 import { onFailure } from '../../../utils/notifications/OnFailure';
 import { Country } from 'country-state-city';
 import useJobManagement from '../../../hooks/useJobManagement';
+import { formatDate, parseHtml } from '../../../utils/formmaters';
  
 const JobDetails = () => {
     const { state } = useLocation();
@@ -81,23 +82,12 @@ Don't miss out—join us today to apply.
                     title: `Exciting Opportunity by Mayrahkee Africa: ${jobDetails.job_title}`,
                     text: shareText,
                 });
-                onSuccess({
-                    message: 'Sharing Successful',
-                    success: 'Job details shared successfully!',
-                });
+                
             } else {
                 await navigator.clipboard.writeText(shareText);
-                onFailure({
-                    message: 'Sharing Unsupported',
-                    error: 'Your browser does not support sharing. Job details copied to clipboard!',
-                });
             }
         } catch (error) {
             console.error('Error sharing job details:', error);
-            onFailure({
-                message: 'Sharing Error',
-                error: 'An error occurred while sharing.',
-            });
         }
     };
 
@@ -135,12 +125,12 @@ Don't miss out—join us today to apply.
                 <div className="w-full md:w-4/5 pr-4">
                     <div className="mb-6">
                         <h4 className="font-bold mb-2">Description</h4>
-                        <p dangerouslySetInnerHTML={{ __html: job?.job_description }} />
+                        <p>{parseHtml(job?.job_description)}</p>
                     </div>
 
                     <div className="mb-6">
                         <h4 className="font-bold mb-2">Experience</h4>
-                        <p dangerouslySetInnerHTML={{ __html: job?.experience }} />
+                        <p>{parseHtml(job?.experience)}</p>
                     </div>
 
                     <div className="mb-6">
@@ -156,35 +146,35 @@ Don't miss out—join us today to apply.
 
                 <div className="w-full md:w-1/5">
                     <h4 className="font-bold mb-2">About this role</h4>
-                    <div className="bg-gray-100 p-4 rounded-md mb-6">
+                    {/* <div className="bg-gray-100 p-4 rounded-md mb-6">
                         <p className="text-sm">
                             <b>{job?.number_of_participants || 0} Applicants Expected</b>
                         </p>
-                    </div>
+                    </div> */}
 
                     <div className="space-y-3 border-b pb-4">
                         <div className="flex flex-wrap justify-between gap-2">
-                            <p>Apply Before</p>
-                            <p className="font-medium">{job?.application_deadline_date}</p>
+                            <p>Apply Before:</p>
+                            <p className="font-medium">{formatDate(job?.application_deadline_date)}</p>
                         </div>
                         <div className="flex flex-wrap justify-between gap-2">
-                            <p>Job Posted On</p>
-                            <p className="font-medium">{postedDate.toLocaleDateString()}</p>
+                            <p>Job Posted On:</p>
+                            <p className="font-medium">{formatDate(postedDate)}</p>
                         </div>
                         <div className="flex flex-wrap justify-between gap-2">
-                            <p>Email</p>
+                            <p>Email:</p>
                             <p className="font-medium break-words">{job?.email}</p>
                         </div>
                         <div className="flex flex-wrap justify-between gap-2">
-                            <p>Job Type</p>
+                            <p>Job Type:</p>
                             <p className="font-medium">{job?.type}</p>
                         </div>
                         <div className="flex flex-wrap justify-between gap-2">
-                            <p>Salary Type</p>
+                            <p>Salary Type:</p>
                             <p className="font-medium">{job?.salary_type}</p>
                         </div>
                         <div className="flex flex-wrap justify-between gap-2">
-                            <p>Currency</p>
+                            <p>Currency:</p>
                             <p className="font-medium">{currency?.code} {currency?.country ? ` (${currency?.country})` : ''}</p>
                         </div>
                     </div>
