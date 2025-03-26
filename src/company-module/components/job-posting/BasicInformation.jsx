@@ -486,6 +486,7 @@ function BasicInformation({ setCurrentStep, data, jobUtils, validateAndProceed }
                 <span className="mx-1">{selectedCurrency?.code}</span>
                 <input
                   type="number"
+                  min="0"
                   className="w-24 ring-0 outline-0"
                   value={jobUtils.details.min_salary || ""}
                   onChange={(e) => {
@@ -505,6 +506,7 @@ function BasicInformation({ setCurrentStep, data, jobUtils, validateAndProceed }
                 <input
                   type="number"
                   className="w-24 ring-0 outline-0"
+                  min="0"
                   value={jobUtils.details.max_salary || ""}
                   onChange={(e) => {
                       jobUtils.setDetails({
