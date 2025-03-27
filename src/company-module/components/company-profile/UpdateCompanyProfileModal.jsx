@@ -113,7 +113,7 @@ export const basic_inputs = [
   {
     id: 13,
     name: "profile_url",
-    label: "Profile Url",
+    label: "Profile URL",
     type: "text",
     required: false,
     placeholder: "https://www.example.com/profile",
