@@ -84,7 +84,7 @@ export const basic_inputs = [
   {
     id: 9,
     name: "introduction_video_url",
-    label: "Intorduction video URL",
+    label: "Introduction video URL",
     type: "text",
     required: false,
     placeholder: "https://www.example.com/video.mp4",
