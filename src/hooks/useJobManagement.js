@@ -397,7 +397,7 @@ function useJobManagement() {
     if (authDetails?.token !== null || authDetails?.token !== undefined) {
       initValue();
     }
-  }, [authDetails?.token]);
+  }, []);
 
   return {
     loading,

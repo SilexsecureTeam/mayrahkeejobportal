@@ -16,38 +16,7 @@ const JobDetails = () => {
     const { state } = useLocation();
     const job = state?.job;
 
-    const [currencyList, setCurrencyList] = useState([]);
-    const [currency, setCurrency] = useState(null);
-
-    const { getCurrencies } = useJobManagement();
     const { getResumeById, setGetResumeById } = useContext(ResourceContext);
-
-    useEffect(() => {
-        const fetchCurrencies = async () => {
-            try {
-                const currencyResult = await getCurrencies();
-                setCurrencyList(currencyResult || []);
-            } catch (error) {
-                console.error('Error fetching currencies:', error);
-            }
-        };
-
-        fetchCurrencies();
-    }, []);
-
-    useEffect(() => {
-        if (job?.currency && currencyList.length > 0) {
-            const curr = currencyList.find(one => one.name === job.currency);
-            if (curr) {
-                // Get the country name using Country-State-City library
-                const country = Country.getAllCountries().find(c => c.isoCode === curr.name);
-                setCurrency({
-                    code: curr.code,
-                    country: country ? country.name : null,
-                });
-            }
-        }
-    }, [job, currencyList]);
 
     useEffect(() => {
         window.scrollTo(0, 0);
@@ -175,7 +144,7 @@ Don't miss out—join us today to apply.
                         </div>
                         <div className="flex flex-wrap justify-between gap-2">
                             <p>Currency:</p>
-                            <p className="font-medium">{currency?.code} {currency?.country ? ` (${currency?.country})` : ''}</p>
+                            <p className="font-medium">{job?.currency}</p>
                         </div>
                     </div>
 

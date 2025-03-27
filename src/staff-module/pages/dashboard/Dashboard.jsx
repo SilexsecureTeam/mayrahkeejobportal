@@ -20,6 +20,9 @@ import useStaffUser from "../../../hooks/useStaffUser";
 import { onFailure } from "../../../utils/notifications/OnFailure";
 import { axiosClient } from "../../../services/axios-client";
 import { GrDocumentText, GrUpload } from "react-icons/gr";
+
+
+
 function Dashboard() {
   const { authDetails } = useContext(AuthContext);
   const { setSideBar } = useContext(StaffRouteContext);
@@ -35,6 +38,9 @@ function Dashboard() {
   const [category, setCategory] = useState([]);
   const { updateAvailabilityStatus, getStyling, allStatus } = useStaffUser();
 
+  useEffect(()=>{
+    getStaffProfile()
+  },[])
   const filterVerificationDetails =
     profileDetails &&
     Object.keys(profileDetails).filter(
@@ -45,6 +51,12 @@ function Dashboard() {
         currentKey == "police_report_verification_status" ||
         currentKey == "previous_employer_verification_status"
     );
+
+    const userVerificationStatus=filterVerificationDetails?.map((currentKey) => (
+      allStatus.find(
+       (current) => current === profileDetails[currentKey]
+     )))?.filter(status=> status==="approved")
+
 
   const navigate = useNavigate();
   const navigateToPage = (route, index) => {
@@ -92,7 +104,7 @@ function Dashboard() {
                 {authDetails?.user?.surname}
               </h4>
               <p>
-                Here a summary of your recent activities {generateDateRange()}
+                Here is a summary of your recent activities {generateDateRange()}
               </p>
             </div>
             {/* <div>
@@ -143,7 +155,7 @@ function Dashboard() {
                   className="border  bg-lightorange text-white transition duration-400 h-full cursor-pointer mb-4 p-3 pb-0 flex flex-col justify-between"
                 >
                   <p className="font-bold">Verifications</p>
-                  <p className="pl-2 text-xl font-bold">{profileDetails?.status === "approved" ? "Verified" : "Under-Review"}</p>
+                  <p className="pl-2 text-xl font-bold">{userVerificationStatus?.length > 4 ? "Completed" : userVerificationStatus?.length > 0 ? "In Progress" : "Pending"}</p>
                   <div className="flex justify-between items-end mt-4">
                     <p className="text- font-medium"></p>
                     <div className=" text-gray-300">
@@ -237,7 +249,7 @@ function Dashboard() {
                     {(profileDetails?.status === "pending" || profileDetails?.status === "approved") ? <p className="text-md leading-7 tracking-wider">
                       We've introduced a user-friendly feature just for you,
                       giving you the power to control your availability status
-                      with a simple toggle.
+                      with a simple click.
                     </p> : <p className="text-md leading-7 tracking-wider">We appreciate your interest in our service, Unfortunately your application has been {profileDetails?.status}! If you'd like feedback on your application. please contact our support team.</p>}
                   </div>
 
@@ -256,7 +268,7 @@ function Dashboard() {
                     {category?.description?.length > 100 && (
                       <button
                         onClick={() => setShowFullDescription(!showFullDescription)}
-                        className="text-blue-600 font-semibold mt-2"
+                        className="text-blue-600 font-semibold mb-2 p-2"
                       >
                         {showFullDescription ? "Read Less" : "Read More"}
                       </button>

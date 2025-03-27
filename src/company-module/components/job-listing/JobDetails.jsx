@@ -1,6 +1,6 @@
 import blueTickIcon from "../../../assets/pngs/blue-tick-icon.png";
 import { job_dummies } from "../../../utils/dummies";
-import { FormatPrice } from "../../../utils/formmaters";
+import { FormatPrice, parseHtml, formatDate } from "../../../utils/formmaters";
 import { MdDeleteForever } from "react-icons/md";
 import { CiEdit } from "react-icons/ci";
 import { useEffect, useState } from "react";
@@ -126,16 +126,13 @@ function JobDetails({ data, jobUtils, applicants, exclusive }) {
             <div className="flex flex-col">
               <span className="font-bold text-md">Job Description</span>
               <div
-                dangerouslySetInnerHTML={{ __html: data?.job_description }}
                 className="text-sm border border-dotted p-2"
-              />
+              >{parseHtml(data?.job_description)}</div>
             </div>
             <div className="flex flex-col">
               <span className="font-semibold text-md">Experience Needed</span>
-              <div
-                dangerouslySetInnerHTML={{ __html: data?.experience }}
-                className="text-sm"
-              />
+              <div className="text-sm"
+              >{parseHtml(data?.experience)}</div>
             </div>
 
             <div className="flex flex-col">
@@ -182,13 +179,13 @@ function JobDetails({ data, jobUtils, applicants, exclusive }) {
                 <span className="flex justify-between border-b border-dashed">
                   Job Posted on{" "}
                   <span>
-                    {new Date(data?.created_at).toLocaleDateString()}
+                    {formatDate(data?.created_at)}
                   </span>
                 </span>
                 <span className="flex justify-between border-b border-dashed">
                   Job Deadline{" "}
                   <span>
-                    {new Date(data?.application_deadline_date).toLocaleDateString()}
+                    {formatDate(data?.application_deadline_date)}
                   </span>
                 </span>
                 {/* Additional job details */}

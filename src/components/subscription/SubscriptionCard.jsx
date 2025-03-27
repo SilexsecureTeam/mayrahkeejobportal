@@ -70,8 +70,8 @@ function SubscriptionCard({ data, setIsOpen, currentPackage }) {
 
         {/* Features */}
         <article className="font-medium flex flex-col items-center my-2">
-          <p>No. of Jobs: {data?.number_of_jobs || 0}</p>
-          {currentPackage?.package_id === data.id && <p>Available Jobs: {currentPackage?.available_jobs}</p>}
+          <p>Jobs per subscription: {data?.number_of_jobs || 0}</p>
+          {currentPackage?.package_id === data.id && <p>Jobs Remaining: {currentPackage?.available_jobs}</p>}
           <p>Duration: {data?.duration} {data?.duration > 1 ? "days": "day"}</p>
         </article>
 
@@ -112,7 +112,7 @@ function SubscriptionCard({ data, setIsOpen, currentPackage }) {
               onClick={() => handlePayment(initializePayment)}
               className="text-sm font-semibold w-[80%] h-[35px] rounded-md transition-all group-odd:bg-primaryColor group-odd:text-white group-even:bg-white group-even:text-primaryColor hover:scale-105"
             >
-              Choose Plan
+              {subUtils?.loading ? "Processing..." : "Choose Plan"}
             </button>
           )}
         </PaystackConsumer>

@@ -397,7 +397,7 @@ function StaffCard({ data, contract = null, cartItems, setCartItems, getCartItem
                 onClick={removeFromCart}
                 width="h-fit bg-red-500 border border-black text-black bg-white text-sm py-2"
               >
-                Remove from cart
+                Remove from Cart
               </FormButton>
             ) : (
               <>

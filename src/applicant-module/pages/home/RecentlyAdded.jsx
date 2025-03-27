@@ -35,7 +35,7 @@ const RecentlyAdded = ({ newApplicant, newApp }) => {
         <p>{dateCreated.toDateString()}</p>
       </div>
       <div className="w-1/6 hidden md:block">
-        <button className={`border border-green-600 text-[12px] text-green-900 px-2 py-1 rounded-full uppercase ${getBorderColor()}`}>{FormatTextToUppecase(newApp.status)}</button>
+        <button className={`border border-green-600 text-[12px] text-green-900 px-2 py-1 rounded-full uppercase ${getBorderColor()}`}>{FormatTextToUppecase(newApp.status == "in-review" ?"under-review": newApp.status)}</button>
       </div>
       <div className="w-1/6">
         <button className=" p-1"> <MdOutlineMoreHoriz /> </button>
