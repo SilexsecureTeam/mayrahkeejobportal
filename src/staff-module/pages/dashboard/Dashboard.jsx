@@ -154,7 +154,7 @@ function Dashboard() {
                   onClick={() => navigateToPage("/staff/verifications", 2)}
                   className="border  bg-lightorange text-white transition duration-400 h-full cursor-pointer mb-4 p-3 pb-0 flex flex-col justify-between"
                 >
-                  <p className="font-bold">Verifications</p>
+                  <p className="font-bold">Verification Status</p>
                   <p className="pl-2 text-xl font-bold">{userVerificationStatus?.length > 4 ? "Completed" : userVerificationStatus?.length > 0 ? "In Progress" : "Pending"}</p>
                   <div className="flex justify-between items-end mt-4">
                     <p className="text- font-medium"></p>
