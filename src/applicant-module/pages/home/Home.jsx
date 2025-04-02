@@ -180,7 +180,7 @@ const interviews = allApplications?.filter(
                       {getAllApplications.data?.length || 0}
                     </p>
                     <div className="mb-2">
-                    <GrDocumentText size="30" />
+                    <GrDocumentText size="28" />
                     </div>
                   </div>
                 </div>

@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import useJobManagement from "../../../../hooks/useJobManagement";
 import { resourceUrl } from "../../../../services/axios-client";
-import { FormatTextToUppecase } from "../../../../utils/formmaters";
+import { FormatTextToUppecase, formatDate } from "../../../../utils/formmaters";
 import { stages } from "../../../../utils/constants";
 import { onPrompt } from "../../../../utils/notifications/onPrompt";
 import { MdMoreHoriz } from "react-icons/md";
@@ -78,7 +78,7 @@ const AllApplicants = ({ app, index }) => {
 
   {/* Date Created */}
   <div className="text-gray-700 text-sm min-w-max">
-    {dateCreated.toDateString()}
+    {formatDate(dateCreated)}
   </div>
 
   {/* Status */}
@@ -86,7 +86,7 @@ const AllApplicants = ({ app, index }) => {
     <button
       className={`border px-4 py-1 text-xs rounded-full uppercase font-semibold ${getBorderColor()}`}
     >
-      <span className="capitalize">{(app?.status == "in-review" ? "Under-Review" :app?.status)}</span>
+      <span className="capitalize">{(app?.status == "shortlist" ? "Shortlisted" : app?.status == "in-review" ? "Under-Review" : app?.status)}</span>
     </button>
   </div>
 </div>
