@@ -150,9 +150,9 @@ function Companies() {
                   </div>
                   <div className="flex">
                     <div className="flex mr-3">
-                      <span>Sorted by :</span>
+                      <span>Sorted by: </span>
                       <button className="flex">
-                        <span className="mr-2 font-medium items-center">
+                        <span className="mx-2 font-medium items-center">
                           Most relevant
                         </span>
                         {/* <span>

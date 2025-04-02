@@ -406,7 +406,7 @@ function StaffCard({ data, contract = null, cartItems, setCartItems, getCartItem
                   onClick={addToCart}
                   width="h-fit text-sm py-2 border border-black text-black bg-white"
                 >
-                  Add to Cart
+                  Proceed to Engage
                 </FormButton>
               </>
             )}
