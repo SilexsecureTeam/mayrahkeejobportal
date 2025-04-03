@@ -619,7 +619,7 @@ const BasicInfo = ({ setIsOpen }) => {
                           <div className="">
                             <label className="block">
                               <span className="block text-sm font-medium text-slate-700">
-                                Input {selectId ? selectId : ""} No:
+                                Input {selectId ? selectId.toLowerCase() : ""} No:
                               </span>
                               <input
                                 type="text"
@@ -635,7 +635,7 @@ const BasicInfo = ({ setIsOpen }) => {
                           <div className="">
                             <label className="block">
                               <span className="block text-sm font-medium text-slate-700">
-                                Upload {selectId ? selectId : ""}
+                                Upload {selectId ? selectId?.toLowerCase() : ""}
                               </span>
                               <input
                                 type="file"
