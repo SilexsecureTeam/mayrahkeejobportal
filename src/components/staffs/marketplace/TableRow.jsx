@@ -26,7 +26,7 @@ function TableRow({ data, isMarket = false, handleAddToCart, handleRemoveCart, c
     const existingItem = cartItems?.find((current) => data.id === current.domestic_staff_id);
 
     if (existingItem) {
-      await handleRemoveCart({ ...existingItem, domestice_staff_id: existingItem?.domestic_staff_id });
+      await handleRemoveCart(existingItem);
     } else {
       await handleAddToCart(data);
     }

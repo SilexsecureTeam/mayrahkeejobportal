@@ -107,7 +107,7 @@ function useStaff() {
     if(ContractStatus.accept === status){
       onSuccess({
         message: 'Contract Status',
-        success: 'You have completed this a contract'
+        success: 'You have completed this contract'
       })
     } else{
       onSuccess({

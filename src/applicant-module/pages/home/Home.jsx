@@ -155,7 +155,7 @@ const interviews = allApplications?.filter(
                 Good {timeOfDay}, {candidate}
               </h4>
               <p>
-                Here is what’s happening with your job search applications from{" "}
+                Here is what’s happening with your job applications from{" "}
                 {generateDateRange()}
               </p>
             </div>
@@ -167,7 +167,7 @@ const interviews = allApplications?.filter(
               </button>
             </div> */}
           </div>
-          <div className="lg:flex-row flex-col flex  mt-8 gap-2">
+          <div className="lg:flex-row flex-col flex mt-8 gap-2">
             <div className=" w-full lg:w-[20%] flex justify-between lg:flex-col capitalize">
               <div className="pb-1 h-full lg:w-full w-[45%] lg:h-1/2">
                 <div
@@ -179,23 +179,19 @@ const interviews = allApplications?.filter(
                     <p className="text-6xl font-medium">
                       {getAllApplications.data?.length || 0}
                     </p>
-                    <div className="mb-2">
-                    <GrDocumentText size="28" />
-                    </div>
+                    <GrDocumentText size="28" className="mb-2 border border-gray-200/20" />
                   </div>
                 </div>
               </div>
               <div className="pt-1 h-full lg:w-full w-[45%]  lg:h-1/2">
                 <div
                   onClick={()=>navigateToApplications("interview")}
-                  className="border bg-yellow-300 text-white transition duration-400 h-full cursor-pointer mb-4 p-3 pb-0 flex flex-col justify-between"
+                  className="border bg-yellow-300 text-gray-600 transition duration-400 h-full cursor-pointer mb-4 p-3 pb-0 flex flex-col justify-between"
                 >
                   <p className="font-bold capitalize">Interviewed</p>
                   <div className="flex justify-between items-end mt-4">
                     <p className="text-6xl font-medium">{interviews?.length || 0}</p>
-                    <div className="mb-2">
-                      <GoDiscussionOutdated size="30" />
-                    </div>
+                      <GoDiscussionOutdated size="30" className="mb-2 border border-gray-600/20" />
                   </div>
                 </div>
               </div>
@@ -212,10 +208,7 @@ const interviews = allApplications?.filter(
                     <p className="text-6xl font-medium">
                       {pendingReview?.length || 0}
                     </p>
-                    <div className=" text-gray-300">
-                      <MdOutlineRateReview size="30" />
-                      {/* <img src={docsIcon} alt="" className="w-10" /> */}
-                    </div>
+                      <MdOutlineRateReview size="30" className="mb-2 border border-gray-200/20" />
                   </div>
                 </div>
               </div>
@@ -229,10 +222,7 @@ const interviews = allApplications?.filter(
                     <p className="text-6xl font-medium">
                       {shortlistedReview?.length || 0}
                     </p>
-                    <div className=" text-gray-300">
-                      <MdOutlineRemoveRedEye size="30" />
-                      {/* <img src={chatsIcon} alt="" className="w-5" /> */}
-                    </div>
+                      <MdOutlineRemoveRedEye size="30" className="mb-2 border border-gray-200/20" />
                   </div>
                 </div>
               </div>
@@ -246,7 +236,7 @@ const interviews = allApplications?.filter(
                     <RoundChart data={allApplications} />
                   </div>
                 </div>
-                <div className="flex my-3 items-center font-bold cursor-pointer hover:opacity-90 lg:justify-start">
+                <div className="w-max flex my-3 items-center font-bold cursor-pointer hover:opacity-90 lg:justify-start">
                   <p onClick={() => { scrollTo(0, 0); navigate("/applicant/applications") }}>View All Applications</p>
                   <span className="ml-2">
                     <FaArrowRightLong />

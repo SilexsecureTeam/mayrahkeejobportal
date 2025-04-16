@@ -113,7 +113,7 @@ function SearchComponent({ subCategories, handleQuerySubmit, title = "Subcategor
         )}
         {byEducationalLevel && (
           <div className="flex flex-col truncate">
-            <label>Literacy Level</label>
+            <label>Education Level</label>
             <select
               className="p-1 border focus:outline-none border-gray-900 rounded-md"
               {...register("education")}
@@ -175,7 +175,8 @@ function SearchComponent({ subCategories, handleQuerySubmit, title = "Subcategor
               <option selected>-- Select Religion --</option>
               {["Christianity",
                 "Islam",
-                "Traditional"].map((current) => (
+                "Traditional",
+                "Not A Criteria"].map((current) => (
                   <option key={current}>{current}</option>
                 ))}
             </select>

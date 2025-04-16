@@ -2,7 +2,7 @@ import { useContext, useState } from "react";
 import FormButton from "../FormButton";
 import PopUpBox from "../PopUpBox";
 import { useForm } from "react-hook-form";
-import { MdCheck, MdClose } from "react-icons/md";
+import { MdAccountCircle, MdCheck, MdClose } from "react-icons/md";
 import { AuthContext } from "../../context/AuthContex";
 import { axiosClient, resourceUrl } from "../../services/axios-client";
 import { onSuccess } from "../../utils/notifications/OnSuccess";
@@ -175,7 +175,7 @@ function StaffCard({ data, contract = null, cartItems, setCartItems, getCartItem
 
     const detail =
       allStatus.find((current) => current === status) || "Not Recorded";
-    if (name === "garantor") {
+    if (name === "guarantor") {
       // console.log('Detail', detail);
       // console.log('Status', status);
     }
@@ -195,10 +195,10 @@ function StaffCard({ data, contract = null, cartItems, setCartItems, getCartItem
           bg: getStyling(detail),
         };
         break;
-      case "garantor":
+      case "guarantor":
         utils = {
           icon: "/garantor-icon.png",
-          name: `Garantor - (${detail})`,
+          name: `Guarantor - (${detail})`,
           bg: getStyling(detail),
         };
         break;
@@ -265,18 +265,16 @@ function StaffCard({ data, contract = null, cartItems, setCartItems, getCartItem
         </div>
       </PopUpBox>
       <div className="relative pt-[50px] bg-white my-[50px] min-h-fit flex gap-2 shadow-[0_0_2px_#ccc] rounded-lg flex-col justify-between px-3 md:p-10 border">
-        {getField("profile_image") ? (
+        {data?.profile_image ? (
           <img
             src={`${resourceUrl}${getField("profile_image")}`}
-            className="absolute left-0 right-0 mx-auto top-[-50px] h-[100px] place-self-center w-[100px] rounded-full "
+            className="absolute left-0 right-0 mx-auto top-[-50px] h-[100px] place-self-center w-[100px] rounded-full object-cover border border-gray-500"
             alt=""
           />
         ) : (
-          <img
-            src={`/placeholder.png`}
-            className="absolute left-0 right-0 mx-auto top-[-50px] h-[100px] bg-gray-300 place-self-center w-[100px] rounded-full "
-            alt=""
-          />
+          <figure className="absolute left-0 right-0 mx-auto top-[-50px] h-[100px] bg-gray-300 flex items-center justify-center w-[100px] rounded-full border border-gray-500">
+            <MdAccountCircle size={60} />
+          </figure>
         )}
 
         {
@@ -369,19 +367,19 @@ function StaffCard({ data, contract = null, cartItems, setCartItems, getCartItem
 
           <span className="flex gap-2 items-center justify-between text-md truncate font-semibold">
             <img src="/price-tag.png" className="w-[30px]" />
-            Professional Fees:
+            Service Charge:
             <span className="text-sm w-[60%] text-start font-normal text-gray-500">
-              {FormatPrice(10000)}
+              {FormatPrice(parseFloat(data?.expected_salary))}
             </span>
           </span>
         </div>
 
-        <div className="flex w-full gap-2 flex-col my-3">
+        <div className="flex w-full gap-2 flex-col my-3 capitalize">
           {getVerificationComp(
             data.police_report_verification_status,
             "police"
           )}
-          {getVerificationComp(data.guarantor_verification_status, "garantor")}
+          {getVerificationComp(data.guarantor_verification_status, "guarantor")}
           {getVerificationComp(data.residence_verification_status, "residence")}
           {getVerificationComp(
             data.medical_history_verification_status,

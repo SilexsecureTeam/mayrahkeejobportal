@@ -91,7 +91,7 @@ function useCart() {
       const response = await client.post("/staff-cart/remove", {
         user_id: authDetails.user.id,
         user_type: authDetails.user.role,
-        domestic_staff_id: data.domestice_staff_id,
+        domestic_staff_id: data?.domestic_staff_id,
       });
       onSuccess({
         message: "User sucessfully added",
