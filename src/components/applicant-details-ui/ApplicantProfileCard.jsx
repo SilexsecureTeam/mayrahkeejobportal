@@ -1,5 +1,5 @@
 import { resourceUrl } from "../../services/axios-client";
-import { FormatPrice } from "../../utils/formmaters";
+import { formatDate, FormatPrice } from "../../utils/formmaters";
 
 const ApplicantProfileCard = ({ userData }) => {
   const image = userData?.profile_image
@@ -16,7 +16,7 @@ const ApplicantProfileCard = ({ userData }) => {
           </h3>
           <p className="text-gray-600">{userData?.subcategory}</p>
           <div className="flex items-center mt-2">
-            <span className="text-yellow-500">★</span>
+            <span className="text-yellow-500">★★★★★</span>
             <span className="ml-1">{5}</span>
           </div>
         </section>
@@ -24,7 +24,7 @@ const ApplicantProfileCard = ({ userData }) => {
       <div className="mt-4 bg-gray-100 p-2">
         <div className="flex justify-between gap-2 items-center p-2 border-b ">
           <h4 className="font-bold text-gray-800">Member Since</h4>
-          <p className="text-gray-500 text-sm">{userData?.member_since}</p>
+          <p className="text-gray-500 text-sm">{formatDate(userData?.created_at)}</p>
         </div>
         <div className="p-3 mt-2 rounded-lg">
           <p className="font-semibold uppercase">{userData?.staff_category}</p>
@@ -61,7 +61,7 @@ const ApplicantProfileCard = ({ userData }) => {
       <div className="mt-6">
         <h4 className="font-bold text-gray-800">Languages</h4>
         <ul className="text-gray-600 mt-2 grid grid-cols-2 gap-1">
-          {userData?.languages_spoken.map((current) => (
+          {userData?.languages_spoken?.map((current) => (
             <li className="py-1 px-2 bg-yellow-400">{current}</li>
           ))}
         </ul>

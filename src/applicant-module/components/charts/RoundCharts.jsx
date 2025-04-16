@@ -21,7 +21,7 @@ const RoundChart = ({ data }) => {
         width: "100%",
       },
       labels: statusOrder.map((status) =>
-        status === "In-Review" ? "Under-Review" : status
+        status === "In-Review" ? "Under-Review" : status === "Shortlist" ? "Shortlisted" : status === "Interview" ? "Interviewed" : status
       ), // Replace "In-Review" with "Under-Review", // Status labels in order
       colors: statusColors, // Colors corresponding to statuses
       legend: {

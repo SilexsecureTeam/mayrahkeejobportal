@@ -48,7 +48,7 @@ function MessageHead({current, selectedChat, setSelectedChat}) {
         <h4 className="text-sm font-semibold">{current?.employer_name}</h4>
         {onlineStatus && (
           <div className="truncate flex flex-col h-full">
-            <h4 className="text-sm font-semibold">{current?.full_name}</h4>
+            {/* <h4 className="text-sm font-semibold">{current?.full_name}</h4> */}
             <span className="text-little font-thin italic pb-1 text-green-600">online</span>
           </div>
         )}{" "}

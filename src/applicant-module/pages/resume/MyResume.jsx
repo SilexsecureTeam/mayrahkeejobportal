@@ -208,7 +208,7 @@ const MyResume = () => {
                                         </div>
                                         <div className='mb-5'>
                                             <label className="block">
-                                                <span className="block font-medium text-slate-700 flex gap-1">Year of Graduation <strong className="text-red-500">*</strong> </span>
+                                                <span className="font-medium text-slate-700 flex gap-1">Year of Graduation <strong className="text-red-500">*</strong> </span>
                                                 <input onChange={handleOnChange} type="text" required value={details.year_of_graduation} name='year_of_graduation' placeholder='e.g 2020'
                                                     className="mt-1 block p-2 focus:outline-none w-full border" />
                                             </label>
@@ -216,7 +216,7 @@ const MyResume = () => {
                                         <p className="font-medium text-base my-6"> Academy</p>
                                         <div className='mb-5'>
                                             <label className="block">
-                                                <span className="block font-medium text-slate-700">Name of Academy (for creative)</span>
+                                                <span className="block font-medium text-slate-700 capitalize">Name of Academy (for creatives)</span>
                                                 <input onChange={handleOnChange} type="text" value={details.academy_name} name='academy_name' placeholder='Enter academy name'
                                                     className="mt-1 block p-2 focus:outline-none w-full border" />
                                             </label>
@@ -271,7 +271,7 @@ const MyResume = () => {
                                         <div className='mb-5'>
                                             <label className="block">
                                                 <span className="block font-medium text-slate-700">Position Held</span>
-                                                <input onChange={handleOnChange} type="text" value={details.position_held} name='position_held' placeholder='position'
+                                                <input onChange={handleOnChange} type="text" value={details.position_held} name='position_held' placeholder='Position'
                                                     className="mt-1 block p-2 focus:outline-none w-full border" />
                                             </label>
                                         </div>

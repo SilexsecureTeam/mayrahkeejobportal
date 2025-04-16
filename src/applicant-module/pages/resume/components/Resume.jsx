@@ -4,6 +4,7 @@ import EditResume from "./EditResume";
 import { BASE_URL, IMAGE_URL } from "../../../../utils/base";
 import axios from "axios";
 import { onSuccess } from "../../../../utils/notifications/OnSuccess";
+import { formatDate } from "../../../../utils/formmaters";
 
 const Resume = ({ resume, setGetResumeById, authDetails, getCandidate }) => {
   const [errorMsg, setErrorMsg] = useState(false);
@@ -97,7 +98,7 @@ const Resume = ({ resume, setGetResumeById, authDetails, getCandidate }) => {
               {resume.start_date && <div className="flex justify-between gap-2">
                 <p className="font-medium text-base">Duration:</p>
                 <p>
-                  <span>{resume.start_date} - {resume.end_date || "Till present"}</span>
+                  <span>{formatDate(resume.start_date)} - {resume?.end_date ? formatDate(resume.end_date) : "Till present"}</span>
                 
                 </p>
               </div>}

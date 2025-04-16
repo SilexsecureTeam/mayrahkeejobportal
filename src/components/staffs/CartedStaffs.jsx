@@ -1,5 +1,5 @@
-import { FaExclamationCircle } from "react-icons/fa";
-import { MdCheck, MdCheckBoxOutlineBlank, MdClose } from "react-icons/md";
+import { FaExclamationCircle, FaSpinner } from "react-icons/fa";
+import { MdCheck, MdCheckBoxOutlineBlank, MdClose, MdDelete } from "react-icons/md";
 import { useLocation, useNavigate } from "react-router-dom";
 import StaffCard from "./StaffCard";
 import { useContext, useEffect, useState } from "react";
@@ -12,7 +12,7 @@ import { PaystackConsumer } from "react-paystack";
 import useCart from "../../hooks/useCart";
 import MarketPlace from "./marketplace/MarketPlace";
 import PopUpBox from "../PopUpBox";
-import {FaArrowLeftLong} from "react-icons/fa6"
+import { FaArrowLeftLong } from "react-icons/fa6"
 
 import FormButton from "../FormButton";
 
@@ -25,6 +25,7 @@ function CartedStaffs() {
   const [cartItems, setCartItems] = useState(data?.items || []);
   const { config, handleSuccess, addToCart, removeFromCart } = useCart();
   const [conditions, setConditions] = useState(false);
+  const [removing, setRemoving] = useState({})
   const [terms, setTerms] = useState(false);
 
   // cart ui logic
@@ -48,7 +49,7 @@ function CartedStaffs() {
       setSelectedItems([...selectedItems, item]);
     }
   };
-  
+
 
   //cart ui logic ended
   const navigateToStaff = (staff) =>
@@ -90,8 +91,9 @@ function CartedStaffs() {
     await addToCart(getCartItems, data);
   };
 
-  const handleRemoveCart = async (data) => {
-    await removeFromCart(getCartItems, data);
+  const handleRemoveCart = async (detail) => {
+    setRemoving(prev => ({ ...prev, [detail?.domestic_staff_id]: true }))
+    await removeFromCart(getCartItems, detail);
   };
 
   //
@@ -102,13 +104,13 @@ function CartedStaffs() {
 
   return (
     <>
-    <button
-          type="button"
-          onClick={() => window.history.back()}
-          className="w-max flex items-center gap-2 outline outline-offset-5 outline-green-500 px-4 py-2 rounded text-green-500 hover:bg-green-100"
-        >
-       <FaArrowLeftLong className="me-4 text-green-500" />Back
-        </button>
+      <button
+        type="button"
+        onClick={() => window.history.back()}
+        className="w-max flex items-center gap-2 outline outline-offset-5 outline-green-500 px-4 py-2 rounded text-green-500 hover:bg-green-100"
+      >
+        <FaArrowLeftLong className="me-4 text-green-500" />Back
+      </button>
       <PopUpBox isOpen={conditions}>
         <div className="w-[90%] md:w-[40%] md:h-fit text-gray-500 p-5 items-center flex flex-col gap-4 bg-white">
           <MdClose
@@ -179,7 +181,7 @@ function CartedStaffs() {
         >
           <div className="flex w-full justify-between items-center">
             <span className="flex gap-2 items-center text-green-700">
-              Here are a list of your carted staffs
+              Here are a list of your carted {data?.type == "artisan" ? "Skilled Worker(s)" : "staff(s)"}
               <FaExclamationCircle />
             </span>
 
@@ -193,8 +195,7 @@ function CartedStaffs() {
           </div>
 
           <p>
-            Here you can sign a contract with any artisan of your choice. Click
-            on sign to sign them or view to view thier details
+            Here you can <strong>confirm your hire</strong> for any {data?.type == "artisan" ? "Skilled Worker" : "staff"} of your choice and proceed to checkout to finalize.
           </p>
         </div>
 
@@ -202,10 +203,10 @@ function CartedStaffs() {
         {cartItems.length !== 0 ? (
           <div className="flex flex-col md:flex-row gap-8">
             <div className="w-full min-w-72 md:w-2/3 bg-white p-6">
-              <h2 className="text-lg font-bold mb-4">Shopping Cart</h2>
+              <h2 className="text-lg font-bold mb-4">Job Cart</h2>
 
               <p className="text-sm text-gray-600 mb-4">
-                Showing {cartItems.length} staffs you added
+                Showing {cartItems.length} {data?.type == "artisan" ? "Skilled Worker(s)" : "staff(s)"} you added
               </p>
 
               <div className="mb-4">
@@ -256,15 +257,21 @@ function CartedStaffs() {
                       <section className="w-full">
                         <p className="text-xs flex gap-5 w-full justify-between  uppercase text-gray-500">
                           {item?.domestic_staff?.subcategory}
-                          <span className={`text-md ${item.domestic_staff.availability_status === '1' ? 'text-green-600' : 'text-red-600'}`}>{item.domestic_staff.availability_status === '1' ? 'Available' : 'Unavailable'}</span>
                         </p>
                         <p className="text-base font-medium capitalize">
-                          {`${item?.domestic_staff?.surname} ${item?.domestic_staff?.first_name} ${item?.domestic_staff?.middle_name}`}
+                          {`${item?.domestic_staff?.surname} ${item?.domestic_staff?.first_name}`}
                         </p>
                         <p className="text-sm text-gray-700">
-                          {FormatPrice(parseFloat(item?.domestic_staff?.expected_salary))}
+                          {item?.domestic_staff?.expected_salary && FormatPrice(parseFloat(item?.domestic_staff?.expected_salary))}
                         </p>
                       </section>
+                      <div className="flex flex-col items-center gap-2">
+                        <span className={`text-md ${item.domestic_staff.availability_status === '1' ? 'text-green-600' : 'text-red-600'}`}>{item.domestic_staff.availability_status === '1' ? 'Available' : 'Unavailable'}</span>
+                        <button disabled={removing[item?.domestic_staff_id]} onClick={() => handleRemoveCart(item)} className="disabled:opacity-60">{
+                          removing[item?.domestic_staff_id] ?
+                            <FaSpinner className="animate-spin" />
+                            : <MdDelete className="text-red-500" />}</button>
+                      </div>
                     </div>
                   </div>
                 ))}

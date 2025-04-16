@@ -694,7 +694,7 @@ const BasicInfo = ({ setIsOpen }) => {
                               <option value="ond">OND</option>
                               <option value="hnd">HND</option>
                               <option value="diploma">DIPLOMA</option>
-                              <option value="bsc">Bachelor Degree</option>
+                              <option value="bsc">Bachelor's Degree</option>
                               <option value="msc">Master's Degree</option>
                             </select>
                           </label>
@@ -987,7 +987,7 @@ const BasicInfo = ({ setIsOpen }) => {
                         <div className="col-span-2">
                           <label class="block">
                             <span class="block text-sm font-medium text-slate-700">
-                              My introduction video
+                              My Introduction Video
                             </span>
                             <input
                               type="file"
@@ -1033,34 +1033,7 @@ const BasicInfo = ({ setIsOpen }) => {
                     </p>
                   </div>
                 )}
-                {/* <div className=" border-b mb-8">
-                                    <div className="flex py-6">
-                                        <div className=" w-2/5 text-slate-900">
-                                            <p className='font-medium'>Account Type</p>
-                                            <p>You can update your account type</p>
-                                        </div>
-                                        <div className="w-3/5 text-slate-700">
-                                            <div className="mb-4 flex ">
-                                                <div className="mr-4">
-                                                    <input type="radio" name="status" id="job_seeker" className='radio' />
-                                                </div>
-                                                <div className="">
-                                                    <label htmlFor="job_seeker" className='font-medium'>Job seeker</label>
-                                                    <p>Looking for job</p>
-                                                </div>
-                                            </div>
-                                            <div className="mb-4 flex ">
-                                                <div className="mr-4">
-                                                    <input type="radio" name="status" id="employer" className='radio' />
-                                                </div>
-                                                <div className="">
-                                                    <label htmlFor="employer" className='font-medium'>Employer</label>
-                                                    <p>Hiring, sourcing candidates, or posting a jobs</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div> */}
+                
                 <button className="rounded border prime_bg text-white px-4 flex justify-center py-2 w-[50%]">
                   Save Profile
                   {loading && (

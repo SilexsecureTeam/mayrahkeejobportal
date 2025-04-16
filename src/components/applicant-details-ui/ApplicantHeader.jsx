@@ -37,7 +37,7 @@ const ApplicantHeader = ({ staff, setStaff }) => {
   return (
     <header className="text-white p-4 flex flex-wrap gap-5 items-center justify-between">
       <section>
-        <h2 className="text-xl font-bold text-blue-900">{staff?.first_name}</h2>
+        <h2 className="text-xl font-bold text-blue-900">{staff?.full_name}</h2>
         <nav className="flex flex-wrap my-2 gap-2 font-medium">
           <a href="#" className="text-green-500">Offers</a>
           <a href="#" className="text-gray-800 capitalize">{staff?.staff_category?.toLowerCase() === "staff" ? "Domestic Staff" : "Artisan"}</a>

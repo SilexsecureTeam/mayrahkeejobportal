@@ -6,17 +6,17 @@ import { stages } from "../../../utils/constants";
 const RecentlyAdded = ({ newApplicant, newApp }) => {
   const dateCreated = new Date(newApp?.created_at)
   const getBorderColor = () => {
-    switch (newApp?.status) {
+    switch (newApp?.status?.toLowerCase()) {
       case stages[0].name:
         return "text-orange-500 border-lightorange";
       case stages[1].name:
-        return "text-yellow-500 border-lightblue";
+        return "text-lightblue border-lightblue";
       case stages[2].name:
-        return "text-darkblue border-darkblue";
+        return "text-yellow-500 border-yellow-300";
       case stages[3].name.split("/")[0]:
-        return "text-primaryColor border-primaryColor";
+        return "text-lightgreen border-lightgreen";
       case stages[3].name.split("/")[1]:
-        return "text-[#8B0A1A] border-[#8B0A1A]";
+        return "text-red-500 border-red-500";
     }
   };
   return (
@@ -35,7 +35,7 @@ const RecentlyAdded = ({ newApplicant, newApp }) => {
         <p>{dateCreated.toLocaleString('en-US', {weekday:'short', year:'numeric', month:'short', day:'numeric'})}</p>
       </div>
       <div className="w-1/6 hidden md:block">
-        <button className={`border border-green-600 text-[12px] text-green-900 px-2 py-1 rounded-full uppercase ${getBorderColor()}`}>{FormatTextToUppecase(newApp.status == "in-review" ?"under-review": newApp.status)}</button>
+        <button className={`border text-[12px] px-2 py-1 rounded-full capitalize ${getBorderColor()}`}>{newApp.status == "in-review" ?"under-review": newApp.status}</button>
       </div>
       <div className="w-1/6">
         <button className=" p-1"> <MdOutlineMoreHoriz /> </button>

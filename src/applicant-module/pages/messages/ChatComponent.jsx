@@ -135,7 +135,7 @@ function ChatComponent({ selectedChat, setSelectedChat, applicationUtils }) {
                     className={`flex flex-col w-max max-w-full ${positions[1]}`}
                   >
                     <span className="text-little font-semibold">
-                      {positions[3] ? positions[3] : "you"}
+                      {positions[3] ? positions[3] : "You"}
                     </span>
                     <p className="p-2 mt-2 rounded-md bg-gray-200 text-sm">
                       {current.message}
