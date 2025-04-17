@@ -10,8 +10,8 @@ function SingleApplicant() {
 
   const [isOpen, setIsOpen] = useState(false);
   const [edit, setEdit] = useState(false);
-  const { application, 
-    setApplication, 
+  const { application,
+    setApplication,
     getApplicant,
     interviewDetails,
     onTextChange,
@@ -23,7 +23,7 @@ function SingleApplicant() {
   const [isLoading, setIsLoading] = useState(false);
 
   const toogleInterview = () => setIsOpen(!isOpen);
-const exclusiveData=location?.state?.exclusiveData || null;
+  const exclusiveData = location?.state?.exclusiveData || null;
   const handleOnSubmit = (e, selectedOption, meetingId) => {
     e.preventDefault();
     scheduleInterview(
@@ -46,7 +46,6 @@ const exclusiveData=location?.state?.exclusiveData || null;
     }
     return setApplication(null);
   }, [application]);
-  console.log(location?.state?.exclusiveData, application)
 
   useEffect(() => {
     const initApplicant = async () => {

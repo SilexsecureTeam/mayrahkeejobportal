@@ -8,6 +8,7 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import { Helmet } from 'react-helmet';
 import { resourceUrl } from '../services/axios-client';
+import { formatDate } from '../utils/formmaters';
 
 const BlogRead = ({general=true}) => {
     const { id } = useParams(); // Get the blog ID from the URL
@@ -67,7 +68,7 @@ const BlogRead = ({general=true}) => {
                 subtitle={blog.description.slice(0, 150)}
                 img={`${resourceUrl}${blog.main_image}`}
                 reads={blog.readingTime}
-                time={new Date(blog.created_at).toLocaleDateString()}
+                time={formatDate(blog.created_at)}
             />
             <div className={general ? "relative max-w-[1400px] w-full mx-auto" : "w-full"}>
                 <div className={general ? "block":"hidden"}><Navbar /></div>

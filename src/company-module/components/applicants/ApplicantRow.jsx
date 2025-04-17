@@ -7,6 +7,7 @@ import { GiVideoConference } from "react-icons/gi";
 import { IoMdCloseCircle } from "react-icons/io";
 import { useContext } from "react";
 import { AuthContext } from "../../../context/AuthContex";
+import { formatDate } from "../../../utils/formmaters";
 
 function ApplicantRow({ data, isExclusive = false, exclusiveData=null }) {
   const navigate = useNavigate();
@@ -105,7 +106,7 @@ function ApplicantRow({ data, isExclusive = false, exclusiveData=null }) {
 
       <td className="hidden md:block">
         <p className=" py-[5px] text-center font-semibold">
-          {new Date(data.created_at).toLocaleDateString()}
+          {formatDate(data?.created_at)}
         </p>
       </td>
 

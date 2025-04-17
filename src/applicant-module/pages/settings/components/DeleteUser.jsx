@@ -1,11 +1,14 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { GrCircleAlert } from 'react-icons/gr'
 import { BASE_URL } from '../../../../utils/base';
 import NotificationModal from '../../../../components/NotificationModal';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { AuthContext } from '../../../../context/AuthContex';
 
-const DeleteUser = ({ authDetails }) => {
+const DeleteUser = () => {
+    const { authDetails, setAuthDetails } = useContext(AuthContext);
+    
     const [isOpen, setIsOpen] = useState(false)
     const [errorMsg, setErrorMsg] = useState("")
     const [loading, setLoading] = useState(false)
@@ -25,7 +28,9 @@ const DeleteUser = ({ authDetails }) => {
                 console.log(response)
                 setLoading(false)
                 setIsOpen(false)
-                navigate("/");
+                sessionStorage.clear();
+                setAuthDetails(null);
+                navigate("/", { replace: true });
             })
             .catch((error) => {
                 console.log(error)
@@ -62,7 +67,7 @@ const DeleteUser = ({ authDetails }) => {
                     <button
                         disabled={loading}
                         onClick={handleSubmit}
-                        className="flex px-4 py-2 rounded text-red-500 font-medium items-center hover:shadow-lg shadow-cyan-500/50 ">
+                        className="flex px-4 py-2 rounded text-red-500 font-bold items-center hover:shadow-lg shadow-cyan-500/50 ">
                         <span>Close Account </span>
                         <span className='ml-3'><GrCircleAlert /></span>
                     </button>

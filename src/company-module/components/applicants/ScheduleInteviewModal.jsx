@@ -69,11 +69,11 @@ function ScheduleInterviewModal({
   handleOnSubmit,
   edit = false
 }) {
-  
+
   const companyUtil = useCompanyProfile();
   const { isInterviewPackge } = useContext(SubscriptionContext);
   const { authDetails } = useContext(AuthContext);
- 
+
   const options = isInterviewPackge ? interviewOptions : [interviewOptions[1]];
   //const options = interviewOptions ;
 
@@ -93,15 +93,27 @@ function ScheduleInterviewModal({
       setLoadingMeetingId(false); // Reset loading state after fetching
     }
   };
-useEffect(()=>{
-  console.log(details?.meeting_id)
- if(details?.meeting_id && details?.meeting_id !== ""){
-  setMeetingId(details?.meeting_id)
-  setSelected(interviewOptions[0])
- }else{
-  setSelected(interviewOptions[1])
- }
-},[details?.meeting_id ])
+  useEffect(() => {
+    if (details?.meeting_id) {
+      setMeetingId(details?.meeting_id)
+      setSelected(interviewOptions[0])
+    } else {
+      setSelected(interviewOptions[1])
+      setMeetingId(null)
+    }
+  }, [details?.meeting_id])
+
+  useEffect(() => {
+    if (isOpen && selected?.name === "physical") {
+      onTextChange({
+        target: {
+          name: "location",
+          value: companyUtil.details.address,
+        },
+      });
+    }
+  }, [isOpen]);
+  
   return (
     isOpen && (
       <div className="h-full z-10 w-full text-gray-600 text-little flex justify-center items-center bg-gray-600/70 fixed top-0 left-0">
@@ -142,7 +154,7 @@ useEffect(()=>{
                 onTextChange={onTextChange}
               />
 
-              <div className="flex flex-col">
+              <div className="flex flex-col capitalize">
                 <label className="text-sm font-semibold">Interview Type</label>
                 <Selector
                   data={options}
@@ -164,7 +176,7 @@ useEffect(()=>{
                 <div className="flex flex-col gap-[3px]">
                   <label className="text-sm font-semibold">Meeting ID</label>
                   <div className="flex justify-between border items-center p-2">
-                    <span>{meetingId ? meetingId : "no-meeting-id"}</span>
+                    <span>{meetingId ? meetingId : ""}</span>
                     <button
                       type="button"
                       onClick={onClick}

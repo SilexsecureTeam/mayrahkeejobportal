@@ -125,71 +125,64 @@ function useApplicationManagement() {
   ) => {
     setLoading(true);
     try {
-      
       if (!option.name) throw Error("An interview option must be selected");
       if (!meetingId && option.name === "online")
         throw Error("Please generate a meeting ID");
 
+      // Build the base object
       let interviewPrimarydata = {
+        ...interviewDetails,
         job_application_id: data.id,
         employer_id: exclusive ? exclusive.id : authDetails.user.id,
         candidate_id: applicant.candidate_id,
         option: option.name,
-        meeting_id: meetingId,
       };
 
-      if (option.name !== "online") {
-        interviewPrimarydata={
-          ...interviewPrimarydata,
-          location:interviewDetails?.location,
-          meeting_id: null
-        }
-      }else{
-        interviewPrimarydata={
-          ...interviewPrimarydata,
-          meeting_id:meetingId,
-          location: null
-        }
-        
+      // Include only necessary fields
+      if (option.name === "online") {
+        interviewPrimarydata.meeting_id = meetingId;
+        interviewPrimarydata.location = null;
+      } else {
+        interviewPrimarydata.location = interviewDetails?.location;
+        interviewPrimarydata.meeting_id = null;
       }
+
+      // Build the payload from primary data and interviewDetails
+      let payload = {
+        ...interviewPrimarydata
+      };
+
+      console.log("Payload being sent:", payload);
 
       const updateprimarydata = {
         job_id: data.job_id,
         candidate_id: applicant.candidate_id,
-      };  
-      // if(edit){
-      //   delete interviewDetails?.id      
-      // }
-      console.log({
-        ...interviewPrimarydata,
-        ...interviewDetails,
-      })
-      const apiFunc=edit ? client.put(`/interviews/${interviewDetails?.id}`, {
-        ...interviewPrimarydata,
-        ...interviewDetails,
-      }):client.post(`/interviews`, {
-        ...interviewPrimarydata,
-        ...interviewDetails,
-      });
-      const interviewResponse =await apiFunc;
-     
+      };
+
+      const apiFunc = edit
+        ? client.put(`/interviews/${interviewDetails?.id}`, payload)
+        : client.post(`/interviews`, payload);
+
+      const interviewResponse = await apiFunc;
       const interviewData = interviewResponse.data.interview;
-      const applicationUpdateResponse = await client.post(
-        `/applicationRespond`,
-        {
-          ...updateprimarydata,
-          status: stages[1].name,
-          interview_id: interviewData.id,
-        }
-      );
-      const applicatonUpdateData =
-        applicationUpdateResponse.data.job_application;
+
+      const applicationUpdateResponse = await client.post(`/applicationRespond`, {
+        ...updateprimarydata,
+        status: stages[1].name,
+        interview_id: interviewData.id,
+      });
+
+      const applicatonUpdateData = applicationUpdateResponse.data.job_application;
       setData(applicatonUpdateData);
       handleOnSuccess();
+
       onSuccess({
-        message: `${edit ? "Update":"Schedule"} Interview`,
-        success: interviewResponse.data?.message || `Interview ${edit ? "Updated":"Scheduled"} successfully`
+        message: `${edit ? "Update" : "Schedule"} Interview`,
+        success:
+          interviewResponse.data?.message ||
+          `Interview ${edit ? "Updated" : "Scheduled"} successfully`,
       });
+
       await getApplicantsByEmployeeDebounced(); // Re-fetch the applicants list
     } catch (error) {
       console.log(error);
@@ -198,6 +191,7 @@ function useApplicationManagement() {
       setLoading(false);
     }
   };
+
 
   // Function to get resume by ID
   const getResume = async (resumeId, setResume) => {

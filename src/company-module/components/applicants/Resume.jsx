@@ -2,6 +2,8 @@ import { useContext, useEffect, useState } from "react";
 import { resourceUrl } from "../../../services/axios-client";
 import { ApplicationContext } from "../../../context/ApplicationContext";
 import Modal from '../../../components/modal/Modal'
+import { formatDate } from "../../../utils/formmaters";
+
 const stages = [
   {
     name: "In-Review",
@@ -62,13 +64,23 @@ function Resume({ data, applicant }) {
             <h3 className="mb-[10px] tracking-wide flex flex-col items-center text-smd font-semibold">
               {resume.title}
               {resume.resume_path ? (
-                <a
-                  href={`${resourceUrl}${resume.resume_path}`}
-                  target="_blank"
-                  className="text-little font-normal hover:underline text-primaryColor"
-                >
-                  Link to file
-                </a>
+                <div className="flex gap-2 mt-2">
+                  <a
+                    href={`https://docs.google.com/viewer?url=${encodeURIComponent(resourceUrl + resume.resume_path)}&embedded=true`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="bg-primaryColor text-white px-3 py-1 rounded text-sm hover:bg-primaryColor/90"
+                  >
+                    View CV
+                  </a>
+                  <a
+                    href={`${resourceUrl}${resume.resume_path}`}
+                    download
+                    className="bg-secondaryColor text-black px-3 py-1 rounded border border-primaryColor text-sm hover:bg-primaryColor hover:text-white"
+                  >
+                    Download CV
+                  </a>
+                </div>
               ) : (
                 <p>No file Uploaded</p>
               )}
@@ -115,13 +127,13 @@ function Resume({ data, applicant }) {
                 <span className="text-black font-semibold flex gap-2 w-full justify-between">
                   Date Started{" "}
                   <span className="font-normal">
-                    {new Date(resume.start_date).toLocaleDateString()}
+                    {formatDate(resume.start_date)}
                   </span>
                 </span>
                 <span className="text-black font-semibold flex gap-2 w-full justify-between">
                   Date Ended{" "}
                   <span className="font-normal">
-                    {new Date(resume.end_date).toLocaleDateString()}
+                    {formatDate(resume.end_date)}
                   </span>
                 </span>
               </li>
