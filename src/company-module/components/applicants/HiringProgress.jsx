@@ -156,14 +156,14 @@ function HiringProgress({ data, applicant, toogleInterview, exclusive, setEdit }
       <h3 className="font-semibold text-sm px-2">Current Stage</h3>
 
       <ul className="w-full px-2 flex justify-between">
-        {stages.map((current, index) => (
+        {stages?.map((current, index) => (
           <li
             key={index}
             className={`min-w-[24%] flex uppercase items-center border font-semibold justify-center py-2 text-[11px] ${getbgcolor(
               current.name
             )}`}
           >
-            {current.name}
+            {current?.label}
           </li>
         ))}
       </ul>

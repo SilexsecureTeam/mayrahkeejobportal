@@ -114,7 +114,7 @@ const ApplicantLoginDetails = ({ authDetails }) => {
             </div>
           </form>
 
-          <DeleteUser authDetails={authDetails} />
+          <DeleteUser />
         </div>
       </div>
     </div>

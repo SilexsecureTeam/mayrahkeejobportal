@@ -136,14 +136,6 @@ function Shortlist({ data, exclusive, toogleInterview, setEdit }) {
                   </span>
                 </div>
 
-                {interview?.location && (
-                  <div className="flex flex-col">
-                    <span className="text-gray-400 text-sm">Interview Location</span>
-                    <span className="text-gray-700 font-semibold text-little">
-                      {interview?.location}
-                    </span>
-                  </div>
-                )}
 
                 <div className="flex flex-col">
                   <span className="text-gray-400 text-sm">Interview Time</span>
@@ -151,6 +143,15 @@ function Shortlist({ data, exclusive, toogleInterview, setEdit }) {
                     {formattedTime}
                   </span>
                 </div>
+                {interview?.location && (
+                  <div className="flex flex-col">
+                    <span className="text-gray-400 text-sm">Interview Location</span>
+                    <span className="text-gray-700 font-semibold text-little">
+                      {interview?.location}
+                    </span>
+                  </div>
+                )} 
+                
                 {interview?.meeting_id && (
                   <div className="flex flex-col">
                     <span className="text-gray-400 text-sm">Meeting Id</span>
@@ -178,10 +179,10 @@ function Shortlist({ data, exclusive, toogleInterview, setEdit }) {
               <div className="flex px-2 gap-2 items-center">
                 <button
                   onClick={handleOnClick}
-                  disabled={!isLive || hasEnded}
+                  disabled={!isLive || hasEnded || !interview?.meeting_id}
                   className="border w-fit hover:bg-primaryColor hover:text-white py-1 text-little px-2 border-primaryColor cursor-pointer disabled:hover:text-gray-700 disabled:hover:bg-transparent disabled:opacity-30 disabled:cursor-not-allowed"
                 >
-                  {isLive && "Proceed to Interview"}
+                  {isLive && (interview?.meeting_id ? "Proceed to Interview" : "Physical Interview Ongoing")}
                   {hasEnded && "Interview Ended"}
                   {countdown && "Not Live"}
                 </button>

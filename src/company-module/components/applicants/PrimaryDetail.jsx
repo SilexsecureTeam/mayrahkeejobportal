@@ -1,9 +1,10 @@
 import { apiURL, resourceUrl } from "../../../services/axios-client";
 import { company_socials } from "../../../utils/constants";
 import linkedinIcon from "../../../assets/pngs/linkedin-icon.png";
+import { formatDate } from "../../../utils/formmaters";
 
 function PrimaryDetail({ data, applicant }) {
-  console.log(data)
+
   const getSocials = () => {
     const list = applicant?.social_media_handle.map((current, idx) => {
       if (current.network === "linkedIn") {
@@ -43,7 +44,7 @@ function PrimaryDetail({ data, applicant }) {
           <div className="w-full flex p-2 border-b border-gray-400 justify-between">
             <span className=" text-little">Applied Job</span>
             <span className=" text-little">
-              {new Date(data?.created_at).toLocaleDateString()}
+              {formatDate(data?.created_at)}
             </span>
           </div>
           <div className="w-full flex flex-col p-2 gap-[5px]  justify-between">
@@ -56,10 +57,10 @@ function PrimaryDetail({ data, applicant }) {
           </div>
         </div>
 
-        <div className="w-full h-[30px] text-white flex justify-between px-2 py-1  gap-[5px] bg-primaryColor">
+        <div className="w-full h-[30px] text-white flex justify-between items-center px-2 py-1  gap-[5px] bg-primaryColor">
           <span className="text-little">Status</span>
-          <span className="text-[10px] uppercase">
-            {data?.status}
+          <span className="text-xs uppercase font-bold">
+            {data?.status == "in-review" ? "Under-Review" : data?.status == "shortlist" ? "Shortlisted" : data?.status == "interview" ? "Interviewed" : data.status }
           </span>
         </div>
 
