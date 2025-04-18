@@ -5,7 +5,7 @@ import { axiosClient } from "../../../services/axios-client";
 import { AuthContext } from "../../../context/AuthContex";
 import { onFailure } from "../../../utils/notifications/OnFailure";
 import { onSuccess } from "../../../utils/notifications/OnSuccess";
-import { FormatError } from "../../../utils/formmaters";
+import { formatDate, FormatError } from "../../../utils/formmaters";
 import ConfirmationPopUp from "./ConfirmationPopUp"; // Import the popup
 
 const formFields = [
@@ -133,7 +133,7 @@ function GuarantorForm() {
               labelText &&
               <div className="flex flex-col gap-1 break-all" key={currentKey}>
                 <label className="capitalize font-medium" >{labelText}</label>
-                <label>{currentKey === "dob" ? value?.split("-").reverse().join("-") :value}</label>
+                <label>{currentKey === "dob" ? formatDate(value):value}</label>
               </div>
             );
           })}

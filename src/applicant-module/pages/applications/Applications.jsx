@@ -96,7 +96,7 @@ function Application() {
                 Keep it up, {authDetails.user?.first_name}
               </h4>
               <p>
-                Here is what’s happening with your job search applications from{" "}
+                Here is what’s happening with your job applications from{" "}
                 {generateDateRange()}
               </p>
             </div>

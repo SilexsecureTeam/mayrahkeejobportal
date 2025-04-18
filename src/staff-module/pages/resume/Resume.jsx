@@ -21,7 +21,7 @@ const Resume = () => {
   useEffect(() => {
     console.log(profileDetails)
     if (profileDetails?.resume) {
-      const filePath = `${resourceUrl}${profileDetails.resume}`;
+      const filePath = `https://docs.google.com/viewer?url=${encodeURIComponent(resourceUrl + profileDetails.resume)}&embedded=true`;
       setResumeUrl(filePath);
       setActiveTab("View Resume"); // Default to view mode if file exists
     }
@@ -156,7 +156,7 @@ const Resume = () => {
                 <a href={resumeUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 px-4 py-2 bg-gray-200 rounded-md hover:bg-gray-300 transition-all">
                   <FiEye className="w-5 h-5" /> View File
                 </a>
-                <a href={resumeUrl} download className="flex items-center gap-2 px-4 py-2 bg-primaryColor text-white rounded-md hover:bg-green-800 transition-all">
+                <a href={`${resourceUrl}${profileDetails.resume}`} download className="flex items-center gap-2 px-4 py-2 bg-primaryColor text-white rounded-md hover:bg-green-800 transition-all">
                   <FiDownload className="w-5 h-5" /> Download
                 </a>
               </div>
