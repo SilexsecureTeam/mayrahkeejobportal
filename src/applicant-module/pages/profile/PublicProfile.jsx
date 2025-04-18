@@ -37,7 +37,7 @@ function PublicProfile() {
           <div className="w-full lg:w-2/3 mb-4 lg:mb-0">
             <div className="border rounded-lg overflow-hidden">
               <div
-                className="bg_layout p-4 h-[150px] bg-cover"
+                className="bg_layout p-4 h-[150px] bg-cover border-b-2 border-gray-500"
                 style={{ backgroundImage: bgImage }}
               >
                 <div className="flex justify-end text-white">
@@ -52,7 +52,7 @@ function PublicProfile() {
                         ? `${IMAGE_URL}/${candidate.profile}`
                         : "https://via.placeholder.com/150"
                     }
-                    className="w-24 h-24 md:w-32 md:h-32 object-cover rounded-full ring-4 ring-white"
+                    className="w-24 h-24 md:w-32 md:h-32 object-cover rounded-full ring-2 ring-gray-500 bg-gray-200"
                     alt="profile"
                   />
                 </div>
