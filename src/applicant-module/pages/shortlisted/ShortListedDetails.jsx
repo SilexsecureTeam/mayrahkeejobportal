@@ -165,11 +165,11 @@ const ShortListedDetails = () => {
         ].map(
           (item, index) =>
             item?.value && (
-              <div className="flex flex-col sm:flex-row" key={index}>
-                <div className="w-full sm:w-1/3 bg-lightorange p-4">
-                  <p className="font-bold">{item.label}</p>
+              <div className="flex flex-col md:flex-row max-w-[600px] bg-lightorange"  key={index}>
+                <div className="w-full md:w-1/3 p-4">
+                  <p className="font-bold">{item?.label}</p>
                 </div>
-                <div className="w-full sm:w-2/3 p-4">
+                <div className="w-full md:w-2/3 p-4">
                   <p>{item?.value || "..."}</p>
                 </div>
               </div>
