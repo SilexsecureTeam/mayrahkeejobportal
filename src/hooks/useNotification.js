@@ -59,7 +59,7 @@ function useNotification(role) {
       
       return data.settings ? {...data.settings[0]} : {}
     } catch (e) {
-      FormatError(e, setError, "Notification Error");
+      //FormatError(e, setError, "Notification Error");
       return {}
     } finally {
       setLoading(false);

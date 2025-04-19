@@ -52,6 +52,7 @@ const DomesticStaffs = lazy(() =>
 const SuccessPage = lazy(() => import("../components/SuccessPage"));
 const StaffDetails = lazy(() => import('../components/applicant-details-ui/ApplicantDetails'))
 const ContractHistory = lazy(() => import('../components/staffs/ContractHistory'))
+const ComingSoon = lazy(() => import('../pages/ComingSoon'))
 
 
 const ShortListedDetails = lazy(() =>
@@ -184,6 +185,7 @@ dispatch(options[0]);
                 {/* testing routes */}
                 <Route path="applicant-detail" element={<ApplicantDetails />} />
                 <Route path="application-detail" element={<AllApplication />} />
+                <Route path="coming-soon" element={<ComingSoon />} />
                 <Route
                   path="application-detail/:id"
                   element={<Application />}
