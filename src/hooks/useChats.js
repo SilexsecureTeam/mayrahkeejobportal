@@ -130,19 +130,27 @@ function useChats() {
 
 
   const getMessages = async (userId, onSuccess) => {
-    
     setLoading(true);
     try {
       let uri;
-
-      if (authDetails.user.role === "employer") {
-        uri = `/messages/all/${userId}/candidate/${authDetails.user.id}/${authDetails.user.role}`;
-      } else if (authDetails.user.role === "candidate") {
-        uri = `/messages/all/${authDetails.user.id}/${authDetails.user.role}/${userId}/employer`;
+      let readUri;
+  
+      const role = authDetails.user.role;
+  
+      if (role === "employer") {
+        uri = `/messages/all/${userId}/candidate/${authDetails.user.id}/${role}`;
+        readUri = `/messages/read/${userId}/candidate`;
+      } else if (role === "candidate") {
+        uri = `/messages/all/${authDetails.user.id}/${role}/${userId}/employer`;
+        readUri = `/messages/read/${userId}/employer`;
       }
-
+  
       const { data } = await client.get(uri);
       setMessages(data.messages);
+      console.log(readUri)
+      // 🔄 Mark messages as read
+      await client.put(readUri);
+  
       onSuccess();
     } catch (error) {
       FormatError(error, setError, "Update Error");
@@ -150,6 +158,7 @@ function useChats() {
       setLoading(false);
     }
   };
+  
 
 
 

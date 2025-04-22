@@ -8,7 +8,7 @@ const Navbar = ({register="/registration", login="/login"}) => {
   const [drop, setDrop] = useState(false);
   return (
     <nav className="fixed top-0 right-0 left-0 z-20 max-w-[1400px] min-h-20 w-full mx-auto bg-white flex p-3 md:px-5 justify-between items-center flex-wrap md:flex-nowrap">
-      <Link to="/" className="flex justify-center items-center mx-2">
+      <Link to="/" className="flex justify-center items-center mx-2 mr-auto">
         <img src={logo} alt="logo" className="w-32 md:w-36" />
       </Link>
       <div
