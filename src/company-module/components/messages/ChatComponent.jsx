@@ -86,7 +86,7 @@ function ChatComponent({ selectedChat, setSelectedChat, applicationUtils }) {
   return (
     <div
       ref={chatContainer}
-      className="w-full lg:w-3/4 flex flex-col items-center overflow-y-auto chat-container relative"
+      className="w-full lg:w-3/4 flex flex-col items-center overflow-y-auto h-full relative"
     >
       {/* Loader for messages */}
       {loading && (
