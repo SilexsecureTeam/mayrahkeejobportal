@@ -98,7 +98,7 @@ function SubscriptionCard({ data, setIsOpen, currentPackage }) {
       {data?.title?.toLowerCase().includes("exclusive") ? (
         <button
           onClick={() => navigate("/company/help-center")}
-          className="text-sm font-semibold w-[80%] h-[35px] rounded-md transition-all group-odd:bg-primaryColor group-odd:text-white group-even:bg-white group-even:text-primaryColor hover:scale-105"
+          className="text-sm font-semibold w-[80%] h-[35px] rounded-md transition-all group-odd:bg-primaryColor group-odd:text-white group-even:bg-white group-even:text-primaryColor hover:scale-105 disabled:opacity-60"
           disabled={currentPackage?.package_id !== data.id}
         >
           Contact Mayrahkee Support
@@ -115,7 +115,7 @@ function SubscriptionCard({ data, setIsOpen, currentPackage }) {
               <button
                 disabled={subUtils?.loading || currentPackage?.package_id !== data.id}
                 onClick={() => setShowModal(true)}
-                className="text-sm font-semibold w-[80%] h-[35px] rounded-md transition-all group-odd:bg-primaryColor group-odd:text-white group-even:bg-white group-even:text-primaryColor hover:scale-105"
+                className="text-sm font-semibold w-[80%] h-[35px] rounded-md transition-all group-odd:bg-primaryColor group-odd:text-white group-even:bg-white group-even:text-primaryColor hover:scale-105 disabled:opacity-60"
               >
                 {subUtils?.loading ? "Processing..." : "Choose Plan"}
               </button>
