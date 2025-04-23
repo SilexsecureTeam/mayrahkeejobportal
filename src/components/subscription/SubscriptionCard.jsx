@@ -99,7 +99,7 @@ function SubscriptionCard({ data, setIsOpen, currentPackage }) {
         <button
           onClick={() => navigate("/company/help-center")}
           className="text-sm font-semibold w-[80%] h-[35px] rounded-md transition-all group-odd:bg-primaryColor group-odd:text-white group-even:bg-white group-even:text-primaryColor hover:scale-105"
-          disabled={currentPackage?.package_id === data.id}
+          disabled={currentPackage?.package_id !== data.id}
         >
           Contact Mayrahkee Support
         </button>
@@ -113,7 +113,7 @@ function SubscriptionCard({ data, setIsOpen, currentPackage }) {
           {({ initializePayment }) => (
             <>
               <button
-                disabled={subUtils?.loading}
+                disabled={subUtils?.loading || currentPackage?.package_id !== data.id}
                 onClick={() => setShowModal(true)}
                 className="text-sm font-semibold w-[80%] h-[35px] rounded-md transition-all group-odd:bg-primaryColor group-odd:text-white group-even:bg-white group-even:text-primaryColor hover:scale-105"
               >
