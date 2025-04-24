@@ -325,7 +325,7 @@ function UseAdminManagement() {
           //const subResponse = await client.get(`/sub-sectors/${sector.id}`);
           return {
             ...sector,
-            subcategories: sector?.sub_sectors,
+            subcategories: sector?.sub_sectors.sort((a,b)=> a.name.toLowerCase().localeCompare(b.name.toLowerCase())),
           };
         })
       );
@@ -385,12 +385,7 @@ function UseAdminManagement() {
       console.error("Error creating subsector:", error);
       return null;
     }
-  };
-
-
-
-
-  ///////
+  }
 
   const getStaffSectors = async () => {
     try {

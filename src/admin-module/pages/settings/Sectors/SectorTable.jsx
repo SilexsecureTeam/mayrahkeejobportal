@@ -96,7 +96,7 @@ const SectorTable = ({
                     header="Subcategories"
                     body={(rowData) => (
                         <div>
-                            {rowData.subcategories?.map((sub) => (
+                            {rowData?.subcategories?.sort((a,b)=> a.name.toLowerCase().localeCompare(b.name.toLowerCase()))?.map((sub) => (
                                 <div
                                     key={sub.id}
                                     className="flex justify-between items-center gap-2 space-y-1"

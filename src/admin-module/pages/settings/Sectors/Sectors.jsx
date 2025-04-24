@@ -35,7 +35,7 @@ export default function Sectors() {
             try {
                 const data = await getSectors();
                 if (data) {
-                    setSectors(data);
+                    setSectors(data.sort((a,b)=> a.name.toLowerCase().localeCompare(b.name.toLowerCase())));
                 } else {
                     console.error("No data received");
                 }
