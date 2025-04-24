@@ -3,6 +3,7 @@ import useAdminManagement from "../../../hooks/useAdminManagement";
 import DataTableComponent from "../../components/DataTable/DataTableComponent";
 import { Button } from "primereact/button";
 import { FaArrowLeftLong } from "react-icons/fa6";
+import { Helmet } from "react-helmet";
 
 function AllPoliceReports() {
   const { getStaffReport, loading } = useAdminManagement();
@@ -35,6 +36,9 @@ function AllPoliceReports() {
 
   return (
     <div className="mt-10">
+    <Helmet>
+      <title>Admin | Police Reports </title>
+    </Helmet>
     <button
           type="button"
           onClick={() => window.history.back()}

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import UseAdminManagement from "../../../hooks/useAdminManagement";
 import { FaLinkedin, FaGlobe, FaFileAlt } from "react-icons/fa";
-import { format } from "date-fns";
+import { formatDate } from '../../../utils/formmaters'
 import { FaArrowLeftLong } from "react-icons/fa6";
 import { ClipLoader } from "react-spinners";
 
@@ -63,7 +63,7 @@ const JobDescriptionPage = () => {
                             <p className="text-gray-600"><strong>Categories:</strong> {job?.search_keywords}</p>
                             <p className="text-gray-600"><strong>Experience:</strong> <span dangerouslySetInnerHTML={{__html:job?.experience}}/></p>
                             <p className="text-gray-600"><strong>Career Level:</strong> {job?.career_level}</p>
-                            <p className="text-gray-600"><strong>Application Deadline:</strong> {format(new Date(job?.application_deadline_date), 'MMMM dd, yyyy')}</p>
+                            <p className="text-gray-600"><strong>Application Deadline:</strong> {formatDate(job?.application_deadline_date)}</p>
                         </div>
 
                         {/* Employer Information Section */}
@@ -139,8 +139,8 @@ const JobDescriptionPage = () => {
                                     </span>
                                 ))}
                             </div>
-                            <p className="text-gray-600"><strong>Created At:</strong> {format(new Date(job?.created_at), 'MMMM dd, yyyy')}</p>
-                            <p className="text-gray-600"><strong>Updated At:</strong> {format(new Date(job?.updated_at), 'MMMM dd, yyyy')}</p>
+                            <p className="text-gray-600"><strong>Created At:</strong> {formatDate(job?.created_at)}</p>
+                            <p className="text-gray-600"><strong>Updated At:</strong> {formatDate(job?.updated_at)}</p>
                         </div>
                     </div>
                 </div>

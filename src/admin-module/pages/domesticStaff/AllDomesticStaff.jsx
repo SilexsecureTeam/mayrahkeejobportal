@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import UseAdminManagement from "../../../hooks/useAdminManagement";
 import DataTableComponent from "../../components/DataTable/DataTableComponent";
 import { FaArrowLeftLong, FaSpinner } from "react-icons/fa6";
-
+import { formatDate } from '../../../utils/formmaters'
 function AllDomesticStaff() {
   const { loading: apiLoading, getDomesticStaff } = UseAdminManagement(); // Retain API loading state
   const [domesticStaff, setDomesticStaff] = useState([]);
@@ -53,7 +53,7 @@ function AllDomesticStaff() {
         : staff.middle_name) +
       " " +
       staff.surname,
-    [heading[2].toLowerCase()]: new Date(staff.created_at).toLocaleDateString('en-GB', {day: '2-digit', month:'2-digit', year:'numeric'}),
+    [heading[2].toLowerCase()]: formatDate(staff.created_at),
     [heading[3].toLowerCase()]: staff.email,
     [heading[4].toLowerCase()]: staff.subcategory,
     [heading[5].toLowerCase()]: staff.job_type,

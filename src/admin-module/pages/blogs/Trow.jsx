@@ -6,6 +6,7 @@ import { axiosClient, resourceUrl } from "../../../services/axios-client";
 import { AuthContext } from "../../../context/AuthContex";
 import { onSuccess } from "../../../utils/notifications/OnSuccess";
 import { onFailure } from "../../../utils/notifications/OnFailure";
+import { formatDate } from '../../../utils/formmaters'
 
 function Trow({ data, featurePost, refresh }) {
   const { authDetails } = useContext(AuthContext);
@@ -48,13 +49,13 @@ function Trow({ data, featurePost, refresh }) {
 
       <td className="py-5">
         <div className="flex items-center justify-center">
-          {new Date(data.created_at).toLocaleDateString()}
+          {formatDate(data.created_at)}
         </div>
       </td>
 
       <td className="">
-        <p className="text-center font-semibold">
-          {new Date(data.updated_at).toLocaleDateString()}
+        <p className="text-center">
+          {formatDate(data.updated_at)}
         </p>
       </td>
 

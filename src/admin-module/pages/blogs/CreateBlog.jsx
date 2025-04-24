@@ -12,7 +12,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { FaSpinner } from "react-icons/fa";
 import { IMAGE_URL } from "../../../utils/base";
 import { toast } from "react-toastify";
-
+import { formatDate } from '../../../utils/formmaters'
 
 const CreateBlog = () => {
   const { authDetails } = useContext(AuthContext);
@@ -204,7 +204,7 @@ const CreateBlog = () => {
               subtitle={blog?.description?.slice(0, 150) || "Subtitle"}
               img={image}
               reads={blog.readingTime}
-              time={new Date().toLocaleDateString()}
+              time={formatDate(new Date())}
             />
             <div className="prose max-w-none leading-8 text-sm p-2">
               <div dangerouslySetInnerHTML={{ __html: blog?.description || "Blog content" }} />

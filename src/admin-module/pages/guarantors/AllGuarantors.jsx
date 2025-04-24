@@ -3,7 +3,8 @@ import useAdminManagement from "../../../hooks/useAdminManagement";
 import DataTableComponent from "../../components/DataTable/DataTableComponent";
 import { Button } from "primereact/button";
 import { FaArrowLeftLong } from "react-icons/fa6";
-
+import { formatDate } from '../../../utils/formmaters'
+import { Helmet } from "react-helmet";
 function AllGuarantors() {
   const { getStaffReport, loading } = useAdminManagement();
   const [guarantors, setGuarantors] = useState([]);
@@ -28,15 +29,18 @@ function AllGuarantors() {
     [heading[1].toLowerCase()]: guarantor.title + " " + guarantor.surname +  " " + guarantor.first_name,
     [heading[2].toLowerCase()]: guarantor.email,
     [heading[3].toLowerCase()]: guarantor.occupation,
-    [heading[4].toLowerCase()]: new Date(guarantor.created_at).toLocaleDateString('en-GB', {day: '2-digit', month:'2-digit', year:'numeric'}),
+    [heading[4].toLowerCase()]: formatDate(guarantor.created_at),
     [heading[5].toLowerCase()]: guarantor.residential_address,
-    [heading[6].toLowerCase()]: new Date(guarantor.dob).toLocaleDateString('en-GB', {day: '2-digit', month:'2-digit', year:'numeric'})?.replaceAll("/", "-"),
+    [heading[6].toLowerCase()]: formatDate(guarantor.dob),
     [heading[7].toLowerCase()]: guarantor.status === null ? "Pending" : guarantor.status, // Check if status is null
     [heading[8].toLowerCase()]: guarantor.domestic_staff_id,
   }));
 
   return (
     <div className="mt-10">
+    <Helmet>
+      <title>Admin | Guarantors </title>
+    </Helmet>
     <button
           type="button"
           onClick={() => window.history.back()}

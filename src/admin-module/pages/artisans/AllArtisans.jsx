@@ -3,7 +3,7 @@ import UseAdminManagement from "../../../hooks/useAdminManagement";
 import DataTableComponent from "../../components/DataTable/DataTableComponent";
 import { FaArrowLeftLong } from "react-icons/fa6";
 import { Button } from "primereact/button";
-
+import { formatDate } from '../../../utils/formmaters'
 function AllArtisans() {
   const { getArtisans, loading } = UseAdminManagement();
   const [artisans, setArtisans] = useState([]);
@@ -25,7 +25,7 @@ function AllArtisans() {
   const data = artisans.map(artisan => ({
     [heading[0].toLowerCase()]: artisan.id,
     [heading[1].toLowerCase()]: artisan.first_name + " " + (artisan.middle_name === null || artisan.middle_name === 'null' ? '' : artisan.middle_name) + " " + artisan.surname,
-    [heading[2].toLowerCase()]: new Date(artisan.created_at).toLocaleDateString('en-GB', {day: '2-digit', month:'2-digit', year:'numeric'}),
+    [heading[2].toLowerCase()]: formatDate(artisan.created_at),
     [heading[3].toLowerCase()]: artisan.email,
     [heading[4].toLowerCase()]: artisan.subcategory,
     [heading[5].toLowerCase()]: artisan.job_type,

@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import UseAdminManagement from "../../../hooks/useAdminManagement";
 import DataTableComponent from "../../components/DataTable/DataTableComponent";
 import { FaArrowLeftLong } from "react-icons/fa6";
-
+import { formatDate } from '../../../utils/formmaters'
 function AllEmployers() {
   const { loading, getEmployers } = UseAdminManagement();
   const [employers, setEmployers] = useState([]);
@@ -32,7 +32,7 @@ function AllEmployers() {
     return {
       id: employerDetails.employer_id,                                     
       name: employerDetails.company_name,
-      registered: new Date(item.created_at).toLocaleDateString('en-GB', {day: '2-digit', month:'2-digit', year:'numeric'}),
+      registered: formatDate(item.created_at),
       profile: employerDetails.company_profile,
       image: (
         <img 
