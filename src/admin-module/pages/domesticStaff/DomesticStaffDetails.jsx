@@ -9,7 +9,7 @@ import MedicalReportDialog from "../../components/Dialog/MedicalReportDialogue";
 import GuarantorReportDialog from "../../components/Dialog/GuarantorReport";
 import PreviousWorkExperienceDialog from "../../components/Dialog/PreviousWorkExperienceDialogue";
 import ResidentDialog from "../../components/Dialog/ResidentDialogue";
-
+import { formatDate } from '../../../utils/formmaters'
 const DomesticStaffDetails = () => {
   const { id } = useParams();
   const { loading, getStaffById, getStaffReportById } = UseAdminManagement();
@@ -84,7 +84,7 @@ const DomesticStaffDetails = () => {
 
           <div className="bg-gray-200 px-4 py-4 my-4">
             <div className="flex text-xs justify-between pb-3">
-              <p className="font-bold">Member Since</p>  <p>{data?.member_since}</p>
+              <p className="font-bold">Member Since</p>  <p>{formatDate(data?.member_since)}</p>
             </div>
             <div className="flex">
               <p className="text-sm font-bold">Current Salary:</p> <p className="text-sm ml-2">{data?.current_salary}</p>

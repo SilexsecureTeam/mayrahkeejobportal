@@ -3,7 +3,7 @@ import useAdminManagement from "../../../hooks/useAdminManagement";
 import DataTableComponent from "../../components/DataTable/DataTableComponent";
 import { Button } from "primereact/button";
 import { FaArrowLeftLong } from "react-icons/fa6";
-
+import { Helmet } from "react-helmet";
 function AllMedicalHistories() {
   const { getStaffReport, loading } = useAdminManagement();
   const [medicals, setMedicals] = useState([]);
@@ -35,6 +35,9 @@ function AllMedicalHistories() {
 
   return (
     <div className="mt-10">
+    <Helmet>
+      <title>Admin | Medical History </title>
+    </Helmet>
       <button
           type="button"
           onClick={() => window.history.back()}

@@ -7,6 +7,7 @@ import { onFailure } from "../../../utils/notifications/OnFailure";
 import { onSuccess } from "../../../utils/notifications/OnSuccess";
 import { useNavigate } from "react-router-dom";
 import { FaSpinner } from "react-icons/fa";
+import { Helmet } from "react-helmet";
 
 const columns = [" ", "Title", "Date Created", "Date Updated", "Feature", "Actions"];
 
@@ -82,6 +83,9 @@ function ManageBlogs() {
 
   return (
     <div className="py-5 w-full h-full flex flex-col gap-10">
+      <Helmet>
+        <title>Admin| Blogs</title>
+      </Helmet>
       <div className="w-full bg-green-500 text-white p-4 max-h-[100px] flex justify-between items-center">
         <span className="font-semibold text-lg">Manage Blog Posts</span>
         <span onClick={() => navigate("/admin/create-blog")} className="cursor-pointer font-semibold text-sm p-2 bg-white text-black rounded-md">Create Blog</span>

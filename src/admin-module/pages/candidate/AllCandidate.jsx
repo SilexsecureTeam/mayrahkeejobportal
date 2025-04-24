@@ -3,7 +3,7 @@ import UseAdminManagement from "../../../hooks/useAdminManagement";
 import DataTableComponent from "../../components/DataTable/DataTableComponent";
 import { FaArrowLeftLong } from "react-icons/fa6";
 import { Button } from "primereact/button";
-
+import { formatDate } from '../../../utils/formmaters'
 function AllCandidate() {
   const { getCandidates, loading } = UseAdminManagement();
   const [candidates, setCandidates] = useState([]);
@@ -25,7 +25,7 @@ function AllCandidate() {
   const data = candidates?.map(candidate => ({
     [heading[0].toLowerCase()]: candidate.id,
     [heading[1].toLowerCase()]: candidate.first_name + " " + (candidate?.middle_name || "") + " " + candidate.last_name,
-    [heading[2].toLowerCase()]: new Date(candidate.created_at).toLocaleDateString('en-GB', {day: '2-digit', month:'2-digit', year:'numeric'}),
+    [heading[2].toLowerCase()]: formatDate(candidate.created_at),
     [heading[3].toLowerCase()]: candidate.email,
     [heading[4].toLowerCase()]: candidate.status,
     [heading[5].toLowerCase()]: candidate.gender,

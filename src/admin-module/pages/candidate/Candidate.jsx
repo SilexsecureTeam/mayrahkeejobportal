@@ -51,7 +51,7 @@ const [rejected,setRejected] = useState(0)
   return (
     <>
       <Helmet>
-        <title>Admin| Dashboard</title>
+        <title>Admin| Candidate</title>
       </Helmet>
       <div className="h-full py-6 w-full text-sm text-gray-800">
         <div className="text-sm">
