@@ -31,7 +31,7 @@ function DomesticStaff() {
       if (!queryParams && !directParams)
         throw new Error("No Query option selected");
       const { data } = await client.get(
-        `/domesticStaff/get-staff?staff_category=staff&${directParams ? directParams : queryParams
+        `/domesticStaff/get-staff?staff_category=domestic&${directParams ? directParams : queryParams
         }`
       );
       setSearcResult(data.domesticStaff);
@@ -56,7 +56,7 @@ function DomesticStaff() {
     searchResult.length > 0
       ? searchResult?.filter(
         (current) =>
-          current?.staff_category === "staff" &&
+          current?.staff_category === "domestic" &&
         (current?.status === "pending" || current?.status === "approved") 
       )
       : [];
@@ -73,7 +73,7 @@ function DomesticStaff() {
   const navigateToCart = () =>
     navigate(`/company/staff/cart`, {
       state: {
-        data: { items: cartItems, category: categories, type: "staff" },
+        data: { items: cartItems, category: categories, type: "domestic" },
       },
     });
 
@@ -86,7 +86,7 @@ function DomesticStaff() {
       if (data.cart_items) {
         setCartItems(
           data.cart_items.filter(
-            (current) => current.domestic_staff.staff_category === "staff"
+            (current) => current.domestic_staff.staff_category === "domestic"
           )
         );
       }
@@ -103,7 +103,7 @@ function DomesticStaff() {
 
       try {
         const { data } = await client.get("/staff-categories");
-        setCategories(data.data?.filter(one=>one.name.toLowerCase().includes("staff"))[0] || []);
+        setCategories(data.data?.filter(one=>one.name.toLowerCase().includes("domestic"))[0] || []);
       } catch (error) {
         onFailure({
           message: "Staff Error",
@@ -168,7 +168,7 @@ function DomesticStaff() {
               <button
                onClick={() => navigate("/company/staff/contract-history", {
                   state: {
-                    data: {type: "staff" },
+                    data: {type: "domestic" },
                 }})}
                 className="flex items-center gap-2"
               >

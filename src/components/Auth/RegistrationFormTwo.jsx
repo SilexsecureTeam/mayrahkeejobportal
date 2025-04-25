@@ -161,7 +161,7 @@ function RegistrationFormTwo({ state, dispatch, role, setRole }) {
             Artisan
           </button>
           <button
-            onClick={() => setRole("staff")}
+            onClick={() => setRole("domestic")}
             className={`px-2 py-1 text-little ${
               role === "domestic"
                 ? "scale-[103%] shadow-sm shadow-black md:text-lightorange text-white  border bg-lightorange/30"

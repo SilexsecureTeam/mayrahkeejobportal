@@ -82,7 +82,7 @@ function DomesticStaff() {
       if (data.cart_items) {
         setCartItems(
           data.cart_items.filter(
-            (current) => current.domestic_staff.staff_category === "staff"
+            (current) => current.domestic_staff.staff_category === "domestic"
           )
         );
       }
@@ -99,7 +99,7 @@ function DomesticStaff() {
 
       try {
         const { data } = await client.get("/staff-categories");
-        setCategories(data.data?.filter(one=>one.name.toLowerCase().includes("staff"))[0] || []);
+        setCategories(data.data?.filter(one=>one.name.toLowerCase().includes("domestic"))[0] || []);
      } catch (error) {
         onFailure({
           message: "Staff Error",
@@ -163,7 +163,7 @@ function DomesticStaff() {
             <button
               onClick={() => navigate("/applicant/staff/contract-history", {
                 state: {
-                  data: { type: "staff" },
+                  data: { type: "domestic" },
                 }
               })}
               className="flex items-center gap-2 ml-auto"
