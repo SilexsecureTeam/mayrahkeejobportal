@@ -109,7 +109,7 @@ function RegistrationFormTwo({ state, dispatch, role, setRole }) {
         console.log(data.data);
         setSubCategories(data.data?.filter(one=>one.name.toLowerCase().includes("artisan"))[0]?.subcategories);
         //setSubCategory();
-      } else if (role == "staff") {
+      } else if (role == "domestic") {
         const { data } = await client.get("/staff-categories");
         setSubCategories(data.data?.filter(one=>one.name.toLowerCase().includes("staff"))[0]?.subcategories);
         //setSubCategory(data.data.subcategories[0]);
@@ -163,7 +163,7 @@ function RegistrationFormTwo({ state, dispatch, role, setRole }) {
           <button
             onClick={() => setRole("staff")}
             className={`px-2 py-1 text-little ${
-              role === "staff"
+              role === "domestic"
                 ? "scale-[103%] shadow-sm shadow-black md:text-lightorange text-white  border bg-lightorange/30"
                 : "md:text-white text-gray-500 bg-white md:bg-lightorange border-0"
             }`}
