@@ -90,8 +90,8 @@ function LoginForm() {
             Artisan
           </button>
           <button
-            onClick={() => setRole("domestic")}
-            className={`px-2 py-1 text-little ${role === "domestic"
+            onClick={() => setRole("staff")}
+            className={`px-2 py-1 text-little ${role === "staff"
                 ? "scale-[103%] shadow-sm shadow-black md:text-lightorange text-white  border bg-lightorange/30"
                 : "md:text-white text-gray-500 bg-white md:bg-lightorange border-0"
               }`}
