@@ -7,7 +7,7 @@ import { AuthContext } from "../../context/AuthContex";
 import { axiosClient } from "../../services/axios-client";
 import { onFailure } from "../../utils/notifications/OnFailure";
 import { FormatPrice } from "../../utils/formmaters";
-import { CONMPANY_TAX } from "../../utils/base";
+//import { CONMPANY_TAX } from "../../utils/base";
 import { PaystackConsumer } from "react-paystack";
 import useCart from "../../hooks/useCart";
 import MarketPlace from "./marketplace/MarketPlace";
@@ -19,6 +19,7 @@ import FormButton from "../FormButton";
 function CartedStaffs() {
   const location = useLocation();
   const { data } = location?.state ? location?.state : { data: null };
+  const CONMPANY_TAX= data?.fee ?? 0
   const navigate = useNavigate();
   const { authDetails } = useContext(AuthContext);
   const client = axiosClient(authDetails.token);
