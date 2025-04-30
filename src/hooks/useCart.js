@@ -28,7 +28,7 @@ function useCart() {
       reference: new Date().getTime().toString(),
       email: authDetails?.user?.email,
       amount: priceInKobo,
-      publicKey: import.meta.env.VITE_LIVE_PUBLIC_KEY,
+      publicKey: import.meta.env.VITE_TEST_PUBLIC_KEY,
       text: "Paystack Button Implementation",
       onSuccess: (reference) => handleSuccess(reference, data, getCartItems),
       onClose: onClose,
