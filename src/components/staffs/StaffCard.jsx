@@ -366,12 +366,15 @@ function StaffCard({ data, contract = null, cartItems, setCartItems, getCartItem
           </span>
 
           <span className="flex gap-2 items-center justify-between text-md truncate font-semibold">
-            <img src="/price-tag.png" className="w-[30px]" />
-            Salary:
-            <span className="text-sm w-[60%] text-start font-normal text-gray-500">
-              {FormatPrice(parseFloat(data?.expected_salary) * 1.1)}
-            </span>
-          </span>
+  <img src="/price-tag.png" className="w-[30px]" />
+  Salary:
+  <span className="text-sm w-[60%] text-start font-normal text-gray-500">
+    {data?.expected_salary && parseFloat(data.expected_salary) > 0
+      ? FormatPrice(parseFloat(data.expected_salary) * 1.1)
+      : "Not specified"}
+  </span>
+</span>
+          
         </div>
 
         <div className="flex w-full gap-2 flex-col my-3 capitalize">
