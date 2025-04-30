@@ -26,6 +26,8 @@ function Artisan() {
   const [searchResult, setSearcResult] = useState([]);
   const navigate = useNavigate();
   const [cartItems, setCartItems] = useState([]);
+  const [charge, setCharge] = useState(0);
+ 
   const [conditions, setConditions] = useState(false);
   const [queryParams, setQueryParams] = useState();
   const [terms, setTerms] = useState(false);
@@ -76,7 +78,7 @@ function Artisan() {
   const navigateToCart = () =>
     navigate(`/company/staff/cart`, {
       state: {
-        data: { items: cartItems, category: categories, type: "artisan" },
+        data: { items: cartItems, category: categories, type: "artisan", fee: charge },
       },
     });
 
@@ -96,6 +98,7 @@ function Artisan() {
         user_type: authDetails.user.role,
       });
       if (data.cart_items) {
+        setCharge(data?.service_fee)
         setCartItems(
           data.cart_items.filter(
             (current) => current.domestic_staff.staff_category === "artisan"
