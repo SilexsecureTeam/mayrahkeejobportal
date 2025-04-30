@@ -97,8 +97,6 @@ function CartedStaffs() {
 );
 
 const salaryTotal = isArtisan ? 0 : rawSalaryTotal * 1.1; // 10% additional for non-artisans
-
-  );
   
 
   const taxTotal = CONMPANY_TAX * selectedItems.length;
