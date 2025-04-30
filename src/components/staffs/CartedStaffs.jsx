@@ -146,11 +146,11 @@ function CartedStaffs() {
               selectedItems,
               getCartItems,
               (selectedItems.length > 0
-                ?
+                ? (data?.type !== "artisan" ?
                 selectedItems.reduce(
                   (total, item) => Number(total + CONMPANY_TAX) + Number(item?.domestic_staff?.expected_salary || 0),
                   0
-                )
+                ): FormatPrice(CONMPANY_TAX * selectedItems.length) )
                 : 0)
             )}
           >
