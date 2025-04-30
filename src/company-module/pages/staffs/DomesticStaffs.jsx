@@ -22,6 +22,8 @@ function DomesticStaff() {
   const [selectedCategory, setSelectedCategory] = useState();
   const [searchResult, setSearcResult] = useState([]);
   const [cartItems, setCartItems] = useState([]);
+  const [charge, setCharge] = useState(0);
+ 
   const [conditions, setConditions] = useState(false);
   const [queryParams, setQueryParams] = useState();
 
@@ -73,7 +75,7 @@ function DomesticStaff() {
   const navigateToCart = () =>
     navigate(`/company/staff/cart`, {
       state: {
-        data: { items: cartItems, category: categories, type: "domestic" },
+        data: { items: cartItems, category: categories, type: "domestic", fee: charge },
       },
     });
 
@@ -84,6 +86,7 @@ function DomesticStaff() {
         user_type: authDetails.user.role,
       });
       if (data.cart_items) {
+        setCharge(data?.service_fee)
         setCartItems(
           data.cart_items.filter(
             (current) => current.domestic_staff.staff_category === "domestic"
