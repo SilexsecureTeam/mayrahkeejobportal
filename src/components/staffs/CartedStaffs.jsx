@@ -118,12 +118,21 @@ function CartedStaffs() {
             onClick={() => setConditions(false)}
           />
           <h1 className="text-center font-bold text-xl text-black">Terms and Conditions</h1>
-          <p className="text-sm">
-            This agreement acknowledges that the employer may only assign tasks
-            that are directly related to the designated role of the employee. Artisan
-            must only perform duties as outlined within their specific role. Any tasks
-            outside these roles require mutual agreement between employer and employee.
-          </p>
+          <p className="text-sm leading-relaxed">
+  {isArtisan ? (
+    <>
+      This platform serves solely as a connection point between clients and artisans. We are not a party to any agreement entered into between the client and the artisan and hold no responsibility for the services rendered. Employers may only assign tasks that align with the artisan’s designated role. Any additional tasks must be mutually agreed upon between the employer and the artisan. By proceeding, you acknowledge that the platform is not liable for disputes, service outcomes, or any related issues.
+    </>
+  ) : (
+    <>
+      This agreement acknowledges that the employer may only assign tasks
+      that are directly related to the designated role of the employee. Domestic staff
+      must only perform duties as outlined within their specific role. Any tasks
+      outside these roles require mutual agreement between employer and employee.
+    </>
+  )}
+</p>
+
 
           <div
             onClick={() => setTerms(!terms)}
