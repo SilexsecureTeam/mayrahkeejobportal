@@ -91,9 +91,13 @@ function CartedStaffs() {
 
   console.log(cartItems, selectedItems)
   // Pricing logic
-  const salaryTotal = selectedItems.reduce(
-    (total, item) => total + Number(item?.domestic_staff?.expected_salary || 0),
-    0
+  const rawSalaryTotal = selectedItems.reduce(
+  (total, item) => total + Number(item?.domestic_staff?.expected_salary || 0),
+  0
+);
+
+const salaryTotal = isArtisan ? 0 : rawSalaryTotal * 1.1; // 10% additional for non-artisans
+
   );
   
 
@@ -243,7 +247,7 @@ function CartedStaffs() {
                           {isArtisan ? (
                             "No salary shown"
                           ) : Number(item?.domestic_staff?.expected_salary) > 0 ? (
-                            FormatPrice(Number(item.domestic_staff.expected_salary))
+                            FormatPrice(Number(item.domestic_staff.expected_salary)* 1.1)
                           ) : (
                             <span className="text-red-500 font-medium">Expected salary not set</span>
                           )}
@@ -291,7 +295,7 @@ function CartedStaffs() {
                     </span>
                     <span>
                       {!isArtisan &&
-                        FormatPrice(Number(item?.domestic_staff?.expected_salary))}
+                        FormatPrice(Number(item?.domestic_staff?.expected_salary) *1.1)}
                     </span>
                   </li>
                 ))}
