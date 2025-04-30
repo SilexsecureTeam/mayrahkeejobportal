@@ -85,7 +85,7 @@ function DomesticStaff() {
         setCharge(data?.service_fee)
         setCartItems(
           data.cart_items.filter(
-            (current) => current.domestic_staff.staff_category === "domestic"
+            (current) => current.domestic_staff.staff_category === "staff"
           )
         );
       }

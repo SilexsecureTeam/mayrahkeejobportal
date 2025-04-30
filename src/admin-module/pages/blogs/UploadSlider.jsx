@@ -1,12 +1,13 @@
 import React, { useState } from "react";
-const UploadSlider = ({ handleImageChange, image }) => {
-  const [upload, setUpload] = useState(""); // Temporary state to hold uploaded image preview
+import { FaImage } from "react-icons/fa"; // Make sure Heroicons is installed
 
+const UploadSlider = ({ handleImageChange, image }) => {
+  const [upload, setUpload] = useState("");
 
   const handleAttach = () => {
     if (upload) {
-      setImage(upload); // Pass the uploaded image to the parent component
-      setUpload(""); // Clear temporary upload state
+      setImage(upload);
+      setUpload("");
     }
   };
 
@@ -15,7 +16,10 @@ const UploadSlider = ({ handleImageChange, image }) => {
       <label className="block text-sm font-medium text-gray-700 px-2">
         Upload Slider
       </label>
-      <small class="px-2 mb-2 text-sm text-gray-400 font-medium">File size should not exceed 1MB. </small>
+      <small className="px-2 mb-2 text-sm text-gray-400 font-medium">
+        File size should not exceed 1MB.
+      </small>
+
       <div className="flex items-center gap-4">
         <input
           type="file"
@@ -33,21 +37,27 @@ const UploadSlider = ({ handleImageChange, image }) => {
           className={`${
             upload ? "bg-green-600" : "bg-gray-400"
           } text-white px-4 py-2 rounded-md`}
-          disabled={!upload} // Disable the button until an image is uploaded
+          disabled={!upload}
         >
           {!upload ? "Attached" : "Attach"}
         </button>
       </div>
-      {/* Display preview if the image is attached */}
-      {image && (
-        <div className="mt-4">
+
+      {/* Preview container */}
+      <div className="mt-4 bg-gray-200 h-60 rounded-lg flex items-center justify-center overflow-hidden">
+        {image ? (
           <img
-            src={`${image}`}
+            src={image}
             alt="Slider Preview"
-            className="rounded-lg w-full h-60 object-cover"
+            className="w-full h-full object-cover"
           />
-        </div>
-      )}
+        ) : (
+          <div className="flex flex-col items-center text-gray-400">
+            <FaImage className="w-16 h-16" />
+            <span className="text-sm mt-2">No image selected</span>
+          </div>
+        )}
+      </div>
     </div>
   );
 };

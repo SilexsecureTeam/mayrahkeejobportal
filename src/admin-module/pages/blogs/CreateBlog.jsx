@@ -13,7 +13,6 @@ import { FaSpinner } from "react-icons/fa";
 import { IMAGE_URL } from "../../../utils/base";
 import { toast } from "react-toastify";
 import { formatDate } from '../../../utils/formmaters'
-
 const CreateBlog = () => {
   const { authDetails } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -31,7 +30,7 @@ const CreateBlog = () => {
     secondary_image: null,
     feature_post: 0,
   });
-  const [image, setImage] = useState("https://via.placeholder.com/800x400");
+  const [image, setImage] = useState("");
 
   const calculateReadingTime = (text) => {
     const wordsPerMinute = 200;
@@ -57,7 +56,7 @@ const CreateBlog = () => {
     setImage(
       (typeof blog?.main_image === 'string' && blog?.main_image !== "")
          ? `${resourceUrl}/${blog?.main_image}`
-        : blog?.main_image ? image :"https://via.placeholder.com/800x400"
+        : blog?.main_image ? image :""
     );
     console.log(image, blog)
   }, [blog]);

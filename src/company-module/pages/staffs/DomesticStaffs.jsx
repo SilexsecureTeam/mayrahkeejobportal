@@ -33,7 +33,7 @@ function DomesticStaff() {
       if (!queryParams && !directParams)
         throw new Error("No Query option selected");
       const { data } = await client.get(
-        `/domesticStaff/get-staff?staff_category=domestic&${directParams ? directParams : queryParams
+        `/domesticStaff/get-staff?staff_category=staff&${directParams ? directParams : queryParams
         }`
       );
       setSearcResult(data.domesticStaff);
@@ -58,7 +58,7 @@ function DomesticStaff() {
     searchResult.length > 0
       ? searchResult?.filter(
         (current) =>
-          current?.staff_category === "domestic" &&
+          current?.staff_category === "staff" &&
         (current?.status === "pending" || current?.status === "approved") 
       )
       : [];
@@ -75,7 +75,7 @@ function DomesticStaff() {
   const navigateToCart = () =>
     navigate(`/company/staff/cart`, {
       state: {
-        data: { items: cartItems, category: categories, type: "domestic", fee: charge },
+        data: { items: cartItems, category: categories, type: "staff", fee: charge },
       },
     });
 
@@ -89,7 +89,7 @@ function DomesticStaff() {
         setCharge(data?.service_fee)
         setCartItems(
           data.cart_items.filter(
-            (current) => current.domestic_staff.staff_category === "domestic"
+            (current) => current.domestic_staff.staff_category === "staff"
           )
         );
       }
@@ -106,7 +106,7 @@ function DomesticStaff() {
 
       try {
         const { data } = await client.get("/staff-categories");
-        setCategories(data.data?.filter(one=>one.name.toLowerCase().includes("domestic"))[0] || []);
+        setCategories(data.data?.filter(one=>one.name.toLowerCase().includes("staff"))[0] || []);
       } catch (error) {
         onFailure({
           message: "Staff Error",
@@ -171,7 +171,7 @@ function DomesticStaff() {
               <button
                onClick={() => navigate("/company/staff/contract-history", {
                   state: {
-                    data: {type: "domestic" },
+                    data: {type: "staff" },
                 }})}
                 className="flex items-center gap-2"
               >
