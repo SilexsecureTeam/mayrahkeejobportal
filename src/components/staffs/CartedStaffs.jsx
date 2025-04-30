@@ -263,7 +263,7 @@ function CartedStaffs() {
                           {`${item?.domestic_staff?.surname} ${item?.domestic_staff?.first_name}`}
                         </p>
                         <p className="text-sm text-gray-700">
-                          {item?.domestic_staff?.expected_salary && FormatPrice(parseFloat(item?.domestic_staff?.expected_salary))}
+                          {(item?.domestic_staff?.expected_salary && data?.type !== "artisan") && && FormatPrice(parseFloat(item?.domestic_staff?.expected_salary))}
                         </p>
                       </section>
                       <div className="flex flex-col items-center gap-2">
@@ -288,7 +288,7 @@ function CartedStaffs() {
                     <span className="capitalize">
                       {`${item?.domestic_staff?.subcategory} - ${item?.domestic_staff?.surname} ${item?.domestic_staff?.first_name}`}
                     </span>
-                    <span>{FormatPrice(parseFloat(item?.domestic_staff?.expected_salary))}</span>
+                    <span>{data?.type !== "artisan" && FormatPrice(parseFloat(item?.domestic_staff?.expected_salary))}</span>
                   </li>
                 ))}
               </ul>
@@ -312,12 +312,12 @@ function CartedStaffs() {
                   <span>Grand Total</span>
                   <span>
                     {selectedItems.length > 0
-                      ? FormatPrice(
+                      ? (data?.type !== "artisan" ? FormatPrice(
                         selectedItems.reduce(
                           (total, item) => Number(total + CONMPANY_TAX) + Number(item?.domestic_staff?.expected_salary || 0),
                           0
                         )
-                      )
+                      ):FormatPrice(CONMPANY_TAX * selectedItems.length) )
                       : 0}
                   </span>
                 </li>
