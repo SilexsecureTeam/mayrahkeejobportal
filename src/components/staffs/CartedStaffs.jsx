@@ -263,7 +263,7 @@ function CartedStaffs() {
                           {`${item?.domestic_staff?.surname} ${item?.domestic_staff?.first_name}`}
                         </p>
                         <p className="text-sm text-gray-700">
-                          {(item?.domestic_staff?.expected_salary && data?.type !== "artisan") && && FormatPrice(parseFloat(item?.domestic_staff?.expected_salary))}
+                          {data?.type !== "artisan" && FormatPrice(parseFloat(item?.domestic_staff?.expected_salary))}
                         </p>
                       </section>
                       <div className="flex flex-col items-center gap-2">
