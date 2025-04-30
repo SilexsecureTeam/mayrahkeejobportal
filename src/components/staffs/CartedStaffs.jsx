@@ -12,6 +12,7 @@ import useCart from "../../hooks/useCart";
 import MarketPlace from "./marketplace/MarketPlace";
 import PopUpBox from "../PopUpBox";
 import { FaArrowLeftLong } from "react-icons/fa6";
+import { FaDot } from "react-icons/fa";
 import FormButton from "../FormButton";
 
 function CartedStaffs() {
@@ -259,9 +260,10 @@ const salaryTotal = isArtisan ? 0 : rawSalaryTotal * 1.1; // 10% additional for 
                             : "text-red-600"
                             }`}
                         >
-                          {item.domestic_staff.availability_status === "1"
+                          <span className="hidden md:block">{item.domestic_staff.availability_status === "1"
                             ? "Available"
-                            : "Unavailable"}
+                            : "Unavailable"}</span>
+                          <span className="block md:hidden"><FaDot /></span>
                         </span>
                         <button
                           disabled={removing[item?.domestic_staff_id]}
