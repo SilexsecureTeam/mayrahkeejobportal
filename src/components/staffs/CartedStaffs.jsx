@@ -293,7 +293,7 @@ function CartedStaffs() {
                   <span>{!isArtisan ? FormatPrice(salaryTotal) : "N/A"}</span>
                 </li>
                 <li className="flex justify-between text-sm mb-2">
-                  <span>Tax Fee</span>
+                  <span>Service Charge</span>
                   <span>{FormatPrice(taxTotal)}</span>
                 </li>
                 <li className="flex justify-between font-bold text-lg">
