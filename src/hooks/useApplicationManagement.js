@@ -8,7 +8,6 @@ import { stages } from "../utils/constants";
 import { interviewOptions } from "../company-module/components/applicants/ScheduleInteviewModal";
 import { onSuccess } from "../utils/notifications/OnSuccess";
 import { debounce } from 'lodash'; // Debounce function to limit requests
-
 const APPLICANTS_KEY = "Applicants Database";
 
 function useApplicationManagement() {
