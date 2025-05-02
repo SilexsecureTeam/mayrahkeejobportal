@@ -69,7 +69,15 @@ function TableRow({ data, isMarket = false, handleAddToCart, handleRemoveCart, c
 
       {/* Price */}
       <td className="text-left py-3 px-2 w-1/5">
-        <span className="truncate">{data?.expected_salary && FormatPrice(parseFloat(data?.expected_salary))}</span>
+        <span className="break-all">
+        {data?.staff_category === "artisan ? (
+                            "No salary shown"
+                          ) : Number(data?.domestic_staff?.expected_salary) > 0 ? (
+                            FormatPrice(Number(data.domestic_staff.expected_salary)* 1.1)
+                          ) : (
+                            <span className="text-red-500 font-medium">Expected salary not set</span>
+                          )}
+          </span>
       </td>
 
       {/* Start Date (conditionally rendered) */}
