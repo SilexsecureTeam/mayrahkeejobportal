@@ -17,7 +17,7 @@ function TableRow({ data, isMarket = false, handleAddToCart, handleRemoveCart, c
 
   const employmentType =
     !data?.employment_type || data?.employment_type === "-- Select Employment Type --"
-      ? "Nothing to display"
+      ? "Nil"
       : data?.employment_type;
 
   const handleCartAction = async () => {
