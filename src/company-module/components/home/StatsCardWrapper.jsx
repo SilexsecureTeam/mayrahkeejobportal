@@ -16,7 +16,7 @@ function StatsCardWrapper({ applicants }) {
   
 
   return (
-    <ul className="flex w-full justify-between h-[50px]">
+    <ul className="flex w-full justify-between">
       {stats_cards_dummies.map( (currentStat) => {
         let value = [];
         let onClick = () => {};
