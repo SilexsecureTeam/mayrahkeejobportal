@@ -28,6 +28,7 @@ function StaffCard({ data, contract = null, cartItems, setCartItems, getCartItem
 
   const toogleOpen = () => setOpen(!open);
 
+  const isArtisan=data?.staff_category == "artisan";
   const handleContract = async (dataToSubmit) => {
     setLoading(true);
     try {
@@ -377,7 +378,15 @@ function StaffCard({ data, contract = null, cartItems, setCartItems, getCartItem
           
         </div>
 
-        <div className="flex w-full gap-2 flex-col my-3 capitalize">
+        {
+          isArtisan ?(
+            <div className="flex w-full gap-2 flex-col my-3 capitalize">
+          
+          {getVerificationComp(data.guarantor_verification_status, "guarantor")}
+          {getVerificationComp(data.residence_verification_status, "residence")}
+        </div>
+          ) :
+          (<div className="flex w-full gap-2 flex-col my-3 capitalize">
           {getVerificationComp(
             data.police_report_verification_status,
             "police"
@@ -388,7 +397,8 @@ function StaffCard({ data, contract = null, cartItems, setCartItems, getCartItem
             data.medical_history_verification_status,
             "medical"
           )}
-        </div>
+        </div>)
+        }
 
         {!contract && (
           <div className="w-full flex flex-col gap-2">
