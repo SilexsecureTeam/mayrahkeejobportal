@@ -222,11 +222,15 @@ function StaffCard({ data, contract = null, cartItems, setCartItems, getCartItem
     );
   };
 
-  const userVerified =
+  const userVerified =isArtisan ?
+    (
     data.residence_verification_status === allStatus[0] &&
+    data.guarantor_verification_status === allStatus[0] 
+    )
+    (data.residence_verification_status === allStatus[0] &&
     data.guarantor_verification_status === allStatus[0] &&
     data.police_report_verification_status === allStatus[0] &&
-    data.medical_history_verification_status === allStatus[0];
+    data.medical_history_verification_status === allStatus[0])
 
   return (
     <>
