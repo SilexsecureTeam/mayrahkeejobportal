@@ -52,7 +52,7 @@ function Dashboard() {
     : [];
 
   const userVerificationStatus = filterVerificationDetails
-    ?.map((key) => allStatus.find((status) => status === profileDetails[key]))
+    ?.map(({key}) => allStatus.find((status) => status === profileDetails[key]))
     ?.filter((status) => status === "approved");
   
   const navigate = useNavigate();
