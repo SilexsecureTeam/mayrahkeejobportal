@@ -48,7 +48,7 @@ function Dashboard() {
 
   // Filter the verification fields that exist in the profile
   const filterVerificationDetails = profileDetails
-    ? selectedVerificationFields.filter((key) => key in profileDetails)
+    ? selectedVerificationFields.filter(({key}) => key in profileDetails)
     : [];
 
   const userVerificationStatus = filterVerificationDetails
@@ -187,7 +187,7 @@ function Dashboard() {
                 <p className="font-bold my-3">Records Status</p>
               </div>
               <div className="px-3 flex flex-col border-b justify-between items-start">
-                {filterVerificationDetails?.filter((key) => key !== "verification_status")?.map((currentKey, index) => {
+                {filterVerificationDetails?.filter((key) => key !== "availability_status")?.map((currentKey, index) => {
                   const detail =
                     allStatus.find((status) => status === profileDetails[currentKey]) || "Not Recorded";
                   const labelText = currentKey.replace(/_/g, " ").toLowerCase();
