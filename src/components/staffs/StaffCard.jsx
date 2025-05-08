@@ -222,16 +222,20 @@ function StaffCard({ data, contract = null, cartItems, setCartItems, getCartItem
     );
   };
 
-  const userVerified =isArtisan ?
-    (
-    data.residence_verification_status === allStatus[0] &&
-    data.guarantor_verification_status === allStatus[0] 
-    )
-    (data.residence_verification_status === allStatus[0] &&
-    data.guarantor_verification_status === allStatus[0] &&
-    data.police_report_verification_status === allStatus[0] &&
-    data.medical_history_verification_status === allStatus[0])
+  const verificationStatus = {
+  residence: data.residence_verification_status === allStatus[0],
+  guarantor: data.guarantor_verification_status === allStatus[0],
+  policeReport: data.police_report_verification_status === allStatus[0],
+  medicalHistory: data.medical_history_verification_status === allStatus[0],
+};
 
+const userVerified = isArtisan
+  ? verificationStatus.residence && verificationStatus.guarantor
+  : verificationStatus.residence &&
+    verificationStatus.guarantor &&
+    verificationStatus.policeReport &&
+    verificationStatus.medicalHistory
+  
   return (
     <>
       <PopUpBox isOpen={open}>
