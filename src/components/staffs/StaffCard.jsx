@@ -302,7 +302,7 @@ const userVerified = isArtisan
           </span>
 
           <span className="flex gap-2 items-center justify-between text-md font-semibold">
-            Age Range:
+            Age:
             <span className="text-sm w-[60%] text-start font-normal text-gray-500">
               {getField("age") ?? `${getField("age")} Years`}
             </span>
