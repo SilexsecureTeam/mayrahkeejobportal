@@ -1,4 +1,4 @@
-qimport { useState } from "react";
+import { useState } from "react";
 import DefaultSwitch from "../../../components/DefaultSwitch";
 import { useEffect } from "react";
 import { AuthContext } from "../../../context/AuthContex";
