@@ -61,7 +61,7 @@ function VerificationItem({ item, profileDetails, updateTrackRecord }) {
         </div>
       ) : (
         <div key={item?.key} className="flex gap-1 w-full max-w-[600px] justify-between">
-          <label className="capitalize">{labelText}{item?.key !== "availability_status" && "Verification Status"}:</label>
+          <label className="capitalize">{labelText} {item?.key !== "availability_status" && "Verification Status"}:</label>
           <span
             className={`${getStyling(
               detail
