@@ -8,7 +8,7 @@ export const user = {
 export const stats_cards_dummies = [
   {
     id: 1,
-    title: "Applicantion Under-Review",
+    title: "Application Under-Review",
     bg_color: "bg-primaryColor",
     value: 0,
   },
