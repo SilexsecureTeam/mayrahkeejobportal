@@ -1020,6 +1020,11 @@ export const field_sections2 = {
       field_name: "business_registration_no",
     },
     {
+      name: "Business Identification No",
+      type: "text",
+      field_name: "business_identification_no",
+    },
+    {
       name: "Business Address",
       type: "text",
       field_name: "business_address",
