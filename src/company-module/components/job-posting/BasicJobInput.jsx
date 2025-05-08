@@ -12,6 +12,7 @@ function BasicJobInput({ data, jobUtils }) {
           onChange={jobUtils.onTextChange}
           name={data.name}
           type={data.type}
+          spellCheck="true"
           className="text-sm border border-gray-400 focus:outline-none placeholder:text-gray-500 w-full p-2 invalid:border-red-600"
           placeholder={data.placeholder}
           min={data.min ? data?.min : null} // Set minimum value for numbers
