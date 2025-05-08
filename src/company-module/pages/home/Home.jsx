@@ -70,7 +70,7 @@ const WelcomeMessage = ({ name }) => (
     <div className="flex flex-col gap-[5px]">
       <h2 className="font-semibold text-lg">Welcome back, {name.split(" ")[0]}</h2>
       <span className="text-little text-gray-400">
-        Here is your job listings statistic report from {generateDateRange()}.
+        Here are your job listings statistic report
       </span>
     </div>
   </div>
