@@ -17,7 +17,7 @@ const stages = [
     id: 1,
     name: 'shortlist',
     label: 'shortlisted',
-    border_color: 'border-[#4640de]',
+    border_color: 'border-blue-600',
   },
   {
     id: 3,
