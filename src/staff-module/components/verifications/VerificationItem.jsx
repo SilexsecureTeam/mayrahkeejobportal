@@ -1,4 +1,4 @@
-import { useState } from "react";
+qimport { useState } from "react";
 import DefaultSwitch from "../../../components/DefaultSwitch";
 import { useEffect } from "react";
 import { AuthContext } from "../../../context/AuthContex";
@@ -61,7 +61,7 @@ function VerificationItem({ item, profileDetails, updateTrackRecord }) {
         </div>
       ) : (
         <div key={item?.key} className="flex gap-1 w-full max-w-[600px] justify-between">
-          <label className="capitalize">{labelText}:</label>
+          <label className="capitalize">{labelText}{item?.key !== "availability_status" && "Verification Status"}:</label>
           <span
             className={`${getStyling(
               detail
