@@ -187,8 +187,9 @@ function Dashboard() {
                 <p className="font-bold my-3">Records Status</p>
               </div>
               <div className="px-3 flex flex-col border-b justify-between items-start">
-                {filterVerificationDetails?.filter((key) => key !== "availability_status")?.map((currentKey, index) => {
-                  const detail =
+                {filterVerificationDetails?.filter(({key}) => key !== "availability_status")?.map((item, index) => {
+                const currentKey= item.key
+           const detail =
                     allStatus.find((status) => status === profileDetails[currentKey]) || "Not Recorded";
                   const labelText = currentKey.replace(/_/g, " ").toLowerCase();
 
