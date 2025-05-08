@@ -1,7 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../../context/AuthContex";
 import { axiosClient } from "../../../services/axios-client";
-import { get, set } from "idb-keyval";
 import { FormatError } from "../../../utils/formmaters";
 import DefaultSwitch from "../../../components/DefaultSwitch";
 import VerificationItem from "./VerificationItem";
@@ -9,21 +8,24 @@ import { StaffManagementContext } from "../../../context/StaffManagementModule";
 import FormButton from "../../../components/FormButton";
 import { onFailure } from "../../../utils/notifications/OnFailure";
 import { onSuccess } from "../../../utils/notifications/OnSuccess";
-
-const PROFILE_DETAILS_KEY = "Staff Profile Detaials Database";
+import {
+  verificationOptions1,
+  verificationOptions2,
+} from "../../../utils/constants";
 
 function ViewVerifications() {
-  const { profileDetails, getStaffProfile } = useContext(
-    StaffManagementContext
-  );
+  const { profileDetails, getStaffProfile } = useContext(StaffManagementContext);
   const { authDetails } = useContext(AuthContext);
   const client = axiosClient(authDetails?.token);
-
   const [loading, setLoading] = useState(false);
+  const [trackRecords, setTrackRecords] = useState({});
 
-  const [trackRecords, setTrackRecords] = useState();
+  const filterVerificationDetails =
+    authDetails?.user?.staff_category === "artisan"
+      ? verificationOptions2
+      : verificationOptions1;
 
-  const onSubmit = async (data) => {
+  const onSubmit = async () => {
     setLoading(true);
     try {
       const response = await client.post(
@@ -33,57 +35,56 @@ function ViewVerifications() {
       getStaffProfile();
       onSuccess({
         message: "Verifications Success",
-        success: "Track record updated succesfully",
+        success: "Track record updated successfully",
       });
     } catch (error) {
-      console.log(error);
+      console.error(error);
       onFailure({
         message: "Verifications Error",
-        error: "Upadate failed",
+        error: "Update failed",
       });
     } finally {
       setLoading(false);
     }
   };
 
-  const filterVerificationDetails =
-    profileDetails &&
-    Object.keys(profileDetails).filter(
-      (currentKey) =>
-        currentKey == "guarantor_verification_status" ||
-        currentKey == "residence_verification_status" ||
-        currentKey == "medical_history_verification_status" ||
-        currentKey == "police_report_verification_status" ||
-        currentKey == "previous_employer_verification_status" ||
-        currentKey == "availability_status"
-    );
-
   const updateTrackRecord = (key, value) =>
-    setTrackRecords({ ...trackRecords, [key]: value });
+    setTrackRecords((prev) => ({ ...prev, [key]: value }));
 
   useEffect(() => {
-    if (filterVerificationDetails) {
+    if (profileDetails && filterVerificationDetails) {
       const records = {};
-      filterVerificationDetails.map(
-        (currentKey) => (records[currentKey] = profileDetails[currentKey])
-      );
-      setTrackRecords({ ...records });
+      // Expect filterVerificationDetails to be array of keys like: [{ key: "guarantor_verification_status" }, ...]
+      filterVerificationDetails.forEach((item) => {
+        const key = typeof item === "string" ? item.toLowerCase().replace(/\s+/g, "_") + "_verification_status" : item.key;
+        records[key] = profileDetails[key] ?? "";
+      });
+      setTrackRecords(records);
     }
-  }, []);
+  }, [profileDetails, filterVerificationDetails]);
 
   return (
     <div className="w-full flex flex-col gap-10">
-      <h1 className="text-xl font-semibold text-green-700">Your Records status</h1>
+      <h1 className="text-xl font-semibold text-green-700">Your Records Status</h1>
 
       {profileDetails ? (
         <div className="flex flex-col gap-5 w-full">
-          {filterVerificationDetails.map((currentKey) => (
-            <VerificationItem
-              currentKey={currentKey}
-              profileDetails={profileDetails}
-              updateTrackRecord={updateTrackRecord}
-            />
-          ))}
+          {filterVerificationDetails.map((item, index) => {
+            const key =
+              typeof item === "string"
+                ? item.toLowerCase().replace(/\s+/g, "_") + "_verification_status"
+                : item.key;
+
+            return (
+              <VerificationItem
+                key={index}
+                item={item}
+                profileDetails={profileDetails}
+                updateTrackRecord={updateTrackRecord}
+              />
+            );
+          })}
+
           <FormButton
             loading={loading}
             onClick={onSubmit}
@@ -93,7 +94,7 @@ function ViewVerifications() {
           </FormButton>
         </div>
       ) : (
-        <span>Loading Data</span>
+        <span>Loading Data...</span>
       )}
     </div>
   );

@@ -5,19 +5,19 @@ import { AuthContext } from "../../../context/AuthContex";
 import { useContext } from "react";
 import useStaffUser from "../../../hooks/useStaffUser";
 
-function VerificationItem({ currentKey, profileDetails, updateTrackRecord }) {
+function VerificationItem({ item, profileDetails, updateTrackRecord }) {
   const { updateAvailabilityStatus, getStyling, allStatus } = useStaffUser();
-  const avaliabliltyDetail = profileDetails[currentKey];
+  const avaliabliltyDetail = profileDetails[item?.key];
   const { authDetails } = useContext(AuthContext);
  
   const detail =
-    allStatus.find((current) => current === profileDetails[currentKey]) ||
+    allStatus.find((current) => current === profileDetails[item?.key]) ||
     "Not Recorded";
 
   
   const [enabled, setEnabled] = useState(detail === "1" ? true : false);
 
-  const labelText = currentKey.replace(/_/g, " ").toLowerCase();
+  const labelText = item?.label?.toLowerCase();
 
   const [loading, setloading] = useState(false);
 
@@ -28,7 +28,7 @@ function VerificationItem({ currentKey, profileDetails, updateTrackRecord }) {
   };
 
   useEffect(() => {
-    if (labelText === "availability status") {
+    if (item.key === "availability_status") {
       if (avaliabliltyDetail === "1") {
         setEnabled(true);
       } else {
@@ -39,8 +39,8 @@ function VerificationItem({ currentKey, profileDetails, updateTrackRecord }) {
 
   return (
     <>
-      {labelText === "availability status" ? (
-        <div key={currentKey} className="flex gap-1 w-[50%] justify-between">
+      {item?.key === "availability_status" ? (
+        <div key={item?.key} className="flex gap-1 w-[50%] justify-between">
           <label className="capitalize">{labelText}</label>
           <DefaultSwitch
             enabled={enabled}
@@ -60,7 +60,7 @@ function VerificationItem({ currentKey, profileDetails, updateTrackRecord }) {
           />
         </div>
       ) : (
-        <div key={currentKey} className="flex gap-1 w-full max-w-[600px] justify-between">
+        <div key={item?.key} className="flex gap-1 w-full max-w-[600px] justify-between">
           <label className="capitalize">{labelText}:</label>
           <span
             className={`${getStyling(

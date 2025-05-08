@@ -4,6 +4,7 @@ import { axiosClient, resourceUrl } from "../../../services/axios-client";
 import { get, set } from "idb-keyval";
 import { StaffManagementContext } from "../../../context/StaffManagementModule";
 import { MdAccountCircle } from "react-icons/md";
+import { field_sections1, field_sections2 } from "../../../utils/constants";
 
 const PROFILE_DETAILS_KEY = "Staff Profile Detaials Database";
 
@@ -15,32 +16,9 @@ function ViewProfileDetails() {
     StaffManagementContext
   );
 
-  const filterProfileDetails =
-    profileDetails &&
-    Object.keys(profileDetails).filter(
-      (currentKey) =>
-        currentKey === "email" ||
-        currentKey === "first_name" ||
-        currentKey === "surname" ||
-        currentKey === "middle_name" ||
-        currentKey === "gender" ||
-        currentKey === "age" ||
-        currentKey === "religion" ||
-        currentKey === "ethnicity" ||
-        currentKey === "location" ||
-        currentKey === "employment_type" ||
-        currentKey === "work_type" ||
-        currentKey === "work_days" ||
-        currentKey === "renumeration" ||
-        currentKey === "current_salary" ||
-        currentKey === "epected_salary" ||
-        currentKey === "years_of_experience" ||
-        currentKey === 'education_level' ||
-        currentKey === 'languages_spoken' ||
-        currentKey === 'marital_status'
-    );
+  const fieldSet = authDetails?.user?.staff_category !== 'artisan' ? field_sections1 : field_sections2;
 
- return (
+  return (
     <div className="w-full flex flex-col gap-10">
       <h1 className="text-xl text-green-700 font-semibold">Your Profile Information</h1>
       <figure className="h-[100px] w-[100px] rounded-full overflow-hidden bg-secondaryColor flex items-center justify-center text-gray-500 border border-[#dee2e6]">
@@ -55,23 +33,35 @@ function ViewProfileDetails() {
       </figure>
       {profileDetails ? (
         <>
-          <div className="grid grid-cols-2 gap-x-3 gap-y-8 p-2 w-full text-gray-600 break-words">
-            {filterProfileDetails.map((currentKey, index) => {
-              const detail = profileDetails[currentKey];
-              const labelText = currentKey.replace(/_/g, " ").toLowerCase();
+          <div >
+            {Object.entries(fieldSet).map(([sectionKey, fields], sectionIndex) => (
+              <div key={sectionIndex} className="w-full my-6">
+                <h2 className="text-2xl font-semibold text-gray-700 capitalize mb-4 border-b pb-1">
+                  {sectionKey.replace(/_/g, ' ')} Details
+                </h2>
+                <div className="grid grid-cols-2 gap-x-3 gap-y-8 p-2 w-full text-gray-600 break-words">
+                  {fields.map(({ field_name, name }, index) => {
+                    const detail = profileDetails[field_name];
 
-              return (
-                <div key={index} className="flex flex-col gap-1">
-                  <label className="px-2 py-1 font-semibold  bg-gray-50 capitalize">{labelText}</label>
-                  {currentKey !== "languages_spoken" ? <p className="px-2  text-wrap">{detail ? detail : "Pending"}</p>
-                    : <div className="flex flex-wrap gap-2 px-2">
-                      {detail?.map((lang, index) => (
-                        <p key={index}>{lang}{index < detail.length - 1 && ', '}</p>
-                      ))}
-                    </div>}
+                    return (
+                      <div key={index} className="flex flex-col gap-1">
+                        <label className="px-2 py-1 font-semibold bg-gray-50 capitalize">{name}</label>
+                        {field_name !== "languages_spoken" ? (
+                          <p className="px-2 text-wrap">{detail ? detail : "Pending"}</p>
+                        ) : (
+                          <div className="flex flex-wrap gap-2 px-2">
+                            {detail?.map((lang, i) => (
+                              <p key={i}>{lang}{i < detail.length - 1 && ', '}</p>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })}
                 </div>
-              );
-            })}
+              </div>
+            ))}
+
           </div>
         </>
       ) : (

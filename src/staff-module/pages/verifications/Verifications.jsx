@@ -6,21 +6,20 @@ import MedicalForm from "../../components/verifications/MedicalForm";
 import PoliceReport from "../../components/verifications/PoliceReport";
 import WorkExperience from "../../components/verifications/WorkExperience";
 import { StaffManagementContext } from "../../../context/StaffManagementModule";
-
-const options = [
-  "Verification Status",
-  "Guarantor",
-  "Residence",
-  "Medical History",
-  "Police Report",
-  "Work Experience"
-];
+import { verificationOptions1, verificationOptions2  } from "../../../utils/constants";
+import { AuthContext } from "../../../context/AuthContex";
 
 function Verifications() {
-  const [option, setOption] = useState(options[0]);
   const { getStaffProfile } = useContext(
     StaffManagementContext
   );
+  const { authDetails } = useContext(
+    AuthContext
+  );
+  const options=authDetails?.user?.staff_category == "artisan" ? verificationOptions2 : verificationOptions1;
+  const [option, setOption] = useState(options[0]);
+ 
+  
   const renderComponent = () => {
     switch (option) {
       case options[0]:
@@ -47,13 +46,13 @@ function Verifications() {
         {options.map((current) => (
           <button
             className={`h-full p-2 ${
-              option == current
+              option.label == current?.label
                 ? "border-b bg-primaryColor font-semibold text-white text-bold"
                 : "border-0 text-gray-400"
             }`}
             onClick={() => setOption(current)}
           >
-            {current}
+            {current?.label}
           </button>
         ))}
       </div>

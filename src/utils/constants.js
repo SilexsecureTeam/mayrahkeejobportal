@@ -812,3 +812,272 @@ export const ethnicGroups = [
     }
 }
 
+
+export const field_sections1 = {
+  primary: [
+    {
+      name: "First Name",
+      type: "text",
+      field_name: "first_name",
+    },
+    {
+      name: "Surname",
+      type: "text",
+      field_name: "surname",
+    },
+    {
+      name: "Middle name",
+      type: "text",
+      field_name: "middle_name",
+    },
+    {
+      name: "Email",
+      type: "email",
+      field_name: "email",
+    },
+    {
+      name: "Age",
+      type: "number",
+      field_name: "age",
+    },
+    {
+      name: "Gender",
+      type: "select",
+      options: ["Male", "Female"],
+      field_name: "gender",
+    },
+    {
+      name: "Religion",
+      type: "select",
+      options: [
+        "Christianity",
+        "Islam",
+        "Traditional"
+      ],
+      field_name: "religion",
+    },
+    {
+      name: "Ethnicity",
+      type: "select",
+      options: [...ethnicGroups],
+      field_name: "ethnicity",
+    },
+    {
+      name: "Location",
+      type: "text",
+      field_name: "location",
+    },
+  ],
+
+  professional: [
+    {
+      name: "Employment Type",
+      type: "select",
+      options: ["Full Time", "Part Time"],
+      field_name: "employment_type",
+    },
+    {
+      name: "Work Type",
+      type: "select",
+      options: ["Live Out", "Live In"],
+      field_name: "work_type",
+    },
+    {
+      name: "Work Days",
+      type: "select",
+      options: [
+        "1 Day",
+        "2 Days",
+        "3 Days",
+        "4 Days",
+        "5 Days",
+        "6 Days",
+        "7 Days",
+      ],
+      field_name: "work_days",
+    },
+    {
+      name: "Rumuneration",
+      type: "select",
+      options: ["Daily Pay", "Weekly Pay", "Bi-Weekly Pay", "Monthly Pay"],
+      field_name: "rumuneration",
+    },
+    {
+      name: "Current Salary",
+      type: "number",
+      field_name: "current_salary",
+    },
+    {
+      name: "Expected Salary",
+      type: "number",
+      field_name: "expected_salary",
+    },
+    {
+      name: "Years Of Experience",
+      type: "number",
+      field_name: "years_of_experience",
+    },
+
+    {
+      name: "Education Level",
+      type: "select",
+      options: [
+        "Primary School Certificate",
+        "Secondary School Certificate",
+        "Diploma",
+        "Degree",
+        "None",
+      ],
+      field_name: "education_level",
+    },
+  ],
+  secondary: [
+    {
+      name: "Marital Status",
+      type: "select",
+      options: ["Single", "Married", "Divorced", "Widowed"],
+      field_name: "marital_status",
+    }
+  ],
+};
+
+export const field_sections2 = {
+  primary: [
+    {
+      name: "First Name",
+      type: "text",
+      field_name: "first_name",
+    },
+    {
+      name: "Surname",
+      type: "text",
+      field_name: "surname",
+    },
+    {
+      name: "Middle name",
+      type: "text",
+      field_name: "middle_name",
+    },
+    {
+      name: "Email",
+      type: "email",
+      field_name: "email",
+    },
+    {
+      name: "Age",
+      type: "number",
+      field_name: "age",
+    },
+    {
+      name: "Gender",
+      type: "select",
+      options: ["Male", "Female"],
+      field_name: "gender",
+    },
+    {
+      name: "Religion",
+      type: "select",
+      options: [
+        "Christianity",
+        "Islam",
+        "Traditional"
+      ],
+      field_name: "religion",
+    },
+    {
+      name: "Ethnicity",
+      type: "select",
+      options: [...ethnicGroups],
+      field_name: "ethnicity",
+    },
+    {
+      name: "Location",
+      type: "text",
+      field_name: "location",
+    },
+  ],
+
+  professional: [
+    {
+      name: "Business Name",
+      type: "text",
+      options: ["Full Time", "Part Time"],
+      field_name: "business_name",
+    },
+    {
+      name: "Business Email",
+      type: "email",
+      field_name: "business_email",
+    },
+    {
+      name: "Business Phone No",
+      type: "tel",
+      field_name: "business_phone_no",
+    },
+    {
+      name: "Business Registration No",
+      type: "text",
+      field_name: "business_registration_no",
+    },
+    {
+      name: "Business Address",
+      type: "text",
+      field_name: "business_address",
+    },
+    {
+      name: "Business Location",
+      type: "text",
+      field_name: "business_location",
+    },
+    {
+      name: "Years Of Incoporation",
+      type: "number",
+      field_name: "years_of_incorporation",
+    },
+    {
+      name: "Years Of Experience",
+      type: "number",
+      field_name: "years_of_experience",
+    },
+    {
+      name: "Highest Level of Education",
+      type: "select",
+      options: [
+        "Primary School Certificate",
+        "Secondary School Certificate",
+        "Diploma",
+        "Degree",
+        "None",
+      ],
+      field_name: "education_level",
+    },
+    {
+      name: "Whatsapp Number",
+      type: "number",
+      field_name: "whatsapp_phone_no",
+    }
+  ],
+  secondary: [
+    {
+      name: "Marital Status",
+      type: "select",
+      options: ["Single", "Married", "Divorced", "Widowed"],
+      field_name: "marital_status",
+    }
+  ],
+};
+
+export const verificationOptions1 = [
+  { label: "Availabiliy Status", key: "availability_status" },
+  { label: "Guarantor", key: "guarantor_verification_status" },
+  { label: "Residence", key: "residence_verification_status" },
+  { label: "Medical History", key: "medical_history_verification_status" },
+  { label: "Police Report", key: "police_report_verification_status" },
+  { label: "Work Experience", key: "previous_employer_verification_status" }
+];
+
+export const verificationOptions2 = [
+  { label: "Availabiliy Status", key: "availability_status" },
+  { label: "Guarantor", key: "guarantor_verification_status" },
+  { label: "Residence", key: "residence_verification_status" }
+];

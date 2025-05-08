@@ -20,6 +20,7 @@ import useStaffUser from "../../../hooks/useStaffUser";
 import { onFailure } from "../../../utils/notifications/OnFailure";
 import { axiosClient } from "../../../services/axios-client";
 import { GrDocumentText, GrUpload } from "react-icons/gr";
+import { verificationOptions1, verificationOptions2 } from "../../../utils/constants";
 
 
 
@@ -30,33 +31,31 @@ function Dashboard() {
     StaffManagementContext
   );
   const client = axiosClient(authDetails.token);
-
   const [availablityStatus, setAvailabiltyStatus] = useState();
   const [loading, setloading] = useState(false);
   const [showFullDescription, setShowFullDescription] = useState(false);
-
   const [category, setCategory] = useState([]);
   const { updateAvailabilityStatus, getStyling, allStatus } = useStaffUser();
 
-  useEffect(()=>{
+  useEffect(() => {
     getStaffProfile()
-  },[])
-  const filterVerificationDetails =
-    profileDetails &&
-    Object.keys(profileDetails).filter(
-      (currentKey) =>
-        currentKey == "guarantor_verification_status" ||
-        currentKey == "residence_verification_status" ||
-        currentKey == "medical_history_verification_status" ||
-        currentKey == "police_report_verification_status" ||
-        currentKey == "previous_employer_verification_status"
-    );
+  }, [])
+  // Choose verification fields based on staff category
+  const selectedVerificationFields =
+    authDetails?.user?.staff_category === "artisan"
+      ? verificationOptions2
+      : verificationOptions1;
 
-    const userVerificationStatus=filterVerificationDetails?.map((currentKey) => (
-      allStatus.find(
-       (current) => current === profileDetails[currentKey]
-     )))?.filter(status=> status==="approved")
+  // Filter the verification fields that exist in the profile
+  const filterVerificationDetails = profileDetails
+    ? selectedVerificationFields.filter((key) => key in profileDetails)
+    : [];
 
+  const userVerificationStatus = filterVerificationDetails
+    ?.map((key) => allStatus.find((status) => status === profileDetails[key]))
+    ?.filter((status) => status === "approved");
+
+    console.log(filterVerificationDetails, selectedVerificationFields)
 
   const navigate = useNavigate();
   const navigateToPage = (route, index) => {
@@ -188,24 +187,19 @@ function Dashboard() {
                 <p className="font-bold my-3">Records Status</p>
               </div>
               <div className="px-3 flex flex-col border-b justify-between items-start">
-                {filterVerificationDetails?.map((currentKey) => {
+                {filterVerificationDetails?.filter((key) => key !== "verification_status")?.map((currentKey, index) => {
                   const detail =
-                    allStatus.find(
-                      (current) => current === profileDetails[currentKey]
-                    ) || "Not Recorded";
+                    allStatus.find((status) => status === profileDetails[currentKey]) || "Not Recorded";
                   const labelText = currentKey.replace(/_/g, " ").toLowerCase();
 
                   return (
                     <div
+                      key={index}
                       onClick={() => navigateToPage("/staff/verifications", 2)}
                       className="p-2 cursor-pointer hover:bg-gray-100 flex justify-between gap-2 w-full"
                     >
                       <span className="capitalize">{labelText}:</span>
-                      <span
-                        className={`${getStyling(
-                          detail
-                        )} text-black capitalize font-semibold"`}
-                      >
+                      <span className={`${getStyling(detail)} text-black capitalize font-semibold`}>
                         {detail}
                       </span>
                     </div>

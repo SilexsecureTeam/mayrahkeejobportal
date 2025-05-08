@@ -52,7 +52,7 @@ function useChats() {
   };
   
   useEffect(() => {
-    if (!authDetails?.user?.id) return;
+    if (!authDetails?.user?.id && authDetails?.user?.role !== "candidate" || authDetails?.user?.role !== "employer") return;
   
     checkUnreadMessages(); // Initial fetch
   
