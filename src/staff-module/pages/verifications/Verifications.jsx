@@ -34,6 +34,8 @@ function Verifications() {
         return <PoliceReport />;
       case "Work Experience":
         return <WorkExperience />;
+      default :
+        return null;
     }
   };
   useEffect(()=>{
