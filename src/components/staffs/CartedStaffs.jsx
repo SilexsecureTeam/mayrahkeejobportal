@@ -116,7 +116,8 @@ const salaryTotal = isArtisan ? 0 : rawSalaryTotal * 1.1; // 10% additional for 
       <PopUpBox isOpen={conditions}>
         <div className="w-[90%] md:w-[40%] h-max max-h-[80%] overflow-y-auto p-5 bg-white text-gray-500 flex flex-col gap-4">
           <MdClose
-            className="text-2xl self-end cursor-pointer"
+            size={24}
+            className="sticky top-2 text-2xl self-end cursor-pointer"
             onClick={() => setConditions(false)}
           />
           <h1 className="text-center font-bold text-xl text-black">Terms and Conditions</h1>
