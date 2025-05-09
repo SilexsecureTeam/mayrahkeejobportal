@@ -161,6 +161,7 @@ applicablelabourlaws.</p>
             <span>I accept the terms and conditions</span>
           </div>
 
+          <div className="sticky bottom-0">
           <PaystackConsumer
             {...config(handleSuccess, selectedItems, getCartItems, grandTotal)}
           >
@@ -180,6 +181,7 @@ applicablelabourlaws.</p>
               </FormButton>
             )}
           </PaystackConsumer>
+          </div>
         </div>
       </PopUpBox>
 
