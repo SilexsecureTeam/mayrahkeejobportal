@@ -28,9 +28,9 @@ function Verifications() {
         return <GuarantorForm />;
       case options[2]?.label == "Residence":
         return <ResidenceForm />;
-      case options[3]?.label == "Medical":
+      case options[3]?.label == "Medical History":
         return <MedicalForm />;
-      case options[4]?.label == "Police":
+      case options[4]?.label == "Police Report":
         return <PoliceReport />;
       case options[5]:
         return <WorkExperience />;
