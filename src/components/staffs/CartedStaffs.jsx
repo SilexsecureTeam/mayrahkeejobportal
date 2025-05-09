@@ -123,14 +123,26 @@ const salaryTotal = isArtisan ? 0 : rawSalaryTotal * 1.1; // 10% additional for 
           <p className="text-sm leading-relaxed">
   {isArtisan ? (
     <>
-      This platform serves solely as a connection point between clients and artisans. We are not a party to any agreement entered into between the client and the artisan and hold no responsibility for the services rendered. Employers may only assign tasks that align with the artisan’s designated role. Any additional tasks must be mutually agreed upon between the employer and the artisan. By proceeding, you acknowledge that the platform is not liable for disputes, service outcomes, or any related issues.
-    </>
+      <p>This agreement stipulates that the Employer may only assign tasks that align with the 
+their job scope. Any additional tasks beyond these responsibilities require mutual 
+defined responsibilities of the Employee’s designated role. Artisans, including 
+Mechanics, Electricians, Plumbers, and other skilled workers, must strictly adhere to 
+consent between the Employer and the Employee.</p>
+      <p>Mayrahkee Africa serves solely as a bridge between the Employer and the Employee and, 
+therefore, shall not be held liable for any disputes or dissatisfaction arising from duties 
+assigned within the agreed scope.</p>
+      </>
   ) : (
     <>
-      This agreement acknowledges that the employer may only assign tasks
-      that are directly related to the designated role of the employee. Domestic staff
-      must only perform duties as outlined within their specific role. Any tasks
-      outside these roles require mutual agreement between employer and employee.
+      <p>This agreement establishes that the Employer may only assign tasks that fall within the 
+defined responsibilities of the Employee’s designated role. Domestic staff, including 
+Housekeepers, Drivers, and other positions, must perform duties strictly within their job 
+scope. Any additional tasks beyond these responsibilities require mutual consent 
+between the Employer and the Employee.</p>
+      <p>Mayrahkee Africa shall not be held liable for any disputes or dissatisfaction arising from 
+duties assigned outside the agreed scope. Any violation of this policy may constitute a 
+breach of contract and could lead to legal consequences in accordance with 
+applicablelabourlaws.</p>
     </>
   )}
 </p>
