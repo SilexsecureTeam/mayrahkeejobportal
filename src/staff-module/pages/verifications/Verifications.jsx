@@ -22,15 +22,15 @@ function Verifications() {
   
   const renderComponent = () => {
     switch (option) {
-      case options[0]:
+      case options[0]?.label == "Availability Status":
         return <ViewVerifications />;
-      case options[1]:
+      case options[1]?.label == "Guarantor":
         return <GuarantorForm />;
-      case options[2]:
+      case options[2]?.label == "Residence":
         return <ResidenceForm />;
-      case options[3]:
+      case options[3]?.label == "Medical":
         return <MedicalForm />;
-      case options[4]:
+      case options[4]?.label == "Police":
         return <PoliceReport />;
       case options[5]:
         return <WorkExperience />;
