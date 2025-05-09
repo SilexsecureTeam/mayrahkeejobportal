@@ -1,10 +1,22 @@
 import { resourceUrl } from "../../services/axios-client";
 import { formatDate, FormatPrice } from "../../utils/formmaters";
+import { field_sections1, field_sections2 } from "../../utils/constants"; // adjust import path
 
 const ApplicantProfileCard = ({ userData }) => {
+  const isArtisan = userData?.staff_category === "artisan";
+  const fieldSections = isArtisan ? field_sections2 : field_sections1;
+
   const image = userData?.profile_image
     ? `${resourceUrl}/${userData?.profile_image}`
     : "/placeolder2.png";
+
+  const renderValue = (fieldName) => {
+    const value = userData?.[fieldName];
+    if (fieldName.includes("salary") && value) {
+      return FormatPrice(Number(value));
+    }
+    return value ?? "N/A";
+  };
 
   return (
     <aside className="w-full h-fit lg:w-1/4 md:min-w-80 bg-white p-6 shadow-[0_0_2px_#999] mb-4 lg:mb-0">
@@ -21,6 +33,7 @@ const ApplicantProfileCard = ({ userData }) => {
           </div>
         </section>
       </div>
+
       <div className="mt-4 bg-gray-100 p-2">
         <div className="flex justify-between gap-2 items-center p-2 border-b ">
           <h4 className="font-bold text-gray-800">Member Since</h4>
@@ -33,48 +46,62 @@ const ApplicantProfileCard = ({ userData }) => {
           </p>
         </div>
       </div>
+
+      {/* Primary Info */}
       <div className="mt-6">
-        <h4 className="font-bold text-gray-800">Primary</h4>
+        <h4 className="font-bold text-gray-800">Primary Info</h4>
         <ul className="text-gray-600 space-y-3 mt-2 break-all">
-          <li>Email: {userData?.email}</li>
-          <li>Marital Status: {userData?.marital_status}</li>
-          <li>Education: {userData?.education_level}</li>
-          <li>Religion: {userData?.religion}</li>
-          <li>Location: {userData?.location}</li>
-        </ul>
-      </div>
-
-      <div className="mt-6">
-        <h4 className="font-bold text-gray-800">Work</h4>
-        <ul className="text-gray-600 space-y-3 mt-2">
-          <li>Employemet Type: {userData?.employment_type}</li>
-          <li>Work Days: {userData?.work_days}</li>
-          <li>
-            Expected Salary: {FormatPrice(Number(userData?.expected_salary))}
-          </li>
-          <li>
-            Current Salary: {FormatPrice(Number(userData?.current_salary))}
-          </li>
-        </ul>
-      </div>
-
-      <div className="mt-6">
-        <h4 className="font-bold text-gray-800">Languages</h4>
-        <ul className="text-gray-600 mt-2 grid grid-cols-2 gap-1">
-          {userData?.languages_spoken?.map((current) => (
-            <li className="py-1 px-2 bg-yellow-400">{current}</li>
+          {fieldSections.primary.map((field) => (
+            <li key={field.field_name}>
+              {field.name}: {renderValue(field.field_name)}
+            </li>
           ))}
         </ul>
       </div>
 
+      {/* Professional Info */}
+      <div className="mt-6">
+        <h4 className="font-bold text-gray-800">Professional Info</h4>
+        <ul className="text-gray-600 space-y-3 mt-2">
+          {fieldSections.professional.map((field) => (
+            <li key={field.field_name}>
+              {field.name}: {renderValue(field.field_name)}
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      {/* Secondary Info */}
+      {fieldSections.secondary?.length > 0 && (
+        <div className="mt-6">
+          <h4 className="font-bold text-gray-800">Other Info</h4>
+          <ul className="text-gray-600 space-y-3 mt-2">
+            {fieldSections.secondary.map((field) => (
+              <li key={field.field_name}>
+                {field.name}: {renderValue(field.field_name)}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+
+      {/* Languages */}
+      <div className="mt-6">
+        <h4 className="font-bold text-gray-800">Languages</h4>
+        <ul className="text-gray-600 mt-2 grid grid-cols-2 gap-1">
+          {userData?.languages_spoken?.map((lang, index) => (
+            <li key={index} className="py-1 px-2 bg-yellow-400">{lang}</li>
+          ))}
+        </ul>
+      </div>
+
+      {/* Contact Info */}
       <div className="mt-6">
         <h4 className="font-bold text-gray-800">Contact</h4>
         <ul className="text-gray-600 space-y-2 mt-2">
-          <li className="flex gap-2 items-center">Email: <span className="break-all">{userData?.email}</span></li>
-          {/* <li>Phone: {userData?.phone}</li> 
-           <li>Instagram: {userData?.social?.instagram}</li>
-          <li>Twitter: {userData?.social?.twitter}</li>
-          <li>Website: {userData?.website}</li> */}
+          <li className="flex gap-2 items-center">
+            Email: <span className="break-all">{userData?.email}</span>
+          </li>
         </ul>
       </div>
     </aside>

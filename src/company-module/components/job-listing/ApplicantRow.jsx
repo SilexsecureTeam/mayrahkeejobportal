@@ -6,6 +6,7 @@ import { AiFillClockCircle } from "react-icons/ai";
 import { MdCheckCircle } from "react-icons/md";
 import { GiVideoConference } from "react-icons/gi";
 import { IoMdCloseCircle } from "react-icons/io";
+import { formatDate } from "../../../utils/formmaters";
 
 function ApplicantRow({ data }) {
   const navigate = useNavigate();
@@ -98,7 +99,7 @@ function ApplicantRow({ data }) {
       {/* Date Created */}
       <td className="text-center py-2 px-2 truncate">
         <p className="font-semibold">
-          {new Date(data?.created_at).toLocaleDateString()}
+          {formatDate(data?.created_at)}
         </p>
       </td>
 

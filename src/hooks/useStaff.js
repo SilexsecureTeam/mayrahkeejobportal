@@ -36,6 +36,24 @@ function useStaff() {
     }
   };
 
+  const getResidentialDetails = async (staffId) => {
+    try {
+      const { data } = await client.get(`/domesticStaff/residential-status/${staffId}`);
+
+      if (data.ResidentialStatus) {
+        return data.ResidentialStatus;
+      }
+      return [];
+    } catch (error) {
+      onFailure({
+        message: "Resident Error",
+        failure: "Error retrieving residential details",
+      });
+
+      return [];
+    }
+  };
+
   //To get  Medical History
   const getMedicalDetails = async (staffId) => {
     try {
@@ -138,6 +156,7 @@ function useStaff() {
     getMedicalDetails,
     getPoliceDetails,
     getWorkExperience,
+    getResidentialDetails,
     updateContractStatus,
     getStyling
   };

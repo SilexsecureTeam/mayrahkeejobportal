@@ -114,24 +114,24 @@ const salaryTotal = isArtisan ? 0 : rawSalaryTotal * 1.1; // 10% additional for 
       </button>
 
       <PopUpBox isOpen={conditions}>
-        <div className="w-[90%] md:w-[40%] h-max max-h-96 overflow-y-auto p-5 bg-white text-gray-500 flex flex-col gap-4">
+        <div className="w-[90%] md:w-[40%] p-5 bg-white text-gray-500 flex flex-col gap-4">
           <MdClose
             size={24}
             className="flex-shrink-0 sticky top-2 text-2xl self-end cursor-pointer"
             onClick={() => setConditions(false)}
           />
           <h1 className="text-center font-bold text-xl text-black">Terms and Conditions</h1>
-          <p className="text-sm leading-relaxed">
+          <p className="text-sm leading-relaxed h-max max-h-96 overflow-y-auto">
   {isArtisan ? (
     <>
       <p>This agreement stipulates that the Employer may only assign tasks that align with the 
-their job scope. Any additional tasks beyond these responsibilities require mutual 
-defined responsibilities of the Employee’s designated role. Artisans, including 
-Mechanics, Electricians, Plumbers, and other skilled workers, must strictly adhere to 
-consent between the Employer and the Employee.</p>
+        their job scope. Any additional tasks beyond these responsibilities require mutual 
+        defined responsibilities of the Employee’s designated role. Artisans, including 
+        Mechanics, Electricians, Plumbers, and other skilled workers, must strictly adhere to 
+        consent between the Employer and the Employee.</p>
       <p className="mt-2">Mayrahkee Africa serves solely as a bridge between the Employer and the Employee and, 
-therefore, shall not be held liable for any disputes or dissatisfaction arising from duties 
-assigned within the agreed scope.</p>
+        therefore, shall not be held liable for any disputes or dissatisfaction arising from duties 
+        assigned within the agreed scope.</p>
       </>
   ) : (
     <>
@@ -147,7 +147,6 @@ applicablelabourlaws.</p>
     </>
   )}
 </p>
-
 
           <div
             onClick={() => setTerms(!terms)}

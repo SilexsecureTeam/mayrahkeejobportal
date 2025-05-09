@@ -44,43 +44,52 @@ const ApplicantHeader = ({ staff, setStaff }) => {
         </nav>
       </section>
 
-      { (
-        <div className="flex space-x-4">
-          {/* Accept Button */}
-          <button
-            onClick={handleAccept}
-            disabled={isAccepted}
-            aria-busy={acceptLoading}
-            className={`bg-green-600 relative text-white px-4 py-1 rounded overflow-hidden ${
-              isAccepted ? "opacity-50 cursor-not-allowed" : ""
-            }`}
-          >
-            {isAccepted && !isRejected ? "Accepted" :"Accept"}
-            {acceptLoading && (
-              <div className="absolute left-0 top-0 z-[999] bg-gray-50/50 w-full h-full flex items-center justify-center">
-                <PiSpinnerGap className="text-lg animate-spin text-black" />
-              </div>
-            )}
-          </button>
-
-          {/* Reject Button */}
-          <button
-            onClick={handleReject}
-            disabled={isRejected}
-            aria-busy={rejectLoading}
-            className={`bg-red-600 relative text-white px-4 py-1 rounded ${
-              isRejected ? "opacity-50 cursor-not-allowed" : ""
-            }`}
-          >
-             {isRejected ? "Rejected" :"Reject"}
-            {rejectLoading && (
-              <div className="absolute left-0 top-0 z-[999] bg-gray-50/50 w-full h-full flex items-center justify-center">
-                <PiSpinnerGap className="text-lg animate-spin text-black" />
-              </div>
-            )}
-          </button>
+      {staff?.staff_category === "artisan" ? (
+  <button
+    className="bg-yellow-600 text-white px-4 py-2 rounded"
+    onClick={() => {
+      window.location.href = `mailto:mayrahkee@example.com,artisansupport@mayrahkeeafrica.com?subject=Unable to Reach Artisan&body=Hello,%0D%0A%0D%0AI am unable to reach the artisan ${staff?.full_name} (ID: ${staff?.id}). Please follow up on this issue.%0D%0A%0D%0ARegards,`;
+    }}
+  >
+    Complain: Can't Reach Artisan
+  </button>
+) : (
+  <div className="flex space-x-4">
+    {/* Accept Button */}
+    <button
+      onClick={handleAccept}
+      disabled={isAccepted}
+      aria-busy={acceptLoading}
+      className={`bg-green-600 relative text-white px-4 py-1 rounded overflow-hidden ${
+        isAccepted ? "opacity-50 cursor-not-allowed" : ""
+      }`}
+    >
+      {isAccepted && !isRejected ? "Accepted" : "Accept"}
+      {acceptLoading && (
+        <div className="absolute left-0 top-0 z-[999] bg-gray-50/50 w-full h-full flex items-center justify-center">
+          <PiSpinnerGap className="text-lg animate-spin text-black" />
         </div>
       )}
+    </button>
+
+    {/* Reject Button */}
+    <button
+      onClick={handleReject}
+      disabled={isRejected}
+      aria-busy={rejectLoading}
+      className={`bg-red-600 relative text-white px-4 py-1 rounded ${
+        isRejected ? "opacity-50 cursor-not-allowed" : ""
+      }`}
+    >
+      {isRejected ? "Rejected" : "Reject"}
+      {rejectLoading && (
+        <div className="absolute left-0 top-0 z-[999] bg-gray-50/50 w-full h-full flex items-center justify-center">
+          <PiSpinnerGap className="text-lg animate-spin text-black" />
+        </div>
+      )}
+    </button>
+  </div>
+)}
 
       
     </header>

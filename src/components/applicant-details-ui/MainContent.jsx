@@ -3,25 +3,32 @@ import { TbBriefcase2 } from "react-icons/tb";
 import Garantor from "./subcontents/Garantor";
 import MedicalHistory from "./subcontents/MedicalHistory";
 import PoliceRecord from "./subcontents/PoliceRecord";
+import Residence from "./subcontents/Residence";
+
 import useStaff from "../../hooks/useStaff";
+import { verificationOptions1, verificationOptions2 } from "../../utils/constants";
 
 const MainContent = ({ staff }) => {
-  // State to keep track of the active tab
-  const [activeTab, setActiveTab] = useState("Guarantors");
-
-  const [workExperience, setWorkExperience] = useState([])
+  const [activeTab, setActiveTab] = useState("Guarantor");
+  const [workExperience, setWorkExperience] = useState([]);
   const { getWorkExperience } = useStaff();
 
+  // Dynamically select verification options based on staff category
+  const verificationOptions = staff?.staff_category === "artisan" 
+    ? verificationOptions2 
+    : verificationOptions1;
 
   // Function to render the content based on active tab
   const renderContent = () => {
     switch (activeTab) {
-      case "Guarantors":
-        return <Garantor staff={staff}/>;
+      case "Guarantor":
+        return <Garantor staff={staff} />;
       case "Medical History":
-        return <MedicalHistory staff={staff}/>;
+        return <MedicalHistory staff={staff} />;
+      case "Residence":
+        return <Residence staff={staff} />;
       case "Police Report":
-        return <PoliceRecord staff={staff}/>;
+        return <PoliceRecord staff={staff} />;
       default:
         return null;
     }
@@ -36,38 +43,23 @@ const MainContent = ({ staff }) => {
     };
 
     initData();
-  }, []);
-
+  }, [staff.id]);
 
   return (
     <main className="w-full shadow-[0_0_2px_#999] md:w-3/4 p-6">
       <div className="border-b mb-4">
         <nav className="flex space-x-8 text-gray-700 overflow-x-auto">
-          {/* Update active tab when each link is clicked */}
-          <a
-            href="#"
-            onClick={() => setActiveTab("Guarantors")}
-            className={`pb-2 ${activeTab === "Guarantors" ? "font-semibold border-b-2 border-green-500" : ""
-              }`}
-          >
-            Guarantors
-          </a>
-          <a
-            href="#"
-            onClick={() => setActiveTab("Medical History")}
-            className={`pb-2 ${activeTab === "Medical History" ? "font-semibold border-b-2 border-green-500" : ""
-              }`}
-          >
-            Medical History
-          </a>
-          <a
-            href="#"
-            onClick={() => setActiveTab("Police Report")}
-            className={`pb-2 ${activeTab === "Police Report" ? "font-semibold border-b-2 border-green-500" : ""
-              }`}
-          >
-            Police Report
-          </a>
+          {/* Dynamically generate navigation based on verification options */}
+          {verificationOptions?.filter(item=>item.label !== "Availability Status")?.map((option) => (
+            <a
+              href="#"
+              key={option.key}
+              onClick={() => setActiveTab(option.label)}
+              className={`pb-2 ${activeTab === option.label ? "font-semibold border-b-2 border-green-500" : ""}`}
+            >
+              {option.label}
+            </a>
+          ))}
         </nav>
       </div>
 

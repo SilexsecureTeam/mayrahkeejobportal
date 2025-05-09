@@ -380,13 +380,13 @@ export const staffUtilOptions = [
     icon: settingsIcon,
     iconActive: settingsIconActive,
   },
-  {
-    type: "HELP-CENTER",
-    title: "Help Center",
-    route: "/staff/help-center",
-    icon: helpIcon,
-    iconActive: helpIcon,
-  },
+  // {
+  //   type: "HELP-CENTER",
+  //   title: "Help Center",
+  //   route: "/staff/help-center",
+  //   icon: helpIcon,
+  //   iconActive: helpIcon,
+  // },
   {
     type: "LOG-OUT",
     title: "Log Out",
