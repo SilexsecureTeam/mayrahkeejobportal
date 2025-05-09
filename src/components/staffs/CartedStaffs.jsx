@@ -114,7 +114,7 @@ const salaryTotal = isArtisan ? 0 : rawSalaryTotal * 1.1; // 10% additional for 
       </button>
 
       <PopUpBox isOpen={conditions}>
-        <div className="w-[90%] md:w-[40%] p-5 bg-white text-gray-500 flex flex-col gap-4">
+        <div className="w-[90%] md:w-[40%] h-max max-h-[80%] overflow-y-auto p-5 bg-white text-gray-500 flex flex-col gap-4">
           <MdClose
             className="text-2xl self-end cursor-pointer"
             onClick={() => setConditions(false)}
@@ -128,7 +128,7 @@ their job scope. Any additional tasks beyond these responsibilities require mutu
 defined responsibilities of the Employee’s designated role. Artisans, including 
 Mechanics, Electricians, Plumbers, and other skilled workers, must strictly adhere to 
 consent between the Employer and the Employee.</p>
-      <p>Mayrahkee Africa serves solely as a bridge between the Employer and the Employee and, 
+      <p className="mt-2">Mayrahkee Africa serves solely as a bridge between the Employer and the Employee and, 
 therefore, shall not be held liable for any disputes or dissatisfaction arising from duties 
 assigned within the agreed scope.</p>
       </>
@@ -139,7 +139,7 @@ defined responsibilities of the Employee’s designated role. Domestic staff, in
 Housekeepers, Drivers, and other positions, must perform duties strictly within their job 
 scope. Any additional tasks beyond these responsibilities require mutual consent 
 between the Employer and the Employee.</p>
-      <p>Mayrahkee Africa shall not be held liable for any disputes or dissatisfaction arising from 
+      <p className="mt-2">Mayrahkee Africa shall not be held liable for any disputes or dissatisfaction arising from 
 duties assigned outside the agreed scope. Any violation of this policy may constitute a 
 breach of contract and could lead to legal consequences in accordance with 
 applicablelabourlaws.</p>
