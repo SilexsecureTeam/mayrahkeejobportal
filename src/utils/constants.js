@@ -1073,7 +1073,7 @@ export const field_sections2 = {
 };
 
 export const verificationOptions1 = [
-  { label: "Availabiliy Status", key: "availability_status" },
+  { label: "Availability Status", key: "availability_status" },
   { label: "Guarantor", key: "guarantor_verification_status" },
   { label: "Residence", key: "residence_verification_status" },
   { label: "Medical History", key: "medical_history_verification_status" },
@@ -1082,7 +1082,7 @@ export const verificationOptions1 = [
 ];
 
 export const verificationOptions2 = [
-  { label: "Availabiliy Status", key: "availability_status" },
+  { label: "Availability Status", key: "availability_status" },
   { label: "Guarantor", key: "guarantor_verification_status" },
   { label: "Residence", key: "residence_verification_status" },
   { label: "National Id", key: "nin_verification_status" },
