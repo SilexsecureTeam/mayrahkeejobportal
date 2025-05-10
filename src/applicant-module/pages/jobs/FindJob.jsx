@@ -44,11 +44,12 @@ function FindJob() {
       isDataNeeded: true,
     }));
   }, []);
-
-  const filteredData = getAllJobs.data?.filter(item =>
+  const sortedJobs=getAllJobs.data?.filter(item =>
   item.status === "approved" &&
   new Date(item.application_deadline_date) >= new Date()
-)?.filter((job) => {
+)
+
+  const filteredData = sortedJobs?.filter((job) => {
       const salaryFigures = job.min_salary?.split(".")[0];
       const salaryInRange = salaryRange ? salaryFigures >= salaryRange : true;
       const matchesEmploymentType = employmentType
@@ -160,7 +161,7 @@ function FindJob() {
                 <h4 className="font-bold text-base">All Jobs</h4>
                 <div className="flex justify-between mb-6">
                   <div>
-                    <p>Showing {getAllJobs.data?.length} results</p>
+                    <p>Showing {sortedJobs?.length} results</p>
                   </div>
                   <div className="flex">
                     <div className="border- px-2">
