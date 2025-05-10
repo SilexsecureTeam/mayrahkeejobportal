@@ -58,15 +58,15 @@ function JobPosting({ exclusive = null }) {
 
   // Save to localStorage on change
   useEffect(() => {
-    const details = jobUtils.details;
-    if (details && Object.keys(details).length > 0) {
+    const details = jobUtils?.details;
+    if (details && Object.keys(details)?.length > 0) {
       localStorage.setItem("job_post_draft", JSON.stringify(details));
     }
   }, [jobUtils.details]);
 
   const handleLoadDraft = () => {
     if (draftToLoad) {
-      jobUtils.setDetails(prev =>({...prev, ...draftToLoad}));
+      jobUtils.setDetails(draftToLoad);
       setShowDraftPrompt(false);
     }
   };
