@@ -66,7 +66,7 @@ function JobPosting({ exclusive = null }) {
 
   const handleLoadDraft = () => {
     if (draftToLoad) {
-      jobUtils.setDetails({...draftToLoad});
+      jobUtils.setDetails(prev =>({...prev, ...draftToLoad}));
       setShowDraftPrompt(false);
     }
   };
