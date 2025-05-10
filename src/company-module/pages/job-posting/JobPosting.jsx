@@ -84,26 +84,30 @@ i
         currentStep={currentStep}
       />
 
-      {currentStep.id === 1 && (
-        <BasicInformation
-          jobUtils={jobUtils}
-          data={job_steps}
-          setCurrentStep={setCurrentStep}
-          validateAndProceed={validateAndProceed}
-          editJob={editJob}
-        />
-      )}
+      {!showDraftPrompt && (
+  <>
+    {currentStep.id === 1 && (
+      <BasicInformation
+        jobUtils={jobUtils}
+        data={job_steps}
+        setCurrentStep={setCurrentStep}
+        validateAndProceed={validateAndProceed}
+        editJob={editJob}
+      />
+    )}
+    {currentStep.id === 2 && (
+      <Descriptions
+        jobUtils={jobUtils}
+        data={job_steps}
+        setCurrentStep={setCurrentStep}
+        handleSuccess={handleSuccess}
+        exclusive={exclusive}
+        editJob={editJob}
+      />
+    )}
+  </>
+)}
 
-      {currentStep.id === 2 && (
-        <Descriptions
-          jobUtils={jobUtils}
-          data={job_steps}
-          setCurrentStep={setCurrentStep}
-          handleSuccess={handleSuccess}
-          exclusive={exclusive}
-          editJob={editJob}
-        />
-      )}
 
       {showDraftPrompt && (
         <div className="fixed inset-0 bg-black bg-opacity-30 z-50 flex justify-center">
