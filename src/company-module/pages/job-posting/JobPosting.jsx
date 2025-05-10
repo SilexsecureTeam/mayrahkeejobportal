@@ -70,7 +70,7 @@ function JobPosting({ exclusive = null }) {
       setShowDraftPrompt(false);
     }
   };
-i
+
   const handleDismissDraft = () => {
     localStorage.removeItem("job_post_draft");
     setShowDraftPrompt(false);
