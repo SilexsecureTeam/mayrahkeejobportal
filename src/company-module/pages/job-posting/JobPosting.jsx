@@ -110,8 +110,8 @@ function JobPosting({ exclusive = null }) {
 
 
       {showDraftPrompt && (
-        <div className="fixed inset-0 bg-black bg-opacity-30 z-50 flex justify-center">
-          <div className="bg-white p-6 rounded-lg shadow-lg w-[90%] h-max max-w-sm">
+        <div className="fixed inset-0 bg-black bg-opacity-30 z-50 flex justify-center h-screen w-screen">
+          <div className="bg-white p-6 rounded-lg shadow-lg w-[90%] h-max mt-3">
             <h2 className="text-lg font-semibold">Resume Your Draft?</h2>
             <p className="text-sm text-gray-600 mt-2">
               We found a saved draft from your previous session. Would you like to continue from where you left off?
@@ -125,7 +125,7 @@ function JobPosting({ exclusive = null }) {
               </button>
               <button
                 onClick={handleLoadDraft}
-                className="px-4 py-2 bg-green-700 text-white rounded hover:bg-blue-700"
+                className="px-4 py-2 bg-green-700 text-white rounded hover:bg-green-800"
               >
                 Resume Draft
               </button>
