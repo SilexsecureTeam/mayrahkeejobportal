@@ -7,12 +7,12 @@ const stages = [
     label: 'under-review',
     border_color: 'border-orange-500',
   },
-  {
+  /*{
     id: 3,
     name: 'pending',
     label: 'pending',
     border_color: 'border-[#5cbbff]',
-  },
+  },*/
   {
     id: 1,
     name: 'shortlist',
