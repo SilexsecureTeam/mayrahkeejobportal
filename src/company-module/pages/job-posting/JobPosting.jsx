@@ -66,11 +66,11 @@ function JobPosting({ exclusive = null }) {
 
   const handleLoadDraft = () => {
     if (draftToLoad) {
-      jobUtils.setDetails(draftToLoad);
+      jobUtils.setDetails({...draftToLoad});
       setShowDraftPrompt(false);
     }
   };
-
+i
   const handleDismissDraft = () => {
     localStorage.removeItem("job_post_draft");
     setShowDraftPrompt(false);
@@ -106,8 +106,8 @@ function JobPosting({ exclusive = null }) {
       )}
 
       {showDraftPrompt && (
-        <div className="fixed inset-0 bg-black bg-opacity-30 z-50 flex items-center justify-center">
-          <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-sm">
+        <div className="fixed inset-0 bg-black bg-opacity-30 z-50 flex justify-center">
+          <div className="bg-white p-6 rounded-lg shadow-lg w-[90%] max-w-sm">
             <h2 className="text-lg font-semibold">Resume Your Draft?</h2>
             <p className="text-sm text-gray-600 mt-2">
               We found a saved draft from your previous session. Would you like to continue from where you left off?
@@ -121,7 +121,7 @@ function JobPosting({ exclusive = null }) {
               </button>
               <button
                 onClick={handleLoadDraft}
-                className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+                className="px-4 py-2 bg-green-700 text-white rounded hover:bg-blue-700"
               >
                 Resume Draft
               </button>
