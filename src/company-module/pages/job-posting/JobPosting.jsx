@@ -21,7 +21,15 @@ function JobPosting({ exclusive = null }) {
   const [editJob, setEditJob] = useState(false);
   const [showDraftPrompt, setShowDraftPrompt] = useState(false);
   const [draftToLoad, setDraftToLoad] = useState(null);
+const [initialDetails, setInitialDetails] = useState(null);
 
+useEffect(() => {
+  if (jobUtils?.details && !initialDetails) {
+    setInitialDetails(jobUtils.details);
+  }
+}, [jobUtils.details, initialDetails]);
+
+   
   const handleSuccess = () => {
     onSuccess({
       message: editJob ? 'Update Job' : 'New Job',
@@ -58,11 +66,16 @@ function JobPosting({ exclusive = null }) {
 
   // Save to localStorage on change
   useEffect(() => {
-    const details = jobUtils?.details;
-    if (details && Object.keys(details)?.length > 0) {
-      localStorage.setItem("job_post_draft", JSON.stringify(details));
-    }
-  }, [jobUtils.details]);
+  if (!initialDetails) return;
+
+  const hasChanges =
+    JSON.stringify(jobUtils.details) !== JSON.stringify(initialDetails);
+
+  if (hasChanges) {
+    localStorage.setItem("job_post_draft", JSON.stringify(jobUtils.details));
+  }
+}, [jobUtils.details, initialDetails]);
+ 
 
   const handleLoadDraft = () => {
     if (draftToLoad) {
@@ -121,13 +134,13 @@ function JobPosting({ exclusive = null }) {
                 onClick={handleDismissDraft}
                 className="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300"
               >
-                Start Fresh
+                Discard 
               </button>
               <button
                 onClick={handleLoadDraft}
                 className="px-4 py-2 bg-green-700 text-white rounded hover:bg-green-800"
               >
-                Resume Draft
+                Resume
               </button>
             </div>
           </div>
