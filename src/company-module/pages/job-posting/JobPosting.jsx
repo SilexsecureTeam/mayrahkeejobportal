@@ -21,15 +21,7 @@ function JobPosting({ exclusive = null }) {
   const [editJob, setEditJob] = useState(false);
   const [showDraftPrompt, setShowDraftPrompt] = useState(false);
   const [draftToLoad, setDraftToLoad] = useState(null);
-const [initialDetails, setInitialDetails] = useState(null);
-
-useEffect(() => {
-  if (jobUtils?.details && !initialDetails) {
-    setInitialDetails(jobUtils.details);
-  }
-}, [jobUtils.details, initialDetails]);
-
-   
+  
   const handleSuccess = () => {
     onSuccess({
       message: editJob ? 'Update Job' : 'New Job',
@@ -66,16 +58,11 @@ useEffect(() => {
 
   // Save to localStorage on change
   useEffect(() => {
-  if (!initialDetails) return;
-
-  const hasChanges =
-    JSON.stringify(jobUtils.details) !== JSON.stringify(initialDetails);
-
-  if (hasChanges) {
-    localStorage.setItem("job_post_draft", JSON.stringify(jobUtils.details));
-  }
-}, [jobUtils.details, initialDetails]);
- 
+    const details = jobUtils?.details;
+    if (details && Object.keys(details)?.length > 0) {
+      localStorage.setItem("job_post_draft", JSON.stringify(details));
+    }
+  }, [jobUtils.details]); 
 
   const handleLoadDraft = () => {
     if (draftToLoad) {
