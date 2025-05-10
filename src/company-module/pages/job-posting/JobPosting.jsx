@@ -111,7 +111,7 @@ function JobPosting({ exclusive = null }) {
 
       {showDraftPrompt && (
         <div className="fixed inset-0 bg-black bg-opacity-30 z-50 flex justify-center">
-          <div className="bg-white p-6 rounded-lg shadow-lg w-[90%] max-w-sm">
+          <div className="bg-white p-6 rounded-lg shadow-lg w-[90%] h-max max-w-sm">
             <h2 className="text-lg font-semibold">Resume Your Draft?</h2>
             <p className="text-sm text-gray-600 mt-2">
               We found a saved draft from your previous session. Would you like to continue from where you left off?
