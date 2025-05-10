@@ -45,8 +45,10 @@ function FindJob() {
     }));
   }, []);
 
-  const filteredData = getAllJobs.data?.filter(item=>item.status==="approved")
-    ?.filter((job) => {
+  const filteredData = getAllJobs.data?.filter(item =>
+  item.status === "approved" &&
+  new Date(item.application_deadline_date) >= new Date()
+)?.filter((job) => {
       const salaryFigures = job.min_salary?.split(".")[0];
       const salaryInRange = salaryRange ? salaryFigures >= salaryRange : true;
       const matchesEmploymentType = employmentType
