@@ -44,7 +44,7 @@ function FindJob() {
       isDataNeeded: true,
     }));
   }, []);
-  const sortedJobs=getAllJobs.data?.filter(
+  const sortedJobs=getAllJobs.data?.filter(item=>
   new Date(item.application_deadline_date) >= new Date()
 )
 
