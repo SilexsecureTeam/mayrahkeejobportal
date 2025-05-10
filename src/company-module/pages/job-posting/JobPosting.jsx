@@ -21,7 +21,9 @@ function JobPosting({ exclusive = null }) {
   const [editJob, setEditJob] = useState(false);
   const [showDraftPrompt, setShowDraftPrompt] = useState(false);
   const [draftToLoad, setDraftToLoad] = useState(null);
-  
+  const [isChanges, setIsChanges] = useState(false);
+  const [initialDetails, setInitialDetails] = useState(null);
+
   const handleSuccess = () => {
     onSuccess({
       message: editJob ? 'Update Job' : 'New Job',
@@ -43,7 +45,7 @@ function JobPosting({ exclusive = null }) {
     }
   };
 
-  // Handle loading a saved draft
+  // On first mount: set details either from location state (edit mode) or draft
   useEffect(() => {
     const savedDraft = localStorage.getItem("job_post_draft");
 
@@ -56,13 +58,26 @@ function JobPosting({ exclusive = null }) {
     }
   }, [location.state]);
 
-  // Save to localStorage on change
+  // Capture the initial snapshot of details once after they're loaded
   useEffect(() => {
-    const details = jobUtils?.details;
-    if (details && Object.keys(details)?.length > 0) {
-      localStorage.setItem("job_post_draft", JSON.stringify(details));
+    if (jobUtils.details && !initialDetails) {
+      setInitialDetails(jobUtils.details);
     }
-  }, [jobUtils.details]); 
+  }, [jobUtils.details, initialDetails]);
+
+  // Watch for changes in details and sync to localStorage only if changed
+  useEffect(() => {
+    if (!initialDetails) return;
+
+    const hasChanges =
+      JSON.stringify(jobUtils.details) !== JSON.stringify(initialDetails);
+
+    setIsChanges(hasChanges);
+
+    if (hasChanges) {
+      localStorage.setItem("job_post_draft", JSON.stringify(jobUtils.details));
+    }
+  }, [jobUtils.details, initialDetails]);
 
   const handleLoadDraft = () => {
     if (draftToLoad) {
@@ -85,29 +100,28 @@ function JobPosting({ exclusive = null }) {
       />
 
       {!showDraftPrompt && (
-  <>
-    {currentStep.id === 1 && (
-      <BasicInformation
-        jobUtils={jobUtils}
-        data={job_steps}
-        setCurrentStep={setCurrentStep}
-        validateAndProceed={validateAndProceed}
-        editJob={editJob}
-      />
-    )}
-    {currentStep.id === 2 && (
-      <Descriptions
-        jobUtils={jobUtils}
-        data={job_steps}
-        setCurrentStep={setCurrentStep}
-        handleSuccess={handleSuccess}
-        exclusive={exclusive}
-        editJob={editJob}
-      />
-    )}
-  </>
-)}
-
+        <>
+          {currentStep.id === 1 && (
+            <BasicInformation
+              jobUtils={jobUtils}
+              data={job_steps}
+              setCurrentStep={setCurrentStep}
+              validateAndProceed={validateAndProceed}
+              editJob={editJob}
+            />
+          )}
+          {currentStep.id === 2 && (
+            <Descriptions
+              jobUtils={jobUtils}
+              data={job_steps}
+              setCurrentStep={setCurrentStep}
+              handleSuccess={handleSuccess}
+              exclusive={exclusive}
+              editJob={editJob}
+            />
+          )}
+        </>
+      )}
 
       {showDraftPrompt && (
         <div className="fixed inset-0 bg-black bg-opacity-30 z-50 flex justify-center h-screen w-screen">
@@ -121,13 +135,13 @@ function JobPosting({ exclusive = null }) {
                 onClick={handleDismissDraft}
                 className="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300"
               >
-                Discard 
+                Start Fresh
               </button>
               <button
                 onClick={handleLoadDraft}
                 className="px-4 py-2 bg-green-700 text-white rounded hover:bg-green-800"
               >
-                Resume
+                Resume Draft
               </button>
             </div>
           </div>
@@ -138,3 +152,4 @@ function JobPosting({ exclusive = null }) {
 }
 
 export default JobPosting;
+            
