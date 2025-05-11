@@ -259,7 +259,7 @@ applicablelabourlaws.</p>
                           {isArtisan ? (
                             "No salary shown"
                           ) : Number(item?.domestic_staff?.expected_salary) > 0 ? (
-                            FormatPrice(Number(item.domestic_staff.expected_salary) * (1 + parseInt(data?.domestic_percent || 0) / 100))
+                            FormatPrice(Number(item.domestic_staff.expected_salary) * (1 + Number(data?.domestic_percent) / 100))
                           ) : (
                             <span className="text-red-500 font-medium">Expected salary not set</span>
                           )}
