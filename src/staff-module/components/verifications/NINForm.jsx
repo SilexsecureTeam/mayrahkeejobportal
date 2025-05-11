@@ -113,7 +113,7 @@ function NINForm() {
             if (["id", "domestic_staff_id", "created_at", "updated_at"].includes(key))
               return null;
 
-            const label = labelMapping[key] || key;
+            const label = key === "file_path" ? "File" : labelMapping[key] || key;
 
             return (
               <div key={key} className="flex flex-col">
