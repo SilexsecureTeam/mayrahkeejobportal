@@ -15,7 +15,6 @@ const omitFieldsFromObject = (obj, keysToOmit) => {
   }
   return result;
 };
-
 const normalizeValue = (value) => {
   if (
     value === "" ||
