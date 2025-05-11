@@ -26,12 +26,11 @@ function JobPosting({ exclusive = null }) {
 
   const handleSuccess = () => {
     onSuccess({
-      message: editJob ? "Update Job" : "New Job",
-      success: editJob ? "Job Updated Successfully" : "Job Created Successfully",
+      message: editJob ? 'Update Job' : 'New Job',
+      success: editJob ? 'Job Updated Successfully' : 'Job Created Successfully',
     });
-    sessionStorage.removeItem("job_post_draft");
-    sessionStorage.removeItem("job_post_visited");
-    navigate(exclusive ? -2 : "/company/job-listing");
+    localStorage.removeItem("job_post_draft");
+    navigate(exclusive ? -2 : '/company/job-listing');
   };
 
   const validateAndProceed = () => {
@@ -47,8 +46,8 @@ function JobPosting({ exclusive = null }) {
   };
 
   useEffect(() => {
-    const savedDraft = sessionStorage.getItem("job_post_draft");
-    const hasVisited = sessionStorage.getItem("job_post_visited");
+    const savedDraft = localStorage.getItem("job_post_draft");
+    const wasReloaded = performance.getEntriesByType("navigation")[0]?.type === "reload";
 
     if (location.state?.details) {
       jobUtils.setDetails(location.state.details);
@@ -59,17 +58,14 @@ function JobPosting({ exclusive = null }) {
       jobUtils.setDetails(defaultDetails);
       setInitialDetails(defaultDetails);
 
-      if (savedDraft && !hasVisited) {
+      if (wasReloaded && savedDraft) {
         const parsedDraft = JSON.parse(savedDraft);
         if (JSON.stringify(parsedDraft) !== JSON.stringify(defaultDetails)) {
           setDraftToLoad(parsedDraft);
-          setShowDraftPrompt(true);
+          setShowDraftPrompt(true); // Only shows on reload + changes
         }
       }
     }
-
-    // Mark as visited after first load
-    sessionStorage.setItem("job_post_visited", "true");
   }, [location.state, jobUtils]);
 
   useEffect(() => {
@@ -81,7 +77,7 @@ function JobPosting({ exclusive = null }) {
     setHasChanges(changed);
 
     if (changed) {
-      sessionStorage.setItem("job_post_draft", JSON.stringify(jobUtils.details));
+      localStorage.setItem("job_post_draft", JSON.stringify(jobUtils.details));
     }
   }, [jobUtils.details, initialDetails]);
 
@@ -89,7 +85,7 @@ function JobPosting({ exclusive = null }) {
     const handleBeforeUnload = (e) => {
       if (hasChanges) {
         e.preventDefault();
-        e.returnValue = "";
+        e.returnValue = ''; // Show browser's default "Are you sure?" dialog
       }
     };
 
@@ -107,7 +103,7 @@ function JobPosting({ exclusive = null }) {
   };
 
   const handleDismissDraft = () => {
-    sessionStorage.removeItem("job_post_draft");
+    localStorage.removeItem("job_post_draft");
     setShowDraftPrompt(false);
   };
 
@@ -148,9 +144,8 @@ function JobPosting({ exclusive = null }) {
           <div className="bg-white p-6 rounded-lg shadow-lg w-[90%] h-max mt-3">
             <h2 className="text-lg font-semibold">Resume Your Draft?</h2>
             <p className="text-sm text-gray-600 mt-2">
-              We found a saved draft from your previous session. Would you like
-              to continue from where you left off? If you reload after this,
-              your unsaved changes may be lost.
+              We found a saved draft from your previous session. Would you like to continue from where you left off?
+              If you reload after this, your unsaved changes may be lost.
             </p>
             <div className="mt-4 flex justify-end gap-2">
               <button
