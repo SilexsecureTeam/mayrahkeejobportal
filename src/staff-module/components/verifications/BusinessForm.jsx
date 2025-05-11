@@ -56,7 +56,7 @@ function BusinessForm() {
   const submitDetails = async (data) => {
     setIsLoading(true);
     try {
-      const response = await client.post("/business/create", {
+      const response = await client.post("/business", {
         ...data,
         domestic_staff_id: authDetails.user.id,
       });
@@ -96,8 +96,8 @@ function BusinessForm() {
   const getBusinessDetails = async () => {
     setLoading(true);
     try {
-      const { data } = await client.get(`/business/${authDetails.user.id}`);
-      setCurrentBusiness(data.business[0]);
+      const { data } = await client.get(`/business/domestic/${authDetails.user.id}`);
+      setCurrentBusiness(data.Business);
     } catch (error) {
       FormatError(error, setError, "Retrieval Failed");
     } finally {
