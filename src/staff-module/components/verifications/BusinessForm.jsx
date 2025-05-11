@@ -5,37 +5,38 @@ import { axiosClient } from "../../../services/axios-client";
 import { AuthContext } from "../../../context/AuthContex";
 import { onFailure } from "../../../utils/notifications/OnFailure";
 import { onSuccess } from "../../../utils/notifications/OnSuccess";
-import { formatDate, FormatError } from "../../../utils/formmaters";
+import { FormatError } from "../../../utils/formmaters";
 import ConfirmationPopUp from "./ConfirmationPopUp"; // Import the popup
 
 const formFields = [
-  "surname",
-  "first_name",
-  "mobile_phone",
-  "dob",
-  "email",
-  "occupation",
-  "residential_address",
-  "near_bus_stop",
-  "close_landmark",
+  "business_name",
+  "business_email",
+  "business_phone_no",
+  "whatsapp_phone_no",
+  "business_registration_no",
+  "business_address",
+  "business_location",
+  "year_of_incorporation",
+  "business_identification_no",
+  "business_file",
 ];
 
 const labelMapping = {
-  surname: "Surname",
-  first_name: "First Name",
-  mobile_phone: "Mobile Phone",
-  dob: "Date of Birth",
-  religion:"Religion",
-  email: "Email",
-  occupation: "Occupation",
-  residential_address: "Residential Address",
-  near_bus_stop: "Nearest Bus Stop",
-  close_landmark: "Closest Landmark",
+  business_name: "Business Name",
+  business_email: "Business Email",
+  business_phone_no: "Business Phone Number",
+  whatsapp_phone_no: "WhatsApp Phone Number",
+  business_registration_no: "Business Registration No.",
+  business_address: "Business Address",
+  business_location: "Business Location",
+  year_of_incorporation: "Year of Incorporation",
+  business_identification_no: "Business Identification No.",
+  business_file: "Business File",
 };
 
 function BusinessForm() {
   const { authDetails } = useContext(AuthContext);
-  const [currentGurantor, setCurrentGarantor] = useState();
+  const [currentBusiness, setCurrentBusiness] = useState();
   const [isLoading, setIsLoading] = useState(false);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const client = axiosClient(authDetails?.token);
@@ -55,14 +56,14 @@ function BusinessForm() {
   const submitDetails = async (data) => {
     setIsLoading(true);
     try {
-      const response = await client.post("/domesticStaff/guarantor", {
+      const response = await client.post("/business/create", {
         ...data,
         domestic_staff_id: authDetails.user.id,
       });
       console.log("Data", response.data);
-      getGarantor();
+      getBusinessDetails();
       onSuccess({
-        message: "Guarantor Saved",
+        message: "Business Saved",
         success: "Submitted successfully, awaiting review",
       });
     } catch (error) {
@@ -77,9 +78,9 @@ function BusinessForm() {
     handleSubmit(submitDetails)(); // Proceed with form submission
   };
 
-  const guarantorFields = () => {
+  const businessFields = () => {
     const fields = [];
-    Object.keys(currentGurantor)?.forEach((current) => {
+    Object.keys(currentBusiness)?.forEach((current) => {
       if (
         current !== "id" &&
         current !== "domestic_staff_id" &&
@@ -92,11 +93,11 @@ function BusinessForm() {
     return fields;
   };
 
-  const getGarantor = async () => {
+  const getBusinessDetails = async () => {
     setLoading(true);
     try {
-      const { data } = await client.get(`/domesticStaff/guarantor/${authDetails.user.id}`);
-      setCurrentGarantor(data.guarantor[0]);
+      const { data } = await client.get(`/business/${authDetails.user.id}`);
+      setCurrentBusiness(data.business[0]);
     } catch (error) {
       FormatError(error, setError, "Retrieval Failed");
     } finally {
@@ -105,7 +106,7 @@ function BusinessForm() {
   };
 
   useEffect(() => {
-    getGarantor();
+    getBusinessDetails();
   }, []);
 
   useEffect(() => {
@@ -116,54 +117,43 @@ function BusinessForm() {
 
   return (
     <div>
-      <h1 className="text-xl font-semibold text-green-700">Guarantor Details</h1>
-      {typeof currentGurantor === "undefined" && loading && (
+      <h1 className="text-xl font-semibold text-green-700">Business Details</h1>
+      {typeof currentBusiness === "undefined" && loading && (
         <div className="flex flex-col items-start justify-center h-full w-full">
           <span>Fetching data...</span>
         </div>
       )}
 
-      {typeof currentGurantor !== "undefined" && (
+      {typeof currentBusiness !== "undefined" && (
         <div className="grid grid-cols-2 gap-x-3 gap-y-5 p-2 w-full text-gray-600">
-          {guarantorFields()?.map((currentKey) => {
-            const value = currentGurantor[currentKey];
+          {businessFields()?.map((currentKey) => {
+            const value = currentBusiness[currentKey];
             const labelText = labelMapping[currentKey] || null;
 
             return (
-              labelText &&
-              <div className="flex flex-col gap-1 break-all" key={currentKey}>
-                <label className="capitalize font-medium" >{labelText}</label>
-                <label>{currentKey === "dob" ? formatDate(value):value}</label>
-              </div>
+              labelText && (
+                <div className="flex flex-col gap-1 break-all" key={currentKey}>
+                  <label className="capitalize font-medium">{labelText}</label>
+                  <label>{value}</label>
+                </div>
+              )
             );
           })}
         </div>
       )}
 
-      {typeof currentGurantor === "undefined" && !loading && (
+      {typeof currentBusiness === "undefined" && !loading && (
         <form
-           onSubmit={(e) => {
+          onSubmit={(e) => {
             e.preventDefault();
             setIsPopupOpen(true);
           }}
           className="grid grid-cols-2 gap-x-3 gap-y-5 p-2 w-full text-gray-600"
         >
-          <div className="flex flex-col gap-1">
-            <label className="capitalize font-medium">Title</label>
-            <select
-              className="p-1 border focus:outline-none border-gray-500 rounded-md"
-              required
-              {...register("title")}
-            >
-              <option>MR</option>
-              <option>MRS</option>
-              <option>Others</option>
-            </select>
-          </div>
-
           {formFields.map((currentKey) => {
             const labelText = labelMapping[currentKey] || currentKey.replace(/_/g, " ");
-            const inputType = currentKey === "dob" ? "date" : "text";
+            const inputType =
+              currentKey === "year_of_incorporation" ? "number" : "text";
 
             return (
               <div className="flex flex-col gap-1" key={currentKey}>
@@ -178,27 +168,8 @@ function BusinessForm() {
             );
           })}
 
-          <div className="flex flex-col gap-1">
-            <label className="font-medium">Religion</label>
-            <select
-              required
-              className="p-1 border focus:outline-none border-gray-500 rounded-md"
-              {...register("religion")}
-            >
-              <option>Christianity</option>
-              <option>Islam</option>
-              <option>Traditional</option>
-              {/* <option>Hinduism</option>
-              <option>Buddhism</option>
-              <option>Sikhism</option>
-              <option>Judaism</option>
-              <option>Baha'i</option>
-              <option>Others</option> */}
-            </select>
-          </div>
-
           <div></div>
-          <FormButton loading={isLoading}>Save Guarantor Details</FormButton>
+          <FormButton loading={isLoading}>Save Business Details</FormButton>
         </form>
       )}
 
@@ -214,4 +185,3 @@ function BusinessForm() {
 }
 
 export default BusinessForm;
-            
