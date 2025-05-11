@@ -20,36 +20,41 @@ function useJobManagement() {
   const { authDetails } = useContext(AuthContext);
   const client = axiosClient(authDetails?.token, true);
   const [loading, setLoading] = useState(false);
-  const defaultJobDetails = {
-  featured_image: null,
-  job_title: "",
-  job_description: "",
-  sector: "",
-  type: "",
-  search_keywords: "",
-  job_apply_type: "",
-  external_url: "",
-  gender: "",
-  email: "",
-  salary_type: "",
-  min_salary: 0,
-  max_salary: 0,
-  experience: "",
-  career_level: "",
-  currency: "",
-  preferred_age: null,
-  qualification: [],
-  introduction_video_url: "",
-  application_deadline_date: "",
-  office_address: "",
-  location: "",
-  maps_location: "",
-  number_of_participants: 0, // This will be set again using currentPackage
-};
+
+  const defaultDetails={
+    featured_image: null,
+    job_title: "",
+    job_description: "",
+    sector: "",
+    type: "",
+    search_keywords: "",
+    job_apply_type: "",
+    external_url: "",
+    gender: "",
+    email: "",
+    salary_type: "",
+    min_salary: 0,
+    max_salary: 0,
+    experience: "",
+    career_level: "",
+    currency: "",
+    preferred_age: null,
+    qualification: [],
+    introduction_video_url: "",
+    application_deadline_date: "",
+    office_address: "",
+    location: "",
+    maps_location: "",
+    number_of_participants: currentPackage?.number_of_candidates || 0,
+  }
   const [details, setDetails] = useState({
-  ...defaultJobDetails,
-  number_of_participants: currentPackage?.number_of_candidates || 0,
-});
+    ...defaultDetails
+  });
+
+
+
+
+
   const [jobList, setJobList] = useState([]);
   const [applicantJobs, setApplicantJobs] = useState([]);
   const [error, setError] = useState({
@@ -405,8 +410,9 @@ function useJobManagement() {
 
   return {
     loading,
-    defaultJobDetails,
+
     details,
+    defaultDetails,
     jobList,
     applicantJobs,
     onTextChange,
