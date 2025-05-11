@@ -6,7 +6,7 @@ import { AuthContext } from "../../../context/AuthContex";
 import { onFailure } from "../../../utils/notifications/OnFailure";
 import { onSuccess } from "../../../utils/notifications/OnSuccess";
 import { FormatError } from "../../../utils/formmaters";
-import ConfirmationPopUp from "./ConfirmationPopUp"; // Import the popup
+import ConfirmationPopUp from "./ConfirmationPopUp";
 
 const formFields = [
   "business_name",
@@ -39,8 +39,8 @@ function BusinessForm() {
   const [currentBusiness, setCurrentBusiness] = useState();
   const [isLoading, setIsLoading] = useState(false);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
-  const [filePreview, setFilePreview] = useState(null); // State for file preview
-  const [fileError, setFileError] = useState(""); // State for file size error
+  const [filePreview, setFilePreview] = useState(null);
+  const [fileError, setFileError] = useState("");
   const [formData, setFormData] = useState({
     business_name: "",
     business_email: "",
@@ -51,8 +51,9 @@ function BusinessForm() {
     business_location: "",
     year_of_incorporation: "",
     business_identification_no: "",
-    business_file: null, // Initially, the file is null
+    business_file: null,
   });
+
   const client = axiosClient(authDetails?.token);
 
   const {
@@ -63,15 +64,11 @@ function BusinessForm() {
   } = useForm();
 
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState({
-    message: "",
-    error: "",
-  });
+  const [error, setError] = useState({ message: "", error: "" });
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     if (file) {
-      // Check file size (2MB)
       if (file.size > 2 * 1024 * 1024) {
         setFileError("File size exceeds 2MB.");
         setFilePreview(null);
@@ -79,36 +76,27 @@ function BusinessForm() {
       } else {
         setFileError("");
         setFilePreview(URL.createObjectURL(file));
-        setFormData({ ...formData, business_file: file }); // Update form data with file
+        setFormData({ ...formData, business_file: file });
       }
     }
   };
 
   const submitDetails = async () => {
     setIsLoading(true);
-
-    // Create FormData object
     const submissionData = new FormData();
-
-    // Append all fields to FormData
     Object.keys(formData).forEach((key) => {
       if (key === "business_file" && formData[key]) {
-        submissionData.append(key, formData[key]); // Append the file
+        submissionData.append(key, formData[key]);
       } else {
         submissionData.append(key, formData[key]);
       }
     });
-
-    // Add the domestic_staff_id as a string
     submissionData.append("domestic_staff_id", String(authDetails.user.id));
 
     try {
       const response = await client.post("/business", submissionData, {
-        headers: {
-          "Content-Type": "multipart/form-data", // Make sure to set the content type for FormData
-        },
+        headers: { "Content-Type": "multipart/form-data" },
       });
-      console.log("Data", response.data);
       getBusinessDetails();
       onSuccess({
         message: "Business Saved",
@@ -123,31 +111,21 @@ function BusinessForm() {
 
   const handleProceed = () => {
     setIsPopupOpen(false);
-    submitDetails(); // Proceed with form submission
-  };
-
-  const businessFields = () => {
-    const fields = [];
-    Object.keys(currentBusiness)?.forEach((current) => {
-      if (
-        current !== "id" &&
-        current !== "domestic_staff_id" &&
-        current !== "created_at" &&
-        current !== "updated_at"
-      ) {
-        fields.push(current);
-      }
-    });
-    return fields;
+    submitDetails();
   };
 
   const getBusinessDetails = async () => {
     setLoading(true);
     try {
-      const { data } = await client.get(`/business/domestic/${authDetails.user.id}`);
+      const { data } = await client.get(
+        `/business/domestic/${authDetails.user.id}`
+      );
       setCurrentBusiness(data?.businesses);
     } catch (error) {
-      FormatError(error, setError, "Retrieval Failed");
+      const message = error?.response?.data?.message;
+      if (message !== "No businesses found for this domestic staff") {
+        FormatError(error, setError, "Retrieval Failed");
+      }
     } finally {
       setLoading(false);
     }
@@ -158,7 +136,10 @@ function BusinessForm() {
   }, []);
 
   useEffect(() => {
-    if (error.error && error.message) {
+    if (
+      error.error &&
+      error.message !== "No businesses found for this domestic staff"
+    ) {
       onFailure(error);
     }
   }, [error.error, error.message]);
@@ -166,6 +147,7 @@ function BusinessForm() {
   return (
     <div>
       <h1 className="text-xl font-semibold text-green-700">Business Details</h1>
+
       {typeof currentBusiness === "undefined" && loading && (
         <div className="flex flex-col items-start justify-center h-full w-full">
           <span>Fetching data...</span>
@@ -173,21 +155,56 @@ function BusinessForm() {
       )}
 
       {typeof currentBusiness !== "undefined" && (
-        <div className="grid grid-cols-2 gap-x-3 gap-y-5 p-2 w-full text-gray-600">
-          {businessFields()?.map((currentKey) => {
-            const value = currentBusiness[currentKey];
-            const labelText = labelMapping[currentKey] || null;
+        <form className="grid grid-cols-2 gap-x-3 gap-y-5 p-2 w-full text-gray-600">
+          {formFields.map((fieldKey) => {
+            const labelText = labelMapping[fieldKey] || fieldKey.replace(/_/g, " ");
+            const value = currentBusiness[fieldKey];
 
             return (
-              labelText && (
-                <div className="flex flex-col gap-1 break-all" key={currentKey}>
-                  <label className="capitalize font-medium">{labelText}</label>
-                  <label>{value}</label>
-                </div>
-              )
+              <div className="flex flex-col gap-1 break-all" key={fieldKey}>
+                <label className="capitalize font-medium">{labelText}</label>
+                {fieldKey === "business_file" && value ? (
+                  <>
+                    {value.endsWith(".pdf") ||
+                    value.endsWith(".doc") ||
+                    value.endsWith(".docx") ? (
+                      <a
+                        href={value}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-blue-600 underline"
+                      >
+                        Open Document
+                      </a>
+                    ) : (
+                      <img
+                        src={value}
+                        alt="Business File"
+                        className="max-w-xs max-h-40 object-contain border border-gray-300 rounded"
+                      />
+                    )}
+                    <a
+                      href={value}
+                      download
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-green-600 underline text-sm mt-1"
+                    >
+                      Download File
+                    </a>
+                  </>
+                ) : (
+                  <input
+                    className="p-1 border focus:outline-none border-gray-400 rounded-md bg-gray-100"
+                    value={value || ""}
+                    disabled
+                    readOnly
+                  />
+                )}
+              </div>
             );
           })}
-        </div>
+        </form>
       )}
 
       {typeof currentBusiness === "undefined" && !loading && (
@@ -199,7 +216,8 @@ function BusinessForm() {
           className="grid grid-cols-2 gap-x-3 gap-y-5 p-2 w-full text-gray-600"
         >
           {formFields.map((currentKey) => {
-            const labelText = labelMapping[currentKey] || currentKey.replace(/_/g, " ");
+            const labelText =
+              labelMapping[currentKey] || currentKey.replace(/_/g, " ");
             const inputType =
               currentKey === "year_of_incorporation" ? "number" : "text";
 
@@ -214,7 +232,9 @@ function BusinessForm() {
                       accept="image/*, .pdf"
                       onChange={handleFileChange}
                     />
-                    {fileError && <span className="text-red-500 text-sm">{fileError}</span>}
+                    {fileError && (
+                      <span className="text-red-500 text-sm">{fileError}</span>
+                    )}
                     {filePreview && (
                       <div className="mt-2">
                         <h3 className="font-medium">File Preview:</h3>
@@ -225,38 +245,26 @@ function BusinessForm() {
                         />
                       </div>
                     )}
-                    {currentBusiness && currentBusiness.business_file && (
-                      <div className="mt-2">
-                        <a
-                          href={currentBusiness.business_file} // Link to download or view
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-blue-500"
-                        >
-                          Download/View Uploaded File
-                        </a>
-                      </div>
-                    )}
                   </>
                 ) : (
                   <input
                     className="p-1 border focus:outline-none border-gray-500 rounded-md"
                     type={inputType}
                     value={formData[currentKey]}
-                    onChange={(e) => setFormData({ ...formData, [currentKey]: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, [currentKey]: e.target.value })
+                    }
                     required
                   />
                 )}
               </div>
             );
           })}
-
           <div></div>
           <FormButton loading={isLoading}>Save Business Details</FormButton>
         </form>
       )}
 
-      {/* Confirmation Popup */}
       <ConfirmationPopUp
         isOpen={isPopupOpen}
         onClose={() => setIsPopupOpen(false)}
@@ -268,4 +276,3 @@ function BusinessForm() {
 }
 
 export default BusinessForm;
-              
