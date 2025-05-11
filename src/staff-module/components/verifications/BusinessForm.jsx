@@ -84,6 +84,10 @@ function BusinessForm() {
   const submitDetails = async () => {
     setIsLoading(true);
     const submissionData = new FormData();
+    if(!formData?.business_file){
+      FormatError(error, setError, "Retrieval Failed");
+      return;
+    }
     Object.keys(formData).forEach((key) => {
       if (key === "business_file" && formData[key]) {
         submissionData.append(key, formData[key]);
@@ -120,7 +124,7 @@ function BusinessForm() {
       const { data } = await client.get(
         `/business/domestic/${authDetails.user.id}`
       );
-      setCurrentBusiness(data?.businesses);
+      setCurrentBusiness(data?.businesses[0]);
     } catch (error) {
       const message = error?.response?.data?.message;
       if (message !== "No businesses found for this domestic staff") {
@@ -155,57 +159,55 @@ function BusinessForm() {
       )}
 
       {typeof currentBusiness !== "undefined" && (
-        <form className="grid grid-cols-2 gap-x-3 gap-y-5 p-2 w-full text-gray-600">
-          {formFields.map((fieldKey) => {
-            const labelText = labelMapping[fieldKey] || fieldKey.replace(/_/g, " ");
-            const value = currentBusiness[fieldKey];
+  <div className="grid grid-cols-2 gap-x-3 gap-y-5 p-2 w-full text-gray-700">
+    {formFields.map((fieldKey) => {
+      const labelText = labelMapping[fieldKey] || fieldKey.replace(/_/g, " ");
+      const value = currentBusiness[fieldKey];
 
-            return (
-              <div className="flex flex-col gap-1 break-all" key={fieldKey}>
-                <label className="capitalize font-medium">{labelText}</label>
-                {fieldKey === "business_file" && value ? (
-                  <>
-                    {value.endsWith(".pdf") ||
-                    value.endsWith(".doc") ||
-                    value.endsWith(".docx") ? (
-                      <a
-                        href={value}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-blue-600 underline"
-                      >
-                        Open Document
-                      </a>
-                    ) : (
-                      <img
-                        src={value}
-                        alt="Business File"
-                        className="max-w-xs max-h-40 object-contain border border-gray-300 rounded"
-                      />
-                    )}
-                    <a
-                      href={value}
-                      download
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-green-600 underline text-sm mt-1"
-                    >
-                      Download File
-                    </a>
-                  </>
-                ) : (
-                  <input
-                    className="p-1 border focus:outline-none border-gray-400 rounded-md bg-gray-100"
-                    value={value || ""}
-                    disabled
-                    readOnly
-                  />
-                )}
-              </div>
-            );
-          })}
-        </form>
-      )}
+      return (
+        <div key={fieldKey} className="flex flex-col">
+          <label className="font-semibold text-gray-800">{labelText}</label>
+          {fieldKey === "business_file" && value ? (
+            <>
+              {value.endsWith(".pdf") ||
+              value.endsWith(".doc") ||
+              value.endsWith(".docx") ? (
+                <a
+                  href={value}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-600 underline"
+                >
+                  View Document
+                </a>
+              ) : (
+                <img
+                  src={value}
+                  alt="Business File"
+                  className="max-w-xs max-h-40 object-contain border border-gray-300 rounded"
+                />
+              )}
+              <a
+                href={value}
+                download
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-green-600 underline text-sm mt-1"
+              >
+                Download File
+              </a>
+            </>
+          ) : (
+            <p className="bg-gray-100 p-2 rounded border border-gray-300">
+              {value || "—"}
+            </p>
+          )}
+        </div>
+      );
+    })}
+  </div>
+)}
+      
 
       {typeof currentBusiness === "undefined" && !loading && (
         <form
