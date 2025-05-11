@@ -66,7 +66,7 @@ function NINForm() {
     submissionData.append("domestic_staff_id", String(authDetails.user.id));
 
     try {
-      const { data } = await client.post("/nin", submissionData, {
+      const { data } = await client.post("/identifications", submissionData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
       onSuccess({
