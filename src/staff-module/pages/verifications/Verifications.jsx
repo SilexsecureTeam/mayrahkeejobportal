@@ -3,6 +3,7 @@ import ViewVerifications from "../../components/verifications/ViewVerifications"
 import GuarantorForm from "../../components/verifications/GuarantorForm";
 import ResidenceForm from "../../components/verifications/ResidenceForm";
 import MedicalForm from "../../components/verifications/MedicalForm";
+import NINForm from "../../components/verifications/NINForm";
 import PoliceReport from "../../components/verifications/PoliceReport";
 import WorkExperience from "../../components/verifications/WorkExperience";
 import BusinessForm from "../../components/verifications/BusinessForm";
@@ -37,6 +38,8 @@ function Verifications() {
         return <WorkExperience />;
       case "Business":
         return <BusinessForm />;
+      case "National Id":
+        return <NINForm />;
       default :
         return null;
     }
