@@ -21,8 +21,8 @@ function JobPosting({ exclusive = null }) {
   const [editJob, setEditJob] = useState(false);
   const [showDraftPrompt, setShowDraftPrompt] = useState(false);
   const [draftToLoad, setDraftToLoad] = useState(null);
-  const [isChanges, setIsChanges] = useState(false);
   const [initialDetails, setInitialDetails] = useState(null);
+  const [hasChanges, setHasChanges] = useState(false);
 
   const handleSuccess = () => {
     onSuccess({
@@ -45,7 +45,7 @@ function JobPosting({ exclusive = null }) {
     }
   };
 
-  // On first mount: set details either from location state (edit mode) or draft
+  // Load from location state or draft
   useEffect(() => {
     const savedDraft = localStorage.getItem("job_post_draft");
 
@@ -58,26 +58,41 @@ function JobPosting({ exclusive = null }) {
     }
   }, [location.state]);
 
-  // Capture the initial snapshot of details once after they're loaded
+  // Store initial snapshot after load
   useEffect(() => {
     if (jobUtils.details && !initialDetails) {
       setInitialDetails(jobUtils.details);
     }
   }, [jobUtils.details, initialDetails]);
 
-  // Watch for changes in details and sync to localStorage only if changed
+  // Track changes and save to draft
   useEffect(() => {
     if (!initialDetails) return;
 
-    const hasChanges =
+    const changed =
       JSON.stringify(jobUtils.details) !== JSON.stringify(initialDetails);
 
-    setIsChanges(hasChanges);
+    setHasChanges(changed);
 
-    if (hasChanges) {
+    if (changed) {
       localStorage.setItem("job_post_draft", JSON.stringify(jobUtils.details));
     }
   }, [jobUtils.details, initialDetails]);
+
+  // Warn user on reload or tab close if there are changes
+  useEffect(() => {
+    const handleBeforeUnload = (e) => {
+      if (hasChanges) {
+        e.preventDefault();
+        e.returnValue = '';
+      }
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
+  }, [hasChanges]);
 
   const handleLoadDraft = () => {
     if (draftToLoad) {
@@ -129,6 +144,7 @@ function JobPosting({ exclusive = null }) {
             <h2 className="text-lg font-semibold">Resume Your Draft?</h2>
             <p className="text-sm text-gray-600 mt-2">
               We found a saved draft from your previous session. Would you like to continue from where you left off?
+              If you reload after this, your unsaved changes may be lost.
             </p>
             <div className="mt-4 flex justify-end gap-2">
               <button
@@ -152,4 +168,3 @@ function JobPosting({ exclusive = null }) {
 }
 
 export default JobPosting;
-            
