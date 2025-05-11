@@ -31,7 +31,12 @@ function ListingRow({ data, applicants, isExclusive = false }) {
       <td>
         <div className="flex w-full justify-center py-[10px] items-center">
           <button className="py-[2px] px-[5px] border w-max text-little border-primaryColor rounded-[30px] text-center font-semibold">
-            {(data?.status === "approved" || data?.status === "1") ? "Open" : "Closed"}
+            {(data?.status === "approved" || data?.status === "1")
+  ? (new Date(data?.application_deadline_date) >= new Date()
+      ? "Open"
+      : "Closed (Deadline Passed)")
+  : "Closed"}
+
           </button>
         </div>
       </td>

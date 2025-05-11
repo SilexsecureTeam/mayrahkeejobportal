@@ -112,13 +112,22 @@ function JobDetails({ data, jobUtils, applicants, exclusive }) {
               <CiEdit className="text-primaryColor" />
               Edit
             </button>
-            {data?.status === "pending" || data?.status === "approved" ?<DefaultSwitch
-              enabled={enabled}
-              setEnabled={setEnabled}
-              loading={isLoading}
-              onClick={handleStatusToggle}
-            />: <strong className="text-red-500 uppercase text-xs">{data?.status === "suspend" ?"suspended": data?.status}</strong>}
-          </div>
+            {(data?.status === "pending" || data?.status === "approved") && new Date(data?.application_deadline_date) >= new Date()
+  ? (
+    <DefaultSwitch
+      enabled={enabled}
+      setEnabled={setEnabled}
+      loading={isLoading}
+      onClick={handleStatusToggle}
+    />
+  ) : (
+    <strong className="text-red-500 uppercase text-xs">
+      {(data?.status === "suspend" ? "suspended" : data?.status) === "pending" || data?.status === "approved"
+        ? "closed (deadline passed)"
+        : (data?.status === "suspend" ? "suspended" : data?.status)}
+    </strong>
+  )}
+</div>
         </div>
 
         <div className="w-full text-black flex flex-col md:flex-row gap-4">

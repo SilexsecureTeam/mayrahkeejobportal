@@ -8,6 +8,7 @@ import { onSuccess } from "../../../utils/notifications/OnSuccess";
 import { onFailure } from "../../../utils/notifications/OnFailure";
 import { useLocation, useNavigate } from "react-router-dom";
 
+
 // Function to omit specific fields from an object, like number_of_participants
 const omitFieldsFromObject = (obj, keysToOmit) => {
   const result = { ...obj };
@@ -49,6 +50,8 @@ const isEffectivelyEqual = (a, b) => {
 };
 
 
+
+
 const job_steps = [
   { id: 1, status: true, title: "Job Information" },
   { id: 2, status: false, title: "Job Description" },
@@ -64,6 +67,7 @@ function JobPosting({ exclusive = null }) {
   const [showDraftPrompt, setShowDraftPrompt] = useState(false);
   const [draftToLoad, setDraftToLoad] = useState(null);
   const [initialDetails, setInitialDetails] = useState(null);
+
   const [hasChanges, setHasChanges] = useState(false);
   const [readyToTrackChanges, setReadyToTrackChanges] = useState(false);
 
@@ -74,18 +78,23 @@ function JobPosting({ exclusive = null }) {
     });
     localStorage.removeItem("job_post_draft");
     navigate(exclusive ? -2 : "/company/job-listing");
+
+
+
   };
 
   const validateAndProceed = () => {
     try {
       const validationError = jobUtils.validateJobDetails(currentStep);
       if (validationError) throw new Error(validationError);
+
       const nextStep = job_steps.find((step) => step.id === currentStep.id + 1);
       if (nextStep) setCurrentStep(nextStep);
     } catch (error) {
       onFailure({ message: "Complete this stage", error: error.message });
     }
   };
+
 
   // Load from location or draft
   useEffect(() => {
@@ -163,14 +172,62 @@ useEffect(() => {
       setReadyToTrackChanges(true);
       setShowDraftPrompt(false);
     }
+=======
+
+  useEffect(() => {
+    const savedDraft = localStorage.getItem("job_post_draft");
+    const wasReloaded = performance.getEntriesByType("navigation")[0]?.type === "reload";
+
+    if (location.state?.details) {
+      jobUtils.setDetails(location.state.details);
+      setEditJob(true);
+      setInitialDetails(location.state.details);
+    } else {
+      const defaultDetails = jobUtils.defaultJobDetails;
+      jobUtils.setDetails(defaultDetails);
+      setInitialDetails(defaultDetails);
+
+      if (wasReloaded && savedDraft) {
+        const parsedDraft = JSON.parse(savedDraft);
+        setDraftToLoad(parsedDraft);
+        setShowDraftPrompt(true);
+      }
+    }
+  }, [location.state, jobUtils]);
+
+  useEffect(() => {
+    const handleBeforeUnload = (e) => {
+      const currentDetails = jobUtils.details;
+      if (JSON.stringify(currentDetails) !== JSON.stringify(initialDetails)) {
+        localStorage.setItem("job_post_draft", JSON.stringify(currentDetails));
+        e.preventDefault();
+        e.returnValue = '';
+      }
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
+  }, [jobUtils.details, initialDetails]);
+
+  const handleLoadDraft = () => {
+    if (draftToLoad) {
+      jobUtils.setDetails(draftToLoad);
+      setShowDraftPrompt(false);
+    }
+
   };
 
   const handleDismissDraft = () => {
     localStorage.removeItem("job_post_draft");
+
     const defaultDetails = jobUtils.defaultDetails;
     jobUtils.setDetails(defaultDetails);
     setInitialDetails(defaultDetails);
     setReadyToTrackChanges(true);
+=======
+
     setShowDraftPrompt(false);
   };
 
@@ -208,11 +265,18 @@ useEffect(() => {
 
       {showDraftPrompt && (
         <div className="fixed inset-0 bg-black bg-opacity-30 z-50 flex justify-center h-screen w-screen">
+
           <div className="bg-white p-6 rounded-lg shadow-lg w-[90%] max-w-md h-max mt-3">
             <h2 className="text-lg font-semibold">Resume Your Draft?</h2>
             <p className="text-sm text-gray-600 mt-2">
               We found a saved draft from your previous session. Would you like to continue from where you left off?
               If you reload after this, your unsaved changes may be lost.
+=======
+          <div className="bg-white p-6 rounded-lg shadow-lg w-[90%] h-max mt-3">
+            <h2 className="text-lg font-semibold">Resume Your Draft?</h2>
+            <p className="text-sm text-gray-600 mt-2">
+              We found a saved draft from your previous session. Would you like to continue from where you left off?
+
             </p>
             <div className="mt-4 flex justify-end gap-2">
               <button

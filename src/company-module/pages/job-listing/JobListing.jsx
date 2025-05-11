@@ -23,7 +23,7 @@ function JobListing() {
           </div>
         </div>
 
-        <div className="overflow-x-auto">
+        <div className="min-w-[700px] w-full overflow-x-auto">
           <table className="min-w-full bg-white border border-gray-200">
             <thead className="border bg-white text-gray-600 font-semibold">
               <tr className="text-xs md:text-little divide-gray-200">

@@ -35,7 +35,7 @@ const RecentlyAdded = ({ newApplicant, newApp }) => {
         <p>{dateCreated.toLocaleString('en-US', {weekday:'short', year:'numeric', month:'short', day:'numeric'})}</p>
       </div>
       <div className="w-1/6 hidden md:block">
-        <button className={`border text-[12px] px-2 py-1 rounded-full capitalize ${getBorderColor()}`}>{newApp.status == "in-review" ?"under-review": newApp.status}</button>
+        <button className={`border text-[12px] px-2 py-1 rounded-full capitalize ${getBorderColor()}`}>{newApp.status == "in-review" ? "under-review": newApp.status == "shortlist" ? "shortlisted" : newApp.status}</button>
       </div>
       <div className="w-1/6">
         <button className=" p-1"> <MdOutlineMoreHoriz /> </button>
