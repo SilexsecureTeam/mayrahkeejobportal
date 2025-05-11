@@ -308,7 +308,7 @@ applicablelabourlaws.</p>
                     </span>
                     <span>
                       {!isArtisan &&
-                        FormatPrice(Number(item.domestic_staff.expected_salary) * (1 + parseInt(data?.domestic_percent) / 100));}
+                        FormatPrice(Number(item.domestic_staff.expected_salary) * (1 + parseInt(data?.domestic_percent) / 100))}
                     </span>
                   </li>
                 ))}
