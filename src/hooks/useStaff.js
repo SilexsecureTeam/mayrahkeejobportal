@@ -95,6 +95,25 @@ function useStaff() {
       return [];
     }
   };
+    const getBusinessDetails = async (staffId) => {
+    try {
+      const { data } = await client.get(
+        `/business/domestic/${staffId}`
+      );
+
+      if (data.Business) {
+        return data.Business;
+      }
+      return [];
+    } catch (error) {
+      onFailure({
+        message: "Business Error",
+        failure: "Error Retrieving business details",
+      });
+
+      return [];
+    }
+  };
 
   //To get Work Experience
   const getWorkExperience = async (staffId) => {
@@ -154,6 +173,7 @@ function useStaff() {
     ContractStatus,
     getGarantorDetails,
     getMedicalDetails,
+    getBusinessDetails,
     getPoliceDetails,
     getWorkExperience,
     getResidentialDetails,
