@@ -167,13 +167,13 @@ function BusinessForm() {
       return (
         <div key={fieldKey} className="flex flex-col">
           <label className="font-semibold text-gray-800">{labelText}</label>
-          {fieldKey === "business_file" && value ? (
+          {fieldKey === "business_file_path" && value ? (
             <>
               {value.endsWith(".pdf") ||
               value.endsWith(".doc") ||
               value.endsWith(".docx") ? (
                 <a
-                  href={value}
+                  href={`${import.meta.env.VITE_BASE_URL}${value}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-blue-600 underline"
@@ -182,13 +182,13 @@ function BusinessForm() {
                 </a>
               ) : (
                 <img
-                  src={value}
+                  src={`${import.meta.env.VITE_BASE_URL}${value}`}
                   alt="Business File"
                   className="max-w-xs max-h-40 object-contain border border-gray-300 rounded"
                 />
               )}
               <a
-                href={value}
+                href={`${import.meta.env.VITE_BASE_URL}${value}`}
                 download
                 target="_blank"
                 rel="noopener noreferrer"
