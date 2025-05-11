@@ -264,7 +264,7 @@ export default function FormData({ setToMain, toogleIsOpen, field_sections }) {
                                                 <input
                                                     className="p-1 border focus:outline-none border-gray-900 rounded-md"
                                                     type={inputType}
-                                                    defaultValue={detail}
+                                                    defaultValue={detail || ""}
                                                     {...register(currentKey.field_name)}
                                                 />
                                             )
