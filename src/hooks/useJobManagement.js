@@ -20,7 +20,7 @@ function useJobManagement() {
   const { authDetails } = useContext(AuthContext);
   const client = axiosClient(authDetails?.token, true);
   const [loading, setLoading] = useState(false);
-  const [details, setDetails] = useState({
+  const defaultDetails={
     featured_image: null,
     job_title: "",
     job_description: "",
@@ -45,6 +45,9 @@ function useJobManagement() {
     location: "",
     maps_location: "",
     number_of_participants: currentPackage?.number_of_candidates || 0,
+  }
+  const [details, setDetails] = useState({
+    ...defaultDetails
   });
   const [jobList, setJobList] = useState([]);
   const [applicantJobs, setApplicantJobs] = useState([]);
@@ -402,6 +405,7 @@ function useJobManagement() {
   return {
     loading,
     details,
+    defaultDetails,
     jobList,
     applicantJobs,
     onTextChange,

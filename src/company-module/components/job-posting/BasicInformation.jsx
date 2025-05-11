@@ -179,7 +179,7 @@ function BasicInformation({ setCurrentStep, data, jobUtils, validateAndProceed }
       })
       setCurrencyList(currencyWithCountry);
       if (employementListResult.length > 0) {
-        setSelectedType(jobUtils.details.type
+        setSelectedType(jobUtils.details?.type
           && employementListResult?.find(one => one?.name === jobUtils?.details?.type));
       }
     };
@@ -190,8 +190,8 @@ function BasicInformation({ setCurrentStep, data, jobUtils, validateAndProceed }
     let savedPhoto = null;
     if (savedPhoto === null && jobUtils.details?.featured_image) {
       // Check if the featured image is a Blob/File
-      if (jobUtils.details.featured_image instanceof Blob || jobUtils.details.featured_image instanceof File) {
-        savedPhoto = URL.createObjectURL(jobUtils.details.featured_image);
+      if (jobUtils.details?.featured_image instanceof Blob || jobUtils.details?.featured_image instanceof File) {
+        savedPhoto = URL.createObjectURL(jobUtils.details?.featured_image);
       } else {
         // If it's not a Blob/File, assume it's already a URL
         savedPhoto = `${resourceUrl}${jobUtils.details?.featured_image}`;
@@ -212,12 +212,12 @@ function BasicInformation({ setCurrentStep, data, jobUtils, validateAndProceed }
   }, [jobUtils?.details?.location]);
 
   useEffect(() => {
-    setSelectedType(jobUtils.details.type
+    setSelectedType(jobUtils.details?.type
       && employementList?.find(one => one?.name === jobUtils?.details?.type));
   }, [employementList]);
 
   useEffect(() => {
-    setSelectedCurrency(jobUtils.details.currency
+    setSelectedCurrency(jobUtils.details?.currency
       ? currencyList?.find(one => one?.name === jobUtils?.details?.currency)
       : null);
   }, [currencyList]);
@@ -229,12 +229,12 @@ function BasicInformation({ setCurrentStep, data, jobUtils, validateAndProceed }
 
       setSelectedSector(sector);
       // Set subsectors list based on the selected sector
-      setSubSectorList(sector?.subsections || []);
+      setSubSectorList(sector?.subsections?.sort((a,b)=>a.name.toLowerCase().localeCompare(b.name.toLowerCase())) || []);
       // Find the selected subsector or default to the first one in the subsector list
       const subsector = jobUtils?.details?.subsector
         ? sector?.sub_sectors?.find(one => one?.name === jobUtils?.details?.subsector)
-        : null;
-      setSelectedSubSector(subsector?.sort((a,b)=>a.name.toLowerCase().localeCompare(b.name.toLowerCase())));
+        : [];
+      setSelectedSubSector(subsector);
     }
   }, [jobSectorList, jobUtils?.details?.sector]);
 
@@ -488,7 +488,7 @@ function BasicInformation({ setCurrentStep, data, jobUtils, validateAndProceed }
                   type="number"
                   min="0"
                   className="w-24 ring-0 outline-0"
-                  value={jobUtils.details.min_salary || ""}
+                  value={jobUtils.details?.min_salary || ""}
                   onChange={(e) => {
                       jobUtils.setDetails({
                         ...jobUtils.details,
@@ -507,7 +507,7 @@ function BasicInformation({ setCurrentStep, data, jobUtils, validateAndProceed }
                   type="number"
                   className="w-24 ring-0 outline-0"
                   min="0"
-                  value={jobUtils.details.max_salary || ""}
+                  value={jobUtils.details?.max_salary || ""}
                   onChange={(e) => {
                       jobUtils.setDetails({
                         ...jobUtils.details,
@@ -524,8 +524,8 @@ function BasicInformation({ setCurrentStep, data, jobUtils, validateAndProceed }
             max={minimumPrice + 100000}
             step={500}
             value={[
-              jobUtils.details.min_salary,
-              jobUtils.details.max_salary,
+              jobUtils.details?.min_salary,
+              jobUtils.details?.max_salary,
             ]}
             onInput={(range) => {
               jobUtils.setDetails({
