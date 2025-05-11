@@ -22,7 +22,6 @@ function JobPosting({ exclusive = null }) {
   const [showDraftPrompt, setShowDraftPrompt] = useState(false);
   const [draftToLoad, setDraftToLoad] = useState(null);
   const [initialDetails, setInitialDetails] = useState(null);
-  const [hasChanges, setHasChanges] = useState(false);
 
   const handleSuccess = () => {
     onSuccess({
@@ -60,32 +59,19 @@ function JobPosting({ exclusive = null }) {
 
       if (wasReloaded && savedDraft) {
         const parsedDraft = JSON.parse(savedDraft);
-        if (JSON.stringify(parsedDraft) !== JSON.stringify(defaultDetails)) {
-          setDraftToLoad(parsedDraft);
-          setShowDraftPrompt(true); // Only shows on reload + changes
-        }
+        setDraftToLoad(parsedDraft);
+        setShowDraftPrompt(true);
       }
     }
   }, [location.state, jobUtils]);
 
   useEffect(() => {
-    if (!initialDetails) return;
-
-    const changed =
-      JSON.stringify(jobUtils.details) !== JSON.stringify(initialDetails);
-
-    setHasChanges(changed);
-
-    if (changed) {
-      localStorage.setItem("job_post_draft", JSON.stringify(jobUtils.details));
-    }
-  }, [jobUtils.details, initialDetails]);
-
-  useEffect(() => {
     const handleBeforeUnload = (e) => {
-      if (hasChanges) {
+      const currentDetails = jobUtils.details;
+      if (JSON.stringify(currentDetails) !== JSON.stringify(initialDetails)) {
+        localStorage.setItem("job_post_draft", JSON.stringify(currentDetails));
         e.preventDefault();
-        e.returnValue = ''; // Show browser's default "Are you sure?" dialog
+        e.returnValue = '';
       }
     };
 
@@ -93,7 +79,7 @@ function JobPosting({ exclusive = null }) {
     return () => {
       window.removeEventListener("beforeunload", handleBeforeUnload);
     };
-  }, [hasChanges]);
+  }, [jobUtils.details, initialDetails]);
 
   const handleLoadDraft = () => {
     if (draftToLoad) {
@@ -145,7 +131,6 @@ function JobPosting({ exclusive = null }) {
             <h2 className="text-lg font-semibold">Resume Your Draft?</h2>
             <p className="text-sm text-gray-600 mt-2">
               We found a saved draft from your previous session. Would you like to continue from where you left off?
-              If you reload after this, your unsaved changes may be lost.
             </p>
             <div className="mt-4 flex justify-end gap-2">
               <button
