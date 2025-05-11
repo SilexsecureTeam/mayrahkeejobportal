@@ -19,6 +19,8 @@ function NINForm() {
   const client = axiosClient(authDetails?.token);
 
   const [ninData, setNinData] = useState(undefined);
+  const [loadingNin, setLoadingNin] = useState(true);
+
   const [formData, setFormData] = useState({
     identity_name: "NIN",
     identity_no: "",
@@ -47,6 +49,7 @@ function NINForm() {
   };
 
   const fetchNin = async () => {
+    setLoadingNin(true);
     try {
       const { data } = await client.get(`/identifications/domestic/${authDetails.user.id}`);
       setNinData(data?.identifications[0]);
@@ -54,6 +57,8 @@ function NINForm() {
       if (err?.response?.data?.message !== "No nin found for this domestic staff") {
         FormatError(err, setError, "Retrieval Failed");
       }
+    } finally {
+      setLoadingNin(false);
     }
   };
 
@@ -100,7 +105,9 @@ function NINForm() {
     <div className="w-full">
       <h1 className="text-xl font-semibold text-green-700">NIN Details</h1>
 
-      {typeof ninData !== "undefined" ? (
+      {loadingNin ? (
+        <div className="mt-6 text-gray-500 animate-pulse">Fetching NIN details...</div>
+      ) : ninData ? (
         <div className="grid grid-cols-2 gap-4 mt-4 text-gray-700">
           {Object.entries(ninData).map(([key, value]) => {
             if (["id", "domestic_staff_id", "created_at", "updated_at"].includes(key))
@@ -111,34 +118,41 @@ function NINForm() {
             return (
               <div key={key} className="flex flex-col">
                 <label className="font-semibold">{label}</label>
-                {key === "file_path" ? (
-                  <>
+                {key === "file" ? (
+                  <div className="flex flex-col gap-2">
                     {value.endsWith(".pdf") ? (
-                      <a
-                        href={value}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-blue-600 underline"
-                      >
-                        View Uploaded PDF
-                      </a>
+                      <iframe
+                        src={`${import.meta.env.VITE_BASE_URL}${value}`}
+                        title="Uploaded PDF"
+                        className="w-full h-64 border rounded"
+                      />
                     ) : (
                       <img
-                        src={value}
+                        src={`${import.meta.env.VITE_BASE_URL}${value}`}
                         alt="NIN file"
                         className="max-w-xs max-h-40 object-contain border border-gray-300 rounded"
                       />
                     )}
-                    <a
-                      href={value}
-                      download
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-green-600 underline text-sm mt-1"
-                    >
-                      Download File
-                    </a>
-                  </>
+                    <div className="flex gap-4">
+                      <a
+                        href={`${import.meta.env.VITE_BASE_URL}${value}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-blue-600 underline"
+                      >
+                        View in New Tab
+                      </a>
+                      <a
+                        href={`${import.meta.env.VITE_BASE_URL}${value}`}
+                        download
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-green-600 underline"
+                      >
+                        Download File
+                      </a>
+                    </div>
+                  </div>
                 ) : (
                   <p className="bg-gray-100 p-2 rounded border border-gray-300">
                     {value}
@@ -202,4 +216,4 @@ function NINForm() {
 }
 
 export default NINForm;
-        
+            
