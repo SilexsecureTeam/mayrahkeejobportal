@@ -48,7 +48,7 @@ function NINForm() {
 
   const fetchNin = async () => {
     try {
-      const { data } = await client.get(`/nin/domestic/${authDetails.user.id}`);
+      const { data } = await client.get(`/identifications/domestic/${authDetails.user.id}`);
       setNinData(data?.nin);
     } catch (err) {
       if (err?.response?.data?.message !== "No nin found for this domestic staff") {
