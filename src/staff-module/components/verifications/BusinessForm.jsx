@@ -48,6 +48,7 @@ function BusinessForm() {
     handleSubmit,
     formState: { errors },
     setValue,
+    watch,
   } = useForm();
 
   const [loading, setLoading] = useState(false);
@@ -58,10 +59,26 @@ function BusinessForm() {
 
   const submitDetails = async (data) => {
     setIsLoading(true);
+
+    // Create FormData object
+    const formData = new FormData();
+    // Append the form fields to FormData
+    Object.keys(data).forEach((key) => {
+      if (key === "business_file" && data[key]) {
+        formData.append(key, data[key][0]); // Append the file
+      } else {
+        formData.append(key, data[key]);
+      }
+    });
+
+    // Add the domestic_staff_id as a string
+    formData.append("domestic_staff_id", String(authDetails.user.id));
+
     try {
-      const response = await client.post("/business", {
-        ...data,
-        domestic_staff_id: authDetails.user.id,
+      const response = await client.post("/business", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data", // Make sure to set the content type for FormData
+        },
       });
       console.log("Data", response.data);
       getBusinessDetails();
@@ -238,4 +255,3 @@ function BusinessForm() {
 }
 
 export default BusinessForm;
-                                          
