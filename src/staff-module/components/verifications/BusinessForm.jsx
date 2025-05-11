@@ -39,12 +39,15 @@ function BusinessForm() {
   const [currentBusiness, setCurrentBusiness] = useState();
   const [isLoading, setIsLoading] = useState(false);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [filePreview, setFilePreview] = useState(null); // State for file preview
+  const [fileError, setFileError] = useState(""); // State for file size error
   const client = axiosClient(authDetails?.token);
 
   const {
     register,
     handleSubmit,
     formState: { errors },
+    setValue,
   } = useForm();
 
   const [loading, setLoading] = useState(false);
@@ -105,6 +108,21 @@ function BusinessForm() {
     }
   };
 
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      // Check file size (2MB)
+      if (file.size > 2 * 1024 * 1024) {
+        setFileError("File size exceeds 2MB.");
+        setFilePreview(null);
+      } else {
+        setFileError("");
+        setFilePreview(URL.createObjectURL(file));
+        setValue("business_file", file); // Set file value in the form
+      }
+    }
+  };
+
   useEffect(() => {
     getBusinessDetails();
   }, []);
@@ -158,12 +176,47 @@ function BusinessForm() {
             return (
               <div className="flex flex-col gap-1" key={currentKey}>
                 <label className="capitalize font-medium">{labelText}</label>
-                <input
-                  className="p-1 border focus:outline-none border-gray-500 rounded-md"
-                  type={inputType}
-                  required
-                  {...register(currentKey)}
-                />
+                {currentKey === "business_file" ? (
+                  <>
+                    <input
+                      className="p-1 border focus:outline-none border-gray-500 rounded-md"
+                      type="file"
+                      accept="image/*, .pdf"
+                      {...register(currentKey)}
+                      onChange={handleFileChange}
+                    />
+                    {fileError && <span className="text-red-500 text-sm">{fileError}</span>}
+                    {filePreview && (
+                      <div className="mt-2">
+                        <h3 className="font-medium">File Preview:</h3>
+                        <img
+                          src={filePreview}
+                          alt="file preview"
+                          className="max-w-xs max-h-40 object-contain"
+                        />
+                      </div>
+                    )}
+                    {currentBusiness && currentBusiness.business_file && (
+                      <div className="mt-2">
+                        <a
+                          href={currentBusiness.business_file} // Link to download or view
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-blue-500"
+                        >
+                          Download/View Uploaded File
+                        </a>
+                      </div>
+                    )}
+                  </>
+                ) : (
+                  <input
+                    className="p-1 border focus:outline-none border-gray-500 rounded-md"
+                    type={inputType}
+                    required
+                    {...register(currentKey)}
+                  />
+                )}
               </div>
             );
           })}
@@ -185,3 +238,4 @@ function BusinessForm() {
 }
 
 export default BusinessForm;
+                                          
