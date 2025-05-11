@@ -101,8 +101,8 @@ function useStaff() {
         `/business/domestic/${staffId}`
       );
 
-      if (data.Business) {
-        return data.Business;
+      if (data.businesses) {
+        return data.businesses[0];
       }
       return [];
     } catch (error) {
