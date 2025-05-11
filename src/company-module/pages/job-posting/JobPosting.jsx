@@ -1,3 +1,8 @@
+   </div>
+  );
+}
+
+export default JobPosting;
 import { useEffect, useState } from "react";
 import PostingHeader from "../../components/job-posting/PostingHeader";
 import BasicInformation from "../../components/job-posting/BasicInformation";
@@ -45,27 +50,30 @@ function JobPosting({ exclusive = null }) {
     }
   };
 
-  // Load from location state or draft
+  // Load from location state or draft — capture initial snapshot
   useEffect(() => {
     const savedDraft = localStorage.getItem("job_post_draft");
 
     if (location.state?.details) {
       jobUtils.setDetails(location.state.details);
       setEditJob(true);
-    } else if (savedDraft) {
-      setDraftToLoad(JSON.parse(savedDraft));
-      setShowDraftPrompt(true);
-    }
-  }, [location.state]);
+      setInitialDetails(location.state.details); // Set for tracking
+    } else if (jobUtils.details) {
+      setInitialDetails(jobUtils.details); // Capture initial blank state
 
-  // Store initial snapshot after load
-  useEffect(() => {
-    if (jobUtils.details && !initialDetails) {
-      setInitialDetails(jobUtils.details);
-    }
-  }, [jobUtils.details, initialDetails]);
+      if (savedDraft) {
+        const parsedDraft = JSON.parse(savedDraft);
 
-  // Track changes and save to draft
+        // Show resume prompt only if saved draft is different
+        if (JSON.stringify(parsedDraft) !== JSON.stringify(jobUtils.details)) {
+          setDraftToLoad(parsedDraft);
+          setShowDraftPrompt(true);
+        }
+      }
+    }
+  }, [location.state, jobUtils.details]);
+
+  // Track changes and autosave only after initialDetails is set
   useEffect(() => {
     if (!initialDetails) return;
 
@@ -79,7 +87,7 @@ function JobPosting({ exclusive = null }) {
     }
   }, [jobUtils.details, initialDetails]);
 
-  // Warn user on reload or tab close if there are changes
+  // Warn before reload/tab close if there are unsaved changes
   useEffect(() => {
     const handleBeforeUnload = (e) => {
       if (hasChanges) {
@@ -168,3 +176,4 @@ function JobPosting({ exclusive = null }) {
 }
 
 export default JobPosting;
+     
