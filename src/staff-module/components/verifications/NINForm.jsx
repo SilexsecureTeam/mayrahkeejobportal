@@ -111,7 +111,7 @@ function NINForm() {
             return (
               <div key={key} className="flex flex-col">
                 <label className="font-semibold">{label}</label>
-                {key === "file" ? (
+                {key === "file_path" ? (
                   <>
                     {value.endsWith(".pdf") ? (
                       <a
