@@ -145,7 +145,7 @@ function BusinessForm() {
     setLoading(true);
     try {
       const { data } = await client.get(`/business/domestic/${authDetails.user.id}`);
-      setCurrentBusiness(data.Business);
+      setCurrentBusiness(data?.businesses);
     } catch (error) {
       FormatError(error, setError, "Retrieval Failed");
     } finally {
