@@ -18,7 +18,7 @@ function CartedStaffs() {
   const location = useLocation();
   const { data } = location?.state || { data: null };
   const isArtisan = data?.type === "artisan";
-  const CONMPANY_TAX = data?.fee ?? 0;
+  const CONMPANY_TAX = data?.service_fee ?? 0;
 
   const navigate = useNavigate();
   const { authDetails } = useContext(AuthContext);
@@ -89,10 +89,10 @@ function CartedStaffs() {
     getCartItems();
   }, []);
 
-  console.log(cartItems, selectedItems)
+  //console.log(cartItems, selectedItems)
   // Pricing logic
   const rawSalaryTotal = selectedItems.reduce(
-  (total, item) => total + Number(item?.domestic_staff?.expected_salary || 0),
+  (total, item) => total + (Number(item?.domestic_staff?.expected_salary *(1 + parseInt(data?.domestic_percent) / 100)) || 0),
   0
 );
 
@@ -259,7 +259,7 @@ applicablelabourlaws.</p>
                           {isArtisan ? (
                             "No salary shown"
                           ) : Number(item?.domestic_staff?.expected_salary) > 0 ? (
-                            FormatPrice(Number(item.domestic_staff.expected_salary)* 1.1)
+                            FormatPrice(Number(item.domestic_staff.expected_salary) * (1 + parseInt(data?.domestic_percent) / 100))
                           ) : (
                             <span className="text-red-500 font-medium">Expected salary not set</span>
                           )}
@@ -308,7 +308,7 @@ applicablelabourlaws.</p>
                     </span>
                     <span>
                       {!isArtisan &&
-                        FormatPrice(Number(item?.domestic_staff?.expected_salary) *1.1)}
+                        FormatPrice(Number(item.domestic_staff.expected_salary) * (1 + parseInt(data?.domestic_percent) / 100));}
                     </span>
                   </li>
                 ))}
@@ -321,6 +321,10 @@ applicablelabourlaws.</p>
                 <li className="flex justify-between text-sm mb-2">
                   <span>Service Charge</span>
                   <span>{FormatPrice(taxTotal)}</span>
+                </li>
+                <li className="flex justify-between text-sm mb-2">
+                  <span>VAT</span>
+                  <span>{FormatPrice(data?.vat_percent * selectedItems?.length) || 0}</span>
                 </li>
                 <li className="flex justify-between font-bold text-lg">
                   <span>Grand Total</span>
