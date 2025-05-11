@@ -198,7 +198,7 @@ function BusinessForm() {
               </a>
             </>
           ) : (
-            <p className="bg-gray-100 p-2 rounded border border-gray-300">
+            <p className="bg-gray-100 p-2 rounded border border-gray-200 break-all">
               {value || "—"}
             </p>
           )}
