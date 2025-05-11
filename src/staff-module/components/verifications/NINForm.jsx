@@ -122,20 +122,20 @@ function NINForm() {
                   <div className="flex flex-col gap-2">
                     {value.endsWith(".pdf") ? (
                       <iframe
-                        src={`${import.meta.env.VITE_BASE_URL}${value}`}
+                        src={`${import.meta.env.VITE_IMAGE_URL}${value}`}
                         title="Uploaded PDF"
                         className="w-full h-64 border rounded"
                       />
                     ) : (
                       <img
-                        src={`${import.meta.env.VITE_BASE_URL}${value}`}
+                        src={`${import.meta.env.VITE_IMAGE_URL}/${value}`}
                         alt="NIN file"
                         className="max-w-xs max-h-40 object-contain border border-gray-300 rounded"
                       />
                     )}
                     <div className="flex gap-4">
                       <a
-                        href={`${import.meta.env.VITE_BASE_URL}${value}`}
+                        href={`${import.meta.env.VITE_IMAGE_URL}${value}`}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="text-blue-600 underline"
@@ -143,7 +143,7 @@ function NINForm() {
                         View in New Tab
                       </a>
                       <a
-                        href={`${import.meta.env.VITE_BASE_URL}${value}`}
+                        href={`${import.meta.env.VITE_IMAGE_URL}${value}`}
                         download
                         target="_blank"
                         rel="noopener noreferrer"
