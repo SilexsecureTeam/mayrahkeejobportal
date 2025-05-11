@@ -162,12 +162,13 @@ function BusinessForm() {
   <div className="grid grid-cols-2 gap-x-3 gap-y-5 p-2 w-full text-gray-700">
     {formFields.map((fieldKey) => {
       const labelText = labelMapping[fieldKey] || fieldKey.replace(/_/g, " ");
-      const value = currentBusiness[fieldKey];
-
+      const value=fieldKey === "business_file"
+      ? currentBusiness["business_file_path"]
+      : currentBusiness[fieldKey];
       return (
         <div key={fieldKey} className="flex flex-col">
           <label className="font-semibold text-gray-800">{labelText}</label>
-          {fieldKey === "business_file_path" && value ? (
+          {fieldKey === "business_file" && value ? (
             <>
               {value.endsWith(".pdf") ||
               value.endsWith(".doc") ||
