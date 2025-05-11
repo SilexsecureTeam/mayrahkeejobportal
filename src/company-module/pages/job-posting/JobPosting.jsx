@@ -8,8 +8,6 @@ import { onSuccess } from "../../../utils/notifications/OnSuccess";
 import { onFailure } from "../../../utils/notifications/OnFailure";
 import { useLocation, useNavigate } from "react-router-dom";
 
-
-// Function to omit specific fields from an object, like number_of_participants
 const omitFieldsFromObject = (obj, keysToOmit) => {
   const result = { ...obj };
   for (const key of keysToOmit) {
@@ -18,39 +16,34 @@ const omitFieldsFromObject = (obj, keysToOmit) => {
   return result;
 };
 
-// Normalize values to handle empty values correctly for comparison
-const normalizeValue = (value, key) => {
-  // Treat `0` salary fields as default
-  if ((key === "min_salary" || key === "max_salary") && value === 0) {
-    return undefined;  // Ignore salary of 0 as no change
-  }
-  // Treat other empty values as undefined
-  if (value === "" || value === null || (Array.isArray(value) && value.length === 0)) {
+const normalizeValue = (value) => {
+  if (
+    value === "" ||
+    value === null ||
+    value === 0 ||
+    (Array.isArray(value) && value.length === 0)
+  ) {
     return undefined;
   }
   return value;
 };
 
-// Adjust the comparison logic to pass the key to normalizeValue
 const isEffectivelyEqual = (a, b) => {
   const omitFields = ["number_of_participants"];
   const aClean = omitFieldsFromObject(a, omitFields);
   const bClean = omitFieldsFromObject(b, omitFields);
 
   for (const key in aClean) {
-    const aValue = normalizeValue(aClean[key], key);
-    const bValue = normalizeValue(bClean[key], key);
+    const aValue = normalizeValue(aClean[key]);
+    const bValue = normalizeValue(bClean[key]);
 
     if (aValue !== bValue) {
-      return false;  // If any field has a meaningful change, return false
+      return false;
     }
   }
 
-  return true;  // All fields are effectively the same, return true
+  return true;
 };
-
-
-
 
 const job_steps = [
   { id: 1, status: true, title: "Job Information" },
@@ -67,7 +60,6 @@ function JobPosting({ exclusive = null }) {
   const [showDraftPrompt, setShowDraftPrompt] = useState(false);
   const [draftToLoad, setDraftToLoad] = useState(null);
   const [initialDetails, setInitialDetails] = useState(null);
-
   const [hasChanges, setHasChanges] = useState(false);
   const [readyToTrackChanges, setReadyToTrackChanges] = useState(false);
 
@@ -78,16 +70,12 @@ function JobPosting({ exclusive = null }) {
     });
     localStorage.removeItem("job_post_draft");
     navigate(exclusive ? -2 : "/company/job-listing");
-
-
-
   };
 
   const validateAndProceed = () => {
     try {
       const validationError = jobUtils.validateJobDetails(currentStep);
       if (validationError) throw new Error(validationError);
-
       const nextStep = job_steps.find((step) => step.id === currentStep.id + 1);
       if (nextStep) setCurrentStep(nextStep);
     } catch (error) {
@@ -95,8 +83,6 @@ function JobPosting({ exclusive = null }) {
     }
   };
 
-
-  // Load from location or draft
   useEffect(() => {
     const savedDraft = localStorage.getItem("job_post_draft");
 
@@ -109,7 +95,7 @@ function JobPosting({ exclusive = null }) {
       try {
         const parsedDraft = JSON.parse(savedDraft);
         if (parsedDraft && typeof parsedDraft === "object") {
-          const isDefault = isEffectivelyEqual(parsedDraft, jobUtils.details);
+          const isDefault = isEffectivelyEqual(parsedDraft, jobUtils.defaultDetails);
           if (!isDefault) {
             setDraftToLoad(parsedDraft);
             setShowDraftPrompt(true);
@@ -119,7 +105,6 @@ function JobPosting({ exclusive = null }) {
           }
         }
       } catch {
-        // If corrupted draft
         localStorage.removeItem("job_post_draft");
         setInitialDetails(jobUtils.details);
         setReadyToTrackChanges(true);
@@ -130,29 +115,20 @@ function JobPosting({ exclusive = null }) {
     }
   }, [location.state]);
 
-  
-// Use the isEffectivelyEqual to track changes in the form
-useEffect(() => {
-  if (!readyToTrackChanges || !initialDetails) return;
+  useEffect(() => {
+    if (!readyToTrackChanges || !initialDetails) return;
 
-  // Check if there are actual changes
-  const changed = !isEffectivelyEqual(jobUtils.details, initialDetails);
+    const changed = !isEffectivelyEqual(jobUtils.details, initialDetails);
+    setHasChanges(changed);
 
-  // Track whether there are changes
-  setHasChanges(changed);
+    const isDefault = isEffectivelyEqual(jobUtils.details, jobUtils.defaultDetails);
 
-  // Check if the current form is not in the "default" state
-  const isDefault = isEffectivelyEqual(jobUtils.details, jobUtils.defaultDetails);
-
-  // Only update localStorage if there are changes and it's not the default value
-  if (changed && !isDefault) {
-    localStorage.setItem("job_post_draft", JSON.stringify(jobUtils.details));
-  } else {
-    // Remove from localStorage if the draft is the same as the default (i.e., no changes)
-    localStorage.removeItem("job_post_draft");
-  }
-}, [jobUtils.details, initialDetails, readyToTrackChanges]);
-
+    if (changed && !isDefault) {
+      localStorage.setItem("job_post_draft", JSON.stringify(jobUtils.details));
+    } else {
+      localStorage.removeItem("job_post_draft");
+    }
+  }, [jobUtils.details, initialDetails, readyToTrackChanges]);
 
   useEffect(() => {
     const handleBeforeUnload = (e) => {
@@ -172,62 +148,14 @@ useEffect(() => {
       setReadyToTrackChanges(true);
       setShowDraftPrompt(false);
     }
-=======
-
-  useEffect(() => {
-    const savedDraft = localStorage.getItem("job_post_draft");
-    const wasReloaded = performance.getEntriesByType("navigation")[0]?.type === "reload";
-
-    if (location.state?.details) {
-      jobUtils.setDetails(location.state.details);
-      setEditJob(true);
-      setInitialDetails(location.state.details);
-    } else {
-      const defaultDetails = jobUtils.defaultJobDetails;
-      jobUtils.setDetails(defaultDetails);
-      setInitialDetails(defaultDetails);
-
-      if (wasReloaded && savedDraft) {
-        const parsedDraft = JSON.parse(savedDraft);
-        setDraftToLoad(parsedDraft);
-        setShowDraftPrompt(true);
-      }
-    }
-  }, [location.state, jobUtils]);
-
-  useEffect(() => {
-    const handleBeforeUnload = (e) => {
-      const currentDetails = jobUtils.details;
-      if (JSON.stringify(currentDetails) !== JSON.stringify(initialDetails)) {
-        localStorage.setItem("job_post_draft", JSON.stringify(currentDetails));
-        e.preventDefault();
-        e.returnValue = '';
-      }
-    };
-
-    window.addEventListener("beforeunload", handleBeforeUnload);
-    return () => {
-      window.removeEventListener("beforeunload", handleBeforeUnload);
-    };
-  }, [jobUtils.details, initialDetails]);
-
-  const handleLoadDraft = () => {
-    if (draftToLoad) {
-      jobUtils.setDetails(draftToLoad);
-      setShowDraftPrompt(false);
-    }
-
   };
 
   const handleDismissDraft = () => {
     localStorage.removeItem("job_post_draft");
-
     const defaultDetails = jobUtils.defaultDetails;
     jobUtils.setDetails(defaultDetails);
     setInitialDetails(defaultDetails);
     setReadyToTrackChanges(true);
-=======
-
     setShowDraftPrompt(false);
   };
 
@@ -265,18 +193,11 @@ useEffect(() => {
 
       {showDraftPrompt && (
         <div className="fixed inset-0 bg-black bg-opacity-30 z-50 flex justify-center h-screen w-screen">
-
-          <div className="bg-white p-6 rounded-lg shadow-lg w-[90%] max-w-md h-max mt-3">
-            <h2 className="text-lg font-semibold">Resume Your Draft?</h2>
-            <p className="text-sm text-gray-600 mt-2">
-              We found a saved draft from your previous session. Would you like to continue from where you left off?
-              If you reload after this, your unsaved changes may be lost.
-=======
           <div className="bg-white p-6 rounded-lg shadow-lg w-[90%] h-max mt-3">
             <h2 className="text-lg font-semibold">Resume Your Draft?</h2>
             <p className="text-sm text-gray-600 mt-2">
               We found a saved draft from your previous session. Would you like to continue from where you left off?
-
+              If you reload after this, your unsaved changes may be lost.
             </p>
             <div className="mt-4 flex justify-end gap-2">
               <button
@@ -300,3 +221,4 @@ useEffect(() => {
 }
 
 export default JobPosting;
+  
