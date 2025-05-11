@@ -1,6 +1,6 @@
+import { useState, useEffect, useContext } from "react";
 import { useForm } from "react-hook-form";
 import FormButton from "../../../components/FormButton";
-import { useContext, useEffect, useState } from "react";
 import { axiosClient } from "../../../services/axios-client";
 import { AuthContext } from "../../../context/AuthContex";
 import { onFailure } from "../../../utils/notifications/OnFailure";
@@ -41,6 +41,18 @@ function BusinessForm() {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [filePreview, setFilePreview] = useState(null); // State for file preview
   const [fileError, setFileError] = useState(""); // State for file size error
+  const [formData, setFormData] = useState({
+    business_name: "",
+    business_email: "",
+    business_phone_no: "",
+    whatsapp_phone_no: "",
+    business_registration_no: "",
+    business_address: "",
+    business_location: "",
+    year_of_incorporation: "",
+    business_identification_no: "",
+    business_file: null, // Initially, the file is null
+  });
   const client = axiosClient(authDetails?.token);
 
   const {
@@ -48,7 +60,6 @@ function BusinessForm() {
     handleSubmit,
     formState: { errors },
     setValue,
-    watch,
   } = useForm();
 
   const [loading, setLoading] = useState(false);
@@ -57,25 +68,42 @@ function BusinessForm() {
     error: "",
   });
 
-  const submitDetails = async (data) => {
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      // Check file size (2MB)
+      if (file.size > 2 * 1024 * 1024) {
+        setFileError("File size exceeds 2MB.");
+        setFilePreview(null);
+        setFormData({ ...formData, business_file: null });
+      } else {
+        setFileError("");
+        setFilePreview(URL.createObjectURL(file));
+        setFormData({ ...formData, business_file: file }); // Update form data with file
+      }
+    }
+  };
+
+  const submitDetails = async () => {
     setIsLoading(true);
 
     // Create FormData object
-    const formData = new FormData();
-    // Append the form fields to FormData
-    Object.keys(data).forEach((key) => {
-      if (key === "business_file" && data[key]) {
-        formData.append(key, data[key][0]); // Append the file
+    const submissionData = new FormData();
+
+    // Append all fields to FormData
+    Object.keys(formData).forEach((key) => {
+      if (key === "business_file" && formData[key]) {
+        submissionData.append(key, formData[key]); // Append the file
       } else {
-        formData.append(key, data[key]);
+        submissionData.append(key, formData[key]);
       }
     });
 
     // Add the domestic_staff_id as a string
-    formData.append("domestic_staff_id", String(authDetails.user.id));
+    submissionData.append("domestic_staff_id", String(authDetails.user.id));
 
     try {
-      const response = await client.post("/business", formData, {
+      const response = await client.post("/business", submissionData, {
         headers: {
           "Content-Type": "multipart/form-data", // Make sure to set the content type for FormData
         },
@@ -95,7 +123,7 @@ function BusinessForm() {
 
   const handleProceed = () => {
     setIsPopupOpen(false);
-    handleSubmit(submitDetails)(); // Proceed with form submission
+    submitDetails(); // Proceed with form submission
   };
 
   const businessFields = () => {
@@ -122,21 +150,6 @@ function BusinessForm() {
       FormatError(error, setError, "Retrieval Failed");
     } finally {
       setLoading(false);
-    }
-  };
-
-  const handleFileChange = (event) => {
-    const file = event.target.files[0];
-    if (file) {
-      // Check file size (2MB)
-      if (file.size > 2 * 1024 * 1024) {
-        setFileError("File size exceeds 2MB.");
-        setFilePreview(null);
-      } else {
-        setFileError("");
-        setFilePreview(URL.createObjectURL(file));
-        setValue("business_file", file); // Set file value in the form
-      }
     }
   };
 
@@ -199,7 +212,6 @@ function BusinessForm() {
                       className="p-1 border focus:outline-none border-gray-500 rounded-md"
                       type="file"
                       accept="image/*, .pdf"
-                      {...register(currentKey)}
                       onChange={handleFileChange}
                     />
                     {fileError && <span className="text-red-500 text-sm">{fileError}</span>}
@@ -230,8 +242,9 @@ function BusinessForm() {
                   <input
                     className="p-1 border focus:outline-none border-gray-500 rounded-md"
                     type={inputType}
+                    value={formData[currentKey]}
+                    onChange={(e) => setFormData({ ...formData, [currentKey]: e.target.value })}
                     required
-                    {...register(currentKey)}
                   />
                 )}
               </div>
@@ -255,3 +268,4 @@ function BusinessForm() {
 }
 
 export default BusinessForm;
+              
