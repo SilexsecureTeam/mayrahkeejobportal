@@ -174,7 +174,7 @@ function BusinessForm() {
               value.endsWith(".doc") ||
               value.endsWith(".docx") ? (
                 <a
-                  href={`${import.meta.env.VITE_IMAGE_URL}${value}`}
+                  href={`${import.meta.env.VITE_IMAGE_URL}/${value}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-blue-600 underline"
@@ -183,13 +183,13 @@ function BusinessForm() {
                 </a>
               ) : (
                 <img
-                  src={`${import.meta.env.VITE_IMAGE_URL}${value}`}
+                  src={`${import.meta.env.VITE_IMAGE_URL}/${value}`}
                   alt="Business File"
                   className="max-w-xs max-h-40 object-contain border border-gray-300 rounded"
                 />
               )}
               <a
-                href={`${import.meta.env.VITE_IMAGE_URL}${value}`}
+                href={`${import.meta.env.VITE_IMAGE_URL}/${value}`}
                 download
                 target="_blank"
                 rel="noopener noreferrer"
