@@ -5,6 +5,7 @@ import ResidenceForm from "../../components/verifications/ResidenceForm";
 import MedicalForm from "../../components/verifications/MedicalForm";
 import PoliceReport from "../../components/verifications/PoliceReport";
 import WorkExperience from "../../components/verifications/WorkExperience";
+import BusinessForm from "../../components/verifications/BusinessForm";
 import { StaffManagementContext } from "../../../context/StaffManagementModule";
 import { verificationOptions1, verificationOptions2  } from "../../../utils/constants";
 import { AuthContext } from "../../../context/AuthContex";
@@ -34,6 +35,8 @@ function Verifications() {
         return <PoliceReport />;
       case "Work Experience":
         return <WorkExperience />;
+      case "Business":
+        return <BusinessForm />;
       default :
         return null;
     }
