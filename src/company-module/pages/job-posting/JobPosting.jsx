@@ -68,7 +68,7 @@ function JobPosting({ exclusive = null }) {
       }
     }
 
-    // Mark as visited for this session
+    // Mark as visited after first load
     sessionStorage.setItem("job_post_visited", "true");
   }, [location.state, jobUtils]);
 
@@ -174,4 +174,3 @@ function JobPosting({ exclusive = null }) {
 }
 
 export default JobPosting;
-  
