@@ -28,7 +28,7 @@ function AllMedicalHistories() {
     [heading[0].toLowerCase()]: medical.domestic_staff_id,
     [heading[1].toLowerCase()]: medical.hospital_name,
     [heading[2].toLowerCase()]: medical.contact_detail,
-    [heading[3].toLowerCase()]: <img src={"https://dash.mayrahkeeafrica.com/"+medical.medical_report_docs} alt="document" className="w-28 h-28 rounded-lg"/>,
+    [heading[3].toLowerCase()]: <img src={"https://dash.mayrahkeeafrica.com/"+medical.medical_report_docs} alt="document" className="w-20 h-20 rounded-lg object-cover"/>,
     [heading[4].toLowerCase()]: medical.status === null ? "Pending" : medical.status, // Check if status is null
     [heading[5].toLowerCase()]: medical.domestic_staff_id,
   }));

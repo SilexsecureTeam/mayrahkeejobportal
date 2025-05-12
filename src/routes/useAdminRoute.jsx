@@ -64,12 +64,10 @@ const DomesticStaff = lazy(() => import("../admin-module/pages/domesticStaff/Dom
 const AllDomesticStaff = lazy(() => import("../admin-module/pages/domesticStaff/AllDomesticStaff"));
 const DomesticStaffDetails = lazy(() => import("../admin-module/pages/domesticStaff/DomesticStaffDetails"));
 const Candidates = lazy(() => import("../admin-module/pages/candidate/Candidate"));
-
 const Blogs = lazy(() => import("../admin-module/pages/blogs/ManageBlogs"));
 const CreateBlog = lazy(() => import("../admin-module/pages/blogs/CreateBlog"));
-
 const Support = lazy(() => import("../admin-module/pages/support/Support"));
-
+const ManageCharges = lazy(() => import("../admin-module/pages/settings/ManageCharges"));
 
 
 function useAdminRoute() {
@@ -202,6 +200,7 @@ function useAdminRoute() {
                       <Route path="/settings/sectors" element={<Sectors />} />
                       <Route path="/settings/staff-sectors" element={<StaffSectors />} />
                       <Route path="/settings/packages" element={<Packages />} />
+                      <Route path="/settings/charges" element={<ManageCharges />} />
 
                       <Route path="/settings/sectors/categories" element={<AddCategory />} />
                       <Route path="/settings/currency" element={<Currency />} />

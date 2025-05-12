@@ -20,11 +20,19 @@ const ResidentDialog = ({ fetchData, name }) => {
     setVisible(true);
     setIsLoading(true);
     setResidentialStatus([]);
-    setTimeout(async () => {
+    try {
       const data = await fetchData();
-      setResidentialStatus(data.ResidentialStatus);
+      if (data?.ResidentialStatus?.length > 0) {
+       setResidentialStatus(data.ResidentialStatus);
+      } else {
+        toast.warn("No resident report found.");
+      }
+    } catch (error) {
+      console.error("Failed to fetch business report:", error);
+      toast.error("An error occurred while loading the report.");
+    } finally {
       setIsLoading(false);
-    }, 2000); // Simulate loading for 2 seconds
+    }
   };
 
   const handleUpdateOpen = (report) => {

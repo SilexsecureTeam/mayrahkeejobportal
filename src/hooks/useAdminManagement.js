@@ -253,6 +253,18 @@ function UseAdminManagement() {
       setLoading(false);
     }
   }
+  const getStaffNewReport = async (reportType, staffId) => {
+    try {
+      setLoading(true);
+      const response = await client.get(`/${reportType}/domestic/${staffId}`);
+      return response;
+    } catch (error) {
+      console.error("Error fetching report:", error);
+      return null;
+    } finally {
+      setLoading(false);
+    }
+  }
 
 
 
@@ -856,6 +868,7 @@ const getSupport = async () => {
     getEmployerDomesticStaff,
     getCandidateDomesticStaff,
     getStaffReportById,
+    getStaffNewReport,
     getStaffReport,
     AddFormCurrency,
     getSectors,

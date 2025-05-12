@@ -7,6 +7,7 @@ import { FaEye, FaPencil } from "react-icons/fa6";
 import UseAdminManagement from "../../../hooks/useAdminManagement";
 import { toast } from "react-toastify";
 import { ClipLoader } from "react-spinners";
+import { formatDate } from "../../../utils/formmaters";
 
 const MedicalReportDialog = ({ fetchData }) => {
   const [visible, setVisible] = useState(false);
@@ -23,11 +24,20 @@ const MedicalReportDialog = ({ fetchData }) => {
     setVisible(true);
     setIsLoading(true);
     setMedicalHistory([]);
-    setTimeout(async () => {
+  try {
       const data = await fetchData();
-      setMedicalHistory(data.MedicalHistory);
+      if (data?.MedicalHistory) {
+        setMedicalHistory(data.MedicalHistory);
+      } else {
+        toast.warn("No medical report found.");
+      }
+    } catch (error) {
+      console.error("Failed to fetch business report:", error);
+      toast.error("An error occurred while loading the report.");
+    } finally {
       setIsLoading(false);
-    }, 2000); // Simulate loading for 2 seconds
+    }
+  
   };
 
   const handleFileOpen = (file) => {
@@ -120,8 +130,7 @@ const MedicalReportDialog = ({ fetchData }) => {
                 >View Doc
                 </button>
               </p>
-              <p><strong>Created At:</strong> {new Date(report.created_at).toLocaleDateString()}</p>
-              <p><strong>Updated At:</strong> {new Date(report.updated_at).toLocaleDateString()}</p>
+              <p><strong>Date Submitted:</strong> {formatDate(report.created_at)}</p>
               <p><strong>Status:</strong>{report.status}</p>
               <button
                 type="button"

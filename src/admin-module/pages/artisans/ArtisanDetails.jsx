@@ -1,31 +1,29 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { Card } from "primereact/card";
-import { Button } from "primereact/button";
 import { FaArrowLeftLong } from "react-icons/fa6";
 import UseAdminManagement from "../../../hooks/useAdminManagement";
-import PoliceReportDialog from "../../components/Dialog/PoliceReportDialogue";
-import MedicalReportDialog from "../../components/Dialog/MedicalReportDialogue";
+import BusinessReportDialog from "../../components/Dialog/BusinessReportDialog";
+import IdentificationDialog from "../../components/Dialog/IdentificationDialog";
 import GuarantorReportDialog from "../../components/Dialog/GuarantorReport";
 import PreviousWorkExperienceDialog from "../../components/Dialog/PreviousWorkExperienceDialogue";
-import { ClipLoader } from "react-spinners";
 import ResidentDialog from "../../components/Dialog/ResidentDialogue";
+import { formatDate } from "../../../utils/formmaters";
 
 const ArtisanDetails = () => {
   const { id } = useParams();
-  const { loading, getStaffById, getStaffReportById } = UseAdminManagement();
+  const { getStaffById, getStaffReportById, getStaffNewReport } = UseAdminManagement();
+
   const [artisan, setArtisan] = useState(null);
+  const [loadingArtisan, setLoadingArtisan] = useState(true);
 
   useEffect(() => {
     (async () => {
+      setLoadingArtisan(true);
       const data = await getStaffById(id);
-      console.log(data);
-
       if (data) {
         setArtisan(data);
-      } else {
-        console.error("No data received");
       }
+      setLoadingArtisan(false);
     })();
   }, [id]);
 
@@ -34,16 +32,25 @@ const ArtisanDetails = () => {
     return data;
   };
 
-  // if (loading) {
-  //   return (
-  //     <div className="flex justify-center items-center h-screen">
-  //       <h1 className="font-semibold">Loading...</h1>
-  //     </div>
-  //   );
-  // }
+  const fetchNewReport = async (type, id) => {
+    const { data } = await getStaffNewReport(type, id);
+    return data;
+  };
+
+  if (loadingArtisan) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <h1 className="font-semibold">Loading...</h1>
+      </div>
+    );
+  }
 
   if (!artisan) {
-    return <div className="px-4 py-4 font-semibold">Artisan not found</div>;
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <h1 className="text-red-500 font-semibold">Artisan not found</h1>
+      </div>
+    );
   }
 
   const { data } = artisan;
@@ -60,7 +67,7 @@ const ArtisanDetails = () => {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div className="shadow-lg px-4 py-4 md:col-span-1">
           <div className="flex space-x-4">
-            <div className="">
+            <div>
               {data.profile_image ? (
                 <img
                   src={"https://dash.mayrahkeeafrica.com/" + data.profile_image}
@@ -73,7 +80,6 @@ const ArtisanDetails = () => {
                 </div>
               )}
             </div>
-
             <div>
               <h2 className="text-gray-800 text-2xl font-bold mb-2">{data.name}</h2>
               <h1 className="text-gray-400 text-sm">
@@ -86,20 +92,26 @@ const ArtisanDetails = () => {
 
           <div className="bg-gray-200 px-4 py-4 my-4">
             <div className="flex text-xs justify-between pb-3">
-              <p className="font-bold">Member Since</p>  <p>{data.member_since}</p>
+              <p className="font-bold">Member Since</p>
+              <p>{formatDate(data.member_since)}</p>
             </div>
             <div className="flex">
-              <p className="text-sm font-bold">Current Salary:</p> <p className="text-sm ml-2">{data.current_salary}</p>
+              <p className="text-sm font-bold">Current Salary:</p>
+              <p className="text-sm ml-2">{data.current_salary}</p>
             </div>
             <div className="flex">
-              <p className="text-sm font-bold">Expected Salary:</p> <p className="text-sm ml-2">{data.expected_salary}</p>
+              <p className="text-sm font-bold">Expected Salary:</p>
+              <p className="text-sm ml-2">{data.expected_salary}</p>
             </div>
           </div>
+
           <hr />
+
           <div className="text-md px-4 py-4">
             <h1 className="font-bold">Contact</h1>
             <div className="flex items-center space-x-2">
-              <span className="font-bold">Phone Number:</span> <span>{data.phone_number}</span>
+              <span className="font-bold">Phone Number:</span>
+              <span>{data.phone_number}</span>
             </div>
           </div>
         </div>
@@ -126,15 +138,13 @@ const ArtisanDetails = () => {
         </div>
 
         <div className="shadow-lg px-4 py-4 md:col-span-2">
-          <div className="shadow-lg px-4 py-4 md:col-span-2">
-            <h1 className="font-bold py-4">Reports</h1>
-            <div className="text-sm px-4 py-4 mb-3 grid grid-cols-1 md:grid-cols-2 gap-4">
-              <PoliceReportDialog fetchData={() => fetchReport("police-report", data.id)} />
-              <MedicalReportDialog fetchData={() => fetchReport("medical-history", data.id)} />
-              <GuarantorReportDialog fetchData={() => fetchReport("guarantor", data.id)} />
-              <PreviousWorkExperienceDialog fetchData={() => fetchReport("previous-work-experience", data.id)} />
-              <ResidentDialog fetchData={() => fetchReport("residential-status", data.id)} />
-            </div>
+          <h1 className="font-bold py-4">Reports</h1>
+          <div className="text-sm px-4 py-4 mb-3 grid grid-cols-1 md:grid-cols-2 gap-4">
+            <BusinessReportDialog fetchData={() => fetchNewReport("business", data.id)} />
+            <IdentificationDialog fetchData={() => fetchNewReport("identifications", data.id)} />
+            <GuarantorReportDialog fetchData={() => fetchReport("guarantor", data.id)} />
+            <ResidentDialog fetchData={() => fetchReport("residential-status", data.id)} />
+            <PreviousWorkExperienceDialog staff={data} fetchData={() => fetchReport("previous-work-experience", data.id)} />
           </div>
         </div>
       </div>

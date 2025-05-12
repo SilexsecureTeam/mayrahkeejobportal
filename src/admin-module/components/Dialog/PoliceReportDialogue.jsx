@@ -20,11 +20,20 @@ const PoliceReportDialog = ({ fetchData, name }) => {
     setVisible(true);
     setIsLoading(true);
     setPoliceReport([]);
-    setTimeout(async () => {
+    try {
       const data = await fetchData();
-      setPoliceReport(data.PoliceReport);
+      if (data?.PoliceReport?.length > 0) {
+       setPoliceReport(data.PoliceReport);
+      } else {
+        toast.warn("No police report found.");
+      }
+    } catch (error) {
+      console.error("Failed to fetch business report:", error);
+      toast.error("An error occurred while loading the report.");
+    } finally {
       setIsLoading(false);
-    }, 2000); // Simulate loading for 2 seconds
+    }
+    
   };
 
   const handleUpdateOpen = (report) => {
