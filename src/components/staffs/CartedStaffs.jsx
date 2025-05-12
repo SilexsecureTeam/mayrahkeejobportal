@@ -92,7 +92,7 @@ function CartedStaffs() {
   //console.log(cartItems, selectedItems)
   // Pricing logic
   const rawSalaryTotal = selectedItems.reduce(
-  (total, item) => total + Number(item?.domestic_staff?.expected_salary) ),
+  (total, item) => total + Number(item?.domestic_staff?.expected_salary),
   0
 );
 
