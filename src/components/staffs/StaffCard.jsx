@@ -15,7 +15,7 @@ import { allStatus } from "../../hooks/useStaffUser";
 
 const PUBLIC_KEY = import.meta.env.VITE_TEST_PUBLIC_KEY;
 
-function StaffCard({ data, contract = null, cartItems, setCartItems, getCartItems }) {
+function StaffCard({ data, contract = null, cartItems, setCartItems, getCartItems, charges }) {
   const { register, handleSubmit } = useForm();
   const { authDetails } = useContext(AuthContext);
   const [loading, setLoading] = useState(false);
@@ -379,7 +379,7 @@ const userVerified = isArtisan
   Salary:
   <span className="text-sm w-[60%] text-start font-normal text-gray-500">
     {data?.expected_salary && parseFloat(data.expected_salary) > 0
-      ? FormatPrice(parseFloat(data.expected_salary) * 1.1)
+      ? FormatPrice(parseFloat(data.expected_salary) * (1 + Number(charges?.domestic_percent || 0)/100))
       : "Not specified"}
   </span>
 </span>}
