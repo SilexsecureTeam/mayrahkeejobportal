@@ -75,7 +75,7 @@ function DomesticStaff() {
   const navigateToCart = () =>
     navigate(`/company/staff/cart`, {
       state: {
-        data: { items: cartItems, category: categories, type: "staff", fee: charge },
+        data: { items: cartItems, category: categories, type: "staff", ...charges },
       },
     });
 
@@ -85,8 +85,9 @@ function DomesticStaff() {
         user_id: authDetails.user.id,
         user_type: authDetails.user.role,
       });
-      if (data.cart_items) {
-        setCharge(data?.service_fee)
+      const {cart_items, ...others}= data
+      if (data?.cart_items) {
+        setCharges({...others})
         setCartItems(
           data.cart_items.filter(
             (current) => current.domestic_staff.staff_category === "staff"
