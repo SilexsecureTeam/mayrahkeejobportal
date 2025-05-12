@@ -23,7 +23,7 @@ function CartedStaffs() {
   const navigate = useNavigate();
   const { authDetails } = useContext(AuthContext);
   const client = axiosClient(authDetails.token);
-
+  console.log(data)
   const [cartItems, setCartItems] = useState(data?.items || []);
   const { config, handleSuccess, addToCart, removeFromCart } = useCart();
   const [conditions, setConditions] = useState(false);
@@ -92,11 +92,11 @@ function CartedStaffs() {
   //console.log(cartItems, selectedItems)
   // Pricing logic
   const rawSalaryTotal = selectedItems.reduce(
-  (total, item) => total + (Number(item?.domestic_staff?.expected_salary *(1 + parseInt(data?.domestic_percent|| 0) / 100)) || 0),
+  (total, item) => total + Number(item?.domestic_staff?.expected_salary) ),
   0
 );
 
-const salaryTotal = isArtisan ? 0 : rawSalaryTotal * 1.1; // 10% additional for non-artisans
+const salaryTotal = isArtisan ? 0 : rawSalaryTotal * (1 + Number(data?.domestic_percent|| 0) / 100); // 10% additional for non-artisans
   
 
   const taxTotal = CONMPANY_TAX * selectedItems.length;
@@ -259,7 +259,7 @@ applicablelabourlaws.</p>
                           {isArtisan ? (
                             "No salary shown"
                           ) : Number(item?.domestic_staff?.expected_salary) > 0 ? (
-                            FormatPrice(Number(item.domestic_staff.expected_salary) * (1 + Number(data?.domestic_percent ?? 0) / 100))
+                            FormatPrice(Number(item.domestic_staff.expected_salary) * (1 + Number(data?.domestic_percent || 0) / 100))
                           ) : (
                             <span className="text-red-500 font-medium">Expected salary not set</span>
                           )}
@@ -308,7 +308,7 @@ applicablelabourlaws.</p>
                     </span>
                     <span>
                       {!isArtisan &&
-                        FormatPrice(Number(item.domestic_staff.expected_salary) * (1 + parseInt(data?.domestic_percent || 0) / 100))}
+                        FormatPrice(Number(item.domestic_staff.expected_salary) * (1 + Number(data?.domestic_percent || 0) / 100))}
                     </span>
                   </li>
                 ))}
