@@ -220,6 +220,7 @@ function Artisan() {
                   cartItems={cartItems}
                   setCartItems={setCartItems}
                   getCartItems={getCartItems}
+                  charges={charges}
                 />
               ))}
             </ul>
