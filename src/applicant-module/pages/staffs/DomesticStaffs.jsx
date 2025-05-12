@@ -210,6 +210,7 @@ function DomesticStaff() {
                   cartItems={cartItems}
                   setCartItems={setCartItems}
                   getCartItems={getCartItems}
+                  charges={charges}
                 />
               ))}
             </ul>
