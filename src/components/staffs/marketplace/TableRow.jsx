@@ -33,7 +33,7 @@ function TableRow({ info, data, isMarket = false, handleAddToCart, handleRemoveC
 
     setLoading(false); // Stop loading
   };
-console.log(data)
+
   return (
     <tr className="border-b cursor-pointer hover:bg-gray-50 text-gray-700 text-sm">
       {/* Profile Image and Name */}
