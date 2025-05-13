@@ -9,9 +9,10 @@ import { extractErrorMessage } from "../../../utils/formmaters";
 
 const navOptions = ["Active Contracts", "Market Place"];
 
-function MarketPlace({handleAddToCart, handleRemoveCart, cartItems}) {
+function MarketPlace({ handleAddToCart, handleRemoveCart, cartItems}) {
   const location = useLocation();
-  const data = location?.state?.data;
+
+  const info = location?.state?.data;
 
   const { authDetails } = useContext(AuthContext);
   const client = axiosClient(authDetails.token);
@@ -21,7 +22,7 @@ function MarketPlace({handleAddToCart, handleRemoveCart, cartItems}) {
   const [marketList, setMarketList] = useState([]);
 
   const getMarketList = async () => {
-    const type=data?.type;
+    const type=info?.type;
     try {
       const { data } = await client.get("/domesticStaff/get-staff");
 
@@ -44,7 +45,7 @@ function MarketPlace({handleAddToCart, handleRemoveCart, cartItems}) {
   };
 
   const getContractItems = async () => {
-    const type=data?.type;
+    const type=info?.type;
     try {
       const { data } = await client.post("/contracts/details", {
         user_id: authDetails.user.id,
@@ -113,7 +114,7 @@ function MarketPlace({handleAddToCart, handleRemoveCart, cartItems}) {
           {marketList.length > 0 &&
             marketList
              .map((current, index) => (
-                <TableRow isMarket={true} key={current.id + index} data={current} handleAddToCart={handleAddToCart} handleRemoveCart={handleRemoveCart} cartItems={cartItems} />
+                <TableRow info={info} isMarket={true} key={current.id + index} data={current} handleAddToCart={handleAddToCart} handleRemoveCart={handleRemoveCart} cartItems={cartItems} />
               ))}
         </TableHead>
         </>
