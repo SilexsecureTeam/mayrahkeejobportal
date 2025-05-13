@@ -91,17 +91,23 @@ function CartedStaffs() {
 
   //console.log(cartItems, selectedItems)
   // Pricing logic
-  const rawSalaryTotal = selectedItems.reduce(
+const rawSalaryTotal = selectedItems.reduce(
   (total, item) => total + Number(item?.domestic_staff?.expected_salary),
   0
 );
 
-const salaryTotal = isArtisan ? 0 : rawSalaryTotal * (1 + Number(data?.domestic_percent|| 0) / 100); // 10% additional for non-artisans
-  
-const totalVat= Number(data?.vat_percent) * selectedItems?.length;
-  
-  const taxTotal = (CONMPANY_TAX * selectedItems.length) + totalVat;
-  const grandTotal = isArtisan ? taxTotal : taxTotal + salaryTotal;
+const salaryTotal = isArtisan
+  ? 0
+  : rawSalaryTotal * (1 + Number(data?.domestic_percent || 0) / 100);
+
+const serviceFeeTotal = CONMPANY_TAX * selectedItems.length;
+const vatPercent = Number(data?.vat_percent || 0);
+const totalBeforeVat = salaryTotal + serviceFeeTotal;
+const totalVat = (totalBeforeVat * vatPercent) / 100;
+
+const grandTotal = isArtisan
+  ? (serviceFeeTotal + totalVat)
+  : (salaryTotal + serviceFeeTotal + totalVat);
 
   return (
     <>
@@ -324,9 +330,9 @@ applicablelabourlaws.</p>
                   <span>{FormatPrice(taxTotal)}</span>
                 </li>
                 <li className="flex justify-between text-sm mb-2">
-                  <span>VAT</span>
-                  <span>{FormatPrice(Number(data?.vat_percent) * selectedItems?.length) || 0}</span>
-                </li>
+  <span>VAT ({vatPercent}%)</span>
+  <span>{FormatPrice(totalVat)}</span>
+</li>
                 <li className="flex justify-between font-bold text-lg">
                   <span>Grand Total</span>
                   <span>{FormatPrice(grandTotal)}</span>
