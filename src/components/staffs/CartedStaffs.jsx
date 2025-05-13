@@ -327,7 +327,7 @@ applicablelabourlaws.</p>
                 </li>
                 <li className="flex justify-between text-sm mb-2">
                   <span>Service Charge</span>
-                  <span>{FormatPrice(taxTotal)}</span>
+                  <span>{FormatPrice(serviceFeeTotal)}</span>
                 </li>
                 <li className="flex justify-between text-sm mb-2">
   <span>VAT ({vatPercent}%)</span>
