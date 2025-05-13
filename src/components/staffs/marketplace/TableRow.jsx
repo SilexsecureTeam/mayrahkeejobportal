@@ -72,8 +72,8 @@ function TableRow({ info, data, isMarket = false, handleAddToCart, handleRemoveC
         <span className="break-all">
         {data?.staff_category === "artisan" ? (
                             "No salary shown"
-                          ) : data?.domestic_staff?.expected_salary ? (
-                            FormatPrice(Number(data.domestic_staff.expected_salary)* (1 + (Number(info?.domestic_percent || 0) /100)))
+                          ) : Number(data?.domesticStaff?.expected_salary) > 0 ? (
+                            FormatPrice(Number(data.domesticStaff.expected_salary)* (1 + (Number(info?.domestic_percent || 0) /100)))
                           ) : (
                             <span className="text-red-500 font-medium">Expected salary not set</span>
                           )}
