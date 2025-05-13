@@ -22,7 +22,7 @@ function DomesticStaff() {
   const [selectedCategory, setSelectedCategory] = useState();
   const [searchResult, setSearcResult] = useState([]);
   const [cartItems, setCartItems] = useState([]);
-  const [charge, setCharge] = useState(0);
+  const [charges, setCharges] = useState(0);
  
   const [conditions, setConditions] = useState(false);
   const [queryParams, setQueryParams] = useState();
