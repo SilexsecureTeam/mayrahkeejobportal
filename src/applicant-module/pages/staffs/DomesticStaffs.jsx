@@ -92,7 +92,7 @@ function DomesticStaff() {
       }
     } catch (error) {
       onFailure({
-        message: "soemthing went wrong",
+        message: "something went wrong",
         error: "Error retriving carted items",
       });
     }
