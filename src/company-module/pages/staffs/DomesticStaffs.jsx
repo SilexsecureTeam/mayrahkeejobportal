@@ -89,12 +89,15 @@ function DomesticStaff() {
       if (data?.cart_items) {
         setCharges({...others})
         setCartItems(
-          data.cart_items.filter(
+          data.cart_items?.filter(
             (current) => current.domestic_staff.staff_category === "staff"
           )
         );
       }
+      console.log(cart_items)
+      
     } catch (error) {
+      console.log(error)
       onFailure({
         message: "something went wrong",
         error: "Error retriving carted items",
