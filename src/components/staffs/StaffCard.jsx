@@ -210,6 +210,20 @@ function StaffCard({ data, contract = null, cartItems, setCartItems, getCartItem
           bg: getStyling(detail),
         };
         break;
+        case "Identification":
+        utils = {
+          icon: "/garantor-icon.png",
+          name: `Identification - (${detail})`,
+          bg: getStyling(detail),
+        };
+        break;
+        case "Business":
+        utils = {
+          icon: "/medical-icon.png",
+          name: `Business - (${detail})`,
+          bg: getStyling(detail),
+        };
+        break;
     }
 
     return (
