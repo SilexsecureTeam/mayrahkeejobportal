@@ -5,7 +5,7 @@ import { formatDate, FormatPrice } from "../../../utils/formmaters";
 import { AuthContext } from "../../../context/AuthContex";
 import { FaSpinner } from "react-icons/fa"; // Import Faspinner
 
-function TableRow({ data, isMarket = false, handleAddToCart, handleRemoveCart, cartItems }) {
+function TableRow({ info, data, isMarket = false, handleAddToCart, handleRemoveCart, cartItems }) {
   const navigate = useNavigate();
   const { authDetails } = useContext(AuthContext);
   const [loading, setLoading] = useState(false); // State for loader
@@ -73,7 +73,7 @@ function TableRow({ data, isMarket = false, handleAddToCart, handleRemoveCart, c
         {data?.staff_category === "artisan" ? (
                             "No salary shown"
                           ) : Number(data?.domestic_staff?.expected_salary) > 0 ? (
-                            FormatPrice(Number(data.domestic_staff.expected_salary)* 1.1)
+                            FormatPrice(Number(data.domestic_staff.expected_salary)* (1 + (Number(info.domestic_percent || 0) /100)))
                           ) : (
                             <span className="text-red-500 font-medium">Expected salary not set</span>
                           )}
