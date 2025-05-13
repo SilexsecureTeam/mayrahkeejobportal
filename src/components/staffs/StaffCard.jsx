@@ -392,6 +392,8 @@ const userVerified = isArtisan
           
           {getVerificationComp(data.guarantor_verification_status, "guarantor")}
           {getVerificationComp(data.residence_verification_status, "residence")}
+          {getVerificationComp(data.business_verification_status, "Business")}
+              {getVerificationComp(data.identification_verification_status, "Identification")}
         </div>
           ) :
           (<div className="flex w-full gap-2 flex-col my-3 capitalize">
