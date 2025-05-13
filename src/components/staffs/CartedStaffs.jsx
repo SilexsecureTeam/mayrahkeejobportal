@@ -354,6 +354,7 @@ applicablelabourlaws.</p>
 
         {/* Marketplace */}
         <MarketPlace
+          data={data}
           handleAddToCart={handleAddToCart}
           handleRemoveCart={handleRemoveCart}
           cartItems={cartItems}
