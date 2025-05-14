@@ -197,6 +197,7 @@ function FindJob() {
                               key={job.id}
                               job={job}
                               newApplicant={newApplicant}
+                              getAllApplications={getAllApplications?.data}
                             />
                           ))}
                         </div>
