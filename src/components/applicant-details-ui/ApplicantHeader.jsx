@@ -9,7 +9,7 @@ const ApplicantHeader = ({ staff, setStaff }) => {
   const [acceptLoading, setAcceptLoading] = useState(false);
   const [rejectLoading, setRejectLoading] = useState(false);
   const navigate = useNavigate();
-
+const [complainLoading, setComplainLoading] = useState(false);
   // Status checks based on 1 (Accepted) or 0 (Pending/Active)
   const isAccepted = Number(staff?.contract_status) === 1;
   const isRejected = Number(staff?.contract_status) === 2;
@@ -33,7 +33,33 @@ const ApplicantHeader = ({ staff, setStaff }) => {
       onFailure({ message: "Update Error", error: "Could not reject" });
     }
   };
+  
+const reportContactIssue = async (staff) => {
+    setComplainLoading(true);
+    try {
+      const response = await fetch(`https://dash.mayrahkeeafrica.com/api/support/report-contact-issue/${staff?.id}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          employer_comments: `Hello,\n\nI am unable to reach the artisan ${staff?.first_name} - ${staff?.last_name} (ID: ${staff?.id}). Please follow up on this issue.\n\nRegards,`,
+        }),
+      });
 
+      const data = await response.json();
+
+      if (response.ok) {
+        alert(data.message || "Complaint submitted successfully.");
+      } else {
+        throw new Error(data.message || "Failed to submit complaint.");
+      }
+    } catch (error) {
+      console.error("Error reporting contact issue:", error);
+      alert(error.message);
+    }
+    setComplainLoading(false);
+  };
   return (
     <header className="text-white p-4 flex flex-wrap gap-5 items-center justify-between">
       <section>
@@ -46,13 +72,19 @@ const ApplicantHeader = ({ staff, setStaff }) => {
 
       {staff?.staff_category === "artisan" ? (
   <button
-    className="bg-yellow-600 text-white px-4 py-2 rounded"
-    onClick={() => {
-      window.location.href = `mailto:mayrahkee@example.com,artisansupport@mayrahkeeafrica.com?subject=Unable to Reach Artisan&body=Hello,%0D%0A%0D%0AI am unable to reach the artisan ${staff?.full_name} (ID: ${staff?.id}). Please follow up on this issue.%0D%0A%0D%0ARegards,`;
-    }}
-  >
-    Complain: Can't Reach Artisan
-  </button>
+          className="bg-yellow-600 relative text-white px-4 py-2 rounded"
+          onClick={() => reportContactIssue(staff)}
+          disabled={complainLoading}
+        >
+          {complainLoading ? (
+            <div className="flex items-center justify-center gap-2">
+              <PiSpinnerGap className="animate-spin" />
+              Sending...
+            </div>
+          ) : (
+            "Complain: Can't Reach Artisan"
+          )}
+        </button>
 ) : (
   <div className="flex space-x-4">
     {/* Accept Button */}
