@@ -2,7 +2,7 @@ import React, { useEffect, useState, useContext } from "react";
 import { axiosClient } from "../../../services/axios-client";
 import { AuthContext } from "../../../context/AuthContex";
 import { ClipLoader } from "react-spinners";
-
+import { FaArrowLeftLong } from 'react-icons/fa6';
 const ManageCharges = () => {
   const { authDetails } = useContext(AuthContext);
   const client = axiosClient(authDetails?.token, true);
@@ -79,6 +79,15 @@ const ManageCharges = () => {
   }, []);
 
   return (
+    <>
+    <button
+                    type="button"
+                    onClick={() => window.history.back()}
+                    className="flex items-center gap-2 outline outline-offset-5 outline-green-500 px-4 py-2 rounded text-green-500 hover:bg-green-100"
+                >
+                    <FaArrowLeftLong className="me-4 text-green-500" />Back
+                </button>
+    
     <div className="max-w-2xl mx-auto bg-white p-8 rounded-xl shadow-md">
       <h2 className="text-3xl font-semibold text-gray-800 mb-6">
         Company Charges
@@ -166,6 +175,7 @@ const ManageCharges = () => {
         </>
       )}
     </div>
+    </>
   );
 };
 
