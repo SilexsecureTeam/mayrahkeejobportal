@@ -1,7 +1,7 @@
 import { useState, useEffect, React } from "react";
 import { Button, Popover, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import {formatDate} from '../../../utils/formmaters'
+import {formatDate} from '../../../../utils/formmaters'
 
 const Interview = ({ getInterviews, shortListed }) => {
   const navigate=useNavigate();
