@@ -3,31 +3,46 @@ import SettingsCard from "../../components/Settings/SettingsCard";
 import { FaFile, FaMoneyBill, FaPlus } from "react-icons/fa";
 import { TbBrandGoogleAnalytics, TbShieldHalf } from "react-icons/tb";
 import { GrAnnounce } from "react-icons/gr";
+import { BsNewspaper, BsCurrencyDollar } from "react-icons/bs";
+import { MdWorkOutline, MdPeopleOutline } from "react-icons/md";
+import { FiSettings } from "react-icons/fi";
+
 function Settings() {
     return (
         <>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-6 py-4">
                 <SettingsCard
-                    rightIcon={<BsNewspaper />}
-                    title="Manage Charges"
-                    subtitle="Manage service charges, salary markup percentages, and VAT rates for your staff."
-                    smallTextIcon={<FaPlus />}
-                    link="/admin/settings/charges"
-                />
-                <SettingsCard
-                    rightIcon={<BsNewspaper />}
-                    title="Manage Job Sectors"
-                    subtitle="Add all the sectors and subsectors available for job"
-                    smallTextIcon={<FaPlus />}
-                    link="/admin/settings/sectors"
-                />
-                <SettingsCard
-                    rightIcon={<BsNewspaper />}
-                    title="Manage Staff Sectors"
-                    subtitle="Add all the sectors and subsectors available for staff"
-                    smallTextIcon={<FaPlus />}
-                    link="/admin/settings/staff-sectors"
-                />
+  rightIcon={<BsNewspaper />}
+  title="Manage Subscription Packages"
+  subtitle="Add all the subscription plans"
+  smallTextIcon={<FaPlus />}
+  link="/admin/settings/packages"
+/>
+
+<SettingsCard
+  rightIcon={<BsCurrencyDollar />}
+  title="Manage Charges"
+  subtitle="Manage service charges, salary markup percentages, and VAT rates for your staff."
+  smallTextIcon={<FaPlus />}
+  link="/admin/settings/charges"
+/>
+
+<SettingsCard
+  rightIcon={<MdWorkOutline />}
+  title="Manage Job Sectors"
+  subtitle="Add all the sectors and subsectors available for job"
+  smallTextIcon={<FaPlus />}
+  link="/admin/settings/sectors"
+/>
+
+<SettingsCard
+  rightIcon={<MdPeopleOutline />}
+  title="Manage Staff Sectors"
+  subtitle="Add all the sectors and subsectors available for staff"
+  smallTextIcon={<FaPlus />}
+  link="/admin/settings/staff-sectors"
+/>
+
                 <SettingsCard
                     rightIcon={<TbShieldHalf />}
                     title="Login and Security"
