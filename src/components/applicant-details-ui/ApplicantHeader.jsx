@@ -43,7 +43,7 @@ const reportContactIssue = async (staff) => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          employer_comments: `Hello,\n\nI am unable to reach the artisan ${staff?.first_name} - ${staff?.last_name} (ID: ${staff?.id}). Please follow up on this issue.\n\nRegards,`,
+          employer_comments: `Hello,\n\nI am unable to reach the artisan ${staff?.first_name ?? ""} - ${staff?.surname ?? ""} (ID: ${staff?.id}). Please follow up on this issue.\n\nRegards,`,
         }),
       });
 
