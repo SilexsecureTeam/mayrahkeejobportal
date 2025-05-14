@@ -13,7 +13,7 @@ const hasApplied = getAllApplications?.some((app) => app.job_id === job.id);
             className="border cursor-pointer hover:shadow-inner transition-transform  rounded-lg">
             <div className="p-3 h-full">
                 <div className="flex justify-between items-start my-3">
-                    <img src={`${resourceUrl}/${job?.featured_image}`} className='w-12 h-12' alt="job" />
+                    <img src={`${resourceUrl}/${job?.featured_image}`} className='w-12 h-12 object-contain' alt="job" />
                     <button className="mx-2 py-1 px-2 rounded-full hover:bg-white bg-green-100 text-green-700 border">
                         {job.type}
                     </button>
