@@ -1,10 +1,10 @@
 import React from 'react'
 import { MdOutlineMoreHoriz } from 'react-icons/md'
-import { FormatTextToUppecase } from '../../../utils/formmaters'
+import { FormatTextToUppecase, formatDate } from '../../../utils/formmaters'
 import { stages } from "../../../utils/constants";
 
 const RecentlyAdded = ({ newApplicant, newApp }) => {
-  const dateCreated = new Date(newApp?.created_at)
+  const dateCreated = formatDate(newApp?.created_at)
   const getBorderColor = () => {
     switch (newApp?.status?.toLowerCase()) {
       case stages[0].name:
@@ -32,7 +32,7 @@ const RecentlyAdded = ({ newApplicant, newApp }) => {
       </div>
       <div className="w-1/6 hidden md:block">
         <p className="font-bold">Date Applied</p>
-        <p>{dateCreated.toLocaleString('en-US', {weekday:'short', year:'numeric', month:'short', day:'numeric'})}</p>
+        <p>{dateCreated}</p>
       </div>
       <div className="w-1/6 hidden md:block">
         <button className={`border text-[12px] px-2 py-1 rounded-full capitalize ${getBorderColor()}`}>{newApp.status == "in-review" ? "under-review": newApp.status == "shortlist" ? "shortlisted" : newApp.status}</button>
