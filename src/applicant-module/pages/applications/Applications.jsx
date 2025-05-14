@@ -102,7 +102,7 @@ function Application() {
             </div>
           </div>
           <div className="my-6">
-            {closeNote && (
+            {/**closeNote && (
               <div className="p-4 relative bg-[#47AA491A]">
                 <div className="md:w-4/5">
                   <div className="flex">
@@ -138,7 +138,7 @@ function Application() {
               >
                 {label} ({getStatusCount(key)})
               </button>
-            ))}
+            ))**/}
           </div>
           <div className="flex flex-wrap justify-between items-center">
             <p className="font-bold capitalize">{view} Applications</p>
