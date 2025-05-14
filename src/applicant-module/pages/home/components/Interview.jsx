@@ -1,6 +1,7 @@
 import { useState, useEffect, React } from "react";
 import { Button, Popover, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import {formatDate} from '../../../utils/formmaters'
 
 const Interview = ({ getInterviews, shortListed }) => {
   const navigate=useNavigate();
@@ -21,7 +22,7 @@ const Interview = ({ getInterviews, shortListed }) => {
     getInterviews(shortListed?.interview_id, setNewInterview);
   }, []);
   console.log(newInterview);
-  const date = new Date(newInterview?.interview_date);
+  const date = formatDate(newInterview?.interview_date);
   // Handle navigation to the interview room
   
   const navigateToApplications = (key) => {
@@ -55,7 +56,7 @@ const Interview = ({ getInterviews, shortListed }) => {
             <strong className="border-b">Interview Details</strong>
             
             <span >Interviewer: {newInterview?.interviewer_name}</span>
-            <span>Date: {(new Date(newInterview?.interview_date)).toLocaleDateString()}</span>
+            <span>Date: {date}</span>
             
             <span>Time: {newInterview?.interview_time}</span>
             {newInterview?.meeting_id && <span>Meeting Id: {newInterview?.meeting_id}</span>}
@@ -74,7 +75,7 @@ const Interview = ({ getInterviews, shortListed }) => {
         <div className="px-3 my-3 flex items-center gap-2 flex-wrap">
   {/* Date and Time */}
   <p className="font-medium break-all">
-    {date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
+    {date}
   </p>
 
   {/* Content Wrapper */}
