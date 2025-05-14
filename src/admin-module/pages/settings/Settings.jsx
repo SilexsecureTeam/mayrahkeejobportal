@@ -1,9 +1,8 @@
-import { BsEye, BsGift, BsNewspaper, BsStopwatch, BsToggles } from "react-icons/bs";
+import { BsEye, BsGift, BsNewspaper, BsStopwatch, BsCurrencyDollar, BsToggles } from "react-icons/bs";
 import SettingsCard from "../../components/Settings/SettingsCard";
 import { FaFile, FaMoneyBill, FaPlus } from "react-icons/fa";
 import { TbBrandGoogleAnalytics, TbShieldHalf } from "react-icons/tb";
 import { GrAnnounce } from "react-icons/gr";
-import { BsNewspaper, BsCurrencyDollar } from "react-icons/bs";
 import { MdWorkOutline, MdPeopleOutline } from "react-icons/md";
 import { FiSettings } from "react-icons/fi";
 
