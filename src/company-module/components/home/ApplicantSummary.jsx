@@ -10,7 +10,7 @@ function ApplicantSummary({ applicants, byCategory, jobs }) {
 
   return (
     <div className="md:h-[65%] h-fit w-full border p-3 justify-between flex flex-col">
-      <h2 className="text-sm font-semibold">Applicantion Summary</h2>
+      <h2 className="text-sm font-semibold">Application Summary</h2>
 
       <div className="flex gap-[5px] items-end">
         <span className="font-semibold text-2xl">{applicants?.length}</span>
