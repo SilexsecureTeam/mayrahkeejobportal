@@ -264,7 +264,7 @@ applicablelabourlaws.</p>
                         </p>
                         <p className="text-sm text-gray-700">
                           {isArtisan ? (
-                            "No salary shown"
+                            ""
                           ) : Number(item?.domestic_staff?.expected_salary) > 0 ? (
                             FormatPrice(Number(item.domestic_staff.expected_salary) * (1 + Number(data?.domestic_percent || 0) / 100))
                           ) : (
