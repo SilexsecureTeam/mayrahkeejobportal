@@ -30,7 +30,7 @@ const JobCard = ({ newApplicant, job, getAllApplications }) => {
                                 {job.sector}
                             </button>
                             <button className="py-1 px-2 rounded-full border border-green-500 text-green-500 hover:bg-green-100">
-                                Design
+                                {job?.search_keywords}
                             </button>
                         </div>
                     </div>
