@@ -9,8 +9,8 @@ const SalaryManagement = () => {
 
   const fetchStaff = async () => {
     try {
-      const res = await axios.get("/api/staff");
-      setStaffList(res.data);
+      const res = await axios.get(`${import.meta.env.VITE_BASE_URL}/domesticStaff/get-staff`);
+      setStaffList(res.data?.domesticStaff);
     } catch (err) {
       console.error("Error fetching staff", err);
     } finally {
@@ -24,9 +24,10 @@ const SalaryManagement = () => {
 
   const handleUpdate = async (updatedStaff) => {
     try {
-      await axios.put(`/api/staff/${updatedStaff.id}`, {
-        salary: updatedStaff.salary,
-        markupFee: updatedStaff.markupFee,
+      await axios.put(`${import.meta.env.VITE_BASE_URL}/salary/update`, {
+        domestic_staff_id: updatedStaff?.id
+        salary_agreed: updatedStaff?.salary_agreed,
+        service_charge: updatedStaff?.service_charge,
       });
       setStaffList((prev) =>
         prev.map((s) => (s.id === updatedStaff.id ? updatedStaff : s))
@@ -46,9 +47,8 @@ const SalaryManagement = () => {
         <thead className="bg-gray-100">
           <tr>
             <th>Name</th>
-            <th>Role</th>
-            <th>Salary</th>
-            <th>Markup Fee (%)</th>
+            <th>Agreed Salary</th>
+            <th>Service Charge</th>
             <th>Action</th>
           </tr>
         </thead>
@@ -56,9 +56,8 @@ const SalaryManagement = () => {
           {staffList.map((staff) => (
             <tr key={staff.id} className="border-t">
               <td>{staff.name}</td>
-              <td>{staff.role}</td>
-              <td>₦{staff.salary.toLocaleString()}</td>
-              <td>{staff.markupFee}</td>
+              <td>₦{staff?.salary_agreed?.toLocaleString()}</td>
+              <td>{staff?.service_charge}</td>
               <td>
                 <button
                   className="text-blue-600 underline"
