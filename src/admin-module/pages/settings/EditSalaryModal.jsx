@@ -6,7 +6,7 @@ const EditSalaryModal = ({ staff, onClose, onSave }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSave({ ...staff, salary_agreed:salary, salary_charge:markupFee });
+    onSave({ ...staff, salary_agreed:salary, service_charge:markupFee });
   };
 
   return (
