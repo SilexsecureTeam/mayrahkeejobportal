@@ -68,7 +68,7 @@ const Blogs = lazy(() => import("../admin-module/pages/blogs/ManageBlogs"));
 const CreateBlog = lazy(() => import("../admin-module/pages/blogs/CreateBlog"));
 const Support = lazy(() => import("../admin-module/pages/support/Support"));
 const ManageCharges = lazy(() => import("../admin-module/pages/settings/ManageCharges"));
-
+const SalaryManagement = lazy(() => import("../admin-module/pages/settings/SalaryManagement"));
 
 function useAdminRoute() {
   // const [state, dispatch] = useReducer(AdminReducer, adminOptions.find((option) => option.route === path));
@@ -201,6 +201,8 @@ function useAdminRoute() {
                       <Route path="/settings/staff-sectors" element={<StaffSectors />} />
                       <Route path="/settings/packages" element={<Packages />} />
                       <Route path="/settings/charges" element={<ManageCharges />} />
+
+                    <Route path="/settings/salary" element={<SalaryManagement />} />
 
                       <Route path="/settings/sectors/categories" element={<AddCategory />} />
                       <Route path="/settings/currency" element={<Currency />} />
