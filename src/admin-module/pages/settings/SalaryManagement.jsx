@@ -45,7 +45,7 @@ const SalaryManagement = () => {
       <h2 className="text-2xl font-semibold mb-4">Salary Management</h2>
       <div className="overflow-x-auto">
       <table className="w-full border min-w-[700px]">
-        <thead className="bg-gray-100">
+        <thead className="bg-gray-100 text-green-800">
           <tr>
             <th>Name</th>
             <th>Agreed Salary</th>
