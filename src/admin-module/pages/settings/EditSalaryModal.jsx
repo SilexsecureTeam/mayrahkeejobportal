@@ -1,12 +1,12 @@
 import { useState } from "react";
 
 const EditSalaryModal = ({ staff, onClose, onSave }) => {
-  const [salary, setSalary] = useState(staff.salary);
-  const [markupFee, setMarkupFee] = useState(staff.markupFee);
+  const [salary, setSalary] = useState(staff.salary_agreed);
+  const [markupFee, setMarkupFee] = useState(staff.service_charge);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSave({ ...staff, salary, markupFee });
+    onSave({ ...staff, salary_agreed:salary, salary_charge:markupFee });
   };
 
   return (
