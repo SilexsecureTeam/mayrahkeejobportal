@@ -10,7 +10,7 @@ const SalaryManagement = () => {
   const fetchStaff = async () => {
     try {
       const res = await axios.get(`${import.meta.env.VITE_BASE_URL}/domesticStaff/get-staff`);
-      setStaffList(res.data?.domesticStaff);
+      setStaffList(res?.data?.domesticStaff);
     } catch (err) {
       console.error("Error fetching staff", err);
     } finally {
