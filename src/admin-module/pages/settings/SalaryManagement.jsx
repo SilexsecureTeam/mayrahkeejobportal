@@ -55,7 +55,7 @@ const SalaryManagement = () => {
         <tbody>
           {staffList.map((staff) => (
             <tr key={staff.id} className="border-t">
-              <td>{staff.name}</td>
+              <td>{staff.surname} {staff?.first_name} {staff?.middle_name}</td>
               <td>₦{staff?.salary_agreed?.toLocaleString()}</td>
               <td>{staff?.service_charge}</td>
               <td>
