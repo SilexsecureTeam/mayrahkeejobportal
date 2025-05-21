@@ -3,10 +3,20 @@ import { useState } from "react";
 const EditSalaryModal = ({ staff, onClose, onSave }) => {
   const [salary, setSalary] = useState(staff.salary_agreed);
   const [markupFee, setMarkupFee] = useState(staff.service_charge);
+  const [saving, setSaving] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    onSave({ ...staff, salary_agreed:salary, service_charge:markupFee });
+    setSaving(true);
+    try {
+      await onSave({
+        ...staff,
+        salary_agreed: salary,
+        service_charge: markupFee,
+      });
+    } finally {
+      setSaving(false);
+    }
   };
 
   return (
@@ -21,6 +31,7 @@ const EditSalaryModal = ({ staff, onClose, onSave }) => {
               value={salary}
               onChange={(e) => setSalary(Number(e.target.value))}
               className="w-full border p-2 rounded mt-1"
+              disabled={saving}
             />
           </label>
           <label className="block mb-4">
@@ -30,6 +41,7 @@ const EditSalaryModal = ({ staff, onClose, onSave }) => {
               value={markupFee}
               onChange={(e) => setMarkupFee(Number(e.target.value))}
               className="w-full border p-2 rounded mt-1"
+              disabled={saving}
             />
           </label>
           <div className="flex justify-end gap-2">
@@ -37,14 +49,23 @@ const EditSalaryModal = ({ staff, onClose, onSave }) => {
               type="button"
               onClick={onClose}
               className="px-4 py-2 border rounded"
+              disabled={saving}
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="px-4 py-2 bg-blue-600 text-white rounded"
+              className="px-4 py-2 bg-blue-600 text-white rounded flex items-center gap-2"
+              disabled={saving}
             >
-              Save
+              {saving ? (
+                <>
+                  <span className="loader w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                  Saving...
+                </>
+              ) : (
+                "Save"
+              )}
             </button>
           </div>
         </form>
