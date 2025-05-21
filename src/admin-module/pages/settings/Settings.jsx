@@ -17,7 +17,13 @@ function Settings() {
   smallTextIcon={<FaPlus />}
   link="/admin/settings/packages"
 />
-
+<SettingsCard
+  rightIcon={<BsCurrencyDollar />}
+  title="Manage Salaries"
+  subtitle="Manage staff salaries."
+  smallTextIcon={<FaPlus />}
+  link="/admin/settings/salaries"
+/>
 <SettingsCard
   rightIcon={<BsCurrencyDollar />}
   title="Manage Charges"
