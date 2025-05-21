@@ -47,18 +47,18 @@ const SalaryManagement = () => {
       <table className="w-full border min-w-[700px]">
         <thead className="bg-gray-100 text-green-800">
           <tr>
-            <th>Name</th>
-            <th>Agreed Salary</th>
-            <th>Service Charge</th>
-            <th>Action</th>
+            <th className="p-2">Name</th>
+            <th className="p-2">Agreed Salary</th>
+            <th className="p-2">Service Charge</th>
+            <th className="p-2">Action</th>
           </tr>
         </thead>
         <tbody>
           {staffList.map((staff) => (
             <tr key={staff.id} className="border-t">
-              <td>{staff.surname} {staff?.first_name} {staff?.middle_name}</td>
-              <td>₦{staff?.salary_agreed?.toLocaleString() || 0}</td>
-              <td>{staff?.service_charge || 0}</td>
+              <td className="p-2">{staff.surname} {staff?.first_name} {staff?.middle_name}</td>
+              <td className="p-2">₦{staff?.salary_agreed?.toLocaleString() || 0}</td>
+              <td className="p-2">₦{staff?.service_charge || 0}</td>
               <td>
                 <button
                   className="text-blue-600 underline"
