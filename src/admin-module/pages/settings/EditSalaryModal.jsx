@@ -25,7 +25,7 @@ const EditSalaryModal = ({ staff, onClose, onSave }) => {
         <h3 className="text-xl font-bold mb-4">Edit {staff.name}</h3>
         <form onSubmit={handleSubmit}>
           <label className="block mb-2">
-            Salary:
+            Salary :
             <input
               type="number"
               value={salary}
@@ -35,7 +35,7 @@ const EditSalaryModal = ({ staff, onClose, onSave }) => {
             />
           </label>
           <label className="block mb-4">
-            Markup Fee (%):
+            Service Charge:
             <input
               type="number"
               value={markupFee}
