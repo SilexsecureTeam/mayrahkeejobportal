@@ -43,7 +43,8 @@ const SalaryManagement = () => {
   return (
     <div className="p-4">
       <h2 className="text-2xl font-semibold mb-4">Salary Management</h2>
-      <table className="w-full border">
+      <div className="overflow-x-auto">
+      <table className="w-full border min-w-[700px]">
         <thead className="bg-gray-100">
           <tr>
             <th>Name</th>
@@ -56,8 +57,8 @@ const SalaryManagement = () => {
           {staffList.map((staff) => (
             <tr key={staff.id} className="border-t">
               <td>{staff.surname} {staff?.first_name} {staff?.middle_name}</td>
-              <td>₦{staff?.salary_agreed?.toLocaleString()}</td>
-              <td>{staff?.service_charge}</td>
+              <td>₦{staff?.salary_agreed?.toLocaleString() || 0}</td>
+              <td>{staff?.service_charge || 0}</td>
               <td>
                 <button
                   className="text-blue-600 underline"
@@ -70,6 +71,7 @@ const SalaryManagement = () => {
           ))}
         </tbody>
       </table>
+        </div>
 
       {selectedStaff && (
         <EditSalaryModal
