@@ -25,7 +25,7 @@ const SalaryManagement = () => {
   const handleUpdate = async (updatedStaff) => {
     try {
       await axios.put(`${import.meta.env.VITE_BASE_URL}/salary/update`, {
-        domestic_staff_id: updatedStaff?.id
+        domestic_staff_id: updatedStaff?.id,
         salary_agreed: updatedStaff?.salary_agreed,
         service_charge: updatedStaff?.service_charge,
       });
