@@ -392,8 +392,8 @@ const userVerified = isArtisan
   <img src="/price-tag.png" className="w-[30px]" />
   Salary:
   <span className="text-sm w-[60%] text-start font-normal text-gray-500">
-    {data?.expected_salary && parseFloat(data.expected_salary) > 0
-      ? FormatPrice(parseFloat(data.expected_salary) * (1 + Number(charges?.domestic_percent || 0)/100))
+    {data?.salary_agreed && parseFloat(data.salary_agreed) > 0
+      ? FormatPrice(parseFloat(data.salary_agreed) + Number(data?.markup_fee))
       : "Not specified"}
   </span>
 </span>}
