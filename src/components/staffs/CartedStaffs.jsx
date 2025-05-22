@@ -36,7 +36,7 @@ function CartedStaffs() {
   const handleSelectAll = (e) => {
     if (e.target.checked) {
       const validItems = cartItems.filter(item =>
-        isArtisan || Number(item?.domestic_staff?.expected_salary) > 0
+        isArtisan || Number(item?.domestic_staff?.salary_agreed) > 0
       );
       setSelectedItems(validItems);
     } else {
@@ -246,7 +246,7 @@ applicablelabourlaws.</p>
                   <div key={idx} className="flex items-center border-b pb-4">
                     <input
                       type="checkbox"
-                      disabled={!isArtisan && Number(item?.domestic_staff?.expected_salary) <= 0}
+                      disabled={!isArtisan && Number(item?.domestic_staff?.salary_agreed) <= 0}
                       checked={selectedItems.includes(item)}
                       onChange={() => handleItemSelect(item)}
                       className="mr-4"
