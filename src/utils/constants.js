@@ -964,6 +964,16 @@ export const field_sections2 = {
       field_name: "age",
     },
     {
+      name: "Residential Address",
+      type: "number",
+      field_name: "residential_address",
+    },
+    {
+      name: "Closest Landmark",
+      type: "number",
+      field_name: "closest_landmark",
+    },
+    {
       name: "Gender",
       type: "select",
       options: ["Male", "Female"],
