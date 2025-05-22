@@ -5,6 +5,7 @@ import Business from "./subcontents/Business";
 import MedicalHistory from "./subcontents/MedicalHistory";
 import PoliceRecord from "./subcontents/PoliceRecord";
 import Residence from "./subcontents/Residence";
+import NIN from "./subcontents/NIN";
 
 import useStaff from "../../hooks/useStaff";
 import { verificationOptions1, verificationOptions2 } from "../../utils/constants";
@@ -32,6 +33,8 @@ const MainContent = ({ staff }) => {
         return <PoliceRecord staff={staff} />;
       case "Business":
         return <Business staff={staff} />;
+      case "National Id":
+        return <NIN staff={staff} />;
       default:
         return null;
     }
