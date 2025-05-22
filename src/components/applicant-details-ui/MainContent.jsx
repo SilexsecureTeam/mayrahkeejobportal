@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { TbBriefcase2 } from "react-icons/tb";
 import Garantor from "./subcontents/Garantor";
+import Business from "./subcontents/Business";
 import MedicalHistory from "./subcontents/MedicalHistory";
 import PoliceRecord from "./subcontents/PoliceRecord";
 import Residence from "./subcontents/Residence";
@@ -29,6 +30,8 @@ const MainContent = ({ staff }) => {
         return <Residence staff={staff} />;
       case "Police Report":
         return <PoliceRecord staff={staff} />;
+      case "Business":
+        return <Business staff={staff} />;
       default:
         return null;
     }
