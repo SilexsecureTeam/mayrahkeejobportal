@@ -3,6 +3,7 @@ import { useState } from "react";
 const EditSalaryModal = ({ staff, onClose, onSave }) => {
   const [salary, setSalary] = useState(staff.salary_agreed);
   const [markupFee, setMarkupFee] = useState(staff.service_charge);
+  const [serviceCharge, setServiceCharge] = useState(staff.markup_fee);
   const [saving, setSaving] = useState(false);
 
   const handleSubmit = async (e) => {
@@ -12,7 +13,8 @@ const EditSalaryModal = ({ staff, onClose, onSave }) => {
       await onSave({
         ...staff,
         salary_agreed: salary,
-        service_charge: markupFee,
+        service_charge: serviceCharge,
+        markup_fee: markupFee
       });
     } finally {
       setSaving(false);
@@ -35,11 +37,21 @@ const EditSalaryModal = ({ staff, onClose, onSave }) => {
             />
           </label>
           <label className="block mb-4">
-            Service Charge:
+            Service Markup:
             <input
               type="number"
               value={markupFee}
               onChange={(e) => setMarkupFee(Number(e.target.value))}
+              className="w-full border p-2 rounded mt-1"
+              disabled={saving}
+            />
+          </label>
+          <label className="block mb-4">
+            Service Charge:
+            <input
+              type="number"
+              value={serviceCharge}
+              onChange={(e) => setServiceCharge(Number(e.target.value))}
               className="w-full border p-2 rounded mt-1"
               disabled={saving}
             />
