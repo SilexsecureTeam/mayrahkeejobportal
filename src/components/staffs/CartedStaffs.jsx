@@ -269,7 +269,7 @@ applicablelabourlaws.</p>
                           {isArtisan ? (
                             ""
                           ) : Number(item?.domestic_staff?.expected_salary) > 0 ? (
-                            FormatPrice(Number(item.domestic_staff.salary_agreed) + Number(item.domestic_staff.markup_fee || 0)
+                            FormatPrice(Number(item.domestic_staff.salary_agreed) + Number(item.domestic_staff.markup_fee || 0))
                           ) : (
                             <span className="text-red-500 font-medium">Salary not set</span>
                           )}
