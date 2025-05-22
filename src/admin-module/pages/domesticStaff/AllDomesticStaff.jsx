@@ -62,8 +62,8 @@ function AllDomesticStaff() {
     [heading[7].toLowerCase()]: staff.years_of_experience,
     [heading[8].toLowerCase()]: staff.salary_agreed || 0,
     [heading[9].toLowerCase()]: staff.service_charge || 0,
-    [heading[9].toLowerCase()]: staff.markup_fee || 0,
-    [heading[10].toLowerCase()]: staff.location,
+    [heading[10].toLowerCase()]: staff.markup_fee || 0,
+    [heading[11].toLowerCase()]: staff.location,
   }));
 
   return (
