@@ -92,15 +92,18 @@ function CartedStaffs() {
   //console.log(cartItems, selectedItems)
   // Pricing logic
 const rawSalaryTotal = selectedItems.reduce(
-  (total, item) => total + Number(item?.domestic_staff?.expected_salary),
+  (total, item) => total + (Number(item?.domestic_staff?.salary_agreed) + Number(item?.domestic_staff?.markup_fee)),
   0
 );
 
 const salaryTotal = isArtisan
   ? 0
-  : rawSalaryTotal * (1 + Number(data?.domestic_percent || 0) / 100);
+  : rawSalaryTotal;
 
-const serviceFeeTotal = CONMPANY_TAX * selectedItems.length;
+const serviceFeeTotal = isArtisan ? CONMPANY_TAX * selectedItems?.length: selectedItems.reduce(
+  (total, item) => total + Number(item?.domestic_staff?.service_charge || 0),
+  0
+);
 const vatPercent = Number(data?.vat_percent || 0);
 const totalBeforeVat = salaryTotal + serviceFeeTotal;
 const totalVat = (totalBeforeVat * vatPercent) / 100;
@@ -266,9 +269,9 @@ applicablelabourlaws.</p>
                           {isArtisan ? (
                             ""
                           ) : Number(item?.domestic_staff?.expected_salary) > 0 ? (
-                            FormatPrice(Number(item.domestic_staff.expected_salary) * (1 + Number(data?.domestic_percent || 0) / 100))
+                            FormatPrice(Number(item.domestic_staff.salary_agreed) + Number(item.domestic_staff.markup_fee || 0)
                           ) : (
-                            <span className="text-red-500 font-medium">Expected salary not set</span>
+                            <span className="text-red-500 font-medium">Salary not set</span>
                           )}
                         </p>
 
@@ -315,7 +318,7 @@ applicablelabourlaws.</p>
                     </span>
                     <span>
                       {!isArtisan &&
-                        FormatPrice(Number(item.domestic_staff.expected_salary) * (1 + Number(data?.domestic_percent || 0) / 100))}
+                        FormatPrice(Number(item.domestic_staff.salary_agreed) + Number(item.domestic_staff.markup_fee || 0))}
                     </span>
                   </li>
                 ))}
