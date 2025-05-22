@@ -11,7 +11,7 @@ import GuarantorReportDialog from "../../components/Dialog/GuarantorReport";
 import PreviousWorkExperienceDialog from "../../components/Dialog/PreviousWorkExperienceDialogue";
 import ResidentDialog from "../../components/Dialog/ResidentDialogue";
 import { formatDate } from "../../../utils/formmaters";
-import EditSalaryModal from "./EditSalaryModal";
+import EditSalaryModal from "../settings/EditSalaryModal";
 
 const DomesticStaffDetails = () => {
   const { id } = useParams();
