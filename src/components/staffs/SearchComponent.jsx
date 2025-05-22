@@ -64,7 +64,7 @@ function SearchComponent({ subCategories, handleQuerySubmit, title = "Subcategor
             ) : (
               <MdCheckBoxOutlineBlank className="flex-shrink-0" />
             )}
-            <span>Age Range</span>
+            <span>Age</span>
           </div>
           <div className="flex items-center gap-2 text-sm md:text-xl leading-none cursor-pointer" onClick={toogleGender}>
             {byGender ? (
@@ -134,7 +134,7 @@ function SearchComponent({ subCategories, handleQuerySubmit, title = "Subcategor
 
         {byAge && (
           <div className="flex flex-col">
-            <label>Age Range</label>
+            <label>Age </label>
             <select
               className="p-1 border focus:outline-none border-gray-900 rounded-md"
               {...register("age")}
