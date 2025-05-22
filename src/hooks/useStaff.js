@@ -96,25 +96,24 @@ function useStaff() {
     }
   };
     const getBusinessDetails = async (staffId) => {
-    try {
-      const { data } = await client.get(
-        `/business/domestic/${staffId}`
-      );
-
-      if (data.businesses) {
-        return data.businesses[0];
-      }
-      return [];
-    } catch (error) {
-      onFailure({
-        message: "Business Error",
-        failure: "Error Retrieving business details",
-      });
-
+  try {
+    const { data } = await client.get(`/business/domestic/${staffId}`);
+    if (data.businesses) {
+      return data.businesses[0];
+    }
+    return [];
+  } catch (error) {
+    if (error.response && error.response.data.message === "No businesses found for this domestic staff") {
+      // Handle this specific case without displaying an error
       return [];
     }
-  };
-
+    onFailure({
+      message: "Business Error",
+      failure: "Error Retrieving business details",
+    });
+    return [];
+  }
+};
   //To get Work Experience
   const getWorkExperience = async (staffId) => {
     try {
