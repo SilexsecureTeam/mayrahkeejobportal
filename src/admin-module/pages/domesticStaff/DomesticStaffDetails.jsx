@@ -20,8 +20,7 @@ const DomesticStaffDetails = () => {
   const [artisan, setArtisan] = useState(null);
   const [loadingStaff, setLoadingStaff] = useState(true);
   const [showEditModal, setShowEditModal] = useState(false);
-  const [isSaving, setIsSaving] = useState(false);
-
+  
   useEffect(() => {
     (async () => {
       setLoadingStaff(true);
@@ -39,7 +38,6 @@ const DomesticStaffDetails = () => {
   };
 
   const handleSaveSalary = async (updatedStaff) => {
-    setIsSaving(true);
     try {
       await axios.post(`${import.meta.env.VITE_BASE_URL}/salary/update`, {
         domestic_staff_id: updatedStaff.id,
@@ -53,7 +51,7 @@ const DomesticStaffDetails = () => {
         ...prev,
         data: {
           ...prev.data,
-          current_salary: updatedStaff.salary_agreed,
+          salary_agreed: updatedStaff.salary_agreed,
           service_charge: updatedStaff.service_charge,
         },
       }));
@@ -62,8 +60,6 @@ const DomesticStaffDetails = () => {
     } catch (error) {
       console.error("Error updating salary", error);
       toast.error("Failed to update salary");
-    } finally {
-      setIsSaving(false);
     }
   };
 
@@ -129,7 +125,7 @@ const DomesticStaffDetails = () => {
             </div>
             <div className="flex">
               <p className="text-sm font-bold">Current Salary:</p>
-              <p className="text-sm ml-2">₦{data?.current_salary?.toLocaleString() || 0}</p>
+              <p className="text-sm ml-2">₦{data?.salary_agreed?.toLocaleString() || 0}</p>
             </div>
             <div className="flex">
               <p className="text-sm font-bold">Service Charge:</p>
@@ -138,7 +134,7 @@ const DomesticStaffDetails = () => {
 
             <div className="mt-4">
               <button
-                className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+                className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700"
                 onClick={() => setShowEditModal(true)}
               >
                 Edit Salary
@@ -212,7 +208,6 @@ const DomesticStaffDetails = () => {
           staff={data}
           onClose={() => setShowEditModal(false)}
           onSave={handleSaveSalary}
-          isSaving={isSaving}
         />
       )}
     </div>
