@@ -38,8 +38,9 @@ function AllDomesticStaff() {
     "Job",
     "Status",
     "YOE",
-    "Current Salary",
-    "Expected Salary",
+    "Agreed Salary",
+    "Service Charge",
+    "Salary Markup",
     "Location",
   ];
 
@@ -59,8 +60,9 @@ function AllDomesticStaff() {
     [heading[5].toLowerCase()]: staff.job_type,
     [heading[6].toLowerCase()]: staff.status,
     [heading[7].toLowerCase()]: staff.years_of_experience,
-    [heading[8].toLowerCase()]: staff.current_salary,
-    [heading[9].toLowerCase()]: staff.expected_salary,
+    [heading[8].toLowerCase()]: staff.salary_agreed,
+    [heading[9].toLowerCase()]: staff.service_charge,
+    [heading[9].toLowerCase()]: staff.markup_fee,
     [heading[10].toLowerCase()]: staff.location,
   }));
 
