@@ -255,6 +255,7 @@ export default function FormData({ setToMain, toogleIsOpen, field_sections }) {
                                         {currentKey.type !== "select" ? (
                                             currentKey.type === "number" ? (
                                                 <input
+                                                    required
                                                     className="p-1 border focus:outline-none border-gray-900 rounded-md"
                                                     type="number"
                                                     defaultValue={detail}
@@ -262,6 +263,7 @@ export default function FormData({ setToMain, toogleIsOpen, field_sections }) {
                                                 />
                                             ) : (
                                                 <input
+                                                    required
                                                     className="p-1 border focus:outline-none border-gray-900 rounded-md"
                                                     type={inputType}
                                                     defaultValue={detail || ""}
@@ -270,6 +272,7 @@ export default function FormData({ setToMain, toogleIsOpen, field_sections }) {
                                             )
                                         ) : (
                                             <select
+                                                required
                                                 className="p-1 border focus:outline-none border-gray-900 rounded-md"
                                                 defaultValue={detail}
                                                 {...register(currentKey.field_name)}
@@ -420,6 +423,7 @@ export default function FormData({ setToMain, toogleIsOpen, field_sections }) {
                                         </label>
                                         {currentKey.type !== "select" ? (
                                             <input
+                                                required
                                                 className="p-1 border focus:outline-none border-gray-900  rounded-md"
                                                 type={currentKey.type}
                                                 defaultValue={detail}
@@ -427,6 +431,7 @@ export default function FormData({ setToMain, toogleIsOpen, field_sections }) {
                                             />
                                         ) : (
                                             <select
+                                                required
                                                 className="p-1 border focus:outline-none border-gray-900  rounded-md"
                                                 defaultValue={detail}
                                                 {...register(currentKey.field_name)}
