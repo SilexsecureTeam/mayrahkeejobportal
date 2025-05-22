@@ -334,7 +334,7 @@ applicablelabourlaws.</p>
                 </li>
                 <li className="flex justify-between text-sm mb-2">
   <span>VAT ({vatPercent}%)</span>
-  <span>{FormatPrice(totalVat)}</span>
+  <span>{totalVat ? FormatPrice(totalVat) : 0}</span>
 </li>
                 <li className="flex justify-between font-bold text-lg">
                   <span>Grand Total</span>
