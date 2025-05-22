@@ -71,8 +71,8 @@ function TableRow({ info, data, isMarket = false, handleAddToCart, handleRemoveC
       <td className="text-left py-3 px-2 w-1/5">
         <span className="break-all">
         {data?.staff_category === "artisan" ? (
-                            "No salary shown"
-                          ) : Number(data?.expected_salary) > 0 ? (
+                            ""
+                          ) : Number(data?.salary_agreed) > 0 ? (
                             FormatPrice(Number(data?.salary_agreed) + Number(data?.markup_fee || 0))
                           ) : (
                             <span className="text-red-500 font-medium">Salary not set</span>
