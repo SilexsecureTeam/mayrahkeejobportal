@@ -54,6 +54,7 @@ const DomesticStaffDetails = () => {
           ...prev.data,
           salary_agreed: updatedStaff.salary_agreed,
           service_charge: updatedStaff.service_charge,
+          markup_fee: updatedStaff.markup_fee
         },
       }));
 
