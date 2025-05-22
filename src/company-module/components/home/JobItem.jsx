@@ -44,7 +44,7 @@ function JobItem({ data, applicants }) {
       </div>
   
 
-      <div className="flex gap-[5px] justify-between">
+      <div className="flex gap-[5px] w-max justify-between">
         <button className="border border-[#ffb836] text-little px-2 h-fit  text-[#ffb836] rounded-[20px] flex items-center justify-center">
           {data?.currency?.split(' ')[0]} {FormatPrice(Number(data?.min_salary))}
         </button>
