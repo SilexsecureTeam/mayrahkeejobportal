@@ -9,27 +9,27 @@ import { FormatError } from "../../../utils/formmaters";
 import ConfirmationPopUp from "./ConfirmationPopUp";
 
 const formFields = [
-  "business_name",
+  /*"business_name",
   "business_email",
   "business_phone_no",
   "whatsapp_phone_no",
   "business_registration_no",
   "business_address",
   "business_location",
-  "year_of_incorporation",
+  "year_of_incorporation",*/
   "business_identification_no",
   "business_file",
 ];
 
 const labelMapping = {
-  business_name: "Business Name",
+  /*business_name: "Business Name",
   business_email: "Business Email",
   business_phone_no: "Business Phone Number",
   whatsapp_phone_no: "WhatsApp Phone Number",
   business_registration_no: "Business Registration No.",
   business_address: "Business Address",
   business_location: "Business Location",
-  year_of_incorporation: "Year of Incorporation",
+  year_of_incorporation: "Year of Incorporation",*/
   business_identification_no: "Business Identification No.",
   business_file: "Business File",
 };
