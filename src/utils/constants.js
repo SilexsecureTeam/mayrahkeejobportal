@@ -998,55 +998,53 @@ export const field_sections2 = {
   ],
 professional: [
     {
-      name: "Employment Type",
-      type: "select",
+      name: "Business Name",
+      type: "text",
       options: ["Full Time", "Part Time"],
-      field_name: "employment_type",
+      field_name: "business_name",
     },
     {
-      name: "Work Type",
-      type: "select",
-      options: ["Live Out", "Live In"],
-      field_name: "work_type",
+      name: "Business Email",
+      type: "email",
+      field_name: "business_email",
     },
     {
-      name: "Work Days",
-      type: "select",
-      options: [
-        "1 Day",
-        "2 Days",
-        "3 Days",
-        "4 Days",
-        "5 Days",
-        "6 Days",
-        "7 Days",
-      ],
-      field_name: "work_days",
+      name: "Business Phone No",
+      type: "tel",
+      field_name: "business_phone_no",
     },
     {
-      name: "Rumuneration",
-      type: "select",
-      options: ["Daily Pay", "Weekly Pay", "Bi-Weekly Pay", "Monthly Pay"],
-      field_name: "rumuneration",
+      name: "Business Registration No",
+      type: "text",
+      field_name: "business_registration_no",
     },
     {
-      name: "Current Salary",
+      name: "Business Identification No",
+      type: "text",
+      field_name: "business_identification_no",
+    },
+    {
+      name: "Business Address",
+      type: "text",
+      field_name: "business_address",
+    },
+    {
+      name: "Business Location",
+      type: "text",
+      field_name: "business_location",
+    },
+    {
+      name: "Years Of Incoporation",
       type: "number",
-      field_name: "current_salary",
-    },
-    {
-      name: "Expected Salary",
-      type: "number",
-      field_name: "expected_salary",
+      field_name: "years_of_incorporation",
     },
     {
       name: "Years Of Experience",
       type: "number",
       field_name: "years_of_experience",
     },
-
     {
-      name: "Education Level",
+      name: "Highest Level of Education",
       type: "select",
       options: [
         "Primary School Certificate",
@@ -1057,6 +1055,11 @@ professional: [
       ],
       field_name: "education_level",
     },
+    {
+      name: "Whatsapp Number",
+      type: "number",
+      field_name: "whatsapp_phone_no",
+    }
   ],
   secondary: [
     {
