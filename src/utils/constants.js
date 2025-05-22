@@ -903,14 +903,9 @@ export const field_sections1 = {
       field_name: "rumuneration",
     },
     {
-      name: "Current Salary",
+      name: "Agreed Salary",
       type: "number",
-      field_name: "current_salary",
-    },
-    {
-      name: "Expected Salary",
-      type: "number",
-      field_name: "expected_salary",
+      field_name: "salary_agreed",
     },
     {
       name: "Years Of Experience",
