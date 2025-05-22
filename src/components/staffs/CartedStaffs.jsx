@@ -324,13 +324,13 @@ applicablelabourlaws.</p>
                 ))}
               </ul>
               <ul className="border-t pt-4">
-                <li className="flex justify-between text-sm mb-2">
+                {!isArtisan && <li className="flex justify-between text-sm mb-2">
                   <span>Total Price (Item)</span>
-                  <span>{!isArtisan ? FormatPrice(salaryTotal) : "N/A"}</span>
-                </li>
+                  <span>{FormatPrice(salaryTotal)}</span>
+                </li>}
                 <li className="flex justify-between text-sm mb-2">
                   <span>Service Charge</span>
-                  <span>{FormatPrice(serviceFeeTotal)}</span>
+                  <span>{serviceFeeTotal ? FormatPrice(serviceFeeTotal) : 0}</span>
                 </li>
                 <li className="flex justify-between text-sm mb-2">
   <span>VAT ({vatPercent}%)</span>
@@ -338,7 +338,7 @@ applicablelabourlaws.</p>
 </li>
                 <li className="flex justify-between font-bold text-lg">
                   <span>Grand Total</span>
-                  <span>{FormatPrice(grandTotal)}</span>
+                  <span>{grandTotal ? FormatPrice(grandTotal): 0}</span>
                 </li>
               </ul>
               <button
