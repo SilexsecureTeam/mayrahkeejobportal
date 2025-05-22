@@ -43,6 +43,7 @@ const DomesticStaffDetails = () => {
         domestic_staff_id: updatedStaff.id,
         salary_agreed: updatedStaff.salary_agreed,
         service_charge: updatedStaff.service_charge,
+        markup_fee : updatedStaff.markup_fee
       });
 
       toast.success("Salary updated successfully");
@@ -131,6 +132,11 @@ const DomesticStaffDetails = () => {
               <p className="text-sm font-bold">Service Charge:</p>
               <p className="text-sm ml-2">₦{data?.service_charge || 0}</p>
             </div>
+            <div className="flex">
+              <p className="text-sm font-bold">Salary Markup:</p>
+              <p className="text-sm ml-2">₦{data?.markup_fee || 0}</p>
+            </div>
+            
 
             <div className="mt-4">
               <button
