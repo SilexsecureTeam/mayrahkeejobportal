@@ -18,7 +18,7 @@ function CartedStaffs() {
   const location = useLocation();
   const { data } = location?.state || { data: null };
   const isArtisan = data?.type === "artisan";
-  const CONMPANY_TAX = Number(data?.service_fee) ?? 0;
+  const CONMPANY_TAX = Number(data?.service_charge) ?? 0;
 
   const navigate = useNavigate();
   const { authDetails } = useContext(AuthContext);
