@@ -18,7 +18,7 @@ const MainContent = ({ staff }) => {
   // Dynamically select verification options based on staff category
   const verificationOptions = staff?.staff_category === "artisan" 
     ? verificationOptions2 
-    : verificationOptions1;
+    : verificationOptions1?.filter(p=> p.label !== "Work Experience");
 
   // Function to render the content based on active tab
   const renderContent = () => {
@@ -81,7 +81,7 @@ const MainContent = ({ staff }) => {
           <span className="border-b-2 border-black pb-1">All experience</span>
         </div>
         <div className="space-y-3">
-          {workExperience.length > 0 ? workExperience.map((job, index) => (
+          {staff?.staff_category !== "artisan" && workExperience.length > 0 ? workExperience.map((job, index) => (
             <div className={`${index !== 0 && "border-t border-gray-300"} flex gap-2 pt-3`} key={index}>
               <TbBriefcase2 size="24" className="flex-shrink-0 mr-2" />
               <section>
