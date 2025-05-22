@@ -56,9 +56,9 @@ function JobUpdates({ jobs, applicants }) {
 
       {/* Job Listings */}
       <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 p-3 px-8 mt-4 h-[85%] justify-start items-start gap-[15px] w-full max-w-[98%]">
-        {filteredJobs?.map((current) => (
+        {filteredJobs?.length > 0 ? filteredJobs?.map((current) => (
           <JobItem key={current.id} data={current} applicants={applicants} />
-        ))}
+        )) : <p>No job updates available</p>}
       </ul>
     </div>
   );
