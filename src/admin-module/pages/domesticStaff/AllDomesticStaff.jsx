@@ -37,7 +37,7 @@ function AllDomesticStaff() {
     "Subcategory",
     "Job",
     "Status",
-    "YOE",
+    "Experience (years)",
     "Agreed Salary",
     "Service Charge",
     "Salary Markup",
@@ -60,9 +60,9 @@ function AllDomesticStaff() {
     [heading[5].toLowerCase()]: staff.job_type,
     [heading[6].toLowerCase()]: staff.status,
     [heading[7].toLowerCase()]: staff.years_of_experience,
-    [heading[8].toLowerCase()]: staff.salary_agreed,
-    [heading[9].toLowerCase()]: staff.service_charge,
-    [heading[9].toLowerCase()]: staff.markup_fee,
+    [heading[8].toLowerCase()]: staff.salary_agreed || 0,
+    [heading[9].toLowerCase()]: staff.service_charge || 0,
+    [heading[9].toLowerCase()]: staff.markup_fee || 0,
     [heading[10].toLowerCase()]: staff.location,
   }));
 
