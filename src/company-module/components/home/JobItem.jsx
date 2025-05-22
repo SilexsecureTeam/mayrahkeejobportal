@@ -45,11 +45,11 @@ function JobItem({ data, applicants }) {
   
 
       <div className="flex gap-[5px] w-[40%] justify-between">
-        <button className="border border-[#ffb836] text-little px-2 h-fit  text-[#ffb836] rounded-[20px]">
+        <button className="border border-[#ffb836] text-little px-2 h-fit  text-[#ffb836] rounded-[20px] flex items-center justify-center">
           {data?.currency?.split(' ')[0]} {FormatPrice(Number(data?.min_salary))}
         </button>
         to
-        <button className="border border-primaryColor text-little px-2 h-fit   text-primaryColor rounded-[20px]">
+        <button className="border border-primaryColor text-little px-2 h-fit flex items-center justify-center text-primaryColor rounded-[20px]">
         {data?.currency?.split(' ')[0]} {FormatPrice(Number(data?.max_salary))}
         </button>
       </div>
