@@ -167,7 +167,7 @@ function DomesticStaff() {
             <button
               onClick={() => navigate("/applicant/staff/contract-history", {
                 state: {
-                  data: { type: "domestic" },
+                  data: { type: "staff" },
                 }
               })}
               className="flex items-center gap-2 ml-auto"
