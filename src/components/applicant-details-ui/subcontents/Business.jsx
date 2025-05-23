@@ -10,8 +10,8 @@ function Business({ staff }) {
     const initData = async () => {
       try {
         const result = await getBusinessDetails(staff.id);
-        if (result[0]) {
-          setBusiness({ ...result[0] });
+        if (result) {
+          setBusiness({ ...result?.businesses[0] });
         }
       } finally {
         setLoading(false);
