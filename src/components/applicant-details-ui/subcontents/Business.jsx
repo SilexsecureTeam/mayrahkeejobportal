@@ -68,7 +68,7 @@ function Business({ staff }) {
                       <img
                         src={fileUrl}
                         alt="Business File"
-                        className="max-w-xs max-h-40 object-contain border border-gray-300 rounded"
+                        className="w-full max-w-xs max-h-40 object-contain border border-gray-300 rounded"
                       />
                     )}
                     <a
