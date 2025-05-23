@@ -94,7 +94,7 @@ function Garantor({ staff }) {
 
               <div className="flex flex-col text-lg font-semibold text-gray-800">
                 <h1>Email</h1>
-                <p className="text-md font-normal">{garantor.email}</p>
+                <p className="text-md font-normal break-all">{garantor.email}</p>
               </div>
             </div>
           ) : (
