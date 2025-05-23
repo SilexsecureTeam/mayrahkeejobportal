@@ -11,7 +11,7 @@ function Business({ staff }) {
       try {
         const result = await getBusinessDetails(staff.id);
         if (result) {
-          setBusiness({ ...result?.businesses[0] });
+          setBusiness(result);
         }
       } finally {
         setLoading(false);
