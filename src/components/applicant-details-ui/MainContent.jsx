@@ -75,13 +75,14 @@ const MainContent = ({ staff }) => {
       </section>
 
       {/* Work experience section */}
-      <section>
+      {staff?.staff_category !== "artisan" &&
+        <section>
         <h4 className="text-xl font-semibold mb-4">Work experience</h4>
         <div className="flex space-x-4 text-gray-600 mb-4">
           <span className="border-b-2 border-black pb-1">All experience</span>
         </div>
         <div className="space-y-3">
-          {staff?.staff_category !== "artisan" && workExperience.length > 0 ? workExperience.map((job, index) => (
+          { workExperience.length > 0 ? workExperience.map((job, index) => (
             <div className={`${index !== 0 && "border-t border-gray-300"} flex gap-2 pt-3`} key={index}>
               <TbBriefcase2 size="24" className="flex-shrink-0 mr-2" />
               <section>
@@ -97,7 +98,7 @@ const MainContent = ({ staff }) => {
            <span>No work experience found</span>
         }
         </div>
-      </section>
+      </section>}
     </main>
   );
 };
