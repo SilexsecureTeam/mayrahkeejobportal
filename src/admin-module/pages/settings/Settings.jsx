@@ -19,13 +19,6 @@ function Settings() {
 />
 <SettingsCard
   rightIcon={<BsCurrencyDollar />}
-  title="Manage Salaries"
-  subtitle="Manage staff salaries."
-  smallTextIcon={<FaPlus />}
-  link="/admin/settings/salary"
-/>
-<SettingsCard
-  rightIcon={<BsCurrencyDollar />}
   title="Manage Charges"
   subtitle="Manage service charges, salary markup percentages, and VAT rates for your staff."
   smallTextIcon={<FaPlus />}
