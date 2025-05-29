@@ -37,8 +37,6 @@ import AdminSideBarItem from "../admin-module/components/AdminSideBarItem";
 import JobDescriptionPage from "../admin-module/pages/Jobs/JobDescriptionPage";
 import AllJobs from "../admin-module/pages/Jobs/AllJobListing";
 import AdminReducer from "../reducers/AdminReducer";
-import Salaries from "../admin-module/pages/settings/Salary/Salaries";
-import AddSalary from "../admin-module/pages/settings/Salary/AddSalary";
 import AdminChangePassword from "../components/AdminAuth/AdminChangePwd";
 import Security from "../admin-module/pages/settings/Security/security";
 import AllDataJobsPostedEmployer from "../admin-module/pages/employers/AllJobsPostedByEmployer";
@@ -204,9 +202,8 @@ function useAdminRoute() {
                       <Route path="/settings/sectors/categories" element={<AddCategory />} />
                       <Route path="/settings/currency" element={<Currency />} />
                       <Route path="/settings/currency/add" element={<AddCurrency />} />
-                      <Route path="/settings/salary" element={<Salaries />} />
-                      <Route path="/settings/salary/add" element={<AddSalary />} />
-                      <Route path="/settings/security" element={<Security />} />
+                      
+                     <Route path="/settings/security" element={<Security />} />
                       <Route path="/settings/security/admins" element={<AllAdmins />} />
                       <Route path="/help-center" element={<HelpCenter />} />
                       <Route path="/artisan" element={<Artisan />} />
