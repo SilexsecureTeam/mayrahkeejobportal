@@ -113,7 +113,7 @@ function SubscriptionCard({ data, setIsOpen, currentPackage }) {
           {({ initializePayment }) => (
             <>
               <button
-                disabled={subUtils?.loading || (currentPackage && currentPackage?.package_id !== data.id)}
+                disabled={subUtils?.loading || (currentPackage && currentPackage?.package_id !== data.id && Number(currentPackage?.available_jobs) > 0)}
                 onClick={() => setShowModal(true)}
                 className="text-sm font-semibold w-[80%] h-[35px] rounded-md transition-all group-odd:bg-primaryColor group-odd:text-white group-even:bg-white group-even:text-primaryColor hover:scale-105 disabled:opacity-60"
               >
