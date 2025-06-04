@@ -108,10 +108,10 @@ function JobDetails({ data, jobUtils, applicants, exclusive }) {
               <MdDeleteForever className="text-red-600" />
               Delete
             </button>
-            <button onClick={handleEdit} className="px-1 py-1 flex text-sm border items-center justify-center gap-1 w-1/2 md:w-20">
+            {(data?.status === "pending" || data?.status === "approved" || data?.status === "1" || data?.status === "0") && <button onClick={handleEdit} className="px-1 py-1 flex text-sm border items-center justify-center gap-1 w-1/2 md:w-20">
               <CiEdit className="text-primaryColor" />
               Edit
-            </button>
+            </button>}
             {(data?.status === "pending" || data?.status === "approved" || data?.status === "1" || data?.status === "0") && new Date(data?.application_deadline_date) >= new Date()
   ? (
     <DefaultSwitch
