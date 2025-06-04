@@ -944,14 +944,14 @@ export const field_sections2 = {
       field_name: "first_name",
     },
     {
-      name: "Surname",
-      type: "text",
-      field_name: "surname",
-    },
-    {
       name: "Middle name",
       type: "text",
       field_name: "middle_name",
+    },
+    {
+      name: "Surname",
+      type: "text",
+      field_name: "surname",
     },
     {
       name: "Email",
