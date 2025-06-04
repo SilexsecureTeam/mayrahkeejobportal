@@ -112,7 +112,7 @@ function JobDetails({ data, jobUtils, applicants, exclusive }) {
               <CiEdit className="text-primaryColor" />
               Edit
             </button>
-            {(data?.status === "pending" || data?.status === "approved" || data?.status === 1 || data?.status === 0) && new Date(data?.application_deadline_date) >= new Date()
+            {(data?.status === "pending" || data?.status === "approved" || data?.status === "1" || data?.status === "0") && new Date(data?.application_deadline_date) >= new Date()
   ? (
     <DefaultSwitch
       enabled={enabled}
