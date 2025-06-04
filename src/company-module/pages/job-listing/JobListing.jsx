@@ -3,14 +3,16 @@ import Header from "../../components/job-listing/Header";
 import ListingRow from "../../components/job-listing/ListingRow";
 import useJobManagement from "../../../hooks/useJobManagement";
 import useApplicationManagement from "../../../hooks/useApplicationManagement";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { ApplicationContext } from "../../../context/ApplicationContext";
 import { JobContext } from "../../../context/JobContext";
 
 function JobListing() {
   const jobUtils = useJobManagement();
   const { applicants } = useApplicationManagement();
-  
+  useEffect(() => {
+    jobUtils.fetchJobs(); // <- Fetch fresh jobs when this page loads
+  }, []);
   return (
     <>
       <Helmet>
