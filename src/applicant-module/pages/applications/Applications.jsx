@@ -101,7 +101,7 @@ function Application() {
               </p>
             </div>
           </div>
-        </div>
+        
           <div className="flex border-b mb-6 min-w-full overflow-auto">
             {stages?.map(({ label, key }) => (
               <button
