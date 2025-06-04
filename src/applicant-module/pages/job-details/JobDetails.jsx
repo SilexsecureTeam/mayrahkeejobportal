@@ -155,6 +155,10 @@ Don't miss out—join us today to apply.
                                 <p>Currency:</p>
                                 <p className="font-medium">{job?.currency}</p>
                             </div>
+                            <div className="flex flex-wrap justify-between gap-2">
+                                <p>Salary Range:</p>
+                                <p className="font-medium">{parseInt(job?.min_salary)} - {parseInt(job?.max_salary)}</p>
+                            </div>
                         </div>
 
                         <div className="my-6">
