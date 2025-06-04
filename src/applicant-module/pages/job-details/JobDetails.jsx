@@ -65,7 +65,7 @@ Don't miss out—join us today to apply.
         <>
             
             <div className="relative w-full h-full text-[#25324b] overflow-y-auto">
-                <div className="sticky top-4 bg-white z-10 p-6 pt-0 border-b mb-8 shadow-md">
+                <div className="sticky top-1 bg-white z-10 p-6 pt-0 border-b mb-8 shadow-md">
                     <button
                 type="button"
                 onClick={() => window.history.back()}
