@@ -101,7 +101,7 @@ function Application() {
               </p>
             </div>
           </div>
-          
+        </div>
           <div className="flex border-b mb-6 min-w-full overflow-auto">
             {stages?.map(({ label, key }) => (
               <button
@@ -113,9 +113,9 @@ function Application() {
               >
                 {label} ({getStatusCount(key)})
               </button>
-            ))
+            ))}
           </div>
-        </div>
+        
               
           <div className="flex flex-wrap justify-between items-center">
             <p className="font-bold capitalize">{view === "in-review" ? "Under-Review": view === "interview" ? "Interviewed" : view === "shortlist" ? "Shortlisted" : view} Applications</p>
