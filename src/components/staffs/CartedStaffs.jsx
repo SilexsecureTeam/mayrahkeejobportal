@@ -68,6 +68,13 @@ function CartedStaffs() {
       );
 
       setCartItems(filtered || []);
+      // 🔁 Update selectedItems to only include items still in cart
+    setSelectedItems((prevSelected) =>
+      (filtered || []).filter((item) =>
+        prevSelected.some((selected) => selected.id === item.id)
+      )
+    );
+      
     } catch {
       onFailure({
         message: "Something went wrong",
