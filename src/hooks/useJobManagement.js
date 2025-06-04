@@ -339,6 +339,15 @@ function useJobManagement() {
     }
   };
 
+  const fetchJobs = async () => {
+    try {
+      const jobs = await getJobsFromDb(); // Your DB fetch logic
+      setJobList(jobs);
+    } catch (error) {
+      console.error("Failed to fetch jobs", error);
+    }
+  };
+  
   const getJobsFromDB = async () => {
     if (authDetails?.token) {
       setLoading(true);
@@ -410,7 +419,7 @@ function useJobManagement() {
 
   return {
     loading,
-
+    fetchJobs,
     details,
     defaultDetails,
     jobList,
