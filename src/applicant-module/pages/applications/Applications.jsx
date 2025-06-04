@@ -126,7 +126,7 @@ function Application() {
                 </button>
               </div>
             )}
-          </div>
+          </div>**/}
           <div className="flex border-b mb-6 min-w-full overflow-auto">
             {stages?.map(({ label, key }) => (
               <button
@@ -138,10 +138,10 @@ function Application() {
               >
                 {label} ({getStatusCount(key)})
               </button>
-            ))**/}
+            ))
           </div>
           <div className="flex flex-wrap justify-between items-center">
-            <p className="font-bold capitalize">{view} Applications</p>
+            <p className="font-bold capitalize">{view === "in-review" ? "Under-Review": view} Applications</p>
             <div className="flex items-start">
               <div className="relative border h-full py-1 px-6 mb-4">
                 <input
