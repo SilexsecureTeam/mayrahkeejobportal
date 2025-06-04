@@ -11,7 +11,7 @@ function JobListing() {
   const jobUtils = useJobManagement();
   const { applicants } = useApplicationManagement();
   useEffect(() => {
-    jobUtils.fetchJobs(); // <- Fetch fresh jobs when this page loads
+    jobUtils.getJobsFromDB(); // <- Fetch fresh jobs when this page loads
   }, []);
   return (
     <>
