@@ -108,7 +108,7 @@ Discover more and join us today to explore opportunities.
                                     ></div>
                                 </div>
                                 <p>
-                                    <b>Company size:</b> {job?.company_size}
+                                    <b>Company Size:</b> {job?.company_size}
                                 </p>
                             </div>
                             <div className="my-6 border-b">
