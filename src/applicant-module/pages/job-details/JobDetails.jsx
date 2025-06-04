@@ -66,12 +66,12 @@ Don't miss out—join us today to apply.
             <button
                 type="button"
                 onClick={() => window.history.back()}
-                className="mt-3 w-max sticky z-[100] top-1 flex items-center gap-2 outline outline-offset-5 outline-green-500 px-3 py-1 rounded text-green-500 hover:bg-green-100"
+                className="mt-3 w-max sticky z-10 top-1 flex items-center gap-2 outline outline-offset-5 outline-green-500 px-3 py-1 rounded text-green-500 hover:bg-green-100"
             >
                 <FaArrowLeftLong className="me-4 text-green-500" />Back
             </button>
             <div className="relative w-full h-full text-[#25324b] overflow-y-auto">
-                <div className="sticky top-0 bg-white z-10 p-6 border-b mb-8 shadow-md">
+                <div className="sticky top-8 bg-white z-10 p-6 border-b mb-8 shadow-md">
                     <div className="p-6 bg-white border rounded-md">
                         <div className="flex gap-2 flex-wrap justify-between items-center">
                             <div className="flex items-start space-x-4">
