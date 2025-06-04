@@ -101,32 +101,7 @@ function Application() {
               </p>
             </div>
           </div>
-          <div className="my-6">
-            {/**closeNote && (
-              <div className="p-4 relative bg-[#47AA491A]">
-                <div className="md:w-4/5">
-                  <div className="flex">
-                    <div>
-                      <img src={noticeImg} alt="Notice" />
-                    </div>
-                    <div className="ml-3">
-                      <p className="font-bold">New Feature</p>
-                      <p>
-                        You can request a follow-up 7 days after applying for a job if the
-                        application status is in review. Only one follow-up is allowed per job.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-                <button
-                  onClick={() => setCloseNote(false)}
-                  className="absolute top-0 right-0 p-2 hover:bg-green-200"
-                >
-                  <MdClose size={20} />
-                </button>
-              </div>
-            )}
-          </div>**/}
+          
           <div className="flex border-b mb-6 min-w-full overflow-auto">
             {stages?.map(({ label, key }) => (
               <button
@@ -140,6 +115,7 @@ function Application() {
               </button>
             ))
           </div>
+              
           <div className="flex flex-wrap justify-between items-center">
             <p className="font-bold capitalize">{view === "in-review" ? "Under-Review": view === "interview" ? "Interviewed" : view === "shortlist" ? "Shortlisted" : view} Applications</p>
             <div className="flex items-start">
