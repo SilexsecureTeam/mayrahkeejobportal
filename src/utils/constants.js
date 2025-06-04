@@ -897,7 +897,7 @@ export const field_sections1 = {
       field_name: "work_days",
     },
     {
-      name: "Rumuneration",
+      name: "Remuneration",
       type: "select",
       options: ["Daily Pay", "Weekly Pay", "Bi-Weekly Pay", "Monthly Pay"],
       field_name: "rumuneration",
