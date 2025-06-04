@@ -71,7 +71,7 @@ Don't miss out—join us today to apply.
                 <FaArrowLeftLong className="me-4 text-green-500" />Back
             </button>
             <div className="relative w-full h-full text-[#25324b] overflow-y-auto">
-                <div className="sticky top-8 bg-white z-10 p-6 border-b mb-8 shadow-md">
+                <div className="sticky top-4 bg-white z-10 p-6 border-b mb-8 shadow-md">
                     <div className="p-6 bg-white border rounded-md">
                         <div className="flex gap-2 flex-wrap justify-between items-center">
                             <div className="flex items-start space-x-4">
