@@ -88,30 +88,6 @@ export default function FormData({ setToMain, toogleIsOpen, field_sections }) {
 
     };
 
-
-    const filterProfileDetails = profileDetails
-        ? Object.keys(profileDetails)?.filter(
-            (currentKey) =>
-                currentKey !== "created_at" &&
-                currentKey !== "updated_at" &&
-                currentKey !== "id" &&
-                currentKey !== "staff_category" &&
-                currentKey !== "staff_category" &&
-                currentKey !== "guarantor_verification_status" &&
-                currentKey !== "residence_verification_status" &&
-                currentKey !== "medical_history_verification_status" &&
-                currentKey !== "police_report_verification_status" &&
-                currentKey !== "previous_employer_verification_status" &&
-                currentKey !== "family_verification_status" &&
-                currentKey !== "contact_information" &&
-                currentKey !== "subcategory" &&
-                currentKey !== "resume" &&
-                currentKey !== "availability_status" &&
-                currentKey !== "employment_type"
-        )
-        : [];
-
-
     const handleImageChange = (event) => {
         const imageFile = event.target.files[0];
 
@@ -208,7 +184,7 @@ export default function FormData({ setToMain, toogleIsOpen, field_sections }) {
                                         </label>
                                         {currentKey.type !== "select" ? (
                                             <input
-                                                required
+                                                required={currentKey !== "middle_name"}
                                                 className="p-1 border focus:outline-none border-gray-900  rounded-md"
                                                 type={inputType}
                                                 defaultValue={detail}
@@ -397,7 +373,6 @@ export default function FormData({ setToMain, toogleIsOpen, field_sections }) {
                                                                 }
                                                             }}
                                                         />
-
                                                         <span>{current}</span>
                                                     </div>
                                                 );
@@ -407,14 +382,12 @@ export default function FormData({ setToMain, toogleIsOpen, field_sections }) {
                             </div>
                         </div>
                     </div>
-
                     <div className="flex flex-col gap-5 border-b pb-4">
                         <h3 className="font-semibold text-lg">Secondary Information</h3>
                         <div className="grid grid-cols-2 gap-x-3 gap-y-5">
                             {field_sections.secondary.map((currentKey, index) => {
                                 const detail = profileDetails[currentKey.field_name];
                                 // const labelText = currentKey.replace(/_/g, " ").toUpperCase();
-
                                 return (
                                     <div key={index} className="flex flex-col gap-1">
                                         <label>
@@ -449,7 +422,6 @@ export default function FormData({ setToMain, toogleIsOpen, field_sections }) {
                             })}
                         </div>
                     </div>
-
                     <FormButton loading={loading}>Update Profile</FormButton>
                 </>
             ) : (
