@@ -124,7 +124,7 @@ export default function FormData({ setToMain, toogleIsOpen, field_sections }) {
             onSubmit={handleSubmit(onSubmit)}
             className="flex flex-col gap-x-3 gap-y-5 p-2 w-full text-gray-600"
         >
-            {filterProfileDetails ? (
+            {profileDetails ? (
                 <>
                     <div className="flex flex-col gap-5 border-b pb-4">
                         <h3 className="font-semibold text-lg">Primary Information</h3>
