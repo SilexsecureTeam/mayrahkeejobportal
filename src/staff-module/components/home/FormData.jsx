@@ -180,11 +180,11 @@ export default function FormData({ setToMain, toogleIsOpen, field_sections }) {
                                     <div className="flex flex-col gap-1">
                                         <label>
                                             {currentKey.name}
-                                            {currentKey?.key !== "middle_name" && <span className="text-red-500 ml-1 ">*</span>}
+                                            {currentKey?.field_name !== "middle_name" && <span className="text-red-500 ml-1 ">*</span>}
                                         </label>
                                         {currentKey.type !== "select" ? (
                                             <input
-                                                required={currentKey?.key !== "middle_name"}
+                                                required={currentKey?.field_name !== "middle_name"}
                                                 className="p-1 border focus:outline-none border-gray-900  rounded-md"
                                                 type={inputType}
                                                 defaultValue={detail}
