@@ -22,7 +22,7 @@ export const getUpdatedUser = (
         // console.log(response);
         const apiData = response.data;
         if (!apiData.details) {
-          setChecker(true)
+          setChecker(true);
         }
         // console.log(apiData.details == null);
         // apiData?.map((item) => {
@@ -89,7 +89,6 @@ export const getItemFunc = (
         });
       })
       .catch((error) => {
-        console.log(error);
         if (error.response) {
           setErrorMessage(error.response.data.message);
         } else {
@@ -107,31 +106,28 @@ export const getDetailFunc = (
   const fleetTypesApi = `${BASE_URL}${endPoint}`;
   let newFleetMakesData = [];
   let apiData;
-    axios
-      .get(fleetTypesApi)
-      .then((response) => {
-        console.log(response);
-        if (dataArray) {
-          apiData = response.data[dataArray];
-          
-        } else {
-          apiData = response.data;
-        }
-         console.log(apiData);
+  axios
+    .get(fleetTypesApi)
+    .then((response) => {
+      if (dataArray) {
+        apiData = response.data[dataArray];
+      } else {
+        apiData = response.data;
+      }
 
-        setDataState((prev) => {
-          return {
-            data: apiData,
-            isDataNeeded: prev.isDataNeeded,
-          };
-        });
-      })
-      .catch((error) => {
-        console.log(error);
-        if (error.response) {
-          setErrorMessage(error.response.data.message);
-        } else {
-          setErrorMessage(error.message);
-        }
+      setDataState((prev) => {
+        return {
+          data: apiData,
+          isDataNeeded: prev.isDataNeeded,
+        };
       });
+    })
+    .catch((error) => {
+      console.log(error);
+      if (error.response) {
+        setErrorMessage(error.response.data.message);
+      } else {
+        setErrorMessage(error.message);
+      }
+    });
 };

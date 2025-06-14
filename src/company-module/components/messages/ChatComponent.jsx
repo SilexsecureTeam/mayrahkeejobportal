@@ -5,61 +5,53 @@ import { resourceUrl } from "../../../services/axios-client";
 import { AuthContext } from "../../../context/AuthContex";
 import useCompanyProfile from "../../../hooks/useCompanyProfile";
 import { ChatContext } from "../../../context/ChatContext";
-import { onValue, ref } from "firebase/database";
-import { database } from "../../../utils/firebase";
 import { BiLoaderCircle } from "react-icons/bi";
 import { toast } from "react-toastify";
+import Pusher from "pusher-js";
 
 function ChatComponent({ selectedChat, setSelectedChat, applicationUtils }) {
   const chatContainer = useRef(null);
-  const [containerWidth, setContainerWidth] = useState("90%");
   const [currentCandidate, setCurrentCandidate] = useState(null);
   const { authDetails } = useContext(AuthContext);
   const [message, setMessage] = useState("");
 
-  const { details } = useCompanyProfile();
-  const { loading, sendingMessage, messages, sendMessage, setMessages, getMessages, firebaseMessaging } =
-    useContext(ChatContext);
+  console.log("Selected Chat:", selectedChat);
 
+  const { details } = useCompanyProfile();
+  const {
+    loading,
+    sendingMessage,
+    messages,
+    sendMessage,
+    setMessages,
+    getMessages,
+  } = useContext(ChatContext);
+
+  // Send a message
   const onSendButtonClick = () => {
-    if (message == "") {
+    if (message.trim() === "") {
       toast.error("Enter a message");
-      return
+      return;
     }
+
     const messageToSend = {
       sender_id: authDetails.user.id,
       sender_type: authDetails.user.role,
       receiver_id: currentCandidate?.candidate_id,
       receiver_type: "candidate",
       message: message,
-      date_sent: new Date().toDateString(),
+      date_sent: new Date().toISOString(),
     };
-    firebaseMessaging(selectedChat.candidate_id, messageToSend);
+
     sendMessage(messageToSend, () => {
       setMessage("");
     });
   };
 
-  const openCommunication = () => {
-    if (!currentCandidate) return;
-
-    const path = `employer-${authDetails.user.id}-candidate-${selectedChat.candidate_id}`;
-    const messageRef = ref(database, `messages/${path}`);
-
-    onValue(messageRef, (snapshot) => {
-      const data = snapshot.val();
-      getMessages(currentCandidate.candidate_id, () => { });
-      console.log("Message Data", data);
-    });
-  };
-
-  useEffect(() => {
-    openCommunication();
-  }, [currentCandidate]);
-
+  // Load messages when candidate is selected
   useEffect(() => {
     if (selectedChat) {
-      setMessages([])
+      setMessages([]);
       applicationUtils.getApplicant(
         selectedChat.candidate_id,
         setCurrentCandidate
@@ -68,27 +60,43 @@ function ChatComponent({ selectedChat, setSelectedChat, applicationUtils }) {
     return () => setCurrentCandidate(null);
   }, [selectedChat]);
 
+  // Fetch historical messages & subscribe to Pusher
   useEffect(() => {
-    const updateContainerWidth = () => {
-      if (chatContainer.current) {
-        setContainerWidth(chatContainer.current.clientWidth);
-      }
-    };
+    if (!currentCandidate) return;
 
-    updateContainerWidth();
-    window.addEventListener("resize", updateContainerWidth);
+    getMessages(currentCandidate.candidate_id, () => {});
+
+    const pusher = new Pusher(import.meta.env.VITE_PUSHER_APP_KEY, {
+      cluster:"mt1",
+      auth: {
+        headers: {
+          Authorization: `Bearer ${authDetails.token}`,
+        },
+      },
+    });
+
+    const channel = pusher.subscribe(`private-chat.${selectedChat.candidate_id}.candidate`);
+
+    channel.bind("private.message.sent", (data) => {
+      const incoming = data.message;
+
+      if (incoming?.sender_id === currentCandidate.candidate_id) {
+        setMessages((prev) => [...prev, incoming]);
+      }
+    });
 
     return () => {
-      window.removeEventListener("resize", updateContainerWidth);
+      channel.unbind_all();
+      channel.unsubscribe();
+      pusher.disconnect();
     };
-  }, []);
+  }, [currentCandidate]);
 
   return (
     <div
       ref={chatContainer}
       className="w-full lg:w-3/4 flex flex-col items-center overflow-y-auto h-full relative"
     >
-      {/* Loader for messages */}
       {loading && (
         <div className="flex justify-center items-center h-full w-full">
           <BiLoaderCircle className="animate-spin text-4xl text-primaryColor" />
@@ -118,55 +126,48 @@ function ChatComponent({ selectedChat, setSelectedChat, applicationUtils }) {
 
           {/* Chat Messages */}
           <ul className="flex-1 flex w-full flex-col p-2 pb-20 overflow-y-auto">
-            {messages &&
-              messages.map((current, index) => {
-                const getPositions = (sender) => {
-                  return sender === "candidate"
-                    ? [
+            {messages.map((current, index) => {
+              const getPositions = (sender) => {
+                return sender === "candidate"
+                  ? [
                       "",
                       "",
                       `${resourceUrl}/${currentCandidate.profile}`,
                       currentCandidate.full_name.split(" ", 1),
                     ]
-                    : [
+                  : [
                       "flex-row-reverse place-self-end",
                       "items-end",
                       `${resourceUrl}/${details.logo_image}`,
                       "You",
                     ];
-                };
+              };
 
-                const positions = getPositions(current.sender_type);
+              const positions = getPositions(current.sender_type);
 
-                return (
-                  <li
-                    key={index}
-                    className={`flex w-[60%] lg:w-[50%] gap-[10px] mt-3 ${positions[0]}`}
-                  >
-                    <img
-                      src={positions[2]}
-                      alt="Avatar"
-                      className="flex-shrink-0 h-[30px] w-[30px] rounded-full bg-gray-300"
-                    />
-                    <div
-                      className={`flex flex-col w-max max-w-full ${positions[1]}`}
-                    >
-                      <span className="text-sm font-semibold">
-                        {positions[3]}
-                      </span>
-                      <p className="p-2 mt-2 rounded-md bg-gray-200">
-                        {current.message}
-                      </p>
-                    </div>
-                  </li>
-                );
-              })}
+              return (
+                <li
+                  key={index}
+                  className={`flex w-[60%] lg:w-[50%] gap-[10px] mt-3 ${positions[0]}`}
+                >
+                  <img
+                    src={positions[2]}
+                    alt="Avatar"
+                    className="flex-shrink-0 h-[30px] w-[30px] rounded-full bg-gray-300"
+                  />
+                  <div className={`flex flex-col w-max max-w-full ${positions[1]}`}>
+                    <span className="text-sm font-semibold">{positions[3]}</span>
+                    <p className="p-2 mt-2 rounded-md bg-gray-200">
+                      {current.message}
+                    </p>
+                  </div>
+                </li>
+              );
+            })}
           </ul>
 
           {/* Message Input */}
-          <div
-            className="flex items-center justify-between bg-white p-2 absolute w-full bottom-0 h-max border-t"
-          >
+          <div className="flex items-center justify-between bg-white p-2 absolute w-full bottom-0 h-max border-t">
             <img src={clipIcon} className="h-[20px]" alt="Attach" />
             <textarea
               value={message}
