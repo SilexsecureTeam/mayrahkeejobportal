@@ -75,7 +75,7 @@ function ChatComponent({ selectedChat, setSelectedChat, applicationUtils }) {
       },
     });
 
-    const channel = pusher.subscribe(`private-chat.${selectedChat.candidate_id}.candidate`);
+    const channel = pusher.subscribe(`private-user.${selectedChat.candidate_id}.candidate`);
 
     channel.bind("private.message.sent", (data) => {
       const incoming = data.message;
