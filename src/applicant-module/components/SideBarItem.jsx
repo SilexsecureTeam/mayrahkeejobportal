@@ -6,7 +6,7 @@ import { ChatContext } from "../../context/ChatContext";
 function SideBarItem({ data, dispatch, state, setIsOpen }) {
   const navigate = useNavigate();
   const { setAuthDetails } = useContext(AuthContext);
-  const { hasNewMessage } = useContext(ChatContext);
+  const { unreadMessage } = useContext(ChatContext);
 
   const navigateToPage = () => {
     if (data.type === "LOG-OUT") {
@@ -41,8 +41,10 @@ function SideBarItem({ data, dispatch, state, setIsOpen }) {
       </span>
 
       {/* Show a red dot for new messages */}
-      {data.title === "Messages" && hasNewMessage > 0 && (
-        <span className="absolute top-0 bottom-0 my-auto h-max right-2 px-2 bg-red-500 text-white font-medium rounded-full flex items-center justify-center">{hasNewMessage}</span>
+      {data.title === "Messages" && unreadMessage?.length > 0 && (
+        <span className="absolute top-0 bottom-0 my-auto h-max right-2 px-2 bg-red-500 text-white font-medium rounded-full flex items-center justify-center">
+          {unreadMessage?.length}
+        </span>
       )}
     </li>
   );

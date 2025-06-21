@@ -18,7 +18,7 @@ function AllJobs() {
       if (data) {
         // const updatedJobs = sortedData.map((job) => ({
         //   ...job,
-        //   isFeatured: job.feature_jobs === "1", 
+        //   isFeatured: job.feature_jobs === "1",
         // }));
         setJobs(sortedData);
       } else {
@@ -29,15 +29,15 @@ function AllJobs() {
 
   const handleToggle = async (job, currentStatus) => {
     const id = job.id;
-  
+
     // Immediately set loading state
-    setLoadingToggles((prev) => ({ ...prev, [id]: true })); 
-  
+    setLoadingToggles((prev) => ({ ...prev, [id]: true }));
+
     const updatedStatus = currentStatus ? "0" : "1";
-  
+
     try {
       const response = await updateFeaturedJobs(job, updatedStatus);
-  
+
       if (response) {
         // Optimistically update state immediately after success
         setJobs((prevJobs) =>
@@ -45,7 +45,7 @@ function AllJobs() {
             job.id === id ? { ...job, feature_jobs: updatedStatus } : job
           )
         );
-  
+
         onSuccess({
           message: "Job Update Status",
           success: "Updated successfully",
@@ -61,10 +61,16 @@ function AllJobs() {
       setLoadingToggles((prev) => ({ ...prev, [id]: false }));
     }
   };
-  
-  
 
-  const heading = ["ID", "Title", "Salary Type", "Sector", "Type", "Status", "Featured Jobs"];
+  const heading = [
+    "ID",
+    "Title",
+    "Salary Type",
+    "Sector",
+    "Type",
+    "Status",
+    "Featured Jobs",
+  ];
 
   const data = jobs.map((job) => ({
     [heading[0].toLowerCase()]: job.id,
@@ -77,7 +83,9 @@ function AllJobs() {
       <ToggleSwitch
         isOn={job.feature_jobs === "1"}
         isLoading={loadingToggles[job.id]} // Pass loading state for specific toggle
-        onToggle={() => handleToggle(job, job?.feature_jobs === "0" ? false : true)}
+        onToggle={() =>
+          handleToggle(job, job?.feature_jobs === "0" ? false : true)
+        }
       />
     ),
   }));
@@ -92,8 +100,16 @@ function AllJobs() {
         <FaArrowLeftLong className="me-4 text-green-500" />
         Back
       </button>
-      <h2 className="text-black border-b border-gray-500 text-2xl font-bold mt-10">Jobs</h2>
-      <DataTableComponent heading={heading} data={data} loading={loading} name="job" allowEdit={true} />
+      <h2 className="text-black border-b border-gray-500 text-2xl font-bold mt-10">
+        Jobs
+      </h2>
+      <DataTableComponent
+        heading={heading}
+        data={data}
+        loading={loading}
+        name="job"
+        allowEdit={true}
+      />
     </div>
   );
 }

@@ -14,6 +14,9 @@ export const ChatContextProvider = ({ children }) => {
     initFirebaseChatSession,
     sendingMessage,
     appendMessage,
+    unreadMessage,
+    setUnreadMessage,
+    unreadMessages,
   } = useChats();
 
   return (
@@ -28,6 +31,9 @@ export const ChatContextProvider = ({ children }) => {
         initFirebaseChatSession,
         sendingMessage,
         appendMessage,
+        unreadMessage,
+        setUnreadMessage,
+        unreadMessages,
       }}
     >
       {children}

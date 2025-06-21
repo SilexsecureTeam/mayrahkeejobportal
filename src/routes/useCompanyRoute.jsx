@@ -40,6 +40,7 @@ import CartedStaffs from "../components/staffs/CartedStaffs";
 import SuccessPage from "../components/SuccessPage";
 import CompanyExclusiveReducer from "../reducers/CompanyExclusiveReducer";
 import usePusher from "../hooks/usePusher";
+import { ChatContext } from "../context/ChatContext";
 
 //Util Component
 const NavBar = lazy(() => import("../company-module/components/NavBar"));
@@ -112,7 +113,11 @@ function useCompanyRoute() {
   const [redirectState, setRedirectState] = useState();
   const [isOpen, setIsOpen] = useState(false);
   const [subPage, setSubPage] = useState(true);
+  const { unreadMessages, messagesByConversation } = useContext(ChatContext);
 
+  useEffect(() => {
+    unreadMessages();
+  }, [messagesByConversation]);
   const activeReducer =
     authDetails?.user?.user_type === "regular"
       ? CompanyReducer

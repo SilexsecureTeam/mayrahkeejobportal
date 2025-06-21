@@ -3,14 +3,6 @@ import { ChatContext } from "../../../context/ChatContext";
 import MessageHead from "./MessageHead";
 
 function MessagedList({ selectedChat, setSelectedChat, data }) {
-  const {
-    loading,
-    messages,
-    sendMessage,
-    getMessages,
-    initFirebaseChatSession,
-  } = useContext(ChatContext);
-
   const [searchTerm, setSearchTerm] = useState("");
 
   // Filter chats based on search term

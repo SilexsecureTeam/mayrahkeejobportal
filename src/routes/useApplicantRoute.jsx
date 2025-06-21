@@ -14,6 +14,7 @@ import AllApplication from "../components/applicant-details-ui/AllApplication";
 import Application from "../components/applicant-details-ui/Application";
 import withApplicationStatus from "../hocs/withApplicationStatus";
 import usePusher from "../hooks/usePusher";
+import { ChatContext } from "../context/ChatContext";
 //Util Components
 const NavBar = lazy(() => import("../applicant-module/components/NavBar"));
 const SideBar = lazy(() => import("../applicant-module/components/SideBar"));
@@ -73,6 +74,11 @@ function useApplicantRoute() {
   const { authDetails } = useContext(AuthContext);
   const [isOpen, setIsOpen] = useState(false);
   const [redirectState, setRedirectState] = useState();
+  const { unreadMessages, messagesByConversation } = useContext(ChatContext);
+
+  useEffect(() => {
+    unreadMessages();
+  }, [messagesByConversation]);
 
   const toogleIsOpen = () => setIsOpen(!isOpen);
   const options = [...applicantOptions, ...utilOptions];

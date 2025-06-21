@@ -29,10 +29,9 @@ function JobDetails({ data, jobUtils, applicants, exclusive }) {
       toogleJobModal();
     } else {
       navigate("/company/job-posting", { state: { details: data } });
-      scrollTo(0, 0)
+      scrollTo(0, 0);
     }
-
-  }
+  };
   const handleDelete = () => {
     jobUtils.deleteJob(() => {
       onSuccess({
@@ -40,7 +39,6 @@ function JobDetails({ data, jobUtils, applicants, exclusive }) {
         success: "Job deleted successfully",
       });
       window.history.back();
-
     }, data.id);
   };
   const handleStatusToggle = async () => {
@@ -49,9 +47,9 @@ function JobDetails({ data, jobUtils, applicants, exclusive }) {
     const formData = {
       id: data.id,
       status: newStatus,
-      type: "job"
+      type: "job",
     };
-    const res = await jobUtils.deactivateJob(formData)
+    const res = await jobUtils.deactivateJob(formData);
     onSuccess({
       message: "Status Updated",
       success: `Job is now ${enabled ? "closed" : "open"}`,
@@ -82,8 +80,11 @@ function JobDetails({ data, jobUtils, applicants, exclusive }) {
       <div className="p-2 flex flex-col w-full gap-4">
         <div className="w-full border flex flex-col md:flex-row justify-between px-2 py-1 items-center">
           <div className="flex gap-3 items-center w-full md:w-auto">
-            <div className="h-12 w-12 bg-gray-300" >
-              <img src={`${resourceUrl}${data?.featured_image}`} className="w-full h-full object-cover" />
+            <div className="h-12 w-12 bg-gray-300">
+              <img
+                src={`${resourceUrl}${data?.featured_image}`}
+                className="w-full h-full object-cover"
+              />
             </div>
 
             <div className="flex flex-col">
@@ -108,40 +109,54 @@ function JobDetails({ data, jobUtils, applicants, exclusive }) {
               <MdDeleteForever className="text-red-600" />
               Delete
             </button>
-            {(data?.status === "pending" || data?.status === "approved" || data?.status === "1" || data?.status === "0") && <button onClick={handleEdit} className="px-1 py-1 flex text-sm border items-center justify-center gap-1 w-1/2 md:w-20">
-              <CiEdit className="text-primaryColor" />
-              Edit
-            </button>}
-            {(data?.status === "pending" || data?.status === "approved" || data?.status === "1" || data?.status === "0") && new Date(data?.application_deadline_date) >= new Date()
-  ? (
-    <DefaultSwitch
-      enabled={enabled}
-      setEnabled={setEnabled}
-      loading={isLoading}
-      onClick={handleStatusToggle}
-    />
-  ) : (
-    <strong className="text-red-500 uppercase text-xs">
-      {(data?.status === "suspend" ? "suspended" : data?.status) === "pending" || data?.status === "approved"
-        ? "closed (deadline passed)"
-        : (data?.status === "suspend" ? "suspended" : data?.status)}
-    </strong>
-  )}
-</div>
+            {(data?.status === "pending" ||
+              data?.status === "approved" ||
+              data?.status === "1" ||
+              data?.status === "0") &&
+              new Date(data?.application_deadline_date) >= new Date() && (
+                <button
+                  onClick={handleEdit}
+                  className="px-1 py-1 flex text-sm border items-center justify-center gap-1 w-1/2 md:w-20"
+                >
+                  <CiEdit className="text-primaryColor" />
+                  Edit
+                </button>
+              )}
+            {(data?.status === "pending" ||
+              data?.status === "approved" ||
+              data?.status === "1" ||
+              data?.status === "0") &&
+            new Date(data?.application_deadline_date) >= new Date() ? (
+              <DefaultSwitch
+                enabled={enabled}
+                setEnabled={setEnabled}
+                loading={isLoading}
+                onClick={handleStatusToggle}
+              />
+            ) : (
+              <strong className="text-red-500 uppercase px-1 py-1 flex text-sm border items-center justify-center gap-1 w-1/2 md:w-20">
+                {(data?.status === "suspend" ? "suspended" : data?.status) ===
+                  "pending" || data?.status === "approved"
+                  ? "closed (deadline passed)"
+                  : data?.status === "suspend"
+                  ? "suspended"
+                  : data?.status}
+              </strong>
+            )}
+          </div>
         </div>
 
         <div className="w-full text-black flex flex-col md:flex-row gap-4">
           <div className="w-full md:w-3/5 flex flex-col gap-4">
             <div className="flex flex-col">
               <span className="font-bold text-md">Job Description</span>
-              <div
-                className="text-sm border border-dotted p-2"
-              >{parseHtml(data?.job_description)}</div>
+              <div className="text-sm border border-dotted p-2">
+                {parseHtml(data?.job_description)}
+              </div>
             </div>
             <div className="flex flex-col">
               <span className="font-semibold text-md">Experience Needed</span>
-              <div className="text-sm"
-              >{parseHtml(data?.experience)}</div>
+              <div className="text-sm">{parseHtml(data?.experience)}</div>
             </div>
 
             <div className="flex flex-col">
@@ -165,13 +180,26 @@ function JobDetails({ data, jobUtils, applicants, exclusive }) {
               </div>
               <div className="flex flex-col">
                 <span className="font-semibold text-sm">Intro Video URL</span>
-                <span className="text-sm text-primaryColor hover:underline cursor-pointer">
+                <a
+                  href={
+                    data?.introduction_video_url &&
+                    data?.introduction_video_url != "null"
+                      ? data?.introduction_video_url
+                      : "#"
+                  }
+                  target="_blank"
+                  className="text-sm text-primaryColor hover:underline cursor-pointer"
+                >
                   {data?.introduction_video_url}
-                </span>
+                </a>
               </div>
               <div className="flex flex-col">
                 <span className="font-semibold text-sm">External URL</span>
-                <a className="text-sm text-primaryColor hover:underline cursor-pointer">
+                <a
+                  href={data?.external_url}
+                  target="_blank"
+                  className="text-sm text-primaryColor hover:underline cursor-pointer"
+                >
                   {data?.external_url}
                 </a>
               </div>
@@ -186,16 +214,11 @@ function JobDetails({ data, jobUtils, applicants, exclusive }) {
                   {applicants?.length} Applied
                 </span>
                 <span className="flex justify-between border-b border-dashed">
-                  Job Posted on{" "}
-                  <span>
-                    {formatDate(data?.created_at)}
-                  </span>
+                  Job Posted on <span>{formatDate(data?.created_at)}</span>
                 </span>
                 <span className="flex justify-between border-b border-dashed">
                   Job Deadline{" "}
-                  <span>
-                    {formatDate(data?.application_deadline_date)}
-                  </span>
+                  <span>{formatDate(data?.application_deadline_date)}</span>
                 </span>
                 {/* Additional job details */}
               </div>

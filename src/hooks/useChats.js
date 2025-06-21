@@ -11,7 +11,7 @@ function useChats() {
   const [loading, setLoading] = useState(false);
   const [sendingMessage, setSendingMessage] = useState(false);
   const [messagesByConversation, setMessagesByConversation] = useState({});
-  const [hasNewMessage, setHasNewMessage] = useState(false);
+  const [unreadMessage, setUnreadMessage] = useState(null);
 
   // Append a message to the right conversation
   const appendMessage = (userId, message) => {
@@ -33,10 +33,8 @@ function useChats() {
 
       if (role === "employer") {
         uri = `/messages/all/${userId}/candidate/${authDetails.user.id}/${role}`;
-        readUri = `/messages/read/${userId}/candidate`;
       } else {
         uri = `/messages/all/${authDetails.user.id}/${role}/${userId}/employer`;
-        readUri = `/messages/read/${userId}/employer`;
       }
 
       const { data } = await client.get(uri);
@@ -44,13 +42,19 @@ function useChats() {
         ...prev,
         [userId]: data.messages,
       }));
-
-      // await client.post(readUri); // mark as read
       onSuccess();
     } catch (err) {
       FormatError(err);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const markMessageAsRead = async (messageId) => {
+    try {
+      await client.post(`/messages/read/${messageId}`);
+    } catch (err) {
+      FormatError(err);
     }
   };
 
@@ -65,6 +69,20 @@ function useChats() {
       FormatError(err);
     } finally {
       setSendingMessage(false);
+    }
+  };
+
+  const unreadMessages = async () => {
+    try {
+      const role = authDetails.user.role;
+      const userId = authDetails.user.id;
+
+      const { data } = await client.get(`/messages/unread/${userId}/${role}`);
+      setUnreadMessage(data.messages);
+      console.log("Unread messages data:", data);
+      return data.unread_messages;
+    } catch (err) {
+      FormatError(err);
     }
   };
 
@@ -102,6 +120,9 @@ function useChats() {
     initFirebaseChatSession,
     appendMessage, // useful for pusher updates
     setMessagesByConversation,
+    unreadMessage,
+    setUnreadMessage,
+    unreadMessages,
   };
 }
 

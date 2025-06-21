@@ -19,7 +19,9 @@ export const onNewNotificationToast = ({
 
       <div>
         <p className="font-semibold text-sm text-oliveDark">
-          {isCall ? `Incoming call from ${senderName}` : `New message from ${senderName}`}
+          {isCall
+            ? `Incoming call from ${senderName}`
+            : `New message from ${senderName}`}
         </p>
         <p className="text-sm text-gray-600 line-clamp-2 max-w-xs">
           {isCall

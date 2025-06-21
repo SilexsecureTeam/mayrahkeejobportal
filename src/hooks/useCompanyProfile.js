@@ -13,8 +13,6 @@ function useCompanyProfile() {
   const { authDetails } = useContext(AuthContext);
   const { setGlobalDetails = () => {} } = useContext(CompanyRouteContext) ?? {};
 
-  
-
   const retrievalState = {
     init: 1,
     notRetrieved: 2,
@@ -64,7 +62,7 @@ function useCompanyProfile() {
       const response = await client.get(
         `/employer/getEmployer/${authDetails?.user.id}`
       );
-      setGlobalDetails({...response.data.details})
+      setGlobalDetails({ ...response.data.details });
       if (response.data.details) {
         await set(COMPANY_PROFILE_Key, response.data.details);
         setDetails({
@@ -75,7 +73,6 @@ function useCompanyProfile() {
         setDetails({ ...details, beenRetreived: retrievalState.notRetrieved });
       }
     } catch (error) {
-      console.log(error);
       setDetails({ ...details, beenRetreived: retrievalState.retrieved });
     } finally {
       setLoading(false);
@@ -84,11 +81,11 @@ function useCompanyProfile() {
 
   const mapToFormData = (data) => {
     const formData = new FormData();
-    
+
     Object.keys(data).forEach((current) => {
       const key = current;
       const val = data[current];
-      
+
       if (val) {
         if (Array.isArray(val)) {
           // Append all values in the array, whether strings or files
@@ -102,7 +99,7 @@ function useCompanyProfile() {
             }
           });
         } else {
-          if (key === 'logo_image' && typeof val === 'string') {
+          if (key === "logo_image" && typeof val === "string") {
             // Skip existing logo image URL
             return;
           } else {
@@ -111,18 +108,15 @@ function useCompanyProfile() {
         }
       }
     });
-  
+
     return formData;
   };
-  
 
- 
   //Api request to update profile
   const updateCompanyProfile = async (newdetails, handleSuccess) => {
     setLoading(true);
     try {
       const data = mapToFormData(newdetails);
-
 
       const response = await client.post(
         `/employer/UpdateEmployer/${details.employer_id}`,
@@ -130,24 +124,33 @@ function useCompanyProfile() {
       );
 
       //On success, save response data to index db
-      setDetails({...details, ...response.data?.employer, beenRetreived: retrievalState.retrieved})
-      setGlobalDetails({...details, ...response.data?.employer})
+      setDetails({
+        ...details,
+        ...response.data?.employer,
+        beenRetreived: retrievalState.retrieved,
+      });
+      setGlobalDetails({ ...details, ...response.data?.employer });
       await set(COMPANY_PROFILE_Key, response.data?.employer);
-      onSuccess({"message": "Profile Update", success:response?.message || "Successful"});
+      onSuccess({
+        message: "Profile Update",
+        success: response?.message || "Successful",
+      });
       handleSuccess();
     } catch (error) {
       console.log(error);
       // FormatError(error, setError, "Update Error");
       onFailure({
         message: error?.message || "An error occurred",
-        error: 
+        error:
           typeof error?.response?.data?.message === "string"
             ? error?.response?.data?.message
             : Object.entries(error?.response?.data?.message || {})
-                .map(([key, value]) => `${key}: ${Array.isArray(value) ? value.join(", ") : value}`)
+                .map(
+                  ([key, value]) =>
+                    `${key}: ${Array.isArray(value) ? value.join(", ") : value}`
+                )
                 .join("\n"),
       });
-      
     } finally {
       setLoading(false);
     }
@@ -170,7 +173,7 @@ function useCompanyProfile() {
             ...storedValue,
             beenRetreived: retrievalState.retrieved,
           });
-          setGlobalDetails({...storedValue})
+          setGlobalDetails({ ...storedValue });
         } else {
           await getProfileInfo();
         }

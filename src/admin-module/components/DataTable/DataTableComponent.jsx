@@ -3,7 +3,15 @@ import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
-import { FaCheck, FaSearch, FaTimes, FaExclamationCircle, FaCheckCircle, FaTimesCircle, FaPauseCircle } from "react-icons/fa";
+import {
+  FaCheck,
+  FaSearch,
+  FaTimes,
+  FaExclamationCircle,
+  FaCheckCircle,
+  FaTimesCircle,
+  FaPauseCircle,
+} from "react-icons/fa";
 import { RiFilterOffLine } from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
 import { BiPencil } from "react-icons/bi";
@@ -34,9 +42,12 @@ const DataTableComponent = ({ data, name, heading, isLoading, allowEdit }) => {
     }, 500); // Adjust debounce delay as needed
   }, []);
 
-  const onGlobalFilterChange = useCallback((e) => {
-    debouncedFilter(e.target.value);
-  }, [debouncedFilter]);
+  const onGlobalFilterChange = useCallback(
+    (e) => {
+      debouncedFilter(e.target.value);
+    },
+    [debouncedFilter]
+  );
 
   const clearFilter = () => {
     setGlobalFilterValue("");
@@ -45,7 +56,11 @@ const DataTableComponent = ({ data, name, heading, isLoading, allowEdit }) => {
   const renderHeader = () => (
     <div className="flex flex-col sm:flex-row justify-between items-center gap-2">
       <div className="flex items-center gap-2 w-full sm:w-auto">
-        <button type="button" onClick={clearFilter} className="flex items-center gap-2 bg-green-300 px-4 py-2 rounded text-white">
+        <button
+          type="button"
+          onClick={clearFilter}
+          className="flex items-center gap-2 bg-green-300 px-4 py-2 rounded text-white"
+        >
           <RiFilterOffLine className="mr-2" /> Clear
         </button>
       </div>
@@ -74,18 +89,23 @@ const DataTableComponent = ({ data, name, heading, isLoading, allowEdit }) => {
 
   const updateSelectedData = async () => {
     if (!selectedData) {
-      console.error('selectedData is null or undefined');
-      toast.error('An error occurred. Please try again');
+      console.error("selectedData is null or undefined");
+      toast.error("An error occurred. Please try again");
       return;
     }
 
     const formData = {
       id: selectedData.id,
       status: selectedData.status,
-      type: name === 'domestic-staff' || name === 'artisan' ? 'domestic' : name === 'admins' ? 'admin' : name,
+      type:
+        name === "domestic-staff" || name === "artisan"
+          ? "domestic"
+          : name === "admins"
+          ? "admin"
+          : name,
     };
 
-    console.log('Updating status with data:', formData);
+    console.log("Updating status with data:", formData);
 
     toast.promise(
       updateStatus(formData)
@@ -101,13 +121,13 @@ const DataTableComponent = ({ data, name, heading, isLoading, allowEdit }) => {
           }
         })
         .catch((error) => {
-          console.error('Error updating status:', error);
+          console.error("Error updating status:", error);
           return Promise.reject();
         }),
       {
-        pending: 'Updating status...',
-        success: 'Status updated successfully',
-        error: 'An error occurred while updating status',
+        pending: "Updating status...",
+        success: "Status updated successfully",
+        error: "An error occurred while updating status",
       }
     );
   };
@@ -116,26 +136,38 @@ const DataTableComponent = ({ data, name, heading, isLoading, allowEdit }) => {
     try {
       await deleteAdminById(id);
       setDataState((prevData) => prevData.filter((d) => d.id !== id));
-      toast.success('Admin deleted successfully');
+      toast.success("Admin deleted successfully");
     } catch (error) {
-      console.error('Error deleting admin:', error);
-      toast.error('An error occurred while deleting admin');
+      console.error("Error deleting admin:", error);
+      toast.error("An error occurred while deleting admin");
     }
   };
 
   const actionBodyTemplate = (rowData) => (
     <div className="flex justify-center space-x-2">
       {allowEdit && (
-        <button type="button" onClick={(e) => editData(e, rowData)} className="flex items-center gap-2 bg-green-500 px-4 py-2 rounded">
+        <button
+          type="button"
+          onClick={(e) => editData(e, rowData)}
+          className="flex items-center gap-2 bg-green-500 px-4 py-2 rounded"
+        >
           <BiPencil className="ml-2 text-lg text-white" />
         </button>
       )}
-      {name === 'admins' ? (
-        <button type="button" className="bg-red-500 px-4 py-2 text-white" onClick={() => deleteAdmin(rowData.id)}>
+      {name === "admins" ? (
+        <button
+          type="button"
+          className="bg-red-500 px-4 py-2 text-white"
+          onClick={() => deleteAdmin(rowData.id)}
+        >
           Delete
         </button>
       ) : (
-        <button type="button" className="bg-green-500 px-4 py-2 text-white" onClick={() => handleViewDetails(rowData)}>
+        <button
+          type="button"
+          className="bg-green-500 px-4 py-2 text-white"
+          onClick={() => handleViewDetails(rowData)}
+        >
           View
         </button>
       )}
@@ -144,17 +176,23 @@ const DataTableComponent = ({ data, name, heading, isLoading, allowEdit }) => {
 
   const handleViewDetails = (rowData) => {
     const id = rowData.id;
-    const routeName = name === 'artisan' ? 'artisan' : name;
+    const routeName = name === "artisan" ? "artisan" : name;
     navigate(`/admin/${routeName}/details/${id}`);
   };
 
   const editDialogFooter = (
     <>
-      <button className="outline outline-red-700 px-2 py-2 flex items-center gap-2 text-red-700 rounded mt-3" onClick={() => setEditDialog(false)}>
+      <button
+        className="outline outline-red-700 px-2 py-2 flex items-center gap-2 text-red-700 rounded mt-3"
+        onClick={() => setEditDialog(false)}
+      >
         <FaTimes className="mr-2" />
         Cancel
       </button>
-      <button className="outline outline-green-700 px-2 py-2 flex items-center gap-2 text-green-700 rounded mt-3" onClick={updateSelectedData}>
+      <button
+        className="outline outline-green-700 px-2 py-2 flex items-center gap-2 text-green-700 rounded mt-3"
+        onClick={updateSelectedData}
+      >
         <FaCheck className="mr-2" />
         Save
       </button>
@@ -242,26 +280,34 @@ const DataTableComponent = ({ data, name, heading, isLoading, allowEdit }) => {
                   body={
                     head.toLowerCase() === "profile"
                       ? (rowData) => {
-                        const parseHtml = (html) => {
-                          const doc = new DOMParser().parseFromString(html, "text/html");
-                          return doc.body.textContent || "";
-                        };
+                          const parseHtml = (html) => {
+                            const doc = new DOMParser().parseFromString(
+                              html,
+                              "text/html"
+                            );
+                            return doc.body.textContent || "";
+                          };
 
-                        return (
-                          <div className="line-clamp-2">
-                            {rowData.profile ?parseHtml(rowData.profile) : null}
-                          </div>
-                        );
-                      }
+                          return (
+                            <div className="line-clamp-2">
+                              {rowData.profile
+                                ? parseHtml(rowData.profile)
+                                : null}
+                            </div>
+                          );
+                        }
                       : head.toLowerCase() === "status"
-                        ? statusBodyTemplate
-                        : null
+                      ? statusBodyTemplate
+                      : null
                   }
-
                 />
               )
           )}
-          <Column body={actionBodyTemplate} exportable={false} style={{ width: "10em" }} />
+          <Column
+            body={actionBodyTemplate}
+            exportable={false}
+            style={{ width: "10em" }}
+          />
         </DataTable>
       </div>
 
@@ -275,12 +321,12 @@ const DataTableComponent = ({ data, name, heading, isLoading, allowEdit }) => {
           name === "employer"
             ? "Change Status"
             : name === "artisan"
-              ? "Edit Artisan"
-              : name === "job"
-                ? "Edit Job"
-                : name === 'admins'
-                  ? "Edit Admin"
-                  : "Edit Domestic Staff"
+            ? "Edit Artisan"
+            : name === "job"
+            ? "Edit Job"
+            : name === "admins"
+            ? "Edit Admin"
+            : "Edit Domestic Staff"
         }
         modal
         className="p-fluid overflow-y-auto"
@@ -290,7 +336,10 @@ const DataTableComponent = ({ data, name, heading, isLoading, allowEdit }) => {
         {selectedData && (
           <Dropdown
             optionLabel="status"
-            value={statuses.find((status) => status.code === selectedData.status) || ""}
+            value={
+              statuses.find((status) => status.code === selectedData.status) ||
+              ""
+            }
             options={statuses}
             onChange={onStatusChange}
             placeholder="Select Status"

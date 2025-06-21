@@ -41,11 +41,12 @@ const usePusher = ({ userId, role, token }) => {
       const newMessage = data?.message;
       if (!newMessage) return;
       const otherUserId = newMessage.sender_id;
+      console.log("📬 New message received:", newMessage);
 
       // Avoid toast if from self
       if (otherUserId) {
         onNewNotificationToast({
-          senderName: newMessage?.sender_type,
+          senderName: data?.sender?.sender_name || newMessage?.sender_type,
           message: newMessage?.message,
           onClick: () => {
             navigate(`/company/messages`, {

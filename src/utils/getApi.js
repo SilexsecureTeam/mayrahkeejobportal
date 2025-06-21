@@ -40,7 +40,6 @@ export const getUpdatedUser = (
         });
       })
       .catch((error) => {
-        console.log(error);
         if (error.response) {
           setErrorMessage(error.response.data.message);
         } else {

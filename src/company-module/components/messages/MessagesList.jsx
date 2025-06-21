@@ -8,6 +8,7 @@ function MessagedList({ selectedChat, setSelectedChat, data }) {
   const { initFirebaseChatSession } = useContext(ChatContext);
   const [searchQuery, setSearchQuery] = useState("");
   const [onlineUsers, setOnlineUsers] = useState({});
+  const { unreadMessage } = useContext(ChatContext);
 
   // Track online status for all users in `data`
   useEffect(() => {
@@ -62,25 +63,41 @@ function MessagedList({ selectedChat, setSelectedChat, data }) {
         {filteredList?.length > 0 ? (
           filteredList.map((current) => {
             const isOnline = onlineUsers[current.candidate_id];
-
+            const unreadCount =
+              unreadMessage?.filter(
+                (msg) => msg?.sender_id === current?.candidate_id
+              )?.length || 0;
             return (
               <li
                 key={current.id}
                 onClick={() => setSelectedChat(current)}
-                className={`border-l border-r md:border-0 max-w-30 md:max-w-full flex ${
+                className={`relative border-l border-r md:border-0 max-w-30 md:max-w-full flex ${
                   selectedChat?.id === current.id
                     ? "bg-primaryColor text-white"
                     : "bg-opacity-0 text-black hover:bg-gray-100 hover:text-black"
                 } cursor-pointer px-2 justify-between items-start gap-[10px] border-b min-h-[50px]`}
               >
-                <div className="truncate flex flex-col h-full">
-                  <h4 className="text-sm font-semibold">{current.full_name}</h4>
-                  <span className="text-little text-gray-400">
-                    {current.job_title}
-                  </span>
+                <div className="truncate flex flex-col h-full w-full">
+                  <h4 className="text-sm font-semibold">
+                    {current?.full_name}
+                  </h4>
+                  <section className="w-full flex items-center justify-between gap-2">
+                    <span className="text-little text-gray-400">
+                      {current.job_title}
+                    </span>
+                    {unreadCount > 0 && (
+                      <span
+                        key={unreadCount} // helps re-render for animation
+                        className="transition-all duration-300 ease-out transform scale-100 opacity-100 my-auto h-max w-max px-2 py-0.5 text-xs bg-red-500 text-white font-medium rounded-full flex items-center justify-center"
+                      >
+                        {unreadCount}
+                      </span>
+                    )}
+                  </section>
                 </div>
+
                 {isOnline && (
-                  <div className="flex items-center gap-1 pt-1">
+                  <div className="absolute top-1 right-1 flex items-center gap-1 pt-1">
                     <div className="h-[8px] w-[8px] animate-pulse rounded-full bg-green-500" />
                   </div>
                 )}

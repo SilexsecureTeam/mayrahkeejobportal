@@ -75,7 +75,7 @@ function ChatComponent({ selectedChat, setSelectedChat, applicationUtils }) {
   // Empty or null state
   if (!selectedChat || !currentEmployer) {
     return (
-      <div className="text-center text-gray-500 mt-10">
+      <div className="text-center text-gray-500 mt-10 w-full lg:w-3/4 flex flex-col items-center overflow-y-auto relative h-full">
         No employer selected.
       </div>
     );
