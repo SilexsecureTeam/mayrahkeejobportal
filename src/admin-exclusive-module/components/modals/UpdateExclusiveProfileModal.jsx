@@ -5,10 +5,6 @@ import FormButton from "../../../components/FormButton";
 import { FaRegEdit, FaTimes } from "react-icons/fa";
 import ReactQuill from "react-quill";
 import BasicInput from "../../../company-module/components/company-profile/BasicInput";
-import {
-  basic_inputs,
-  social_media_inputs,
-} from "../../../company-module/components/company-profile/UpdateCompanyProfileModal";
 import useExclusiveProfile from "../../../hooks/useExclusiveProfile";
 import { useContext, useEffect, useState } from "react";
 import { axiosClient, resourceUrl } from "../../../services/axios-client";
@@ -17,13 +13,17 @@ import { AuthContext } from "../../../context/AuthContex";
 import { JobContext } from "../../../context/JobContext";
 import Selector from "../../../components/Selector";
 import { useNavigate } from "react-router-dom";
+import {
+  companyBasicInputs,
+  social_media_inputs,
+} from "../../../utils/formFields";
 
 function UpdateExclusiveProfileModal({
   toogleProfileUpdateModal,
   isOpen,
   exclusive,
 }) {
-  const navigate=useNavigate()
+  const navigate = useNavigate();
   const {
     details,
     setDetails,
@@ -34,13 +34,14 @@ function UpdateExclusiveProfileModal({
     retrievalState,
   } = useExclusiveProfile(exclusive.id);
   const [displayPic, setDisplayPic] = useState("");
-  const [campaignPhotos, setCampaignPhotos] = useState([...details?.company_campaign_photos || []]);
-  
+  const [campaignPhotos, setCampaignPhotos] = useState([
+    ...(details?.company_campaign_photos || []),
+  ]);
+
   const { authDetails } = useContext(AuthContext);
   const client = axiosClient(authDetails?.token, true);
   const { getSectors } = useContext(JobContext);
   const [sectorList, setSectorList] = useState([]);
-
 
   const getCampaignPhotoURL = (e) => {
     const { name } = e.target;
@@ -63,7 +64,9 @@ function UpdateExclusiveProfileModal({
       ];
 
       const updatedFiles = [
-        ...(Array.isArray(details?.company_campaign_photos) ? details?.company_campaign_photos?.map((item) => item) : []),
+        ...(Array.isArray(details?.company_campaign_photos)
+          ? details?.company_campaign_photos?.map((item) => item)
+          : []),
         ...updatedList.map((item) => item.file),
       ];
 
@@ -82,16 +85,19 @@ function UpdateExclusiveProfileModal({
   useEffect(() => {
     const init = async () => {
       const jobSectors = await getSectors();
-      setSectorList(jobSectors || [])
-    }
+      setSectorList(jobSectors || []);
+    };
     init();
-  }, [])
+  }, []);
   useEffect(() => {
     if (details?.company_campaign_photos?.length > 0) {
       const newPhotos = details.company_campaign_photos
         .filter((file) => typeof file === "string" || file instanceof File) // Filter invalid entries
         .map((file) => ({
-          url: typeof file === "string" ? `${resourceUrl}${file}` : URL.createObjectURL(file),
+          url:
+            typeof file === "string"
+              ? `${resourceUrl}${file}`
+              : URL.createObjectURL(file),
           file: typeof file === "string" ? null : file, // Set file to null if it's a string
         }));
 
@@ -105,7 +111,7 @@ function UpdateExclusiveProfileModal({
 
     updateCompanyProfile(() => {
       toogleProfileUpdateModal();
-      navigate(`/admin-exclusives/profile/${details.employer_id}`)
+      navigate(`/admin-exclusives/profile/${details.employer_id}`);
     });
   };
 
@@ -148,7 +154,7 @@ function UpdateExclusiveProfileModal({
           return photo.file; // Return the File object for new uploads
         }
         // Remove the resourceUrl prefix dynamically
-        return photo.url.replace(new RegExp(resourceUrl, 'g'), '').trim();
+        return photo.url.replace(new RegExp(resourceUrl, "g"), "").trim();
       }),
     }));
 
@@ -173,56 +179,65 @@ function UpdateExclusiveProfileModal({
           >
             {/* Logo Input */}
             <div className="flex flex-col">
-                <span className="text-sm font-semibold">Company Icon</span>
-                <div className="w-[20%] mt-[5px] flex flex-col items-start justify-start relative">
-                  <img
-                    className="h-[50px] w-[50px] rounded-full"
-                    src={
-                      displayPic
-                        ? displayPic
-                        : `${resourceUrl}/${details?.logo_image}`
-                    }
-                  />
-                  <input
-                    id="displayPic"
-                    name="logo_image"
-                    type="file"
-                    accept=".jpeg, .png, .jpg,"
-                    onChange={(e) => {
-                      getImageURL(e, setDisplayPic, setDetails);
-                    }}
-                    className="hidden"
-                  />
-                  <label
-                    htmlFor="displayPic"
-                    className="absolute right-12  top-0 cursor-pointer text-primaryColor text-lg"
-                  >
-                    <FaRegEdit />
-                  </label>
-                  <small class="text-xs text-gray-500">
-                File size should not exceed 1MB. </small>
-                </div>
+              <span className="text-sm font-semibold">Company Icon</span>
+              <div className="w-[20%] mt-[5px] flex flex-col items-start justify-start relative">
+                <img
+                  className="h-[50px] w-[50px] rounded-full"
+                  src={
+                    displayPic
+                      ? displayPic
+                      : `${resourceUrl}/${details?.logo_image}`
+                  }
+                />
+                <input
+                  id="displayPic"
+                  name="logo_image"
+                  type="file"
+                  accept=".jpeg, .png, .jpg,"
+                  onChange={(e) => {
+                    getImageURL(e, setDisplayPic, setDetails);
+                  }}
+                  className="hidden"
+                />
+                <label
+                  htmlFor="displayPic"
+                  className="absolute right-12  top-0 cursor-pointer text-primaryColor text-lg"
+                >
+                  <FaRegEdit />
+                </label>
+                <small class="text-xs text-gray-500">
+                  File size should not exceed 1MB.{" "}
+                </small>
               </div>
+            </div>
 
             {/* Basic Form inputs */}
-            {basic_inputs?.map((current) => (
-              current?.type !== "dropdown" ?
+            {companyBasicInputs?.map((current) =>
+              current?.type !== "dropdown" ? (
                 <BasicInput
                   data={current}
                   details={details}
                   onTextChange={onTextChange}
                   key={current.id}
                   required={current?.required}
-                /> : <label>
+                />
+              ) : (
+                <label>
                   <strong>{current.label}</strong>
                   <Selector
                     key={current.id}
                     data={sectorList || []}
-                    selected={sectorList?.find(one => one.name === details?.sector) || null}
-                    setSelected={({ name }) => setDetails({ ...details, "sector": name })}
+                    selected={
+                      sectorList?.find((one) => one.name === details?.sector) ||
+                      null
+                    }
+                    setSelected={({ name }) =>
+                      setDetails({ ...details, sector: name })
+                    }
                   />
                 </label>
-            ))}
+              )
+            )}
 
             {/* Company Profile Text Editor */}
             <div className="flex flex-col gap-[5px]">
@@ -241,26 +256,26 @@ function UpdateExclusiveProfileModal({
 
             {/* Campaign Photos */}
             <div className="w-full flex flex-col gap-[3px] mt-10">
-                <div
-                  className="text-sm font-semibold flex w-full justify-between items-center"
+              <div className="text-sm font-semibold flex w-full justify-between items-center">
+                Company Photos{" "}
+                <label
+                  htmlFor="currentCampaignPhoto"
+                  className="relative overflow-hidden"
                 >
-                  Company Photos <label
-                    htmlFor="currentCampaignPhoto" className="relative overflow-hidden">
-                    <FaRegEdit size="24" className="cursor-pointer" />
-                    <input
-                      name="company_campaign_photos"
-                      accept=".jpeg, .png, .jpg,"
-                      onChange={getCampaignPhotoURL}
-                      id="currentCampaignPhoto"
-                      className="hidden absolute w-full h-full"
-                      type="file"
-                      multiple // Allows multiple file selection
-                    />
-                  </label>
-                </div>
+                  <FaRegEdit size="24" className="cursor-pointer" />
+                  <input
+                    name="company_campaign_photos"
+                    accept=".jpeg, .png, .jpg,"
+                    onChange={getCampaignPhotoURL}
+                    id="currentCampaignPhoto"
+                    className="hidden absolute w-full h-full"
+                    type="file"
+                    multiple // Allows multiple file selection
+                  />
+                </label>
+              </div>
 
-
-                <section>
+              <section>
                 <div className="w-full min-h-[100px] flex gap-[5px] items-start border-dashed p-2 border overflow-x-auto">
                   {campaignPhotos?.map((current, idx) => (
                     <div
@@ -282,10 +297,11 @@ function UpdateExclusiveProfileModal({
                   ))}
                 </div>
                 <small class="text-xs text-gray-500">
-                Images should not exceed 3MB. </small>
-                </section>
-                </div>
-                
+                  Images should not exceed 3MB.{" "}
+                </small>
+              </section>
+            </div>
+
             {/* Social Media Inputs */}
             <div className="w-full flex flex-col gap-[3px]">
               <label
