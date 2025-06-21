@@ -32,7 +32,7 @@ function DetailsRight({ data }) {
 
         <ul className="flex flex-col divide-y-[1px] *:pt-[5px] gap-[5px] text-gray-800 text-little font-semibold">
           <li className="flex w-full justify-between pr-[10%]">
-            <span>Company size:</span>
+            <span>Company Size:</span>
             <span>{data?.company_size}</span>
           </li>
 

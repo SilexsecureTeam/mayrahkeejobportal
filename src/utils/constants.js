@@ -119,7 +119,7 @@ export const applicantOptions = [
     route: "/applicant/blogs",
     icon: ApplyForJob,
     iconActive: ApplyForJob,
-  }
+  },
 ];
 
 export const companyOptions = [
@@ -164,12 +164,13 @@ export const companyOptions = [
     route: "/company/schedule",
     icon: calanderIcon,
     iconActive: searchIconActive,
-  },{
+  },
+  {
     type: "PACKAGES",
     title: "Subscriptions",
     route: "/company/subscription",
     icon: profileIconResume,
-    iconActive: profileIconActive, 
+    iconActive: profileIconActive,
   },
   {
     type: "BLOG",
@@ -177,7 +178,7 @@ export const companyOptions = [
     route: "/company/blogs",
     icon: ApplyForJob,
     iconActive: ApplyForJob,
-  }
+  },
 ];
 
 export const companyExclusiveOptions = [
@@ -222,7 +223,7 @@ export const companyExclusiveOptions = [
     route: "/company/blogs",
     icon: ApplyForJob,
     iconActive: ApplyForJob,
-  }
+  },
 ];
 
 export const exclusiveUtilOptions = [
@@ -249,15 +250,14 @@ export const exclusiveUtilOptions = [
   },
 ];
 
-
 export const extraOptions = [
   {
     type: "JOB-POSTING",
-    title: "Job Posting"
+    title: "Job Posting",
     // icon: clipboardIcon,
     // iconActive: profileIconActive,
   },
-]
+];
 export const utilOptions = [
   {
     type: "ARTISAN",
@@ -369,7 +369,7 @@ export const staffOptions = [
     route: "/staff/blogs",
     icon: ApplyForJob,
     iconActive: ApplyForJob,
-  }
+  },
 ];
 
 export const staffUtilOptions = [
@@ -500,7 +500,8 @@ export const adminOptions = [
     route: "/admin/blogs",
     icon: ApplyForJob,
     iconActive: ApplyForJob,
-  },{
+  },
+  {
     type: "Support",
     title: "Support",
     route: "/admin/support",
@@ -756,8 +757,6 @@ export const verification_status = [
   "suspend",
 ];
 
-
-
 export const ethnicGroups = [
   "Hausa",
   "Yoruba",
@@ -795,23 +794,22 @@ export const ethnicGroups = [
   "Bwatiye",
   "Sayawa",
   "Mumuye",
-  "Atyap"]
+  "Atyap",
+];
 
-  
-  export const convertDays=(days)=> {
-    if (days < 7) {
-        return `${days} day(s)`;
-    } else if (days < 14) {
-        return `1 week`;
-    } else if (days < 30) {
-        return `${Math.floor(days / 7)} weeks`;
-    } else if (days < 365) {
-        return `${Math.floor(days / 30)} month(s)`;
-    } else {
-        return `${Math.floor(days / 365)} year(s)`;
-    }
-}
-
+export const convertDays = (days) => {
+  if (days < 7) {
+    return `${days} day(s)`;
+  } else if (days < 14) {
+    return `1 week`;
+  } else if (days < 30) {
+    return `${Math.floor(days / 7)} weeks`;
+  } else if (days < 365) {
+    return `${Math.floor(days / 30)} month(s)`;
+  } else {
+    return `${Math.floor(days / 365)} year(s)`;
+  }
+};
 
 export const field_sections1 = {
   primary: [
@@ -849,11 +847,7 @@ export const field_sections1 = {
     {
       name: "Religion",
       type: "select",
-      options: [
-        "Christianity",
-        "Islam",
-        "Traditional"
-      ],
+      options: ["Christianity", "Islam", "Traditional"],
       field_name: "religion",
     },
     {
@@ -932,7 +926,7 @@ export const field_sections1 = {
       type: "select",
       options: ["Single", "Married", "Divorced", "Widowed"],
       field_name: "marital_status",
-    }
+    },
   ],
 };
 
@@ -982,11 +976,7 @@ export const field_sections2 = {
     {
       name: "Religion",
       type: "select",
-      options: [
-        "Christianity",
-        "Islam",
-        "Traditional"
-      ],
+      options: ["Christianity", "Islam", "Traditional"],
       field_name: "religion",
     },
     {
@@ -1001,7 +991,7 @@ export const field_sections2 = {
       field_name: "location",
     },
   ],
-professional: [
+  professional: [
     {
       name: "Business Name",
       type: "text",
@@ -1024,11 +1014,6 @@ professional: [
       field_name: "business_registration_no",
     },
     {
-      name: "Business Identification No",
-      type: "text",
-      field_name: "business_identification_no",
-    },
-    {
       name: "Business Address",
       type: "text",
       field_name: "business_address",
@@ -1039,7 +1024,7 @@ professional: [
       field_name: "business_location",
     },
     {
-      name: "Years Of Incoporation",
+      name: "Year Of Incorporation",
       type: "number",
       field_name: "years_of_incorporation",
     },
@@ -1064,7 +1049,7 @@ professional: [
       name: "Whatsapp Number",
       type: "number",
       field_name: "whatsapp_phone_no",
-    }
+    },
   ],
   secondary: [
     {
@@ -1072,7 +1057,7 @@ professional: [
       type: "select",
       options: ["Single", "Married", "Divorced", "Widowed"],
       field_name: "marital_status",
-    }
+    },
   ],
 };
 
@@ -1082,7 +1067,7 @@ export const verificationOptions1 = [
   { label: "Residence", key: "residence_verification_status" },
   { label: "Medical History", key: "medical_history_verification_status" },
   { label: "Police Report", key: "police_report_verification_status" },
-  { label: "Work Experience", key: "previous_employer_verification_status" }
+  { label: "Work Experience", key: "previous_employer_verification_status" },
 ];
 
 export const verificationOptions2 = [

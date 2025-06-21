@@ -45,32 +45,32 @@ const IdentificationDialog = ({ fetchData }) => {
       return;
     }
 
-   const formData = {
-         id: selectedReport.domestic_staff_id,
-         status: status,
-         type: 'identification'
-       };
-   
-       console.log("Form data being sent:", formData);
-   
-       try {
-         const res = await updateStatus(formData);
-         if (res) {
-           setUpdateDialogVisible(false);
-           toast.success('Status updated successfully');
-           // Fetch the updated details
-           const data = await fetchData();
-           setIdentification(data.identifications[0]);
-         } else {
-           toast.error('An error occurred while updating status');
-         }
-       } catch (error) {
-         console.error('Error updating status:', error);
-         if (error.response && error.response.data) {
-           console.error('Server response:', error.response.data);
-         }
-         toast.error('An error occurred while updating status');
-       }
+    const formData = {
+      id: selectedReport.domestic_staff_id,
+      status: status,
+      type: "identification",
+    };
+
+    console.log("Form data being sent:", formData);
+
+    try {
+      const res = await updateStatus(formData);
+      if (res) {
+        setUpdateDialogVisible(false);
+        toast.success("Status updated successfully");
+        // Fetch the updated details
+        const data = await fetchData();
+        setIdentification(data.identifications[0]);
+      } else {
+        toast.error("An error occurred while updating status");
+      }
+    } catch (error) {
+      console.error("Error updating status:", error);
+      if (error.response && error.response.data) {
+        console.error("Server response:", error.response.data);
+      }
+      toast.error("An error occurred while updating status");
+    }
   };
 
   const statusOptions = [
@@ -86,9 +86,14 @@ const IdentificationDialog = ({ fetchData }) => {
         className="bg-green-500 px-20 py-20 rounded-lg text-white hover:cursor-pointer flex items-center justify-center"
         onClick={handleOpen}
       >
-        View Identification Report
+        View NIN Details
         {isLoading && (
-          <ClipLoader size={20} color={"#ffffff"} loading={isLoading} className="ml-2" />
+          <ClipLoader
+            size={20}
+            color={"#ffffff"}
+            loading={isLoading}
+            className="ml-2"
+          />
         )}
       </div>
 
@@ -111,13 +116,19 @@ const IdentificationDialog = ({ fetchData }) => {
           </div>
         ) : identification ? (
           <div className="p-3 border-b-2 border-gray-200 space-y-5">
-            <p><strong>Identity Name:</strong> {identification?.identity_name}</p>
-            <p><strong>NIN Number:</strong> {identification?.identity_no}</p>
+            <p>
+              <strong>Identity Name:</strong> {identification?.identity_name}
+            </p>
+            <p>
+              <strong>NIN Number:</strong> {identification?.identity_no}
+            </p>
             {identification?.file_path && (
               <p>
                 <strong>Uploaded File:</strong>{" "}
                 <a
-                  href={`${import.meta.env.VITE_IMAGE_URL}/${identification?.file_path}`}
+                  href={`${import.meta.env.VITE_IMAGE_URL}/${
+                    identification?.file_path
+                  }`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-blue-500 underline"
@@ -126,7 +137,9 @@ const IdentificationDialog = ({ fetchData }) => {
                 </a>
               </p>
             )}
-            <p><strong>Status:</strong> {identification?.status}</p>
+            <p>
+              <strong>Status:</strong> {identification?.status}
+            </p>
             <button
               type="button"
               className="flex items-center gap-2 bg-green-500 px-4 py-2 rounded text-white"

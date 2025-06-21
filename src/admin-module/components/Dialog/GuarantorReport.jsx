@@ -46,15 +46,15 @@ const GuarantorReportDialog = ({ fetchData }) => {
     console.log("Report Id:", selectedReport.domestic_staff_id);
 
     if (!status) {
-      console.error('selectedData is null or undefined');
-      toast.error('An error occurred. Please try again');
+      console.error("selectedData is null or undefined");
+      toast.error("An error occurred. Please try again");
       return;
     }
 
     const formData = {
       id: selectedReport.domestic_staff_id,
       status: status,
-      type: 'guarantor'
+      type: "guarantor",
     };
 
     console.log("Form data being sent:", formData);
@@ -63,55 +63,109 @@ const GuarantorReportDialog = ({ fetchData }) => {
       const res = await updateStatus(formData);
       if (res) {
         setUpdateDialogVisible(false);
-        toast.success('Status updated successfully');
+        toast.success("Status updated successfully");
         // Fetch the updated details
         const data = await fetchData();
         setGuarantors(data.guarantor);
       } else {
-        toast.error('An error occurred while updating status');
+        toast.error("An error occurred while updating status");
       }
     } catch (error) {
-      console.error('Error updating status:', error);
+      console.error("Error updating status:", error);
       if (error.response && error.response.data) {
-        console.error('Server response:', error.response.data);
+        console.error("Server response:", error.response.data);
       }
-      toast.error('An error occurred while updating status');
+      toast.error("An error occurred while updating status");
     }
   };
 
   const statusOptions = [
-    { label: 'Pending', value: 'pending' },
-    { label: 'Approved', value: 'approved' },
-    { label: 'Rejected', value: 'rejected' },
-    { label: 'Suspend', value: 'suspend' },
+    { label: "Pending", value: "pending" },
+    { label: "Approved", value: "approved" },
+    { label: "Rejected", value: "rejected" },
+    { label: "Suspend", value: "suspend" },
   ];
 
   return (
     <div className="card flex flex-col space-y-4">
-      <div className="bg-green-500 px-20 py-20 rounded-lg text-white  hover:cursor-pointer" onClick={handleOpen}>
-      View Guarantor Report
-      {isLoading && <ClipLoader size={20} color={"#ffffff"} loading={isLoading} className="ml-2" />}
+      <div
+        className="bg-green-500 px-20 py-20 rounded-lg text-white  hover:cursor-pointer"
+        onClick={handleOpen}
+      >
+        View Guarantor's Details
+        {isLoading && (
+          <ClipLoader
+            size={20}
+            color={"#ffffff"}
+            loading={isLoading}
+            className="ml-2"
+          />
+        )}
       </div>
-      <Dialog header="Guarantor Report" visible={visible} style={{ width: '90vw', maxWidth: '600px',  overflowY:"auto", height:"max-content", maxHeight:"90%" }} onHide={() => setVisible(false)} modal>
+      <Dialog
+        header="Guarantor Report"
+        visible={visible}
+        style={{
+          width: "90vw",
+          maxWidth: "600px",
+          overflowY: "auto",
+          height: "max-content",
+          maxHeight: "90%",
+        }}
+        onHide={() => setVisible(false)}
+        modal
+      >
         {isLoading ? (
           <div className="flex justify-center items-center h-full">
             <ClipLoader size={50} color={"#000"} loading={isLoading} />
           </div>
-        ) : (
-          guarantors.length > 0 ? guarantors.map((guarantor) => (
-            <div key={guarantor?.id} className="p-3 border-b-2 border-gray-200 space-y-5">
-              <p><strong>Title:</strong> {guarantor?.title}</p>
-              <p><strong>Surname:</strong> {guarantor?.surname}</p>
-              <p><strong>First Name:</strong> {guarantor?.first_name}</p>
-              <p><strong>Date of Birth:</strong> {(guarantor?.dob?.match(/(\d{4})-(\d{1,2})-(\d{1,2})/) || [])?.slice(1).reverse().join("-")}</p>
-              <p><strong>Religion:</strong> {guarantor?.religion}</p>
-              <p><strong>Residential Address:</strong> {guarantor?.residential_address}</p>
-              <p><strong>Near Bus Stop:</strong> {guarantor?.near_bus_stop}</p>
-              <p><strong>Close Landmark:</strong> {guarantor?.close_landmark}</p>
-              <p><strong>Mobile Phone:</strong> {guarantor?.mobile_phone}</p>
-              <p><strong>Email:</strong> {guarantor?.email}</p>
-              <p><strong>Occupation:</strong> {guarantor?.occupation}</p>
-              <p><strong>Status:</strong> {guarantor?.status}</p>
+        ) : guarantors.length > 0 ? (
+          guarantors.map((guarantor) => (
+            <div
+              key={guarantor?.id}
+              className="p-3 border-b-2 border-gray-200 space-y-5"
+            >
+              <p>
+                <strong>Title:</strong> {guarantor?.title}
+              </p>
+              <p>
+                <strong>Surname:</strong> {guarantor?.surname}
+              </p>
+              <p>
+                <strong>First Name:</strong> {guarantor?.first_name}
+              </p>
+              <p>
+                <strong>Date of Birth:</strong>{" "}
+                {(guarantor?.dob?.match(/(\d{4})-(\d{1,2})-(\d{1,2})/) || [])
+                  ?.slice(1)
+                  .reverse()
+                  .join("-")}
+              </p>
+              <p>
+                <strong>Religion:</strong> {guarantor?.religion}
+              </p>
+              <p>
+                <strong>Residential Address:</strong>{" "}
+                {guarantor?.residential_address}
+              </p>
+              <p>
+                <strong>Near Bus Stop:</strong> {guarantor?.near_bus_stop}
+              </p>
+              <p>
+                <strong>Close Landmark:</strong> {guarantor?.close_landmark}
+              </p>
+              <p>
+                <strong>Mobile Phone:</strong> {guarantor?.mobile_phone}
+              </p>
+              <p>
+                <strong>Email:</strong> {guarantor?.email}
+              </p>
+              <p>
+                <strong>Occupation:</strong> {guarantor?.occupation}
+              </p>
+              <p>
+                <strong>Status:</strong> {guarantor?.status}
+              </p>
               <button
                 type="button"
                 className="flex items-center gap-2 bg-green-500 px-4 py-2 rounded"
@@ -120,13 +174,27 @@ const GuarantorReportDialog = ({ fetchData }) => {
                 <FaPencil className="ml-2 text-lg text-white" />
               </button>
             </div>
-          )) : <p>No guarantor report available</p>
+          ))
+        ) : (
+          <p>No guarantor report available</p>
         )}
       </Dialog>
-      <Dialog header="Update Status" visible={updateDialogVisible} style={{ width: '90vw', maxWidth: '600px' }} onHide={() => setUpdateDialogVisible(false)} modal>
+      <Dialog
+        header="Update Status"
+        visible={updateDialogVisible}
+        style={{ width: "90vw", maxWidth: "600px" }}
+        onHide={() => setUpdateDialogVisible(false)}
+        modal
+      >
         <div className="p-4">
           <h3>Update Status</h3>
-          <Dropdown value={status} options={statusOptions} onChange={(e) => setStatus(e.value)} placeholder="Select a Status" className="w-full mb-4" />
+          <Dropdown
+            value={status}
+            options={statusOptions}
+            onChange={(e) => setStatus(e.value)}
+            placeholder="Select a Status"
+            className="w-full mb-4"
+          />
           <button
             type="button"
             className="flex items-center gap-2 bg-green-500 px-4 py-2 rounded text-white"

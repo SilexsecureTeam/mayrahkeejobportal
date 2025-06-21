@@ -47,28 +47,30 @@ const BusinessReportDialog = ({ fetchData }) => {
       return;
     }
 
-   const formData = {
-         id: selectedReport.domestic_staff_id,
-         status: status,
-         type: 'business'
-       };
-   
-       console.log("Form data being sent:", formData);
-   
-       try {
-         const res = await updateStatus(formData);
-         if (res) {
-           setUpdateDialogVisible(false);
-           toast.success('Status updated successfully');
-           // Fetch the updated details
-           const data = await fetchData();
-           setBusiness(data.businesses[0]);
-         } else {
-           toast.error('An error occurred while updating status');
-         }
-       } catch (error) {
-        toast.error(extractErrorMessage(error) || 'An error occurred while updating status');
-       }
+    const formData = {
+      id: selectedReport.domestic_staff_id,
+      status: status,
+      type: "business",
+    };
+
+    console.log("Form data being sent:", formData);
+
+    try {
+      const res = await updateStatus(formData);
+      if (res) {
+        setUpdateDialogVisible(false);
+        toast.success("Status updated successfully");
+        // Fetch the updated details
+        const data = await fetchData();
+        setBusiness(data.businesses[0]);
+      } else {
+        toast.error("An error occurred while updating status");
+      }
+    } catch (error) {
+      toast.error(
+        extractErrorMessage(error) || "An error occurred while updating status"
+      );
+    }
   };
 
   const statusOptions = [
@@ -84,9 +86,14 @@ const BusinessReportDialog = ({ fetchData }) => {
         className="bg-green-500 px-20 py-20 rounded-lg text-white hover:cursor-pointer flex items-center justify-center"
         onClick={handleOpen}
       >
-        View Business Report
+        View Business Details
         {isLoading && (
-          <ClipLoader size={20} color={"#ffffff"} loading={isLoading} className="ml-2" />
+          <ClipLoader
+            size={20}
+            color={"#ffffff"}
+            loading={isLoading}
+            className="ml-2"
+          />
         )}
       </div>
 
@@ -109,22 +116,49 @@ const BusinessReportDialog = ({ fetchData }) => {
           </div>
         ) : business ? (
           <div className="p-3 border-b-2 border-gray-200 space-y-5">
-            <p><strong>Business Name:</strong> {business?.business_name}</p>
-            <p><strong>Business Email:</strong> {business?.business_email}</p>
-            <p><strong>Business Phone Number:</strong> {business?.business_phone_no}</p>
-            <p><strong>WhatsApp Phone Number:</strong> {business?.whatsapp_phone_no}</p>
-            <p><strong>Business Registration No.:</strong> {business?.business_registration_no}</p>
-            <p><strong>Business Address:</strong> {business?.business_address}</p>
-            <p><strong>Business Location:</strong> {business?.business_location}</p>
-            <p><strong>Year of Incorporation:</strong> {business?.year_of_incorporation}</p>
-            <p><strong>Business Identification No.:</strong> {business?.business_identification_no}</p>
-            <p><strong>Status:</strong> {business?.status}</p>
+            <p>
+              <strong>Business Name:</strong> {business?.business_name}
+            </p>
+            <p>
+              <strong>Business Email:</strong> {business?.business_email}
+            </p>
+            <p>
+              <strong>Business Phone Number:</strong>{" "}
+              {business?.business_phone_no}
+            </p>
+            <p>
+              <strong>WhatsApp Phone Number:</strong>{" "}
+              {business?.whatsapp_phone_no}
+            </p>
+            <p>
+              <strong>Business Registration No.:</strong>{" "}
+              {business?.business_registration_no}
+            </p>
+            <p>
+              <strong>Business Address:</strong> {business?.business_address}
+            </p>
+            <p>
+              <strong>Business Location:</strong> {business?.business_location}
+            </p>
+            <p>
+              <strong>Year of Incorporation:</strong>{" "}
+              {business?.year_of_incorporation}
+            </p>
+            <p>
+              <strong>Business Identification No.:</strong>{" "}
+              {business?.business_identification_no}
+            </p>
+            <p>
+              <strong>Status:</strong> {business?.status}
+            </p>
 
             {business?.business_file && (
               <p>
                 <strong>Business File:</strong>{" "}
                 <a
-                  href={`${import.meta.env.VITE_IMAGE_URL}/${business?.business_file}`}
+                  href={`${import.meta.env.VITE_IMAGE_URL}/${
+                    business?.business_file
+                  }`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-blue-500 underline"

@@ -1,5 +1,10 @@
 import { FaExclamationCircle, FaSpinner } from "react-icons/fa";
-import { MdCheck, MdCheckBoxOutlineBlank, MdClose, MdDelete } from "react-icons/md";
+import {
+  MdCheck,
+  MdCheckBoxOutlineBlank,
+  MdClose,
+  MdDelete,
+} from "react-icons/md";
 import { useLocation, useNavigate } from "react-router-dom";
 import StaffCard from "./StaffCard";
 import { useContext, useEffect, useState } from "react";
@@ -23,7 +28,6 @@ function CartedStaffs() {
   const navigate = useNavigate();
   const { authDetails } = useContext(AuthContext);
   const client = axiosClient(authDetails.token);
-  console.log(data)
   const [cartItems, setCartItems] = useState(data?.items || []);
   const { config, handleSuccess, addToCart, removeFromCart } = useCart();
   const [conditions, setConditions] = useState(false);
@@ -35,15 +39,14 @@ function CartedStaffs() {
 
   const handleSelectAll = (e) => {
     if (e.target.checked) {
-      const validItems = cartItems.filter(item =>
-        isArtisan || Number(item?.domestic_staff?.salary_agreed) > 0
+      const validItems = cartItems.filter(
+        (item) => isArtisan || Number(item?.domestic_staff?.salary_agreed) > 0
       );
       setSelectedItems(validItems);
     } else {
       setSelectedItems([]);
     }
   };
-
 
   const handleItemSelect = (item) => {
     setSelectedItems((prev) =>
@@ -69,12 +72,11 @@ function CartedStaffs() {
 
       setCartItems(filtered || []);
       // 🔁 Update selectedItems to only include items still in cart
-    setSelectedItems((prevSelected) =>
-      (filtered || []).filter((item) =>
-        prevSelected.some((selected) => selected.id === item.id)
-      )
-    );
-      
+      setSelectedItems((prevSelected) =>
+        (filtered || []).filter((item) =>
+          prevSelected.some((selected) => selected.id === item.id)
+        )
+      );
     } catch {
       onFailure({
         message: "Something went wrong",
@@ -98,26 +100,30 @@ function CartedStaffs() {
 
   //console.log(cartItems, selectedItems)
   // Pricing logic
-const rawSalaryTotal = selectedItems.reduce(
-  (total, item) => total + (Number(item?.domestic_staff?.salary_agreed) + Number(item?.domestic_staff?.markup_fee)),
-  0
-);
+  const rawSalaryTotal = selectedItems.reduce(
+    (total, item) =>
+      total +
+      (Number(item?.domestic_staff?.salary_agreed) +
+        Number(item?.domestic_staff?.markup_fee)),
+    0
+  );
 
-const salaryTotal = isArtisan
-  ? 0
-  : rawSalaryTotal;
+  const salaryTotal = isArtisan ? 0 : rawSalaryTotal;
 
-const serviceFeeTotal = isArtisan ? CONMPANY_TAX * selectedItems?.length: selectedItems.reduce(
-  (total, item) => total + Number(item?.domestic_staff?.service_charge || 0),
-  0
-);
-const vatPercent = Number(data?.vat_percent || 0);
-const totalBeforeVat = salaryTotal + serviceFeeTotal;
-const totalVat = (totalBeforeVat * vatPercent) / 100;
+  const serviceFeeTotal = isArtisan
+    ? CONMPANY_TAX * selectedItems?.length
+    : selectedItems.reduce(
+        (total, item) =>
+          total + Number(item?.domestic_staff?.service_charge || 0),
+        0
+      );
+  const vatPercent = Number(data?.vat_percent || 0);
+  const totalBeforeVat = salaryTotal + serviceFeeTotal;
+  const totalVat = (totalBeforeVat * vatPercent) / 100;
 
-const grandTotal = isArtisan
-  ? (serviceFeeTotal + totalVat)
-  : (salaryTotal + serviceFeeTotal + totalVat);
+  const grandTotal = isArtisan
+    ? serviceFeeTotal + totalVat
+    : salaryTotal + serviceFeeTotal + totalVat;
 
   return (
     <>
@@ -137,33 +143,49 @@ const grandTotal = isArtisan
             className="flex-shrink-0 sticky top-2 text-2xl self-end cursor-pointer"
             onClick={() => setConditions(false)}
           />
-          <h1 className="text-center font-bold text-xl text-black">Terms and Conditions</h1>
+          <h1 className="text-center font-bold text-xl text-black">
+            Terms and Conditions
+          </h1>
           <p className="text-sm leading-relaxed h-max max-h-96 overflow-y-auto">
-  {isArtisan ? (
-    <>
-      <p>This agreement stipulates that the Employer may only assign tasks that align with the 
-        their job scope. Any additional tasks beyond these responsibilities require mutual 
-        defined responsibilities of the Employee’s designated role. Artisans, including 
-        Mechanics, Electricians, Plumbers, and other skilled workers, must strictly adhere to 
-        consent between the Employer and the Employee.</p>
-      <p className="mt-2">Mayrahkee Africa serves solely as a bridge between the Employer and the Employee and, 
-        therefore, shall not be held liable for any disputes or dissatisfaction arising from duties 
-        assigned within the agreed scope.</p>
-      </>
-  ) : (
-    <>
-      <p>This agreement establishes that the Employer may only assign tasks that fall within the 
-defined responsibilities of the Employee’s designated role. Domestic staff, including 
-Housekeepers, Drivers, and other positions, must perform duties strictly within their job 
-scope. Any additional tasks beyond these responsibilities require mutual consent 
-between the Employer and the Employee.</p>
-      <p className="mt-2">Mayrahkee Africa shall not be held liable for any disputes or dissatisfaction arising from 
-duties assigned outside the agreed scope. Any violation of this policy may constitute a 
-breach of contract and could lead to legal consequences in accordance with 
-applicablelabourlaws.</p>
-    </>
-  )}
-</p>
+            {isArtisan ? (
+              <>
+                <p>
+                  This agreement stipulates that the Employer may only assign
+                  tasks that align with the their job scope. Any additional
+                  tasks beyond these responsibilities require mutual defined
+                  responsibilities of the Employee’s designated role. Artisans,
+                  including Mechanics, Electricians, Plumbers, and other skilled
+                  workers, must strictly adhere to consent between the Employer
+                  and the Employee.
+                </p>
+                <p className="mt-2">
+                  Mayrahkee Africa serves solely as a bridge between the
+                  Employer and the Employee and, therefore, shall not be held
+                  liable for any disputes or dissatisfaction arising from duties
+                  assigned within the agreed scope.
+                </p>
+              </>
+            ) : (
+              <>
+                <p>
+                  This agreement establishes that the Employer may only assign
+                  tasks that fall within the defined responsibilities of the
+                  Employee’s designated role. Domestic staff, including
+                  Housekeepers, Drivers, and other positions, must perform
+                  duties strictly within their job scope. Any additional tasks
+                  beyond these responsibilities require mutual consent between
+                  the Employer and the Employee.
+                </p>
+                <p className="mt-2">
+                  Mayrahkee Africa shall not be held liable for any disputes or
+                  dissatisfaction arising from duties assigned outside the
+                  agreed scope. Any violation of this policy may constitute a
+                  breach of contract and could lead to legal consequences in
+                  accordance with applicablelabourlaws.
+                </p>
+              </>
+            )}
+          </p>
 
           <div
             onClick={() => setTerms(!terms)}
@@ -178,25 +200,30 @@ applicablelabourlaws.</p>
           </div>
 
           <div className="sticky bottom-0">
-          <PaystackConsumer
-            {...config(handleSuccess, selectedItems, getCartItems, grandTotal)}
-          >
-            {({ initializePayment }) => (
-              <FormButton
-                onClick={() => {
-                  if (terms) initializePayment();
-                  else {
-                    onFailure({
-                      message: "Terms and Conditions",
-                      error: "Please agree to the terms by checking the box.",
-                    });
-                  }
-                }}
-              >
-                Checkout
-              </FormButton>
-            )}
-          </PaystackConsumer>
+            <PaystackConsumer
+              {...config(
+                handleSuccess,
+                selectedItems,
+                getCartItems,
+                grandTotal
+              )}
+            >
+              {({ initializePayment }) => (
+                <FormButton
+                  onClick={() => {
+                    if (terms) initializePayment();
+                    else {
+                      onFailure({
+                        message: "Terms and Conditions",
+                        error: "Please agree to the terms by checking the box.",
+                      });
+                    }
+                  }}
+                >
+                  Checkout
+                </FormButton>
+              )}
+            </PaystackConsumer>
           </div>
         </div>
       </PopUpBox>
@@ -208,11 +235,14 @@ applicablelabourlaws.</p>
         >
           <div className="flex justify-between items-center w-full">
             <span className="flex gap-2 items-center text-green-700">
-              Here are a list of your carted {isArtisan ? "Skilled Worker(s)" : "staff(s)"}
+              Here are a list of your carted{" "}
+              {isArtisan ? "Skilled Worker(s)" : "staff(s)"}
               <FaExclamationCircle />
             </span>
             <button
-              onClick={() => document.getElementById("content").classList.add("hidden")}
+              onClick={() =>
+                document.getElementById("content").classList.add("hidden")
+              }
               className="group hover:bg-red-500 hover:text-white p-1 text-red-600 text-md flex items-center"
             >
               Close
@@ -221,8 +251,8 @@ applicablelabourlaws.</p>
           </div>
           <p>
             Here you can <strong>confirm your hire</strong> for any{" "}
-            {isArtisan ? "Skilled Worker" : "staff"} of your choice and proceed to
-            checkout to finalize.
+            {isArtisan ? "Skilled Worker" : "staff"} of your choice and proceed
+            to checkout to finalize.
           </p>
         </div>
 
@@ -232,7 +262,8 @@ applicablelabourlaws.</p>
             <div className="w-full min-w-72 md:w-2/3 bg-white p-6">
               <h2 className="text-lg font-bold mb-4">Job Cart</h2>
               <p className="text-sm text-gray-600 mb-4">
-                Showing {cartItems.length} {isArtisan ? "Skilled Worker(s)" : "staff(s)"} you added
+                Showing {cartItems.length}{" "}
+                {isArtisan ? "Skilled Worker(s)" : "staff(s)"} you added
               </p>
               <div className="mb-4">
                 <input
@@ -243,7 +274,8 @@ applicablelabourlaws.</p>
                   className="mr-2"
                 />
                 <label htmlFor="selectAll" className="text-gray-700">
-                  Select All <span className="text-gray-500">({cartItems.length})</span>
+                  Select All{" "}
+                  <span className="text-gray-500">({cartItems.length})</span>
                 </label>
               </div>
 
@@ -253,7 +285,10 @@ applicablelabourlaws.</p>
                   <div key={idx} className="flex items-center border-b pb-4">
                     <input
                       type="checkbox"
-                      disabled={!isArtisan && Number(item?.domestic_staff?.salary_agreed) <= 0}
+                      disabled={
+                        !isArtisan &&
+                        Number(item?.domestic_staff?.salary_agreed) <= 0
+                      }
                       checked={selectedItems.includes(item)}
                       onChange={() => handleItemSelect(item)}
                       className="mr-4"
@@ -275,25 +310,35 @@ applicablelabourlaws.</p>
                         <p className="text-sm text-gray-700">
                           {isArtisan ? (
                             ""
-                          ) : Number(item?.domestic_staff?.salary_agreed) > 0 ? (
-                            FormatPrice(Number(item.domestic_staff.salary_agreed) + Number(item.domestic_staff.markup_fee || 0))
+                          ) : Number(item?.domestic_staff?.salary_agreed) >
+                            0 ? (
+                            FormatPrice(
+                              Number(item.domestic_staff.salary_agreed) +
+                                Number(item.domestic_staff.markup_fee || 0)
+                            )
                           ) : (
-                            <span className="text-red-500 font-medium">Salary not set</span>
+                            <span className="text-red-500 font-medium">
+                              Salary not set
+                            </span>
                           )}
                         </p>
-
                       </section>
                       <div className="flex flex-col items-center gap-2">
                         <span
-                          className={`text-md ${item.domestic_staff.availability_status === "1"
-                            ? "text-green-600"
-                            : "text-red-600"
-                            }`}
+                          className={`text-md ${
+                            item.domestic_staff.availability_status === "1"
+                              ? "text-green-600"
+                              : "text-red-600"
+                          }`}
                         >
-                          <span className="hidden md:block">{item.domestic_staff.availability_status === "1"
-                            ? "Available"
-                            : "Unavailable"}</span>
-                          <span className="block md:hidden"><FaCircleDot /></span>
+                          <span className="hidden md:block">
+                            {item.domestic_staff.availability_status === "1"
+                              ? "Available"
+                              : "Unavailable"}
+                          </span>
+                          <span className="block md:hidden">
+                            <FaCircleDot />
+                          </span>
                         </span>
                         <button
                           disabled={removing[item?.domestic_staff_id]}
@@ -321,38 +366,47 @@ applicablelabourlaws.</p>
                   <li key={item.id} className="flex justify-between text-sm">
                     <span>
                       {item?.domestic_staff?.subcategory} -{" "}
-                      {item?.domestic_staff?.surname} {item?.domestic_staff?.first_name}
+                      {item?.domestic_staff?.surname}{" "}
+                      {item?.domestic_staff?.first_name}
                     </span>
                     <span>
                       {!isArtisan &&
-                        FormatPrice(Number(item.domestic_staff.salary_agreed) + Number(item.domestic_staff.markup_fee || 0))}
+                        FormatPrice(
+                          Number(item.domestic_staff.salary_agreed) +
+                            Number(item.domestic_staff.markup_fee || 0)
+                        )}
                     </span>
                   </li>
                 ))}
               </ul>
               <ul className="border-t pt-4">
-                {!isArtisan && <li className="flex justify-between text-sm mb-2">
-                  <span>Total Price (Item)</span>
-                  <span>{FormatPrice(salaryTotal)}</span>
-                </li>}
+                {!isArtisan && (
+                  <li className="flex justify-between text-sm mb-2">
+                    <span>Total Price (Item)</span>
+                    <span>{FormatPrice(salaryTotal)}</span>
+                  </li>
+                )}
                 <li className="flex justify-between text-sm mb-2">
                   <span>Service Charge</span>
-                  <span>{serviceFeeTotal ? FormatPrice(serviceFeeTotal) : 0}</span>
+                  <span>
+                    {serviceFeeTotal ? FormatPrice(serviceFeeTotal) : 0}
+                  </span>
                 </li>
                 <li className="flex justify-between text-sm mb-2">
-  <span>VAT ({vatPercent}%)</span>
-  <span>{totalVat ? FormatPrice(totalVat) : 0}</span>
-</li>
+                  <span>VAT ({vatPercent}%)</span>
+                  <span>{totalVat ? FormatPrice(totalVat) : 0}</span>
+                </li>
                 <li className="flex justify-between font-bold text-lg">
                   <span>Grand Total</span>
-                  <span>{grandTotal ? FormatPrice(grandTotal): 0}</span>
+                  <span>{grandTotal ? FormatPrice(grandTotal) : 0}</span>
                 </li>
               </ul>
               <button
                 disabled={!selectedItems.length}
                 onClick={() => setConditions(true)}
-                className={`w-full bg-black text-white py-3 rounded-full mt-6 ${selectedItems.length ? "" : "opacity-50 cursor-not-allowed"
-                  }`}
+                className={`w-full bg-black text-white py-3 rounded-full mt-6 ${
+                  selectedItems.length ? "" : "opacity-50 cursor-not-allowed"
+                }`}
               >
                 Checkout
               </button>

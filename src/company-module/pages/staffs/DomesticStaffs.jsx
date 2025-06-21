@@ -6,7 +6,11 @@ import { AuthContext } from "../../../context/AuthContex";
 import { onFailure } from "../../../utils/notifications/OnFailure";
 import { MdClose } from "react-icons/md";
 import SearchComponent from "../../../components/staffs/SearchComponent";
-import { FaExclamationCircle, FaShoppingCart, FaFileContract } from "react-icons/fa";
+import {
+  FaExclamationCircle,
+  FaShoppingCart,
+  FaFileContract,
+} from "react-icons/fa";
 import StaffCard from "../../../components/staffs/StaffCard";
 import PopUpBox from "../../../components/PopUpBox";
 import FormButton from "../../../components/FormButton";
@@ -23,7 +27,7 @@ function DomesticStaff() {
   const [searchResult, setSearcResult] = useState([]);
   const [cartItems, setCartItems] = useState([]);
   const [charges, setCharges] = useState(0);
- 
+
   const [conditions, setConditions] = useState(false);
   const [queryParams, setQueryParams] = useState();
 
@@ -33,7 +37,8 @@ function DomesticStaff() {
       if (!queryParams && !directParams)
         throw new Error("No Query option selected");
       const { data } = await client.get(
-        `/domesticStaff/get-staff?staff_category=staff&${directParams ? directParams : queryParams
+        `/domesticStaff/get-staff?staff_category=staff&${
+          directParams ? directParams : queryParams
         }`
       );
       setSearcResult(data.domesticStaff);
@@ -57,10 +62,10 @@ function DomesticStaff() {
   const staffsToDisplay =
     searchResult.length > 0
       ? searchResult?.filter(
-        (current) =>
-          current?.staff_category === "staff" &&
-        (current?.status === "pending" || current?.status === "approved") 
-      )
+          (current) =>
+            current?.staff_category === "staff" &&
+            (current?.status === "pending" || current?.status === "approved")
+        )
       : [];
 
   const handleCondition = (data, hasCategory) => {
@@ -75,7 +80,12 @@ function DomesticStaff() {
   const navigateToCart = () =>
     navigate(`/company/staff/cart`, {
       state: {
-        data: { items: cartItems, category: categories, type: "staff", ...charges },
+        data: {
+          items: cartItems,
+          category: categories,
+          type: "staff",
+          ...charges,
+        },
       },
     });
 
@@ -85,19 +95,16 @@ function DomesticStaff() {
         user_id: authDetails.user.id,
         user_type: authDetails.user.role,
       });
-      const {cart_items, ...others}= data
+      const { cart_items, ...others } = data;
       if (data?.cart_items) {
-        setCharges({...others})
+        setCharges({ ...others });
         setCartItems(
           data.cart_items?.filter(
             (current) => current.domestic_staff.staff_category === "staff"
           )
         );
       }
-      console.log(cart_items)
-      
     } catch (error) {
-      console.log(error)
       onFailure({
         message: "something went wrong",
         error: "Error retriving carted items",
@@ -110,7 +117,11 @@ function DomesticStaff() {
 
       try {
         const { data } = await client.get("/staff-categories");
-        setCategories(data.data?.filter(one=>one.name.toLowerCase().includes("staff"))[0] || []);
+        setCategories(
+          data.data?.filter((one) =>
+            one.name.toLowerCase().includes("staff")
+          )[0] || []
+        );
       } catch (error) {
         onFailure({
           message: "Staff Error",
@@ -134,8 +145,12 @@ function DomesticStaff() {
             onClick={() => setConditions(!conditions)}
           />
           <h1 className="text-xl font-bold">Job Descriptions</h1>
-          <div className="text-sm overflow-y-auto flex-1 prose"> 
-          <p dangerouslySetInnerHTML={{ __html: selectedCategory?.description}} />
+          <div className="text-sm overflow-y-auto flex-1 prose">
+            <p
+              dangerouslySetInnerHTML={{
+                __html: selectedCategory?.description,
+              }}
+            />
           </div>
           <FormButton onClick={() => handleQuerySubmit()} loading={loading}>
             Confirm and Search
@@ -171,16 +186,20 @@ function DomesticStaff() {
               </p>
             </div>
             <div className="flex md:items-center gap-5">
-
               <button
-               onClick={() => navigate("/company/staff/contract-history", {
-                  state: {
-                    data: {type: "staff" },
-                }})}
+                onClick={() =>
+                  navigate("/company/staff/contract-history", {
+                    state: {
+                      data: { type: "staff" },
+                    },
+                  })
+                }
                 className="flex items-center gap-2"
               >
                 <FaFileContract size="24" className="inline md:hidden" />
-                <span className="hidden md:inline border-primaryColor px-3 py-1 border hover:bg-primaryColor hover:text-white text-sm">Contract History</span>
+                <span className="hidden md:inline border-primaryColor px-3 py-1 border hover:bg-primaryColor hover:text-white text-sm">
+                  Contract History
+                </span>
               </button>
 
               <button className="my-5" onClick={navigateToCart}>
@@ -199,8 +218,6 @@ function DomesticStaff() {
             title="Domestic Staff Position"
             setSelectedCategory={setSelectedCategory}
           />
-
-
         </div>
 
         {staffsToDisplay.length > 0 ? (
@@ -221,7 +238,7 @@ function DomesticStaff() {
               ))}
             </ul>
           </div>
-        ):(
+        ) : (
           <span className="text-md text-red-600 text-center">
             No Result from this search query
           </span>

@@ -14,7 +14,6 @@ function useCart() {
   const navigateToApplicantDetails = () =>
     navigate(`/company/applicants/detail/${data.id}`, { state: { data } });
 
-
   const config = (handleSuccess, data, getCartItems, total) => {
     const priceInKobo = total * 100;
     const onClose = () => {
@@ -36,19 +35,22 @@ function useCart() {
   };
 
   const handleSuccess = async (reference, data, getCartItems) => {
+    console.log(data);
     try {
       const response = data.map(async (datum) => {
         await client.post("/staff-cart/checkout", {
+          //amount: Number(datum.totalAmount), // Convert to kobo
           user_id: authDetails.user.id,
           user_type: authDetails.user.role,
           domestic_staff_id: datum.domestic_staff_id,
           reference: reference.reference,
         });
       });
-      const role = authDetails.user.role === "employer" ? "company" : "applicant";
+      const role =
+        authDetails.user.role === "employer" ? "company" : "applicant";
       await Promise.all(response);
       await getCartItems();
-      navigate(`/${role}/staff/success`, {state: {data}});
+      navigate(`/${role}/staff/success`, { state: { data } });
       onSuccess({
         message: "User sucessfully added",
         success: "Domestic staff added to cart successfully",

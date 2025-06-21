@@ -11,7 +11,8 @@ import { formatDate } from "../../../utils/formmaters";
 
 const ArtisanDetails = () => {
   const { id } = useParams();
-  const { getStaffById, getStaffReportById, getStaffNewReport } = UseAdminManagement();
+  const { getStaffById, getStaffReportById, getStaffNewReport } =
+    UseAdminManagement();
 
   const [artisan, setArtisan] = useState(null);
   const [loadingArtisan, setLoadingArtisan] = useState(true);
@@ -62,7 +63,8 @@ const ArtisanDetails = () => {
         onClick={() => window.history.back()}
         className="flex items-center gap-2 outline outline-offset-5 outline-green-500 px-4 py-2 rounded text-green-500 hover:bg-green-100"
       >
-        <FaArrowLeftLong className="me-4 text-green-500" />Back
+        <FaArrowLeftLong className="me-4 text-green-500" />
+        Back
       </button>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div className="shadow-lg px-4 py-4 md:col-span-1">
@@ -81,9 +83,14 @@ const ArtisanDetails = () => {
               )}
             </div>
             <div>
-              <h2 className="text-gray-800 text-2xl font-bold mb-2">{data.name}</h2>
+              <h2 className="text-gray-800 text-2xl font-bold mb-2">
+                {data.name}
+              </h2>
               <h1 className="text-gray-400 text-sm">
-                <a href={`mailto:${data.email}`} className="text-gray-400 hover:underline">
+                <a
+                  href={`mailto:${data.email}`}
+                  className="text-gray-400 hover:underline"
+                >
                   {data.email}
                 </a>
               </h1>
@@ -120,31 +127,51 @@ const ArtisanDetails = () => {
           <div className="pb-4">
             <h1 className="font-bold">Details</h1>
             <div className="text-sm px-4 py-4 grid grid-cols-2 gap-2">
-              <p className="text-sm font-bold">Staff Category:</p> <p className="text-sm">{data.staff_category}</p>
-              <p className="text-sm font-bold">Subcategory:</p> <p className="text-sm">{data.subcategory}</p>
-              <p className="text-sm font-bold">Employment Type:</p> <p className="text-sm">{data.employment_type}</p>
-              <p className="text-sm font-bold">Work Type:</p> <p className="text-sm">{data.work_type}</p>
-              <p className="text-sm font-bold">Work Days:</p> <p className="text-sm">{data.work_days}</p>
-              <p className="text-sm font-bold">Religion:</p> <p className="text-sm">{data.religion}</p>
-              <p className="text-sm font-bold">Location:</p> <p className="text-sm">{data.location}</p>
-              <p className="text-sm font-bold">Job Type:</p> <p className="text-sm">{data.job_type}</p>
-              <p className="text-sm font-bold">Years of Experience:</p> <p className="text-sm">{data.years_of_experience}</p>
-              <p className="text-sm font-bold">Education Level:</p> <p className="text-sm">{data.education_level}</p>
-              <p className="text-sm font-bold">Marital Status:</p> <p className="text-sm">{data.marital_status}</p>
-              <p className="text-sm font-bold">Languages Spoken:</p> <p className="text-sm">{data.languages_spoken?.join(", ")}</p>
-              <p className="text-sm font-bold">Status:</p> <p className="text-sm">{data.status}</p>
+              <p className="text-sm font-bold">Staff Category:</p>{" "}
+              <p className="text-sm">{data.staff_category}</p>
+              <p className="text-sm font-bold">Subcategory:</p>{" "}
+              <p className="text-sm">{data.subcategory}</p>
+              <p className="text-sm font-bold">Employment Type:</p>{" "}
+              <p className="text-sm">{data.employment_type}</p>
+              <p className="text-sm font-bold">Work Type:</p>{" "}
+              <p className="text-sm">{data.work_type}</p>
+              <p className="text-sm font-bold">Work Days:</p>{" "}
+              <p className="text-sm">{data.work_days}</p>
+              <p className="text-sm font-bold">Religion:</p>{" "}
+              <p className="text-sm">{data.religion}</p>
+              <p className="text-sm font-bold">Location:</p>{" "}
+              <p className="text-sm">{data.location}</p>
+              <p className="text-sm font-bold">Job Type:</p>{" "}
+              <p className="text-sm">{data.job_type}</p>
+              <p className="text-sm font-bold">Years of Experience:</p>{" "}
+              <p className="text-sm">{data.years_of_experience}</p>
+              <p className="text-sm font-bold">Education Level:</p>{" "}
+              <p className="text-sm">{data.education_level}</p>
+              <p className="text-sm font-bold">Marital Status:</p>{" "}
+              <p className="text-sm">{data.marital_status}</p>
+              <p className="text-sm font-bold">Languages Spoken:</p>{" "}
+              <p className="text-sm">{data.languages_spoken?.join(", ")}</p>
+              <p className="text-sm font-bold">Status:</p>{" "}
+              <p className="text-sm">{data.status}</p>
             </div>
           </div>
         </div>
 
         <div className="shadow-lg px-4 py-4 md:col-span-2">
-          <h1 className="font-bold py-4">Reports</h1>
+          <h1 className="font-bold py-4">Verification</h1>
           <div className="text-sm px-4 py-4 mb-3 grid grid-cols-1 md:grid-cols-2 gap-4">
-            <BusinessReportDialog fetchData={() => fetchNewReport("business", data.id)} />
-            <IdentificationDialog fetchData={() => fetchNewReport("identifications", data.id)} />
-            <GuarantorReportDialog fetchData={() => fetchReport("guarantor", data.id)} />
-            <ResidentDialog fetchData={() => fetchReport("residential-status", data.id)} />
-            <PreviousWorkExperienceDialog staff={data} fetchData={() => fetchReport("previous-work-experience", data.id)} />
+            <BusinessReportDialog
+              fetchData={() => fetchNewReport("business", data.id)}
+            />
+            <IdentificationDialog
+              fetchData={() => fetchNewReport("identifications", data.id)}
+            />
+            <GuarantorReportDialog
+              fetchData={() => fetchReport("guarantor", data.id)}
+            />
+            <ResidentDialog
+              fetchData={() => fetchReport("residential-status", data.id)}
+            />
           </div>
         </div>
       </div>

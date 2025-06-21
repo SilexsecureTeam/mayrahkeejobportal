@@ -2,17 +2,14 @@ import wheelIcon from "../../assets/pngs/wheel-icon.png";
 import { PiBellLight, PiBellRingingDuotone } from "react-icons/pi";
 import { useContext, useState } from "react";
 
-import {  MdMenu } from "react-icons/md";
+import { MdMenu } from "react-icons/md";
 import { NotificationContext } from "../../context/NotificationContext";
 import { useEffect } from "react";
 
 function NavBar({ state, toogleIsOpen, isMenuOpen }) {
-  const { notifications, getNotifications } = useContext(NotificationContext);
+  const { notifications } = useContext(NotificationContext);
   const [isOpen, setIsOpen] = useState(false);
 
-  useEffect(() => {
-    getNotifications();
-  }, []);
   return (
     <>
       <nav className="w-full h-[8%] px-2 md:px-12 flex items-center justify-between bg-white">
