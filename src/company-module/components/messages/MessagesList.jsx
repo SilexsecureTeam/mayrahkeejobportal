@@ -75,7 +75,7 @@ function MessagedList({ selectedChat, setSelectedChat, data }) {
                   selectedChat?.id === current.id
                     ? "bg-primaryColor text-white"
                     : "bg-opacity-0 text-black hover:bg-gray-100 hover:text-black"
-                } cursor-pointer px-2 justify-between items-start gap-[10px] border-b min-h-[50px]`}
+                } cursor-pointer px-2 pr-4 justify-between items-start gap-[10px] border-b min-h-[50px]`}
               >
                 <div className="truncate flex flex-col h-full w-full">
                   <h4 className="text-sm font-semibold">
@@ -97,7 +97,7 @@ function MessagedList({ selectedChat, setSelectedChat, data }) {
                 </div>
 
                 {isOnline && (
-                  <div className="absolute top-1 right-1 flex items-center gap-1 pt-1">
+                  <div className="absolute top-0 right-1 flex items-center gap-1 pt-1">
                     <div className="h-[8px] w-[8px] animate-pulse rounded-full bg-green-500" />
                   </div>
                 )}

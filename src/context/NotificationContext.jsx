@@ -12,7 +12,6 @@ export const NotificationContextProvider = ({ children }) => {
     setDetails,
     onTextChange,
     updateNotificationSetting,
-    getNotifications,
     getNotificationSetting,
   } = useNotification();
 
@@ -25,7 +24,6 @@ export const NotificationContextProvider = ({ children }) => {
         setDetails,
         onTextChange,
         updateNotificationSetting,
-        getNotifications,
         getNotificationSetting,
       }}
     >

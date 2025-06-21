@@ -7,7 +7,7 @@ import { get, set } from "idb-keyval";
 import { stages } from "../utils/constants";
 import { interviewOptions } from "../company-module/components/applicants/ScheduleInteviewModal";
 import { onSuccess } from "../utils/notifications/OnSuccess";
-import { debounce } from 'lodash'; // Debounce function to limit requests
+import { debounce } from "lodash"; // Debounce function to limit requests
 const APPLICANTS_KEY = "Applicants Database";
 
 function useApplicationManagement() {
@@ -32,7 +32,9 @@ function useApplicationManagement() {
     if (authDetails?.token !== null) {
       setLoading(true);
       try {
-        const response = await client(`getEmployerApply/${authDetails?.user?.id}`);
+        const response = await client(
+          `getEmployerApply/${authDetails?.user?.id}`
+        );
         await set(APPLICANTS_KEY, response.data.job_application);
         setApplicants(response.data.job_application);
       } catch (error) {
@@ -101,8 +103,8 @@ function useApplicationManagement() {
         user_id: authDetails.user.id,
       });
       onSuccess({
-        message: 'Password updated',
-        success: 'Password change was successful'
+        message: "Password updated",
+        success: "Password change was successful",
       });
     } catch (error) {
       FormatError(error, setError, "Applicants Error");
@@ -148,7 +150,7 @@ function useApplicationManagement() {
 
       // Build the payload from primary data and interviewDetails
       let payload = {
-        ...interviewPrimarydata
+        ...interviewPrimarydata,
       };
 
       console.log("Payload being sent:", payload);
@@ -165,13 +167,17 @@ function useApplicationManagement() {
       const interviewResponse = await apiFunc;
       const interviewData = interviewResponse.data.interview;
 
-      const applicationUpdateResponse = await client.post(`/applicationRespond`, {
-        ...updateprimarydata,
-        status: stages[1].name,
-        interview_id: interviewData.id,
-      });
+      const applicationUpdateResponse = await client.post(
+        `/applicationRespond`,
+        {
+          ...updateprimarydata,
+          status: stages[1].name,
+          interview_id: interviewData.id,
+        }
+      );
 
-      const applicatonUpdateData = applicationUpdateResponse.data.job_application;
+      const applicatonUpdateData =
+        applicationUpdateResponse.data.job_application;
       setData(applicatonUpdateData);
       handleOnSuccess();
 
@@ -190,7 +196,6 @@ function useApplicationManagement() {
       setLoading(false);
     }
   };
-
 
   // Function to get resume by ID
   const getResume = async (resumeId, setResume) => {
@@ -248,7 +253,6 @@ function useApplicationManagement() {
         }
       };
       initValue();
-      console.log("render of Application", 1)
     }
   }, [authDetails?.token]); // Fetch data on token change
 

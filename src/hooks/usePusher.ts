@@ -19,7 +19,6 @@ const usePusher = ({ userId, role, token }) => {
 
     // Ensure only one instance
     if (pusherRef.current) {
-      console.log("💡 Pusher already initialized.");
       return;
     }
 
@@ -41,7 +40,6 @@ const usePusher = ({ userId, role, token }) => {
       const newMessage = data?.message;
       if (!newMessage) return;
       const otherUserId = newMessage.sender_id;
-      console.log("📬 New message received:", newMessage);
 
       // Avoid toast if from self
       if (otherUserId) {
@@ -64,10 +62,7 @@ const usePusher = ({ userId, role, token }) => {
     pusherRef.current = pusher;
     channelRef.current = channel;
 
-    console.log("✅ Pusher initialized and channel subscribed:", channelName);
-
     return () => {
-      console.log("🔌 Cleaning up Pusher subscription:", channelName);
       if (channelRef.current) {
         channelRef.current.unbind("NewMessageEvent", handleMessage);
         pusher.unsubscribe(channelName);

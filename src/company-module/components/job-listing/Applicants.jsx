@@ -2,19 +2,20 @@ import { useEffect, useState } from "react";
 import ApplicantsList from "./ApplicantsList";
 import ApplicantsGrid from "./ApplicantsGrid";
 
-function Applicants({ applicants, exclusive=false }) {
+function Applicants({ applicants, exclusive = false }) {
   const [view, setView] = useState("grid");
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedApplicant, setSelectedApplicant] = useState(null);
   const [filteredApplicants, setFilteredApplicants] = useState(applicants);
- console.log(applicants)
+
   useEffect(() => {
-    console.log(searchTerm)
     // Filter applicants based on the search term
     if (searchTerm !== "") {
       setFilteredApplicants(
         applicants.filter((applicant) =>
-          applicant?.full_name?.toLowerCase()?.includes(searchTerm?.toLowerCase())
+          applicant?.full_name
+            ?.toLowerCase()
+            ?.includes(searchTerm?.toLowerCase())
         )
       );
     } else {
@@ -26,7 +27,8 @@ function Applicants({ applicants, exclusive=false }) {
     <div className="py-2 flex flex-col w-full gap-2">
       <div className="w-full flex flex-wrap justify-between items-center gap-2">
         <span className="text-center w-full sm:w-auto">
-          Total Applicants: {filteredApplicants.length} {/* Show filtered count */}
+          Total Applicants: {filteredApplicants.length}{" "}
+          {/* Show filtered count */}
         </span>
 
         <div className="flex flex-wrap justify-center items-center gap-2 w-full sm:w-auto">
@@ -41,7 +43,9 @@ function Applicants({ applicants, exclusive=false }) {
             <button
               onClick={() => setView("grid")}
               className={`h-full p-2 text-little ${
-                view === "grid" ? "bg-primaryColor text-white" : "bg-white text-gray-700"
+                view === "grid"
+                  ? "bg-primaryColor text-white"
+                  : "bg-white text-gray-700"
               }`}
             >
               Pipeview
@@ -49,7 +53,9 @@ function Applicants({ applicants, exclusive=false }) {
             <button
               onClick={() => setView("table")}
               className={`h-full p-2 text-little ${
-                view === "table" ? "bg-primaryColor text-white" : "bg-white text-gray-700"
+                view === "table"
+                  ? "bg-primaryColor text-white"
+                  : "bg-white text-gray-700"
               }`}
             >
               Tableview
@@ -71,9 +77,17 @@ function Applicants({ applicants, exclusive=false }) {
           </button>
         </div>
       ) : view === "table" ? (
-        <ApplicantsList applicants={filteredApplicants} onSelect={setSelectedApplicant} exclusive={exclusive} />
+        <ApplicantsList
+          applicants={filteredApplicants}
+          onSelect={setSelectedApplicant}
+          exclusive={exclusive}
+        />
       ) : (
-        <ApplicantsGrid applicants={filteredApplicants} searchTerm={searchTerm} exclusive={exclusive} />
+        <ApplicantsGrid
+          applicants={filteredApplicants}
+          searchTerm={searchTerm}
+          exclusive={exclusive}
+        />
       )}
     </div>
   );

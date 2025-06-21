@@ -79,7 +79,6 @@ function useChats() {
 
       const { data } = await client.get(`/messages/unread/${userId}/${role}`);
       setUnreadMessage(data.messages);
-      console.log("Unread messages data:", data);
       return data.unread_messages;
     } catch (err) {
       FormatError(err);

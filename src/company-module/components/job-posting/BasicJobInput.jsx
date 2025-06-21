@@ -1,8 +1,11 @@
-function BasicJobInput({ data, jobUtils }) {
+function BasicJobInput({ data, jobUtils, disabled = false }) {
   return (
     <div className="flex flex-col sm:flex-row gap-4 border-b py-2 text-little">
       <div className="flex flex-col w-full sm:max-w-[25%] gap-2">
-        <h3 className="text-gray-700 text-sm font-semibold flex gap-1">{data.label} {data?.required && <strong className="text-red-500">*</strong>}</h3>
+        <h3 className="text-gray-700 text-sm font-semibold flex gap-1">
+          {data.label}{" "}
+          {data?.required && <strong className="text-red-500">*</strong>}
+        </h3>
         {/* <span className="text-little text-gray-600">{data.prompt}</span> */}
       </div>
 
@@ -13,7 +16,8 @@ function BasicJobInput({ data, jobUtils }) {
           name={data.name}
           type={data.type}
           spellCheck="true"
-          className="text-sm border border-gray-400 focus:outline-none placeholder:text-gray-500 w-full p-2 invalid:border-red-600"
+          disabled={disabled}
+          className="text-sm border border-gray-400 focus:outline-none placeholder:text-gray-500 w-full p-2 invalid:border-red-600 disabled:opacity-70 disabled:cursor-not-allowed"
           placeholder={data.placeholder}
           min={data.min ? data?.min : null} // Set minimum value for numbers
           max={data.max ? data?.max : null} // Set maximum value for numbers

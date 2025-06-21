@@ -27,13 +27,17 @@ function ChatComponent({ selectedChat, setSelectedChat, applicationUtils }) {
 
   const employerId = selectedChat?.employer_id;
   const currentMessages = messagesByConversation[employerId] || [];
+  const employerHasMessaged = currentMessages.some(
+    (msg) => msg.sender_type === "employer"
+  );
 
   const onSendButtonClick = () => {
+    if (!employerHasMessaged) return;
+
     if (!message.trim()) {
       toast.error("Enter a message");
       return;
     }
-
     const messageToSend = {
       sender_id: authDetails.user.id,
       sender_type: authDetails.user.role,
@@ -150,17 +154,36 @@ function ChatComponent({ selectedChat, setSelectedChat, applicationUtils }) {
       </ul>
 
       {/* Message Input */}
+      {!employerHasMessaged && (
+        <div className="w-full bg-yellow-100 border-t border-b border-yellow-300 text-yellow-800 text-sm text-center p-2">
+          You can't message this employer yet. Please wait for them to start the
+          conversation.
+        </div>
+      )}
+
       <div className="flex items-center justify-between bg-white p-2 absolute w-full bottom-0 h-max border-t">
         <img src={clipIcon} className="h-[20px]" alt="Attach" />
+
         <textarea
           value={message}
           onChange={(e) => setMessage(e.target.value)}
-          className="flex-1 p-2 focus:outline-none text-sm h-10"
-          placeholder="Reply Message"
+          className="flex-1 p-2 focus:outline-none text-sm h-10 resize-none"
+          placeholder={
+            employerHasMessaged
+              ? "Reply Message"
+              : "You can’t message until the employer initiates."
+          }
+          disabled={!employerHasMessaged}
         />
+
         <button
           onClick={onSendButtonClick}
-          className="h-fit p-2 w-8 flex justify-center items-center bg-primaryColor text-white rounded-md"
+          disabled={!employerHasMessaged || sendingMessage}
+          className={`h-fit p-2 w-8 flex justify-center items-center rounded-md ${
+            employerHasMessaged
+              ? "bg-primaryColor text-white"
+              : "bg-gray-300 text-gray-500 cursor-not-allowed"
+          }`}
         >
           {sendingMessage ? (
             <BiLoaderCircle className="animate-spin text-white" />

@@ -3,92 +3,11 @@ import BasicJobInput from "./BasicJobInput";
 import DescriptionItem from "./DescriptionItem";
 import SelectorInput from "./SelectorInput";
 import FormButton from "../../../components/FormButton";
-
-const descriptions = [
-  {
-    id: 1,
-    title: "Responsibilities (required)",
-    name: "job_description",
-    desc: "Job responsibilities must be describe by one position",
-    placeholder: "List out all Responsibilities",
-    required: true
-  },
-  {
-    id: 2,
-    title: "Qualifications",
-    name: "experience",
-    desc: "Outline the qualifications required for the Job",
-    placeholder: "Begin to type...",
-    required: true
-  },
-];
-
-const basic_inputs = [
-  {
-    id: 1,
-    name: "job_title",
-    label: "Job Title (required)",
-    type: "text",
-    placeholder: "e.g FrontEnd Dev",
-    prompt: "Here you state the job title",
-    required: true
-  },
-  {
-    id: 2,
-    name: "external_url",
-    label: "External URL ",
-    type: "text",
-    placeholder: "e.g https://externalurl.com",
-    prompt: "Here you can add any external url",
-  },
-  {
-    id: 3,
-    name: " introduction_video_url",
-    label: "Intro Video URL",
-    type: "text",
-    placeholder: "e.g https://introvideourl.com",
-    prompt: "Here you add intro video url",
-  },
-];
-
-const careerData = [
-  {
-    id: 1,
-    name: "Internship",
-  },
-  {
-    id: 2,
-    name: "Management Trainee ",
-  },
-  {
-    id: 3,
-    name: "Entry level",
-  },
-  {
-    id: 4,
-    name: "Intermediate level",
-  },
-  {
-    id: 5,
-    name: "Middle level",
-  },
-  {
-    id: 6,
-    name: "Senior level",
-  },
-  {
-    id: 7,
-    name: "Management level",
-  },
-  {
-    id: 8,
-    name: "Executive ",
-  },
-  {
-    id: 9,
-    name: "Board of Directors",
-  },
-];
+import {
+  stageTwoBasicInputs,
+  careerData,
+  descriptions,
+} from "../../../utils/formFields";
 
 function Descriptions({
   data,
@@ -96,7 +15,7 @@ function Descriptions({
   jobUtils,
   handleSuccess,
   exclusive,
-  editJob
+  editJob,
 }) {
   const [selectedCareerLevel, setSelectedCareerLevel] = useState(
     jobUtils.details.career_level
@@ -123,8 +42,13 @@ function Descriptions({
       </div>
 
       {/* Basic Inputs */}
-      {basic_inputs.map((current) => (
-        <BasicJobInput key={current.id} data={current} jobUtils={jobUtils} />
+      {stageTwoBasicInputs.map((current) => (
+        <BasicJobInput
+          key={current.id}
+          data={current}
+          jobUtils={jobUtils}
+          disabled={current?.name === "job_title" && editJob}
+        />
       ))}
 
       {/* Job Description */}
@@ -141,7 +65,7 @@ function Descriptions({
           label: "Career Level",
           prompt: "Here you select prefered career level",
           name: "career_level",
-          required: true
+          required: true,
         }}
         listData={careerData}
         jobUtils={jobUtils}
@@ -162,27 +86,26 @@ function Descriptions({
           height="h-fit p-2"
           onClick={() => {
             if (exclusive?.id) {
-              console.log('Exclusive')
+              console.log("Exclusive");
               jobUtils.addJobForExclusive(() => {
                 handleSuccess();
               }, exclusive.id);
-            }else {
-              console.log('Normal')
-              if(editJob){
-              jobUtils.editCurrentJob(() => {
-                handleSuccess();
-              });
-            } else{
-              jobUtils.addJob(() => {
-                handleSuccess();
-              });
-            }
-              
+            } else {
+              console.log("Normal");
+              if (editJob) {
+                jobUtils.editCurrentJob(() => {
+                  handleSuccess();
+                });
+              } else {
+                jobUtils.addJob(() => {
+                  handleSuccess();
+                });
+              }
             }
           }}
           loading={jobUtils.loading}
         >
-          {editJob ?"Edit Job" : "Add Job"}
+          {editJob ? "Edit Job" : "Add Job"}
         </FormButton>
       </div>
     </div>

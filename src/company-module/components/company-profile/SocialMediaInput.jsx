@@ -2,7 +2,9 @@ import { useEffect } from "react";
 
 function SocialMediaInput({ data, socials, setSocials }) {
   const updateCurrentVal = (e) => {
-    const socialsUpdate = Array.isArray(socials) ? [...socials] : ["", "", "", ""];
+    const socialsUpdate = Array.isArray(socials)
+      ? [...socials]
+      : ["", "", "", ""];
     const val = e.target.value;
 
     switch (data?.id) {
@@ -46,7 +48,7 @@ function SocialMediaInput({ data, socials, setSocials }) {
 
   return (
     <div className="h-fit p-1 flex items-center justify-center gap-[5px] border">
-      {data.icon}
+      {<data.icon className="text-lg" />}
       <input
         value={defaultCurrentVal()}
         placeholder={data.placeholder}

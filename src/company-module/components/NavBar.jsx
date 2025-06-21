@@ -13,14 +13,12 @@ import { CompanyRouteContext } from "../../context/CompanyRouteContext";
 
 function NavBar({ state, toogleIsOpen, isMenuOpen }) {
   const navigate = useNavigate();
-  const { notifications, getNotifications } = useContext(NotificationContext) || {};
+  const { notifications, getNotifications } =
+    useContext(NotificationContext) || {};
   const [isOpen, setIsOpen] = useState(false);
   const [isSUbOpen, setIsSUbOpen] = useState(false);
   const { setSideBar } = useContext(CompanyRouteContext);
 
-  useEffect(() => {
-    getNotifications();
-  }, []);
   return (
     <>
       <NotificationsModal
@@ -30,23 +28,23 @@ function NavBar({ state, toogleIsOpen, isMenuOpen }) {
       />
       <SubscriptionModal isOpen={isSUbOpen} setIsOpen={setIsSUbOpen} />
 
-
       <nav className="w-full h-[8%] px-2 sm:px-4 md:px-8 flex gap-1 items-center justify-between bg-white">
-
         <MdMenu
           onClick={toogleIsOpen}
           className="text-primarycolor lg:hidden text-3xl"
         />
         <div className="flex items-center gap-[5px] mr-auto">
           <img src={wheelIcon} className="h-[35px] md:block hidden w-[35px]" />
-          <h1 className="font-bold text-[16px] md:text-xl leading-none ml-[2px]">{state?.title}</h1>
+          <h1 className="font-bold text-[16px] md:text-xl leading-none ml-[2px]">
+            {state?.title}
+          </h1>
         </div>
 
         <div className="flex justify-end items-center pr-2 gap-[5px]">
           <button
             onClick={() => {
-              navigate("/company/job-posting")
-              setSideBar(9)
+              navigate("/company/job-posting");
+              setSideBar(9);
             }}
             className="border px-[5px] flex py-[5px] font-semibold justify-center items-center gap-[3px] text-sm bg-primaryColor text-white"
           >
@@ -69,8 +67,6 @@ function NavBar({ state, toogleIsOpen, isMenuOpen }) {
              <span className="hidden md:block"> Subscribe </span> 
             <IoGift size="20" className="animate-bounce" />
           </button>*/}
-
-
         </div>
       </nav>
     </>
