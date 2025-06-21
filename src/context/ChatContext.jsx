@@ -6,29 +6,28 @@ export const ChatContext = createContext();
 export const ChatContextProvider = ({ children }) => {
   const {
     loading,
-    messages,
+    messagesByConversation,
     sendMessage,
     hasNewMessage,
     getMessages,
-    setMessages,
+    setMessagesByConversation,
     initFirebaseChatSession,
     sendingMessage,
-    firebaseMessaging,
+    appendMessage,
   } = useChats();
-  
 
   return (
     <ChatContext.Provider
       value={{
         loading,
-        messages,
+        messagesByConversation,
         sendMessage,
-        setMessages,
+        setMessagesByConversation,
         getMessages,
         hasNewMessage,
         initFirebaseChatSession,
         sendingMessage,
-        firebaseMessaging,
+        appendMessage,
       }}
     >
       {children}

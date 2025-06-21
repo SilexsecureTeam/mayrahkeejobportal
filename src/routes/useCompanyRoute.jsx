@@ -5,7 +5,7 @@ import {
   Route,
   Routes,
   useNavigate,
-  useLocation
+  useLocation,
 } from "react-router-dom";
 import ApplicantReducer from "../reducers/ApplicantReducer";
 import {
@@ -13,13 +13,13 @@ import {
   adminUtilOptions,
   companyExclusiveOptions,
   exclusiveUtilOptions,
-  extraOptions
+  extraOptions,
 } from "../utils/constants";
 import CompanyReducer from "../reducers/CompanyReducer";
 import { AuthContext } from "../context/AuthContex";
 import RedirectModal from "../components/RedirectModal";
 import UpdateCompanyProfileModal from "../company-module/components/company-profile/UpdateCompanyProfileModal";
-import { clear} from "idb-keyval";
+import { clear } from "idb-keyval";
 import useCompanyProfile from "../hooks/useCompanyProfile";
 import withApplicationStatus from "../hocs/withApplicationStatus";
 import withSubscription from "../hocs/withSubscription";
@@ -39,6 +39,7 @@ import StaffInformation from "../staff-module/pages/verifications/StaffInformati
 import CartedStaffs from "../components/staffs/CartedStaffs";
 import SuccessPage from "../components/SuccessPage";
 import CompanyExclusiveReducer from "../reducers/CompanyExclusiveReducer";
+import usePusher from "../hooks/usePusher";
 
 //Util Component
 const NavBar = lazy(() => import("../company-module/components/NavBar"));
@@ -48,7 +49,9 @@ const SideBarItem = lazy(() =>
 );
 
 //Route Pages
-const SubscriptionPackages = lazy(() => import("../components/subscription/SubscriptionPackages"));
+const SubscriptionPackages = lazy(() =>
+  import("../components/subscription/SubscriptionPackages")
+);
 
 const Home = lazy(() => import("../company-module/pages/home/Home"));
 const Messages = lazy(() =>
@@ -83,8 +86,12 @@ const DomesticStaffs = lazy(() =>
   import("../company-module/pages/staffs/DomesticStaffs")
 );
 
-const StaffDetails = lazy(() => import('../components/applicant-details-ui/ApplicantDetails'))
-const ContractHistory = lazy(() => import('../components/staffs/ContractHistory'))
+const StaffDetails = lazy(() =>
+  import("../components/applicant-details-ui/ApplicantDetails")
+);
+const ContractHistory = lazy(() =>
+  import("../components/staffs/ContractHistory")
+);
 
 const JobPosting = lazy(() =>
   import("../company-module/pages/job-posting/JobPosting")
@@ -101,36 +108,49 @@ const BlogList = lazy(() => import("../pages/BlogList"));
 const BlogRead = lazy(() => import("../pages/BlogRead"));
 
 function useCompanyRoute() {
-
   const { authDetails } = useContext(AuthContext);
   const [redirectState, setRedirectState] = useState();
   const [isOpen, setIsOpen] = useState(false);
   const [subPage, setSubPage] = useState(true);
-  
-  const activeReducer = authDetails?.user?.user_type === 'regular' ? CompanyReducer : CompanyExclusiveReducer;
-  const activeOptions = authDetails?.user?.user_type === 'regular' ? companyOptions : companyExclusiveOptions;
-  const activeUtilOptions = authDetails?.user?.user_type === 'regular' ? adminUtilOptions : exclusiveUtilOptions;
-  
 
-  const options=[...activeOptions, ...activeUtilOptions, ...extraOptions]
+  const activeReducer =
+    authDetails?.user?.user_type === "regular"
+      ? CompanyReducer
+      : CompanyExclusiveReducer;
+  const activeOptions =
+    authDetails?.user?.user_type === "regular"
+      ? companyOptions
+      : companyExclusiveOptions;
+  const activeUtilOptions =
+    authDetails?.user?.user_type === "regular"
+      ? adminUtilOptions
+      : exclusiveUtilOptions;
+
+  usePusher({
+    userId: authDetails?.user?.id,
+    role: authDetails?.user?.role,
+    token: authDetails?.token,
+  });
+
+  const options = [...activeOptions, ...activeUtilOptions, ...extraOptions];
   //console.log(options)
-  const [state, dispatch] = useReducer(activeReducer,options[0]);
-  
+  const [state, dispatch] = useReducer(activeReducer, options[0]);
+
   const navigate = useNavigate();
   const companyHookProps = useCompanyProfile();
   const toogleIsOpen = () => setIsOpen(!isOpen);
-  const { pathname }=useLocation();
-  
+  const { pathname } = useLocation();
+
   useEffect(() => {
-    const matchedOption = options.find((opt) => pathname===opt?.route);
+    const matchedOption = options.find((opt) => pathname === opt?.route);
     if (matchedOption) {
       dispatch(matchedOption);
-    }else{
-dispatch(options[0]);
+    } else {
+      dispatch(options[0]);
     }
   }, [pathname]);
 
-// Save to localStorage whenever state changes
+  // Save to localStorage whenever state changes
   useEffect(() => {
     const clearDb = async () => await clear();
 
@@ -166,20 +186,19 @@ dispatch(options[0]);
     dispatch(page);
   };
   // const WithProtection=(Component, title)=>withApplicationStatus(withSubscription(Component, title))
-  const WithProtection=(Component, title)=>withSubscription(Component, title)
+  const WithProtection = (Component, title) =>
+    withSubscription(Component, title);
   return (
     <>
       {authDetails?.user?.role === "employer" ? (
         <CompanyRouteContextProvider setSideBar={setSideBar}>
           <SubscriptionModal redirectState={redirectState} />
           <main className="h-screen w-screen relative flex overflow-hidden">
-           <
-              SideBar
+            <SideBar
               companyHookProps={companyHookProps}
               authDetails={authDetails}
               toogleIsOpen={toogleIsOpen}
               isMenuOpen={isOpen}
-              
             >
               <ul className="flex flex-col gap-[10px]">
                 {activeOptions.map((currentOption) => (
@@ -224,15 +243,18 @@ dispatch(options[0]);
                   <Route index element={<Home />} />
                   <Route path="*" element={<NotFound />} />
 
-                  <Route path="messages" element={WithProtection(Messages, "Message")} />
+                  <Route
+                    path="messages"
+                    element={WithProtection(Messages, "Message")}
+                  />
                   <Route
                     path="job-posting"
-                    element={WithProtection(JobPosting,  "Job")}
+                    element={WithProtection(JobPosting, "Job")}
                   />
-                   <Route
-                  path="subscription" 
-                  element={<SubscriptionPackages />}
-                />
+                  <Route
+                    path="subscription"
+                    element={<SubscriptionPackages />}
+                  />
                   <Route path="applicants/*">
                     <Route
                       index
@@ -249,15 +271,18 @@ dispatch(options[0]);
                   <Route path="domestic-staffs" element={<DomesticStaffs />} />
                   <Route path=":category/:id" element={<StaffDetails />} />
                   <Route path="staff/cart" element={<CartedStaffs />} />
-                  <Route path="staff/success" element={<SuccessPage />}/>  
-                  <Route path="staff/contract-history" element={<ContractHistory />}/>  
-                 
+                  <Route path="staff/success" element={<SuccessPage />} />
+                  <Route
+                    path="staff/contract-history"
+                    element={<ContractHistory />}
+                  />
+
                   <Route path="job-listing/*">
+                    <Route index element={WithProtection(JobListing, "Job")} />
                     <Route
-                      index
-                      element={WithProtection(JobListing, "Job")}
+                      path="type/:id"
+                      element={WithProtection(JobType, "Job")}
                     />
-                    <Route path="type/:id" element={WithProtection(JobType, "Job")} />
                   </Route>
 
                   <Route
@@ -265,9 +290,14 @@ dispatch(options[0]);
                     element={WithProtection(Schedule, "job")}
                   />
 
-                <Route path="/blogs" element={<BlogList general={false} direct="/company/" />} />
-                <Route path="/blogs/:id" element={<BlogRead general={false} />} />
-         
+                  <Route
+                    path="/blogs"
+                    element={<BlogList general={false} direct="/company/" />}
+                  />
+                  <Route
+                    path="/blogs/:id"
+                    element={<BlogRead general={false} />}
+                  />
 
                   <Route path="settings" element={<Settings />} />
                   <Route path="help-center" element={<HelpCenter />} />

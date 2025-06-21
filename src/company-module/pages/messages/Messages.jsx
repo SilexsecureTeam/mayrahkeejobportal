@@ -12,13 +12,6 @@ import useApplicationManagement from "../../../hooks/useApplicationManagement";
 function Messages() {
   const applicationUtils = useApplicationManagement();
   const [selectedChat, setSelectedChat] = useState(null);
-  const {
-    loading,
-    messages,
-    sendMessage,
-    getMessages,
-    initFirebaseChatSession,
-  } = useContext(ChatContext);
 
   const byApplicants = () => {
     const newList = [];

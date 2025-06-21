@@ -7,29 +7,28 @@ import useCompanyProfile from "../../../hooks/useCompanyProfile";
 import { ChatContext } from "../../../context/ChatContext";
 import { BiLoaderCircle } from "react-icons/bi";
 import { toast } from "react-toastify";
-import Pusher from "pusher-js";
 
 function ChatComponent({ selectedChat, setSelectedChat, applicationUtils }) {
   const chatContainer = useRef(null);
+  const scrollAnchorRef = useRef(null); // 👈 scroll anchor
   const [currentCandidate, setCurrentCandidate] = useState(null);
-  const { authDetails } = useContext(AuthContext);
   const [message, setMessage] = useState("");
 
-  console.log("Selected Chat:", selectedChat);
-
+  const { authDetails } = useContext(AuthContext);
   const { details } = useCompanyProfile();
   const {
     loading,
     sendingMessage,
-    messages,
-    sendMessage,
-    setMessages,
+    messagesByConversation = {},
     getMessages,
+    sendMessage,
   } = useContext(ChatContext);
 
-  // Send a message
+  const candidateId = selectedChat?.candidate_id;
+  const currentMessages = messagesByConversation[candidateId] || [];
+
   const onSendButtonClick = () => {
-    if (message.trim() === "") {
+    if (!message.trim()) {
       toast.error("Enter a message");
       return;
     }
@@ -37,9 +36,9 @@ function ChatComponent({ selectedChat, setSelectedChat, applicationUtils }) {
     const messageToSend = {
       sender_id: authDetails.user.id,
       sender_type: authDetails.user.role,
-      receiver_id: currentCandidate?.candidate_id,
+      receiver_id: candidateId,
       receiver_type: "candidate",
-      message: message,
+      message,
       date_sent: new Date().toISOString(),
     };
 
@@ -48,74 +47,49 @@ function ChatComponent({ selectedChat, setSelectedChat, applicationUtils }) {
     });
   };
 
-  // Load messages when candidate is selected
+  // Load candidate profile & messages
   useEffect(() => {
-    if (selectedChat) {
-      setMessages([]);
-      applicationUtils.getApplicant(
-        selectedChat.candidate_id,
-        setCurrentCandidate
-      );
-    }
-    return () => setCurrentCandidate(null);
-  }, [selectedChat]);
+    if (candidateId) {
+      applicationUtils.getApplicant(candidateId, (profile) => {
+        setCurrentCandidate(profile);
+      });
 
-  // Fetch historical messages & subscribe to Pusher
-  useEffect(() => {
-    if (!currentCandidate) return;
-
-    getMessages(currentCandidate.candidate_id, () => {});
-
-    const pusher = new Pusher(import.meta.env.VITE_PUSHER_APP_KEY, {
-      cluster:"mt1",
-      auth: {
-        headers: {
-          Authorization: `Bearer ${authDetails.token}`,
-        },
-      },
-    });
-
-    const channel = pusher.subscribe(`private-chat.${selectedChat.candidate_id}.candidate`);
-
-    channel.bind("private.message.sent", (data) => {
-      const incoming = data.message;
-
-      if (incoming?.sender_id === currentCandidate.candidate_id) {
-        setMessages((prev) => [...prev, incoming]);
+      if (!messagesByConversation[candidateId]) {
+        getMessages(candidateId);
       }
-    });
+    }
 
     return () => {
-      channel.unbind_all();
-      channel.unsubscribe();
-      pusher.disconnect();
+      setCurrentCandidate(null);
     };
-  }, [currentCandidate]);
+  }, [candidateId]);
+
+  // Scroll to bottom when messages change
+  useEffect(() => {
+    if (scrollAnchorRef.current) {
+      scrollAnchorRef.current.scrollIntoView({ behavior: "auto" }); // or "smooth"
+    }
+  }, [currentMessages]);
 
   return (
-    <div
-      ref={chatContainer}
-      className="w-full lg:w-3/4 flex flex-col items-center overflow-y-auto h-full relative"
-    >
-      {loading && (
+    <div className="w-full lg:w-3/4 flex flex-col items-center overflow-y-auto h-full relative">
+      {loading ? (
         <div className="flex justify-center items-center h-full w-full">
           <BiLoaderCircle className="animate-spin text-4xl text-primaryColor" />
         </div>
-      )}
-
-      {!loading && currentCandidate && (
+      ) : currentCandidate ? (
         <>
-          {/* Chat Header */}
+          {/* Header */}
           <div className="h-max border-b flex w-full">
             <div className="flex w-full items-center p-2 gap-[10px]">
               <img
-                src={`${resourceUrl}/${currentCandidate?.profile}`}
+                src={`${resourceUrl}/${currentCandidate.profile}`}
                 className="h-[50px] w-[50px] rounded-full bg-gray-300 border border-gray-500"
                 alt="Profile"
               />
               <div className="flex flex-col">
                 <h4 className="text-md font-semibold">
-                  {currentCandidate?.full_name}
+                  {currentCandidate.full_name}
                 </h4>
                 <span className="text-sm text-gray-400">
                   {selectedChat.job_title} Role
@@ -124,49 +98,57 @@ function ChatComponent({ selectedChat, setSelectedChat, applicationUtils }) {
             </div>
           </div>
 
-          {/* Chat Messages */}
-          <ul className="flex-1 flex w-full flex-col p-2 pb-20 overflow-y-auto">
-            {messages.map((current, index) => {
-              const getPositions = (sender) => {
-                return sender === "candidate"
-                  ? [
-                      "",
-                      "",
-                      `${resourceUrl}/${currentCandidate.profile}`,
-                      currentCandidate.full_name.split(" ", 1),
-                    ]
-                  : [
-                      "flex-row-reverse place-self-end",
-                      "items-end",
-                      `${resourceUrl}/${details.logo_image}`,
-                      "You",
-                    ];
-              };
-
-              const positions = getPositions(current.sender_type);
+          {/* Messages */}
+          <ul
+            ref={chatContainer}
+            className="flex-1 flex w-full flex-col p-2 pb-20 overflow-y-auto"
+          >
+            {currentMessages.map((current, index) => {
+              const isCandidate = current.sender_type === "candidate";
+              const avatar = isCandidate
+                ? `${resourceUrl}/${currentCandidate.profile}`
+                : `${resourceUrl}/${details.logo_image}`;
+              const name = isCandidate
+                ? currentCandidate.full_name.split(" ", 1)
+                : "You";
+              const rowStyle = isCandidate
+                ? ""
+                : "flex-row-reverse place-self-end";
+              const alignStyle = isCandidate ? "" : "items-end";
 
               return (
                 <li
                   key={index}
-                  className={`flex w-[60%] lg:w-[50%] gap-[10px] mt-3 ${positions[0]}`}
+                  className={`flex w-[60%] lg:w-[50%] gap-[10px] mt-3 ${rowStyle}`}
                 >
                   <img
-                    src={positions[2]}
+                    src={avatar}
                     alt="Avatar"
                     className="flex-shrink-0 h-[30px] w-[30px] rounded-full bg-gray-300"
                   />
-                  <div className={`flex flex-col w-max max-w-full ${positions[1]}`}>
-                    <span className="text-sm font-semibold">{positions[3]}</span>
-                    <p className="p-2 mt-2 rounded-md bg-gray-200">
+                  <div
+                    className={`flex flex-col w-max max-w-full ${alignStyle}`}
+                  >
+                    <span className="text-sm font-semibold">{name}</span>
+                    <p className="py-1 px-2 mt-2 rounded-md bg-gray-200">
                       {current.message}
                     </p>
+                    <span className="text-[10px] text-gray-500 mt-1 block">
+                      {new Date(current.updated_at).toLocaleTimeString([], {
+                        hour: "2-digit",
+                        minute: "2-digit",
+                      })}
+                    </span>
                   </div>
                 </li>
               );
             })}
+
+            {/* Scroll anchor */}
+            <div ref={scrollAnchorRef} />
           </ul>
 
-          {/* Message Input */}
+          {/* Input */}
           <div className="flex items-center justify-between bg-white p-2 absolute w-full bottom-0 h-max border-t">
             <img src={clipIcon} className="h-[20px]" alt="Attach" />
             <textarea
@@ -174,7 +156,7 @@ function ChatComponent({ selectedChat, setSelectedChat, applicationUtils }) {
               onChange={(e) => setMessage(e.target.value)}
               className="flex-1 p-2 focus:outline-none text-sm h-10"
               placeholder="Reply Message"
-            ></textarea>
+            />
             <button
               onClick={onSendButtonClick}
               className="h-fit p-2 w-8 flex justify-center items-center bg-primaryColor text-white rounded-md"
@@ -182,11 +164,20 @@ function ChatComponent({ selectedChat, setSelectedChat, applicationUtils }) {
               {sendingMessage ? (
                 <BiLoaderCircle className="animate-spin text-white" />
               ) : (
-                <img src={sendIcon} alt="Send" title="send" className="h-[15px]" />
+                <img
+                  src={sendIcon}
+                  alt="Send"
+                  title="send"
+                  className="h-[15px]"
+                />
               )}
             </button>
           </div>
         </>
+      ) : (
+        <div className="text-center text-gray-500 mt-10">
+          No candidate selected.
+        </div>
       )}
     </div>
   );

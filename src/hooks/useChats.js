@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { axiosClient } from "../services/axios-client";
 import { FormatError } from "../utils/formmaters";
 import { AuthContext } from "../context/AuthContex";
@@ -9,156 +9,99 @@ function useChats() {
   const { authDetails } = useContext(AuthContext);
   const client = axiosClient(authDetails?.token, true);
   const [loading, setLoading] = useState(false);
-  const [sendingMessage, setSendingMessage] = useState(false); // Separate loader for sending messages
-  const [details, setDetails] = useState([]);
-  const [messages, setMessages] = useState([]);
-  const [hasNewMessage, setHasNewMessage] = useState(false); // Track new messages
+  const [sendingMessage, setSendingMessage] = useState(false);
+  const [messagesByConversation, setMessagesByConversation] = useState({});
+  const [hasNewMessage, setHasNewMessage] = useState(false);
 
-  const [error, setError] = useState({
-    message: "",
-    error: "",
-  });
-
-  const onTextChange = (e) => {
-    const { name, value } = e.target;
-    setDetails({ ...details, [name]: value });
-  };
-
-  const sendMessage = async (message, onSuccess) => {
-    setSendingMessage(true);
-    try {
-      const { data } = await client.post("/messages/send", message);
-      // Call onSuccess first to clear the input immediately
-      onSuccess();
-
-      // Then fetch updated messages
-      getMessages(message.receiver_id, () => {});
-    } catch (error) {
-      FormatError(error);
-    } finally {
-      setSendingMessage(false);
-    }
-  };
-
-  const checkUnreadMessages = async () => {
-    try {
-      const { data } = await client.get(
-        `/messages/unread/${authDetails?.user?.id}/${
-          authDetails?.user?.role === "employer" ? "employer" : "candidate"
-        }`
-      );
-      setHasNewMessage(data.unread_messages_count); // Ensure API returns a boolean
-    } catch (error) {}
-  };
-
-  const deleteJob = async (handleSuccess, jobId) => {
-    setLoading(true);
-    try {
-      const response = await client.delete(`/job/${jobId}`);
-      await getJobsFromDB();
-      handleSuccess();
-    } catch (error) {
-      FormatError(error, setError, "Delete Job");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const initFirebaseChatSession = (receiverId) => {
-    let path;
-    let employerId;
-    let candidateId;
-    if (authDetails.user.role === "employer") {
-      path = `employer-${authDetails.user.id}-candidate-${receiverId}`;
-      employerId = authDetails.user.id;
-      candidateId = receiverId;
-    } else {
-      path = `employer-${receiverId}-candidate-${authDetails.user.id}`;
-      employerId = receiverId;
-      candidateId = authDetails.user.id;
-    }
-
-    const chatRef = ref(database, `chats/` + path);
-
-    onValue(chatRef, (snapshot) => {
-      const data = snapshot.val();
-      if (!data) {
-        set(chatRef, {
-          session_created: new Date(),
-          employerId,
-          candidateId,
-        });
-      }
+  // Append a message to the right conversation
+  const appendMessage = (userId, message) => {
+    setMessagesByConversation((prev) => {
+      const existing = prev[userId] || [];
+      return {
+        ...prev,
+        [userId]: [...existing, message],
+      };
     });
   };
 
-  const firebaseMessaging = (receiverId, message) => {
-    let path;
-    let employerId;
-    let candidateId;
-    let messageData = {};
-    // console.log(receiverId);
-    if (authDetails.user.role === "employer") {
-      path = `employer-${authDetails.user.id}-candidate-${receiverId}`;
-      employerId = authDetails.user.id;
-      candidateId = receiverId;
-    } else {
-      path = `employer-${receiverId}-candidate-${authDetails.user.id}`;
-      employerId = receiverId;
-      candidateId = authDetails.user.id;
-    }
-
-    const messageRef = ref(database, `messages/` + path);
-    set(messageRef, message);
-    onValue(messageRef, (snapshot) => {
-      const data = snapshot.val();
-    });
-  };
-
-  const getMessages = async (userId, onSuccess) => {
+  // Fetch all messages for one conversation
+  const getMessages = async (userId, onSuccess = () => {}) => {
     setLoading(true);
     try {
-      let uri;
-      let readUri;
-
       const role = authDetails.user.role;
+      let uri, readUri;
 
       if (role === "employer") {
         uri = `/messages/all/${userId}/candidate/${authDetails.user.id}/${role}`;
         readUri = `/messages/read/${userId}/candidate`;
-      } else if (role === "candidate") {
+      } else {
         uri = `/messages/all/${authDetails.user.id}/${role}/${userId}/employer`;
         readUri = `/messages/read/${userId}/employer`;
       }
 
       const { data } = await client.get(uri);
-      setMessages(data.messages);
-      console.log(readUri);
-      // 🔄 Mark messages as read
-      await client.put(readUri);
+      setMessagesByConversation((prev) => ({
+        ...prev,
+        [userId]: data.messages,
+      }));
 
+      // await client.post(readUri); // mark as read
       onSuccess();
-    } catch (error) {
-      FormatError(error, setError, "Update Error");
+    } catch (err) {
+      FormatError(err);
     } finally {
       setLoading(false);
     }
   };
 
+  // Send message
+  const sendMessage = async (message, onSuccess = () => {}) => {
+    setSendingMessage(true);
+    try {
+      const { data } = await client.post("/messages/send", message);
+      appendMessage(message.receiver_id, data?.data);
+      onSuccess();
+    } catch (err) {
+      FormatError(err);
+    } finally {
+      setSendingMessage(false);
+    }
+  };
+
+  // Firebase session
+  const initFirebaseChatSession = (receiverId) => {
+    const path =
+      authDetails.user.role === "employer"
+        ? `employer-${authDetails.user.id}-candidate-${receiverId}`
+        : `employer-${receiverId}-candidate-${authDetails.user.id}`;
+
+    const chatRef = ref(database, `chats/` + path);
+    onValue(chatRef, (snapshot) => {
+      if (!snapshot.val()) {
+        set(chatRef, {
+          session_created: new Date(),
+          employerId:
+            authDetails.user.role === "employer"
+              ? authDetails.user.id
+              : receiverId,
+          candidateId:
+            authDetails.user.role === "candidate"
+              ? authDetails.user.id
+              : receiverId,
+        });
+      }
+    });
+  };
+
   return {
     loading,
-    messages,
-    setMessages,
-    onTextChange,
-    setDetails,
-    sendMessage,
-    deleteJob,
-    getMessages,
-    hasNewMessage,
-    //Firebase Integrations
-    initFirebaseChatSession,
     sendingMessage,
-    firebaseMessaging,
+    messagesByConversation,
+    getMessages,
+    sendMessage,
+    initFirebaseChatSession,
+    appendMessage, // useful for pusher updates
+    setMessagesByConversation,
   };
 }
 
