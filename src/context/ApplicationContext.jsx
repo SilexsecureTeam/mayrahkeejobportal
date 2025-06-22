@@ -1,5 +1,6 @@
 import { useContext, useEffect, useState, createContext } from "react";
 import { AuthContext } from "./AuthContex"; // Make sure this path is correct
+import useApplicationManagement from "../hooks/useApplicationManagement";
 
 export const ApplicationContext = createContext();
 
