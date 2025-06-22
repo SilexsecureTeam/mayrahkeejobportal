@@ -1,9 +1,8 @@
-import { createContext, useState } from "react";
-import useApplicationManagement from "../hooks/useApplicationManagement";
-
-export const ApplicationContext = createContext();
+import { useContext, useEffect, useState } from "react";
+import { AuthContext } from "./AuthContex"; // Make sure this path is correct
 
 export const ApplicationContextProvider = ({ children }) => {
+  const { authDetails } = useContext(AuthContext); // ⬅️ detect login/logout
   const {
     loading,
     applicants,
@@ -21,8 +20,15 @@ export const ApplicationContextProvider = ({ children }) => {
     resetApplicationState,
   } = useApplicationManagement();
 
-  //Application specific to the applicant being inteviews
   const [application, setApplication] = useState(null);
+
+  // Automatically reset when user logs out
+  useEffect(() => {
+    if (!authDetails?.token) {
+      resetApplicationState();
+      setApplication(null); // Reset local state too
+    }
+  }, [authDetails]);
 
   return (
     <ApplicationContext.Provider
