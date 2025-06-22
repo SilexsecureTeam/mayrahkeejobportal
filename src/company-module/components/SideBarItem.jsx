@@ -11,9 +11,8 @@ function SideBarItem({ data, dispatch, state, setIsOpen }) {
   const navigateToPage = () => {
     if (data.type === "LOG-OUT") {
       sessionStorage.clear();
-      dispatch({});
-      setAuthDetails(null);
-      navigate(data.route, { replace: true });
+      localStorage.clear(); // in case you use it anywhere
+      window.location.href = data.route; // ✅ full reload to login or landing page
     } else {
       dispatch({ ...data });
       navigate(data.route);

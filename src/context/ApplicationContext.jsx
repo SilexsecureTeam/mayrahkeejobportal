@@ -20,18 +20,9 @@ export const ApplicationContextProvider = ({ children }) => {
     getResume,
     getJobApplications,
     getCompany,
-    resetApplicationState,
   } = useApplicationManagement();
 
   const [application, setApplication] = useState(null);
-
-  // Automatically reset when user logs out
-  useEffect(() => {
-    if (!authDetails?.token) {
-      resetApplicationState();
-      setApplication(null); // Reset local state too
-    }
-  }, [authDetails]);
 
   return (
     <ApplicationContext.Provider
@@ -51,7 +42,6 @@ export const ApplicationContextProvider = ({ children }) => {
         setApplication,
         getJobApplications,
         getCompany,
-        resetApplicationState,
       }}
     >
       {children}

@@ -6,15 +6,12 @@ import { ApplicationContext } from "../../context/ApplicationContext";
 
 function SideBarItem({ data, dispatch, state, setIsOpen }) {
   const navigate = useNavigate();
-  const { setAuthDetails } = useContext(AuthContext);
   const { unreadMessage } = useContext(ChatContext);
-  const { resetApplicationState } = useContext(ApplicationContext);
   const navigateToPage = async () => {
     if (data.type === "LOG-OUT") {
-      await resetApplicationState(); // Clear application data
       sessionStorage.clear();
-    localStorage.clear(); // in case you use it anywhere
-    window.location.href = data.route; // ✅ full reload to login or landing page
+      localStorage.clear(); // in case you use it anywhere
+      window.location.href = data.route; // ✅ full reload to login or landing page
     } else {
       dispatch({ ...data });
       navigate(data.route);
