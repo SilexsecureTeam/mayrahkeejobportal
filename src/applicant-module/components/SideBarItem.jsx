@@ -15,7 +15,6 @@ function SideBarItem({ data, dispatch, state, setIsOpen }) {
       sessionStorage.clear();
     localStorage.clear(); // in case you use it anywhere
     window.location.href = data.route; // ✅ full reload to login or landing page
-      navigate(data.route, { replace: true });
     } else {
       dispatch({ ...data });
       navigate(data.route);
