@@ -13,8 +13,8 @@ function SideBarItem({ data, dispatch, state, setIsOpen }) {
     if (data.type === "LOG-OUT") {
       await resetApplicationState(); // Clear application data
       sessionStorage.clear();
-      dispatch({});
-      setAuthDetails(null);
+    localStorage.clear(); // in case you use it anywhere
+    window.location.href = data.route; // ✅ full reload to login or landing page
       navigate(data.route, { replace: true });
     } else {
       dispatch({ ...data });
