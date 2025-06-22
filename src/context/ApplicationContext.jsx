@@ -1,6 +1,8 @@
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "./AuthContex"; // Make sure this path is correct
 
+export const ApplicationContext = createContext();
+
 export const ApplicationContextProvider = ({ children }) => {
   const { authDetails } = useContext(AuthContext); // ⬅️ detect login/logout
   const {
