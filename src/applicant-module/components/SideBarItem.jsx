@@ -2,14 +2,16 @@ import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContex";
 import { ChatContext } from "../../context/ChatContext";
+import { ApplicationContext } from "../../context/ApplicationContext";
 
 function SideBarItem({ data, dispatch, state, setIsOpen }) {
   const navigate = useNavigate();
   const { setAuthDetails } = useContext(AuthContext);
   const { unreadMessage } = useContext(ChatContext);
-
-  const navigateToPage = () => {
+  const { resetApplicationState } = useContext(ApplicationContext);
+  const navigateToPage = async () => {
     if (data.type === "LOG-OUT") {
+      await resetApplicationState(); // Clear application data
       sessionStorage.clear();
       dispatch({});
       setAuthDetails(null);

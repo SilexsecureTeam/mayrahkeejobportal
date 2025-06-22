@@ -236,6 +236,13 @@ function useApplicationManagement() {
     }
   }, [error]);
 
+  const resetApplicationState = async () => {
+    setApplicants([]);
+    setjobApplications([]);
+    setInterviewDetails({});
+    await set(APPLICANTS_KEY, []); // Clear stored IndexedDB data
+  };
+
   // Fetch data on mount or token change
   useEffect(() => {
     if (authDetails?.token) {
@@ -254,7 +261,7 @@ function useApplicationManagement() {
       };
       initValue();
     }
-  }, [authDetails?.token]); // Fetch data on token change
+  }, [authDetails]); // Fetch data on token change
 
   return {
     loading,
@@ -270,6 +277,7 @@ function useApplicationManagement() {
     getJobApplications: getJobApplicationsDebounced, // Use debounced function
     getCompany,
     changePassword,
+    resetApplicationState,
   };
 }
 
