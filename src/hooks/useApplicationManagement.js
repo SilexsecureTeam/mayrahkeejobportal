@@ -3,7 +3,7 @@ import { axiosClient } from "../services/axios-client";
 import { AuthContext } from "../context/AuthContex";
 import { FormatError } from "../utils/formmaters";
 import { onFailure } from "../utils/notifications/OnFailure";
-import { get, set } from "idb-keyval";
+import { get, set, del } from "idb-keyval";
 import { stages } from "../utils/constants";
 import { interviewOptions } from "../company-module/components/applicants/ScheduleInteviewModal";
 import { onSuccess } from "../utils/notifications/OnSuccess";
@@ -240,7 +240,7 @@ function useApplicationManagement() {
     setApplicants([]);
     setjobApplications([]);
     setInterviewDetails({});
-    await set(APPLICANTS_KEY, []); // Clear stored IndexedDB data
+    await del(APPLICANTS_KEY); 
   };
 
   // Fetch data on mount or token change
