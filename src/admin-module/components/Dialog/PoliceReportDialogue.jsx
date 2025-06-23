@@ -23,7 +23,7 @@ const PoliceReportDialog = ({ fetchData, name }) => {
     try {
       const data = await fetchData();
       if (data?.PoliceReport?.length > 0) {
-       setPoliceReport(data.PoliceReport);
+        setPoliceReport(data.PoliceReport);
       } else {
         toast.warn("No police report found.");
       }
@@ -33,7 +33,6 @@ const PoliceReportDialog = ({ fetchData, name }) => {
     } finally {
       setIsLoading(false);
     }
-    
   };
 
   const handleUpdateOpen = (report) => {
@@ -47,15 +46,15 @@ const PoliceReportDialog = ({ fetchData, name }) => {
     console.log("Report Id:", selectedReport.domestic_staff_id);
 
     if (!status) {
-      console.error('selectedData is null or undefined');
-      toast.error('An error occurred. Please try again');
+      console.error("selectedData is null or undefined");
+      toast.error("An error occurred. Please try again");
       return;
     }
 
     const formData = {
       id: selectedReport.domestic_staff_id,
       status: status,
-      type: 'police'
+      type: "police",
     };
 
     console.log("Form data being sent:", formData);
@@ -64,30 +63,37 @@ const PoliceReportDialog = ({ fetchData, name }) => {
       const res = await updateStatus(formData);
       if (res) {
         setUpdateDialogVisible(false);
-        toast.success('Status updated successfully');
+        toast.success("Status updated successfully");
         // Fetch the updated details
         const data = await fetchData();
         setPoliceReport(data.PoliceReport);
       } else {
-        toast.error('An error occurred while updating status');
+        toast.error("An error occurred while updating status");
       }
     } catch (error) {
-      console.error('Error updating status:', error);
+      console.error("Error updating status:", error);
       if (error.response && error.response.data) {
-        console.error('Server response:', error.response.data);
+        console.error("Server response:", error.response.data);
       }
-      toast.error('An error occurred while updating status');
+      toast.error("An error occurred while updating status");
     }
   };
 
   const renderFileContent = (file) => {
-    const fileExtension = file.split('.').pop().toLowerCase();
+    const fileExtension = file.split(".").pop().toLowerCase();
     const fileUrl = `${IMAGE_URL}/${file}`;
     if (["jpg", "jpeg", "png", "gif"].includes(fileExtension)) {
-      return <img src={fileUrl} alt="Police Report" className="w-full h-auto" />;
+      return (
+        <img src={fileUrl} alt="Police Report" className="w-full h-auto" />
+      );
     } else if (["pdf", "doc", "docx"].includes(fileExtension)) {
       return (
-        <a href={fileUrl} target="_blank" download className="flex items-center gap-2 bg-green-500 px-4 py-2 rounded text-white">
+        <a
+          href={fileUrl}
+          target="_blank"
+          download
+          className="flex items-center gap-2 bg-green-500 px-4 py-2 rounded text-white"
+        >
           Download Doc
         </a>
       );
@@ -97,39 +103,82 @@ const PoliceReportDialog = ({ fetchData, name }) => {
   };
 
   const statusOptions = [
-    { label: 'Pending', value: 'pending' },
-    { label: 'Approved', value: 'approved' },
-    { label: 'Rejected', value: 'rejected' },
-    { label: 'Suspend', value: 'suspend' },
+    { label: "Pending", value: "pending" },
+    { label: "Approved", value: "approved" },
+    { label: "Rejected", value: "rejected" },
+    { label: "Suspend", value: "suspend" },
   ];
 
   return (
     <div className="card flex flex-col space-y-4">
-      <div className="bg-green-500 px-20 py-20 rounded-lg text-white hover:text-white hover:cursor-pointer" onClick={handleOpen}>
+      <div
+        className="bg-green-500 px-20 py-20 rounded-lg text-white hover:text-white hover:cursor-pointer"
+        onClick={handleOpen}
+      >
         View Police Report
-        {isLoading && <ClipLoader size={20} color={"#ffffff"} loading={isLoading} className="ml-2" />}
+        {isLoading && (
+          <ClipLoader
+            size={20}
+            color={"#ffffff"}
+            loading={isLoading}
+            className="ml-2"
+          />
+        )}
       </div>
-      <Dialog header="Police Report" visible={visible} style={{ width: '90vw', maxWidth: '600px', overflowY:"auto", height:"max-content", maxHeight:"90%" }} onHide={() => setVisible(false)} modal>
+      <Dialog
+        header="Police Report"
+        visible={visible}
+        style={{
+          width: "90vw",
+          maxWidth: "600px",
+          overflowY: "auto",
+          height: "max-content",
+          maxHeight: "90%",
+        }}
+        onHide={() => setVisible(false)}
+        modal
+      >
         {isLoading ? (
           <div className="flex justify-center items-center h-full">
             <ClipLoader size={50} color={"#000"} loading={isLoading} />
           </div>
-        ) : (
-          policeReport.length > 0 ? policeReport.map((report) => (
-            <div key={report.id} className="p-3 border-b-2 border-gray-200 space-y-5">
-              <p><strong>State:</strong> {report.state}</p>
-              <p><strong>LGA:</strong> {report.lga}</p>
-              <p><strong>Station Address:</strong> {report.station_address}</p>
-              <p className="flex items-center gap-5"> <strong>Report File: </strong>
+        ) : policeReport.length > 0 ? (
+          policeReport.map((report) => (
+            <div
+              key={report.id}
+              className="p-3 border-b-2 border-gray-200 space-y-5"
+            >
+              <p>
+                <strong>State:</strong> {report.state}
+              </p>
+              <p>
+                <strong>LGA:</strong> {report.lga}
+              </p>
+              <p>
+                <strong>Station Address:</strong> {report.station_address}
+              </p>
+              <p>
+                <strong>NIN Number:</strong> {report.nin_number || "N/A"}
+              </p>
+
+              <p className="flex items-center gap-5">
+                <strong>Report File:</strong>{" "}
                 {renderFileContent(report.police_report_file)}
               </p>
-              <p><strong>Domestic Staff ID:</strong> {report.domestic_staff_id}</p>
+
+              <p className="flex items-center gap-5">
+                <strong>NIN Slip / ID:</strong>{" "}
+                {renderFileContent(report.nin_slip_file)}
+              </p>
+              <p>
+                <strong>Domestic Staff ID:</strong> {report.domestic_staff_id}
+              </p>
               <p>
                 <span className="flex justify-start items-center gap-2">
-                <span>
-                  <strong>Status:</strong> {" "}
+                  <span>
+                    <strong>Status:</strong>{" "}
                     {report.status ? report.status : "N/A"}
-                </span>
+                  </span>
                   <button
                     type="button"
                     className="flex items-center gap-2 bg-green-500 px-2 py-2 rounded"
@@ -139,15 +188,28 @@ const PoliceReportDialog = ({ fetchData, name }) => {
                   </button>
                 </span>
               </p>
-
             </div>
-          )) : <p className="font-semibold">No police report available</p>
+          ))
+        ) : (
+          <p className="font-semibold">No police report available</p>
         )}
       </Dialog>
-      <Dialog header="Update Status" visible={updateDialogVisible} style={{ width: '90vw', maxWidth: '600px' }} onHide={() => setUpdateDialogVisible(false)} modal>
+      <Dialog
+        header="Update Status"
+        visible={updateDialogVisible}
+        style={{ width: "90vw", maxWidth: "600px" }}
+        onHide={() => setUpdateDialogVisible(false)}
+        modal
+      >
         <div className="p-4">
           <h3>Update Status</h3>
-          <Dropdown value={status} options={statusOptions} onChange={(e) => setStatus(e.value)} placeholder="Select a Status" className="w-full mb-4" />
+          <Dropdown
+            value={status}
+            options={statusOptions}
+            onChange={(e) => setStatus(e.value)}
+            placeholder="Select a Status"
+            className="w-full mb-4"
+          />
           <button
             type="button"
             className="flex items-center gap-2 bg-green-500 px-4 py-2 rounded text-white"

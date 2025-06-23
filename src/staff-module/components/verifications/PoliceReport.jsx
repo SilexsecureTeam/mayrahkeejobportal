@@ -1,93 +1,17 @@
-import { useForm } from "react-hook-form";
-import FormButton from "../../../components/FormButton";
 import { useContext, useEffect, useState } from "react";
-import { Country, State, City } from "country-state-city";
 import { AuthContext } from "../../../context/AuthContex";
 import { axiosClient, resourceUrl } from "../../../services/axios-client";
-import { FormatError, getImageURL } from "../../../utils/formmaters";
-import { onSuccess } from "../../../utils/notifications/OnSuccess";
+import { FormatError } from "../../../utils/formmaters";
 import { onFailure } from "../../../utils/notifications/OnFailure";
-import ConfirmationPopUp from "./ConfirmationPopUp"; // Import the popup
-
-const formFields = ["station_address"];
+import PoliceReportForm from "./PoliceReportForm";
 
 function PoliceReport() {
   const { authDetails } = useContext(AuthContext);
   const client = axiosClient(authDetails?.token, true);
-  const {
-    register,
-    handleSubmit,
-    watch,
-    formState: { errors },
-  } = useForm();
-  const countries = Country.getAllCountries();
-  const [selectedCountry, setSelectedCountry] = useState();
-  const [selectStates, setSelectStates] = useState();
-  const [selectState, setSelectState] = useState();
-  const [selectCity, setSelectCity] = useState();
-  const [selectCities, setSelectCities] = useState();
-  const [file, setFile] = useState();
-  const [error, setError] = useState({
-    message: "",
-    error: "",
-  });
-  const [isPopupOpen, setIsPopupOpen] = useState(false);
 
-  const [isloading, setIsLoading] = useState(false);
-  const [loading, setLoading] = useState(false);
   const [currentRecord, setCurrentRecord] = useState();
-
-  const submitDetails = async (data) => {
-    if (!file) {
-        onFailure({
-          error: "Police Report Required",
-          message: "Please upload a report before submitting.",
-        });
-        return
-      }
-      setLoading(true);
-    try {
-      const response = await client.post("/domesticStaff/police-report", {
-        ...data,
-        state: selectState.name,
-        lga: selectCity,
-        police_report_file: file,
-        domestic_staff_id: authDetails.user.id,
-      });
-      console.log("Data", response.data);
-      getCurrentRecord();
-      onSuccess({
-        message: "Residence info uploaded",
-        success: "Submitted succesfully, awaiting review",
-      });
-    } catch (error) {
-      FormatError(error, setError, "Upload Failed");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleProceed = () => {
-    setIsPopupOpen(false);
-    handleSubmit(submitDetails)(); // Proceed with form submission
-  };
-
-  const recordFields = () => {
-    const fields = [];
-    Object.keys(currentRecord)?.map((current) => {
-      if (
-        current !== "id" &&
-        current !== "domestic_staff_id" &&
-        current !== "created_at" &&
-        current !== "updated_at"
-      ) {
-        fields.push(current);
-        return;
-      }
-    });
-
-    return fields;
-  };
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState({ message: "", error: "" });
 
   const getCurrentRecord = async () => {
     setLoading(true);
@@ -95,13 +19,24 @@ function PoliceReport() {
       const { data } = await client.get(
         `/domesticStaff/police-report/${authDetails.user.id}`
       );
-
       setCurrentRecord(data.PoliceReport[0]);
     } catch (error) {
       FormatError(error, setError, "Retrieval Failed");
     } finally {
       setLoading(false);
     }
+  };
+
+  const recordFields = () => {
+    const fields = [];
+    Object.keys(currentRecord || {})?.forEach((key) => {
+      if (
+        !["id", "domestic_staff_id", "created_at", "updated_at"].includes(key)
+      ) {
+        fields.push(key);
+      }
+    });
+    return fields;
   };
 
   useEffect(() => {
@@ -112,37 +47,36 @@ function PoliceReport() {
     if (error.error && error.message) {
       onFailure(error);
     }
-  }, [error.error, error.message]);
+  }, [error]);
 
   return (
     <div>
       <h1 className="text-xl font-semibold text-green-700">Police Report</h1>
 
-      {typeof currentRecord == "undefined" && loading && (
-        <div className="flex flex-col items-start justify-center h-full w-full">
-          <span>Fetching data...</span>
-        </div>
+      {typeof currentRecord === "undefined" && loading && (
+        <div className="p-4">Fetching data...</div>
       )}
 
       {typeof currentRecord !== "undefined" && (
         <div className="grid grid-cols-2 gap-x-3 gap-y-5 p-2 w-full text-gray-600">
-          {recordFields()?.map((currentKey, idx) => {
-            const value = currentRecord[currentKey];
-            const labelText = currentKey.replace(/_/g, " ");
-
+          {recordFields()?.map((key, idx) => {
+            const labelText = key.replace(/_/g, " ");
+            const value = currentRecord[key];
             return (
               <div key={idx} className="flex flex-col gap-1">
                 <label className="capitalize font-medium">{labelText}</label>
-                {currentKey == "police_report_file" ? (
+                {["police_report_file", "nin_slip_file"].includes(key) ? (
                   <a
-                    className="text-blue-300 underline"
+                    className="text-blue-500 underline"
                     href={`${resourceUrl}${value}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
                   >
-                    Document link
+                    View Document
                   </a>
                 ) : (
                   <label>{value}</label>
-                )}{" "}
+                )}
               </div>
             );
           })}
@@ -150,121 +84,11 @@ function PoliceReport() {
       )}
 
       {typeof currentRecord === "undefined" && !loading && (
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            setIsPopupOpen(true);
-          }}
-          className="grid grid-cols-2 gap-x-3 gap-y-5 p-2 w-full text-gray-600"
-        >
-          <label className="flex flex-col justify-center gap-1">
-            <span className="block font-medium text-slate-700 mb-1">
-              Country
-            </span>
-            <select
-              name="country"
-              onChange={(e) => {
-                const states = State.getStatesOfCountry(e.target.value);
-                setSelectStates(states);
-                setSelectedCountry(Country.getCountryByCode(e.target.value));
-              }}
-              className="p-1 border w-full focus:outline-none border-gray-500 text-sm rounded-md"
-            >
-              <option value="">-- select --</option>
-              {countries.map((country) => (
-                <option key={country.isoCode} value={country.isoCode}>
-                  {country.name}
-                </option>
-              ))}
-            </select>
-          </label>
-
-          <label className="flex flex-col justify-center gap-1">
-            <span className="block font-medium text-slate-700 mb-1">
-              State
-            </span>
-            <select
-              name="state"
-              onChange={(e) => {
-                const cities = City.getCitiesOfState(
-                  selectedCountry.isoCode,
-                  e.target.value
-                );
-                setSelectState(State.getStateByCode(e.target.value));
-                setSelectCities(cities);
-              }}
-              className="p-1 border w-full focus:outline-none text-sm border-gray-500  rounded-md"
-            >
-              <option value="">-- select --</option>
-              {selectStates?.map((each) => (
-                <option key={each.name} value={each.isoCode}>
-                  {each.name}
-                </option>
-              ))}
-            </select>
-          </label>
-
-          <label className="flex flex-col justify-center gap-1">
-            <span className="block font-medium text-slate-700 mb-1">
-              Local Governmennt
-            </span>
-            <select
-              onChange={(e) => {
-                setSelectCity(e.target.value);
-              }}
-              name="local_gov"
-              className="p-1 border w-full focus:outline-none border-gray-500 text-sm rounded-md"
-            >
-              <option value="">-- select --</option>
-              {selectCities?.map((city) => (
-                <option key={city.name} value={city.name}>
-                  {city.name}
-                </option>
-              ))}
-            </select>
-          </label>
-
-          {formFields.map((currentKey) => {
-            const detail = formFields[currentKey];
-            const labelText = currentKey.replace(/_/g, " ");
-
-            const inputType = currentKey == "member_since" ? "date" : "text";
-            return (
-              <div className="flex flex-col gap-1">
-                <label className="capitalize font-medium">{labelText}</label>
-                <input
-                  className="p-1 border focus:outline-none border-gray-500  rounded-md"
-                  type={inputType}
-                  defaultValue={detail}
-                  {...register(currentKey)}
-                />
-              </div>
-            );
-          })}
-          <div className="flex flex-col gap-1">
-            <label className="font-medium">Upload Report</label>
-            <input
-              onChange={(e) => {
-                const file = e.target.files[0];
-                setFile(file);
-              }}
-              className="p-1 border focus:outline-none border-gray-500  rounded-md"
-              type="file"
-              accept=".pdf, .doc, .jpeg, .jpg"
-            />
-          </div>
-          <div></div>
-          <FormButton loading={isloading}>Upload Police Records</FormButton>
-        </form>
+        <PoliceReportForm
+          authDetails={authDetails}
+          onSuccess={getCurrentRecord}
+        />
       )}
-
-      {/* Confirmation Popup */}
-      <ConfirmationPopUp
-        isOpen={isPopupOpen}
-        onClose={() => setIsPopupOpen(false)}
-        onConfirm={handleProceed}
-        message="Ensure your details are correct before proceeding. If you need to make changes later, contact the admin."
-      />
     </div>
   );
 }
