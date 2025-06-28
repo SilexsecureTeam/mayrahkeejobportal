@@ -128,6 +128,9 @@ export default function ProfileFormData({
           register={register}
           profileDetails={profileDetails}
         />
+        {authDetails?.user?.staff_category === "artisan" && (
+          <ArtisanIDSection register={register} setIdFile={setIdFile} />
+        )}
 
         <FieldSection
           title="Professional Information"
@@ -141,10 +144,6 @@ export default function ProfileFormData({
           setSelectedLanguages={setSelectedLanguages}
           toogleIsOpen={toogleIsOpen}
         />
-
-        {authDetails?.user?.staff_category === "artisan" && (
-          <ArtisanIDSection register={register} setIdFile={setIdFile} />
-        )}
 
         <FieldSection
           title="Secondary Information"
