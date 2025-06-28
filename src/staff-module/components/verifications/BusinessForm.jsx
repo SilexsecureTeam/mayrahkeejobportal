@@ -8,18 +8,7 @@ import { onSuccess } from "../../../utils/notifications/OnSuccess";
 import { FormatError } from "../../../utils/formmaters";
 import ConfirmationPopUp from "./ConfirmationPopUp";
 
-const formFields = [
-  /*"business_name",
-  "business_email",
-  "business_phone_no",
-  "whatsapp_phone_no",
-  "business_registration_no",
-  "business_address",
-  "business_location",
-  "year_of_incorporation",*/
-  "business_identification_no",
-  "business_file",
-];
+const formFields = ["business_identification_no", "business_file"];
 
 const labelMapping = {
   /*business_name: "Business Name",
@@ -30,8 +19,8 @@ const labelMapping = {
   business_address: "Business Address",
   business_location: "Business Location",
   year_of_incorporation: "Year of Incorporation",*/
-  business_identification_no: "Business Identification No.",
-  business_file: "Business File",
+  business_identification_no: "Business ID",
+  business_file: "Business Document",
 };
 
 function BusinessForm() {
@@ -84,7 +73,7 @@ function BusinessForm() {
   const submitDetails = async () => {
     setIsLoading(true);
     const submissionData = new FormData();
-    if(!formData?.business_file){
+    if (!formData?.business_file) {
       FormatError(error, setError, "Retrieval Failed");
       return;
     }
@@ -159,56 +148,59 @@ function BusinessForm() {
       )}
 
       {typeof currentBusiness !== "undefined" && (
-  <div className="grid grid-cols-2 gap-x-3 gap-y-5 p-2 w-full text-gray-700">
-    {formFields.map((fieldKey) => {
-      const labelText = labelMapping[fieldKey] || fieldKey.replace(/_/g, " ");
-      const value=fieldKey === "business_file"
-      ? currentBusiness["business_file_path"]
-      : currentBusiness[fieldKey];
-      return (
-        <div key={fieldKey} className="flex flex-col">
-          <label className="font-semibold text-gray-800">{labelText}</label>
-          {fieldKey === "business_file" && value ? (
-            <>
-              {value.endsWith(".pdf") ||
-              value.endsWith(".doc") ||
-              value.endsWith(".docx") ? (
-                <a
-                  href={`${import.meta.env.VITE_IMAGE_URL}/${value}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-blue-600 underline"
-                >
-                  View Document
-                </a>
-              ) : (
-                <img
-                  src={`${import.meta.env.VITE_IMAGE_URL}/${value}`}
-                  alt="Business File"
-                  className="max-w-xs max-h-40 object-contain border border-gray-300 rounded"
-                />
-              )}
-              <a
-                href={`${import.meta.env.VITE_IMAGE_URL}/${value}`}
-                download
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-green-600 underline text-sm mt-1"
-              >
-                Download File
-              </a>
-            </>
-          ) : (
-            <p className="bg-gray-100 p-2 rounded border border-gray-200 overflow-hidden">
-              {value || "—"}
-            </p>
-          )}
+        <div className="grid grid-cols-2 gap-x-3 gap-y-5 p-2 w-full text-gray-700">
+          {formFields.map((fieldKey) => {
+            const labelText =
+              labelMapping[fieldKey] || fieldKey.replace(/_/g, " ");
+            const value =
+              fieldKey === "business_file"
+                ? currentBusiness["business_file_path"]
+                : currentBusiness[fieldKey];
+            return (
+              <div key={fieldKey} className="flex flex-col">
+                <label className="font-semibold text-gray-800">
+                  {labelText}
+                </label>
+                {fieldKey === "business_file" && value ? (
+                  <>
+                    {value.endsWith(".pdf") ||
+                    value.endsWith(".doc") ||
+                    value.endsWith(".docx") ? (
+                      <a
+                        href={`${import.meta.env.VITE_IMAGE_URL}/${value}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-blue-600 underline"
+                      >
+                        View Document
+                      </a>
+                    ) : (
+                      <img
+                        src={`${import.meta.env.VITE_IMAGE_URL}/${value}`}
+                        alt="Business File"
+                        className="max-w-xs max-h-40 object-contain border border-gray-300 rounded"
+                      />
+                    )}
+                    <a
+                      href={`${import.meta.env.VITE_IMAGE_URL}/${value}`}
+                      download
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-green-600 underline text-sm mt-1"
+                    >
+                      Download File
+                    </a>
+                  </>
+                ) : (
+                  <p className="bg-gray-100 p-2 rounded border border-gray-200 overflow-hidden">
+                    {value || "—"}
+                  </p>
+                )}
+              </div>
+            );
+          })}
         </div>
-      );
-    })}
-  </div>
-)}
-      
+      )}
 
       {typeof currentBusiness === "undefined" && !loading && (
         <form
