@@ -14,6 +14,7 @@ export default function FieldSection({
             "middle_name",
             "business_email",
             "business_registration_no",
+            "years_of_incorporation",
           ].includes(field.field_name);
 
           return (
