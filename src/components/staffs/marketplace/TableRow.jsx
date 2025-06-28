@@ -84,22 +84,28 @@ function TableRow({
       )}
 
       {/* Price */}
-      <td className="text-left py-3 px-2">
-        <span className="break-all">
-          {data?.staff_category === "artisan" ? (
-            ""
-          ) : Number(data?.salary_agreed) > 0 ? (
-            FormatPrice(
-              Number(data?.salary_agreed) + Number(data?.markup_fee || 0)
-            )
-          ) : (
-            <span className="text-red-500 font-medium">Salary not set</span>
-          )}
-        </span>
-      </td>
+      {data?.staff_category !== "artisan" && (
+        <td className="text-left py-3 px-2">
+          <span className="break-all">
+            {Number(data?.salary_agreed) > 0 ? (
+              FormatPrice(
+                Number(data?.salary_agreed) + Number(data?.markup_fee || 0)
+              )
+            ) : (
+              <span className="text-red-500 font-medium">Salary not set</span>
+            )}
+          </span>
+        </td>
+      )}
 
       {/* Start Date (conditionally rendered) */}
-
+      {!isMarket && info?.type !== "artisan" && (
+        <td className="text-left py-3 px-2">
+          <span className="truncate">
+            {data?.start_date ? formatDate(data?.start_date) : "Not set"}
+          </span>
+        </td>
+      )}
       {/* Action Buttons */}
       {isMarket ? (
         <td className="text-left py-3 px-2">
@@ -121,11 +127,6 @@ function TableRow({
         </td>
       ) : (
         <>
-          <td className="text-left py-3 px-2">
-            <span className="truncate">
-              {data?.start_date ? formatDate(data?.start_date) : "Not set"}
-            </span>
-          </td>
           <td className="text-left py-3 px-2">
             <button
               onClick={navigateToStaff}

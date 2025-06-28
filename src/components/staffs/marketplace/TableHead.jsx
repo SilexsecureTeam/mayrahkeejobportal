@@ -4,7 +4,7 @@ function TableHead({ children, isMarket = false }) {
   const info = location?.state?.data;
   return (
     <div className="rounded-md bg-white border-gray-200 shadow-sm border overflow-x-auto">
-      <table className="w-full min-w-[700px] text-sm md:text-base">
+      <table className="w-full min-w-[800px] text-sm md:text-base">
         <thead className="bg-white border-b  text-gray-600 font-semibold">
           <tr className="text-xs md:text-little divide-gray-200">
             <th className="px-2 md:px-4 py-5 text-start">Name</th>
@@ -19,7 +19,7 @@ function TableHead({ children, isMarket = false }) {
             {!isMarket && info?.type !== "artisan" && (
               <th className="px-2 md:px-4 py-1 text-start">Start Date</th>
             )}
-            <th className="px-2 md:px-4 py-1 text-start">Action</th>
+            <th className="px-2 md:px-4 py-1">Action</th>
           </tr>
         </thead>
 
