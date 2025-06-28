@@ -4,8 +4,17 @@ import { resourceUrl } from "../../../services/axios-client";
 import { formatDate, FormatPrice } from "../../../utils/formmaters";
 import { AuthContext } from "../../../context/AuthContex";
 import { FaSpinner } from "react-icons/fa"; // Import Faspinner
+import { useLocation } from "react-router-dom";
 
-function TableRow({ info, data, isMarket = false, handleAddToCart, handleRemoveCart, cartItems }) {
+function TableRow({
+  data,
+  isMarket = false,
+  handleAddToCart,
+  handleRemoveCart,
+  cartItems,
+}) {
+  const location = useLocation();
+  const info = location?.state?.data;
   const navigate = useNavigate();
   const { authDetails } = useContext(AuthContext);
   const [loading, setLoading] = useState(false); // State for loader
@@ -16,14 +25,17 @@ function TableRow({ info, data, isMarket = false, handleAddToCart, handleRemoveC
     navigate(`/${role}/${data.staff_category}/${data.domestic_staff_id}`);
 
   const employmentType =
-    !data?.employment_type || data?.employment_type === "-- Select Employment Type --"
+    !data?.employment_type ||
+    data?.employment_type === "-- Select Employment Type --"
       ? "Nil"
       : data?.employment_type;
 
   const handleCartAction = async () => {
     setLoading(true); // Start loading
 
-    const existingItem = cartItems?.find((current) => data.id === current.domestic_staff_id);
+    const existingItem = cartItems?.find(
+      (current) => data.id === current.domestic_staff_id
+    );
 
     if (existingItem) {
       await handleRemoveCart(existingItem);
@@ -37,7 +49,7 @@ function TableRow({ info, data, isMarket = false, handleAddToCart, handleRemoveC
   return (
     <tr className="border-b cursor-pointer hover:bg-gray-50 text-gray-700 text-sm">
       {/* Profile Image and Name */}
-      <td className="text-left py-3 px-2 w-1/5">
+      <td className="text-left py-3 px-2">
         <div className="flex items-center gap-3">
           <img
             className="h-12 w-12 rounded-full object-cover"
@@ -48,68 +60,82 @@ function TableRow({ info, data, isMarket = false, handleAddToCart, handleRemoveC
             }
             alt="Profile"
           />
-          <span className="truncate">{data?.first_name} {data?.surname}</span>
+          <span className="truncate">
+            {data?.first_name} {data?.surname}
+          </span>
         </div>
       </td>
 
       {/* Subcategory */}
-      <td className="text-left py-3 px-2 w-1/5">
+      <td className="text-left py-3 px-2">
         <span className="truncate">{data?.subcategory}</span>
       </td>
 
       {/* Email */}
-      <td className="text-left py-3 px-2 w-1/5">
+      <td className="text-left py-3 px-2">
         <span className="truncate">{data?.email}</span>
       </td>
 
       {/* Employment Type */}
-      <td className="text-left py-3 px-2 w-1/5">
-        <span className="truncate">{employmentType}</span>
-      </td>
-
-      {/* Price */}
-      <td className="text-left py-3 px-2 w-1/5">
-        <span className="break-all">
-        {data?.staff_category === "artisan" ? (
-                            ""
-                          ) : Number(data?.salary_agreed) > 0 ? (
-                            FormatPrice(Number(data?.salary_agreed) + Number(data?.markup_fee || 0))
-                          ) : (
-                            <span className="text-red-500 font-medium">Salary not set</span>
-                          )}
-          </span>
-      </td>
-
-      {/* Start Date (conditionally rendered) */}
-      {!isMarket && (
-        <td className="text-left py-3 px-2 w-1/5">
-          <span className="truncate">{formatDate(data.start_date)}</span>
+      {info?.type !== "artisan" && (
+        <td className="text-left py-3 px-2">
+          <span className="truncate">{employmentType}</span>
         </td>
       )}
 
+      {/* Price */}
+      <td className="text-left py-3 px-2">
+        <span className="break-all">
+          {data?.staff_category === "artisan" ? (
+            ""
+          ) : Number(data?.salary_agreed) > 0 ? (
+            FormatPrice(
+              Number(data?.salary_agreed) + Number(data?.markup_fee || 0)
+            )
+          ) : (
+            <span className="text-red-500 font-medium">Salary not set</span>
+          )}
+        </span>
+      </td>
+
+      {/* Start Date (conditionally rendered) */}
+
       {/* Action Buttons */}
-      <td className="text-center py-3 px-2 w-1/5">
-        {isMarket ? (
-          <button
+      {isMarket ? (
+        <td className="text-left py-3 px-2">
+          <span
             onClick={handleCartAction}
-            className="text-primaryColor hover:underline flex items-center justify-center gap-2"
+            className="w-full text-primaryColor hover:underline"
             disabled={loading}
           >
             {loading ? (
               <FaSpinner className="animate-spin" />
-            ) : cartItems?.find((current) => data.id === current.domestic_staff_id)
-              ? "Remove from Cart"
-              : "Add to Cart"}
-          </button>
-        ) : (
-          <button
-            onClick={navigateToStaff}
-            className="text-yellow-500 hover:underline"
-          >
-            View Details
-          </button>
-        )}
-      </td>
+            ) : cartItems?.find(
+                (current) => data.id === current.domestic_staff_id
+              ) ? (
+              "Remove from Cart"
+            ) : (
+              "Add to Cart"
+            )}
+          </span>
+        </td>
+      ) : (
+        <>
+          <td className="text-left py-3 px-2">
+            <span className="truncate">
+              {data?.start_date ? formatDate(data?.start_date) : "Not set"}
+            </span>
+          </td>
+          <td className="text-left py-3 px-2">
+            <button
+              onClick={navigateToStaff}
+              className="w-full text-primaryColor hover:underline"
+            >
+              View Profile
+            </button>
+          </td>
+        </>
+      )}
     </tr>
   );
 }

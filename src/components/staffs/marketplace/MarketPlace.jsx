@@ -9,7 +9,7 @@ import { extractErrorMessage } from "../../../utils/formmaters";
 
 const navOptions = ["Active Contracts", "Market Place"];
 
-function MarketPlace({ handleAddToCart, handleRemoveCart, cartItems}) {
+function MarketPlace({ handleAddToCart, handleRemoveCart, cartItems }) {
   const location = useLocation();
 
   const info = location?.state?.data;
@@ -22,30 +22,34 @@ function MarketPlace({ handleAddToCart, handleRemoveCart, cartItems}) {
   const [marketList, setMarketList] = useState([]);
 
   const getMarketList = async () => {
-    const type=info?.type;
+    const type = info?.type;
     try {
       const { data } = await client.get("/domesticStaff/get-staff");
 
       if (data.domesticStaff) {
-        setMarketList(!type ? data.domesticStaff : data.domesticStaff?.filter(
-          (current) => current.staff_category === type
-        ));
+        setMarketList(
+          !type
+            ? data.domesticStaff
+            : data.domesticStaff?.filter(
+                (current) => current.staff_category === type
+              )
+        );
       } else {
         setMarketList([]);
       }
     } catch (error) {
-      const errorMessage=extractErrorMessage(error);
-      if(errorMessage !== "Contract(s) not found"){
-      onFailure({
-        message: "Something went wrong",
-        error: errorMessage,
-      });
-    }
+      const errorMessage = extractErrorMessage(error);
+      if (errorMessage !== "Contract(s) not found") {
+        onFailure({
+          message: "Something went wrong",
+          error: errorMessage,
+        });
+      }
     }
   };
 
   const getContractItems = async () => {
-    const type=info?.type;
+    const type = info?.type;
     try {
       const { data } = await client.post("/contracts/details", {
         user_id: authDetails.user.id,
@@ -53,20 +57,24 @@ function MarketPlace({ handleAddToCart, handleRemoveCart, cartItems}) {
       });
 
       if (data.contracts) {
-        setContractItems(!type ? data.contracts : data.contracts?.filter(
-          (current) => current.staff_category === type
-        ));
+        setContractItems(
+          !type
+            ? data.contracts
+            : data.contracts?.filter(
+                (current) => current.staff_category === type
+              )
+        );
       } else {
         setContractItems([]);
       }
     } catch (error) {
-      const errorMessage=extractErrorMessage(error);
-      if(errorMessage !== "Contract(s) not found"){
-      onFailure({
-        message: "Something went wrong",
-        error: errorMessage,
-      });
-    }
+      const errorMessage = extractErrorMessage(error);
+      if (errorMessage !== "Contract(s) not found") {
+        onFailure({
+          message: "Something went wrong",
+          error: errorMessage,
+        });
+      }
     }
   };
 
@@ -88,35 +96,50 @@ function MarketPlace({ handleAddToCart, handleRemoveCart, cartItems}) {
                 : ""
             }`}
           >
-            <span>{current}</span> <span className="flex items-center justify-center px-2 rounded-full bg-gray-700 text-white">{current === navOptions[0] ? contractItems?.length : marketList?.length}</span>
+            <span>{current}</span>{" "}
+            <span className="flex items-center justify-center px-2 rounded-full bg-gray-700 text-white">
+              {current === navOptions[0]
+                ? contractItems?.length
+                : marketList?.length}
+            </span>
           </a>
         ))}
       </nav>
 
       {activeOption === navOptions[0] && (
         <>
-        <strong className="text-xl text-gray-700 font-medium pt-4">Your contracts</strong>
-        <TableHead>
-          {contractItems.length > 0 &&
-            contractItems
-              .filter((current) => current.middle_name)
-              .reverse()
-              .map((current, index) => <TableRow key={current.id + index} data={current} />)}
-        </TableHead>
-
+          <strong className="text-xl text-gray-700 font-medium pt-4">
+            Your contracts
+          </strong>
+          <TableHead>
+            {contractItems.length > 0 &&
+              contractItems
+                .filter((current) => current.middle_name)
+                .reverse()
+                .map((current) => (
+                  <TableRow key={`${current?.id}`} data={current} />
+                ))}
+          </TableHead>
         </>
-        
       )}
       {activeOption === navOptions[1] && (
         <>
-        <strong className="text-xl text-gray-700 font-medium pt-4">Only available staff are shown here</strong>
-        <TableHead isMarket={true} >
-          {marketList.length > 0 &&
-            marketList
-             .map((current, index) => (
-                <TableRow info={info} isMarket={true} key={current.id + index} data={current} handleAddToCart={handleAddToCart} handleRemoveCart={handleRemoveCart} cartItems={cartItems} />
+          <strong className="text-xl text-gray-700 font-medium pt-4">
+            Only available staff are shown here
+          </strong>
+          <TableHead isMarket={true}>
+            {marketList.length > 0 &&
+              marketList.map((current) => (
+                <TableRow
+                  isMarket={true}
+                  key={current?.id}
+                  data={current}
+                  handleAddToCart={handleAddToCart}
+                  handleRemoveCart={handleRemoveCart}
+                  cartItems={cartItems}
+                />
               ))}
-        </TableHead>
+          </TableHead>
         </>
       )}
     </div>

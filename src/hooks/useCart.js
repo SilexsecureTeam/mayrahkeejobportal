@@ -75,8 +75,8 @@ function useCart() {
         domestic_staff_id: data.id,
       });
       onSuccess({
-        message: "User sucessfully added",
-        success: "Domestic staff added to cart successfully",
+        message: `${data?.staff_category || "User"} Successfully Added`,
+        success: `${data?.staff_category || "User"} added to cart successfully`,
       });
       await getCartItems();
     } catch (error) {
@@ -96,13 +96,17 @@ function useCart() {
         domestic_staff_id: data?.domestic_staff_id,
       });
       onSuccess({
-        message: "User sucessfully added",
-        success: "Domestic staff added to cart successfully",
+        message: `${
+          data?.domestic_staff?.staff_category || "User"
+        } Successfully Removed`,
+        success: `${
+          data?.domestic_staff?.staff_category || "User"
+        } removed from cart successfully`,
       });
       await getCartItems();
     } catch (error) {
       onFailure({
-        message: "Cart Failed",
+        message: "Cart Removal Failed",
         error: extractErrorMessage(error),
       });
     }
