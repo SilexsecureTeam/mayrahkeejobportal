@@ -1,8 +1,3 @@
-import {
-  MdAddCircle,
-  MdCheckBox,
-  MdCheckBoxOutlineBlank,
-} from "react-icons/md";
 import { useForm } from "react-hook-form";
 import { useContext, useState } from "react";
 import { axiosClient } from "../../../services/axios-client";
@@ -19,7 +14,10 @@ import FormButton from "../../../components/FormButton";
 import PopUpBox from "../../../components/PopUpBox";
 import { MdClose } from "react-icons/md";
 
-export default function FormData({ setToMain = () => {}, field_sections }) {
+export default function ProfileFormData({
+  setToMain = () => {},
+  field_sections,
+}) {
   const { authDetails } = useContext(AuthContext);
   const { profileDetails, getStaffProfile } = useContext(
     StaffManagementContext
@@ -66,6 +64,7 @@ export default function FormData({ setToMain = () => {}, field_sections }) {
   };
 
   const onSubmit = async (data) => {
+    console.log("Form Data:", data);
     if (!file && !profileDetails?.profile_image) {
       return onFailure({
         error: "Missing Image",
@@ -75,37 +74,21 @@ export default function FormData({ setToMain = () => {}, field_sections }) {
 
     setLoading(true);
 
+    const filteredData = Object.fromEntries(
+      Object.entries(data).filter(
+        ([key, value]) => value && value !== `-- Select ${key} --`
+      )
+    );
+
     try {
-      const formData = new FormData();
-
-      // Append regular fields
-      Object.entries(data).forEach(([key, value]) => {
-        if (value && value !== `-- Select ${key} --`) {
-          formData.append(key, value);
-        }
-      });
-
-      // Append profile image
-      if (file) {
-        formData.append("profile_image", file);
-      }
-
-      // Append ID upload if artisan
-      if (authDetails?.user?.staff_category === "artisan" && idFile) {
-        formData.append("id_upload", idFile);
-      }
-
-      // Append extra fields
-      formData.append("languages_spoken", JSON.stringify(selectedLanguages));
-      //formData.append("job_type", "something");
-
-      await client.post(
+      const response = await client.post(
         `/domesticStaff/update-profile/${authDetails.user.id}`,
-        formData,
         {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
+          ...filteredData,
+          languages_spoken: selectedLanguages,
+          profile_image: file,
+          job_type: "something",
+          id_upload: idFile,
         }
       );
 
@@ -114,8 +97,9 @@ export default function FormData({ setToMain = () => {}, field_sections }) {
         message: "Profile updated",
         success: "Your profile has been updated.",
       });
-      // setToMain();
+      setToMain();
     } catch (err) {
+      console.error("Submission Error:", err);
       onFailure({
         message: "Submission Error",
         error: extractErrorMessage(err) || "Something went wrong.",

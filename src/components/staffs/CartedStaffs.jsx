@@ -363,7 +363,10 @@ function CartedStaffs() {
               <h2 className="text-lg font-bold mb-4">Order Summary</h2>
               <ul className="space-y-2 mb-6">
                 {selectedItems.map((item) => (
-                  <li key={item.id} className="flex justify-between text-sm">
+                  <li
+                    key={item.id}
+                    className="flex justify-between gap-1 text-sm"
+                  >
                     <span>
                       {item?.domestic_staff?.subcategory} -{" "}
                       {item?.domestic_staff?.surname}{" "}

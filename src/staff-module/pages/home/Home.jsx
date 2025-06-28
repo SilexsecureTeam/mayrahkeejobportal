@@ -6,8 +6,8 @@ const options = ["View Profile", "Update Profile"];
 
 function Home() {
   const [option, setOption] = useState(options[0]);
- 
-  const setToMain = () => setOption(options[0])
+
+  const setToMain = () => setOption(options[0]);
 
   return (
     <div className="h-fit w-full py-5 px-2 md:px-12 gap-[15px] flex flex-col">
@@ -29,7 +29,7 @@ function Home() {
       {option === options[0] ? (
         <ViewProfileDetails />
       ) : option === options[1] ? (
-        <ProfileForm setToMain={setToMain}/>
+        <ProfileForm setToMain={setToMain} />
       ) : (
         <span>Page not found</span>
       )}

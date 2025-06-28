@@ -15,7 +15,14 @@ import { allStatus } from "../../hooks/useStaffUser";
 
 const PUBLIC_KEY = import.meta.env.VITE_TEST_PUBLIC_KEY;
 
-function StaffCard({ data, contract = null, cartItems, setCartItems, getCartItems, charges }) {
+function StaffCard({
+  data,
+  contract = null,
+  cartItems,
+  setCartItems,
+  getCartItems,
+  charges,
+}) {
   const { register, handleSubmit } = useForm();
   const { authDetails } = useContext(AuthContext);
   const [loading, setLoading] = useState(false);
@@ -28,7 +35,7 @@ function StaffCard({ data, contract = null, cartItems, setCartItems, getCartItem
 
   const toogleOpen = () => setOpen(!open);
 
-  const isArtisan=data?.staff_category == "artisan";
+  const isArtisan = data?.staff_category == "artisan";
   const handleContract = async (dataToSubmit) => {
     setLoading(true);
     try {
@@ -72,7 +79,6 @@ function StaffCard({ data, contract = null, cartItems, setCartItems, getCartItem
         message: "User sucessfully added",
         success: `${data?.staff_category} added to cart successfully`,
       });
-
     } catch (error) {
       onFailure({
         message: "Collection Failed",
@@ -93,14 +99,15 @@ function StaffCard({ data, contract = null, cartItems, setCartItems, getCartItem
       });
 
       // Optimistically update UI before fetching the updated cart
-      setCartItems((prev) => prev.filter(item => item.domestic_staff.id !== data?.id));
+      setCartItems((prev) =>
+        prev.filter((item) => item.domestic_staff.id !== data?.id)
+      );
 
       await getCartItems();
       onSuccess({
         message: "User sucessfully removed",
         success: `${data?.staff_category} removed from cart successfully`,
       });
-
     } catch (error) {
       onFailure({
         message: "Cart Failed",
@@ -163,7 +170,7 @@ function StaffCard({ data, contract = null, cartItems, setCartItems, getCartItem
     } else if (data[name]) {
       return data[name];
     } else {
-      return 'No data found'
+      return "No data found";
     }
   };
 
@@ -210,14 +217,14 @@ function StaffCard({ data, contract = null, cartItems, setCartItems, getCartItem
           bg: getStyling(detail),
         };
         break;
-        case "Identification":
+      case "Identification":
         utils = {
           icon: "/garantor-icon.png",
           name: `Identification - (${detail})`,
           bg: getStyling(detail),
         };
         break;
-        case "Business":
+      case "Business":
         utils = {
           icon: "/medical-icon.png",
           name: `Business - (${detail})`,
@@ -237,19 +244,19 @@ function StaffCard({ data, contract = null, cartItems, setCartItems, getCartItem
   };
 
   const verificationStatus = {
-  residence: data.residence_verification_status === allStatus[0],
-  guarantor: data.guarantor_verification_status === allStatus[0],
-  policeReport: data.police_report_verification_status === allStatus[0],
-  medicalHistory: data.medical_history_verification_status === allStatus[0],
-};
+    residence: data.residence_verification_status === allStatus[0],
+    guarantor: data.guarantor_verification_status === allStatus[0],
+    policeReport: data.police_report_verification_status === allStatus[0],
+    medicalHistory: data.medical_history_verification_status === allStatus[0],
+  };
 
-const userVerified = isArtisan
-  ? verificationStatus.residence && verificationStatus.guarantor
-  : verificationStatus.residence &&
-    verificationStatus.guarantor &&
-    verificationStatus.policeReport &&
-    verificationStatus.medicalHistory
-  
+  const userVerified = isArtisan
+    ? verificationStatus.residence && verificationStatus.guarantor
+    : verificationStatus.residence &&
+      verificationStatus.guarantor &&
+      verificationStatus.policeReport &&
+      verificationStatus.medicalHistory;
+
   return (
     <>
       <PopUpBox isOpen={open}>
@@ -360,7 +367,10 @@ const userVerified = isArtisan
           <span className="flex gap-2 items-center justify-between text-md font-semibold">
             Langages:
             <span className="text-sm w-[60%] flex text-start font-normal text-gray-500">
-              {(Array.isArray(getField("languages_spoken")) ? getField("languages_spoken") : []).join(", ")}
+              {(Array.isArray(getField("languages_spoken"))
+                ? getField("languages_spoken")
+                : []
+              ).join(", ")}
             </span>
           </span>
 
@@ -383,50 +393,76 @@ const userVerified = isArtisan
             <span className="text-sm w-[60%] text-start font-normal text-gray-500">
               {getField("years_of_experience") === "No data found"
                 ? "No data found"
-                : getField("years_of_experience") && `${getField("years_of_experience")} Year(s)`}
-
+                : getField("years_of_experience") &&
+                  `${getField("years_of_experience")} Year(s)`}
+            </span>
+          </span>
+          <span className="flex gap-2 items-center justify-between text-md truncate font-semibold">
+            Service Charge:
+            <span className="text-sm w-[60%] text-start font-normal text-gray-500">
+              {data?.staff_category === "artisan"
+                ? FormatPrice(Number(charges?.service_charge))
+                : FormatPrice(Number(data?.service_charge))}
             </span>
           </span>
 
-          {data?.staff_category !== "artisan" && <span className="flex gap-2 items-center justify-between text-md truncate font-semibold">
-  <img src="/price-tag.png" className="w-[30px]" />
-  Salary:
-  <span className="text-sm w-[60%] text-start font-normal text-gray-500">
-    {data?.salary_agreed && parseFloat(data.salary_agreed) > 0
-      ? FormatPrice(parseFloat(data.salary_agreed) + Number(data?.markup_fee))
-      : "Not specified"}
-  </span>
-</span>}
-          
+          {data?.staff_category !== "artisan" && (
+            <span className="flex gap-2 items-center justify-between text-md truncate font-semibold">
+              <img src="/price-tag.png" className="w-[30px]" />
+              Salary:
+              <span className="text-sm w-[60%] text-start font-normal text-gray-500">
+                {data?.salary_agreed && parseFloat(data.salary_agreed) > 0
+                  ? FormatPrice(
+                      parseFloat(data.salary_agreed) + Number(data?.markup_fee)
+                    )
+                  : "Not specified"}
+              </span>
+            </span>
+          )}
         </div>
 
-        {
-          isArtisan ?(
-            <div className="flex w-full gap-2 flex-col my-3 capitalize">
-          
-          {getVerificationComp(data.guarantor_verification_status, "guarantor")}
-          {getVerificationComp(data.residence_verification_status, "residence")}
-          {getVerificationComp(data.business_verification_status, "Business")}
-              {getVerificationComp(data.identification_verification_status, "Identification")}
-        </div>
-          ) :
-          (<div className="flex w-full gap-2 flex-col my-3 capitalize">
-          {getVerificationComp(
-            data.police_report_verification_status,
-            "police"
-          )}
-          {getVerificationComp(data.guarantor_verification_status, "guarantor")}
-          {getVerificationComp(data.residence_verification_status, "residence")}
-          {getVerificationComp(
-            data.medical_history_verification_status,
-            "medical"
-          )}
-        </div>)
-        }
+        {isArtisan ? (
+          <div className="flex w-full gap-2 flex-col my-3 capitalize">
+            {getVerificationComp(
+              data.guarantor_verification_status,
+              "guarantor"
+            )}
+            {getVerificationComp(
+              data.residence_verification_status,
+              "residence"
+            )}
+            {getVerificationComp(data.business_verification_status, "Business")}
+            {getVerificationComp(
+              data.identification_verification_status,
+              "Identification"
+            )}
+          </div>
+        ) : (
+          <div className="flex w-full gap-2 flex-col my-3 capitalize">
+            {getVerificationComp(
+              data.police_report_verification_status,
+              "police"
+            )}
+            {getVerificationComp(
+              data.guarantor_verification_status,
+              "guarantor"
+            )}
+            {getVerificationComp(
+              data.residence_verification_status,
+              "residence"
+            )}
+            {getVerificationComp(
+              data.medical_history_verification_status,
+              "medical"
+            )}
+          </div>
+        )}
 
         {!contract && (
           <div className="w-full flex flex-col gap-2">
-            {cartItems?.find((current) => data.id === current.domestic_staff_id) ? (
+            {cartItems?.find(
+              (current) => data.id === current.domestic_staff_id
+            ) ? (
               <FormButton
                 loading={cartloading}
                 onClick={removeFromCart}

@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import FormData from "./FormData";
+import ProfileFormData from "./ProfileFormData";
 import { AuthContext } from "../../../context/AuthContex";
 import { StaffManagementContext } from "../../../context/StaffManagementModule";
 import { FaExclamationCircle } from "react-icons/fa";
@@ -40,7 +40,7 @@ function ProfileForm({ setToMain }) {
           </p>
         </div>
 
-        <FormData
+        <ProfileFormData
           setToMain={setToMain}
           field_sections={
             userType == "artisan" ? field_sections2 : field_sections1
