@@ -164,11 +164,11 @@ function Dashboard() {
               </div>
               <div className="pt-1 min-h-24 md:w-full w-[45%]  md:h-1/2">
                 <div
-                  onClick={() => navigateToPage("/staff/help-center", 5)}
+                  onClick={() => navigateToPage("/staff/blogs", 5)}
                   className="border bg-lightblue text-white transition duration-400 h-full cursor-pointer mb-4 p-3 pb-0 flex flex-col justify-between"
                 >
-                  <p className="font-bold">Help Center</p>
-                  <p className="pl-2 text-xl font-bold">Get Help</p>
+                  <p className="font-bold">Blogs</p>
+                  <p className="pl-2 text-xl font-bold">Information</p>
                   <div className="flex justify-between items-end mt-4">
                     <p className="text-6xl font-medium"></p>
                     <div className=" text-gray-300">
