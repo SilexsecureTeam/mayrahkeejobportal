@@ -5,7 +5,7 @@ import ProgressBar from "../shared/ProgressBar";
 import { useContext } from "react";
 import { CompanyRouteContext } from "../../../context/CompanyRouteContext";
 
-function JobItem({ data, applicants }) {
+function JobItem({ data, applicants, currencies }) {
   const navigate = useNavigate();
   const { setSideBar } = useContext(CompanyRouteContext);
 
@@ -13,6 +13,9 @@ function JobItem({ data, applicants }) {
     (currentApplicant) => data?.id === currentApplicant.job_id
   );
 
+  const currency = currencies?.find(
+    (curr) => curr?.name === data?.currency?.split(" ")[0]
+  )?.code;
 
   return (
     <div
@@ -42,21 +45,25 @@ function JobItem({ data, applicants }) {
           Location - {data?.location}
         </span>
       </div>
-  
 
       <div className="flex gap-[5px] w-max justify-between">
         <button className="border border-[#ffb836] text-little px-2 h-fit  text-[#ffb836] rounded-[20px] flex items-center justify-center">
-          {data?.currency?.split(' ')[0]} {FormatPrice(Number(data?.min_salary))}
+          {currency} {FormatPrice(Number(data?.min_salary))}
         </button>
         to
         <button className="border border-primaryColor text-little px-2 h-fit flex items-center justify-center text-primaryColor rounded-[20px]">
-        {data?.currency?.split(' ')[0]} {FormatPrice(Number(data?.max_salary))}
+          {currency} {FormatPrice(Number(data?.max_salary))}
         </button>
       </div>
 
       <div className="flex flex-col gap-2">
-          <strong className="text-sm">Applicants:</strong>
-         <ProgressBar measured={applicants?.filter(one=>Number(one.job_id)===data.id).length} total={data?.number_of_participants} />
+        <strong className="text-sm">Applicants:</strong>
+        <ProgressBar
+          measured={
+            applicants?.filter((one) => Number(one.job_id) === data.id).length
+          }
+          total={data?.number_of_participants}
+        />
 
         <span className="font-semibold text-little text-gray-800">
           {/* {data?.applicants}  */}

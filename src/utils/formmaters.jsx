@@ -1,4 +1,5 @@
 import { toast } from "react-toastify";
+import DOMPurify from "dompurify";
 
 export const handleOnChange = (e, setDetails) => {
   const { name, value } = e.target;
@@ -15,14 +16,19 @@ export const parseHtml = (inputString) => {
   return doc.body.textContent || inputString; // If no HTML, return original text
 };
 
-
 export const formatTime = (seconds) => {
   const minutes = Math.floor(seconds / 60);
   const remainingSeconds = seconds % 60;
   return `${minutes}:${remainingSeconds < 10 ? "0" : ""}${remainingSeconds}`; // Add leading zero for single-digit seconds
 };
-export const formatDate = (date) => new Date(date).toLocaleDateString('en-GB', {day: '2-digit', month:'2-digit', year:'numeric'})?.replaceAll('/','-');
-  
+export const formatDate = (date) =>
+  new Date(date)
+    .toLocaleDateString("en-GB", {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+    })
+    ?.replaceAll("/", "-");
 
 export const highlightKeyword = (sentence, keyword) => {
   const regex = new RegExp(`\\b${keyword.name}\\b`, "gi");
@@ -33,7 +39,7 @@ export const highlightKeyword = (sentence, keyword) => {
   );
 };
 export const FormatPrice = (price, removecode = false) => {
-  return `${!removecode ? '' : ''}${price.toLocaleString(navigator.language, {
+  return `${!removecode ? "" : ""}${price.toLocaleString(navigator.language, {
     minimumFractionDigits: 0, // Fixed the typo here
   })}`;
 };
@@ -119,16 +125,18 @@ export const getImageURL = (e, setStateFunctionUrl, setDetails) => {
   const { name } = e.target;
   const file = e.target.files[0]; //filelist is an object carrying all details of file, .files[0] collects the value from key 0 (not array), and stores it in file
 
-  if (file && (file.size > (1024 * 1024))) {
+  if (file && file.size > 1024 * 1024) {
     const maxSizeMB = ((1024 * 1024) / (1024 * 1024)).toFixed(2); // Convert file size limit to MB
     const fileSizeMB = (file.size / (1024 * 1024)).toFixed(2); // Convert uploaded file size to MB
 
     // Truncate long file names to 20 characters for better UI readability
-    const truncatedFileName = file.name.length > 10 ? `${file.name.substring(0, 10)}...` : file.name;
+    const truncatedFileName =
+      file.name.length > 10 ? `${file.name.substring(0, 10)}...` : file.name;
 
+    toast.error(
+      `File size of "${truncatedFileName}" exceeds the limit of ${maxSizeMB} MB. The uploaded file is ${fileSizeMB} MB. Please select a smaller file.`
+    );
 
-    toast.error(`File size of "${truncatedFileName}" exceeds the limit of ${maxSizeMB} MB. The uploaded file is ${fileSizeMB} MB. Please select a smaller file.`);
-    
     return null;
   }
   if (file && (file.type === "image/jpeg" || file.type === "image/png")) {
@@ -153,37 +161,38 @@ export const extractErrorMessage = (error) => {
 
   if (error?.response?.data?.message) {
     return getString(error.response.data.message);
-  } 
+  }
 
   if (error?.response?.data?.error) {
     return getString(error.response.data.error);
-  } 
+  }
 
   if (error?.response?.error) {
     return getString(error.response.error);
-  } 
+  }
 
   return getString(error?.message || "An unknown error occurred");
 };
 
-
 export const getDocument = (e, setDetails) => {
   const { name } = e.target;
   const file = e.target.files[0]; //filelist is an object carrying all details of file, .files[0] collects the value from key 0 (not array), and stores it in file
-  if (file && (file.size > (1024 * 1024))) {
+  if (file && file.size > 1024 * 1024) {
     const maxSizeMB = ((1024 * 1024) / (1024 * 1024)).toFixed(2); // Convert file size limit to MB
     const fileSizeMB = (file.size / (1024 * 1024)).toFixed(2); // Convert uploaded file size to MB
 
     // Truncate long file names to 20 characters for better UI readability
-    const truncatedFileName = file.name.length > 10 ? `${file.name.substring(0, 10)}...` : file.name;
+    const truncatedFileName =
+      file.name.length > 10 ? `${file.name.substring(0, 10)}...` : file.name;
 
+    toast.error(
+      `File size of "${truncatedFileName}" exceeds the limit of ${maxSizeMB} MB. The uploaded file is ${fileSizeMB} MB. Please select a smaller file.`
+    );
 
-    toast.error(`File size of "${truncatedFileName}" exceeds the limit of ${maxSizeMB} MB. The uploaded file is ${fileSizeMB} MB. Please select a smaller file.`);
-    
     return null;
   }
 
-    console.log(file)
+  console.log(file);
   const validTypes = [
     "application/pdf",
     "application/msword",
@@ -198,7 +207,6 @@ export const getDocument = (e, setDetails) => {
     // Handle invalid file type
     alert("Please select a valid JPEG or PNG file.");
   }
-
 };
 
 export const onTextChange = (e, details, setDetails) => {
@@ -281,5 +289,11 @@ export function generateDateRange() {
   return `${formattedStartDate} - ${formattedEndDate}.`;
 }
 
+export const FormatTextToUppecase = (text) =>
+  text ? `${text[0].toUpperCase()}${text?.slice(1, text.length)}` : "No Text";
 
-export const FormatTextToUppecase = (text) => text ? `${text[0].toUpperCase()}${text?.slice(1, text.length)}` : 'No Text'
+export function sanitizeHtml(html) {
+  return {
+    __html: DOMPurify.sanitize(html),
+  };
+}

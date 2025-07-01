@@ -1,6 +1,11 @@
 import blueTickIcon from "../../../assets/pngs/blue-tick-icon.png";
 import { job_dummies } from "../../../utils/dummies";
-import { FormatPrice, parseHtml, formatDate } from "../../../utils/formmaters";
+import {
+  FormatPrice,
+  parseHtml,
+  formatDate,
+  sanitizeHtml,
+} from "../../../utils/formmaters";
 import { MdDeleteForever } from "react-icons/md";
 import { CiEdit } from "react-icons/ci";
 import { useEffect, useState } from "react";
@@ -111,8 +116,8 @@ function JobDetails({ data, jobUtils, applicants, exclusive }) {
             </button>
             {(data?.status === "pending" ||
               data?.status === "approved" ||
-              data?.status === "1" ||
-              data?.status === "0") &&
+              Number(data?.status) === 1 ||
+              Number(data?.status) === 0) &&
               new Date(data?.application_deadline_date) >= new Date() && (
                 <button
                   onClick={handleEdit}
@@ -124,8 +129,8 @@ function JobDetails({ data, jobUtils, applicants, exclusive }) {
               )}
             {(data?.status === "pending" ||
               data?.status === "approved" ||
-              data?.status === "1" ||
-              data?.status === "0") &&
+              Number(data?.status) === 1 ||
+              Number(data?.status) === 0) &&
             new Date(data?.application_deadline_date) >= new Date() ? (
               <DefaultSwitch
                 enabled={enabled}
@@ -134,9 +139,12 @@ function JobDetails({ data, jobUtils, applicants, exclusive }) {
                 onClick={handleStatusToggle}
               />
             ) : (
-              <strong className="text-red-500 uppercase px-1 py-1 flex text-sm border items-center justify-center gap-1 w-1/2 md:w-20">
+              <strong className="text-red-500 uppercase px-1 py-1 flex text-xs border items-center justify-center">
                 {(data?.status === "suspend" ? "suspended" : data?.status) ===
-                  "pending" || data?.status === "approved"
+                  "pending" ||
+                data?.status === "approved" ||
+                Number(data?.status) === 0 ||
+                Number(data?.status) === 1
                   ? "closed (deadline passed)"
                   : data?.status === "suspend"
                   ? "suspended"
@@ -149,14 +157,20 @@ function JobDetails({ data, jobUtils, applicants, exclusive }) {
         <div className="w-full text-black flex flex-col md:flex-row gap-4">
           <div className="w-full md:w-3/5 flex flex-col gap-4">
             <div className="flex flex-col">
-              <span className="font-bold text-md">Job Description</span>
-              <div className="text-sm border border-dotted p-2">
-                {parseHtml(data?.job_description)}
-              </div>
+              <span className="font-bold text-md">Job Responsibilities</span>
+              <div
+                className="text-sm border border-dotted p-2 prose max-h-40 overflow-y-auto"
+                dangerouslySetInnerHTML={sanitizeHtml(
+                  data?.job_description || ""
+                )}
+              />
             </div>
             <div className="flex flex-col">
               <span className="font-semibold text-md">Experience Needed</span>
-              <div className="text-sm">{parseHtml(data?.experience)}</div>
+              <div
+                className="text-sm prose max-h-40 overflow-y-auto"
+                dangerouslySetInnerHTML={sanitizeHtml(data?.experience || "")}
+              />
             </div>
 
             <div className="flex flex-col">
@@ -190,7 +204,7 @@ function JobDetails({ data, jobUtils, applicants, exclusive }) {
                   target="_blank"
                   className="text-sm text-primaryColor hover:underline cursor-pointer"
                 >
-                  {data?.introduction_video_url}
+                  {!!data?.introduction_video_url}
                 </a>
               </div>
               <div className="flex flex-col">
@@ -200,7 +214,7 @@ function JobDetails({ data, jobUtils, applicants, exclusive }) {
                   target="_blank"
                   className="text-sm text-primaryColor hover:underline cursor-pointer"
                 >
-                  {data?.external_url}
+                  {!!data?.external_url}
                 </a>
               </div>
             </div>

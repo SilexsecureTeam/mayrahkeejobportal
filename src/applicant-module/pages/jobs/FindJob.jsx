@@ -44,11 +44,15 @@ function FindJob() {
       isDataNeeded: true,
     }));
   }, []);
-  const sortedJobs=getAllJobs.data?.filter(item=>
-  new Date(item.application_deadline_date) >= new Date()
-)
+  const sortedJobs = getAllJobs.data?.filter(
+    (item) =>
+      new Date(item.application_deadline_date) >= new Date() ||
+      item?.status !== "approved" ||
+      Number(item?.status) !== 1
+  );
 
-  const filteredData = sortedJobs?.filter((job) => {
+  const filteredData = sortedJobs
+    ?.filter((job) => {
       const salaryFigures = job.min_salary?.split(".")[0];
       const salaryInRange = salaryRange ? salaryFigures >= salaryRange : true;
       const matchesEmploymentType = employmentType
@@ -124,11 +128,15 @@ function FindJob() {
               onChange={(e) => setSelectedLocation(e.target.value)}
               className="pl-[10px] focus:outline-none w-full"
             >
-              <option value={''} id={'030'}>
+              <option value={""} id={"030"}>
                 Select Location
-                </option>
+              </option>
               {State.getStatesOfCountry("NG").map((current) => (
-                <option key={current?.id} value={current.name} id={current.name}>
+                <option
+                  key={current?.id}
+                  value={current.name}
+                  id={current.name}
+                >
                   {current.name}
                 </option>
               ))}
