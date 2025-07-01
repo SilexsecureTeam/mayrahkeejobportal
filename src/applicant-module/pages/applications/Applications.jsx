@@ -32,6 +32,13 @@ function Application() {
       ...prev,
       isDataNeeded: true,
     }));
+
+    return () => {
+    setGetAllApplications((prev) => ({
+      ...prev,
+     isDataNeeded: false
+    }));
+  };
     
   }, []);
   useEffect(() => {

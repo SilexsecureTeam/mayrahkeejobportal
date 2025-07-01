@@ -46,6 +46,11 @@ const RoundChart = ({ data }) => {
       },
       dataLabels: {
         enabled: true,
+        style: {
+    fontSize: "10px", // adjust this to make the proportion numbers smaller
+    fontFamily: "Helvetica, Arial, sans-serif",
+    fontWeight: "normal",
+  },
       },
     },
   };
