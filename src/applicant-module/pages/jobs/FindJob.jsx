@@ -45,11 +45,11 @@ function FindJob() {
     }));
   }, []);
   const sortedJobs = getAllJobs.data?.filter(
-    (item) =>
-      new Date(item.application_deadline_date) >= new Date() ||
-      item?.status !== "approved" ||
-      Number(item?.status) !== 1
-  );
+  (item) =>
+    new Date(item.application_deadline_date) >= new Date() &&
+    (item?.status === "approved" || Number(item?.status) === 1)
+);
+
 
   const filteredData = sortedJobs
     ?.filter((job) => {
