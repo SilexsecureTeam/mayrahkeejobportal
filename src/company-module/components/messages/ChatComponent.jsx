@@ -49,20 +49,21 @@ function ChatComponent({ selectedChat, setSelectedChat, applicationUtils }) {
 
   // Load candidate profile & messages
   useEffect(() => {
-    if (candidateId) {
+    if (selectedChat) {
       applicationUtils.getApplicant(candidateId, (profile) => {
         setCurrentCandidate(profile);
+        getMessages(candidateId);
       });
 
-      if (!messagesByConversation[candidateId]) {
-        getMessages(candidateId);
-      }
+     // if (!messagesByConversation[candidateId]) {
+        //getMessages(candidateId);
+     // }
     }
 
     return () => {
       setCurrentCandidate(null);
     };
-  }, [candidateId]);
+  }, [selectedChat]);
 
   // Scroll to bottom when messages change
   useEffect(() => {
