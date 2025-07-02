@@ -6,8 +6,8 @@ function DescriptionItem({ data, jobUtils }) {
   const [content, setContent] = useState(jobUtils.details[data.name] || "");
   const quillRef = useRef(null);
 
-  const PLAIN_TEXT_LIMIT = 150;
-  const HTML_LIMIT = 255;
+  const PLAIN_TEXT_LIMIT = 1000;
+  const HTML_LIMIT = 2000;
 
   const getPlainText = (html) => {
     const temp = document.createElement("div");
