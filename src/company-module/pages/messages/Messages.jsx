@@ -11,7 +11,6 @@ import useApplicationManagement from "../../../hooks/useApplicationManagement";
 
 function Messages() {
   const applicationUtils = useApplicationManagement();
-  const [selectedChat, setSelectedChat] = useState(null);
 
   const byApplicants = () => {
     const newList = [];
@@ -47,17 +46,10 @@ function Messages() {
         <h1 className="font-semibold text-md">Messages</h1>
 
         <div className="relative flex-1 flex flex-col md:flex-row border-2 w-full h-full">
-          <MessagedList
-            chats={chat_dummies}
-            data={byApplicants()}
-            setSelectedChat={setSelectedChat}
-            selectedChat={selectedChat}
-          />
+          <MessagedList chats={chat_dummies} data={byApplicants()} />
           <ChatComponent
             chats={chat_dummies}
             applicationUtils={applicationUtils}
-            setSelectedChat={setSelectedChat}
-            selectedChat={selectedChat}
           />
         </div>
       </div>

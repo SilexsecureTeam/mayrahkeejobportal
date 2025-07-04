@@ -8,11 +8,11 @@ import { ChatContext } from "../../../context/ChatContext";
 import { BiLoaderCircle } from "react-icons/bi";
 import { toast } from "react-toastify";
 
-function ChatComponent({ selectedChat, setSelectedChat, applicationUtils }) {
-  const chatContainer = useRef(null);
-  const scrollAnchorRef = useRef(null); // 👈 scroll anchor
+function ChatComponent({ applicationUtils }) {
+  const scrollAnchorRef = useRef(null);
   const [currentCandidate, setCurrentCandidate] = useState(null);
   const [message, setMessage] = useState("");
+  const [isMessagesLoaded, setIsMessagesLoaded] = useState(false);
 
   const { authDetails } = useContext(AuthContext);
   const { details } = useCompanyProfile();
@@ -22,6 +22,8 @@ function ChatComponent({ selectedChat, setSelectedChat, applicationUtils }) {
     messagesByConversation = {},
     getMessages,
     sendMessage,
+    markAllUnreadMessagesAsRead,
+    selectedChat,
   } = useContext(ChatContext);
 
   const candidateId = selectedChat?.candidate_id;
@@ -42,35 +44,47 @@ function ChatComponent({ selectedChat, setSelectedChat, applicationUtils }) {
       date_sent: new Date().toISOString(),
     };
 
-    sendMessage(messageToSend, () => {
-      setMessage("");
-    });
+    sendMessage(messageToSend, () => setMessage(""));
   };
 
-  // Load candidate profile & messages
+  // Load candidate + messages
   useEffect(() => {
-    if (selectedChat) {
-      applicationUtils.getApplicant(candidateId, (profile) => {
-        setCurrentCandidate(profile);
-        getMessages(candidateId);
-      });
+    if (!selectedChat) return;
+    setIsMessagesLoaded(false);
+    const id = selectedChat.candidate_id;
 
-     // if (!messagesByConversation[candidateId]) {
-        //getMessages(candidateId);
-     // }
-    }
+    applicationUtils.getApplicant(id, (profile) => {
+      setCurrentCandidate(profile);
+
+      const alreadyLoaded = !!messagesByConversation[id];
+
+      if (!alreadyLoaded) {
+        getMessages(id, () => {
+          markAllUnreadMessagesAsRead(id);
+          setIsMessagesLoaded(true);
+        });
+      } else {
+        markAllUnreadMessagesAsRead(id);
+        setIsMessagesLoaded(true);
+      }
+    });
 
     return () => {
       setCurrentCandidate(null);
+      setIsMessagesLoaded(false);
     };
-  }, [selectedChat]);
+  }, [selectedChat?.candidate_id]);
 
-  // Scroll to bottom when messages change
+  // Scroll to bottom after messages load
   useEffect(() => {
-    if (scrollAnchorRef.current) {
-      scrollAnchorRef.current.scrollIntoView({ behavior: "auto" }); // or "smooth"
+    if (isMessagesLoaded && scrollAnchorRef.current) {
+      const timeout = setTimeout(() => {
+        scrollAnchorRef.current.scrollIntoView({ behavior: "smooth" });
+      }, 100);
+
+      return () => clearTimeout(timeout);
     }
-  }, [currentMessages]);
+  }, [isMessagesLoaded, currentMessages.length]);
 
   return (
     <div className="w-full lg:w-3/4 flex flex-col items-center overflow-y-auto h-full relative">
@@ -100,10 +114,7 @@ function ChatComponent({ selectedChat, setSelectedChat, applicationUtils }) {
           </div>
 
           {/* Messages */}
-          <ul
-            ref={chatContainer}
-            className="flex-1 flex w-full flex-col p-2 pb-20 overflow-y-auto"
-          >
+          <ul className="flex-1 flex w-full flex-col p-2 pb-20 overflow-y-auto">
             {currentMessages.map((current, index) => {
               const isCandidate = current.sender_type === "candidate";
               const avatar = isCandidate
@@ -145,7 +156,6 @@ function ChatComponent({ selectedChat, setSelectedChat, applicationUtils }) {
               );
             })}
 
-            {/* Scroll anchor */}
             <div ref={scrollAnchorRef} />
           </ul>
 

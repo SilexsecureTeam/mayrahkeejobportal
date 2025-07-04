@@ -8,19 +8,23 @@ import { useNavigate } from "react-router-dom";
 const usePusher = ({ userId, role, token }) => {
   const pusherRef = useRef(null);
   const channelRef = useRef(null);
-  const { appendMessage } = useContext(ChatContext);
+  const selectedChatRef = useRef(null);
+
+  const { appendMessage, markMessageAsRead, selectedChat } =
+    useContext(ChatContext);
+
   const { authDetails } = useContext(AuthContext);
   const navigate = useNavigate();
 
+  // Keep latest selectedChat in ref
+  useEffect(() => {
+    selectedChatRef.current = selectedChat;
+  }, [selectedChat]);
+
   useEffect(() => {
     if (!userId || !token || !role) return;
-
     const channelName = `user.${userId}.${role}`;
-
-    // Ensure only one instance
-    if (pusherRef.current) {
-      return;
-    }
+    if (pusherRef.current) return;
 
     const pusher = new Pusher(import.meta.env.VITE_PUSHER_APP_KEY, {
       cluster: "mt1",
@@ -39,10 +43,14 @@ const usePusher = ({ userId, role, token }) => {
     const handleMessage = (data) => {
       const newMessage = data?.message;
       if (!newMessage) return;
+
       const otherUserId = newMessage.sender_id;
 
-      // Avoid toast if from self
-      if (otherUserId) {
+      // Use latest selectedChat ref
+      const currentChat = selectedChatRef.current;
+      if (Number(currentChat?.candidate_id) === Number(otherUserId)) {
+        markMessageAsRead(newMessage.id);
+      } else {
         onNewNotificationToast({
           senderName: data?.sender?.sender_name || newMessage?.sender_type,
           message: newMessage?.message,
@@ -58,7 +66,6 @@ const usePusher = ({ userId, role, token }) => {
     };
 
     channel.bind("NewMessageEvent", handleMessage);
-
     pusherRef.current = pusher;
     channelRef.current = channel;
 

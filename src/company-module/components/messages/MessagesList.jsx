@@ -4,8 +4,9 @@ import { ChatContext } from "../../../context/ChatContext";
 import { onValue, ref } from "firebase/database";
 import { database } from "../../../utils/firebase";
 
-function MessagedList({ selectedChat, setSelectedChat, data }) {
-  const { initFirebaseChatSession } = useContext(ChatContext);
+function MessagedList({ data }) {
+  const { initFirebaseChatSession, selectedChat, setSelectedChat } =
+    useContext(ChatContext);
   const [searchQuery, setSearchQuery] = useState("");
   const [onlineUsers, setOnlineUsers] = useState({});
   const { unreadMessage } = useContext(ChatContext);

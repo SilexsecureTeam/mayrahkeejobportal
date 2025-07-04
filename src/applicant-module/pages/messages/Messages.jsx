@@ -10,7 +10,6 @@ import { ChatContext } from "../../../context/ChatContext";
 
 function Messages() {
   const applicationUtils = useContext(ApplicationContext);
-  const [selectedChat, setSelectedChat] = useState(null);
   const { loading, messages, sendMessage, getMessages } =
     useContext(ChatContext);
 
@@ -48,17 +47,10 @@ function Messages() {
         <h1 className="font-semibold text-md">Messages</h1>
 
         <div className="flex-1 flex flex-col lg:flex-row border-2 w-full h-full">
-          <MessagedList
-            chats={chat_dummies}
-            data={byCompany()}
-            setSelectedChat={setSelectedChat}
-            selectedChat={selectedChat}
-          />
+          <MessagedList chats={chat_dummies} data={byCompany()} />
           <ChatComponent
             chats={chat_dummies}
             applicationUtils={applicationUtils}
-            setSelectedChat={setSelectedChat}
-            selectedChat={selectedChat}
           />
         </div>
       </div>

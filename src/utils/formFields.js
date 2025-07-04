@@ -91,6 +91,7 @@ export const descriptions = [
     name: "job_description",
     desc: "Job responsibilities must be describe by one position",
     placeholder: "List out all Responsibilities",
+    characters: 1000,
     required: true,
   },
   {
@@ -99,6 +100,7 @@ export const descriptions = [
     name: "experience",
     desc: "Outline the qualifications required for the Job",
     placeholder: "Begin to type...",
+    characters: 500,
     required: true,
   },
 ];

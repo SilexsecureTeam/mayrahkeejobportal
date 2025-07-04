@@ -8,11 +8,12 @@ import { ChatContext } from "../../../context/ChatContext";
 import { BiLoaderCircle } from "react-icons/bi";
 import { toast } from "react-toastify";
 
-function ChatComponent({ selectedChat, setSelectedChat, applicationUtils }) {
+function ChatComponent({ applicationUtils }) {
   const chatContainer = useRef(null);
   const scrollAnchorRef = useRef(null);
   const [currentEmployer, setCurrentEmployer] = useState(null);
   const [message, setMessage] = useState("");
+  const [isMessagesLoaded, setIsMessagesLoaded] = useState(false);
 
   const { authDetails } = useContext(AuthContext);
   const { details } = useCompanyProfile();
@@ -23,6 +24,8 @@ function ChatComponent({ selectedChat, setSelectedChat, applicationUtils }) {
     sendMessage,
     getMessages,
     firebaseMessaging,
+    selectedChat,
+    markAllUnreadMessagesAsRead,
   } = useContext(ChatContext);
 
   const employerId = selectedChat?.employer_id;
@@ -50,22 +53,44 @@ function ChatComponent({ selectedChat, setSelectedChat, applicationUtils }) {
     sendMessage(messageToSend, () => setMessage(""));
   };
 
-  // Scroll to bottom on new messages
+  // Load employer + messages
   useEffect(() => {
-    if (scrollAnchorRef.current) {
-      scrollAnchorRef.current.scrollIntoView({ behavior: "auto" });
-    }
-  }, [currentMessages]);
+    if (!selectedChat) return;
+    setIsMessagesLoaded(false);
+    const id = selectedChat.candidate_id;
 
-  // Load employer and messages
+    applicationUtils.getCompany(employerId, (profile) => {
+      setCurrentEmployer(profile);
+
+      const alreadyLoaded = !!messagesByConversation[id];
+
+      if (!alreadyLoaded) {
+        getMessages(employerId, () => {
+          markAllUnreadMessagesAsRead(id);
+          setIsMessagesLoaded(true);
+        });
+      } else {
+        markAllUnreadMessagesAsRead(id);
+        setIsMessagesLoaded(true);
+      }
+    });
+
+    return () => {
+      setCurrentCandidate(null);
+      setIsMessagesLoaded(false);
+    };
+  }, [selectedChat?.candidate_id]);
+
+  // Scroll to bottom after messages load
   useEffect(() => {
-    if (selectedChat) {
-      applicationUtils.getCompany(employerId, setCurrentEmployer);
-      getMessages(employerId);
-    }
+    if (isMessagesLoaded && scrollAnchorRef.current) {
+      const timeout = setTimeout(() => {
+        scrollAnchorRef.current.scrollIntoView({ behavior: "smooth" });
+      }, 100);
 
-    return () => setCurrentEmployer(null);
-  }, [selectedChat]);
+      return () => clearTimeout(timeout);
+    }
+  }, [isMessagesLoaded, currentMessages.length]);
 
   // Loading state
   if (loading && !sendingMessage) {

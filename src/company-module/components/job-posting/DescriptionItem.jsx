@@ -6,8 +6,7 @@ function DescriptionItem({ data, jobUtils }) {
   const [content, setContent] = useState(jobUtils.details[data.name] || "");
   const quillRef = useRef(null);
 
-  const PLAIN_TEXT_LIMIT = 1000;
-  const HTML_LIMIT = 2000;
+  const PLAIN_TEXT_LIMIT = data?.characters || 1000;
 
   const getPlainText = (html) => {
     const temp = document.createElement("div");
@@ -16,13 +15,11 @@ function DescriptionItem({ data, jobUtils }) {
   };
 
   const plainText = getPlainText(content).trim();
-  const htmlLength = content.length;
-
   const isOverPlainTextLimit = plainText.length > PLAIN_TEXT_LIMIT;
-  const isOverHtmlLimit = htmlLength > HTML_LIMIT;
 
   const handleChange = (html) => {
-    if (html.length <= HTML_LIMIT) {
+    const plain = getPlainText(html).trim();
+    if (plain.length <= PLAIN_TEXT_LIMIT) {
       setContent(html);
       jobUtils.setDetails({ ...jobUtils.details, [data.name]: html });
     }
@@ -35,9 +32,8 @@ function DescriptionItem({ data, jobUtils }) {
     const handlePaste = (e) => {
       e.preventDefault();
       const pastedText = e.clipboardData.getData("text");
-      const currentHtml = quill.root.innerHTML;
-      const currentLength = currentHtml.length;
-      const available = HTML_LIMIT - currentLength;
+      const plain = getPlainText(quill.root.innerHTML).trim();
+      const available = PLAIN_TEXT_LIMIT - plain.length;
 
       if (available <= 0) return;
 
@@ -52,7 +48,7 @@ function DescriptionItem({ data, jobUtils }) {
     };
 
     const handleKeydown = (e) => {
-      const currentLength = quill.root.innerHTML.length;
+      const plain = getPlainText(quill.root.innerHTML).trim();
       const allowedKeys = [
         "Backspace",
         "Delete",
@@ -62,7 +58,7 @@ function DescriptionItem({ data, jobUtils }) {
         "ArrowDown",
         "Enter",
       ];
-      if (currentLength >= HTML_LIMIT && !allowedKeys.includes(e.key)) {
+      if (plain.length >= PLAIN_TEXT_LIMIT && !allowedKeys.includes(e.key)) {
         e.preventDefault();
       }
     };
@@ -78,7 +74,7 @@ function DescriptionItem({ data, jobUtils }) {
   }, [jobUtils.details, data.name]);
 
   return (
-    <div className="flex flex-col md:flex-row border-b py-2 min-h-[180px]">
+    <div className="flex flex-col md:flex-row border-b py-4 min-h-[220px]">
       <div className="flex flex-col w-full md:max-w-[25%] gap-[10px]">
         <h3 className="text-gray-700 text-sm font-semibold flex gap-1">
           {data.title}
@@ -86,18 +82,18 @@ function DescriptionItem({ data, jobUtils }) {
         </h3>
       </div>
 
-      <div className="flex flex-col gap-[3px] w-full text-gray-600 justify-between">
-        <div className="h-max max-h-24">
+      <div className="flex flex-col w-full text-gray-600 justify-between">
+        <div className="min-h-[150px] max-h-[250px]">
           <ReactQuill
             ref={quillRef}
             placeholder={data.placeholder}
             value={content}
             onChange={handleChange}
-            className="h-[90%]"
+            className="h-[150px] overflow-y-auto"
           />
         </div>
 
-        <div className="text-[10px] flex flex-col gap-1 mt-1">
+        <div className="text-[10px] flex flex-col gap-1 mt-2">
           <span
             className={
               isOverPlainTextLimit
@@ -108,10 +104,9 @@ function DescriptionItem({ data, jobUtils }) {
             {plainText.length}/{PLAIN_TEXT_LIMIT} characters
           </span>
 
-          {isOverHtmlLimit && (
+          {isOverPlainTextLimit && (
             <span className="text-red-500">
-              Your input is too long for submission. Try reducing formatting or
-              text.
+              You’ve exceeded the maximum number of characters allowed.
             </span>
           )}
         </div>

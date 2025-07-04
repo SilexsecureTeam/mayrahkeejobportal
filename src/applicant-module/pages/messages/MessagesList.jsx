@@ -2,8 +2,9 @@ import { useContext, useEffect, useState } from "react";
 import { ChatContext } from "../../../context/ChatContext";
 import MessageHead from "./MessageHead";
 
-function MessagedList({ selectedChat, setSelectedChat, data }) {
+function MessagedList({ data }) {
   const [searchTerm, setSearchTerm] = useState("");
+  const { selectedChat, setSelectedChat } = useContext(ChatContext);
 
   // Filter chats based on search term
   const filteredData = data?.filter((chat) =>

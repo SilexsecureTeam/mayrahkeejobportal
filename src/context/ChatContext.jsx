@@ -17,7 +17,11 @@ export const ChatContextProvider = ({ children }) => {
     unreadMessage,
     setUnreadMessage,
     unreadMessages,
+    markMessageAsRead,
+    markAllUnreadMessagesAsRead,
   } = useChats();
+
+  const [selectedChat, setSelectedChat] = useState(null);
 
   return (
     <ChatContext.Provider
@@ -34,6 +38,10 @@ export const ChatContextProvider = ({ children }) => {
         unreadMessage,
         setUnreadMessage,
         unreadMessages,
+        markMessageAsRead,
+        markAllUnreadMessagesAsRead,
+        selectedChat,
+        setSelectedChat,
       }}
     >
       {children}

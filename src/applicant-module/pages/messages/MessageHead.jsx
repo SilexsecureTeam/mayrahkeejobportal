@@ -3,10 +3,15 @@ import { onValue, ref } from "firebase/database";
 import { ChatContext } from "../../../context/ChatContext";
 import { database } from "../../../utils/firebase";
 
-function MessageHead({ current, selectedChat, setSelectedChat }) {
+function MessageHead({ current }) {
   const [onlineStatus, setOnlineStatus] = useState(false);
 
-  const { initFirebaseChatSession, unreadMessage } = useContext(ChatContext);
+  const {
+    initFirebaseChatSession,
+    unreadMessage,
+    selectedChat,
+    setSelectedChat,
+  } = useContext(ChatContext);
 
   // Watch online status from Firebase Realtime DB
   const watchOnlineStatus = (currentEmployer) => {

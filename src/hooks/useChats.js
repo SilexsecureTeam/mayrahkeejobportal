@@ -53,6 +53,7 @@ function useChats() {
   const markMessageAsRead = async (messageId) => {
     try {
       await client.post(`/messages/read/${messageId}`);
+      unreadMessages();
     } catch (err) {
       FormatError(err);
     }
@@ -83,6 +84,16 @@ function useChats() {
     } catch (err) {
       FormatError(err);
     }
+  };
+
+  const markAllUnreadMessagesAsRead = (userId) => {
+    const unread = messagesByConversation[userId]?.filter(
+      (m) => !m.is_read && Number(m.receiver_id) === Number(authDetails.user.id)
+    );
+
+    unread?.forEach((m) => {
+      markMessageAsRead(m.id);
+    });
   };
 
   // Firebase session
@@ -119,9 +130,11 @@ function useChats() {
     initFirebaseChatSession,
     appendMessage, // useful for pusher updates
     setMessagesByConversation,
+    markAllUnreadMessagesAsRead,
     unreadMessage,
     setUnreadMessage,
     unreadMessages,
+    markMessageAsRead,
   };
 }
 
