@@ -291,7 +291,7 @@ const DataTableComponent = ({
                   key={index}
                   field={head.toLowerCase()}
                   sortable
-                  header={head}
+                  header={head.upperCase()?.replace(/\s+/g, "_")}
                   filter
                   filterPlaceholder={`Search ${head}`}
                   body={
