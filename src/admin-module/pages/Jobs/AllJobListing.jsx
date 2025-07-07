@@ -57,14 +57,15 @@ function AllJobs() {
   };
 
   const heading = [
-    "ID",
-    "Title",
-    "Salary Type",
-    "Sector",
-    "Type",
-    "Status",
-    "Featured Jobs",
-  ];
+  "id",
+  "job_title",
+  "salary_type",
+  "sector",
+  "type",
+  "status",
+  "feature_jobs",
+];
+
 
   const data = jobs.map((job) => {
     const deadline = new Date(job.application_deadline_date);
