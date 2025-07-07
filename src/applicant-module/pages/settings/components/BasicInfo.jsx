@@ -54,7 +54,7 @@ const BasicInfo = ({ setIsOpen }) => {
   const [selectState, setSelectState] = useState();
   const [selectCity, setSelectCity] = useState(
     candidate?.state
-      ? states?.find((one) => one.name === candidate.state)?.lgas || []
+      ? selectStates?.find((one) => one.name === candidate.state)?.lgas || []
       : []
   );
   const [countryInfo, setCountryInfo] = useState();
@@ -177,7 +177,7 @@ const BasicInfo = ({ setIsOpen }) => {
         );
 
         if (selectedState) {
-          const cities = selectState?.lgas || [];
+          const cities = selectedState?.lgas || [];
 
           setSelectCity(cities);
         }
