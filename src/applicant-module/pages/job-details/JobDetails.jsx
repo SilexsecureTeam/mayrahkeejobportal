@@ -108,7 +108,7 @@ Don't miss out—join us today to apply.
             <div className="mb-6">
               <h4 className="font-bold mb-2">Description</h4>
               <p
-                className="text-sm prose"
+                className="text-sm prose max-h-60 overflow-y-auto"
                 dangerouslySetInnerHTML={sanitizeHtml(
                   job?.job_description || ""
                 )}
@@ -118,7 +118,7 @@ Don't miss out—join us today to apply.
             <div className="mb-6">
               <h4 className="font-bold mb-2">Experience</h4>
               <p
-                className="text-sm prose"
+                className="text-sm prose max-h-40 overflow-y-auto"
                 dangerouslySetInnerHTML={sanitizeHtml(job?.experience || "")}
               />
             </div>
