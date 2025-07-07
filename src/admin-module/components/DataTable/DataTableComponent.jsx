@@ -289,7 +289,7 @@ const DataTableComponent = ({
               head.toLowerCase() !== "staffid" && (
                 <Column
                   key={index}
-                  field={head.toLowerCase()}
+                  field={head.toLowerCase().replace(/\s+/g, "_")}
                   sortable
                   header={head}
                   filter
