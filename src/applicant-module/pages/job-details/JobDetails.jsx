@@ -110,7 +110,7 @@ Don't miss out—join us today to apply.
               <p
                 className="text-sm prose max-h-60 overflow-y-auto"
                 dangerouslySetInnerHTML={sanitizeHtml(
-                  data?.job_description || ""
+                  job?.job_description || ""
                 )}
               />
             </div>
@@ -119,7 +119,7 @@ Don't miss out—join us today to apply.
               <h4 className="font-bold mb-2">Experience</h4>
               <p
                 className="text-sm prose max-h-40 overflow-y-auto"
-                dangerouslySetInnerHTML={sanitizeHtml(data?.experience || "")}
+                dangerouslySetInnerHTML={sanitizeHtml(job?.experience || "")}
               />
             </div>
 
