@@ -59,12 +59,17 @@ function FindJob() {
       isDataNeeded: true,
     }));
   }, []);
-  const sortedJobs = getAllJobs.data?.filter(
-    (item) =>
-      new Date(item.application_deadline_date) >= new Date() &&
-      (item?.status === "approved" || Number(item?.status) === 1)
-  );
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const sortedJobs = getAllJobs.data.filter((item) => {
+    const deadline = new Date(item.application_deadline_date);
+    deadline.setHours(0, 0, 0, 0);
 
+    return (
+      deadline >= today &&
+      (item?.status === "approved" || Number(item?.status) === 1)
+    );
+  });
   const filteredData = sortedJobs
     ?.filter((job) => {
       const salaryFigures = job.min_salary?.split(".")[0];

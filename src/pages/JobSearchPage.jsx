@@ -7,8 +7,8 @@ import Advert from "../components/Landing/Advert";
 import Footer from "../components/Landing/Footer";
 import useJobManagement from "../hooks/useJobManagement";
 import { Helmet } from "react-helmet";
-import { Link } from 'react-router-dom'
-import { parseHtml } from "../utils/formmaters";
+import { Link } from "react-router-dom";
+import { parseHtml, sanitizeHtml } from "../utils/formmaters";
 
 const JobSearchPage = () => {
   const { getEmployentTypes, getCurrencies, getSectors } = useJobManagement();
@@ -37,11 +37,10 @@ const JobSearchPage = () => {
       const employementListResult = await getEmployentTypes();
       const sectors = await getSectors();
       setEmployementList(employementListResult);
-      setJobSectors(sectors)
+      setJobSectors(sectors);
     };
 
     initData();
-
   }, []);
 
   const fetchJobs = async () => {
@@ -55,7 +54,18 @@ const JobSearchPage = () => {
 
       const response = await axios.get(`${BASE_URL}/jobs/search?${params}`);
       const fetchedJobs = response?.data?.data || [];
-      setJobs(fetchedJobs?.filter(item=>item.status==="approved" || item.status==="pending"));
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      const filteredJobs = fetchedJobs.filter((item) => {
+        const deadline = new Date(item.application_deadline_date);
+        deadline.setHours(0, 0, 0, 0);
+
+        return (
+          deadline >= today &&
+          (item?.status === "approved" || Number(item?.status) === 1)
+        );
+      });
+      setJobs(filteredJobs);
     } catch (error) {
       console.error("Error fetching jobs:", error);
     } finally {
@@ -100,7 +110,6 @@ const JobSearchPage = () => {
     currentPage * jobsPerPage
   );
 
-
   return (
     <>
       <Helmet>
@@ -109,7 +118,10 @@ const JobSearchPage = () => {
       <div className="relative max-w-[1400px] w-full mx-auto">
         <Navbar />
         <main className="relative my-20 px-5 h-full">
-          <Hero shrink={true} title="Discover thousands of job opportunities across various sectors, tailored to match your skills and aspirations." />
+          <Hero
+            shrink={true}
+            title="Discover thousands of job opportunities across various sectors, tailored to match your skills and aspirations."
+          />
           <div className="job-search-page max-w-7xl mx-auto my-4 px-2 h-max">
             <h1 className="text-center text-3xl font-bold my-8">
               Find Your Dream Job Today
@@ -125,78 +137,49 @@ const JobSearchPage = () => {
                     <label className="block mb-1 text-sm font-medium capitalize">
                       {filterKey.replace(/([A-Z])/g, " $1").trim()}
                     </label>
-                    {filterKey === "sector" ||
-                      filterKey === "type"
-                      ? (
-                        <select
-                          className="w-full border px-3 py-2 rounded-md focus:ring-2 focus:ring-indigo-500"
-                          onChange={(e) =>
-                            handleFilterChange(filterKey, e.target.value)
-                          }
-                          value={filters[filterKey]}
-                        >
-                          <option value="">All</option>
-                          {/* Add specific options for each dropdown */}
-                          {filterKey === "sector" && (
-                            <>
-                              {jobSectors?.map((item) => (
-                                <option key={item.id} value={item?.name} > {item?.name} </option>
-
-                              ))}
-
-                            </>
-                          )}
-
-                          {filterKey === "type" && (
-                            <>
-                              {employementList?.map((item) => (
-                                <option key={item.id} value={item?.name} > {item?.name} </option>
-
-                              ))}
-
-                            </>
-                          )}
-                          {/*{filterKey === "currency" && (
+                    {filterKey === "sector" || filterKey === "type" ? (
+                      <select
+                        className="w-full border px-3 py-2 rounded-md focus:ring-2 focus:ring-indigo-500"
+                        onChange={(e) =>
+                          handleFilterChange(filterKey, e.target.value)
+                        }
+                        value={filters[filterKey]}
+                      >
+                        <option value="">All</option>
+                        {/* Add specific options for each dropdown */}
+                        {filterKey === "sector" && (
                           <>
-                         { currencyList?.map((item)=>(
-                            <option key={item.id} value={item?.name} > {item?.name} </option>
-                            
-                          ))}                           
-                          </>
-                        )}*/}
-                          {/* {filterKey === "experience" && (
-                          <>
-                            <option value="Entry-level">Entry-level</option>
-                            <option value="Mid-level">Mid-level</option>
-                            <option value="Senior-level">Senior-level</option>
-                          </>
-                        )} */}
-                          {/* {filterKey === "datePosted" && (
-                          <>
-                            <option value="7">Last 7 days</option>
-                            <option value="14">Last 14 days</option>
-                            <option value="30">Last 30 days</option>
+                            {jobSectors?.map((item) => (
+                              <option key={item.id} value={item?.name}>
+                                {" "}
+                                {item?.name}{" "}
+                              </option>
+                            ))}
                           </>
                         )}
-                        {filterKey === "sortBy" && (
+
+                        {filterKey === "type" && (
                           <>
-                            <option value="salary">Salary</option>
-                            <option value="title">Title</option>
-                            <option value="deadline">Deadline</option>
+                            {employementList?.map((item) => (
+                              <option key={item.id} value={item?.name}>
+                                {" "}
+                                {item?.name}{" "}
+                              </option>
+                            ))}
                           </>
-                        )} */}
-                        </select>
-                      ) : (
-                        <input
-                          type={filterKey.includes("Salary") ? "number" : "text"}
-                          className="w-full border px-3 py-2 rounded-md focus:ring-2 focus:ring-indigo-500"
-                          placeholder={`Enter ${filterKey}`}
-                          onChange={(e) =>
-                            handleFilterChange(filterKey, e.target.value)
-                          }
-                          value={filters[filterKey]}
-                        />
-                      )}
+                        )}
+                      </select>
+                    ) : (
+                      <input
+                        type={filterKey.includes("Salary") ? "number" : "text"}
+                        className="w-full border px-3 py-2 rounded-md focus:ring-2 focus:ring-indigo-500"
+                        placeholder={`Enter ${filterKey}`}
+                        onChange={(e) =>
+                          handleFilterChange(filterKey, e.target.value)
+                        }
+                        value={filters[filterKey]}
+                      />
+                    )}
                   </div>
                 ))}
                 <button
@@ -239,7 +222,11 @@ const JobSearchPage = () => {
                             <p className="flex gap-x-2">
                               <strong>Experience:</strong>{" "}
                               <span
-                              >{parseHtml(job?.experience?.slice(0,60))}</span>
+                                className="max-h-20 overflow-y-auto border p-2 rounded-md"
+                                dangerouslySetInnerHTML={sanitizeHtml(
+                                  job.experience || ""
+                                )}
+                              />
                             </p>
                             <p className="mb-2">
                               <strong>Application Deadline:</strong>{" "}
@@ -272,8 +259,7 @@ const JobSearchPage = () => {
                     Previous
                   </button>
                   <span>
-                    Page {currentPage} of{" "}
-                    {Math.ceil(jobs.length / jobsPerPage)}
+                    Page {currentPage} of {Math.ceil(jobs.length / jobsPerPage)}
                   </span>
                   <button
                     onClick={handleNextPage}

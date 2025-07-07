@@ -6,21 +6,29 @@ import approved from "../../assets/pngs/approved.png";
 import company from "../../assets/pngs/company-2-icon.png";
 import { ResourceContext } from "../../context/ResourceContext";
 import { IMAGE_URL } from "../../utils/base";
-import { parseHtml } from "../../utils/formmaters";
+import { parseHtml, sanitizeHtml } from "../../utils/formmaters";
 
 // Modal Component with TailwindCSS for a polished UI/UX
-const ApplyJobModal = ({ isOpen, closeModal, navigateToRegister, navigateToLogin }) => {
+const ApplyJobModal = ({
+  isOpen,
+  closeModal,
+  navigateToRegister,
+  navigateToLogin,
+}) => {
   if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50 z-50 transition-opacity duration-300">
       {/* Modal Box with animation */}
       <div className="bg-white rounded-lg w-full max-w-md p-8 text-center shadow-xl transform transition-all duration-300 scale-95">
-        <h2 className="text-2xl md:text-3xl uppercase font-bold mb-4 text-green-800">Job Application Info</h2>
+        <h2 className="text-2xl md:text-3xl uppercase font-bold mb-4 text-green-800">
+          Job Application Info
+        </h2>
         <p className="text-base md:text-lg mb-6 text-gray-600 font-medium leading-relaxed">
-          To apply for a job, you need to create an account. Please register to proceed with the application.
+          To apply for a job, you need to create an account. Please register to
+          proceed with the application.
         </p>
-        
+
         <div className="flex justify-between gap-4 mb-6 *:text-sm md:*:text-xl">
           <button
             className="bg-green-600 text-white py-2 px-6 rounded-full text-lg hover:bg-green-700 transition duration-200 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50"
@@ -54,7 +62,8 @@ const ApplyJobModal = ({ isOpen, closeModal, navigateToRegister, navigateToLogin
 // Main Jobs Component
 const Jobs = () => {
   const navigate = useNavigate();
-  const { setGetAllFeaturedJobs, getAllFeaturedJobs } = useContext(ResourceContext);
+  const { setGetAllFeaturedJobs, getAllFeaturedJobs } =
+    useContext(ResourceContext);
   const [jobs, setJobs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -78,10 +87,23 @@ const Jobs = () => {
   useEffect(() => {
     if (getAllFeaturedJobs?.data) {
       const fetchedJobs = getAllFeaturedJobs?.data || [];
-      const neededJobs = fetchedJobs.filter(
-        (one) => parseInt(one?.feature_jobs) === 1
-      );
-      setJobs(neededJobs.slice(0, 6));
+
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+
+      const filteredJobs = fetchedJobs
+        .filter((one) => parseInt(one?.feature_jobs) === 1)
+        .filter((item) => {
+          const deadline = new Date(item.application_deadline_date);
+          deadline.setHours(0, 0, 0, 0);
+
+          return (
+            deadline >= today &&
+            (item?.status === "approved" || Number(item?.status) === 1)
+          );
+        });
+
+      setJobs(filteredJobs.slice(0, 6));
       setLoading(false);
     } else if (getAllFeaturedJobs?.error) {
       setError("Failed to fetch jobs. Please try again.");
@@ -136,22 +158,28 @@ const Jobs = () => {
           >
             <section className="flex justify-between gap-3">
               <div>
-                <h4 className="capitalize text-xl font-semibold my-2 text-gray-800">{job?.job_title}</h4>
+                <h4 className="capitalize text-xl font-semibold my-2 text-gray-800">
+                  {job?.job_title}
+                </h4>
                 <p className="font-semibold text-sm text-gray-500 flex gap-2 items-center">
                   {job?.sector || ""}{" "}
                   <img src={approved} alt="approved" className="w-5" />
                 </p>
               </div>
               <img
-                src={job?.featured_image ? `${IMAGE_URL}/${job?.featured_image}` : company}
+                src={
+                  job?.featured_image
+                    ? `${IMAGE_URL}/${job?.featured_image}`
+                    : company
+                }
                 alt="img"
                 className="h-12 w-12 object-cover rounded-full"
               />
             </section>
             <p
               className="text-gray-500 text-sm my-3"
-              
-            >{parseHtml(job?.job_description.slice(0, 50))}</p>
+              dangerouslySetInnerHTML={sanitizeHtml(job?.description || "")}
+            />
 
             <div className="flex gap-3 mt-auto text-green-600 capitalize text-xs">
               <span className="flex items-center gap-2">
