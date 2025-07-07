@@ -9,17 +9,13 @@ import { onSuccess } from "../../../utils/notifications/OnSuccess";
 function AllJobs() {
   const { loading, getAllJobs, updateFeaturedJobs } = UseAdminManagement();
   const [jobs, setJobs] = useState([]);
-  const [loadingToggles, setLoadingToggles] = useState({}); // Track loading state for each toggle
+  const [loadingToggles, setLoadingToggles] = useState({}); // Track toggle loading states
 
   useEffect(() => {
     (async () => {
       const data = await getAllJobs();
       const sortedData = data.sort((a, b) => b.id - a.id);
       if (data) {
-        // const updatedJobs = sortedData.map((job) => ({
-        //   ...job,
-        //   isFeatured: job.feature_jobs === "1",
-        // }));
         setJobs(sortedData);
       } else {
         console.error("No data received");
@@ -27,22 +23,21 @@ function AllJobs() {
     })();
   }, []);
 
-  const handleToggle = async (job, currentStatus) => {
+  const handleToggle = async (job, isCurrentlyOn) => {
     const id = job.id;
+    const updatedStatus = isCurrentlyOn ? "0" : "1";
 
-    // Immediately set loading state
     setLoadingToggles((prev) => ({ ...prev, [id]: true }));
 
-    const updatedStatus = currentStatus ? "0" : "1";
-
     try {
+      console.log("Updating job:", job, "to status:", updatedStatus);
+
       const response = await updateFeaturedJobs(job, updatedStatus);
 
       if (response) {
-        // Optimistically update state immediately after success
         setJobs((prevJobs) =>
-          prevJobs.map((job) =>
-            job.id === id ? { ...job, feature_jobs: updatedStatus } : job
+          prevJobs.map((j) =>
+            j.id === id ? { ...j, feature_jobs: updatedStatus } : j
           )
         );
 
@@ -57,7 +52,6 @@ function AllJobs() {
         error: "Failed to update",
       });
     } finally {
-      // Ensure loading state is removed
       setLoadingToggles((prev) => ({ ...prev, [id]: false }));
     }
   };
@@ -72,23 +66,38 @@ function AllJobs() {
     "Featured Jobs",
   ];
 
-  const data = jobs.map((job) => ({
-    [heading[0].toLowerCase()]: job.id,
-    [heading[1].toLowerCase()]: job.job_title,
-    [heading[2].toLowerCase()]: job.salary_type,
-    [heading[3].toLowerCase()]: job.sector,
-    [heading[4].toLowerCase()]: job.type,
-    [heading[5].toLowerCase()]: job.status,
-    [heading[6].toLowerCase()]: (
-      <ToggleSwitch
-        isOn={job.feature_jobs === "1"}
-        isLoading={loadingToggles[job.id]} // Pass loading state for specific toggle
-        onToggle={() =>
-          handleToggle(job, job?.feature_jobs === "0" ? false : true)
-        }
-      />
-    ),
-  }));
+  const data = jobs.map((job) => {
+    const deadline = new Date(job.application_deadline_date);
+    const today = new Date();
+    deadline.setHours(0, 0, 0, 0);
+    today.setHours(0, 0, 0, 0);
+
+    const isDeadlinePassed = deadline < today;
+    const isFeatured = String(job.feature_jobs) === "1";
+
+    return {
+      [heading[0].toLowerCase()]: job.id,
+      [heading[1].toLowerCase()]: job.job_title,
+      [heading[2].toLowerCase()]: job.salary_type,
+      [heading[3].toLowerCase()]: job.sector,
+      [heading[4].toLowerCase()]: job.type,
+      [heading[5].toLowerCase()]:
+        String(job.status) === "1"
+          ? "Approved"
+          : String(job.status) === "0"
+          ? "Pending"
+          : job.status,
+      [heading[6].toLowerCase()]: isDeadlinePassed ? (
+        <span className="text-yellow-600 font-medium">Deadline Passed</span>
+      ) : (
+        <ToggleSwitch
+          isOn={isFeatured}
+          isLoading={loadingToggles[job.id]}
+          onToggle={() => handleToggle(job, isFeatured)}
+        />
+      ),
+    };
+  });
 
   return (
     <div className="mt-10">
@@ -100,15 +109,40 @@ function AllJobs() {
         <FaArrowLeftLong className="me-4 text-green-500" />
         Back
       </button>
+
       <h2 className="text-black border-b border-gray-500 text-2xl font-bold mt-10">
         Jobs
       </h2>
+
       <DataTableComponent
         heading={heading}
-        data={data}
-        loading={loading}
+        data={jobs}
+        isLoading={loading}
         name="job"
         allowEdit={true}
+        renderers={{
+          "featured jobs": (rowData) => {
+            const deadline = new Date(rowData.application_deadline_date);
+            const today = new Date();
+            deadline.setHours(0, 0, 0, 0);
+            today.setHours(0, 0, 0, 0);
+
+            const isDeadlinePassed = deadline < today;
+            const isFeatured = String(rowData.feature_jobs) === "1";
+
+            return isDeadlinePassed ? (
+              <span className="text-yellow-600 font-medium">
+                Deadline Passed
+              </span>
+            ) : (
+              <ToggleSwitch
+                isOn={isFeatured}
+                isLoading={loadingToggles[rowData.id]}
+                onToggle={() => handleToggle(rowData, isFeatured)}
+              />
+            );
+          },
+        }}
       />
     </div>
   );

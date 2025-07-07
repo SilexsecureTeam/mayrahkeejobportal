@@ -21,7 +21,14 @@ import { toast } from "react-toastify";
 import { Dropdown } from "primereact/dropdown";
 import { debounce } from "lodash";
 
-const DataTableComponent = ({ data, name, heading, isLoading, allowEdit }) => {
+const DataTableComponent = ({
+  data,
+  name,
+  heading,
+  isLoading,
+  allowEdit,
+  renderers,
+}) => {
   const [globalFilterValue, setGlobalFilterValue] = useState("");
   const [editDialog, setEditDialog] = useState(false);
   const [selectedData, setSelectedData] = useState(null);
@@ -203,23 +210,29 @@ const DataTableComponent = ({ data, name, heading, isLoading, allowEdit }) => {
     let statusClass = "";
     let statusIcon = null;
 
-    switch (rowData.status) {
+    switch (String(rowData.status).toLowerCase()) {
       case "pending":
+      case "0":
         statusClass = "bg-yellow-100 text-yellow-800";
         statusIcon = <FaExclamationCircle className="mr-2" />;
         break;
+
       case "approved":
+      case "1":
         statusClass = "bg-green-500 text-white";
         statusIcon = <FaCheckCircle className="mr-2" />;
         break;
+
       case "rejected":
         statusClass = "bg-red-500 text-white";
         statusIcon = <FaTimesCircle className="mr-2" />;
         break;
+
       case "suspended":
         statusClass = "bg-orange-500 text-white";
         statusIcon = <FaPauseCircle className="mr-2" />;
         break;
+
       default:
         statusClass = "bg-yellow-800 text-yellow-100";
         statusIcon = <FaExclamationCircle className="mr-2" />;
@@ -229,7 +242,11 @@ const DataTableComponent = ({ data, name, heading, isLoading, allowEdit }) => {
     return (
       <span className={`flex items-center px-3 py-1 rounded-lg ${statusClass}`}>
         {statusIcon}
-        {rowData.status}
+        {String(rowData.status) === "1"
+          ? "Approved"
+          : String(rowData.status) === "0"
+          ? "Pending"
+          : rowData.status}
       </span>
     );
   };
@@ -278,7 +295,9 @@ const DataTableComponent = ({ data, name, heading, isLoading, allowEdit }) => {
                   filter
                   filterPlaceholder={`Search ${head}`}
                   body={
-                    head.toLowerCase() === "profile"
+                    renderers?.[head.toLowerCase()]
+                      ? renderers[head.toLowerCase()]
+                      : head.toLowerCase() === "profile"
                       ? (rowData) => {
                           const parseHtml = (html) => {
                             const doc = new DOMParser().parseFromString(
@@ -287,7 +306,6 @@ const DataTableComponent = ({ data, name, heading, isLoading, allowEdit }) => {
                             );
                             return doc.body.textContent || "";
                           };
-
                           return (
                             <div className="line-clamp-2">
                               {rowData.profile
