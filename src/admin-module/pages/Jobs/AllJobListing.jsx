@@ -116,7 +116,7 @@ function AllJobs() {
 
       <DataTableComponent
         heading={heading}
-        data={jobs}
+        data={data}
         isLoading={loading}
         name="job"
         allowEdit={true}
