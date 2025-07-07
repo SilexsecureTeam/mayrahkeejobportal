@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import logo from "../../assets/pngs/main-logo-icon.png";
 import Btn from "./Btn";
-import { FaBars, FaTimes, FaCaretDown,FaCaretUp } from "react-icons/fa";
-const Navbar = ({register="/registration", login="/login"}) => {
+import { FaBars, FaTimes, FaCaretDown, FaCaretUp } from "react-icons/fa";
+const Navbar = ({ register = "/registration", login = "/login" }) => {
   const [menu, setMenu] = useState(true);
   const [drop, setDrop] = useState(false);
   return (
@@ -12,33 +12,32 @@ const Navbar = ({register="/registration", login="/login"}) => {
         <img src={logo} alt="logo" className="w-32 md:w-36" />
       </Link>
       <div
-        className={`${menu
-          ? "hidden"
-          : "absolute top-16 left-0 right-0 bg-white flex flex-col px-4"
-          } lg:flex lg:flex-row lg:static lg:bg-transparent lg:items-center lg:gap-4 my-3 mx-auto gap-2 font-bold text-sm order-1 w-full lg:w-auto lg:order-0 *:p-2 *:rounded-md *:cursor-pointer hover:*:hover:bg-slate-300`}
+        className={`${
+          menu
+            ? "hidden"
+            : "absolute top-16 left-0 right-0 bg-white flex flex-col px-4"
+        } lg:flex lg:flex-row lg:static lg:bg-transparent lg:items-center lg:gap-4 my-3 mx-auto gap-2 font-bold text-sm order-1 w-full lg:w-auto lg:order-0 *:p-2 *:rounded-md *:cursor-pointer hover:*:hover:bg-slate-300`}
       >
-
         <a href="https://mayrahkeeafrica.vercel.app/">Home</a>
-        {/* Dropdown */}
-        {/* <div
-          onClick={() => setDrop(!drop)}
-          className="relative flex gap-1 items-center cursor-pointer p-2 hover:bg-gray-100 rounded"
+
+        <NavLink className="[&.active]:bg-slate-300" to="/find-jobs">
+          Find Jobs
+        </NavLink>
+        <NavLink className="[&.active]:bg-slate-300" to="/find-staff/artisan">
+          Find Artisans
+        </NavLink>
+        <NavLink
+          className="[&.active]:bg-slate-300"
+          to="/find-staff/domestic staff"
         >
-          Find Jobs {drop ? <FaCaretUp /> : <FaCaretDown />}
-          {drop && (
-            <ul className="absolute top-full left-0 mt-2 bg-white shadow-lg rounded-md flex flex-col gap-2 p-2 w-60 z-50">
-              <li className="hover:bg-gray-100 p-2 rounded">Corporate Employment</li>
-              <li className="hover:bg-gray-100 p-2 rounded">Skilled work</li>
-              <li className="hover:bg-gray-100 p-2 rounded">Domestic work</li>
-            
-            </ul>
-          )}
-        </div> */}
-        <NavLink className="[&.active]:bg-slate-300" to="/find-jobs">Find Jobs</NavLink>
-        <NavLink className="[&.active]:bg-slate-300" to="/find-staff/artisan">Find Artisans</NavLink>
-        <NavLink className="[&.active]:bg-slate-300" to="/find-staff/domestic staff">Find Domestic Staff</NavLink>
-        <NavLink className="[&.active]:bg-slate-300" to="/help">Help Center</NavLink>
-        <NavLink className="[&.active]:bg-slate-300" to="/blogs">Blog</NavLink>
+          Find Domestic Staff
+        </NavLink>
+        <NavLink className="[&.active]:bg-slate-300" to="/help">
+          Help Center
+        </NavLink>
+        <NavLink className="[&.active]:bg-slate-300" to="/blogs">
+          Blog
+        </NavLink>
 
         <div className="cursor-default flex md:hidden items-center gap-3 lg:order-2">
           <Btn
@@ -52,7 +51,6 @@ const Navbar = ({register="/registration", login="/login"}) => {
             styl="bg-black shadow-[1px_1px_0] shadow-gray-400 hover:shadow-[-1px_-1px_0] text-white"
           />
         </div>
-
       </div>
       <div className="hidden md:flex items-center justify-center gap-3 lg:order-2 ml-auto">
         <Btn
