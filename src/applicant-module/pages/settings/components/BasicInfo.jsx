@@ -1,4 +1,3 @@
-
 import React, { useContext, useEffect, useState } from "react";
 import { TbPhoto } from "react-icons/tb";
 import DynamicExperienceForm from "./DynamicExperienceForm";
@@ -17,19 +16,29 @@ import { AuthContext } from "../../../../context/AuthContex";
 import { ResourceContext } from "../../../../context/ResourceContext";
 import TextEditor from "./TextEditor";
 import { onSuccess } from "../../../../utils/notifications/OnSuccess";
-import { Country, State, City } from "country-state-city";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { useLocationService } from "../../../../services/locationService";
 
 const BasicInfo = ({ setIsOpen }) => {
   const { getCandidate, setGetCandidate } = useContext(ResourceContext);
   const navigate = useNavigate();
 
   const candidate = getCandidate.data?.details;
-  //const countries = Country.getAllCountries();
-  const countries = Country.getAllCountries()?.filter(country => ['NG', 'GH', 'CM', 'CD', 'GB', 'US'].includes(country.isoCode));
-  const states = State.getAllStates();
-  const cities = City.getAllCities();
+  const { getCountries } = useLocationService();
+  const [countries, setCountries] = useState([]);
+  const [states, setStates] = useState([]);
+  useEffect(() => {
+    const fetchCountries = async () => {
+      try {
+        const response = await getCountries(true); // Fetch all countries
+        setCountries(response.data || []);
+      } catch (error) {
+        console.error("Error fetching countries:");
+      }
+    };
+    fetchCountries();
+  }, []);
 
   const { authDetails, userUpdate, setUserUpdate } = useContext(AuthContext);
   const user = authDetails?.user;
@@ -37,19 +46,24 @@ const BasicInfo = ({ setIsOpen }) => {
   const [showMsg, setShowMsg] = useState(false);
   const [loading, setLoading] = useState(false);
   const [selectId, setSelectId] = useState(null);
-  const [selectStates, setSelectStates] = useState(candidate?.country ? State.getStatesOfCountry(countries?.find(one => one.name === candidate.country)?.isoCode) : []);
+  const [selectStates, setSelectStates] = useState(
+    candidate?.country
+      ? countries?.find((one) => one.name === candidate.country)?.states || []
+      : []
+  );
   const [selectState, setSelectState] = useState();
-  const [selectCity, setSelectCity] = useState(candidate?.state ? City.getCitiesOfState(countries?.find(one => one.name === candidate.country)?.isoCode, states?.find(one => one.name === candidate.state)?.isoCode) : []);
+  const [selectCity, setSelectCity] = useState(
+    candidate?.state
+      ? states?.find((one) => one.name === candidate.state)?.lgas || []
+      : []
+  );
   const [countryInfo, setCountryInfo] = useState();
   const [selectedLanguages, setSelectedLanguages] = useState([]);
 
   const [socialHandles, setSocialHandles] = useState([
     { network: "", url: "" },
   ]);
-  // useEffect(() => {
-  //   console.log(countryInfo)
-  //   console.log(details)
-  // },[countryInfo])
+
   useEffect(() => {
     setGetCandidate((prev) => {
       return {
@@ -59,8 +73,6 @@ const BasicInfo = ({ setIsOpen }) => {
     });
   }, []);
 
-
-  //console.log(candidate)
   const toggleAccept = () => {
     setDetails((prev) => {
       return {
@@ -81,7 +93,11 @@ const BasicInfo = ({ setIsOpen }) => {
     candidate_id: user.id ? user.id : "",
     // full_name: user.full_name ? user.full_name : "",
     profile: candidate?.profile || null,
-    full_name: candidate?.full_name ? (candidate?.full_name) : (user?.first_name ? ` ${user.first_name} ${user.last_name}` : "") ,
+    full_name: candidate?.full_name
+      ? candidate?.full_name
+      : user?.first_name
+      ? ` ${user.first_name} ${user.last_name}`
+      : "",
     date_of_birth: candidate?.date_of_birth ? candidate?.date_of_birth : "",
     gender: candidate?.gender ? candidate?.gender : "",
     phone_number: candidate?.phone_number ? candidate?.phone_number : "",
@@ -124,10 +140,8 @@ const BasicInfo = ({ setIsOpen }) => {
   });
 
   useEffect(() => {
-    console.log(details)
-    updateFirstLetter(details?.means_of_identification)
-
-  }, [details])
+    updateFirstLetter(details?.means_of_identification);
+  }, [details]);
   function updateFirstLetter(word) {
     if (word) {
       return setSelectId(word[0]?.toUpperCase() + word.slice(1));
@@ -136,81 +150,68 @@ const BasicInfo = ({ setIsOpen }) => {
     }
   }
 
-  // console.log(getAllFaculty.data)
-  // const handleOnChange = (e) => {
-  //     const { value, name, files, type, checked } = e.target;
-  //     if (name === "means_of_identification") {
-  //         updateFirstLetter(value)
-  //     }
-  //     setDetails((prev) => {
-  //         return {
-  //             ...prev,
-  //             [name]: type === "checkbox" ? checked : type === "file" ? files[0] : value,
-  //             // [name]: name === 'cv' ? files[0] : value,
-  //         };
-  //     });
-  //     setErrorMsg(null);
-  // };
-
-  // console.log(getAllFaculty.data)
-
   useEffect(() => {
     if (details?.country) {
-      const selectedCountry = countries?.find(one => one.name === details?.country);
+      const selectedCountry = countries?.find(
+        (one) => one.name === details?.country
+      );
       if (selectedCountry) {
-        const countryInfoDetails = Country.getCountryByCode(selectedCountry.isoCode);
-        setCountryInfo(countryInfoDetails);
-  
-        const states = State.getStatesOfCountry(selectedCountry.isoCode);
+        setCountryInfo(selectedCountry);
+
+        const states = selectedCountry?.states || [];
         setSelectStates(states);
         setSelectCity([]); // Reset cities when country changes
       }
     }
   }, [details?.country, countries]);
-  
+
   useEffect(() => {
     if (details?.state && details?.country) {
-      const selectedCountry = countries?.find(one => one.name === details?.country);
+      const selectedCountry = countries?.find(
+        (one) => one.name === details?.country
+      );
       if (selectedCountry) {
-        const states = State.getStatesOfCountry(selectedCountry.isoCode);
-        const selectedState = states?.find(one => one.name === details?.state);
-        
+        const states = selectedCountry?.states || [];
+        const selectedState = states?.find(
+          (one) => one.name === details?.state
+        );
+
         if (selectedState) {
-          const cities = City.getCitiesOfState(selectedCountry.isoCode, selectedState.isoCode);
+          const cities = selectState?.lgas || [];
+
           setSelectCity(cities);
         }
       }
     }
   }, [details?.state, details?.country, countries]);
-  
 
   const handleOnChange = (e) => {
     const { value, name, files, type, checked } = e.target;
-    console.log(name, type, value)
     // Define the dynamic file size limits for different files
     const FILE_SIZE_LIMITS = {
-      'introduction_video': 2 * 1024 * 1024,  // 2 MB for introduction video
-      'nin_slip': 1 * 1024 * 1024,  // 1 MB for NIN slip
-      'background_profile': 3.8 * 1024 * 1024,  // 3.8 MB for background profile
+      introduction_video: 2 * 1024 * 1024, // 2 MB for introduction video
+      nin_slip: 1 * 1024 * 1024, // 1 MB for NIN slip
+      background_profile: 3.8 * 1024 * 1024, // 3.8 MB for background profile
       // Add other files as needed
     };
-
 
     if (name === "means_of_identification") {
       updateFirstLetter(value);
     }
 
     if (name === "country") {
-      const countryInfoDetails = Country.getCountryByCode(countries?.find(one => one.name === value)?.isoCode);
+      const countryInfoDetails = countries?.find((one) => one.name === value);
       setCountryInfo(countryInfoDetails);
-      const states = State.getStatesOfCountry(countryInfoDetails?.isoCode);
+      const states = countryInfoDetails?.states || [];
       setSelectStates(states);
-    } else if (name === "state") { 
-      const cities = City.getCitiesOfState(countries?.find(one => one.name === countryInfo)?.isoCode, value);
+    } else if (name === "state") {
+      const selectedState = countryInfo?.states?.find(
+        (one) => one.name === value
+      );
+      setSelectState(selectedState);
+      const cities = selectedState?.lgas || [];
       setSelectCity(cities);
-     
-      const stateName = State.getStateByCode(value, countryInfo.isoCode);
-      setSelectState(stateName);
+
       setDetails((prev) => {
         return {
           ...prev,
@@ -218,8 +219,8 @@ const BasicInfo = ({ setIsOpen }) => {
             type === "checkbox"
               ? checked
               : type === "file"
-                ? files[0]
-                : cities.name,
+              ? files[0]
+              : cities.name,
         };
       });
     }
@@ -227,7 +228,9 @@ const BasicInfo = ({ setIsOpen }) => {
     // Handle file size validation with dynamic limits
     if (type === "file" && files.length > 0) {
       const file = files[0];
-      const fileSizeLimit = Object.keys(FILE_SIZE_LIMITS).find((key) => name.toLowerCase().includes(key))
+      const fileSizeLimit = Object.keys(FILE_SIZE_LIMITS).find((key) =>
+        name.toLowerCase().includes(key)
+      )
         ? FILE_SIZE_LIMITS[name]
         : 1 * 1024 * 1024; // Default to 1 MB if no specific limit is found
 
@@ -236,10 +239,14 @@ const BasicInfo = ({ setIsOpen }) => {
         const fileSizeMB = (file.size / (1024 * 1024)).toFixed(2); // Convert uploaded file size to MB
 
         // Truncate long file names to 20 characters for better UI readability
-        const truncatedFileName = file.name.length > 10 ? `${file.name.substring(0, 10)}...` : file.name;
+        const truncatedFileName =
+          file.name.length > 10
+            ? `${file.name.substring(0, 10)}...`
+            : file.name;
 
-
-        toast.error(`File size of "${truncatedFileName}" exceeds the limit of ${maxSizeMB} MB. The uploaded file is ${fileSizeMB} MB. Please select a smaller file.`);
+        toast.error(
+          `File size of "${truncatedFileName}" exceeds the limit of ${maxSizeMB} MB. The uploaded file is ${fileSizeMB} MB. Please select a smaller file.`
+        );
         setDetails((prev) => {
           // Reset the file input if it's too large
           return {
@@ -247,7 +254,7 @@ const BasicInfo = ({ setIsOpen }) => {
             [name]: null, // Prevent the file from being added to state
           };
         });
-        e.target.value = null
+        e.target.value = null;
         return; // Exit the function if the file is too large
       } else {
         setDetails((prev) => {
@@ -275,7 +282,9 @@ const BasicInfo = ({ setIsOpen }) => {
       if (!languageState(...selectedLanguageOptions)) {
         setDetails((prevDetails) => ({
           ...prevDetails,
-          languages: [...selectedLanguages, ...selectedLanguageOptions].join(","),
+          languages: [...selectedLanguages, ...selectedLanguageOptions].join(
+            ","
+          ),
         }));
         setSelectedLanguages([
           ...selectedLanguages,
@@ -293,7 +302,6 @@ const BasicInfo = ({ setIsOpen }) => {
     setErrorMsg(null);
   };
 
-
   const handleOutline = (event) => {
     setDetails((prev) => {
       return {
@@ -306,7 +314,6 @@ const BasicInfo = ({ setIsOpen }) => {
 
   const languageState = (language) =>
     selectedLanguages?.find((current) => current === language) ? true : false;
-
 
   useEffect(() => {
     setDetails((details) => {
@@ -336,25 +343,28 @@ const BasicInfo = ({ setIsOpen }) => {
         const value = details[key];
 
         // Check for fields that must be files
-        if (key === 'profile') {
+        if (key === "profile") {
           if (value instanceof File) {
             formData.append(key, value); // Append the file if it's a file
           }
-        }
-        else if (key === 'background_profile' || key === 'nin_slip' || key === 'introduction_video') {
+        } else if (
+          key === "background_profile" ||
+          key === "nin_slip" ||
+          key === "introduction_video"
+        ) {
           // Check for file fields
           if (value instanceof File) {
             formData.append(key, value);
           }
         }
         // Handle social_media_handle if it's an array
-        else if (key === 'social_media_handle' && Array.isArray(value)) {
+        else if (key === "social_media_handle" && Array.isArray(value)) {
           value.forEach((item, index) => {
             formData.append(`${key}[]`, item); // Append each item as an array element
           });
         }
         // For other fields, append normally
-        else if (value !== null && value !== undefined && value !== '') {
+        else if (value !== null && value !== undefined && value !== "") {
           formData.append(key, value);
         }
       }
@@ -383,7 +393,7 @@ const BasicInfo = ({ setIsOpen }) => {
         );
         setLoading(false);
 
-        navigate('/applicant/public-profile');
+        navigate("/applicant/public-profile");
         setGetCandidate((prev) => {
           return {
             ...prev,
@@ -392,7 +402,6 @@ const BasicInfo = ({ setIsOpen }) => {
         });
       })
       .catch((error) => {
-        console.log(error);
         if (error.response) {
           setErrorMsg({ stack: error.response.data.message });
           setShowMsg(true);
@@ -410,8 +419,8 @@ const BasicInfo = ({ setIsOpen }) => {
     const file = e.target.files[0]; //filelist is an object carrying all details of file, .files[0] collects the value from key 0 (not array), and stores it in file
     if (file && file.size > 1 * 1024 * 1024) {
       toast.error("File size exceeds the file size limit of 1MB.");
-      e.target.value = null
-      return
+      e.target.value = null;
+      return;
     }
     if (file && (file.type === "image/jpeg" || file.type === "image/png")) {
       // You can also perform additional actions with the valid file
@@ -446,7 +455,6 @@ const BasicInfo = ({ setIsOpen }) => {
     }));
   }, [selectedLanguages]);
 
-
   return (
     <div className="max-w-full text-[#515B6F] text-base overflow-x-hidden">
       <div className="my-4">
@@ -455,7 +463,8 @@ const BasicInfo = ({ setIsOpen }) => {
           <div className="w-full lg:w-1/3 pr-0 lg:pr-5 text-center lg:text-left">
             <p className="font-medium mb-2 text-slate-950">Profile Photo</p>
             <p>
-              This image will be shown publicly as your profile picture, it will help recruiters recognize you!
+              This image will be shown publicly as your profile picture, it will
+              help recruiters recognize you!
             </p>
           </div>
 
@@ -518,7 +527,8 @@ const BasicInfo = ({ setIsOpen }) => {
                       <div className="mb-4">
                         <label className="block">
                           <span className="block text-sm font-medium text-slate-700 flex gap-1">
-                            Full Name <strong className="text-red-500">*</strong>
+                            Full Name{" "}
+                            <strong className="text-red-500">*</strong>
                           </span>
                           <input
                             type="text"
@@ -533,7 +543,8 @@ const BasicInfo = ({ setIsOpen }) => {
                         <div className="">
                           <label className="block">
                             <span className="text-sm font-medium text-slate-700 flex gap-1">
-                              Phone Number <strong className="text-red-500">*</strong>
+                              Phone Number{" "}
+                              <strong className="text-red-500">*</strong>
                             </span>
                             <input
                               type="text"
@@ -594,7 +605,8 @@ const BasicInfo = ({ setIsOpen }) => {
                         <div className="">
                           <label className="block">
                             <span className="block text-sm font-medium text-slate-700 mb-1 flex gap-1">
-                              Select Type of ID <strong className="text-red-500">*</strong>
+                              Select Type of ID{" "}
+                              <strong className="text-red-500">*</strong>
                             </span>
                             <select
                               value={details?.means_of_identification}
@@ -619,7 +631,11 @@ const BasicInfo = ({ setIsOpen }) => {
                           <div className="">
                             <label className="block">
                               <span className="block text-sm font-medium text-slate-700">
-                                Input {selectId.toLowerCase() == "nin" ? selectId.toUpperCase() : selectId ?? ""} No:
+                                Input{" "}
+                                {selectId.toLowerCase() == "nin"
+                                  ? selectId.toUpperCase()
+                                  : selectId ?? ""}{" "}
+                                No:
                               </span>
                               <input
                                 type="text"
@@ -635,7 +651,10 @@ const BasicInfo = ({ setIsOpen }) => {
                           <div className="">
                             <label className="block">
                               <span className="block text-sm font-medium text-slate-700">
-                                Upload {selectId.toLowerCase() == "nin" ? selectId.toUpperCase() : selectId ?? ""}
+                                Upload{" "}
+                                {selectId.toLowerCase() == "nin"
+                                  ? selectId.toUpperCase()
+                                  : selectId ?? ""}
                               </span>
                               <input
                                 type="file"
@@ -646,7 +665,8 @@ const BasicInfo = ({ setIsOpen }) => {
                               />
                             </label>
                             <small class="text-sm text-gray-500">
-                              File size should not exceed 1MB. Only accepts .jpeg, .png, .jpg.
+                              File size should not exceed 1MB. Only accepts
+                              .jpeg, .png, .jpg.
                             </small>
                           </div>
                         )}
@@ -664,7 +684,8 @@ const BasicInfo = ({ setIsOpen }) => {
                             />
                           </label>
                           <small class="text-sm text-gray-500">
-                            File size should not exceed 1MB. Only accepts .jpeg, .png, .jpg.
+                            File size should not exceed 1MB. Only accepts .jpeg,
+                            .png, .jpg.
                           </small>
                         </div>
                       </div>
@@ -935,7 +956,11 @@ const BasicInfo = ({ setIsOpen }) => {
                               <option value="">-- select --</option>
 
                               {selectStates?.map((each) => (
-                                <option selected={each?.name === details?.state} key={each.isoCode} value={each.name}>
+                                <option
+                                  selected={each?.name === details?.state}
+                                  key={each.isoCode}
+                                  value={each.name}
+                                >
                                   {each.name}
                                 </option>
                               ))}
@@ -998,12 +1023,11 @@ const BasicInfo = ({ setIsOpen }) => {
                               onChange={handleOnChange}
                             />
                             <small class="text-sm text-gray-500">
-                              File size should not exceed 2MB. Only MP4 files are allowed.
+                              File size should not exceed 2MB. Only MP4 files
+                              are allowed.
                             </small>
                           </label>
                         </div>
-
-
                       </div>
                     </div>
                   </div>
@@ -1033,7 +1057,7 @@ const BasicInfo = ({ setIsOpen }) => {
                     </p>
                   </div>
                 )}
-                
+
                 <button className="rounded border prime_bg text-white px-4 flex justify-center py-2 w-[50%]">
                   Save Profile
                   {loading && (

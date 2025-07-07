@@ -6,12 +6,11 @@ import { BsGrid, BsGridFill } from "react-icons/bs";
 import newApplicant from "../../../assets/pngs/applicant-logo1.png";
 import JobCard from "./components/JobCard";
 import { TbLayoutList, TbLayoutListFilled } from "react-icons/tb";
-import { useState, useContext, useEffect } from "react";
+import { useState, useContext, useEffect, useMemo } from "react";
 import JobGridCard from "./components/JobGridCard";
 import { ResourceContext } from "../../../context/ResourceContext";
-import { useMemo } from "react";
 import CustomPagination from "../../../components/CustomPagination";
-import { State } from "country-state-city";
+import { useLocationService } from "../../../services/locationService";
 
 const PageSize = 3;
 
@@ -30,6 +29,22 @@ function FindJob() {
   const [jobLevel, setJobLevel] = useState("");
   const [jobTitle, setJobTitle] = useState("");
   const [selectedLocation, setSelectedLocation] = useState("");
+  const { getStates } = useLocationService();
+
+  const [states, setStates] = useState([]);
+
+  useEffect(() => {
+    const fetchStates = async () => {
+      try {
+        const response = await getStates(true); // optional: pass true for full data
+        setStates(response.data || []);
+      } catch (error) {
+        console.error("Error fetching states:", error);
+      }
+    };
+
+    fetchStates();
+  }, []);
 
   useEffect(() => {
     setGetAllJobs((prev) => ({
@@ -45,11 +60,10 @@ function FindJob() {
     }));
   }, []);
   const sortedJobs = getAllJobs.data?.filter(
-  (item) =>
-    new Date(item.application_deadline_date) >= new Date() &&
-    (item?.status === "approved" || Number(item?.status) === 1)
-);
-
+    (item) =>
+      new Date(item.application_deadline_date) >= new Date() &&
+      (item?.status === "approved" || Number(item?.status) === 1)
+  );
 
   const filteredData = sortedJobs
     ?.filter((job) => {
@@ -131,13 +145,9 @@ function FindJob() {
               <option value={""} id={"030"}>
                 Select Location
               </option>
-              {State.getStatesOfCountry("NG").map((current) => (
-                <option
-                  key={current?.id}
-                  value={current.name}
-                  id={current.name}
-                >
-                  {current.name}
+              {states.map((state) => (
+                <option key={state.id} value={state.name}>
+                  {state.name}
                 </option>
               ))}
             </select>

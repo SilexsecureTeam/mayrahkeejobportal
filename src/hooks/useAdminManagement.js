@@ -4,7 +4,7 @@ import { AuthContext } from "../context/AuthContex";
 import { get, set } from "idb-keyval";
 import axios from "axios";
 import { BASE_URL } from "../utils/base";
-import { user } from './../utils/dummies';
+import { user } from "./../utils/dummies";
 import MainAxios from "../services/axios-main";
 // import AddCurrency from './../admin-module/pages/settings/Currency/AddCurrency';
 import { onFailure } from "../utils/notifications/OnFailure";
@@ -44,7 +44,6 @@ function UseAdminManagement() {
     initProfileDetails();
   }, []);
 
-
   const getEmployers = async () => {
     try {
       setLoading(true);
@@ -70,11 +69,12 @@ function UseAdminManagement() {
     }
   };
 
-
   const getArtisans = async () => {
     setLoading(true);
     try {
-      const response = await client.get(`/domesticStaff/staff-type?staff_category=artisan`);
+      const response = await client.get(
+        `/domesticStaff/staff-type?staff_category=artisan`
+      );
       return response.data.domesticStaff;
     } catch (error) {
       console.error("Error fetching artisans:", error);
@@ -82,13 +82,14 @@ function UseAdminManagement() {
     } finally {
       setLoading(false);
     }
-  }
-
+  };
 
   const getDomesticStaff = async () => {
     try {
       setLoading(true);
-      const response = await client.get(`/domesticStaff/staff-type?staff_category=staff`);
+      const response = await client.get(
+        `/domesticStaff/staff-type?staff_category=staff`
+      );
       return response.data.domesticStaff;
     } catch (error) {
       console.error("Error fetching domestic staff:", error);
@@ -96,14 +97,18 @@ function UseAdminManagement() {
     } finally {
       setLoading(false);
     }
-  }
+  };
 
   const getStaffById = async (id) => {
     try {
       setLoading(true);
       const response = await client.get(`/domesticStaff/get-staff/${id}`);
       const data = response.data;
-      data.data.name = `${data?.data?.first_name} ${data.data.middle_name === null || data.data.middle_name === 'null' ? '' : data.data.middle_name} ${data.data.surname}`;
+      data.data.name = `${data?.data?.first_name} ${
+        data.data.middle_name === null || data.data.middle_name === "null"
+          ? ""
+          : data.data.middle_name
+      } ${data.data.surname}`;
       return data;
     } catch (error) {
       console.error("Error fetching staff:", error);
@@ -111,8 +116,7 @@ function UseAdminManagement() {
     } finally {
       setLoading(false);
     }
-  }
-
+  };
 
   const updateStatus = async (data) => {
     try {
@@ -120,15 +124,12 @@ function UseAdminManagement() {
       const response = await MainAxios.post("update-status", data);
       return response.data;
     } catch (error) {
-      console.error('Error updating status:', error);
+      console.error("Error updating status:", error);
       return null;
     } finally {
       setLoading(false);
     }
   };
-
-
-
 
   const getCandidates = async () => {
     try {
@@ -143,8 +144,6 @@ function UseAdminManagement() {
     }
   };
 
-
-
   const getCandidateById = async (id) => {
     try {
       setLoading(true);
@@ -155,7 +154,7 @@ function UseAdminManagement() {
     } finally {
       setLoading(false);
     }
-  }
+  };
 
   const getJobsByEmployerId = async (id) => {
     try {
@@ -168,26 +167,25 @@ function UseAdminManagement() {
     } finally {
       setLoading(false);
     }
-  }
+  };
 
   const jobsAppliedToEmployerId = async (id) => {
     try {
-      setLoading(true)
-      const response = await client.get(`/getEmployerApply/${id}`)
-      return response.data.job_application
+      setLoading(true);
+      const response = await client.get(`/getEmployerApply/${id}`);
+      return response.data.job_application;
     } catch (error) {
       console.error("Error fetching jobs:", error);
+    } finally {
+      setLoading(false);
     }
-    finally {
-      setLoading(false)
-    }
-  }
+  };
   const getEmployerDomesticStaff = async (id) => {
     try {
       setLoading(true);
       const response = await MainAxios.post(`/contracts/details`, {
         user_id: id,
-        user_type: 'employer'
+        user_type: "employer",
       });
       const data = response.data.contracts;
 
@@ -203,20 +201,19 @@ function UseAdminManagement() {
       const updatedData = await Promise.all(promises);
       return updatedData;
     } catch (error) {
-      console.error('Error fetching employer domestic staff:', error);
+      console.error("Error fetching employer domestic staff:", error);
       return [];
     } finally {
       setLoading(false);
     }
   };
-
 
   const getCandidateDomesticStaff = async (id) => {
     try {
       setLoading(true);
       const response = await MainAxios.post(`/contracts/details`, {
         user_id: id,
-        user_type: 'candidate'
+        user_type: "candidate",
       });
       const data = response.data.contracts;
 
@@ -232,19 +229,19 @@ function UseAdminManagement() {
       const updatedData = await Promise.all(promises);
       return updatedData;
     } catch (error) {
-      console.error('Error fetching employer domestic staff:', error);
+      console.error("Error fetching employer domestic staff:", error);
       return [];
     } finally {
       setLoading(false);
     }
   };
 
-
-
   const getStaffReportById = async (reportType, candidateId) => {
     try {
       setLoading(true);
-      const response = await client.get(`/domesticStaff/${reportType}/${candidateId}`);
+      const response = await client.get(
+        `/domesticStaff/${reportType}/${candidateId}`
+      );
       return response.data;
     } catch (error) {
       console.error("Error fetching report:", error);
@@ -252,7 +249,7 @@ function UseAdminManagement() {
     } finally {
       setLoading(false);
     }
-  }
+  };
   const getStaffNewReport = async (reportType, staffId) => {
     try {
       setLoading(true);
@@ -264,14 +261,14 @@ function UseAdminManagement() {
     } finally {
       setLoading(false);
     }
-  }
-
-
+  };
 
   const getStaffReport = async (reportType) => {
     try {
       setLoading(true);
-      const response = await client.get(BASE_URL + "/domesticStaff/" + reportType)
+      const response = await client.get(
+        BASE_URL + "/domesticStaff/" + reportType
+      );
       const data = await response.data;
       return data;
     } catch (error) {
@@ -282,7 +279,6 @@ function UseAdminManagement() {
     }
   };
 
-
   const getCurrencies = async () => {
     try {
       setLoading(true);
@@ -290,11 +286,16 @@ function UseAdminManagement() {
       return response.data;
     } catch (error) {
       console.error("Error fetching currencies:", error);
-      return (error);
+      return error;
     } finally {
       setLoading(false);
     }
-  }
+  };
+
+  const getCurrencyById = async (id) => {
+    const response = await client.get(`/currencies/${id}`);
+    return response;
+  };
 
   const AddFormCurrency = async (currencyData) => {
     try {
@@ -303,7 +304,7 @@ function UseAdminManagement() {
       return response;
     } catch (error) {
       if (error.status === 500) {
-        return error
+        return error;
       }
       console.error("Error adding currency:", error);
       return null;
@@ -317,14 +318,13 @@ function UseAdminManagement() {
       setLoading(true);
       const response = await client.delete(`/currencies/${id}`);
       return response.data;
-    }
-    catch (error) {
+    } catch (error) {
       console.error("Error deleting currency:", error);
       return null;
     } finally {
       setLoading(false);
     }
-  }
+  };
 
   const getSectors = async () => {
     try {
@@ -337,7 +337,9 @@ function UseAdminManagement() {
           //const subResponse = await client.get(`/sub-sectors/${sector.id}`);
           return {
             ...sector,
-            subcategories: sector?.sub_sectors.sort((a,b)=> a.name.toLowerCase().localeCompare(b.name.toLowerCase())),
+            subcategories: sector?.sub_sectors.sort((a, b) =>
+              a.name.toLowerCase().localeCompare(b.name.toLowerCase())
+            ),
           };
         })
       );
@@ -350,7 +352,6 @@ function UseAdminManagement() {
       setLoading(false);
     }
   };
-
 
   const createSector = async (sector) => {
     try {
@@ -367,7 +368,7 @@ function UseAdminManagement() {
   const updateSector = async (id, sector) => {
     try {
       setLoading(true);
-      const response = await client.post("/sectors", {id: id, ...sector});
+      const response = await client.post("/sectors", { id: id, ...sector });
       return response.data;
     } catch (error) {
       console.error("Error updating sector:", error);
@@ -379,7 +380,10 @@ function UseAdminManagement() {
   const updateSubsector = async (id, subsector) => {
     try {
       setLoading(true);
-      const response = await client.post("/sub-sectors", {id: id, ...subsector});
+      const response = await client.post("/sub-sectors", {
+        id: id,
+        ...subsector,
+      });
       return response.data;
     } catch (error) {
       console.error("Error updating sector:", error);
@@ -397,7 +401,7 @@ function UseAdminManagement() {
       console.error("Error creating subsector:", error);
       return null;
     }
-  }
+  };
 
   const getStaffSectors = async () => {
     try {
@@ -412,7 +416,6 @@ function UseAdminManagement() {
       setLoading(false);
     }
   };
-
 
   const createStaffSector = async (sector) => {
     try {
@@ -429,7 +432,10 @@ function UseAdminManagement() {
   const updateStaffSector = async (id, sector) => {
     try {
       setLoading(true);
-      const response = await client.post("/staff-categories/create", {id: id, ...sector});
+      const response = await client.post("/staff-categories/create", {
+        id: id,
+        ...sector,
+      });
       return response.data;
     } catch (error) {
       console.error("Error updating sector:", error);
@@ -441,7 +447,10 @@ function UseAdminManagement() {
   const updateStaffSubsector = async (id, subsector) => {
     try {
       setLoading(true);
-      const response = await client.post("/staff-categories/subcategory/create", {id: id, ...subsector});
+      const response = await client.post(
+        "/staff-categories/subcategory/create",
+        { id: id, ...subsector }
+      );
       return response.data;
     } catch (error) {
       console.error("Error updating sector:", error);
@@ -453,15 +462,22 @@ function UseAdminManagement() {
 
   const createStaffSubsector = async (subsector) => {
     try {
-      const response = await client.post("/staff-categories/subcategory/create", subsector);
+      const response = await client.post(
+        "/staff-categories/subcategory/create",
+        subsector
+      );
       return response.data;
     } catch (error) {
       console.error("Error creating subsector:", error);
-      const errorDetails = Object.entries(error?.response?.data?.errors || {})
-        .map(([key, value]) => `${key}: ${value}`)
-        .join("\n") || error?.message;
+      const errorDetails =
+        Object.entries(error?.response?.data?.errors || {})
+          .map(([key, value]) => `${key}: ${value}`)
+          .join("\n") || error?.message;
 
-      onFailure({ message: "Subcategory Creation Failed", error: errorDetails });
+      onFailure({
+        message: "Subcategory Creation Failed",
+        error: errorDetails,
+      });
       return null;
     }
   };
@@ -482,20 +498,23 @@ function UseAdminManagement() {
   const deleteStaffSubsectorById = async (id) => {
     try {
       setLoading(true);
-      const response = await client.delete(`/staff-categories/subcategory/${id}`);
+      const response = await client.delete(
+        `/staff-categories/subcategory/${id}`
+      );
       return response.data;
     } catch (error) {
       console.error("Error deleting subsector:", error);
       return null;
-      const errorDetails = Object.entries(error?.response?.data?.errors || {})
-        .map(([key, value]) => `${key}: ${value}`)
-        .join("\n") || error?.message;
+      const errorDetails =
+        Object.entries(error?.response?.data?.errors || {})
+          .map(([key, value]) => `${key}: ${value}`)
+          .join("\n") || error?.message;
 
       onFailure({ message: "Error", error: errorDetails });
     } finally {
       setLoading(false);
     }
-  }
+  };
   ///
   const createSectorWithSubsectors = async (sector, subsectors) => {
     try {
@@ -503,7 +522,7 @@ function UseAdminManagement() {
       const createdSector = await createSector(sector);
       if (createdSector && createdSector.data) {
         const sectorId = createdSector.data.id;
-        const subSectorPromises = subsectors.map(subsector => {
+        const subSectorPromises = subsectors.map((subsector) => {
           return createSubsector({ name: subsector, sector_id: sectorId });
         });
         const createdSubsectors = await Promise.all(subSectorPromises);
@@ -518,7 +537,6 @@ function UseAdminManagement() {
     }
   };
 
-
   const deleteSectorById = async (id) => {
     try {
       setLoading(true);
@@ -526,9 +544,10 @@ function UseAdminManagement() {
       return response.data;
     } catch (error) {
       console.error("Error deleting sector:", error);
-       const errorDetails = Object.entries(error?.response?.data?.errors || {})
-        .map(([key, value]) => `${key}: ${value}`)
-        .join("\n") || error?.message;
+      const errorDetails =
+        Object.entries(error?.response?.data?.errors || {})
+          .map(([key, value]) => `${key}: ${value}`)
+          .join("\n") || error?.message;
 
       onFailure({ message: "Error", error: errorDetails });
       return null;
@@ -545,15 +564,16 @@ function UseAdminManagement() {
     } catch (error) {
       console.error("Error deleting subsector:", error);
       return null;
-      const errorDetails = Object.entries(error?.response?.data?.errors || {})
-        .map(([key, value]) => `${key}: ${value}`)
-        .join("\n") || error?.message;
+      const errorDetails =
+        Object.entries(error?.response?.data?.errors || {})
+          .map(([key, value]) => `${key}: ${value}`)
+          .join("\n") || error?.message;
 
       onFailure({ message: "Error", error: errorDetails });
     } finally {
       setLoading(false);
     }
-  }
+  };
 
   const adminLogin = async (data) => {
     try {
@@ -572,12 +592,12 @@ function UseAdminManagement() {
     // console.log(authDetails?.token);
     try {
       setLoading(true);
-      const response = await client.post('/admin/logout');
+      const response = await client.post("/admin/logout");
       return response.status;
     } catch (error) {
-      console.error('Error', error);
+      console.error("Error", error);
       if (error.response && error.response.status === 401) {
-        console.error('Unauthorized error:', error.response.data);
+        console.error("Unauthorized error:", error.response.data);
       }
       return null;
     } finally {
@@ -585,112 +605,96 @@ function UseAdminManagement() {
     }
   };
 
-
   const AdminRegistration = async (data) => {
     try {
-      setLoading(true)
-      const response = await client.post('/admin/register', data)
-      return response
-
+      setLoading(true);
+      const response = await client.post("/admin/register", data);
+      return response;
     } catch (error) {
       if (error.status === 400) {
-        return error
+        return error;
       }
-      console.error('Error in registration', error.status)
+      console.error("Error in registration", error.status);
+    } finally {
+      setLoading(false);
     }
-    finally {
-      setLoading(false)
-    }
-  }
+  };
 
   const AdminChangePwd = async (data) => {
     try {
-      setLoading(true)
-      const response = await MainAxios.post('/admin/changePassword', data)
-      return response
+      setLoading(true);
+      const response = await MainAxios.post("/admin/changePassword", data);
+      return response;
+    } catch (error) {
+      console.error("Error", error);
+      return error;
+    } finally {
+      setLoading(false);
     }
-    catch (error) {
-      console.error('Error', error)
-        return error
-    }
-    finally {
-      setLoading(false)
-    }
-  }
+  };
 
   const AdminForgotPwd = async (data) => {
     try {
-      setLoading(true)
-      const response = await client.post('/admin/forgotten-password', data)
+      setLoading(true);
+      const response = await client.post("/admin/forgotten-password", data);
       console.log("response", response);
-      return response
+      return response;
+    } catch (error) {
+      console.error("Error", error);
+      return error;
+    } finally {
+      setLoading(false);
     }
-    catch (error) {
-      console.error('Error', error)
-      return error
-    }
-    finally {
-      setLoading(false)
-    }
-  }
+  };
 
   const AdminResetPwd = async (data) => {
     try {
-      setLoading(true)
-      const response = await client.post('/etPassword', data)
-      return response.data
+      setLoading(true);
+      const response = await client.post("/etPassword", data);
+      return response.data;
+    } catch (error) {
+      console.error("Error", error.message);
+    } finally {
+      setLoading(false);
     }
-    catch (error) {
-      console.error('Error', error.message)
-    }
-    finally {
-      setLoading(false)
-    }
-  }
+  };
 
   const getAllJobs = async () => {
     try {
-      setLoading(true)
-      const response = await client.get("/job")
-      return response.data
+      setLoading(true);
+      const response = await client.get("/job");
+      return response.data;
     } catch (error) {
-      console.error("error getting jobs", error)
+      console.error("error getting jobs", error);
+    } finally {
+      setLoading(false);
     }
-    finally {
-      setLoading(false)
-    }
-  }
+  };
 
   const getJobById = async (id) => {
     try {
-      setLoading(true)
-      const response = await client.get(`/job/${id}`)
-      return response.data
+      setLoading(true);
+      const response = await client.get(`/job/${id}`);
+      return response.data;
+    } catch (error) {
+      console.log("Error getting job by id", error);
+    } finally {
+      setLoading(false);
     }
-    catch (error) {
-      console.log('Error getting job by id', error)
-    }
-    finally {
-      setLoading(false)
-    }
-  }
+  };
 
   const getSalaries = async () => {
     try {
-      setLoading(true)
-      const response = await client.get('/salaries')
-      return response.data
+      setLoading(true);
+      const response = await client.get("/salaries");
+      return response.data;
+    } catch (err) {
+      console.error("Error getting salaries", err);
+      return null;
+    } finally {
+      setLoading(false);
     }
-    catch (err) {
-      console.error('Error getting salaries', err)
-      return null
-    }
-    finally {
-      setLoading(false)
-    }
-  }
-
-
+  };
 
   const deleteSalaryById = async (id) => {
     try {
@@ -705,57 +709,50 @@ function UseAdminManagement() {
     }
   };
 
-const createSalary = async (data) => {
-  try {
-    setLoading(true)
-    const response = await client.post('/salaries', data)
-    return response.data
-  }
-  catch (err) {
-    console.error('Error creating salary', err)
-    return null
-  }
-  finally {
-    setLoading(false)
-  }
-}
+  const createSalary = async (data) => {
+    try {
+      setLoading(true);
+      const response = await client.post("/salaries", data);
+      return response.data;
+    } catch (err) {
+      console.error("Error creating salary", err);
+      return null;
+    } finally {
+      setLoading(false);
+    }
+  };
 
-const getAllAdmins = async () => {
-  try {
-    setLoading(true)
-    const response = await client.get('/admin/getAdmin')
-    return response.data.Admins
-  }
-  catch (err) {
-    console.error('Error getting all admins', err)
-    return null
-  }
-  finally {
-    setLoading(false)
-  }
-}
+  const getAllAdmins = async () => {
+    try {
+      setLoading(true);
+      const response = await client.get("/admin/getAdmin");
+      return response.data.Admins;
+    } catch (err) {
+      console.error("Error getting all admins", err);
+      return null;
+    } finally {
+      setLoading(false);
+    }
+  };
 
-const deleteAdminById = async (id) => {
-  try {
-    setLoading(true)
-    const response = await client.delete(`/admin/deleteAdmin/${id}`)
-    return response.data
-  }
-  catch (err) {
-    console.error('Error deleting admin', err)
-    return null
-  }
-  finally {
-    setLoading(false)
-  }
+  const deleteAdminById = async (id) => {
+    try {
+      setLoading(true);
+      const response = await client.delete(`/admin/deleteAdmin/${id}`);
+      return response.data;
+    } catch (err) {
+      console.error("Error deleting admin", err);
+      return null;
+    } finally {
+      setLoading(false);
+    }
+  };
 
-}
-
-const updateFeaturedJobs = async (job, status) => {
-  try {
-     // Define fields to exclude
+  const updateFeaturedJobs = async (job, status) => {
+    try {
+      // Define fields to exclude
       const excludedFields = ["featured_image"];
-  
+
       // Filter the `post` object to exclude image fields
       const filteredJob = Object.keys(job).reduce((acc, key) => {
         if (!excludedFields.includes(key)) {
@@ -763,29 +760,35 @@ const updateFeaturedJobs = async (job, status) => {
         }
         return acc;
       }, {});
-    setLoading(true);
-    const response = await client.post(`/job`, {
-      ...filteredJob,
-      feature_jobs: status,
-    }, {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    return response.data;
-  } catch (error) {
-    console.error("Error updating jobs", error);
-    return null;
-  } finally {
-    setLoading(false);
-  }
-};
+      setLoading(true);
+      const response = await client.post(
+        `/job`,
+        {
+          ...filteredJob,
+          feature_jobs: status,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      return response.data;
+    } catch (error) {
+      console.error("Error updating jobs", error);
+      return null;
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const getPackages = async () => {
     setLoading(true);
     try {
       const { data } = await client.get("/packages");
-      const userPackage = data.data.sort((a,b) => Number(a.price) - Number(b.price))
+      const userPackage = data.data.sort(
+        (a, b) => Number(a.price) - Number(b.price)
+      );
 
       return userPackage;
     } catch (error) {
@@ -796,7 +799,6 @@ const updateFeaturedJobs = async (job, status) => {
     }
   };
 
-  
   const createPackage = async (pkg) => {
     try {
       setLoading(true);
@@ -822,34 +824,30 @@ const updateFeaturedJobs = async (job, status) => {
     }
   };
 
-  
-const deletePackageById = async (id) => {
-  try {
-    setLoading(true)
-    const response = await client.delete(`/packages/${id}`)
-    return true
-  }
-  catch (error) {
-    FormatError(error, setError, "Package Removal Error");
-    return false
-  }
-  finally {
-    setLoading(false)
-  }
+  const deletePackageById = async (id) => {
+    try {
+      setLoading(true);
+      const response = await client.delete(`/packages/${id}`);
+      return true;
+    } catch (error) {
+      FormatError(error, setError, "Package Removal Error");
+      return false;
+    } finally {
+      setLoading(false);
+    }
+  };
 
-}
-
-const getSupport = async () => {
-  setLoading(true);
-  try {
-    const response = await client.get("/contact");
-    return response?.data?.data;
-  } catch (error) {
-    return null;
-  } finally {
-    setLoading(false);
-  }
-};
+  const getSupport = async () => {
+    setLoading(true);
+    try {
+      const response = await client.get("/contact");
+      return response?.data?.data;
+    } catch (error) {
+      return null;
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return {
     loading,
@@ -887,6 +885,7 @@ const getSupport = async () => {
     deleteStaffSectorById,
     deleteStaffSubsectorById,
     getCurrencies,
+    getCurrencyById,
     deleteCurrencyById,
     adminLogin,
     AdminLogout,
@@ -906,7 +905,7 @@ const getSupport = async () => {
     createPackage,
     updatePackage,
     deletePackageById,
-    getSupport
+    getSupport,
   };
 }
 

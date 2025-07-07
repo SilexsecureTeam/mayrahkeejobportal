@@ -15,11 +15,14 @@ import {
   genderData,
   salaryTypeData,
 } from "../../../utils/formFields";
+import { useLocationService } from "../../../services/locationService";
 
 function BasicInformation({ jobUtils, validateAndProceed, editJob }) {
   const { getEmployentTypes, getCurrencies, getSectors, getSubSectors } =
     useJobManagement();
-  const [salaryRange, setSalaryRange] = useState([5000, 22000]);
+  const { getStates } = useLocationService();
+
+  const [states, setStates] = useState([]);
   const [jobSectorList, setJobSectorList] = useState([]);
   const [selectedType, setSelectedType] = useState(
     jobUtils?.details?.type && jobUtils?.details?.type
@@ -76,6 +79,20 @@ function BasicInformation({ jobUtils, validateAndProceed, editJob }) {
       alert("Please select a valid JPEG or PNG file.");
     }
   };
+
+  useEffect(() => {
+    const fetchStates = async () => {
+      try {
+        const response = await getStates(true); // optional: pass true for full data
+        setStates(response.data || []);
+      } catch (error) {
+        console.error("Error fetching states:", error);
+      }
+    };
+
+    fetchStates();
+  }, []);
+
   useEffect(() => {
     const initData = async () => {
       const employmentListResult = await getEmployentTypes();
@@ -134,9 +151,7 @@ function BasicInformation({ jobUtils, validateAndProceed, editJob }) {
   useEffect(() => {
     if (jobUtils?.details?.location) {
       setSelectedLocation(
-        State.getStatesOfCountry("NG")?.find(
-          (one) => one.name === jobUtils?.details.location
-        )
+        states?.find((one) => one.name === jobUtils?.details.location)
       );
     }
   }, [jobUtils?.details?.location]);
@@ -376,7 +391,7 @@ function BasicInformation({ jobUtils, validateAndProceed, editJob }) {
           name: "location",
           required: true,
         }}
-        listData={State.getStatesOfCountry("NG")}
+        listData={states}
         jobUtils={jobUtils}
         selected={selectedLocation}
         setSelected={setSelectedLocation}

@@ -1,5 +1,11 @@
 import { lazy, useContext, useEffect, useReducer, useState } from "react";
-import { Navigate, Route, Routes, useLocation, useNavigate } from "react-router-dom";
+import {
+  Navigate,
+  Route,
+  Routes,
+  useLocation,
+  useNavigate,
+} from "react-router-dom";
 import { adminOptions, adminnUtilOptions } from "../utils/constants";
 import { AuthContext } from "../context/AuthContex";
 import { clear } from "idb-keyval";
@@ -46,26 +52,53 @@ import AllAdmins from "../admin-module/pages/settings/SuperAdmin/AllAdmin";
 // Util Component
 const NavBar = lazy(() => import("../admin-module/components/NavBar"));
 const SideBar = lazy(() => import("../admin-module/components/SideBar"));
-const SideBarItem = lazy(() => import("../admin-module/components/SideBarItem"));
+const SideBarItem = lazy(() =>
+  import("../admin-module/components/SideBarItem")
+);
 
 // Pages
-const Dashboard = lazy(() => import("../admin-module/pages/dashboard/Dashboard"));
+const Dashboard = lazy(() =>
+  import("../admin-module/pages/dashboard/Dashboard")
+);
 const HelpCenter = lazy(() => import("../admin-module/pages/help-center/Help"));
 const Settings = lazy(() => import("../admin-module/pages/settings/Settings"));
-const Employers = lazy(() => import("../admin-module/pages/employers/Employers"));
-const AllEmployers = lazy(() => import("../admin-module/pages/employers/AllEmployers"));
-const EmployerDetails = lazy(() => import("../admin-module/pages/employers/EmployerDetails"));
+const Employers = lazy(() =>
+  import("../admin-module/pages/employers/Employers")
+);
+const AllEmployers = lazy(() =>
+  import("../admin-module/pages/employers/AllEmployers")
+);
+const EmployerDetails = lazy(() =>
+  import("../admin-module/pages/employers/EmployerDetails")
+);
 const Artisan = lazy(() => import("../admin-module/pages/artisans/Artisans"));
-const AllArtisans = lazy(() => import("../admin-module/pages/artisans/AllArtisans"));
-const ArtisanDetails = lazy(() => import("../admin-module/pages/artisans/ArtisanDetails"));
-const DomesticStaff = lazy(() => import("../admin-module/pages/domesticStaff/DomesticStaff"));
-const AllDomesticStaff = lazy(() => import("../admin-module/pages/domesticStaff/AllDomesticStaff"));
-const DomesticStaffDetails = lazy(() => import("../admin-module/pages/domesticStaff/DomesticStaffDetails"));
-const Candidates = lazy(() => import("../admin-module/pages/candidate/Candidate"));
+const AllArtisans = lazy(() =>
+  import("../admin-module/pages/artisans/AllArtisans")
+);
+const ArtisanDetails = lazy(() =>
+  import("../admin-module/pages/artisans/ArtisanDetails")
+);
+const DomesticStaff = lazy(() =>
+  import("../admin-module/pages/domesticStaff/DomesticStaff")
+);
+const AllDomesticStaff = lazy(() =>
+  import("../admin-module/pages/domesticStaff/AllDomesticStaff")
+);
+const DomesticStaffDetails = lazy(() =>
+  import("../admin-module/pages/domesticStaff/DomesticStaffDetails")
+);
+const Candidates = lazy(() =>
+  import("../admin-module/pages/candidate/Candidate")
+);
 const Blogs = lazy(() => import("../admin-module/pages/blogs/ManageBlogs"));
 const CreateBlog = lazy(() => import("../admin-module/pages/blogs/CreateBlog"));
 const Support = lazy(() => import("../admin-module/pages/support/Support"));
-const ManageCharges = lazy(() => import("../admin-module/pages/settings/ManageCharges"));
+const ManageCharges = lazy(() =>
+  import("../admin-module/pages/settings/ManageCharges")
+);
+const AdminLocationManager = lazy(() =>
+  import("../admin-module/pages/settings/AdminLocationManager")
+);
 
 function useAdminRoute() {
   // const [state, dispatch] = useReducer(AdminReducer, adminOptions.find((option) => option.route === path));
@@ -164,7 +197,11 @@ function useAdminRoute() {
               )}
 
               {/* Routes and dashboard take up 80% of total width and 100% of height */}
-              <div className={`relative flex divide-y-2 divide-secondaryColor bg-white flex-col h-full ${!shouldHideNavBar ? 'md:w-[82%] w-full' : 'w-full'}`}>
+              <div
+                className={`relative flex divide-y-2 divide-secondaryColor bg-white flex-col h-full ${
+                  !shouldHideNavBar ? "md:w-[82%] w-full" : "w-full"
+                }`}
+              >
                 {!shouldHideNavBar && (
                   <NavBar
                     state={state}
@@ -175,57 +212,134 @@ function useAdminRoute() {
                 <div className="w-full h-[92%] overflow-y-auto px-2 md:px-5 lg-px-8">
                   <PrimeReactProvider value={{ unstyled: true, pt: Tailwind }}>
                     <Routes>
-                      
                       <Route path="/reset-pwd" element={<AdminResetPwd />} />
-                      <Route path="/settings/register" element={<AdminRegistrationForm />} />
-                      <Route path="/forget-pwd" element={<AdminForgotPassword />} />
-                      <Route path="/change-pwd" element={<AdminChangePassword />} />
+                      <Route
+                        path="/settings/register"
+                        element={<AdminRegistrationForm />}
+                      />
+                      <Route
+                        path="/forget-pwd"
+                        element={<AdminForgotPassword />}
+                      />
+                      <Route
+                        path="/change-pwd"
+                        element={<AdminChangePassword />}
+                      />
                       <Route index element={<Dashboard />} />
                       <Route path="/employers" element={<Employers />} />
 
                       <Route path="/employers/all" element={<AllEmployers />} />
-                      <Route path="/employer/details/:id" element={<EmployerDetails />} />
-                      <Route path="/employer-jobs/details/:id" element={<JobsByEmployerDetails />} />
-                      <Route path="/employer/alljobs/:id" element={<AllDataJobsPostedEmployer />} />
-                      <Route path="/employer/applied-jobs/:id" element={<AppliedJobs />} />
-                      <Route path="/employer/:id/candidates" element={<EmployerCandidates />} />
-                      <Route path="/employer/:id/staffs" element={<EmployerStaff />} />
-                      <Route path="/domestic-staff" element={<DomesticStaff />} />
-                      <Route path="/domestic-staff/all" element={<AllDomesticStaff />} />
-                      <Route path="/domestic-staff/details/:id" element={<DomesticStaffDetails />} />
+                      <Route
+                        path="/employer/details/:id"
+                        element={<EmployerDetails />}
+                      />
+                      <Route
+                        path="/employer-jobs/details/:id"
+                        element={<JobsByEmployerDetails />}
+                      />
+                      <Route
+                        path="/employer/alljobs/:id"
+                        element={<AllDataJobsPostedEmployer />}
+                      />
+                      <Route
+                        path="/employer/applied-jobs/:id"
+                        element={<AppliedJobs />}
+                      />
+                      <Route
+                        path="/employer/:id/candidates"
+                        element={<EmployerCandidates />}
+                      />
+                      <Route
+                        path="/employer/:id/staffs"
+                        element={<EmployerStaff />}
+                      />
+                      <Route
+                        path="/domestic-staff"
+                        element={<DomesticStaff />}
+                      />
+                      <Route
+                        path="/domestic-staff/all"
+                        element={<AllDomesticStaff />}
+                      />
+                      <Route
+                        path="/domestic-staff/details/:id"
+                        element={<DomesticStaffDetails />}
+                      />
                       <Route path="/settings" element={<Settings />} />
                       <Route path="/settings/sectors" element={<Sectors />} />
-                      <Route path="/settings/staff-sectors" element={<StaffSectors />} />
+                      <Route
+                        path="/settings/staff-sectors"
+                        element={<StaffSectors />}
+                      />
                       <Route path="/settings/packages" element={<Packages />} />
-                      <Route path="/settings/charges" element={<ManageCharges />} />
-                      
-                      <Route path="/settings/sectors/categories" element={<AddCategory />} />
+                      <Route
+                        path="/settings/charges"
+                        element={<ManageCharges />}
+                      />
+
+                      <Route
+                        path="/settings/sectors/categories"
+                        element={<AddCategory />}
+                      />
                       <Route path="/settings/currency" element={<Currency />} />
-                      <Route path="/settings/currency/add" element={<AddCurrency />} />
-                      
-                     <Route path="/settings/security" element={<Security />} />
-                      <Route path="/settings/security/admins" element={<AllAdmins />} />
+                      <Route
+                        path="/settings/currency/add"
+                        element={<AddCurrency />}
+                      />
+                      <Route
+                        path="/settings/currency/edit/:id"
+                        element={<AddCurrency />}
+                      />
+                      <Route
+                        path="/settings/location-manager"
+                        element={<AdminLocationManager />}
+                      />
+
+                      <Route path="/settings/security" element={<Security />} />
+                      <Route
+                        path="/settings/security/admins"
+                        element={<AllAdmins />}
+                      />
                       <Route path="/help-center" element={<HelpCenter />} />
                       <Route path="/artisan" element={<Artisan />} />
                       <Route path="/artisans/all" element={<AllArtisans />} />
-                      <Route path="/artisan/details/:id" element={<ArtisanDetails />} />
+                      <Route
+                        path="/artisan/details/:id"
+                        element={<ArtisanDetails />}
+                      />
                       <Route path="/candidates" element={<Candidates />} />
-                      <Route path="/candidates/all" element={<AllCandidate />} />
-                      <Route path="/candidate/details/:id" element={<CandidateDetails />} />
-                      <Route path="/candidate/:id/staffs" element={<CandidateStaff />} />
+                      <Route
+                        path="/candidates/all"
+                        element={<AllCandidate />}
+                      />
+                      <Route
+                        path="/candidate/details/:id"
+                        element={<CandidateDetails />}
+                      />
+                      <Route
+                        path="/candidate/:id/staffs"
+                        element={<CandidateStaff />}
+                      />
                       <Route path="/job-listing" element={<JobListing />} />
                       <Route path="/jobs" element={<AllJobs />} />
-                      <Route path="/job/details/:id" element={<JobDescriptionPage />} />
+                      <Route
+                        path="/job/details/:id"
+                        element={<JobDescriptionPage />}
+                      />
                       <Route path="/guarantors" element={<AllGuarantors />} />
-                      <Route path="/medical-histories" element={<AllMedicalHistories />} />
+                      <Route
+                        path="/medical-histories"
+                        element={<AllMedicalHistories />}
+                      />
 
-
-                      <Route path="/police-reports" element={<AllPoliceReports />} />
+                      <Route
+                        path="/police-reports"
+                        element={<AllPoliceReports />}
+                      />
                       <Route path="/blogs" element={<Blogs />} />
                       <Route path="/create-blog" element={<CreateBlog />} />
 
                       <Route path="/support" element={<Support />} />
-
                     </Routes>
                   </PrimeReactProvider>
                 </div>

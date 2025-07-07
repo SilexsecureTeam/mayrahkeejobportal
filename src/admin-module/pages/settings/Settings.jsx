@@ -7,7 +7,7 @@ import {
   BsToggles,
 } from "react-icons/bs";
 import SettingsCard from "../../components/Settings/SettingsCard";
-import { FaFile, FaMoneyBill, FaPlus } from "react-icons/fa";
+import { FaFile, FaGlobeAfrica, FaMoneyBill, FaPlus } from "react-icons/fa";
 import { TbBrandGoogleAnalytics, TbShieldHalf } from "react-icons/tb";
 import { GrAnnounce } from "react-icons/gr";
 import { MdWorkOutline, MdPeopleOutline } from "react-icons/md";
@@ -23,6 +23,14 @@ function Settings() {
           subtitle="Add all the subscription plans"
           smallTextIcon={<FaPlus />}
           link="/admin/settings/packages"
+        />
+        {/* ✅ Admin Location Manager Card */}
+        <SettingsCard
+          rightIcon={<FaGlobeAfrica />}
+          title="Location Manager"
+          subtitle="Add countries, states, and LGAs"
+          smallTextIcon={<FaPlus />}
+          link="/admin/settings/location-manager"
         />
         <SettingsCard
           rightIcon={<span className="text-lg font-semibold">₦</span>}
