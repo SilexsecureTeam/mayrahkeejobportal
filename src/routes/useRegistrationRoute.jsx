@@ -17,25 +17,38 @@ const EmailVerification = lazy(() =>
 function useRegistrationRoute() {
   const [state, dispatch] = useReducer(RegistrationReducer, intialProfileState);
   const [role, setRole] = useState("candidate");
-  
+
   return (
     <>
       <Helmet>
         <title>Registration Page</title>
       </Helmet>
-      <main className="w-screen h-screen flex">
-        <div className="w-[50%] md:block hidden  h-screen">
+      <main className="w-screen h-screen flex items-stretch">
+        <div className="w-[50%] md:block hidden h-full">
           <RegistrationProgress state={state} dispatch={dispatch} role={role} />
         </div>
 
         <Routes>
           <Route
             index
-            element={<RegistrationFormTwo state={state} dispatch={dispatch} role={role} setRole={setRole} />}
+            element={
+              <RegistrationFormTwo
+                state={state}
+                dispatch={dispatch}
+                role={role}
+                setRole={setRole}
+              />
+            }
           />
           <Route
             path="email_verification"
-            element={<EmailVerification state={state} dispatch={dispatch} role={role} />}
+            element={
+              <EmailVerification
+                state={state}
+                dispatch={dispatch}
+                role={role}
+              />
+            }
           />
         </Routes>
       </main>

@@ -3,7 +3,6 @@ import {
   RegistrationReducer,
   intialProfileState,
 } from "../reducers/RegistrationReducer";
-import RegistrationProgress from "../components/Auth/RegistrationProgress";
 import { useReducer } from "react";
 import RegistrationFormTwo from "../components/Auth/RegistrationFormTwo";
 
@@ -16,9 +15,7 @@ function RegistrationTwo() {
         <title>Registration Page</title>
       </Helmet>
       <main className="w-screen h-screen flex">
-
-        <RegistrationFormTwo/>
-
+        <RegistrationFormTwo />
       </main>
     </>
   );

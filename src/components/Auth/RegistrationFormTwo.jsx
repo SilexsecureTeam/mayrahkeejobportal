@@ -7,7 +7,7 @@ import Card from "../../assets/pngs/card-icon.png";
 import Padlock from "../../assets/pngs/padlock.png";
 import { IoMdCheckbox } from "react-icons/io";
 import { MdCheckBoxOutlineBlank } from "react-icons/md";
-import { Link, useNavigate, useLocation  } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import FormButton from "../../components/FormButton";
 import useRegistration from "../../hooks/useRegistration";
 import { onSuccess } from "../../utils/notifications/OnSuccess";
@@ -32,7 +32,7 @@ function RegistrationFormTwo({ state, dispatch, role, setRole }) {
   const [isTrained, setIsTrained] = useState(false);
   const [gender, setGender] = useState();
   const client = axiosClient();
- 
+
   const [showPassword, setShowPassword] = useState(true);
   const [showPasswordReenter, setShowPasswordReenter] = useState(true);
   const [subCategories, setSubCategories] = useState();
@@ -55,7 +55,7 @@ function RegistrationFormTwo({ state, dispatch, role, setRole }) {
       setRole(id);
     }
   }, [id]);
-  
+
   const handleOnSubmit = (e) => {
     e.preventDefault();
 
@@ -102,34 +102,47 @@ function RegistrationFormTwo({ state, dispatch, role, setRole }) {
   };
 
   useEffect(() => {
-    console.log(role)
+    console.log(role);
     const getSubCategories = async () => {
-      if (role == "artisan") { 
+      if (role == "artisan") {
         const { data } = await client.get("/staff-categories");
         console.log(data.data);
-        setSubCategories(data.data?.filter(one=>one.name.toLowerCase().includes("artisan"))[0]?.subcategories);
+        setSubCategories(
+          data.data?.filter((one) =>
+            one.name.toLowerCase().includes("artisan")
+          )[0]?.subcategories
+        );
         //setSubCategory();
       } else if (role == "staff") {
         const { data } = await client.get("/staff-categories");
-        setSubCategories(data.data?.filter(one=>one.name.toLowerCase().includes("staff"))[0]?.subcategories);
+        setSubCategories(
+          data.data?.filter((one) =>
+            one.name.toLowerCase().includes("staff")
+          )[0]?.subcategories
+        );
         //setSubCategory(data.data.subcategories[0]);
       }
     };
 
     getSubCategories();
-    setSubCategory(null)
+    setSubCategory(null);
   }, [role]);
 
-
   return (
-    <div className="md:w-[50%] w-full px-[5%] pt-[10px] flex flex-col  items-center">
+    <div className="md:w-[50%] w-full px-[3%] lg:px-[5%] py-[10px] flex flex-col overflow-y-auto items-center">
       <img src={MainIcon} className="w-[60%]" />
 
       <div className="flex flex-col items-center gap-[8px] w-full md:w-[60%]">
         <h1 className="font-semibold text-[25px]">Create Account</h1>
-        <Link to='/login' className="cursor-pointer hover:underline text-gray-600 font-medium text-sm">Already have an account? <span className='text-green-400 font-bold'>Login</span></Link>
+        <Link
+          to="/login"
+          className="cursor-pointer hover:underline text-gray-600 font-medium text-sm"
+        >
+          Already have an account?{" "}
+          <span className="text-green-400 font-bold">Login</span>
+        </Link>
         <div className="grid grid-cols-2 w-full mt-[3%] gap-[10px] text-sm font-semibold">
-        <button
+          <button
             onClick={() => setRole("candidate")}
             className={`px-2 py-1 text-little ${
               role === "candidate"
@@ -149,7 +162,7 @@ function RegistrationFormTwo({ state, dispatch, role, setRole }) {
           >
             Corporate Employer
           </button>
-          
+
           <button
             onClick={() => setRole("artisan")}
             className={`px-2 py-1 text-little ${
@@ -211,7 +224,6 @@ function RegistrationFormTwo({ state, dispatch, role, setRole }) {
               type="email"
               value={regDetails.email}
               onChange={onTextChange}
-              
               required
               className="w-[80%] h-full placeholder:text-little text-little bg-white/0 focus:bg-white/0  focus:outline-none text-gray-700 "
               placeholder="Email"
@@ -284,14 +296,18 @@ function RegistrationFormTwo({ state, dispatch, role, setRole }) {
             )}{" "}
             Accept terms and conditions?
           </p>
-          {<FormButton condition={!isTrained} loading={loading}>Register</FormButton>}
+          {
+            <FormButton condition={!isTrained} loading={loading}>
+              Register
+            </FormButton>
+          }
         </form>
       ) : (
         <form
           onSubmit={handleOnSubmitStaff}
           className="flex flex-col w-full md:w-[65%] mt-[10px] items-center gap-[15px] md:gap-[5px] "
         >
-           <div className="h-[40px] w-full flex items-center pl-[10px] gap-[10px] rounded-md border-[1.5px]">
+          <div className="h-[40px] w-full flex items-center pl-[10px] gap-[10px] rounded-md border-[1.5px]">
             <img src={Person} className="h-[20px]" />
             <input
               name="first_name"
@@ -352,7 +368,7 @@ function RegistrationFormTwo({ state, dispatch, role, setRole }) {
               />
             )}
           </div>
-          
+
           <div className="h-[40px] w-full flex items-center pl-[10px] gap-[10px] rounded-md border-[1.5px]">
             <img src={Padlock} className="h-[20px]" />
             <input
@@ -399,7 +415,9 @@ function RegistrationFormTwo({ state, dispatch, role, setRole }) {
             )}{" "}
             Accept terms and conditions?
           </p>
-          <FormButton condition={!isTrained} loading={loading}>Register</FormButton>
+          <FormButton condition={!isTrained} loading={loading}>
+            Register
+          </FormButton>
         </form>
       )}
     </div>

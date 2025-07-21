@@ -4,10 +4,9 @@ import { useState } from "react";
 import RegistrationForm from "../components/Auth/RegistrationForm";
 
 function Registration() {
+  const [acceptTerms, setAcceptTerms] = useState(false);
 
-  const [acceptTerms, setAcceptTerms] = useState(false)
-
-  const toogleAcceptTerms = () => toogleAcceptTerms(!acceptTerms)
+  const toogleAcceptTerms = () => toogleAcceptTerms(!acceptTerms);
 
   return (
     <>
@@ -23,10 +22,13 @@ function Registration() {
           src={LoginOne}
         /> */}
 
-        <SideCard/>
+        <SideCard />
 
-        <RegistrationForm acceptTerms={acceptTerms} toogleAcceptTerms={toogleAcceptTerms} />
-        </main>
+        <RegistrationForm
+          acceptTerms={acceptTerms}
+          toogleAcceptTerms={toogleAcceptTerms}
+        />
+      </main>
     </>
   );
 }

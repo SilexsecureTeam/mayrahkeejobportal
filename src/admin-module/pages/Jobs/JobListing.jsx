@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { BiTrendingUp } from "react-icons/bi";
 import { FaEye } from "react-icons/fa";
-import JobListingChart from "./JobListingChart";
 import { FaBriefcase } from "react-icons/fa6";
+import JobListingChart from "./JobListingChart";
 import JobsUsageChart from "./JobsUsageChart";
 import { useNavigate } from "react-router-dom";
 import UseAdminManagement from "../../../hooks/useAdminManagement";
@@ -15,8 +15,7 @@ function JobListing() {
   useEffect(() => {
     (async () => {
       const allJobs = await getAllJobs();
-      setJobs(allJobs.length); // Assuming allJobs is an array
-      console.log(allJobs);
+      setJobs(allJobs.length);
     })();
   }, []);
 
@@ -26,12 +25,6 @@ function JobListing() {
     { country: "UK", flag: "🇬🇧", visitors: 600 },
     { country: "Germany", flag: "🇩🇪", visitors: 400 },
     { country: "France", flag: "🇫🇷", visitors: 300 },
-    { country: "Germany", flag: "🇩🇪", visitors: 400 },
-    { country: "France", flag: "🇫🇷", visitors: 300 },
-    { country: "Germany", flag: "🇩🇪", visitors: 400 },
-    { country: "France", flag: "🇫🇷", visitors: 300 },
-    { country: "Germany", flag: "🇩🇪", visitors: 400 },
-    { country: "France", flag: "🇫🇷", visitors: 300 },
   ];
 
   const handleNavigate = () => {
@@ -39,14 +32,15 @@ function JobListing() {
   };
 
   return (
-    <div className="p-4 flex flex-wrap gap-4">
-      <div className="w-full md:w-3/5 lg:w-3/5 flex flex-col gap-4">
-        <div className="flex gap-4">
-          <div className="w-full md:w-1/2 lg:w-1/2 shadow-lg p-4 bg-white rounded-lg">
+    <div className="p-4 grid grid-cols-1 lg:grid-cols-3 gap-4">
+      {/* Left Section: Charts + Stats */}
+      <div className="lg:col-span-2 flex flex-col gap-4">
+        {/* Stat Cards */}
+        <div className="flex flex-col sm:flex-row gap-4">
+          {/* Total Views */}
+          <div className="flex-1 shadow-lg p-4 bg-white rounded-lg">
             <div className="flex justify-between items-center mb-4">
-              <div>
-                <h2 className="text-md text-zinc-400">Total Views</h2>
-              </div>
+              <h2 className="text-md text-zinc-400">Total Views</h2>
               <div className="w-8 h-8 flex items-center justify-center rounded-full bg-blue-400">
                 <FaEye className="text-white text-xl" />
               </div>
@@ -59,41 +53,45 @@ function JobListing() {
             </div>
           </div>
 
+          {/* Jobs Posted */}
           <div
-            className="w-full md:w-1/2 lg:w-1/2 shadow-lg p-4 bg-white rounded-lg hover:cursor-pointer hover:bg-green-200"
+            className="flex-1 shadow-lg p-4 bg-white rounded-lg cursor-pointer hover:bg-green-100 transition"
             onClick={handleNavigate}
           >
             <div className="flex justify-between items-center mb-4">
-              <div>
-                <h2 className="text-md text-zinc-400">All Jobs Posted</h2>
-              </div>
+              <h2 className="text-md text-zinc-400">All Jobs Posted</h2>
               <div className="w-8 h-8 flex items-center justify-center rounded-full bg-purple-400">
                 <FaBriefcase className="text-white text-xl" />
               </div>
             </div>
             <div className="flex items-center">
               <h1 className="text-3xl mr-2 font-semibold">{jobs}</h1>
-              {/* <h1 className="text-red-500 flex items-center text-sm">
-                0.4% <BiTrendingDown className="ml-1" />
-              </h1> */}
             </div>
           </div>
         </div>
 
+        {/* Chart */}
         <div className="shadow-lg p-4 bg-white rounded-lg">
           <JobListingChart />
         </div>
       </div>
 
-      <div className="w-full md:w-1/3 lg:w-1/3 flex flex-col gap-4">
-        <div className="shadow-lg p-4 bg-white rounded-lg">
+      {/* Right Section: Donut + Visitors */}
+      <div className="flex flex-col gap-4">
+        {/* Donut Chart */}
+        <div className="shadow-lg bg-white rounded-lg p-4 w-full">
           <JobsUsageChart />
         </div>
+
+        {/* Visitors */}
         <div className="shadow-lg p-4 bg-white rounded-lg max-h-64 overflow-y-auto">
           <h2 className="text-md text-zinc-400 mb-4">Visitors by Country</h2>
           <ul>
             {visitorsByCountry.map((visitor, index) => (
-              <li key={index} className="flex justify-between items-center mb-2">
+              <li
+                key={index}
+                className="flex justify-between items-center mb-2"
+              >
                 <span className="flex items-center">
                   <span className="mr-2">{visitor.flag}</span>
                   {visitor.country}

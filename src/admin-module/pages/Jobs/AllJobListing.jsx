@@ -57,15 +57,14 @@ function AllJobs() {
   };
 
   const heading = [
-  "id",
-  "job_title",
-  "salary_type",
-  "sector",
-  "type",
-  "status",
-  "feature_jobs",
-];
-
+    "id",
+    "job_title",
+    "salary_type",
+    "sector",
+    "type",
+    "status",
+    "feature_jobs",
+  ];
 
   const data = jobs.map((job) => {
     const deadline = new Date(job.application_deadline_date);
@@ -82,12 +81,7 @@ function AllJobs() {
       [heading[2].toLowerCase()]: job.salary_type,
       [heading[3].toLowerCase()]: job.sector,
       [heading[4].toLowerCase()]: job.type,
-      [heading[5].toLowerCase()]:
-        String(job.status) === "1"
-          ? "Approved"
-          : String(job.status) === "0"
-          ? "Pending"
-          : job.status,
+      [heading[5].toLowerCase()]: job.status,
       [heading[6].toLowerCase()]: isDeadlinePassed ? (
         <span className="text-yellow-600 font-medium">Deadline Passed</span>
       ) : (
@@ -116,40 +110,35 @@ function AllJobs() {
       </h2>
 
       <DataTableComponent
-  heading={heading}
-  data={jobs} 
-  isLoading={loading}
-  name="job"
-  allowEdit={true}
-  renderers={{
-    "featured jobs": (rowData) => {
-      const deadline = new Date(rowData.application_deadline_date);
-      const today = new Date();
-      deadline.setHours(0, 0, 0, 0);
-      today.setHours(0, 0, 0, 0);
+        heading={heading}
+        data={jobs}
+        isLoading={loading}
+        name="job"
+        allowEdit={true}
+        renderers={{
+          feature_jobs: (rowData) => {
+            const deadline = new Date(rowData.application_deadline_date);
+            const today = new Date();
+            deadline.setHours(0, 0, 0, 0);
+            today.setHours(0, 0, 0, 0);
 
-      const isDeadlinePassed = deadline < today;
-      const isFeatured = String(rowData.feature_jobs) === "1";
+            const isDeadlinePassed = deadline < today;
+            const isFeatured = String(rowData.feature_jobs) === "1";
 
-      return isDeadlinePassed ? (
-        <span className="text-yellow-600 font-medium">Deadline Passed</span>
-      ) : (
-        <ToggleSwitch
-          isOn={isFeatured}
-          isLoading={loadingToggles[rowData.id]}
-          onToggle={() => handleToggle(rowData, isFeatured)}
-        />
-      );
-    },
-    status: (rowData) =>
-      String(rowData.status) === "1"
-        ? "Approved"
-        : String(rowData.status) === "0"
-        ? "Pending"
-        : rowData.status,
-  }}
-/>
-      
+            return isDeadlinePassed ? (
+              <span className="text-yellow-600 font-medium">
+                Deadline Passed
+              </span>
+            ) : (
+              <ToggleSwitch
+                isOn={isFeatured}
+                isLoading={loadingToggles[rowData.id]}
+                onToggle={() => handleToggle(rowData, isFeatured)}
+              />
+            );
+          },
+        }}
+      />
     </div>
   );
 }
