@@ -253,7 +253,7 @@ export const companyBasicInputs = [
     name: "location",
     label: "Location",
     type: "text",
-    placeholder: "123 Example Street, City, Country",
+    placeholder: "Ogun State",
   },
   {
     id: 12,

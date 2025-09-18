@@ -55,10 +55,12 @@ function JobStatistic({ applicants, byCategory }) {
       });
 
       return {
-        categories: Object.keys(byCategory).map((cat) => byCategory[cat][0].job_title),
+        categories: Object.keys(byCategory).map(
+          (cat) => byCategory[cat][0].job_title
+        ),
         series: [
           {
-            name: "Rejected",
+            name: "Declined",
             data: applicantByStatus.declined.map((item) => item.count),
           },
           {
@@ -129,7 +131,10 @@ function JobStatistic({ applicants, byCategory }) {
             colorPalette.Interviewed,
             colorPalette.Onboarded,
           ],
-          title: { text: "Overview of All Applicants", style: { fontSize: "16px" } },
+          title: {
+            text: "Overview of All Applicants",
+            style: { fontSize: "16px" },
+          },
           legend: {
             position: "top",
             horizontalAlign: "center",

@@ -1,15 +1,14 @@
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { NotificationContext } from "../../../context/NotificationContext";
 import NotificationCard from "./NotificationCard";
 import FormButton from "../../../components/FormButton";
 import { onSuccess } from "../../../utils/notifications/OnSuccess";
-import { useState } from "react";
 
 const notificatioTypes = [
   {
     id: "application_notifications",
     name: "Application Notification",
-    description: "Subscribe to recieving applicants-based notifications",
+    description: "Subscribe to receiving applicants-based notifications",
   },
   {
     id: "message_notifications",
@@ -19,7 +18,7 @@ const notificatioTypes = [
   {
     id: "email_notifications",
     name: "Email Notification",
-    description: "Subscribe to recieving email notifications",
+    description: "Subscribe to receiving email notifications",
   },
 ];
 
@@ -33,15 +32,30 @@ function Notification() {
   } = useContext(NotificationContext);
 
   const [initialValues, setInitialValues] = useState({});
+  const [fetching, setFetching] = useState(true); // 🔥 separate fetching state
 
   useEffect(() => {
     const initData = async () => {
-      const data = await getNotificationSetting();
-      setInitialValues(data);
+      setFetching(true);
+      try {
+        const data = await getNotificationSetting();
+        setInitialValues(data);
+      } finally {
+        setFetching(false);
+      }
     };
 
     initData();
   }, []);
+
+  if (fetching) {
+    // 🔥 Loading screen
+    return (
+      <div className="flex items-center justify-center w-full h-[300px]">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-green-600 border-solid"></div>
+      </div>
+    );
+  }
 
   return (
     <div className="flex w-full flex-col p-2">
@@ -63,7 +77,7 @@ function Notification() {
           updateNotificationSetting(() => {
             onSuccess({
               message: "Notifications",
-              success: "Updated Succesfully",
+              success: "Updated Successfully",
             });
           })
         }

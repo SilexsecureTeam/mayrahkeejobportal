@@ -138,7 +138,7 @@ function PublicProfile() {
               <div className="flex items-center text-gray-600 mt-3">
                 <MdOutlinePhoneIphone className="mr-2" />
                 <div>
-                  <p>Phone</p>
+                  <p>Phone No</p>
                   <p>{candidate?.phone_number}</p>
                 </div>
               </div>

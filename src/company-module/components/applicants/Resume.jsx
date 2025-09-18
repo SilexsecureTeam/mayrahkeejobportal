@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { resourceUrl } from "../../../services/axios-client";
 import { ApplicationContext } from "../../../context/ApplicationContext";
-import Modal from '../../../components/modal/Modal'
+import Modal from "../../../components/modal/Modal";
 import { formatDate } from "../../../utils/formmaters";
 
 const stages = [
@@ -56,123 +56,127 @@ function Resume({ data, applicant }) {
     );
   }
 
-  return (
-    resume ? (
-      <>
-        <div className="flex w-full px-2 md:px-5 lg:px-10 mt-[5px]">
-          <div className="flex flex-col w-full items-center">
-            <h3 className="mb-[10px] tracking-wide flex flex-col items-center text-smd font-semibold">
-              {resume.title}
-              {resume.resume_path ? (
-                <div className="flex gap-2 mt-2">
-                  <a
-                    href={`https://docs.google.com/viewer?url=${encodeURIComponent(resourceUrl + resume.resume_path)}&embedded=true`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="bg-primaryColor text-white px-3 py-1 rounded text-sm hover:bg-primaryColor/90"
-                  >
-                    View CV
-                  </a>
-                  <a
-                    href={`${resourceUrl}${resume.resume_path}`}
-                    download
-                    className="bg-secondaryColor text-black px-3 py-1 rounded border border-primaryColor text-sm hover:bg-primaryColor hover:text-white"
-                  >
-                    Download CV
-                  </a>
-                </div>
-              ) : (
-                <p>No file Uploaded</p>
-              )}
-            </h3>
+  return resume ? (
+    <>
+      <div className="flex w-full px-2 md:px-5 lg:px-10 mt-[5px]">
+        <div className="flex flex-col w-full items-center">
+          <h3 className="mb-[10px] tracking-wide flex flex-col items-center text-smd font-semibold">
+            {resume.title}
+            {resume.resume_path ? (
+              <div className="flex gap-2 mt-2">
+                <a
+                  href={`https://docs.google.com/viewer?url=${encodeURIComponent(
+                    resourceUrl + resume.resume_path
+                  )}&embedded=true`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="bg-primaryColor text-white px-3 py-1 rounded text-sm hover:bg-primaryColor/90"
+                >
+                  View CV
+                </a>
+                <a
+                  href={`${resourceUrl}${resume.resume_path}`}
+                  download
+                  className="bg-secondaryColor text-black px-3 py-1 rounded border border-primaryColor text-sm hover:bg-primaryColor hover:text-white"
+                >
+                  Download CV
+                </a>
+              </div>
+            ) : (
+              <p>No file Uploaded</p>
+            )}
+          </h3>
 
-            <ul className="flex flex-col text-black gap-[10px] text-sm w-full">
-              <li className="flex flex-col gap-[5px] items-center bg-secondaryColor p-2 border-b">
-                <span className="font-semibold text-black text-[15px]">
-                  Education
+          <ul className="flex flex-col text-black gap-[10px] text-sm w-full">
+            <li className="flex flex-col gap-[5px] items-center bg-secondaryColor p-2 border-b">
+              <span className="font-semibold text-black text-[15px]">
+                Education:
+              </span>
+              <span className="text-black font-semibold flex gap-2 w-full justify-between">
+                Institution:
+                <span className="font-normal">
+                  {resume.educational_institution}
                 </span>
-                <span className="text-black font-semibold flex gap-2 w-full justify-between">
-                  Institution
-                  <span className="font-normal">
-                    {resume.educational_institution}
-                  </span>
+              </span>
+              <span className="text-black font-semibold flex gap-2 w-full justify-between">
+                Academy Name:
+                <span className="font-normal">{resume?.academy_name}</span>
+              </span>
+              <span className="text-black font-semibold flex gap-2 w-full justify-between">
+                Year of Entry:{" "}
+                <span className="font-normal">{resume.year_of_entry}</span>
+              </span>
+              <span className="text-black font-semibold flex gap-2 w-full justify-between">
+                Year of Graduation:{" "}
+                <span className="font-normal">{resume.year_of_graduation}</span>
+              </span>
+            </li>
+            <li className="flex flex-col gap-[5px] items-center border-b bg-secondaryColor p-2">
+              <span className="font-semibold text-black text-[15px]">
+                Current Work Experience
+              </span>
+              <span className="text-black font-semibold flex gap-2 w-full justify-between">
+                Company:{" "}
+                <span className="font-normal">{resume.company_name}</span>
+              </span>
+              <span className="text-black font-semibold flex gap-2 w-full justify-between">
+                Position Held{" "}
+                <span className="font-normal">{resume.position_held}</span>
+              </span>
+              <span className="text-black font-semibold flex gap-2 w-full justify-between">
+                Date Started:{" "}
+                <span className="font-normal">
+                  {formatDate(resume.start_date)}
                 </span>
-                <span className="text-black font-semibold flex gap-2 w-full justify-between">
-                  Academy Name
-                  <span className="font-normal">{resume?.academy_name}</span>
+              </span>
+              <span className="text-black font-semibold flex gap-2 w-full justify-between">
+                Date Ended:{" "}
+                <span className="font-normal">
+                  {formatDate(resume.end_date)}
                 </span>
-                <span className="text-black font-semibold flex gap-2 w-full justify-between">
-                  Year of Entry{" "}
-                  <span className="font-normal">{resume.year_of_entry}</span>
-                </span>
-                <span className="text-black font-semibold flex gap-2 w-full justify-between">
-                  Year of Graduation{" "}
-                  <span className="font-normal">
-                    {resume.year_of_graduation}
-                  </span>
-                </span>
-              </li>
-              <li className="flex flex-col gap-[5px] items-center border-b bg-secondaryColor p-2">
-                <span className="font-semibold text-black text-[15px]">
-                  Current Work Experience
-                </span>
-                <span className="text-black font-semibold flex gap-2 w-full justify-between">
-                  Company:{" "}
-                  <span className="font-normal">{resume.company_name}</span>
-                </span>
-                <span className="text-black font-semibold flex gap-2 w-full justify-between">
-                  Position Held{" "}
-                  <span className="font-normal">{resume.position_held}</span>
-                </span>
-                <span className="text-black font-semibold flex gap-2 w-full justify-between">
-                  Date Started{" "}
-                  <span className="font-normal">
-                    {formatDate(resume.start_date)}
-                  </span>
-                </span>
-                <span className="text-black font-semibold flex gap-2 w-full justify-between">
-                  Date Ended{" "}
-                  <span className="font-normal">
-                    {formatDate(resume.end_date)}
-                  </span>
-                </span>
-              </li>
-            </ul>
-          </div>
+              </span>
+            </li>
+          </ul>
         </div>
-        {applicant?.nin_slip && <div className="flex flex-col justify-between px-10">
-          <div onClick={() => setEnLarge(true)} className="cursor-pointer flex flex-col text-little justify-center items-start gap-[2px]">
+      </div>
+      {applicant?.nin_slip && (
+        <div className="flex flex-col justify-between px-10">
+          <div
+            onClick={() => setEnLarge(true)}
+            className="cursor-pointer flex flex-col text-little justify-center items-start gap-[2px]"
+          >
             <span className="font-semibold ">NIN</span>
             <img
               src={`${resourceUrl}${applicant?.nin_slip}`}
               className="h-[100px] w-[100px] object-contain border border-dotted p-1"
             />
           </div>
-        </div>}
+        </div>
+      )}
 
-        {enLarge && (
-          <Modal isOpen={enLarge} closeModal={() => setEnLarge(false)}>
-            <div className="flex flex-col justify-center items-center w-full h-full p-4">
-              <img
-                src={`${resourceUrl}${applicant?.nin_slip}`}
-                className="max-w-[80vw] max-h-[80vh] object-contain rounded shadow-lg"
-                alt="NIN"
-              />
-              <a
-                href={`${resourceUrl}${applicant?.nin_slip}`}
-                download
-                target="_blank"
-                className="mt-4 inline-block bg-primaryColor text-white px-4 py-2 rounded hover:bg-primaryColor/90 text-sm"
-              >
-                Download NIN Image
-              </a>
-            </div>
-          </Modal>
-        )}
-
-      </>
-    ) : (<p className="p-4 font-bold text-gray-600">No resume submitted</p>)
-  )
+      {enLarge && (
+        <Modal isOpen={enLarge} closeModal={() => setEnLarge(false)}>
+          <div className="flex flex-col justify-center items-center w-full h-full p-4">
+            <img
+              src={`${resourceUrl}${applicant?.nin_slip}`}
+              className="max-w-[80vw] max-h-[80vh] object-contain rounded shadow-lg"
+              alt="NIN"
+            />
+            <a
+              href={`${resourceUrl}${applicant?.nin_slip}`}
+              download
+              target="_blank"
+              className="mt-4 inline-block bg-primaryColor text-white px-4 py-2 rounded hover:bg-primaryColor/90 text-sm"
+            >
+              Download NIN Image
+            </a>
+          </div>
+        </Modal>
+      )}
+    </>
+  ) : (
+    <p className="p-4 font-bold text-gray-600">No resume submitted</p>
+  );
 }
 
 export default Resume;

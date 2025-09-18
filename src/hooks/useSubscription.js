@@ -9,7 +9,6 @@ import { onSuccess } from "../utils/notifications/OnSuccess";
 const PACKAGES_KEY = "Packahes Database";
 
 function useSubscription() {
-
   const { authDetails } = useContext(AuthContext);
   const [activePackage, setActivePackage] = useState();
   const client = axiosClient(authDetails?.token);
@@ -29,15 +28,22 @@ function useSubscription() {
       current.title.toLowerCase().includes("premium")
   );
   // console.log(interviePackages)
-  const isInterviewPackge = (interviewPackages?.find(
-    (current) => current?.id === activePackage?.package_id
-  ) || userRole?.match('admin') || authDetails?.user?.user_type === 'exclusive') ? true : false;
+  const isInterviewPackge =
+    interviewPackages?.find(
+      (current) => current?.id === activePackage?.package_id
+    ) ||
+    userRole?.match("admin") ||
+    authDetails?.user?.user_type === "exclusive"
+      ? true
+      : false;
 
   const getPackages = async () => {
     setLoading(true);
     try {
       const { data } = await client.get("/packages");
-      const userPackage = data.data.sort((a, b) => Number(a.price) - Number(b.price))
+      const userPackage = data.data.sort(
+        (a, b) => Number(a.price) - Number(b.price)
+      );
 
       setPackages(userPackage);
       await set(PACKAGES_KEY, userPackage);
@@ -64,32 +70,44 @@ function useSubscription() {
         setActivePackage(null);
       }
     } catch (error) {
-      setError({message:"Subscription Error", error:extractErrorMessage(error)})
-      setActivePackage(null);
+      if (error.response?.status === 404) {
+        // Subscription not found, treat it as "no active package"
+        setActivePackage(null);
+      } else {
+        console.error(error);
+        setError({
+          message: "Subscription Error",
+          error: extractErrorMessage(error),
+        });
+        setActivePackage(null);
+      }
     } finally {
       setLoading(false);
     }
   };
 
-  const makePaymentCheck = useCallback(async (reference, data) => {
-    if (!userId) return;
-    setLoading(true);
-    try {
-      await client.post("/package-payment", {
-        package_id: data.id,
-        amount: data.price,
-        quantity: data?.quantity,
-        transaction_id: reference.reference,
-        payment_status: "successful",
-        employee_auth_id: userId,
-      });
-      getActivePackage();
-    } catch (error) {
-      FormatError(error, setError, "Payment Error");
-    } finally {
-      setLoading(false);
-    }
-  }, [userId]);
+  const makePaymentCheck = useCallback(
+    async (reference, data) => {
+      if (!userId) return;
+      setLoading(true);
+      try {
+        await client.post("/package-payment", {
+          package_id: data.id,
+          amount: data.price,
+          quantity: data?.quantity,
+          transaction_id: reference.reference,
+          payment_status: "successful",
+          employee_auth_id: userId,
+        });
+        getActivePackage();
+      } catch (error) {
+        FormatError(error, setError, "Payment Error");
+      } finally {
+        setLoading(false);
+      }
+    },
+    [userId]
+  );
 
   const config = (data, handleSuccess) => {
     const priceInKobo = Number(data.price) * 100;
@@ -102,19 +120,29 @@ function useSubscription() {
       text: "Paystack Button Implementation",
       onSuccess: (reference) => {
         handleSuccess(reference, data);
-        onSuccess({ message: "Payment Successful", success: "Hang on, validating payment..." });
+        onSuccess({
+          message: "Payment Successful",
+          success: "Hang on, validating payment...",
+        });
       },
       onClose: () => {
-        onFailure({ message: "Payment was canceled", error: "Payment Cancellation Error" });
+        onFailure({
+          message: "Payment was canceled",
+          error: "Payment Cancellation Error",
+        });
       },
       onError: (error) => {
-        setError({ message: error.message || "An error occurred during payment", error: "Payment Error" });
-        onFailure({ message: "Payment failed", error: "There was an issue with your payment. Please try again." });
+        setError({
+          message: error.message || "An error occurred during payment",
+          error: "Payment Error",
+        });
+        onFailure({
+          message: "Payment failed",
+          error: "There was an issue with your payment. Please try again.",
+        });
       },
     };
   };
-
-
 
   let idx = 0;
 
@@ -123,20 +151,18 @@ function useSubscription() {
       try {
         const result = await get(PACKAGES_KEY);
         if (result) {
-          setPackages(result)
+          setPackages(result);
         } else {
-          await getPackages()
+          await getPackages();
         }
       } catch (error) {
-        console.log('Caught Error')
+        console.log("Caught Error");
       }
-
     };
     if (userRole === "employer") {
       getActivePackage();
       initVals();
-      }
-
+    }
   }, [authDetails?.user]);
 
   useEffect(() => {

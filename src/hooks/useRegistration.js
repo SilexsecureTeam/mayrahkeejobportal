@@ -45,8 +45,7 @@ function useRegistration(role) {
     try {
       if (regDetails.password !== regDetails.re_enter_password)
         throw Error("Password Mismatch");
-      if (!subcategory?.name)
-        throw Error("Please select a category");
+      if (!subcategory?.name) throw Error("Please select a category");
       await client.post(`/domesticStaff/register`, {
         ...staffsRegDetails,
         subcategory: subcategory.name,
@@ -62,10 +61,9 @@ function useRegistration(role) {
 
   const registerUser = async (gender, onSuccess) => {
     setLoading(true);
-    
+
     try {
-      if (!gender?.name)
-        throw Error("Please select your gender");
+      if (!gender?.name) throw Error("Please select your gender");
       const detail =
         regDetails.role === "candidate"
           ? { ...regDetails, gender: gender?.name }
@@ -125,7 +123,7 @@ function useRegistration(role) {
         `/${regSessionDetails.role}/resendOtp`,
         dataCopy
       );
-      resetTimer();
+      if (resetTimer) resetTimer();
     } catch (e) {
       FormatError(e, setError, "Otp Error");
     } finally {

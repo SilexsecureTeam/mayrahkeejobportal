@@ -15,7 +15,6 @@ import { NotificationContextProvider } from "./context/NotificationContext";
 import InterviewRoom from "./components/video-sdk/InterviewRoom";
 import { SessionContextProvider } from "./context/SessionContext";
 import { ChatContextProvider } from "./context/ChatContext";
-
 //Lazy imports of pages
 const Login = lazy(() => import("./pages/Login"));
 const AdminLogin = lazy(() => import("./pages/AdminLogin"));
@@ -24,7 +23,6 @@ const AdminOTP = lazy(() => import("./components/AdminAuth/AdminOTP"));
 const RegistrationTwo = lazy(() => import("./pages/RegistrationTwo"));
 const NotFound = lazy(() => import("./pages/404"));
 const ForgotPassword = lazy(() => import("./pages/ForgotPassword"));
-
 //Lazy imports of routes
 const RegistrationRoute = lazy(() => import("./routes/useRegistrationRoute"));
 const ApplicantRoutes = lazy(() => import("./routes/useApplicantRoute"));
@@ -33,8 +31,9 @@ const StaffRoutes = lazy(() => import("./routes/useStaffRoute"));
 const AdminRoutes = lazy(() => import("./routes/useAdminRoute"));
 const PublicRoutes = lazy(() => import("./routes/PublicRoute"));
 
-
-const AdminExclusivesRoute = lazy(() => import('./routes/useAdminExclusiveRoute'))
+const AdminExclusivesRoute = lazy(() =>
+  import("./routes/useAdminExclusiveRoute")
+);
 
 function App() {
   return (
@@ -61,22 +60,11 @@ function App() {
                                   </div>
                                 }
                               />
-
-
                               <Route
                                 path="/super/admin/otp-verification"
                                 element={<AdminOTP />}
                               />
-
-                              {/* <Route path="/registration" element={<Registration />} /> */}
-
-
-                              {/* Dashboard Routes using the dashboard hook */}
-                              {/* Other Routes can go here using thier hook e.g adminDashboardRoute */}
-                              <Route
-                                path="/*"
-                                element={<PublicRoutes />}
-                              />
+                              <Route path="/*" element={<PublicRoutes />} />
                               <Route
                                 path="/applicant/*"
                                 element={<ApplicantRoutes />}
@@ -111,23 +99,19 @@ function App() {
                                 path="/forgot-password"
                                 element={<ForgotPassword />}
                               />
-
                             </Routes>
                           </Router>
                         </Suspense>
                       </NotificationContextProvider>
                     </InterviewContextProvider>
-
                   </JobContextProvider>
                 </ApplicationContextProvider>
               </ChatContextProvider>
             </SubscriptionContextProvider>
           </MantineProvider>
         </ResourceContextProvider>
-
       </AuthContextProvider>
     </>
   );
 }
-
 export default App;

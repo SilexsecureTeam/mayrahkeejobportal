@@ -35,15 +35,17 @@ function Home() {
     setGetAllApplications,
     getAllJobs,
     setGetAllJobs,
-    getCandidate
+    getCandidate,
   } = useContext(ResourceContext);
-  
+
   const { authDetails, userUpdate } = useContext(AuthContext);
   const { setSideBar } = useContext(ApplicantRouteContext);
   const hour = now.getHours();
-  
+
   const user = authDetails?.user;
-  const candidate = getCandidate.data?.details?.full_name ? getCandidate.data?.details?.full_name?.split(" ")[0] : `${user?.first_name || "N/A"}`;
+  const candidate = getCandidate.data?.details?.full_name
+    ? getCandidate.data?.details?.full_name?.split(" ")[0]
+    : `${user?.first_name || "N/A"}`;
   const navigate = useNavigate();
 
   const currentDate = now.toLocaleDateString("en-US", {
@@ -79,8 +81,7 @@ function Home() {
   }
 
   const navigateToApplications = (key) => {
-    
-      navigate("/applicant/applications",{state:{id: `${key}`}});
+    navigate("/applicant/applications", { state: { id: `${key}` } });
     setSideBar(3);
   };
 
@@ -92,8 +93,6 @@ function Home() {
       };
     });
   }, []);
-
-  //console.log(userUpdate);
 
   useEffect(() => {
     setGetAllApplications((prev) => {
@@ -111,7 +110,7 @@ function Home() {
   const shortlistedReview = allApplications?.filter(
     (app) => app.status === "shortlist"
   );
-const interviews = allApplications?.filter(
+  const interviews = allApplications?.filter(
     (app) => app.status === "interview"
   );
   const getInterviews = (id, setState) => {
@@ -179,19 +178,27 @@ const interviews = allApplications?.filter(
                     <p className="text-6xl font-medium">
                       {getAllApplications.data?.length || 0}
                     </p>
-                    <GrDocumentText size="28" className="mb-2 border border-gray-200/20" />
+                    <GrDocumentText
+                      size="28"
+                      className="mb-2 border border-gray-200/20"
+                    />
                   </div>
                 </div>
               </div>
               <div className="pt-1 h-full lg:w-full w-[45%]  lg:h-1/2">
                 <div
-                  onClick={()=>navigateToApplications("interview")}
+                  onClick={() => navigateToApplications("interview")}
                   className="border bg-yellow-300 text-white transition duration-400 h-full cursor-pointer mb-4 p-3 pb-0 flex flex-col justify-between"
                 >
                   <p className="font-bold capitalize">Interviewed</p>
                   <div className="flex justify-between items-end mt-4">
-                    <p className="text-6xl font-medium">{interviews?.length || 0}</p>
-                      <GoDiscussionOutdated size="30" className="mb-2 border border-gray-200/20" />
+                    <p className="text-6xl font-medium">
+                      {interviews?.length || 0}
+                    </p>
+                    <GoDiscussionOutdated
+                      size="30"
+                      className="mb-2 border border-gray-200/20"
+                    />
                   </div>
                 </div>
               </div>
@@ -199,8 +206,8 @@ const interviews = allApplications?.filter(
             <div className=" w-full lg:w-[20%] flex justify-between lg:flex-col ">
               <div className="pb-1 h-full lg:w-full w-[45%] lg:h-1/2">
                 <div
-                key="in-review"
-                  onClick={()=>navigateToApplications("in-review")}
+                  key="in-review"
+                  onClick={() => navigateToApplications("in-review")}
                   className="border  bg-orange-500 text-white transition duration-400 h-full cursor-pointer mb-4 p-3 pb-0 flex flex-col justify-between"
                 >
                   <p className="font-bold">Under-Review</p>
@@ -208,13 +215,16 @@ const interviews = allApplications?.filter(
                     <p className="text-6xl font-medium">
                       {pendingReview?.length || 0}
                     </p>
-                      <MdOutlineRateReview size="30" className="mb-2 border border-gray-200/20" />
+                    <MdOutlineRateReview
+                      size="30"
+                      className="mb-2 border border-gray-200/20"
+                    />
                   </div>
                 </div>
               </div>
               <div className="pt-1 h-full lg:w-full w-[45%]  lg:h-1/2">
                 <div
-                  onClick={()=>navigateToApplications("shortlist")}
+                  onClick={() => navigateToApplications("shortlist")}
                   className="border bg-lightblue text-white transition duration-400 h-full cursor-pointer mb-4 p-3 pb-0 flex flex-col justify-between"
                 >
                   <p className="font-bold">Shortlisted</p>
@@ -222,7 +232,10 @@ const interviews = allApplications?.filter(
                     <p className="text-6xl font-medium">
                       {shortlistedReview?.length || 0}
                     </p>
-                      <MdOutlineRemoveRedEye size="30" className="mb-2 border border-gray-200/20" />
+                    <MdOutlineRemoveRedEye
+                      size="30"
+                      className="mb-2 border border-gray-200/20"
+                    />
                   </div>
                 </div>
               </div>
@@ -230,14 +243,23 @@ const interviews = allApplications?.filter(
 
             <div className="w-full flex flex-col items-center justify-center bg-primaryColor text-white border lg:text-center lg:flex lg:flex-row lg:items-center lg:justify-between lg:w-auto">
               <div className="p-3 w-full lg:w-1/2">
-                <p className="font-bold text-center lg:text-left">Jobs Application Status</p>
+                <p className="font-bold text-center lg:text-left">
+                  Jobs Application Status
+                </p>
                 <div className="my-5 flex flex-col items-center lg:flex-row lg:items-center lg:justify-start">
                   <div className="">
                     <RoundChart data={allApplications} />
                   </div>
                 </div>
                 <div className="w-max flex my-3 items-center font-bold cursor-pointer hover:opacity-90 lg:justify-start">
-                  <p onClick={() => { scrollTo(0, 0); navigate("/applicant/applications") }}>View All Applications</p>
+                  <p
+                    onClick={() => {
+                      scrollTo(0, 0);
+                      navigate("/applicant/applications");
+                    }}
+                  >
+                    View All Applications
+                  </p>
                   <span className="ml-2">
                     <FaArrowRightLong />
                   </span>
@@ -309,7 +331,10 @@ const interviews = allApplications?.filter(
                 />
               ))}
               <div className="my-4 flex justify-center">
-                <div onClick={()=>navigate("/applicant/applications")} className="flex my-3 items-center cursor-pointer prime_text hover:opacity-90">
+                <div
+                  onClick={() => navigate("/applicant/applications")}
+                  className="flex my-3 items-center cursor-pointer prime_text hover:opacity-90"
+                >
                   <p>View All Applications</p>
                   <span className="ml-2">
                     {" "}

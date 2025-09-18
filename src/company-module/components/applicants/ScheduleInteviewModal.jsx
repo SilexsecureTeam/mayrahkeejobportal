@@ -67,9 +67,8 @@ function ScheduleInterviewModal({
   onTextChange,
   loading,
   handleOnSubmit,
-  edit = false
+  edit = false,
 }) {
-
   const companyUtil = useCompanyProfile();
   const { isInterviewPackge } = useContext(SubscriptionContext);
   const { authDetails } = useContext(AuthContext);
@@ -77,7 +76,9 @@ function ScheduleInterviewModal({
   const options = isInterviewPackge ? interviewOptions : [interviewOptions[1]];
   //const options = interviewOptions ;
 
-  const [selected, setSelected] = useState(details?.meeting_id ? interviewOptions[0] : interviewOptions[1]);
+  const [selected, setSelected] = useState(
+    details?.meeting_id ? interviewOptions[0] : interviewOptions[1]
+  );
 
   const [meetingId, setMeetingId] = useState(details?.meeting_id);
   const [loadingMeetingId, setLoadingMeetingId] = useState(false); // Loading state for meeting ID
@@ -95,13 +96,13 @@ function ScheduleInterviewModal({
   };
   useEffect(() => {
     if (details?.meeting_id) {
-      setMeetingId(details?.meeting_id)
-      setSelected(interviewOptions[0])
+      setMeetingId(details?.meeting_id);
+      setSelected(interviewOptions[0]);
     } else {
-      setSelected(interviewOptions[1])
-      setMeetingId(null)
+      setSelected(interviewOptions[1]);
+      setMeetingId(null);
     }
-  }, [details?.meeting_id])
+  }, [details?.meeting_id]);
 
   useEffect(() => {
     if (isOpen && selected?.name === "physical") {
@@ -113,7 +114,7 @@ function ScheduleInterviewModal({
       });
     }
   }, [isOpen]);
-  
+
   return (
     isOpen && (
       <div className="h-full z-10 w-full text-gray-600 text-little flex justify-center items-center bg-gray-600/70 fixed top-0 left-0">
@@ -148,12 +149,6 @@ function ScheduleInterviewModal({
                 onTextChange={onTextChange}
               />
 
-              <BasicInput
-                data={fields[4]}
-                details={details}
-                onTextChange={onTextChange}
-              />
-
               <div className="flex flex-col capitalize">
                 <label className="text-sm font-semibold">Interview Type</label>
                 <Selector
@@ -162,6 +157,12 @@ function ScheduleInterviewModal({
                   setSelected={setSelected}
                 />
               </div>
+
+              <BasicInput
+                data={fields[4]}
+                details={details}
+                onTextChange={onTextChange}
+              />
 
               {selected?.name === "physical" && (
                 <BasicInput
@@ -191,7 +192,9 @@ function ScheduleInterviewModal({
                 </div>
               )}
 
-              <FormButton loading={loading}>{edit ? "Reschedule" : "Schedule"}</FormButton>
+              <FormButton loading={loading}>
+                {edit ? "Reschedule" : "Schedule"}
+              </FormButton>
             </form>
           </div>
         </div>

@@ -5,17 +5,16 @@ import { onFailure } from "../utils/notifications/OnFailure";
 import { AuthContext } from "../context/AuthContex";
 import { onSuccess } from "../utils/notifications/OnSuccess";
 import { SessionContext } from "../context/SessionContext";
-import {useNavigate} from 'react-router-dom'
+import { useNavigate } from "react-router-dom";
 import useRegistration from "./useRegistration";
-import { resetTimer } from "../components/Auth/EmailVerification";
 function useLogin(role) {
-  const navigate=useNavigate();
+  const navigate = useNavigate();
   const [loginDetails, setLoginDetails] = useState({
     email: "",
     password: "",
   });
   const { setAuthDetails } = useContext(AuthContext);
-  const {resendOtp} =useRegistration()
+  const { resendOtp } = useRegistration();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState({
     message: "",
@@ -45,19 +44,18 @@ function useLogin(role) {
           email: loginDetails.email,
           password: loginDetails.password,
         });
-        if(response?.data?.user?.staff_category !== role){
-           throw new Error("User not found")
-          return
+        if (response?.data?.user?.staff_category !== role) {
+          throw new Error("User not found");
+          return;
         }
         setAuthDetails({
           token: response.data.token,
           user: response.data.user,
         });
-
       }
       onSuccess();
     } catch (e) {
-      console.log(e)
+      console.log(e);
       // Format and display the error immediately
       FormatError(e, setError, "Incomplete Registration");
       if (e?.response?.data?.message?.toLowerCase()?.includes("not verified")) {
@@ -68,26 +66,25 @@ function useLogin(role) {
             password: "__",
             re_enter_password: "__",
           })
-        )
+        );
         console.log("complete registration");
-      
+
         // Optional: Delay the confirmation box slightly to ensure UI updates
         setTimeout(() => {
           const userConfirmation = window.confirm(
             "Your registration is incomplete. Would you like to verify your email now?"
           );
-      
+
           if (userConfirmation) {
             navigate("/registration/email_verification");
-            resendOtp(resetTimer);
+            resendOtp();
           } else {
             console.log("User chose to stay on the current page.");
           }
         }, 1000); // Adjust delay as needed
-      }else{
+      } else {
         FormatError(e, setError, "Login Error");
       }
-      
     } finally {
       setLoading(false);
     }
@@ -108,7 +105,7 @@ function useLogin(role) {
       return true;
     } catch (error) {
       FormatError(error, setError, "Reset Error");
-      return false
+      return false;
     } finally {
       setLoading(false);
     }
@@ -138,8 +135,6 @@ function useLogin(role) {
     }
   };
 
-  
-
   useEffect(() => {
     //console.log(error)
     if (error.message || error.error) {
@@ -153,6 +148,7 @@ function useLogin(role) {
 
   return {
     loginDetails,
+    setLoginDetails,
     loading,
     onTextChange,
     loginUser,

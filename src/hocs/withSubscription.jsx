@@ -1,60 +1,84 @@
-import { useContext } from "react";
-import SubscriptionPlans from "../pages/SubscriptionPlans";
-import {FaSpinner} from "react-icons/fa";
+import { useContext, useState } from "react";
+import { FaSpinner, FaArrowUp, FaStar, FaGift } from "react-icons/fa";
 import { SubscriptionContext } from "../context/SubscriptionContext";
 import { AuthContext } from "../context/AuthContex";
+import SubscriptionModal from "../components/subscription/SubscriptionModal";
 
 function withSubscription(Component, title) {
   const subUtils = useContext(SubscriptionContext);
   const { authDetails } = useContext(AuthContext);
-  
-const activePackage = subUtils?.activePackage;
-const currentPackage = activePackage
-  ? subUtils?.packages?.find((pkg) => pkg.id === activePackage.package_id)
-  : {};
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const activePackage = subUtils?.activePackage;
+  const currentPackage = activePackage
+    ? subUtils?.packages?.find((pkg) => pkg.id === activePackage.package_id)
+    : {};
+
   const hasPermission =
-  authDetails?.user?.user_type === "exclusive" || // Always true for "exclusive" user type
-  (title?.toLowerCase() === "job" && // For "job", check number_of_jobs > 0
-    currentPackage?.number_of_jobs > 0) ||
-  (title?.toLowerCase() === "candidate" && // For "candidate", check number_of_candidates > 0
-    currentPackage?.number_of_candidates > 0) ||
-  (title?.toLowerCase() === "message" && // For "message", allow only Premium or Plus packages
-    ["Mayrahkee Premium", "Mayrahkee Plus"].includes(currentPackage?.title));
+    authDetails?.user?.user_type === "exclusive" ||
+    (title?.toLowerCase() === "job" && currentPackage?.number_of_jobs > 0) ||
+    (title?.toLowerCase() === "candidate" &&
+      currentPackage?.number_of_candidates > 0) ||
+    (title?.toLowerCase() === "message" &&
+      ["Mayrahkee Premium", "Mayrahkee Plus"].includes(currentPackage?.title));
 
+  if (hasPermission) return <Component />;
 
+  return (
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-tr from-green-50 via-white to-green-50 px-4">
+      {!subUtils?.loading ? (
+        <div className="bg-white shadow-2xl rounded-2xl max-w-lg w-full p-8 text-center relative overflow-hidden">
+          {/* Floating icons for graphics */}
+          <FaGift className="absolute -top-6 -left-6 text-green-200 text-4xl animate-bounce opacity-40" />
+          <FaStar className="absolute -bottom-6 -right-6 text-yellow-300 text-5xl animate-pulse opacity-30" />
 
-  return hasPermission ? (
-    <Component />
-  ) : (
-    <div className="h-full flex pt-10 justify-center bg-gray-50">
-      {!subUtils?.loading && subUtils?.activePackage ? (
-        <div className="h-max w-full bg-white rounded-lg p-6 text-center">
-          <h3 className="text-2xl font-bold mb-4 text-green-700">
-           Subscription Upgrade
+          <div className="mb-6 flex justify-center">
+            <FaStar size={48} className="text-green-500 animate-pulse" />
+          </div>
+
+          <h3 className="text-3xl font-extrabold text-green-700 mb-4">
+            {subUtils?.activePackage
+              ? "Upgrade Required"
+              : "Subscription Needed"}
           </h3>
-          <p className="text-gray-600 font-bold mb-6">
-            You do not have the required permissions to access this feature. Please upgrade your subscription to be able to access this package.
+
+          <p className="text-gray-700 text-md mb-8 leading-relaxed">
+            {subUtils?.activePackage
+              ? "You do not have the required permissions to access this feature. Upgrade your subscription to unlock this package and enjoy all the benefits."
+              : "Subscribe to a package to access this feature and enjoy tailored tools designed for your success."}
           </p>
-        </div>
-      ) : !subUtils?.loading && !subUtils?.activePackage ? (
-        <div className="h-max w-full bg-white rounded-lg p-6 text-center">
-          <h3 className="text-2xl font-bold mb-4 text-green-700">
-            Subscription Required
-          </h3>
-          <p className="text-gray-600 font-bold mb-6">
-            Please subscribe to a package to access this feature. Enjoy
-            benefits and tailored features designed for you!
-          </p>
-          {/*<SubscriptionPlans subUtils={subUtils} />*/}
+
+          <div className="flex justify-center gap-4">
+            <button
+              onClick={() => setIsModalOpen(true)}
+              className="bg-green-600 flex items-center gap-2 justify-center text-white font-semibold px-6 py-3 rounded-lg hover:bg-green-700 transition transform hover:scale-105"
+            >
+              <FaArrowUp />{" "}
+              {subUtils?.activePackage
+                ? "Upgrade Subscription"
+                : "Subscribe Now"}
+            </button>
+            {subUtils?.activePackage && (
+              <button
+                onClick={() => window.history.back()}
+                className="bg-gray-200 text-gray-800 font-semibold px-6 py-3 rounded-lg hover:bg-gray-300 transition"
+              >
+                Cancel
+              </button>
+            )}
+          </div>
         </div>
       ) : (
         <div className="flex flex-col items-center justify-center">
-          <FaSpinner size="24" className="animate-spin" />
-          <span className="mt-4 text-xl md:text-lg font-medium text-gray-500 text-center">
+          <FaSpinner size={40} className="animate-spin text-green-600 mb-4" />
+          <span className="text-gray-500 text-lg text-center">
             Checking subscription status, please wait...
           </span>
         </div>
       )}
+
+      {/* Subscription Modal */}
+      <SubscriptionModal isOpen={isModalOpen} setIsOpen={setIsModalOpen} />
     </div>
   );
 }

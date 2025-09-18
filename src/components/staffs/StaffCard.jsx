@@ -12,6 +12,15 @@ import { useNavigate } from "react-router-dom";
 import { FormatPrice } from "../../utils/formmaters";
 import useStaff from "../../hooks/useStaff";
 import { allStatus } from "../../hooks/useStaffUser";
+import { TbCurrencyNaira } from "react-icons/tb";
+import {
+  FaBriefcase,
+  FaHome,
+  FaIdCard,
+  FaStethoscope,
+  FaUserCheck,
+  FaUserShield,
+} from "react-icons/fa";
 
 const PUBLIC_KEY = import.meta.env.VITE_TEST_PUBLIC_KEY;
 
@@ -170,63 +179,59 @@ function StaffCard({
     } else if (data[name]) {
       return data[name];
     } else {
-      return "No data found";
+      return "N/A";
     }
   };
 
   const getVerificationComp = (status, name) => {
     let utils = {
-      icon: "",
+      icon: null,
       name: "",
       bg: "",
     };
 
     const detail =
       allStatus.find((current) => current === status) || "Not Recorded";
-    if (name === "guarantor") {
-      // console.log('Detail', detail);
-      // console.log('Status', status);
-    }
 
     switch (name) {
       case "police":
         utils = {
-          icon: "/police-icon.png",
+          icon: <FaUserShield className="h-[20px] w-[20px]" />,
           name: `Police - (${detail})`,
           bg: getStyling(detail),
         };
         break;
       case "residence":
         utils = {
-          icon: "/residence-icon.png",
+          icon: <FaHome className="h-[20px] w-[20px]" />,
           name: `Residence - (${detail})`,
           bg: getStyling(detail),
         };
         break;
       case "guarantor":
         utils = {
-          icon: "/garantor-icon.png",
+          icon: <FaUserCheck className="h-[20px] w-[20px]" />,
           name: `Guarantor - (${detail})`,
           bg: getStyling(detail),
         };
         break;
       case "medical":
         utils = {
-          icon: "/medical-icon.png",
+          icon: <FaStethoscope className="h-[20px] w-[20px]" />,
           name: `Medical - (${detail})`,
           bg: getStyling(detail),
         };
         break;
       case "Identification":
         utils = {
-          icon: "/garantor-icon.png",
+          icon: <FaIdCard className="h-[20px] w-[20px]" />,
           name: `Identification - (${detail})`,
           bg: getStyling(detail),
         };
         break;
       case "Business":
         utils = {
-          icon: "/medical-icon.png",
+          icon: <FaBriefcase className="h-[20px] w-[20px]" />,
           name: `Business - (${detail})`,
           bg: getStyling(detail),
         };
@@ -237,7 +242,7 @@ function StaffCard({
       <span
         className={`w-full py-2 flex items-center px-3 gap-4 text-white ${utils.bg}`}
       >
-        <img src={utils.icon} className="h-[20px]" />
+        {utils.icon}
         {utils.name}
       </span>
     );
@@ -318,7 +323,14 @@ function StaffCard({
           <span className="flex items-center justify-between gap-2 text-md font-semibold">
             Name:
             <span className="text-sm w-[60%] text-start font-normal text-gray-500 capitalize">
-              {getField("first_name")} {getField("surname")}
+              {[
+                getField("first_name") !== "N/A"
+                  ? getField("first_name")
+                  : null,
+                getField("surname") !== "N/A" ? getField("surname") : null,
+              ]
+                .filter(Boolean)
+                .join(" ") || "N/A"}
             </span>
           </span>
 
@@ -349,14 +361,6 @@ function StaffCard({
               {getField("gender")}
             </span>
           </span>
-
-          {/* <span className="flex gap-2 items-center justify-between text-md truncate font-semibold">
-            Gender:
-            <span className="text-sm w-[60%] text-start font-normal text-gray-500">
-              {getField("gender")}
-            </span>
-          </span> */}
-
           <span className="flex gap-2 items-center justify-between text-md font-semibold">
             Religion:
             <span className="text-sm w-[60%] text-start font-normal text-gray-500">
@@ -365,12 +369,12 @@ function StaffCard({
           </span>
 
           <span className="flex gap-2 items-center justify-between text-md font-semibold">
-            Langages:
+            Languages:
             <span className="text-sm w-[60%] flex text-start font-normal text-gray-500">
               {(Array.isArray(getField("languages_spoken"))
                 ? getField("languages_spoken")
                 : []
-              ).join(", ")}
+              ).join(", ") || "N/A"}
             </span>
           </span>
 
@@ -391,31 +395,32 @@ function StaffCard({
           <span className="flex gap-2 items-center justify-between text-md truncate font-semibold">
             Years of Experience:
             <span className="text-sm w-[60%] text-start font-normal text-gray-500">
-              {getField("years_of_experience") === "No data found"
-                ? "No data found"
-                : getField("years_of_experience") &&
-                  `${getField("years_of_experience")} Year(s)`}
+              {getField("years_of_experience") === "N/A"
+                ? getField("years_of_experience")
+                : `${getField("years_of_experience")} Year(s)`}
             </span>
           </span>
-          <span className="flex gap-2 items-center justify-between text-md truncate font-semibold">
-            Service Charge:
-            <span className="text-sm w-[60%] text-start font-normal text-gray-500">
-              {data?.staff_category === "artisan"
-                ? FormatPrice(Number(charges?.service_charge))
-                : FormatPrice(Number(data?.service_charge))}
+          {data?.staff_category === "artisan" && (
+            <span className="flex gap-2 items-center justify-between text-md truncate font-semibold">
+              Service Charge:
+              <span className="text-sm w-[60%] text-start font-normal text-gray-500">
+                {charges?.service_charge
+                  ? FormatPrice(Number(charges?.service_charge))
+                  : "N/A"}
+              </span>
             </span>
-          </span>
+          )}
 
           {data?.staff_category !== "artisan" && (
             <span className="flex gap-2 items-center justify-between text-md truncate font-semibold">
-              <img src="/price-tag.png" className="w-[30px]" />
+              <TbCurrencyNaira size="24" className="text-green-600" />
               Salary:
               <span className="text-sm w-[60%] text-start font-normal text-gray-500">
                 {data?.salary_agreed && parseFloat(data.salary_agreed) > 0
                   ? FormatPrice(
                       parseFloat(data.salary_agreed) + Number(data?.markup_fee)
                     )
-                  : "Not specified"}
+                  : "N/A"}
               </span>
             </span>
           )}

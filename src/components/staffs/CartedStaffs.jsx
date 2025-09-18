@@ -1,4 +1,4 @@
-import { FaExclamationCircle, FaSpinner } from "react-icons/fa";
+import { FaExclamationCircle, FaShoppingCart, FaSpinner } from "react-icons/fa";
 import {
   MdCheck,
   MdCheckBoxOutlineBlank,
@@ -33,6 +33,7 @@ function CartedStaffs() {
   const [conditions, setConditions] = useState(false);
   const [removing, setRemoving] = useState({});
   const [terms, setTerms] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const [selectedItems, setSelectedItems] = useState([]);
   const allSelected = selectedItems.length === cartItems.length;
@@ -54,13 +55,9 @@ function CartedStaffs() {
     );
   };
 
-  const navigateToStaff = (staff) =>
-    navigate(`/company/staff/${data.category.name}/${staff.id}`, {
-      state: { data: { staff, cartedItems: data.cartItems } },
-    });
-
   const getCartItems = async () => {
     try {
+      setLoading(true);
       const res = await client.post("staff-cart/get", {
         user_id: authDetails.user.id,
         user_type: authDetails.user.role,
@@ -82,6 +79,8 @@ function CartedStaffs() {
         message: "Something went wrong",
         error: "Error retrieving carted items",
       });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -228,205 +227,241 @@ function CartedStaffs() {
         </div>
       </PopUpBox>
 
-      <div className="w-full flex pt-5 flex-col gap-5">
-        <div
-          id="content"
-          className="flex flex-col gap-2 bg-green-100 pr-5 p-2 w-[90%] md:w-fit text-xs md:text-sm"
-        >
-          <div className="flex justify-between items-center w-full">
-            <span className="flex gap-2 items-center text-green-700">
-              Here are a list of your carted{" "}
-              {isArtisan ? "Skilled Worker(s)" : "staff(s)"}
-              <FaExclamationCircle />
-            </span>
-            <button
-              onClick={() =>
-                document.getElementById("content").classList.add("hidden")
-              }
-              className="group hover:bg-red-500 hover:text-white p-1 text-red-600 text-md flex items-center"
-            >
-              Close
-              <MdClose />
-            </button>
-          </div>
-          <p>
-            Here you can <strong>confirm your hire</strong> for any{" "}
-            {isArtisan ? "Skilled Worker" : "staff"} of your choice and proceed
-            to checkout to finalize.
-          </p>
+      {loading ? (
+        <div className="flex flex-col items-center justify-center py-20 text-green-600">
+          <FaSpinner className="animate-spin text-4xl mb-3" />
+          <span className="text-lg font-semibold">Loading your cart...</span>
         </div>
-
-        {cartItems.length !== 0 ? (
-          <div className="flex flex-col md:flex-row gap-8">
-            {/* Cart Section */}
-            <div className="w-full min-w-72 md:w-2/3 bg-white p-6">
-              <h2 className="text-lg font-bold mb-4">Job Cart</h2>
-              <p className="text-sm text-gray-600 mb-4">
-                Showing {cartItems.length}{" "}
-                {isArtisan ? "Skilled Worker(s)" : "staff(s)"} you added
-              </p>
-              <div className="mb-4">
-                <input
-                  type="checkbox"
-                  id="selectAll"
-                  checked={allSelected}
-                  onChange={handleSelectAll}
-                  className="mr-2"
-                />
-                <label htmlFor="selectAll" className="text-gray-700">
-                  Select All{" "}
-                  <span className="text-gray-500">({cartItems.length})</span>
-                </label>
-              </div>
-
-              {/* Items */}
-              <div className="space-y-6">
-                {cartItems.map((item, idx) => (
-                  <div key={idx} className="flex items-center border-b pb-4">
-                    <input
-                      type="checkbox"
-                      disabled={
-                        !isArtisan &&
-                        Number(item?.domestic_staff?.salary_agreed) <= 0
-                      }
-                      checked={selectedItems.includes(item)}
-                      onChange={() => handleItemSelect(item)}
-                      className="mr-4"
-                    />
-
-                    <div className="flex-grow flex gap-2 items-center">
-                      <img
-                        src="/placeholder.png"
-                        className="h-[80px] w-[80px] bg-gray-300"
-                        alt=""
-                      />
-                      <section className="w-full">
-                        <p className="text-xs text-gray-500 uppercase">
-                          {item?.domestic_staff?.subcategory}
-                        </p>
-                        <p className="text-base font-medium capitalize">
-                          {`${item?.domestic_staff?.surname} ${item?.domestic_staff?.first_name}`}
-                        </p>
-                        <p className="text-sm text-gray-700">
-                          {isArtisan ? (
-                            ""
-                          ) : Number(item?.domestic_staff?.salary_agreed) >
-                            0 ? (
-                            FormatPrice(
-                              Number(item.domestic_staff.salary_agreed) +
-                                Number(item.domestic_staff.markup_fee || 0)
-                            )
-                          ) : (
-                            <span className="text-red-500 font-medium">
-                              Salary not set
-                            </span>
-                          )}
-                        </p>
-                      </section>
-                      <div className="flex flex-col items-center gap-2">
-                        <span
-                          className={`text-md ${
-                            item.domestic_staff.availability_status === "1"
-                              ? "text-green-600"
-                              : "text-red-600"
-                          }`}
-                        >
-                          <span className="hidden md:block">
-                            {item.domestic_staff.availability_status === "1"
-                              ? "Available"
-                              : "Unavailable"}
-                          </span>
-                          <span className="block md:hidden">
-                            <FaCircleDot />
-                          </span>
-                        </span>
-                        <button
-                          disabled={removing[item?.domestic_staff_id]}
-                          onClick={() => handleRemoveCart(item)}
-                          className="disabled:opacity-60"
-                        >
-                          {removing[item?.domestic_staff_id] ? (
-                            <FaSpinner className="animate-spin" />
-                          ) : (
-                            <MdDelete className="text-red-500" />
-                          )}
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Order Summary */}
-            <div className="w-full min-w-[250px] h-fit md:w-1/3 bg-white border border-black p-6 rounded shadow">
-              <h2 className="text-lg font-bold mb-4">Order Summary</h2>
-              <ul className="space-y-2 mb-6">
-                {selectedItems.map((item) => (
-                  <li
-                    key={item.id}
-                    className="flex justify-between gap-1 text-sm"
-                  >
-                    <span>
-                      {item?.domestic_staff?.subcategory} -{" "}
-                      {item?.domestic_staff?.surname}{" "}
-                      {item?.domestic_staff?.first_name}
-                    </span>
-                    <span>
-                      {!isArtisan &&
-                        FormatPrice(
-                          Number(item.domestic_staff.salary_agreed) +
-                            Number(item.domestic_staff.markup_fee || 0)
-                        )}
-                    </span>
-                  </li>
-                ))}
-              </ul>
-              <ul className="border-t pt-4">
-                {!isArtisan && (
-                  <li className="flex justify-between text-sm mb-2">
-                    <span>Total Price (Item)</span>
-                    <span>{FormatPrice(salaryTotal)}</span>
-                  </li>
-                )}
-                <li className="flex justify-between text-sm mb-2">
-                  <span>Service Charge</span>
-                  <span>
-                    {serviceFeeTotal ? FormatPrice(serviceFeeTotal) : 0}
-                  </span>
-                </li>
-                <li className="flex justify-between text-sm mb-2">
-                  <span>VAT ({vatPercent}%)</span>
-                  <span>{totalVat ? FormatPrice(totalVat) : 0}</span>
-                </li>
-                <li className="flex justify-between font-bold text-lg">
-                  <span>Grand Total</span>
-                  <span>{grandTotal ? FormatPrice(grandTotal) : 0}</span>
-                </li>
-              </ul>
+      ) : (
+        <div className="w-full flex pt-5 flex-col gap-5">
+          <div
+            id="content"
+            className="flex flex-col gap-2 bg-green-100 pr-5 p-2 w-[90%] md:w-fit text-xs md:text-sm"
+          >
+            <div className="flex justify-between items-center w-full">
+              <span className="flex gap-2 items-center text-green-700">
+                Here are a list of your carted{" "}
+                {isArtisan ? "Skilled Worker(s)" : "staff(s)"}
+                <FaExclamationCircle />
+              </span>
               <button
-                disabled={!selectedItems.length}
-                onClick={() => setConditions(true)}
-                className={`w-full bg-black text-white py-3 rounded-full mt-6 ${
-                  selectedItems.length ? "" : "opacity-50 cursor-not-allowed"
-                }`}
+                onClick={() =>
+                  document.getElementById("content").classList.add("hidden")
+                }
+                className="group hover:bg-red-500 hover:text-white p-1 text-red-600 text-md flex items-center"
               >
-                Checkout
+                Close
+                <MdClose />
               </button>
             </div>
+            <p>
+              Here you can <strong>confirm your hire</strong> for any{" "}
+              {isArtisan ? "Skilled Worker" : "staff"} of your choice and
+              proceed to checkout to finalize.
+            </p>
           </div>
-        ) : (
-          <h2 className="text-lg font-bold mb-4">Cart Empty</h2>
-        )}
 
-        {/* Marketplace */}
-        <MarketPlace
-          data={data}
-          handleAddToCart={handleAddToCart}
-          handleRemoveCart={handleRemoveCart}
-          cartItems={cartItems}
-        />
-      </div>
+          {cartItems.length !== 0 ? (
+            <div className="flex flex-col md:flex-row gap-8">
+              {/* Cart Section */}
+              <div className="w-full min-w-72 md:w-2/3 bg-white p-6">
+                <h2 className="text-lg font-bold mb-2 flex items-center gap-2">
+                  <FaShoppingCart size="20" />
+                  Job Cart
+                </h2>
+                <p className="text-sm text-gray-600 mb-4">
+                  Showing {cartItems.length}{" "}
+                  {isArtisan ? "Skilled Worker(s)" : "staff(s)"} you added
+                </p>
+                <div className="mb-4">
+                  <input
+                    type="checkbox"
+                    id="selectAll"
+                    checked={allSelected}
+                    onChange={handleSelectAll}
+                    className="mr-2"
+                  />
+                  <label htmlFor="selectAll" className="text-gray-700">
+                    Select All{" "}
+                    <span className="text-gray-500">({cartItems.length})</span>
+                  </label>
+                </div>
+
+                {/* Items */}
+                <div className="space-y-6">
+                  {cartItems.map((item, idx) => (
+                    <div key={idx} className="flex items-center border-b pb-4">
+                      <input
+                        type="checkbox"
+                        disabled={
+                          !isArtisan &&
+                          Number(item?.domestic_staff?.salary_agreed) <= 0
+                        }
+                        checked={selectedItems.includes(item)}
+                        onChange={() => handleItemSelect(item)}
+                        className="mr-4"
+                      />
+
+                      <div className="flex-grow flex gap-2 items-center">
+                        <img
+                          src="/placeholder.png"
+                          className="h-[80px] w-[80px] bg-gray-300"
+                          alt=""
+                        />
+                        <section className="w-full">
+                          <p className="text-xs text-gray-500 uppercase">
+                            {item?.domestic_staff?.subcategory}
+                          </p>
+                          <p className="text-base font-medium capitalize">
+                            {[
+                              item?.domestic_staff?.surname &&
+                              item.domestic_staff.surname !== "N/A"
+                                ? item.domestic_staff.surname
+                                : null,
+                              item?.domestic_staff?.first_name &&
+                              item.domestic_staff.first_name !== "N/A"
+                                ? item.domestic_staff.first_name
+                                : null,
+                            ]
+                              .filter(Boolean)
+                              .join(" ") || "N/A"}
+                          </p>
+                          <p className="text-sm text-gray-700">
+                            {isArtisan ? (
+                              ""
+                            ) : Number(item?.domestic_staff?.salary_agreed) >
+                              0 ? (
+                              FormatPrice(
+                                Number(item.domestic_staff.salary_agreed) +
+                                  Number(item.domestic_staff.markup_fee || 0)
+                              )
+                            ) : (
+                              <span className="text-red-500 font-medium">
+                                Salary not set
+                              </span>
+                            )}
+                          </p>
+                        </section>
+                        <div className="flex flex-col items-center gap-2">
+                          <span
+                            className={`text-md ${
+                              item.domestic_staff.availability_status === "1"
+                                ? "text-green-600"
+                                : "text-red-600"
+                            }`}
+                          >
+                            <span className="hidden md:block">
+                              {item.domestic_staff.availability_status === "1"
+                                ? "Available"
+                                : "Unavailable"}
+                            </span>
+                            <span className="block md:hidden">
+                              <FaCircleDot />
+                            </span>
+                          </span>
+                          <button
+                            disabled={removing[item?.domestic_staff_id]}
+                            onClick={() => handleRemoveCart(item)}
+                            className="disabled:opacity-60"
+                          >
+                            {removing[item?.domestic_staff_id] ? (
+                              <FaSpinner className="animate-spin" />
+                            ) : (
+                              <MdDelete className="text-red-500" />
+                            )}
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Order Summary */}
+              <div className="w-full min-w-[250px] h-fit md:w-1/3 bg-white border border-black p-6 rounded shadow">
+                <h2 className="text-lg font-bold mb-4">Order Summary</h2>
+                <ul className="space-y-2 mb-6">
+                  {selectedItems.map((item) => (
+                    <li
+                      key={item.id}
+                      className="flex justify-between gap-1 text-sm"
+                    >
+                      <span>
+                        {item?.domestic_staff?.subcategory} -{" "}
+                        {[
+                          item?.domestic_staff?.surname &&
+                          item.domestic_staff.surname !== "N/A"
+                            ? item.domestic_staff.surname
+                            : null,
+                          item?.domestic_staff?.first_name &&
+                          item.domestic_staff.first_name !== "N/A"
+                            ? item.domestic_staff.first_name
+                            : null,
+                        ]
+                          .filter(Boolean)
+                          .join(" ") || "N/A"}
+                      </span>
+                      <span>
+                        {!isArtisan &&
+                          FormatPrice(
+                            Number(item.domestic_staff.salary_agreed) +
+                              Number(item.domestic_staff.markup_fee || 0)
+                          )}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+                <ul className="border-t pt-4">
+                  {!isArtisan && (
+                    <li className="flex justify-between text-sm mb-2">
+                      <span>Total Price (Item)</span>
+                      <span>{FormatPrice(salaryTotal)}</span>
+                    </li>
+                  )}
+                  <li className="flex justify-between text-sm mb-2">
+                    <span>Service Charge</span>
+                    <span>
+                      {serviceFeeTotal ? FormatPrice(serviceFeeTotal) : 0}
+                    </span>
+                  </li>
+                  <li className="flex justify-between text-sm mb-2">
+                    <span>VAT ({vatPercent}%)</span>
+                    <span>{totalVat ? FormatPrice(totalVat) : 0}</span>
+                  </li>
+                  <li className="flex justify-between font-bold text-lg">
+                    <span>Grand Total</span>
+                    <span>{grandTotal ? FormatPrice(grandTotal) : 0}</span>
+                  </li>
+                </ul>
+                <button
+                  disabled={!selectedItems.length}
+                  onClick={() => setConditions(true)}
+                  className={`w-full bg-black text-white py-3 rounded-full mt-6 ${
+                    selectedItems.length ? "" : "opacity-50 cursor-not-allowed"
+                  }`}
+                >
+                  Checkout
+                </button>
+              </div>
+            </div>
+          ) : (
+            <div className="flex items-center gap-2 text-gray-500 justify-center py-10">
+              <FaShoppingCart size="60" className="text-4xl" />
+              <span className="text-lg font-semibold">
+                {cartItems.length || 0}
+              </span>
+            </div>
+          )}
+
+          {/* Marketplace */}
+          <MarketPlace
+            data={data}
+            handleAddToCart={handleAddToCart}
+            handleRemoveCart={handleRemoveCart}
+            cartItems={cartItems}
+          />
+        </div>
+      )}
     </>
   );
 }

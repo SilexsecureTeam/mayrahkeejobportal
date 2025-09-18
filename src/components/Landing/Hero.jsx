@@ -4,26 +4,43 @@ import logo from "../../assets/pngs/main-logo-icon.png";
 import bgImg from "../../assets/pngs/job-hero-img.png";
 import { FaSearch } from "react-icons/fa";
 import { FaLocationDot } from "react-icons/fa6";
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 const Hero = ({ shrink = false, title }) => {
-  return (
+  const navigate = useNavigate();
+  const [jobTitle, setJobTitle] = useState("");
+  const [location, setLocation] = useState("");
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    navigate("/find-jobs", {
+      state: { data: { title: jobTitle, location } },
+    });
+  };
 
-    <div className={`${shrink ? "min-h-[300px]" : "min-h-[550px]"} relative rounded-xl my-4 text-white flex flex-col items-center justify-around gap-5 *:transition-all *:ease-in-out *:duration-500`}
+  return (
+    <div
+      className={`${
+        shrink ? "min-h-[300px]" : "min-h-[550px]"
+      } relative rounded-xl my-4 text-white flex flex-col items-center justify-around gap-5 *:transition-all *:ease-in-out *:duration-500`}
       style={{
         backgroundImage: `linear-gradient(rgba(0,0,0,.5), rgba(0,0,0,.7)), url(${bgImg})`,
-        backgroundPosition: '70%',
-        backgroundSize: 'cover',
-        backgroundRepeat: 'no-repeat'
+        backgroundPosition: "70%",
+        backgroundSize: "cover",
+        backgroundRepeat: "no-repeat",
       }}
     >
       <section className="flex flex-col items-center gap-2 ">
-        <small className="w-max flex items-center justify-center gap-2 bg-green-200/20 px-[2px] border border-gray-200 rounded-full text-[10px] text-gray-300"><img src={logo} className="h-5" /> makes everything easier</small>
+        <small className="w-max flex items-center justify-center gap-2 bg-green-200/20 px-[2px] border border-gray-200 rounded-full text-[10px] text-gray-300">
+          <img src={logo} className="h-5" /> makes everything easier
+        </small>
         <h1 className="my-3 capitalize text-center max-w-[747px] w-[95%] text-3xl font-bold lg:text-5xl">
-          {title || "Discover your dream job & thrive with top organizations near you!"}
+          {title ||
+            "Discover your dream job & thrive with top organizations near you!"}
         </h1>
       </section>
 
-      {!shrink &&
+      {!shrink && (
         <form className="mt-5 text-xs flex flex-col md:flex-row items-center justify-between gap-4 bg-green-200/20 border border-gray-200 rounded-3xl md:rounded-full max-w-[900px] w-[90%] min-h-14 p-2">
           {/* Input Section */}
           <section className="flex flex-col md:flex-row w-[80%] py-3 md:py-0 md:w-full items-center justify-center gap-4 relative">
@@ -53,12 +70,14 @@ const Hero = ({ shrink = false, title }) => {
           </section>
 
           {/* Search Button */}
-          <button className="font-bold min-w-28 bg-green-600 text-white rounded-full px-6 py-3">
+          <button
+            onClick={handleSubmit}
+            className="font-bold min-w-28 bg-green-600 text-white rounded-full px-6 py-3"
+          >
             search
           </button>
-        </form>}
-
-
+        </form>
+      )}
     </div>
   );
 };

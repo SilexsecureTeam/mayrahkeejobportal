@@ -9,14 +9,16 @@ import { useContext } from "react";
 import { AuthContext } from "../../../context/AuthContex";
 import { formatDate } from "../../../utils/formmaters";
 
-function ApplicantRow({ data, isExclusive = false, exclusiveData=null }) {
+function ApplicantRow({ data, isExclusive = false, exclusiveData = null }) {
   const navigate = useNavigate();
   const { authDetails } = useContext(AuthContext);
   const role = authDetails?.user?.role === "employer" ? "company" : "applicant";
 
   const navigateToApplicantDetails = () => {
     if (isExclusive) {
-      navigate(`/admin-exclusives/applicant/${data?.id}`,  { state: { data, exclusiveData:exclusiveData } });
+      navigate(`/admin-exclusives/applicant/${data?.id}`, {
+        state: { data, exclusiveData: exclusiveData },
+      });
     } else {
       navigate(`/${role}/applicants/detail/${data?.id}`, { state: { data } });
     }
@@ -118,16 +120,16 @@ function ApplicantRow({ data, isExclusive = false, exclusiveData=null }) {
         <div className="items-center flex justify-center py-[15px]">
           <button
             onClick={navigateToApplicantDetails}
-            className=" text-[12px] hidden md:block bg-green-600  hover:order hover:border-white text-white px-2 py-[5px] border"
+            className=" text-[12px] hidden md:block bg-green-600  hover:order hover:border-white text-white px-2 py-[3px] md:py-[5px] border"
           >
             See Application
           </button>
-          <button
+          {/* <button
             onClick={navigateToApplicantDetails}
             className=" md:hidden bg-green-600  text-white px-2 py-[3px] border"
           >
             Application
-          </button>
+          </button> */}
         </div>
       </td>
 
