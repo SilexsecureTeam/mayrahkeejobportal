@@ -24,6 +24,8 @@ function ChatComponent({ applicationUtils }) {
     sendMessage,
     markAllUnreadMessagesAsRead,
     selectedChat,
+    isConversationFetched,
+    setSelectedChat,
   } = useContext(ChatContext);
 
   const candidateId = selectedChat?.candidate_id;
@@ -50,15 +52,14 @@ function ChatComponent({ applicationUtils }) {
   // Load candidate + messages
   useEffect(() => {
     if (!selectedChat) return;
-    setIsMessagesLoaded(false);
-    const id = selectedChat.candidate_id;
+    const id = selectedChat?.candidate_id;
 
     applicationUtils.getApplicant(id, (profile) => {
       setCurrentCandidate(profile);
 
-      const alreadyLoaded = !!messagesByConversation[id];
+      const alreadyFetched = isConversationFetched(id);
 
-      if (!alreadyLoaded) {
+      if (!alreadyFetched) {
         getMessages(id, () => {
           markAllUnreadMessagesAsRead(id);
           setIsMessagesLoaded(true);
@@ -71,7 +72,7 @@ function ChatComponent({ applicationUtils }) {
 
     return () => {
       setCurrentCandidate(null);
-      setIsMessagesLoaded(false);
+      setSelectedChat(null);
     };
   }, [selectedChat?.candidate_id]);
 
@@ -107,7 +108,7 @@ function ChatComponent({ applicationUtils }) {
                   {currentCandidate.full_name}
                 </h4>
                 <span className="text-sm text-gray-400">
-                  {selectedChat.job_title} Role
+                  {selectedChat?.job_title} Role
                 </span>
               </div>
             </div>
@@ -142,7 +143,7 @@ function ChatComponent({ applicationUtils }) {
                     className={`flex flex-col w-max max-w-full ${alignStyle}`}
                   >
                     <span className="text-sm font-semibold">{name}</span>
-                    <p className="py-1 px-2 mt-2 rounded-md bg-gray-200">
+                    <p className="w-max max-w-full py-1 px-2 mt-2 rounded-md bg-gray-200 whitespace-pre-wrap">
                       {current.message}
                     </p>
                     <span className="text-[10px] text-gray-500 mt-1 block">

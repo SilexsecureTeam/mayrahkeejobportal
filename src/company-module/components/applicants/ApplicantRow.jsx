@@ -90,7 +90,7 @@ function ApplicantRow({ data, isExclusive = false, exclusiveData = null }) {
           <span>{data.full_name}</span>
         </div>
       </td>
-      <td className="hidden md:block py-[20px]">
+      <td className=" py-[20px]">
         <div className="w-full flex h-full  justify-center items-center gap-[5px]">
           <span>{data.email}</span>
         </div>
@@ -106,7 +106,7 @@ function ApplicantRow({ data, isExclusive = false, exclusiveData = null }) {
         </div>
       </td>
 
-      <td className="hidden md:block">
+      <td className="">
         <p className=" py-[5px] text-center font-semibold">
           {formatDate(data?.created_at)}
         </p>
@@ -120,7 +120,7 @@ function ApplicantRow({ data, isExclusive = false, exclusiveData = null }) {
         <div className="items-center flex justify-center py-[15px]">
           <button
             onClick={navigateToApplicantDetails}
-            className=" text-[12px] hidden md:block bg-green-600  hover:order hover:border-white text-white px-2 py-[3px] md:py-[5px] border"
+            className=" text-[12px] bg-green-600  hover:order hover:border-white text-white px-2 py-[3px] md:py-[5px] border"
           >
             See Application
           </button>

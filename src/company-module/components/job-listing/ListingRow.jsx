@@ -5,8 +5,8 @@ function ListingRow({ data, applicants, isExclusive = false }) {
 
   // Navigate to job details page based on exclusivity
   const navigateJobTypeDetails = () => {
-    const path = isExclusive 
-      ? `/admin-exclusives/job/${data.id}` 
+    const path = isExclusive
+      ? `/admin-exclusives/job/${data.id}`
       : `/company/job-listing/type/${data.id}`;
 
     navigate(path, {
@@ -14,7 +14,6 @@ function ListingRow({ data, applicants, isExclusive = false }) {
     });
   };
 
-  
   return (
     <tr
       onClick={navigateJobTypeDetails}
@@ -23,7 +22,11 @@ function ListingRow({ data, applicants, isExclusive = false }) {
       {/* Job Title */}
       <td className="text-center py-[5px]">
         <div className="flex justify-center font-semibold items-center gap-[5px]">
-          <span>{data.job_title?.length > 20 ? `${data.job_title?.slice(0,20)}...`: data.job_title}</span>
+          <span>
+            {data.job_title?.length > 20
+              ? `${data.job_title?.slice(0, 20)}...`
+              : data.job_title}
+          </span>
         </div>
       </td>
 
@@ -31,12 +34,18 @@ function ListingRow({ data, applicants, isExclusive = false }) {
       <td>
         <div className="flex w-full justify-center py-[10px] items-center">
           <button className="py-[2px] px-[5px] border w-max text-little border-primaryColor rounded-[30px] text-center font-semibold">
-            {(data?.status === "approved" || data?.status === "1")
-  ? (new Date(data?.application_deadline_date) >= new Date()
-      ? "Open"
-      : "Closed (Deadline Passed)")
-  : "Closed"}
+            {data?.status === "approved" || data?.status === "1"
+              ? (() => {
+                  const deadline = new Date(data?.application_deadline_date);
+                  // Set deadline to 23:59:59.999 UTC of that date
+                  deadline.setUTCHours(23, 59, 59, 999);
+                  const now = new Date();
 
+                  return now.getTime() <= deadline.getTime()
+                    ? "Open"
+                    : "Closed";
+                })()
+              : "Closed"}
           </button>
         </div>
       </td>
@@ -81,7 +90,9 @@ function ListingRow({ data, applicants, isExclusive = false }) {
       <td>
         <div className="flex w-full justify-center py-[10px] items-center">
           <span className="text-little font-semibold">
-            {data?.gender?.toLowerCase() !== "any" ? data.gender : "Not A Criteria"}
+            {data?.gender?.toLowerCase() !== "any"
+              ? data.gender
+              : "Not A Criteria"}
           </span>
         </div>
       </td>

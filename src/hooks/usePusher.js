@@ -1,5 +1,5 @@
 import { useEffect, useRef, useContext } from "react";
-import Pusher from "pusher-js";
+import Pusher, { Channel } from "pusher-js";
 import { onNewNotificationToast } from "../utils/notifications/onNewMessageToast";
 import { ChatContext } from "../context/ChatContext";
 import { AuthContext } from "../context/AuthContex";
@@ -8,10 +8,11 @@ import { useNavigate } from "react-router-dom";
 const usePusher = ({ userId, role, token }) => {
   const pusherRef = useRef(null);
   const channelRef = useRef(null);
+
   const selectedChatRef = useRef(null);
 
-  const { appendMessage, markMessageAsRead, selectedChat } =
-    useContext(ChatContext);
+  const chatContext = useContext(ChatContext);
+  const { appendMessage, markMessageAsRead, selectedChat } = chatContext || {};
 
   const { authDetails } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -23,8 +24,18 @@ const usePusher = ({ userId, role, token }) => {
 
   useEffect(() => {
     if (!userId || !token || !role) return;
+
+    // Clean previous connection
+    if (pusherRef.current) {
+      try {
+        pusherRef.current.disconnect();
+      } catch (e) {
+        console.warn("Pusher disconnect error:", e);
+      }
+      pusherRef.current = null;
+    }
+
     const channelName = `user.${userId}.${role}`;
-    if (pusherRef.current) return;
 
     const pusher = new Pusher(import.meta.env.VITE_PUSHER_APP_KEY, {
       cluster: "mt1",
@@ -41,6 +52,8 @@ const usePusher = ({ userId, role, token }) => {
     const channel = pusher.subscribe(channelName);
 
     const handleMessage = (data) => {
+      console.log(data);
+
       const newMessage = data?.message;
       if (!newMessage) return;
 
@@ -48,14 +61,20 @@ const usePusher = ({ userId, role, token }) => {
 
       // Use latest selectedChat ref
       const currentChat = selectedChatRef.current;
-      if (Number(currentChat?.candidate_id) === Number(otherUserId)) {
+      const isCurrentChat =
+        (currentChat?.candidate_id &&
+          Number(currentChat.candidate_id) === Number(otherUserId)) ||
+        (currentChat?.employer_id &&
+          Number(currentChat.employer_id) === Number(otherUserId));
+
+      if (isCurrentChat) {
         markMessageAsRead(newMessage.id);
       } else {
         onNewNotificationToast({
           senderName: data?.sender?.sender_name || newMessage?.sender_type,
           message: newMessage?.message,
           onClick: () => {
-            navigate(`/company/messages`, {
+            navigate(`/${role}/messages`, {
               state: { chat: newMessage },
             });
           },
@@ -70,15 +89,13 @@ const usePusher = ({ userId, role, token }) => {
     channelRef.current = channel;
 
     return () => {
-      if (channelRef.current) {
-        channelRef.current.unbind("NewMessageEvent", handleMessage);
-        pusher.unsubscribe(channelName);
+      try {
+        pusher.disconnect();
+      } catch (e) {
+        console.warn("Cleanup error:", e);
       }
-      pusher.disconnect();
-      pusherRef.current = null;
-      channelRef.current = null;
     };
-  }, [userId, role, token]);
+  }, [userId, token]);
 };
 
 export default usePusher;

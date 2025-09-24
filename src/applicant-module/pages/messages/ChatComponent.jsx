@@ -7,9 +7,14 @@ import useCompanyProfile from "../../../hooks/useCompanyProfile";
 import { ChatContext } from "../../../context/ChatContext";
 import { BiLoaderCircle } from "react-icons/bi";
 import { toast } from "react-toastify";
+import { ApplicationContext } from "../../../context/ApplicationContext";
+import { ResourceContext } from "../../../context/ResourceContext";
+import { IoCheckmarkOutline, IoCheckmarkDoneSharp } from "react-icons/io5";
 
-function ChatComponent({ applicationUtils }) {
+function ChatComponent() {
   const chatContainer = useRef(null);
+  const applicationUtils = useContext(ApplicationContext);
+  const { getCandidate } = useContext(ResourceContext);
   const scrollAnchorRef = useRef(null);
   const [currentEmployer, setCurrentEmployer] = useState(null);
   const [message, setMessage] = useState("");
@@ -23,9 +28,10 @@ function ChatComponent({ applicationUtils }) {
     messagesByConversation = {},
     sendMessage,
     getMessages,
-    firebaseMessaging,
     selectedChat,
     markAllUnreadMessagesAsRead,
+    isConversationFetched,
+    setSelectedChat,
   } = useContext(ChatContext);
 
   const employerId = selectedChat?.employer_id;
@@ -55,29 +61,30 @@ function ChatComponent({ applicationUtils }) {
 
   // Load employer + messages
   useEffect(() => {
-    if (!selectedChat) return;
+    if (!selectedChat?.candidate_id) return;
     setIsMessagesLoaded(false);
     const id = selectedChat.candidate_id;
 
     applicationUtils.getCompany(employerId, (profile) => {
       setCurrentEmployer(profile);
 
-      const alreadyLoaded = !!messagesByConversation[id];
+      const alreadyFetched = isConversationFetched(employerId);
 
-      if (!alreadyLoaded) {
+      if (!alreadyFetched) {
         getMessages(employerId, () => {
-          markAllUnreadMessagesAsRead(id);
+          markAllUnreadMessagesAsRead(employerId);
           setIsMessagesLoaded(true);
         });
       } else {
-        markAllUnreadMessagesAsRead(id);
+        markAllUnreadMessagesAsRead(employerId);
         setIsMessagesLoaded(true);
       }
     });
 
     return () => {
-      setCurrentCandidate(null);
-      setIsMessagesLoaded(false);
+      setCurrentEmployer(null);
+
+      setSelectedChat(null);
     };
   }, [selectedChat?.candidate_id]);
 
@@ -109,9 +116,8 @@ function ChatComponent({ applicationUtils }) {
       </div>
     );
   }
-
   return (
-    <div className="w-full lg:w-3/4 flex flex-col items-center overflow-y-auto relative h-full">
+    <div className="w-full lg:w-3/4 flex flex-col items-center overflow-y-auto h-full relative">
       {/* Header */}
       <div className="h-max border-b flex w-full">
         <div className="flex w-full items-center p-2 gap-[10px]">
@@ -141,7 +147,7 @@ function ChatComponent({ applicationUtils }) {
             const isEmployer = current.sender_type === "employer";
             const avatar = isEmployer
               ? `${resourceUrl}/${currentEmployer.logo_image}`
-              : `${resourceUrl}/${details.logo_image}`;
+              : `${resourceUrl}/${getCandidate?.data?.details?.profile}`;
             const name = isEmployer ? currentEmployer.company_name : "You";
             const rowStyle = isEmployer
               ? ""
@@ -164,9 +170,18 @@ function ChatComponent({ applicationUtils }) {
                 />
                 <div className={`flex flex-col w-max max-w-full ${alignStyle}`}>
                   <span className="text-sm font-semibold">{name}</span>
-                  <p className="p-2 mt-2 rounded-md bg-gray-200">
+                  <p className="p-2 mt-2 w-max max-w-full rounded-md bg-gray-200 whitespace-pre-wrap">
                     {current.message}
+                    {/* <small className="absolute bottom-1 right-1">
+                      {current.sender_type !== "employer" && // show only for your own messages
+                        (current.is_read ? (
+                          <IoCheckmarkDoneSharp className="text-green-500 text-xs" />
+                        ) : (
+                          <IoCheckmarkOutline className="text-gray-400 text-xs" />
+                        ))}
+                    </small> */}
                   </p>
+
                   <span className="text-[10px] text-gray-500 mt-1">{time}</span>
                 </div>
               </li>

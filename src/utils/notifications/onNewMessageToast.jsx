@@ -1,5 +1,7 @@
 import { toast } from "react-toastify";
-import { FaCommentDots, FaPhoneAlt } from "react-icons/fa";
+import { FaCommentDots } from "react-icons/fa";
+import notificationSound from "../../assets/audio/bell.mp3";
+import audioController from "../audioController";
 
 export const onNewNotificationToast = ({
   senderName,
@@ -7,26 +9,18 @@ export const onNewNotificationToast = ({
   type = "message", // "message" | "call"
   onClick = () => {},
 }) => {
-  const isCall = type === "call";
+  audioController.playRingtone(notificationSound);
 
   const toastComponent = (
     <div className="flex items-start gap-3 cursor-pointer">
-      {isCall ? (
-        <FaPhoneAlt className="text-2xl text-green-500 mt-1" />
-      ) : (
-        <FaCommentDots className="text-2xl text-oliveDark mt-1" />
-      )}
+      <FaCommentDots className="text-2xl text-oliveDark mt-1" />
 
       <div>
         <p className="font-semibold text-sm text-oliveDark">
-          {isCall
-            ? `Incoming call from ${senderName}`
-            : `New message from ${senderName}`}
+          {`New message from ${senderName}`}
         </p>
         <p className="text-sm text-gray-600 line-clamp-2 max-w-xs">
-          {isCall
-            ? "Tap to respond to the call"
-            : message || "You received a new message"}
+          {message || "You received a new message"}
         </p>
       </div>
     </div>

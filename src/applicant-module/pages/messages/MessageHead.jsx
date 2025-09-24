@@ -46,7 +46,7 @@ function MessageHead({ current }) {
       } cursor-pointer px-2 justify-between items-start gap-[10px] border-b min-h-[50px]`}
     >
       {/* Avatar or image could go here */}
-      <div className="flex flex-col h-fit w-full">
+      <div className="flex flex-col h-fit w-full relative pr-2">
         <section className="w-full flex items-center justify-between gap-2">
           <h4 className="text-sm font-semibold">{current?.employer_name}</h4>
 
@@ -60,9 +60,9 @@ function MessageHead({ current }) {
           )}
         </section>
         {onlineStatus && (
-          <span className="text-little font-thin italic pb-1 text-green-600">
-            online
-          </span>
+          <div className="absolute top-0 right-0 flex items-center pt-1">
+            <div className="h-[8px] w-[8px] animate-pulse rounded-full bg-green-400" />
+          </div>
         )}
       </div>
     </li>

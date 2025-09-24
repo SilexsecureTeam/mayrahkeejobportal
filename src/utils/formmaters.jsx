@@ -57,44 +57,10 @@ export const FormatPriceInUsd = (price) => {
 };
 
 export const FormatError = (error, setError, message) => {
-  console.log(error);
-  if (error instanceof Error && !error?.response?.data) {
-    setError({
-      message: message,
-      error: error.message,
-    });
-    console.log("normal erro");
-  } else if (error?.response?.data) {
-    const errorsFromResponse = error?.response?.data?.errors;
-    let errorMessage = "";
-    if (errorsFromResponse) {
-      Object.keys(errorsFromResponse).map((currentErrorKey) => {
-        const currentError = errorsFromResponse[currentErrorKey];
-        errorMessage = errorMessage + currentError[0] + "\n";
-      });
-      console.log("api error");
-    } else if (error?.response?.data?.response) {
-      console.log("axios erro");
-      errorMessage = error?.response?.data?.response;
-    } else if (
-      error?.response?.data?.message &&
-      !error?.response?.data?.errors
-    ) {
-      errorMessage = error?.response?.data?.message;
-    } else {
-      errorMessage = "Something went wrong";
-    }
-
-    setError({
-      message: message,
-      error: errorMessage,
-    });
-  } else {
-    setError({
-      message: "Unknown",
-      error: "Something went wrong",
-    });
-  }
+  setError({
+    message: message,
+    error: extractErrorMessage(error),
+  });
 };
 
 export const formatResponse = (response, setDatum, responseType) => {

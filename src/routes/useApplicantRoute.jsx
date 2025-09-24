@@ -13,8 +13,8 @@ import ApplicantDetails from "../components/applicant-details-ui/ApplicantDetail
 import AllApplication from "../components/applicant-details-ui/AllApplication";
 import Application from "../components/applicant-details-ui/Application";
 import withApplicationStatus from "../hocs/withApplicationStatus";
-import usePusher from "../hooks/usePusher";
 import { ChatContext } from "../context/ChatContext";
+import usePusher from "../hooks/usePusher";
 //Util Components
 const NavBar = lazy(() => import("../applicant-module/components/NavBar"));
 const SideBar = lazy(() => import("../applicant-module/components/SideBar"));

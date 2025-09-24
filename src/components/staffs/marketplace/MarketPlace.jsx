@@ -108,13 +108,12 @@ function MarketPlace({ handleAddToCart, handleRemoveCart, cartItems }) {
 
       {activeOption === navOptions[0] && (
         <>
-          <strong className="text-xl text-gray-700 font-medium pt-4">
+          <strong className="text-sm text-gray-700 font-medium pt-4">
             Your contracts
           </strong>
           <TableHead>
             {contractItems.length > 0 &&
               contractItems
-                .filter((current) => current.middle_name)
                 .reverse()
                 .map((current) => (
                   <TableRow key={`${current?.id}`} data={current} />
@@ -124,7 +123,7 @@ function MarketPlace({ handleAddToCart, handleRemoveCart, cartItems }) {
       )}
       {activeOption === navOptions[1] && (
         <>
-          <strong className="text-xl text-gray-700 font-medium pt-4">
+          <strong className="text-sm text-gray-700 font-medium pt-4">
             Only available staff are shown here
           </strong>
           <TableHead isMarket={true}>

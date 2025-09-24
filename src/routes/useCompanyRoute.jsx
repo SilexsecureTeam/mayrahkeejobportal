@@ -39,8 +39,8 @@ import StaffInformation from "../staff-module/pages/verifications/StaffInformati
 import CartedStaffs from "../components/staffs/CartedStaffs";
 import SuccessPage from "../components/SuccessPage";
 import CompanyExclusiveReducer from "../reducers/CompanyExclusiveReducer";
-import usePusher from "../hooks/usePusher";
 import { ChatContext } from "../context/ChatContext";
+import usePusher from "../hooks/usePusher";
 
 //Util Component
 const NavBar = lazy(() => import("../company-module/components/NavBar"));

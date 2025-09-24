@@ -6,8 +6,7 @@ import {
   MdDelete,
 } from "react-icons/md";
 import { useLocation, useNavigate } from "react-router-dom";
-import StaffCard from "./StaffCard";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { AuthContext } from "../../context/AuthContex";
 import { axiosClient } from "../../services/axios-client";
 import { onFailure } from "../../utils/notifications/OnFailure";
@@ -93,12 +92,6 @@ function CartedStaffs() {
     await removeFromCart(getCartItems, item);
   };
 
-  useEffect(() => {
-    getCartItems();
-  }, []);
-
-  //console.log(cartItems, selectedItems)
-  // Pricing logic
   const rawSalaryTotal = selectedItems.reduce(
     (total, item) =>
       total +

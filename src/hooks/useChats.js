@@ -11,6 +11,7 @@ function useChats() {
   const [loading, setLoading] = useState(false);
   const [sendingMessage, setSendingMessage] = useState(false);
   const [messagesByConversation, setMessagesByConversation] = useState({});
+  const [fetchedConversations, setFetchedConversations] = useState({});
   const [unreadMessage, setUnreadMessage] = useState(null);
 
   // Append a message to the right conversation
@@ -41,6 +42,11 @@ function useChats() {
       setMessagesByConversation((prev) => ({
         ...prev,
         [userId]: data.messages,
+      }));
+      //  Mark conversation as fully fetched
+      setFetchedConversations((prev) => ({
+        ...prev,
+        [userId]: true,
       }));
       onSuccess();
     } catch (err) {
@@ -121,6 +127,8 @@ function useChats() {
     });
   };
 
+  const isConversationFetched = (userId) => !!fetchedConversations[userId];
+
   return {
     loading,
     sendingMessage,
@@ -135,6 +143,7 @@ function useChats() {
     setUnreadMessage,
     unreadMessages,
     markMessageAsRead,
+    isConversationFetched,
   };
 }
 

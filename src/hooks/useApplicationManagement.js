@@ -14,6 +14,7 @@ function useApplicationManagement() {
   const { authDetails } = useContext(AuthContext);
   const client = axiosClient(authDetails?.token);
   const [loading, setLoading] = useState(false);
+  const [applicantLoading, setApplicantLoading] = useState(false);
   const [error, setError] = useState({
     message: "",
     error: "",
@@ -30,7 +31,7 @@ function useApplicationManagement() {
   // Debounced function to get applicants by employer ID
   const getApplicantsByEmployeeDebounced = debounce(async () => {
     if (authDetails?.token !== null) {
-      setLoading(true);
+      setApplicantLoading(true);
       try {
         const response = await client(
           `getEmployerApply/${authDetails?.user?.id}`
@@ -40,7 +41,7 @@ function useApplicationManagement() {
       } catch (error) {
         FormatError(error, setError, "Applicants Error");
       } finally {
-        setLoading(false);
+        setApplicantLoading(false);
       }
     }
   }, 1000); // Adjust debounce time as needed (1000ms = 1 second)
@@ -258,6 +259,7 @@ function useApplicationManagement() {
 
   return {
     loading,
+    applicantLoading,
     applicants,
     interviewDetails,
     setInterviewDetails,
