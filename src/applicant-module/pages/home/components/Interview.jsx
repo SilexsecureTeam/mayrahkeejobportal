@@ -1,10 +1,10 @@
 import { useState, useEffect, React } from "react";
 import { Button, Popover, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import {formatDate} from '../../../../utils/formmaters'
+import { formatDate } from "../../../../utils/formmaters";
 
 const Interview = ({ getInterviews, shortListed }) => {
-  const navigate=useNavigate();
+  const navigate = useNavigate();
   const [newInterview, setNewInterview] = useState();
   const [anchorEl, setAnchorEl] = useState(null);
 
@@ -21,15 +21,13 @@ const Interview = ({ getInterviews, shortListed }) => {
   useEffect(() => {
     getInterviews(shortListed?.interview_id, setNewInterview);
   }, []);
-  console.log(newInterview);
   const date = formatDate(newInterview?.interview_date);
   // Handle navigation to the interview room
-  
+
   const navigateToApplications = (key) => {
-    
-    navigate("/applicant/applications",{state:{id: `${key}`}});
-  setSideBar(3);
-};
+    navigate("/applicant/applications", { state: { id: `${key}` } });
+    setSideBar(3);
+  };
 
   return (
     <>
@@ -54,15 +52,19 @@ const Interview = ({ getInterviews, shortListed }) => {
         <Typography sx={{ p: 1 }}>
           <div className="h-fit flex flex-col gap-2 w-96 p-2 rounded-[15px]">
             <strong className="border-b">Interview Details</strong>
-            
-            <span >Interviewer: {newInterview?.interviewer_name}</span>
+
+            <span>Interviewer: {newInterview?.interviewer_name}</span>
             <span>Date: {date}</span>
-            
+
             <span>Time: {newInterview?.interview_time}</span>
-            {newInterview?.meeting_id && <span>Meeting Id: {newInterview?.meeting_id}</span>}
-            {newInterview?.location && <span>Location: {newInterview?.location}</span>}
+            {newInterview?.meeting_id && (
+              <span>Meeting Id: {newInterview?.meeting_id}</span>
+            )}
+            {newInterview?.location && (
+              <span>Location: {newInterview?.location}</span>
+            )}
             <span>Notes: {newInterview?.notes}</span>
-            </div>
+          </div>
         </Typography>
       </Popover>
       <div
@@ -73,33 +75,32 @@ const Interview = ({ getInterviews, shortListed }) => {
         className="border-b cursor-pointer"
       >
         <div className="px-3 my-3 flex items-center gap-2 flex-wrap">
-  {/* Date and Time */}
-  <p className="font-medium break-all">
-    {date}
-  </p>
+          {/* Date and Time */}
+          <p className="font-medium break-all">{date}</p>
 
-  {/* Content Wrapper */}
-  <div className="bg-[#47AA4933] rounded p-3 min-w-20 flex-grow">
-    <div className="flex items-center flex-wrap justify-between gap-3">
-      {/* Interviewer and Employer Details */}
-      <div className="divide-y-1 divide-inherit">
-        <p className="prime_text border-b border-4 font-medium">
-          {newInterview?.interviewer_name || "N/A"}
-        </p>
-        <p className="font-bold">{shortListed?.employer_name || "N/A"}</p>
-      </div>
+          {/* Content Wrapper */}
+          <div className="bg-[#47AA4933] rounded p-3 min-w-20 flex-grow">
+            <div className="flex items-center flex-wrap justify-between gap-3">
+              {/* Interviewer and Employer Details */}
+              <div className="divide-y-1 divide-inherit">
+                <p className="prime_text border-b border-4 font-medium">
+                  {newInterview?.interviewer_name || "N/A"}
+                </p>
+                <p className="font-bold">
+                  {shortListed?.employer_name || "N/A"}
+                </p>
+              </div>
 
-      {/* View Button */}
-      <button
-        onClick={() => navigateToApplications("shortlist")}
-        className="border hover:bg-primaryColor hover:text-white border-primaryColor px-2 text-sm sm:text-little text-primaryColor"
-      >
-        View
-      </button>
-    </div>
-  </div>
-</div>
-
+              {/* View Button */}
+              <button
+                onClick={() => navigateToApplications("shortlist")}
+                className="border hover:bg-primaryColor hover:text-white border-primaryColor px-2 text-sm sm:text-little text-primaryColor"
+              >
+                View
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
     </>
   );

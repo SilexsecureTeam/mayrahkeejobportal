@@ -11,11 +11,6 @@ const notificatioTypes = [
     description: "Subscribe to receiving applicants-based notifications",
   },
   {
-    id: "message_notifications",
-    name: "Message Notification",
-    description: "Get notified when a new message is sent to you",
-  },
-  {
     id: "email_notifications",
     name: "Email Notification",
     description: "Subscribe to receiving email notifications",

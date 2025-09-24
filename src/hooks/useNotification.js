@@ -50,7 +50,7 @@ function useNotification(role) {
     setLoading(true);
     try {
       const dataToSend = {
-        user_id: authDetails?.user.id,
+        user_id: authDetails?.user?.id,
         user_type: authDetails?.user.role || "domestic",
       };
       const { data } = await client.post(`/notification-settings`, dataToSend);
@@ -71,6 +71,10 @@ function useNotification(role) {
       onFailure(error);
     }
   }, [error.message, error.error]);
+
+  useEffect(() => {
+    getNotificationSetting();
+  }, []);
 
   async function getDataIfExists(path) {
     const db = getDatabase();

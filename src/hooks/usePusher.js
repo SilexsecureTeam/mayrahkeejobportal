@@ -15,6 +15,7 @@ const usePusher = ({ userId, role, token }) => {
   const { appendMessage, markMessageAsRead, selectedChat } = chatContext || {};
 
   const { authDetails } = useContext(AuthContext);
+
   const navigate = useNavigate();
 
   // Keep latest selectedChat in ref
@@ -52,8 +53,6 @@ const usePusher = ({ userId, role, token }) => {
     const channel = pusher.subscribe(channelName);
 
     const handleMessage = (data) => {
-      console.log(data);
-
       const newMessage = data?.message;
       if (!newMessage) return;
 
