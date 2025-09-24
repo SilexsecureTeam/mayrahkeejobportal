@@ -9,8 +9,10 @@ import useJobManagement from "../hooks/useJobManagement";
 import { Helmet } from "react-helmet";
 import { Link } from "react-router-dom";
 import { parseHtml, sanitizeHtml } from "../utils/formmaters";
+import { useLocation } from "react-router-dom";
 
 const JobSearchPage = () => {
+  const location = useLocation();
   const { getEmployentTypes, getCurrencies, getSectors } = useJobManagement();
   const [jobs, setJobs] = useState([]);
   const [jobSectors, setJobSectors] = useState([]);
@@ -19,12 +21,6 @@ const JobSearchPage = () => {
     keyword: "",
     sector: "",
     type: "",
-    //currency:"",
-    // minSalary: "",
-    // maxSalary: "",
-    // experience: "",
-    // datePosted: "",
-    // sortBy: "",
   });
   const [currentPage, setCurrentPage] = useState(1);
   const [employementList, setEmployementList] = useState([]);
@@ -39,6 +35,13 @@ const JobSearchPage = () => {
       setEmployementList(employementListResult);
       setJobSectors(sectors);
     };
+
+    if (location.state?.data) {
+      setFilters((prev) => ({
+        ...prev,
+        ...location.state?.data,
+      }));
+    }
 
     initData();
   }, []);
@@ -74,8 +77,13 @@ const JobSearchPage = () => {
   };
 
   useEffect(() => {
-    fetchJobs();
-    setCurrentPage(1); // Reset to first page on filter change
+    const hasFilters = Object.values(filters).some((v) => v !== "");
+    if (hasFilters) {
+      fetchJobs();
+      setCurrentPage(1);
+    } else {
+      setJobs([]); // clear jobs when no filters
+    }
   }, [filters]);
 
   const handleFilterChange = (key, value) => {

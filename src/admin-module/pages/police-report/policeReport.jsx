@@ -10,7 +10,7 @@ function AllPoliceReports() {
   const [policereports, setPoliceReports] = useState([]);
 
   useEffect(() => {
-    ( async () => {
+    (async () => {
       const data = await getStaffReport("police-report");
       console.log("Fetched Data:", data); // Log the fetched data
       const sortedData = data.PoliceReports.sort((a, b) => b.id - a.id);
@@ -22,32 +22,52 @@ function AllPoliceReports() {
     })();
   }, []);
 
-  const heading = ["ID", "State","LGA", "Station Address", "Report File", "Status","StaffID"];
-  
-  const data = policereports.map(police => ({
+  const heading = [
+    "ID",
+    "State",
+    "LGA",
+    "Station Address",
+    "Report File",
+    "Status",
+    "StaffID",
+  ];
+
+  const data = policereports.map((police) => ({
     [heading[0].toLowerCase()]: police.domestic_staff_id,
     [heading[1].toLowerCase()]: police.state,
     [heading[2].toLowerCase()]: police.lga,
     [heading[3].toLowerCase()]: police.station_address,
-    [heading[4].toLowerCase()]: police.report_file,
-    [heading[5].toLowerCase()]: police.status === null ? "Pending" : police.status, // Check if status is null
+    [heading[4].toLowerCase()]: !!police.police_report_file
+      ? "Provided"
+      : "Not Provided",
+    [heading[5].toLowerCase()]:
+      police.status === null ? "Pending" : police.status, // Check if status is null
     [heading[6].toLowerCase()]: police.domestic_staff_id,
   }));
 
   return (
     <div className="mt-10">
-    <Helmet>
-      <title>Admin | Police Reports </title>
-    </Helmet>
-    <button
-          type="button"
-          onClick={() => window.history.back()}
-          className="flex items-center gap-2 outline outline-offset-5 outline-green-500 px-4 py-2 rounded text-green-500 hover:bg-green-100"
-        >
-       <FaArrowLeftLong className="me-4 text-green-500" />Back
-        </button>
-      <h2 className="text-black border-b border-gray-500 text-2xl font-bold mt-10">Police Reports</h2>
-      <DataTableComponent heading={heading} data={data} loading={loading} name="domestic-staff" allowEdit={false}/>
+      <Helmet>
+        <title>Admin | Police Reports </title>
+      </Helmet>
+      <button
+        type="button"
+        onClick={() => window.history.back()}
+        className="flex items-center gap-2 outline outline-offset-5 outline-green-500 px-4 py-2 rounded text-green-500 hover:bg-green-100"
+      >
+        <FaArrowLeftLong className="me-4 text-green-500" />
+        Back
+      </button>
+      <h2 className="text-black border-b border-gray-500 text-2xl font-bold mt-10">
+        Police Reports
+      </h2>
+      <DataTableComponent
+        heading={heading}
+        data={data}
+        loading={loading}
+        name="domestic-staff"
+        allowEdit={false}
+      />
     </div>
   );
 }

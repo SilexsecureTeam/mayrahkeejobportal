@@ -22,31 +22,50 @@ function AllMedicalHistories() {
     fetchReports();
   }, []);
 
-  const heading = ["ID", "Hospital Name", "Contact", "Document", "Status", "StaffID"];
-  
-  const data = medicals.map(medical => ({
+  const heading = [
+    "ID",
+    "Hospital Name",
+    "Contact",
+    "Document",
+    "Status",
+    "StaffID",
+  ];
+
+  const data = medicals.map((medical) => ({
     [heading[0].toLowerCase()]: medical.domestic_staff_id,
     [heading[1].toLowerCase()]: medical.hospital_name,
     [heading[2].toLowerCase()]: medical.contact_detail,
-    [heading[3].toLowerCase()]: <img src={"https://dash.mayrahkeeafrica.com/"+medical.medical_report_docs} alt="document" className="w-20 h-20 rounded-lg object-cover"/>,
-    [heading[4].toLowerCase()]: medical.status === null ? "Pending" : medical.status, // Check if status is null
+    [heading[3].toLowerCase()]: !!medical.medical_report_docs
+      ? "Provided"
+      : "Not Provided",
+    [heading[4].toLowerCase()]:
+      medical.status === null ? "Pending" : medical.status, // Check if status is null
     [heading[5].toLowerCase()]: medical.domestic_staff_id,
   }));
 
   return (
     <div className="mt-10">
-    <Helmet>
-      <title>Admin | Medical History </title>
-    </Helmet>
+      <Helmet>
+        <title>Admin | Medical History </title>
+      </Helmet>
       <button
-          type="button"
-          onClick={() => window.history.back()}
-          className="flex items-center gap-2 outline outline-offset-5 outline-green-500 px-4 py-2 rounded text-green-500 hover:bg-green-100"
-        >
-       <FaArrowLeftLong className="me-4 text-green-500" />Back
-        </button>
-      <h2 className="text-black border-b border-gray-500 text-2xl font-bold mt-10">Medical Histories</h2>
-      <DataTableComponent heading={heading} data={data} loading={loading} name="domestic-staff" allowEdit={true} />
+        type="button"
+        onClick={() => window.history.back()}
+        className="flex items-center gap-2 outline outline-offset-5 outline-green-500 px-4 py-2 rounded text-green-500 hover:bg-green-100"
+      >
+        <FaArrowLeftLong className="me-4 text-green-500" />
+        Back
+      </button>
+      <h2 className="text-black border-b border-gray-500 text-2xl font-bold mt-10">
+        Medical Histories
+      </h2>
+      <DataTableComponent
+        heading={heading}
+        data={data}
+        loading={loading}
+        name="domestic-staff"
+        allowEdit={true}
+      />
     </div>
   );
 }

@@ -7,6 +7,7 @@ import { axiosClient } from "../../../services/axios-client";
 import { FormatError } from "../../../utils/formmaters";
 import { onSuccess } from "../../../utils/notifications/OnSuccess";
 import ConfirmationPopUp from "./ConfirmationPopUp"; // Import the popup
+import { useLocationService } from "../../../services/locationService";
 
 const formFields = ["house_address", "close_landmark"];
 
@@ -19,13 +20,12 @@ function ResidenceForm() {
     watch,
     formState: { errors },
   } = useForm();
-  const countries = Country.getAllCountries();
+
+  const { getCountries } = useLocationService();
+  const [countries, setCountries] = useState();
   const [selectedCountry, setSelectedCountry] = useState();
-  const [selectStates, setSelectStates] = useState();
   const [selectState, setSelectState] = useState();
   const [selectCity, setSelectCity] = useState();
-  const [selectCities, setSelectCities] = useState();
-
   const [loading, setLoading] = useState(false);
   const [currentResidence, setCurrentResidence] = useState();
   const [isLoading, setIsLoading] = useState(false);
@@ -34,7 +34,6 @@ function ResidenceForm() {
     error: "",
   });
   const [isPopupOpen, setIsPopupOpen] = useState(false);
-  
 
   const submitDetails = async (data) => {
     setIsLoading(true);
@@ -46,7 +45,7 @@ function ResidenceForm() {
         domestic_staff_id: authDetails.user.id,
       });
       console.log("Data", response.data);
-      getResidence()
+      getResidence();
       onSuccess({
         message: "Residence info uploaded",
         success: "Submitted succesfully, awaiting review",
@@ -82,7 +81,9 @@ function ResidenceForm() {
   const getResidence = async () => {
     setLoading(true);
     try {
-      const { data } = await client.get(`/domesticStaff/residential-status/${authDetails.user.id}`);
+      const { data } = await client.get(
+        `/domesticStaff/residential-status/${authDetails.user.id}`
+      );
       setCurrentResidence(data.ResidentialStatus[0]);
     } catch (error) {
       FormatError(error, setError, "Retrieval Failed");
@@ -91,9 +92,26 @@ function ResidenceForm() {
     }
   };
 
+  // 1. Fetch residence first
   useEffect(() => {
     getResidence();
   }, []);
+
+  // 2. Only fetch countries once you know residence is truly missing
+  useEffect(() => {
+    console.log(currentResidence);
+    if (currentResidence === undefined || currentResidence === null) {
+      const fetchCountries = async () => {
+        try {
+          const response = await getCountries(true);
+          setCountries(response.data || []);
+        } catch (error) {
+          console.error("Error fetching countries:", error);
+        }
+      };
+      fetchCountries();
+    }
+  }, [currentResidence]);
 
   useEffect(() => {
     if (error.error && error.message) {
@@ -103,7 +121,9 @@ function ResidenceForm() {
 
   return (
     <div>
-      <h1 className="text-xl font-semibold text-green-700">Residence Details</h1>
+      <h1 className="text-xl font-semibold text-green-700">
+        Residence Details
+      </h1>
 
       {typeof currentResidence == "undefined" && loading && (
         <div className="flex flex-col items-start justify-center h-full w-full">
@@ -115,7 +135,10 @@ function ResidenceForm() {
         <div className="grid grid-cols-2 gap-x-3 gap-y-5 p-2 w-full text-gray-600">
           {residenceFields()?.map((currentKey) => {
             const value = currentResidence[currentKey];
-            const labelText = currentKey ==="close_landmark"? "closest landmark" : currentKey.replace(/_/g, " ");
+            const labelText =
+              currentKey === "close_landmark"
+                ? "closest landmark"
+                : currentKey.replace(/_/g, " ");
 
             return (
               <div className="flex flex-col gap-1">
@@ -129,7 +152,7 @@ function ResidenceForm() {
 
       {typeof currentResidence === "undefined" && !loading && (
         <form
-           onSubmit={(e) => {
+          onSubmit={(e) => {
             e.preventDefault();
             setIsPopupOpen(true);
           }}
@@ -142,15 +165,16 @@ function ResidenceForm() {
             <select
               name="country"
               onChange={(e) => {
-                const states = State.getStatesOfCountry(e.target.value);
-                setSelectStates(states);
-                setSelectedCountry(Country.getCountryByCode(e.target.value));
+                const country = countries.find(
+                  (c) => c.name === e.target.value
+                );
+                setSelectedCountry(country);
               }}
               className="p-1 border w-full focus:outline-none text-sm border-gray-500  rounded-md"
             >
               <option value="">-- select --</option>
-              {countries.map((country) => (
-                <option key={country.isoCode} value={country.isoCode}>
+              {countries?.map((country) => (
+                <option key={country.id} value={country.name}>
                   {country.name}
                 </option>
               ))}
@@ -158,26 +182,21 @@ function ResidenceForm() {
           </label>
 
           <label className="flex flex-col justify-center gap-1">
-            <span className="block font-medium text-slate-700 mb-1">
-              State
-            </span>
+            <span className="block font-medium text-slate-700 mb-1">State</span>
             <select
               name="state"
               onChange={(e) => {
-                const cities = City.getCitiesOfState(
-                  selectedCountry.isoCode,
-                  e.target.value
+                const state = selectedCountry?.states?.find(
+                  (c) => c.name === e.target.value
                 );
-                console.log(cities);
-                setSelectState(State.getStateByCode(e.target.value));
-                setSelectCities(cities);
+                setSelectState(state);
               }}
               className="p-1 border w-full focus:outline-none border-gray-500 text-sm rounded-md"
             >
               <option value="">-- select --</option>
-              {selectStates?.map((each) => (
-                <option key={each.name} value={each.isoCode}>
-                  {each.name}
+              {selectedCountry?.states?.map((state) => (
+                <option key={state.id} value={state.name}>
+                  {state.name}
                 </option>
               ))}
             </select>
@@ -190,13 +209,16 @@ function ResidenceForm() {
             <select
               name="local_gov"
               onChange={(e) => {
-                setSelectCity(e.target.value);
+                const lga = selectState?.lgas?.find(
+                  (c) => c.name === e.target.value
+                );
+                setSelectCity(lga?.name);
               }}
               className="p-1 border w-full focus:outline-none border-gray-500 text-sm rounded-md"
             >
               <option value="">-- select --</option>
-              {selectCities?.map((city) => (
-                <option key={city.name} value={city.name}>
+              {selectState?.lgas?.map((city) => (
+                <option key={city.id} value={city.name}>
                   {city.name}
                 </option>
               ))}
@@ -205,7 +227,10 @@ function ResidenceForm() {
 
           {formFields.map((currentKey) => {
             const detail = formFields[currentKey];
-            const labelText = currentKey==="close_landmark" ? "closest landmark" :currentKey.replace(/_/g, " ");
+            const labelText =
+              currentKey === "close_landmark"
+                ? "closest landmark"
+                : currentKey.replace(/_/g, " ");
 
             const inputType = currentKey == "member_since" ? "date" : "text";
             return (

@@ -20,7 +20,7 @@ const DomesticStaffDetails = () => {
   const [artisan, setArtisan] = useState(null);
   const [loadingStaff, setLoadingStaff] = useState(true);
   const [showEditModal, setShowEditModal] = useState(false);
-  
+
   useEffect(() => {
     (async () => {
       setLoadingStaff(true);
@@ -43,7 +43,7 @@ const DomesticStaffDetails = () => {
         domestic_staff_id: updatedStaff.id,
         salary_agreed: updatedStaff.salary_agreed,
         service_charge: updatedStaff.service_charge,
-        markup_fee : updatedStaff.markup_fee
+        markup_fee: updatedStaff.markup_fee,
       });
 
       toast.success("Salary updated successfully");
@@ -54,7 +54,7 @@ const DomesticStaffDetails = () => {
           ...prev.data,
           salary_agreed: updatedStaff.salary_agreed,
           service_charge: updatedStaff.service_charge,
-          markup_fee: updatedStaff.markup_fee
+          markup_fee: updatedStaff.markup_fee,
         },
       }));
 
@@ -90,10 +90,11 @@ const DomesticStaffDetails = () => {
         onClick={() => window.history.back()}
         className="flex items-center gap-2 outline outline-offset-5 outline-green-500 px-4 py-2 rounded text-green-500 hover:bg-green-100"
       >
-        <FaArrowLeftLong className="me-4 text-green-500" />Back
+        <FaArrowLeftLong className="me-4 text-green-500" />
+        Back
       </button>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="shadow-lg px-4 py-4 md:col-span-1">
           <div className="flex space-x-4">
             <div>
@@ -111,9 +112,14 @@ const DomesticStaffDetails = () => {
             </div>
 
             <div>
-              <h2 className="text-gray-800 text-2xl font-bold mb-2">{data?.name}</h2>
+              <h2 className="text-gray-800 text-2xl font-bold mb-2">
+                {data?.name}
+              </h2>
               <h1 className="text-gray-400 text-sm">
-                <a href={`mailto:${data?.email}`} className="text-gray-400 hover:underline">
+                <a
+                  href={`mailto:${data?.email}`}
+                  className="text-gray-400 hover:underline break-all"
+                >
                   {data?.email}
                 </a>
               </h1>
@@ -127,7 +133,9 @@ const DomesticStaffDetails = () => {
             </div>
             <div className="flex">
               <p className="text-sm font-bold">Current Salary:</p>
-              <p className="text-sm ml-2">₦{data?.salary_agreed?.toLocaleString() || 0}</p>
+              <p className="text-sm ml-2">
+                ₦{data?.salary_agreed?.toLocaleString() || 0}
+              </p>
             </div>
             <div className="flex">
               <p className="text-sm font-bold">Service Charge:</p>
@@ -137,7 +145,6 @@ const DomesticStaffDetails = () => {
               <p className="text-sm font-bold">Salary Markup:</p>
               <p className="text-sm ml-2">₦{data?.markup_fee || 0}</p>
             </div>
-            
 
             <div className="mt-4">
               <button
@@ -198,14 +205,24 @@ const DomesticStaffDetails = () => {
         <div className="shadow-lg px-4 py-4 md:col-span-2">
           <h1 className="font-bold py-4">Reports</h1>
           <div className="text-sm px-4 py-4 mb-3 grid grid-cols-1 md:grid-cols-2 gap-4">
-            <PoliceReportDialog fetchData={() => fetchReport("police-report", data?.id)} />
-            <MedicalReportDialog fetchData={() => fetchReport("medical-history", data?.id)} />
-            <GuarantorReportDialog fetchData={() => fetchReport("guarantor", data?.id)} />
+            <PoliceReportDialog
+              fetchData={() => fetchReport("police-report", data?.id)}
+            />
+            <MedicalReportDialog
+              fetchData={() => fetchReport("medical-history", data?.id)}
+            />
+            <GuarantorReportDialog
+              fetchData={() => fetchReport("guarantor", data?.id)}
+            />
             <PreviousWorkExperienceDialog
               staff={data}
-              fetchData={() => fetchReport("previous-work-experience", data?.id)}
+              fetchData={() =>
+                fetchReport("previous-work-experience", data?.id)
+              }
             />
-            <ResidentDialog fetchData={() => fetchReport("residential-status", data?.id)} />
+            <ResidentDialog
+              fetchData={() => fetchReport("residential-status", data?.id)}
+            />
           </div>
         </div>
       </div>
@@ -222,4 +239,3 @@ const DomesticStaffDetails = () => {
 };
 
 export default DomesticStaffDetails;
-      

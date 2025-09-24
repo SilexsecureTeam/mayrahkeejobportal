@@ -88,7 +88,6 @@ function useRegistration(role) {
   const verifyOtp = async (otp, onSuccess) => {
     setLoading(true);
     const regSessionDetails = JSON.parse(localStorage.getItem("__reg_info"));
-    console.log("reg", regSessionDetails);
     try {
       const data = {
         email: regSessionDetails.email,
@@ -98,7 +97,12 @@ function useRegistration(role) {
       const dataCopy = JSON.parse(JSON.stringify(data));
 
       const response = await client.post(
-        `/${regSessionDetails?.role || "domesticStaff"}/verifyOtp`,
+        `/${
+          regSessionDetails.role === "staff" ||
+          regSessionDetails.role === "artisan"
+            ? "domesticStaff"
+            : regSessionDetails.role
+        }/verifyOtp`,
         dataCopy
       );
       onSuccess();
@@ -120,7 +124,12 @@ function useRegistration(role) {
       const dataCopy = JSON.parse(JSON.stringify(data));
 
       const response = await client.post(
-        `/${regSessionDetails.role}/resendOtp`,
+        `/${
+          regSessionDetails.role === "staff" ||
+          regSessionDetails.role === "artisan"
+            ? "domesticStaff"
+            : regSessionDetails.role
+        }/resendOtp`,
         dataCopy
       );
       if (resetTimer) resetTimer();

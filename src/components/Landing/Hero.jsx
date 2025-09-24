@@ -1,20 +1,38 @@
-import React from "react";
-import Btn from "./Btn";
+import React, { useState, useEffect, useContext } from "react";
 import logo from "../../assets/pngs/main-logo-icon.png";
 import bgImg from "../../assets/pngs/job-hero-img.png";
 import { FaSearch } from "react-icons/fa";
-import { FaLocationDot } from "react-icons/fa6";
+import { FaBriefcase } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { ApplicationContext } from "../../context/ApplicationContext"; // 🔑 provides getSectors & getEmploymentTypes
+import useJobManagement from "../../hooks/useJobManagement";
 
 const Hero = ({ shrink = false, title }) => {
   const navigate = useNavigate();
-  const [jobTitle, setJobTitle] = useState("");
-  const [location, setLocation] = useState("");
+  const applicationUtils = useContext(ApplicationContext);
+  const { getEmployentTypes, getCurrencies, getSectors } = useJobManagement();
+
+  const [sector, setSector] = useState("");
+  const [jobType, setJobType] = useState("");
+  const [sectors, setSectors] = useState([]);
+  const [types, setTypes] = useState([]);
+
+  useEffect(() => {
+    const initData = async () => {
+      const employementListResult = await getEmployentTypes();
+      const sectors = await getSectors();
+      setTypes(employementListResult);
+      setSectors(sectors);
+    };
+
+    initData();
+  }, []);
+
   const handleSubmit = (e) => {
     e.preventDefault();
+
     navigate("/find-jobs", {
-      state: { data: { title: jobTitle, location } },
+      state: { data: { sector, type: jobType } },
     });
   };
 
@@ -41,37 +59,52 @@ const Hero = ({ shrink = false, title }) => {
       </section>
 
       {!shrink && (
-        <form className="mt-5 text-xs flex flex-col md:flex-row items-center justify-between gap-4 bg-green-200/20 border border-gray-200 rounded-3xl md:rounded-full max-w-[900px] w-[90%] min-h-14 p-2">
-          {/* Input Section */}
+        <form
+          onSubmit={handleSubmit}
+          className="mt-5 text-xs flex flex-col md:flex-row items-center justify-between gap-4 bg-green-200/20 border border-gray-200 rounded-3xl md:rounded-full max-w-[900px] w-[90%] min-h-14 p-2"
+        >
           <section className="flex flex-col md:flex-row w-[80%] py-3 md:py-0 md:w-full items-center justify-center gap-4 relative">
-            {/* Job Title Input */}
-            <label className="flex items-center gap-3 text-gray-400 rounded-full px-3 py-1 md:py-2 w-full md:w-[40%]">
+            {/* Sector Dropdown */}
+            <label className="flex items-center gap-3 text-gray-400 rounded-full px-3 py-1 md:py-2 w-full md:w-[40%] bg-transparent">
               <FaSearch size="15" />
-              <input
-                className="font-semibold bg-transparent ring-0 outline-0 w-full"
-                type="text"
-                placeholder="Job title or keyword"
-              />
+              <select
+                className="font-semibold bg-transparent ring-0 outline-0 w-full text-gray-200"
+                value={sector}
+                onChange={(e) => setSector(e.target.value)}
+              >
+                <option value="">Select sector</option>
+                {sectors.map((s) => (
+                  <option key={s.id} className="!text-gray-600" value={s.name}>
+                    {s.name}
+                  </option>
+                ))}
+              </select>
             </label>
 
-            {/* Divider Line */}
+            {/* Divider */}
             <div className="hidden md:block h-8 w-px bg-gray-400 md:mx-4"></div>
             <div className="block md:hidden w-full h-px bg-gray-400"></div>
 
-            {/* Location Input */}
-            <label className="flex items-center gap-3 text-gray-400 rounded-full px-3 py-1 md:py-2 w-full md:w-[40%]">
-              <FaLocationDot size="15" />
-              <input
-                className="font-semibold bg-transparent ring-0 outline-0 w-full"
-                type="text"
-                placeholder="Add country or city"
-              />
+            {/* Type Dropdown */}
+            <label className="flex items-center gap-3 text-gray-400 rounded-full px-3 py-1 md:py-2 w-full md:w-[40%] bg-transparent">
+              <FaBriefcase size="15" />
+              <select
+                className="font-semibold bg-transparent ring-0 outline-0 w-full text-gray-200"
+                value={jobType}
+                onChange={(e) => setJobType(e.target.value)}
+              >
+                <option value="">Select type</option>
+                {types.map((t) => (
+                  <option key={t.id} className="!text-gray-600" value={t.name}>
+                    {t.name}
+                  </option>
+                ))}
+              </select>
             </label>
           </section>
 
-          {/* Search Button */}
           <button
-            onClick={handleSubmit}
+            type="submit"
             className="font-bold min-w-28 bg-green-600 text-white rounded-full px-6 py-3"
           >
             search

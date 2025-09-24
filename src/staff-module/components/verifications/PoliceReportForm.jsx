@@ -1,12 +1,12 @@
 import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
-import { Country, State, City } from "country-state-city";
 import { onFailure } from "../../../utils/notifications/OnFailure";
 import { onSuccess } from "../../../utils/notifications/OnSuccess";
 import { FormatError } from "../../../utils/formmaters";
 import FormButton from "../../../components/FormButton";
 import { axiosClient } from "../../../services/axios-client";
 import ConfirmationPopUp from "./ConfirmationPopUp";
+import { useLocationService } from "../../../services/locationService";
 
 const formFields = ["station_address", "nin_number"];
 
@@ -17,25 +17,60 @@ function PoliceReportForm({ authDetails, onSuccess: onUploadSuccess }) {
     formState: { errors },
   } = useForm();
 
-  const countries = Country.getAllCountries();
+  const { getCountries } = useLocationService();
+  const [countries, setCountries] = useState([]);
   const [selectedCountry, setSelectedCountry] = useState();
-  const [selectStates, setSelectStates] = useState();
   const [selectState, setSelectState] = useState();
-  const [selectCities, setSelectCities] = useState();
   const [selectCity, setSelectCity] = useState();
 
   const [policeFile, setPoliceFile] = useState(null);
   const [ninFile, setNinFile] = useState(null);
   const [loading, setLoading] = useState(false);
   const [showConfirmation, setShowConfirmation] = useState(false);
+  const [currentResidence, setCurrentResidence] = useState(undefined); // 👈 track residence
   const client = axiosClient(authDetails?.token, true);
 
-  const [formDataValues, setFormDataValues] = useState(null); // Temporarily store text inputs
+  const [formDataValues, setFormDataValues] = useState(null);
 
   const handlePreviewSubmit = (data) => {
-    setFormDataValues(data); // Save data temporarily
-    setShowConfirmation(true); // Show confirmation modal
+    setFormDataValues(data);
+    setShowConfirmation(true);
   };
+
+  // 1. Check if residence already exists
+  const getResidence = async () => {
+    setLoading(true);
+    try {
+      const { data } = await client.get(
+        `/domesticStaff/residential-status/${authDetails.user.id}`
+      );
+      setCurrentResidence(data.ResidentialStatus[0] || null); // null if none
+    } catch (error) {
+      FormatError(error, null, "Retrieval Failed");
+      setCurrentResidence(null); // fallback
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    getResidence();
+  }, []);
+
+  // 2. Fetch countries ONLY if no residence
+  useEffect(() => {
+    if (currentResidence === null) {
+      const fetchCountries = async () => {
+        try {
+          const response = await getCountries(true);
+          setCountries(response.data || []);
+        } catch (error) {
+          console.error("Error fetching countries:", error);
+        }
+      };
+      fetchCountries();
+    }
+  }, [currentResidence]);
 
   const handleConfirmedSubmit = async () => {
     if (!policeFile) {
@@ -81,6 +116,15 @@ function PoliceReportForm({ authDetails, onSuccess: onUploadSuccess }) {
     }
   };
 
+  // 🟢 If residence exists, don’t render the form at all
+  if (currentResidence && currentResidence.id) {
+    return (
+      <div className="p-4 border rounded-md bg-gray-100 text-gray-700">
+        <p>You already have a residence record on file.</p>
+      </div>
+    );
+  }
+
   return (
     <>
       <form
@@ -92,16 +136,14 @@ function PoliceReportForm({ authDetails, onSuccess: onUploadSuccess }) {
           <span className="font-medium">Country</span>
           <select
             onChange={(e) => {
-              const code = e.target.value;
-              const states = State.getStatesOfCountry(code);
-              setSelectStates(states);
-              setSelectedCountry(Country.getCountryByCode(code));
+              const country = countries.find((c) => c.name === e.target.value);
+              setSelectedCountry(country);
             }}
             className="p-1 border border-gray-500 rounded-md"
           >
             <option value="">-- select --</option>
-            {countries.map((country) => (
-              <option key={country.isoCode} value={country.isoCode}>
+            {countries?.map((country) => (
+              <option key={country.id} value={country.name}>
                 {country.name}
               </option>
             ))}
@@ -113,19 +155,16 @@ function PoliceReportForm({ authDetails, onSuccess: onUploadSuccess }) {
           <span className="font-medium">State</span>
           <select
             onChange={(e) => {
-              const code = e.target.value;
-              const cities = City.getCitiesOfState(
-                selectedCountry?.isoCode,
-                code
+              const state = selectedCountry?.states?.find(
+                (c) => c.name === e.target.value
               );
-              setSelectState(State.getStateByCode(code));
-              setSelectCities(cities);
+              setSelectState(state);
             }}
             className="p-1 border border-gray-500 rounded-md"
           >
             <option value="">-- select --</option>
-            {selectStates?.map((state) => (
-              <option key={state.name} value={state.isoCode}>
+            {selectedCountry?.states?.map((state) => (
+              <option key={state.id} value={state.name}>
                 {state.name}
               </option>
             ))}
@@ -136,12 +175,17 @@ function PoliceReportForm({ authDetails, onSuccess: onUploadSuccess }) {
         <label className="flex flex-col gap-1">
           <span className="font-medium">Local Government</span>
           <select
-            onChange={(e) => setSelectCity(e.target.value)}
+            onChange={(e) => {
+              const lga = selectState?.lgas?.find(
+                (c) => c.name === e.target.value
+              );
+              setSelectCity(lga?.name);
+            }}
             className="p-1 border border-gray-500 rounded-md"
           >
             <option value="">-- select --</option>
-            {selectCities?.map((city) => (
-              <option key={city.name} value={city.name}>
+            {selectState?.lgas?.map((city) => (
+              <option key={city.id} value={city.name}>
                 {city.name}
               </option>
             ))}
@@ -188,7 +232,6 @@ function PoliceReportForm({ authDetails, onSuccess: onUploadSuccess }) {
         <FormButton loading={loading}>Upload Police Records</FormButton>
       </form>
 
-      {/* Confirmation Pop-up inside this component */}
       <ConfirmationPopUp
         isOpen={showConfirmation}
         onClose={() => setShowConfirmation(false)}
