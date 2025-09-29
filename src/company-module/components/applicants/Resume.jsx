@@ -120,7 +120,7 @@ function Resume({ data, applicant }) {
                 <span className="font-normal">{resume.company_name}</span>
               </span>
               <span className="text-black font-semibold flex gap-2 w-full justify-between">
-                Position Held{" "}
+                Position Held:{" "}
                 <span className="font-normal">{resume.position_held}</span>
               </span>
               <span className="text-black font-semibold flex gap-2 w-full justify-between">

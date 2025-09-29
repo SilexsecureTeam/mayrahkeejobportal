@@ -5,7 +5,11 @@ import { axiosClient } from "../../../services/axios-client";
 import { AuthContext } from "../../../context/AuthContex";
 import { onFailure } from "../../../utils/notifications/OnFailure";
 import SearchComponent from "../../../components/staffs/SearchComponent";
-import { FaExclamationCircle, FaShoppingCart, FaFileContract } from "react-icons/fa";
+import {
+  FaExclamationCircle,
+  FaShoppingCart,
+  FaFileContract,
+} from "react-icons/fa";
 import {
   MdCheck,
   MdCheckBox,
@@ -27,7 +31,7 @@ function Artisan() {
   const navigate = useNavigate();
   const [cartItems, setCartItems] = useState([]);
   const [charges, setCharges] = useState({});
- 
+
   const [conditions, setConditions] = useState(false);
   const [queryParams, setQueryParams] = useState();
   const [terms, setTerms] = useState(false);
@@ -45,10 +49,8 @@ function Artisan() {
       const { data } = await client.get(
         `/domesticStaff/get-staff?staff_category=artisan&${dataToPost}`
       );
-      console.log(data);
       setSearcResult(data.domesticStaff);
     } catch (error) {
-      console.log(error);
       onFailure({
         message: "Artisan Error",
         error: "Failed to retrieve items/query is empty",
@@ -78,17 +80,22 @@ function Artisan() {
   const navigateToCart = () =>
     navigate(`/company/staff/cart`, {
       state: {
-        data: { items: cartItems, category: categories, type: "artisan", ...charges },
+        data: {
+          items: cartItems,
+          category: categories,
+          type: "artisan",
+          ...charges,
+        },
       },
     });
 
   const staffsToDisplay =
     searchResult.length > 0
       ? searchResult?.filter(
-        (current) =>
-          current?.staff_category === "artisan" &&
-        (current?.status === "pending" || current?.status === "approved")
-      )
+          (current) =>
+            current?.staff_category === "artisan" &&
+            (current?.status === "pending" || current?.status === "approved")
+        )
       : [];
 
   const getCartItems = async () => {
@@ -97,9 +104,9 @@ function Artisan() {
         user_id: authDetails.user.id,
         user_type: authDetails.user.role,
       });
-      const {cart_items, ...others}= data
+      const { cart_items, ...others } = data;
       if (data?.cart_items) {
-        setCharges({...others})
+        setCharges({ ...others });
         setCartItems(
           data.cart_items.filter(
             (current) => current.domestic_staff.staff_category === "artisan"
@@ -120,7 +127,11 @@ function Artisan() {
 
       try {
         const { data } = await client.get("/staff-categories");
-        setCategories(data.data?.filter(one=>one.name.toLowerCase().includes("artisan"))[0] || [])
+        setCategories(
+          data.data?.filter((one) =>
+            one.name.toLowerCase().includes("artisan")
+          )[0] || []
+        );
       } catch (error) {
         onFailure({
           message: "Artisan Error",
@@ -144,8 +155,12 @@ function Artisan() {
             onClick={() => setConditions(!conditions)}
           />
           <h1 className="text-xl font-bold">Job Descriptions</h1>
-          <div className="text-sm overflow-y-auto flex-1 prose"> 
-          <p dangerouslySetInnerHTML={{ __html: selectedCategory?.description}} />
+          <div className="text-sm overflow-y-auto flex-1 prose">
+            <p
+              dangerouslySetInnerHTML={{
+                __html: selectedCategory?.description,
+              }}
+            />
           </div>
 
           <FormButton
@@ -187,17 +202,21 @@ function Artisan() {
               </p>
             </div>
 
-
             <div className="ml-auto flex md:items-center gap-5">
               <button
-                onClick={() => navigate("/company/staff/contract-history", {
-                  state: {
-                    data: {type: "artisan" },
-                }})}
+                onClick={() =>
+                  navigate("/company/staff/contract-history", {
+                    state: {
+                      data: { type: "artisan" },
+                    },
+                  })
+                }
                 className="flex items-center gap-2"
               >
                 <FaFileContract size="24" className="inline md:hidden" />
-                <span className="hidden md:inline border-primaryColor px-3 py-1 border hover:bg-primaryColor hover:text-white text-sm">Contract History</span>
+                <span className="hidden md:inline border-primaryColor px-3 py-1 border hover:bg-primaryColor hover:text-white text-sm">
+                  Contract History
+                </span>
               </button>
 
               <button className="my-5 ml-auto" onClick={navigateToCart}>
@@ -209,7 +228,6 @@ function Artisan() {
                 </p>
               </button>
             </div>
-
           </section>
 
           <SearchComponent
@@ -223,7 +241,7 @@ function Artisan() {
         {staffsToDisplay.length > 0 ? (
           <div className="flex flex-col gap-3 mt-5">
             <span className="font-semibold text-yellow-600">
-            Showing You Search Result
+              Showing You Search Result
             </span>
             <ul className="w-full grid grid-cols-responsive gap-4">
               {staffsToDisplay?.map((current) => (

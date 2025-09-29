@@ -1,85 +1,78 @@
 import React, { useState } from "react";
 import JobItem from "./JobItem";
-import useJobManagement from "../../../hooks/useJobManagement";
-import { useEffect } from "react";
+import { FaFilter } from "react-icons/fa";
+import FilterPopup from "../../../components/FilterPopup";
 
 function JobUpdates({ jobs, applicants }) {
-  const [currency, setCurrency] = useState(""); // Selected currency type
-  const [salaryInput, setSalaryInput] = useState(""); // User-entered salary value
-  const [currencies, setCurrencies] = useState([]); // List of available currencies
-  const { getCurrencies } = useJobManagement();
+  const [open, setOpen] = useState(false);
 
-  useEffect(() => {
-    // Fetch currencies when component mounts
-    const fetchCurrencies = async () => {
-      try {
-        const response = await getCurrencies();
-        setCurrencies(response || []);
-      } catch (error) {}
-    };
+  // Filters
+  const [status, setStatus] = useState("all");
+  const [type, setType] = useState("all");
+  const [gender, setGender] = useState("all");
+  const [profession, setProfession] = useState("all");
+  const [search, setSearch] = useState("");
 
-    fetchCurrencies();
-  }, []);
-
-  // Filter jobs based on currency and salary range
+  // Filter jobs
   const filteredJobs = jobs.filter((job) => {
-    const salary = parseFloat(salaryInput);
-    const minSalary = parseFloat(job?.min_salary);
-    const maxSalary = parseFloat(job?.max_salary);
-
     return (
-      (!currency || job.currency?.split(" ")[0] === currency) && // Match selected currency
-      (!salaryInput || (salary >= minSalary && salary <= maxSalary)) // Salary within range
+      (status === "all" || job.status === status) &&
+      (type === "all" || job.type === type) &&
+      (gender === "all" ||
+        job.gender?.toLowerCase() === gender.toLowerCase()) &&
+      (profession === "all" || job.profession === profession) &&
+      (search === "" ||
+        job?.job_title?.toLowerCase().includes(search?.toLowerCase()))
     );
   });
 
+  const uniqueJobTitles = [
+    ...new Set(jobs.map((job) => job.job_title).filter(Boolean)),
+  ];
+
   return (
-    <div className="w-full min-h-[250px] border flex flex-col items-start">
-      <section className="w-full flex justify-between items-center gap-2">
-        <div className="flex-shrink-0 h-[50px] w-max text-sm font-semibold p-2 flex items-center border-b">
-          <h3 className="text-green-700">Jobs Updates</h3>
-        </div>
+    <div className="w-full min-h-[250px] border rounded-lg shadow-sm bg-white flex flex-col relative">
+      {/* Header Section */}
+      <section className="w-full flex justify-between items-center border-b px-4 py-3">
+        <h3 className="text-green-700 font-semibold text-lg">Jobs Updates</h3>
 
-        {/* Filter Section */}
-        <div className="ml-auto p-3 grid grid-cols-2 gap-2 lg:gap-4">
-          {/* Currency Filter */}
-          <select
-            value={currency}
-            onChange={(e) => setCurrency(e.target.value)}
-            className="border px-1 py-2 md:p-2 rounded text-xs md:text-sm"
-          >
-            <option value="">Select Currency</option>
-            {currencies?.map((curr) => (
-              <option key={curr?.id} value={curr?.name}>
-                {curr?.code}
-              </option>
-            ))}
-          </select>
-
-          {/* Salary Input */}
-          <input
-            type="number"
-            placeholder="Enter Salary"
-            value={salaryInput}
-            onChange={(e) => setSalaryInput(e.target.value)}
-            className="border p-2 rounded "
-          />
-        </div>
+        {/* Filter Button */}
+        <button
+          onClick={() => setOpen(true)}
+          className="flex items-center gap-2 px-3 py-1.5 border rounded-md bg-gray-50 hover:bg-gray-100 text-sm font-medium text-gray-700"
+        >
+          <FaFilter className="text-green-500" /> Filters
+        </button>
       </section>
 
+      {/* Filter Popup */}
+      {open && (
+        <FilterPopup
+          open={open}
+          setOpen={setOpen}
+          jobs={jobs} // 👈 pass all jobs so popup can fetch currencies/types
+          uniqueJobTitles={uniqueJobTitles}
+          status={status}
+          setStatus={setStatus}
+          type={type}
+          setType={setType}
+          gender={gender}
+          setGender={setGender}
+          profession={profession}
+          setProfession={setProfession}
+          search={search}
+          setSearch={setSearch}
+        />
+      )}
+
       {/* Job Listings */}
-      <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 p-3 px-8 mt-4 h-[85%] justify-start items-start gap-[15px] w-full max-w-[98%]">
+      <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 p-3 px-8 mt-4 gap-[15px] w-full">
         {filteredJobs?.length > 0 ? (
           filteredJobs?.map((current) => (
-            <JobItem
-              key={current.id}
-              data={current}
-              applicants={applicants}
-              currencies={currencies}
-            />
+            <JobItem key={current.id} data={current} applicants={applicants} />
           ))
         ) : (
-          <p>No job updates available</p>
+          <p className="text-gray-500 text-sm">No job updates available</p>
         )}
       </ul>
     </div>
