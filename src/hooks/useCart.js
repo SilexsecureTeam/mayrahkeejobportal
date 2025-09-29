@@ -66,6 +66,7 @@ function useCart() {
         user_type: authDetails.user.role,
         domestic_staff_id: data.id,
       });
+
       onSuccess({
         message: `${
           data?.staff_category === "artisan"

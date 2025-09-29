@@ -119,25 +119,34 @@ export const getImageURL = (e, setStateFunctionUrl, setDetails) => {
     alert("Please select a valid JPEG or PNG file.");
   }
 };
-
 export const extractErrorMessage = (error) => {
-  const getString = (data) => {
-    return typeof data === "string" ? data : JSON.stringify(data);
+  const formatData = (data) => {
+    if (!data) return "An unknown error occurred";
+
+    if (typeof data === "string") return data;
+
+    // If it's an object like { field: ["msg1", "msg2"] }
+    if (typeof data === "object") {
+      const values = Object.values(data).flat();
+      return values.join(", ");
+    }
+
+    return JSON.stringify(data);
   };
 
   if (error?.response?.data?.message) {
-    return getString(error.response.data.message);
+    return formatData(error.response.data.message);
   }
 
   if (error?.response?.data?.error) {
-    return getString(error.response.data.error);
+    return formatData(error.response.data.error);
   }
 
   if (error?.response?.error) {
-    return getString(error.response.error);
+    return formatData(error.response.error);
   }
 
-  return getString(error?.message || "An unknown error occurred");
+  return formatData(error?.message || "An unknown error occurred");
 };
 
 export const getDocument = (e, setDetails) => {

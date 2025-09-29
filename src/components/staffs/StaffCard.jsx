@@ -21,6 +21,7 @@ import {
   FaUserCheck,
   FaUserShield,
 } from "react-icons/fa";
+import useCart from "../../hooks/useCart";
 
 const PUBLIC_KEY = import.meta.env.VITE_TEST_PUBLIC_KEY;
 
@@ -39,6 +40,7 @@ function StaffCard({
   const client = axiosClient(authDetails?.token);
   const { getStyling } = useStaff();
   const navigate = useNavigate();
+  const { addToCart } = useCart();
 
   const [open, setOpen] = useState(false);
 
@@ -75,24 +77,10 @@ function StaffCard({
     }
   };
 
-  const addToCart = async () => {
+  const handleAddToCart = async () => {
     setCartLoading(true);
     try {
-      const response = await client.post("/staff-cart/add", {
-        user_id: authDetails.user.id,
-        user_type: authDetails.user.role,
-        domestic_staff_id: data.id,
-      });
-      await getCartItems();
-      onSuccess({
-        message: "User sucessfully added",
-        success: `${data?.staff_category} added to cart successfully`,
-      });
-    } catch (error) {
-      onFailure({
-        message: "Collection Failed",
-        error: "Failed to add to collection",
-      });
+      await addToCart(getCartItems, data);
     } finally {
       setCartLoading(false);
     }
@@ -479,7 +467,7 @@ function StaffCard({
               <>
                 <FormButton
                   loading={cartloading}
-                  onClick={addToCart}
+                  onClick={handleAddToCart}
                   width="h-fit text-sm py-2 border border-black text-black bg-white"
                 >
                   Proceed to Engage
