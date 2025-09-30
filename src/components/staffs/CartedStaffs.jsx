@@ -64,7 +64,7 @@ function CartedStaffs() {
       });
 
       const filtered = res?.data?.cart_items?.filter(
-        (item) => item.domestic_staff.staff_category === data?.type
+        (item) => item?.domestic_staff?.staff_category === data?.type
       );
 
       setCartItems(filtered || []);
@@ -74,7 +74,7 @@ function CartedStaffs() {
           prevSelected.some((selected) => selected.id === item.id)
         )
       );
-    } catch {
+    } catch (err) {
       onFailure({
         message: "Something went wrong",
         error: "Error retrieving carted items",

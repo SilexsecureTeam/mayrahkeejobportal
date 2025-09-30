@@ -108,15 +108,17 @@ function Artisan() {
       if (data?.cart_items) {
         setCharges({ ...others });
         setCartItems(
-          data.cart_items.filter(
-            (current) => current.domestic_staff.staff_category === "artisan"
+          data?.cart_items?.filter(
+            (current) => current.domestic_staff?.staff_category === "artisan"
           )
         );
       }
     } catch (error) {
+      console.log(error);
+
       onFailure({
-        message: "soemthing went wrong",
-        error: "Error retriving carted items",
+        message: "something went wrong",
+        error: "Error retrieving carted items",
       });
     }
   };

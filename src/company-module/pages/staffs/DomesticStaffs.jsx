@@ -100,7 +100,7 @@ function DomesticStaff() {
         setCharges({ ...others });
         setCartItems(
           data.cart_items?.filter(
-            (current) => current.domestic_staff.staff_category === "staff"
+            (current) => current?.domestic_staff?.staff_category === "staff"
           )
         );
       }

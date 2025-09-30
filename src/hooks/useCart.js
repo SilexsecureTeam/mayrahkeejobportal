@@ -68,16 +68,8 @@ function useCart() {
       });
 
       onSuccess({
-        message: `${
-          data?.staff_category === "artisan"
-            ? "Skilled Worker"
-            : data?.staff_category || "User"
-        } successfully added`,
-        success: `${
-          data?.staff_category === "artisan"
-            ? "Skilled Worker"
-            : data?.staff_category || "User"
-        } added to cart successfully.`,
+        message: `Successfully Added`,
+        success: extractErrorMessage(response?.data),
       });
 
       await getCartItems();
@@ -96,18 +88,9 @@ function useCart() {
         user_type: authDetails.user.role,
         domestic_staff_id: data?.domestic_staff_id,
       });
-
       onSuccess({
-        message: `${
-          data?.domestic_staff?.staff_category === "artisan"
-            ? "Skilled Worker"
-            : data?.domestic_staff?.staff_category || "User"
-        } successfully Removed`,
-        success: `${
-          data?.domestic_staff?.staff_category === "artisan"
-            ? "Skilled Worker"
-            : data?.domestic_staff?.staff_category || "User"
-        } removed from cart successfully.`,
+        message: `Successfully Removed`,
+        success: extractErrorMessage(response?.data),
       });
       await getCartItems();
     } catch (error) {
