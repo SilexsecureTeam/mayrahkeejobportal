@@ -4,7 +4,7 @@ import { ChatContext } from "../../../context/ChatContext";
 import { onValue, ref } from "firebase/database";
 import { database } from "../../../utils/firebase";
 
-function MessagedList({ data }) {
+function MessagedList({ data, closeSidePanel }) {
   const { initFirebaseChatSession, selectedChat, setSelectedChat } =
     useContext(ChatContext);
   const [searchQuery, setSearchQuery] = useState("");
@@ -52,7 +52,7 @@ function MessagedList({ data }) {
   });
 
   return (
-    <div className="h-max w-full md:w-1/4 p-2 border-r">
+    <div className="">
       <input
         className="w-full border text-sm p-2 mb-2 focus:outline-none"
         placeholder="Search messages"
@@ -60,7 +60,7 @@ function MessagedList({ data }) {
         onChange={(e) => setSearchQuery(e.target.value)}
       />
 
-      <ul className="min-h-20 w-full flex flex-row md:flex-col py-2 overflow-x-auto overflow-y-hidden md:overflow-y-auto">
+      <ul className="min-h-20 w-full flex flex-col py-2 overflow-x-auto overflow-y-hidden md:overflow-y-auto">
         {filteredList?.length > 0 ? (
           filteredList.map((current) => {
             const isOnline = onlineUsers[current.candidate_id];
@@ -71,7 +71,10 @@ function MessagedList({ data }) {
             return (
               <li
                 key={current.id}
-                onClick={() => setSelectedChat(current)}
+                onClick={() => {
+                  setSelectedChat(current);
+                  closeSidePanel();
+                }}
                 className={`relative border-l border-r md:border-0 max-w-30 md:max-w-full flex ${
                   selectedChat?.id === current.id
                     ? "bg-primaryColor text-white"

@@ -49,30 +49,35 @@ function SideBar({ children, authDetails, toogleIsOpen, isMenuOpen }) {
         <div className="absolute bottom-0 left-0 p-2 flex gap-[5px] items-end w-[220px]">
           <div className="flex-1 flex flex-col truncate">
             <span className="text-secondaryColor text-sm truncate">
-              {candidate?.full_name ? candidate?.full_name : `${authDetails?.user?.first_name || "N/A"} ${authDetails?.user?.last_name || "N/A"
-                }`}
+              {candidate?.full_name
+                ? candidate?.full_name
+                : `${authDetails?.user?.first_name || "N/A"} ${
+                    authDetails?.user?.last_name || "N/A"
+                  }`}
             </span>
             <span className="text-gray-300 text-[11px] truncate">
               {authDetails?.user?.email || "N/A"}
             </span>
           </div>
           <figure className="h-[60px] w-[60px] rounded-full overflow-hidden bg-secondaryColor object-cover flex items-center justify-center">
-            {!candidate?.profile ?
+            {!candidate?.profile ? (
               <MdAccountCircle size={45} />
-              :
+            ) : (
               <img
                 src={`${IMAGE_URL}/${candidate.profile}`}
                 alt="User"
                 className="h-[60px] w-[60px] rounded-full object-cover"
-              />}
+              />
+            )}
           </figure>
-          </div>
+        </div>
       </aside>
 
       {/* Mobile Sidebar */}
       <aside
-        className={`h-screen ${isMenuOpen ? "left-0" : "left-[-100%]"
-          } w-[300px] absolute z-[999] h-screen bg-secondaryColor px-2 pb-2 flex flex-col overflow-hidden`}
+        className={`h-screen ${
+          isMenuOpen ? "left-0" : "left-[-100%]"
+        } md:hidden w-[300px] absolute z-[999] h-screen bg-secondaryColor px-2 pb-2 flex flex-col overflow-hidden`}
       >
         {/* Close Button and Logo */}
         <div className="flex items-center gap-[10px]">
@@ -110,8 +115,11 @@ function SideBar({ children, authDetails, toogleIsOpen, isMenuOpen }) {
         <div className="absolute bottom-0 left-0 p-2 flex gap-[5px] items-end w-[270px]">
           <div className="flex-1 flex flex-col truncate">
             <span className="text-secondaryColor text-sm truncate">
-              {candidate?.full_name ? candidate?.full_name : `${authDetails?.user?.first_name || "N/A"} ${authDetails?.user?.last_name || "N/A"
-                }`}
+              {candidate?.full_name
+                ? candidate?.full_name
+                : `${authDetails?.user?.first_name || "N/A"} ${
+                    authDetails?.user?.last_name || "N/A"
+                  }`}
             </span>
             <span className="text-gray-300 text-[11px] truncate">
               {authDetails?.user?.email || "N/A"}
@@ -119,14 +127,15 @@ function SideBar({ children, authDetails, toogleIsOpen, isMenuOpen }) {
           </div>
 
           <figure className="h-[60px] w-[60px] rounded-full overflow-hidden bg-secondaryColor object-cover flex items-center justify-center">
-            {!candidate?.profile ?
+            {!candidate?.profile ? (
               <MdAccountCircle size={45} />
-              :
+            ) : (
               <img
                 src={`${IMAGE_URL}/${candidate.profile}`}
                 alt="User"
                 className="h-[60px] w-[60px] rounded-full object-cover"
-              />}
+              />
+            )}
           </figure>
         </div>
       </aside>

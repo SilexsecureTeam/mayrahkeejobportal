@@ -3,7 +3,7 @@ import { onValue, ref } from "firebase/database";
 import { ChatContext } from "../../../context/ChatContext";
 import { database } from "../../../utils/firebase";
 
-function MessageHead({ current }) {
+function MessageHead({ current, closeSidePanel }) {
   const [onlineStatus, setOnlineStatus] = useState(false);
 
   const {
@@ -38,7 +38,10 @@ function MessageHead({ current }) {
   return (
     <li
       key={current.id}
-      onClick={() => setSelectedChat(current)}
+      onClick={() => {
+        setSelectedChat(current);
+        closeSidePanel();
+      }}
       className={`border-l border-r lg:border-0 lg:border-b lg:items-center min-w-20 lg:w-full flex ${
         selectedChat?.id === current.id
           ? "bg-primaryColor text-white"
