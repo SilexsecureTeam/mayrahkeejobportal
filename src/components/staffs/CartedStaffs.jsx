@@ -17,6 +17,7 @@ import MarketPlace from "./marketplace/MarketPlace";
 import PopUpBox from "../PopUpBox";
 import { FaArrowLeftLong, FaCircleDot } from "react-icons/fa6";
 import FormButton from "../FormButton";
+import { useEffect } from "react";
 
 function CartedStaffs() {
   const location = useLocation();
@@ -82,6 +83,9 @@ function CartedStaffs() {
       setLoading(false);
     }
   };
+  useEffect(() => {
+    getCartItems();
+  }, []);
 
   const handleAddToCart = async (item) => {
     await addToCart(getCartItems, item);
