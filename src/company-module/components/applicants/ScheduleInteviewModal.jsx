@@ -59,11 +59,10 @@ export const interviewOptions = [
   { id: 1, name: "online" },
   { id: 2, name: "physical" },
 ];
-
 function ScheduleInterviewModal({
   isOpen,
   setIsOpen,
-  details,
+  details = {},
   onTextChange,
   loading,
   handleOnSubmit,
@@ -74,129 +73,113 @@ function ScheduleInterviewModal({
   const { authDetails } = useContext(AuthContext);
 
   const options = isInterviewPackge ? interviewOptions : [interviewOptions[1]];
-  //const options = interviewOptions ;
 
-  const [selected, setSelected] = useState(
-    details?.meeting_id ? interviewOptions[0] : interviewOptions[1]
-  );
+  const [selected, setSelected] = useState(interviewOptions[1]);
+  const [meetingId, setMeetingId] = useState(null);
 
-  const [meetingId, setMeetingId] = useState(details?.meeting_id);
-  const [loadingMeetingId, setLoadingMeetingId] = useState(false); // Loading state for meeting ID
-  // console.log(edit, details)
-  const onClick = async () => {
-    setLoadingMeetingId(true); // Set loading state to true
-    try {
-      const roomId = await createMeeting(authDetails?.token);
-      setMeetingId(roomId);
-    } catch (error) {
-      console.error("Error generating meeting ID:", error);
-    } finally {
-      setLoadingMeetingId(false); // Reset loading state after fetching
-    }
-  };
+  // Sync internal state when modal opens or details change
   useEffect(() => {
-    if (details?.meeting_id) {
-      setMeetingId(details?.meeting_id);
-      setSelected(interviewOptions[0]);
+    if (!isOpen) return;
+
+    if (edit) {
+      // Fill from existing details
+      setSelected(
+        details?.meeting_id ? interviewOptions[0] : interviewOptions[1]
+      );
+      setMeetingId(details?.meeting_id || null);
     } else {
+      // New schedule: reset
       setSelected(interviewOptions[1]);
       setMeetingId(null);
     }
-  }, [details?.meeting_id]);
+  }, [isOpen, edit, details]);
 
-  useEffect(() => {
-    if (isOpen && selected?.name === "physical") {
-      onTextChange({
-        target: {
-          name: "location",
-          value: companyUtil.details.address,
-        },
-      });
+  const onClick = async () => {
+    try {
+      const roomId = await createMeeting(authDetails?.token);
+      setMeetingId(roomId);
+      onTextChange({ target: { name: "meeting_id", value: roomId } });
+    } catch (error) {
+      console.error(error);
     }
-  }, [isOpen]);
+  };
 
   return (
     isOpen && (
-      <div className="h-full z-10 w-full text-gray-600 text-little flex justify-center items-center bg-gray-600/70 fixed top-0 left-0">
-        <div className=" w-[90%] md:w-[40%] h-fit p-3 flex flex-col  rounded-[10px]  bg-white border">
+      <div className="h-full z-10 w-full flex justify-center items-center bg-gray-600/70 fixed top-0 left-0">
+        <div className="w-[90%] md:w-[40%] h-fit p-3 flex flex-col rounded-[10px] bg-white border">
           <IoMdCloseCircle
             onClick={() => setIsOpen(false)}
-            className="text-lg place-self-end  cursor-pointer"
+            className="text-lg place-self-end cursor-pointer"
           />
-          <div className="flex flex-col w-full  gap-[10px]">
-            <h4 className="text-[16px] font-semibold border-b">
-              Schedule Interview
-            </h4>
+          <h4 className="text-[16px] font-semibold border-b mb-2">
+            Schedule Interview
+          </h4>
 
-            <form
-              onSubmit={(e) => handleOnSubmit(e, selected, meetingId)}
-              className="flex flex-col w-full gap-[10px] text-gray-800"
-            >
+          <form
+            onSubmit={(e) => handleOnSubmit(e, selected, meetingId)}
+            className="flex flex-col gap-2"
+          >
+            <BasicInput
+              data={fields[0]}
+              details={details}
+              onTextChange={onTextChange}
+            />
+            <BasicInput
+              data={fields[1]}
+              details={details}
+              onTextChange={onTextChange}
+            />
+            <BasicInput
+              data={fields[2]}
+              details={details}
+              onTextChange={onTextChange}
+            />
+
+            <div className="flex flex-col">
+              <label className="text-sm font-semibold">Interview Type</label>
+              <Selector
+                data={options}
+                selected={selected}
+                setSelected={setSelected}
+              />
+            </div>
+
+            <BasicInput
+              data={fields[4]}
+              details={details}
+              onTextChange={onTextChange}
+            />
+
+            {selected?.name === "physical" && (
               <BasicInput
-                data={fields[0]}
+                data={fields[3]}
                 details={details}
                 onTextChange={onTextChange}
+                value={companyUtil?.details.address}
               />
+            )}
 
-              <BasicInput
-                data={fields[1]}
-                details={details}
-                onTextChange={onTextChange}
-              />
-              <BasicInput
-                data={fields[2]}
-                details={details}
-                onTextChange={onTextChange}
-              />
-
-              <div className="flex flex-col capitalize">
-                <label className="text-sm font-semibold">Interview Type</label>
-                <Selector
-                  data={options}
-                  selected={selected}
-                  setSelected={setSelected}
-                />
-              </div>
-
-              <BasicInput
-                data={fields[4]}
-                details={details}
-                onTextChange={onTextChange}
-              />
-
-              {selected?.name === "physical" && (
-                <BasicInput
-                  data={fields[3]}
-                  details={details}
-                  onTextChange={onTextChange}
-                  value={companyUtil?.details.address}
-                />
-              )}
-
-              {selected?.name === "online" && (
-                <div className="flex flex-col gap-[3px]">
-                  <label className="text-sm font-semibold">Meeting ID</label>
-                  <div className="flex justify-between border items-center p-2">
-                    <span>{meetingId ? meetingId : ""}</span>
-                    <button
-                      type="button"
-                      onClick={onClick}
-                      className="w-fit px-2 py-1 bg-primaryColor rounded-[5px] text-white text-little font-semibold flex items-center"
-                    >
-                      <span>Generate Meeting ID</span>
-                      {loadingMeetingId && (
-                        <FaSpinner className="ml-2 animate-spin" /> // Add Tailwind's animate-spin class
-                      )}
-                    </button>
-                  </div>
+            {selected?.name === "online" && (
+              <div className="flex flex-col gap-1">
+                <label className="text-sm font-semibold">Meeting ID</label>
+                <div className="flex justify-between border p-2 items-center">
+                  <span>{meetingId || ""}</span>
+                  <button
+                    type="button"
+                    onClick={onClick}
+                    className="px-2 py-1 bg-primaryColor rounded text-white flex items-center"
+                  >
+                    Generate Meeting ID
+                  </button>
                 </div>
-              )}
+              </div>
+            )}
 
-              <FormButton loading={loading}>
-                {edit ? "Reschedule" : "Schedule"}
-              </FormButton>
-            </form>
-          </div>
+            <FormButton loading={loading}>
+              {edit ? "Reschedule" : "Schedule"}
+            </FormButton>
+          </form>
         </div>
       </div>
     )

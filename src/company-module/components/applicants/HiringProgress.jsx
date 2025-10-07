@@ -10,10 +10,17 @@ import SubscriptionModal from "../../../components/subscription/SubscriptionModa
 import SubscriptionModalSpecific from "../../../components/subscription/SubscriptionModalSpecific";
 import { SubscriptionContext } from "../../../context/SubscriptionContext";
 
-function HiringProgress({ data, applicant, toogleInterview, exclusive, setEdit }) {
+function HiringProgress({
+  data,
+  applicant,
+  toogleInterview,
+  exclusive,
+  setEdit,
+}) {
   const { setApplication } = useContext(ApplicationContext);
   const { authDetails } = useContext(AuthContext);
-  const { isInterviewPackge, interviewPackages, loading } = useContext(SubscriptionContext);
+  const { isInterviewPackge, interviewPackages, loading } =
+    useContext(SubscriptionContext);
   const [isOpen, setIsOpen] = useState(false);
 
   const toogleOpen = () => setIsOpen(!isOpen);
@@ -77,7 +84,7 @@ function HiringProgress({ data, applicant, toogleInterview, exclusive, setEdit }
       });
 
       setApplication(response.data.job_application);
-    } catch (error) { }
+    } catch (error) {}
   };
 
   //With Inteview Subscription
@@ -88,7 +95,7 @@ function HiringProgress({ data, applicant, toogleInterview, exclusive, setEdit }
       </span>
       <div className="flex  gap-[20px] w-full">
         <button
-          onClick={toogleInterview}
+          onClick={() => toogleInterview()}
           className="border w-[40%] md:w-[20%] hover:bg-primaryColor hover:text-white p-2 md:py-1 text-little px-2  border-primaryColor"
         >
           Schedule Interview
@@ -104,14 +111,18 @@ function HiringProgress({ data, applicant, toogleInterview, exclusive, setEdit }
   );
   const InViewInactive = (
     <div className="flex flex-col w-full justify-between gap-[20px] items-start px-2">
-      <SubscriptionModalSpecific specificPackages={interviewPackages} isOpen={isOpen} setIsOpen={setIsOpen} />
+      <SubscriptionModalSpecific
+        specificPackages={interviewPackages}
+        isOpen={isOpen}
+        setIsOpen={setIsOpen}
+      />
 
-      {loading ?
+      {loading ? (
         <div className="flex justify-center items-center w-full min-h-24 bg-gray-100">
           <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-green-600"></div>
         </div>
-
-        : <div className="flex flex-col p-4 bg-red-50">
+      ) : (
+        <div className="flex flex-col p-4 bg-red-50">
           <span className="text-md text-red-400">
             Your current subscription does not allow you access to our online
             interview.
@@ -122,18 +133,26 @@ function HiringProgress({ data, applicant, toogleInterview, exclusive, setEdit }
           >
             Upgrade Now!
           </button>
-        </div>}
+        </div>
+      )}
     </div>
   );
 
   const statusTexts = () => {
     switch (data.status) {
       case "pending":
-        return (isInterviewPackge) ? InView : InViewInactive;
+        return isInterviewPackge ? InView : InViewInactive;
       case stages[0].name:
-        return (isInterviewPackge) ? InView : InViewInactive;
+        return isInterviewPackge ? InView : InViewInactive;
       case stages[1].name:
-        return <Shortlist data={data} exclusive={exclusive} toogleInterview={toogleInterview} setEdit={setEdit} />;
+        return (
+          <Shortlist
+            data={data}
+            exclusive={exclusive}
+            toogleInterview={toogleInterview}
+            setEdit={setEdit}
+          />
+        );
       case stages[2].name:
         return <InterviewPhase data={data} />;
       case "hired":

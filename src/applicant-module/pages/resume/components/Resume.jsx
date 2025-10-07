@@ -27,7 +27,6 @@ const Resume = ({ resume, setGetResumeById, authDetails, getCandidate }) => {
         },
       })
       .then((response) => {
-        console.log(response);
         setLoading(false);
         setGetResumeById((prev) => {
           return {
@@ -41,7 +40,6 @@ const Resume = ({ resume, setGetResumeById, authDetails, getCandidate }) => {
         });
       })
       .catch((error) => {
-        console.log(error);
         if (error.response) {
           setErrorMsg(error.response.data.error);
         } else {
@@ -51,13 +49,11 @@ const Resume = ({ resume, setGetResumeById, authDetails, getCandidate }) => {
         setLoading(false);
       });
   };
-  console.log(resume);
-  console.log(getCandidate);
   return (
     <div className="p-5 border rounded shadow-lg justify-between flex-col flex">
       <div>
         <div className="flex border-b justify-between font-semibold text-primaryColor items-center w-full">
-          <p className="capitalize truncate" >{resume.title}</p>
+          <p className="capitalize truncate">{resume.title}</p>
           <EditResume resume={resume} />
         </div>
         <div className="details mt-4">
@@ -80,30 +76,46 @@ const Resume = ({ resume, setGetResumeById, authDetails, getCandidate }) => {
                 <p className="font-medium text-base">Email:</p>
                 <p className="">{getCandidate.details?.email}</p>
               </div>
-              
-              {resume.awarding_institution && <div className="flex justify-between text-[#dbc87c] gap-2">
-                <p className="font-bold text-base">Awarding Institution:</p>
-                <p className="font-medium text-right">{resume?.awarding_institution} {resume?.year_attended && `(${resume.year_attended} - ${resume?.year_of_graduation || 'Till present'})`}</p>
-              </div>}
-              
-              {<>
-              <div className="flex justify-between gap-2">
-                <p className="font-medium text-base">Previous Company:</p>
-                <p className="">{resume.company_name}</p>
-              </div>
-              <div className="flex justify-between gap-2">
-                <p className="font-medium text-base">Position Held:</p>
-                <p className="">{resume.position_held}</p>
-              </div>
-              {resume.start_date && <div className="flex justify-between gap-2">
-                <p className="font-medium text-base">Duration:</p>
-                <p>
-                  <span>{formatDate(resume.start_date)} - {resume?.end_date ? formatDate(resume.end_date) : "Till present"}</span>
-                
-                </p>
-              </div>}
-            </>}
-              
+
+              {resume.awarding_institution && (
+                <div className="flex justify-between text-[#dbc87c] gap-2">
+                  <p className="font-bold text-base">Awarding Institution:</p>
+                  <p className="font-medium text-right">
+                    {resume?.awarding_institution}{" "}
+                    {resume?.year_attended &&
+                      `(${resume.year_attended} - ${
+                        resume?.year_of_graduation || "Till present"
+                      })`}
+                  </p>
+                </div>
+              )}
+
+              {
+                <>
+                  <div className="flex justify-between gap-2">
+                    <p className="font-medium text-base">Previous Company:</p>
+                    <p className="">{resume.company_name}</p>
+                  </div>
+                  <div className="flex justify-between gap-2">
+                    <p className="font-medium text-base">Position Held:</p>
+                    <p className="">{resume.position_held}</p>
+                  </div>
+                  {resume.start_date && (
+                    <div className="flex justify-between gap-2">
+                      <p className="font-medium text-base">Duration:</p>
+                      <p>
+                        <span>
+                          {formatDate(resume.start_date)} -{" "}
+                          {resume?.end_date
+                            ? formatDate(resume.end_date)
+                            : "Till present"}
+                        </span>
+                      </p>
+                    </div>
+                  )}
+                </>
+              }
+
               <div className="flex my-3">
                 <div className="w-2/5">
                   <p className="font-bold text-base">Education:</p>
@@ -112,10 +124,12 @@ const Resume = ({ resume, setGetResumeById, authDetails, getCandidate }) => {
                   <p className="font-medium">
                     {resume.educational_institution}
                   </p>
-                  {resume?.year_of_entry && <p>
-                    <span>{resume.year_of_entry}</span> -
-                    <span>{resume.year_of_graduation || "Till present"}</span>
-                  </p>}
+                  {resume?.year_of_entry && (
+                    <p>
+                      <span>{resume.year_of_entry}</span> -
+                      <span>{resume.year_of_graduation || "Till present"}</span>
+                    </p>
+                  )}
                 </div>
               </div>
             </div>

@@ -5,11 +5,13 @@ import { axiosClient } from "../services/axios-client";
 import { onFailure } from "../utils/notifications/OnFailure";
 import { onSuccess } from "../utils/notifications/OnSuccess";
 import { extractErrorMessage } from "../utils/formmaters";
+import { useState } from "react";
 
 function useCart() {
   const { authDetails } = useContext(AuthContext);
   const client = axiosClient(authDetails?.token);
   const navigate = useNavigate();
+  const [paymentLoading, setPaymentLoading] = useState(false);
 
   const navigateToApplicantDetails = () =>
     navigate(`/company/applicants/detail/${data.id}`, { state: { data } });
@@ -18,9 +20,15 @@ function useCart() {
     const priceInKobo = total * 100;
     const onClose = () => {
       onFailure({
-        message: "Payment Sucessful",
-        error: "Hang on, validating payment...",
+        message: "Payment Cancelled",
+        error:
+          "You closed the payment window before completing the transaction.",
       });
+    };
+    const onSuccess = async (reference) => {
+      setPaymentLoading(true); // START loading
+      await handleSuccess(reference, data, getCartItems);
+      setPaymentLoading(false); // STOP loading
     };
 
     return {
@@ -29,7 +37,7 @@ function useCart() {
       amount: priceInKobo,
       publicKey: import.meta.env.VITE_TEST_PUBLIC_KEY,
       text: "Paystack Button Implementation",
-      onSuccess: (reference) => handleSuccess(reference, data, getCartItems),
+      onSuccess: onSuccess,
       onClose: onClose,
     };
   };
@@ -101,7 +109,7 @@ function useCart() {
     }
   };
 
-  return { config, handleSuccess, addToCart, removeFromCart };
+  return { config, handleSuccess, addToCart, removeFromCart, paymentLoading };
 }
 
 export default useCart;

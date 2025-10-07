@@ -10,29 +10,53 @@ function SingleApplicant() {
 
   const [isOpen, setIsOpen] = useState(false);
   const [edit, setEdit] = useState(false);
-  const { application,
+
+  const {
+    application,
     setApplication,
     getApplicant,
     interviewDetails,
+    setInterviewDetails,
     onTextChange,
     loading,
-    scheduleInterview, } = useContext(ApplicationContext);
-  const [applicationData, setApplicantData] = useState(location?.state?.data);
+    scheduleInterview,
+  } = useContext(ApplicationContext);
 
+  const [applicationData, setApplicantData] = useState(location?.state?.data);
   const [applicant, setApplicant] = useState();
   const [isLoading, setIsLoading] = useState(false);
 
-  const toogleInterview = () => setIsOpen(!isOpen);
   const exclusiveData = location?.state?.exclusiveData || null;
+
+  // New unified function to open the modal
+  const openInterviewModal = (isEdit = false, detailsData = null) => {
+    setEdit(isEdit);
+
+    if (isEdit && detailsData) {
+      // Edit mode: prefill details
+      setInterviewDetails(detailsData);
+    } else {
+      // New schedule: reset details
+      setInterviewDetails({
+        interviewer_name: "",
+        interview_date: "",
+        interview_time: "",
+        notes: "",
+        location: applicationData?.company_address || "",
+        meeting_id: null,
+      });
+    }
+
+    setIsOpen(true); // Open modal after setting details
+  };
+
   const handleOnSubmit = (e, selectedOption, meetingId) => {
     e.preventDefault();
     scheduleInterview(
       applicant,
       applicationData,
       setApplicantData,
-      () => {
-        toogleInterview();
-      },
+      () => setIsOpen(false),
       selectedOption,
       meetingId,
       exclusiveData,
@@ -40,34 +64,30 @@ function SingleApplicant() {
     );
   };
 
+  // Sync updated application
   useEffect(() => {
-    if (application) {
-      setApplicantData(application);
-    }
-    return setApplication(null);
+    if (application) setApplicantData(application);
+    return () => setApplication(null);
   }, [application]);
 
+  // Fetch applicant data
   useEffect(() => {
     const initApplicant = async () => {
-      setIsLoading(true); // Start the loader
+      setIsLoading(true);
       try {
         const result = await getApplicant(
           applicationData?.candidate_id,
           setApplicant
         );
-        if (result) {
-          setApplicant(result);
-        }
+        if (result) setApplicant(result);
       } catch (error) {
         console.error("Error fetching applicant:", error);
       } finally {
-        setIsLoading(false); // Stop the loader
+        setIsLoading(false);
       }
     };
 
-    if (applicationData) {
-      initApplicant();
-    }
+    if (applicationData) initApplicant();
   }, [applicationData]);
 
   return (
@@ -77,10 +97,12 @@ function SingleApplicant() {
         loading={loading}
         isOpen={isOpen}
         details={interviewDetails}
+        setDetails={setInterviewDetails}
         onTextChange={onTextChange}
         setIsOpen={setIsOpen}
         edit={edit}
       />
+
       {isLoading ? (
         <div className="w-full flex items-center justify-center h-screen">
           <div className="animate-spin border-4 border-gray-200 border-t-primaryColor rounded-full w-8 h-8"></div>
@@ -93,22 +115,14 @@ function SingleApplicant() {
           <div className="w-full flex flex-col h-full gap-[5px]">
             <div className="w-full flex justify-between ">
               <h2 className="font-semibold text-md">Applicant's Details</h2>
-              {/* 
-              <button className="text-little py-1 px-2 bg-white border text-primaryColor border-primaryColor ">
-                More Action
-              </button> */}
             </div>
 
             <div className="flex flex-col md:flex-row justify-between h-full">
-              <PrimaryDetail
-                data={applicationData}
-                applicant={applicant}
-                toogleInterview={toogleInterview}
-              />
+              <PrimaryDetail data={applicationData} applicant={applicant} />
               <SecondaryDetail
                 data={applicationData}
                 applicant={applicant}
-                toogleInterview={toogleInterview}
+                toogleInterview={(details) => openInterviewModal(true, details)}
                 exclusive={exclusiveData}
                 setEdit={setEdit}
               />

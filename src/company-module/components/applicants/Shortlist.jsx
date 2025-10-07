@@ -10,7 +10,8 @@ import { ApplicationContext } from "../../../context/ApplicationContext";
 function Shortlist({ data, exclusive, toogleInterview, setEdit }) {
   const { state } = useLocation();
   const { authDetails } = useContext(AuthContext);
-  const { setApplication, setInterviewDetails } = useContext(ApplicationContext);
+  const { setApplication, setInterviewDetails } =
+    useContext(ApplicationContext);
   const client = axiosClient(authDetails?.token);
   const [interview, setInterview] = useState();
   const [error, setError] = useState({
@@ -25,7 +26,12 @@ function Shortlist({ data, exclusive, toogleInterview, setEdit }) {
     const interviewDate = new Date(interview.interview_date);
     const currentDate = new Date();
     setApplication({ ...data });
-    navigate("/interview-room", { state: { interview: interview, exclusive: { user: state?.exclusiveData } } });
+    navigate("/interview-room", {
+      state: {
+        interview: interview,
+        exclusive: { user: state?.exclusiveData },
+      },
+    });
   };
 
   useEffect(() => {
@@ -51,10 +57,11 @@ function Shortlist({ data, exclusive, toogleInterview, setEdit }) {
     let countdownInterval;
 
     if (interview) {
-      const { isLive, hasEnded, countdown: countdownValue } = formatDateTime(
-        interview?.interview_date,
-        interview?.interview_time
-      );
+      const {
+        isLive,
+        hasEnded,
+        countdown: countdownValue,
+      } = formatDateTime(interview?.interview_date, interview?.interview_time);
 
       if (!isLive && !hasEnded && countdownValue) {
         countdownInterval = setInterval(() => {
@@ -71,57 +78,60 @@ function Shortlist({ data, exclusive, toogleInterview, setEdit }) {
   }, [interview]);
 
   const formatDateTime = (date, time) => {
-  const combinedDateTime = new Date(`${date.split(' ')[0]}T${time}`);
-  const now = new Date();
-  const endTime = new Date(combinedDateTime.getTime() + 60 * 60 * 1000); // Assuming interview lasts 1 hour
-  
-  const isLive = now >= combinedDateTime && now <= endTime;
-  const hasEnded = now > endTime;
-  let countdown = null;
+    const combinedDateTime = new Date(`${date.split(" ")[0]}T${time}`);
+    const now = new Date();
+    const endTime = new Date(combinedDateTime.getTime() + 60 * 60 * 1000); // Assuming interview lasts 1 hour
 
-  if (!isLive && !hasEnded) {
-    const diff = combinedDateTime - now;
-    if (diff > 0) {
-      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-      const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
-      const minutes = Math.floor((diff / (1000 * 60)) % 60);
-      const seconds = Math.floor((diff / 1000) % 60);
-      countdown = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+    const isLive = now >= combinedDateTime && now <= endTime;
+    const hasEnded = now > endTime;
+    let countdown = null;
+
+    if (!isLive && !hasEnded) {
+      const diff = combinedDateTime - now;
+      if (diff > 0) {
+        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+        const minutes = Math.floor((diff / (1000 * 60)) % 60);
+        const seconds = Math.floor((diff / 1000) % 60);
+        countdown = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+      }
     }
-  }
 
-  const formattedDate = combinedDateTime.toLocaleDateString('en-US', {
-    weekday: 'long',
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  });
-  const formattedTime = combinedDateTime.toLocaleTimeString('en-US', {
-    hour: '2-digit',
-    minute: '2-digit',
-  });
+    const formattedDate = combinedDateTime.toLocaleDateString("en-US", {
+      weekday: "long",
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    });
+    const formattedTime = combinedDateTime.toLocaleTimeString("en-US", {
+      hour: "2-digit",
+      minute: "2-digit",
+    });
 
-  return {
-    isLive,
-    hasEnded,
-    formattedDate,
-    formattedTime,
-    countdown,
+    return {
+      isLive,
+      hasEnded,
+      formattedDate,
+      formattedTime,
+      countdown,
+    };
   };
-};
 
   return (
     interview && (
       <>
         {(() => {
-          const { isLive, formattedDate, formattedTime, hasEnded } = formatDateTime(
-            interview?.interview_date,
-            interview?.interview_time
-          );
-          
+          const { isLive, formattedDate, formattedTime, hasEnded } =
+            formatDateTime(
+              interview?.interview_date,
+              interview?.interview_time
+            );
+
           return (
             <>
-              <h3 className="px-2 text-little">An Interview has been Scheduled</h3>
+              <h3 className="px-2 text-little">
+                An Interview has been Scheduled
+              </h3>
               <div className="grid grid-cols-2 w-full gap-y-2 justify-between items-center px-2">
                 <div className="flex flex-col">
                   <span className="text-gray-400 text-sm">Interview Date</span>
@@ -136,7 +146,6 @@ function Shortlist({ data, exclusive, toogleInterview, setEdit }) {
                   </span>
                 </div>
 
-
                 <div className="flex flex-col">
                   <span className="text-gray-400 text-sm">Interview Time</span>
                   <span className="text-gray-700 font-semibold text-little">
@@ -145,13 +154,15 @@ function Shortlist({ data, exclusive, toogleInterview, setEdit }) {
                 </div>
                 {interview?.location && (
                   <div className="flex flex-col">
-                    <span className="text-gray-400 text-sm">Interview Location</span>
+                    <span className="text-gray-400 text-sm">
+                      Interview Location
+                    </span>
                     <span className="text-gray-700 font-semibold text-little">
                       {interview?.location}
                     </span>
                   </div>
-                )} 
-                
+                )}
+
                 {interview?.meeting_id && (
                   <div className="flex flex-col">
                     <span className="text-gray-400 text-sm">Meeting Id</span>
@@ -182,14 +193,20 @@ function Shortlist({ data, exclusive, toogleInterview, setEdit }) {
                   disabled={!isLive || hasEnded || !interview?.meeting_id}
                   className="border w-fit hover:bg-primaryColor hover:text-white py-1 text-little px-2 border-primaryColor cursor-pointer disabled:hover:text-gray-700 disabled:hover:bg-transparent disabled:opacity-30 disabled:cursor-not-allowed"
                 >
-                  {isLive && (interview?.meeting_id ? "Proceed to Interview" : "Physical Interview Ongoing")}
+                  {isLive &&
+                    (interview?.meeting_id
+                      ? "Proceed to Interview"
+                      : "Physical Interview Ongoing")}
                   {hasEnded && "Interview Ended"}
                   {countdown && "Not Live"}
                 </button>
                 <button
-               
-                  onClick={() => { setEdit(true); setInterviewDetails(interview); toogleInterview(); }}
-                  className="border w-[40%] md:w-[20%] disabled:hover:text-gray-700 disabled:hover:bg-transparent disabled:opacity-30 hover:bg-primaryColor cursor-pointer disabled:cursor-not-allowed hover:text-white p-2 md:py-1 text-little px-2 border-primaryColor"
+                  onClick={() => {
+                    setEdit(true);
+                    setInterviewDetails(interview);
+                    toogleInterview(interview);
+                  }}
+                  className="border  disabled:hover:text-gray-700 disabled:hover:bg-transparent disabled:opacity-30 hover:bg-primaryColor cursor-pointer disabled:cursor-not-allowed hover:text-white p-2 md:py-1 text-little px-2 border-primaryColor"
                 >
                   Edit Interview
                 </button>

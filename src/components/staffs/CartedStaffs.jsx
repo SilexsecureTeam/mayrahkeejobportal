@@ -23,17 +23,17 @@ function CartedStaffs() {
   const location = useLocation();
   const { data } = location?.state || { data: null };
   const isArtisan = data?.type === "artisan";
-  const CONMPANY_TAX = Number(data?.service_charge) ?? 0;
 
-  const navigate = useNavigate();
   const { authDetails } = useContext(AuthContext);
   const client = axiosClient(authDetails.token);
   const [cartItems, setCartItems] = useState(data?.items || []);
-  const { config, handleSuccess, addToCart, removeFromCart } = useCart();
+  const { config, handleSuccess, addToCart, removeFromCart, paymentLoading } =
+    useCart();
   const [conditions, setConditions] = useState(false);
   const [removing, setRemoving] = useState({});
   const [terms, setTerms] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [companyTax, setCompanyTax] = useState(0);
 
   const [selectedItems, setSelectedItems] = useState([]);
   const allSelected = selectedItems.length === cartItems.length;
@@ -63,12 +63,14 @@ function CartedStaffs() {
         user_type: authDetails.user.role,
       });
 
+      setCompanyTax(res?.data?.service_charge);
+
       const filtered = res?.data?.cart_items?.filter(
         (item) => item?.domestic_staff?.staff_category === data?.type
       );
 
       setCartItems(filtered || []);
-      // 🔁 Update selectedItems to only include items still in cart
+      // Update selectedItems to only include items still in cart
       setSelectedItems((prevSelected) =>
         (filtered || []).filter((item) =>
           prevSelected.some((selected) => selected.id === item.id)
@@ -107,7 +109,7 @@ function CartedStaffs() {
   const salaryTotal = isArtisan ? 0 : rawSalaryTotal;
 
   const serviceFeeTotal = isArtisan
-    ? CONMPANY_TAX * selectedItems?.length
+    ? companyTax * selectedItems?.length
     : selectedItems.reduce(
         (total, item) =>
           total + Number(item?.domestic_staff?.service_charge || 0),
@@ -206,6 +208,7 @@ function CartedStaffs() {
             >
               {({ initializePayment }) => (
                 <FormButton
+                  disabled={paymentLoading} // disable while loading
                   onClick={() => {
                     if (terms) initializePayment();
                     else {
@@ -216,7 +219,7 @@ function CartedStaffs() {
                     }
                   }}
                 >
-                  Checkout
+                  {paymentLoading ? "Verifying Payment..." : "Checkout"}
                 </FormButton>
               )}
             </PaystackConsumer>
