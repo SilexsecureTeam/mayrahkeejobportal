@@ -19,6 +19,10 @@ function TableHead({ children, isMarket = false }) {
             {!isMarket && info?.type !== "artisan" && (
               <th className="px-2 md:px-4 py-1 text-start">Start Date</th>
             )}
+            {!isMarket && info?.type !== "artisan" && (
+              <th className="text-left py-3 px-2">Contract Status</th>
+            )}
+
             <th className="px-2 md:px-4 py-1">Action</th>
           </tr>
         </thead>

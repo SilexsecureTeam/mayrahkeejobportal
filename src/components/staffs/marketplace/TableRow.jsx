@@ -106,6 +106,31 @@ function TableRow({
           </span>
         </td>
       )}
+      {/* ✅ Contract Status (show only when not market) */}
+      {!isMarket && info?.type !== "artisan" && (
+        <td className="text-left py-3 px-2">
+          <span
+            className={`px-2 py-1 rounded text-xs font-medium
+        ${
+          data.contract_status === 1
+            ? "bg-green-100 text-green-700"
+            : data.contract_status === 0
+            ? "bg-yellow-100 text-yellow-700"
+            : data.contract_status === 2
+            ? "bg-red-100 text-red-700"
+            : "bg-gray-100 text-gray-700"
+        }`}
+          >
+            {data.contract_status === 1
+              ? "Active"
+              : data.contract_status === 0
+              ? "Pending"
+              : data.contract_status === 2
+              ? "Rejected"
+              : "Unknown"}
+          </span>
+        </td>
+      )}
       {/* Action Buttons */}
       {isMarket ? (
         <td className="text-left py-3 px-2">

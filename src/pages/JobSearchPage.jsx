@@ -25,18 +25,32 @@ const JobSearchPage = () => {
   const jobsPerPage = 5;
   const [displayedJobs, setDisplayedJobs] = useState([]);
 
+  // Initialize job sectors and types
   useEffect(() => {
     const initData = async () => {
-      const employementListResult = await getEmployentTypes();
-      const sectors = await getSectors();
-      setEmployementList(employementListResult);
-      setJobSectors(sectors);
+      setLoading(true);
+      try {
+        const [employmentListResult, sectors] = await Promise.all([
+          getEmployentTypes(),
+          getSectors(),
+        ]);
 
-      if (location.state?.data) {
-        setFilters((prev) => ({ ...prev, ...location.state.data }));
+        setEmployementList(employmentListResult);
+        setJobSectors(sectors);
+
+        if (location.state?.data) {
+          const incomingFilters = { ...filters, ...location.state.data };
+          setFilters(incomingFilters);
+          await fetchJobs(incomingFilters); // ✅ search using passed filters
+        } else {
+          await fetchJobs(); // ✅ normal fetch when no filters passed
+        }
+      } catch (error) {
+        console.error("Initialization error:", error);
+      } finally {
+        setLoading(false);
+        setInitialized(true);
       }
-
-      await fetchJobs(); // fetch initial jobs
     };
 
     initData();
@@ -65,12 +79,11 @@ const JobSearchPage = () => {
 
       setJobs(validJobs);
       setCurrentPage(1);
-      setInitialized(true);
     } catch (error) {
       console.error("Error fetching jobs:", error);
-      setInitialized(true);
     } finally {
       setLoading(false);
+      setInitialized(true);
     }
   };
 
@@ -80,14 +93,14 @@ const JobSearchPage = () => {
     setFilters(newFilters);
 
     if (key === "keyword") {
-      // filter locally
+      // Local filter
       const filtered = jobs.filter((job) =>
         job.job_title.toLowerCase().includes(value.toLowerCase())
       );
       setDisplayedJobs(filtered);
       setCurrentPage(1);
     } else {
-      // fetch new jobs for sector/type
+      // Fetch new jobs for sector/type
       fetchJobs(newFilters);
     }
   };
@@ -98,8 +111,8 @@ const JobSearchPage = () => {
     fetchJobs(cleared);
   };
 
+  // Keep displayedJobs synced
   useEffect(() => {
-    // if keyword changes but jobs state changes, recalc displayedJobs
     if (filters.keyword) {
       const filtered = jobs.filter((job) =>
         job.job_title.toLowerCase().includes(filters.keyword.toLowerCase())
@@ -143,6 +156,7 @@ const JobSearchPage = () => {
             </h1>
 
             <div className="flex flex-col md:flex-row gap-8 mb-6">
+              {/* Filter Panel */}
               <div className="filter-panel bg-white p-6 md:sticky md:top-20 shadow-md rounded-md border w-full md:w-72">
                 <h2 className="text-xl font-bold mb-6">Filters</h2>
                 {Object.keys(filters).map((key) => (
@@ -193,62 +207,66 @@ const JobSearchPage = () => {
                 </button>
               </div>
 
+              {/* Job Listings */}
               <div className="md:w-2/3 min-h-80">
-                {initialized && (
-                  <div className="mb-4 text-sm text-gray-700 font-medium">
-                    {hasActiveFilters
-                      ? `Showing ${displayedJobs.length} job(s) for selected filters`
-                      : `Showing all ${displayedJobs.length} job(s)`}
-                  </div>
-                )}
-
                 {loading && !initialized ? (
                   <div className="flex justify-center items-center mt-10 min-h-60">
                     <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-green-600"></div>
                   </div>
+                ) : !initialized ? (
+                  <p className="text-center text-gray-500 mt-10">
+                    Loading jobs...
+                  </p>
                 ) : currentJobs.length > 0 ? (
-                  <div className="space-y-6 grid grid-cols-responsive gap-3">
-                    {currentJobs.map((job) => (
-                      <div
-                        key={job.id}
-                        className="flex flex-col bg-white p-6 shadow-md rounded-md border"
-                      >
-                        <h3 className="text-lg font-bold text-green-800 capitalize">
-                          {job.job_title}
-                        </h3>
-                        <p className="text-gray-600 text-sm font-medium">
-                          {job.location}
-                        </p>
-                        <p>
-                          <strong>Type:</strong> {job.type}
-                        </p>
-                        <p>
-                          <strong>Salary:</strong> {job.currency}{" "}
-                          {job.min_salary} - {job.max_salary} /{" "}
-                          {job.salary_type}
-                        </p>
-                        <p className="flex gap-x-2">
-                          <strong>Experience:</strong>{" "}
-                          <span
-                            className="max-h-20 overflow-y-auto border p-2 rounded-md"
-                            dangerouslySetInnerHTML={sanitizeHtml(
-                              job.experience || ""
-                            )}
-                          />
-                        </p>
-                        <p className="mb-2">
-                          <strong>Application Deadline:</strong>{" "}
-                          {job.application_deadline_date}
-                        </p>
-                        <Link
-                          to="/registration"
-                          className="text-center text-sm mt-auto bg-green-600 p-2 rounded-md text-white font-medium mb-2 inline-block"
+                  <>
+                    <div className="mb-4 text-sm text-gray-700 font-medium">
+                      {hasActiveFilters
+                        ? `Showing ${displayedJobs.length} job(s) for selected filters`
+                        : `Showing all ${displayedJobs.length} job(s)`}
+                    </div>
+                    <div className="space-y-6 grid grid-cols-responsive gap-3">
+                      {currentJobs.map((job) => (
+                        <div
+                          key={job.id}
+                          className="flex flex-col bg-white p-6 shadow-md rounded-md border"
                         >
-                          More Information
-                        </Link>
-                      </div>
-                    ))}
-                  </div>
+                          <h3 className="text-lg font-bold text-green-800 capitalize">
+                            {job.job_title}
+                          </h3>
+                          <p className="text-gray-600 text-sm font-medium">
+                            {job.location}
+                          </p>
+                          <p>
+                            <strong>Type:</strong> {job.type}
+                          </p>
+                          <p>
+                            <strong>Salary:</strong> {job.currency}{" "}
+                            {job.min_salary} - {job.max_salary} /{" "}
+                            {job.salary_type}
+                          </p>
+                          <p className="flex gap-x-2">
+                            <strong>Experience:</strong>{" "}
+                            <span
+                              className="max-h-20 overflow-y-auto border p-2 rounded-md"
+                              dangerouslySetInnerHTML={sanitizeHtml(
+                                job.experience || ""
+                              )}
+                            />
+                          </p>
+                          <p className="mb-2">
+                            <strong>Application Deadline:</strong>{" "}
+                            {job.application_deadline_date}
+                          </p>
+                          <Link
+                            to="/registration"
+                            className="text-center text-sm mt-auto bg-green-600 p-2 rounded-md text-white font-medium mb-2 inline-block"
+                          >
+                            More Information
+                          </Link>
+                        </div>
+                      ))}
+                    </div>
+                  </>
                 ) : hasActiveFilters ? (
                   <p className="text-center text-gray-500 mt-10">
                     No jobs found for the selected filters.
@@ -259,6 +277,7 @@ const JobSearchPage = () => {
                   </p>
                 )}
 
+                {/* Pagination */}
                 {displayedJobs.length > jobsPerPage && (
                   <div className="pagination flex justify-between items-center mt-8">
                     <button

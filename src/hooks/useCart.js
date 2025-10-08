@@ -43,6 +43,8 @@ function useCart() {
   };
 
   const handleSuccess = async (reference, data, getCartItems) => {
+    console.log(data);
+
     try {
       const response = await client.post("/staff-cart/checkout", {
         //amount: Number(datum.totalAmount), // Convert to kobo
@@ -57,7 +59,7 @@ function useCart() {
       navigate(`/${role}/staff/success`, { state: { data } });
       onSuccess({
         message: "User sucessfully added",
-        success: "Domestic staff added to contract successfully",
+        success: `${data[0]?.domestic_staff?.staff_category} added to contract successfully`,
       });
     } catch (error) {
       onFailure({

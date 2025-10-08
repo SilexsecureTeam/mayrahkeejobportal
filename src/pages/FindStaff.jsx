@@ -70,8 +70,18 @@ function FindStaff() {
     try {
       const query = new URLSearchParams(queryParams).toString();
       const { data } = await client.get(`/domesticStaff/staff-type?${query}`);
-      setSearchResult(data?.domesticStaff || []);
-      setCurrentPage(1); // Reset pagination
+
+      const staffList = data?.domesticStaff || [];
+
+      // ✅ Sort staff with profile_image first
+      const sortedStaff = staffList.sort((a, b) => {
+        const hasImageA = a.profile_image ? 1 : 0;
+        const hasImageB = b.profile_image ? 1 : 0;
+        return hasImageB - hasImageA; // Descending: true first
+      });
+
+      setSearchResult(sortedStaff);
+      setCurrentPage(1);
     } catch (error) {
       onFailure({
         message: `${id} Search Error`,

@@ -31,7 +31,8 @@ function Garantor({ staff }) {
         <>
           <div className="flex items-center gap-2 text-md">
             <h1 className="font-semibold">Status:</h1>
-            {staff?.guarantor_verification_status.toLowerCase() === "approved" ? (
+            {staff?.guarantor_verification_status?.toLowerCase() ===
+            "approved" ? (
               <span className="text-green-500">Verified</span>
             ) : (
               <span className="text-gray-400">
@@ -69,7 +70,9 @@ function Garantor({ staff }) {
 
               <div className="flex flex-col text-lg font-semibold text-gray-800">
                 <h1>Home Address</h1>
-                <p className="text-md font-normal">{garantor.residential_address}</p>
+                <p className="text-md font-normal">
+                  {garantor.residential_address}
+                </p>
               </div>
 
               <div className="flex flex-col text-lg font-semibold text-gray-800">
@@ -94,7 +97,9 @@ function Garantor({ staff }) {
 
               <div className="flex flex-col text-lg font-semibold text-gray-800">
                 <h1>Email</h1>
-                <p className="text-md font-normal break-all">{garantor.email}</p>
+                <p className="text-md font-normal break-all">
+                  {garantor.email}
+                </p>
               </div>
             </div>
           ) : (

@@ -122,7 +122,9 @@ function SingleApplicant() {
               <SecondaryDetail
                 data={applicationData}
                 applicant={applicant}
-                toogleInterview={(details) => openInterviewModal(true, details)}
+                toogleInterview={(details) =>
+                  openInterviewModal(!!details, details)
+                }
                 exclusive={exclusiveData}
                 setEdit={setEdit}
               />

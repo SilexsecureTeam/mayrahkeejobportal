@@ -2,11 +2,11 @@ import React from "react";
 import PropTypes from "prop-types";
 import { FaUserCircle } from "react-icons/fa";
 import { resourceUrl } from "../services/axios-client";
+import { Link } from "react-router-dom";
 
 const StaffCard = ({ staff }) => {
   return (
-    <div
-      className="w-full bg-white border border-gray-200 rounded-lg shadow-md p-5 transition hover:shadow-xl">
+    <div className="w-full bg-white border border-gray-200 rounded-lg shadow-md p-5 transition hover:shadow-xl">
       {/* Header Section */}
       <div className="flex items-center gap-4 mb-4">
         {staff.profile_image ? (
@@ -30,26 +30,25 @@ const StaffCard = ({ staff }) => {
       {/* Personal Information */}
       <div className="text-sm text-gray-800 space-y-2">
         <p>
-          <span className="font-medium text-gray-700">Age:</span> {staff?.age || "N/A"}
+          <span className="font-medium text-gray-700">Age:</span>{" "}
+          {staff?.age || "N/A"}
         </p>
         <p>
-          <span className="font-medium text-gray-700">Gender:</span> {staff?.gender || "N/A"}
+          <span className="font-medium text-gray-700">Gender:</span>{" "}
+          {staff?.gender || "N/A"}
         </p>
         <p>
-          <span className="font-medium text-gray-700">Location:</span> {staff?.location || "N/A"}
+          <span className="font-medium text-gray-700">Location:</span>{" "}
+          {staff?.location || "N/A"}
         </p>
         <p>
           <span className="font-medium text-gray-700">Experience:</span>{" "}
-          {`${staff?.years_of_experience} years` || "N/A"} 
+          {`${staff?.years_of_experience} years` || "N/A"}
         </p>
       </div>
 
       {/* Employment Details */}
       <div className="mt-4 text-sm text-gray-600 space-y-2">
-        <p>
-          <span className="font-medium text-gray-700">Employment Type:</span> {staff?.employment_type || "N/A"}
-        </p>
-      
         <p>
           <span className="font-medium text-gray-700">Languages Spoken:</span>{" "}
           {staff?.languages_spoken?.length
@@ -59,11 +58,18 @@ const StaffCard = ({ staff }) => {
       </div>
 
       {/* Additional Information */}
-      <div className="mt-4 text-sm text-gray-600 space-y-2">
+      <div className="mt-4 text-sm text-gray-600 space-y-2 mb-2">
         <p>
-          <span className="font-medium text-gray-700">Religion:</span> {staff.religion || "N/A"}
+          <span className="font-medium text-gray-700">Religion:</span>{" "}
+          {staff.religion || "N/A"}
         </p>
       </div>
+      <Link
+        to="/registration"
+        className="text-center text-sm mt-auto bg-green-600 p-2 rounded-md text-white font-medium mb-2 w-full"
+      >
+        More Information
+      </Link>
     </div>
   );
 };
