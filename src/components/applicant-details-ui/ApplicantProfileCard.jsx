@@ -21,7 +21,10 @@ const ApplicantProfileCard = ({ userData }) => {
   return (
     <aside className="w-full h-fit lg:w-1/4 md:min-w-80 bg-white p-6 shadow-[0_0_2px_#999] mb-4 lg:mb-0">
       <div className="text-center flex flex-wrap gap-3 justify-around">
-        <img src={image} className="bg-gray-300 object-contain h-24 w-24 rounded-full" />
+        <img
+          src={image}
+          className="bg-gray-300 object-contain h-24 w-24 rounded-full"
+        />
         <section>
           <h3 className="text-xl font-bold mt-4">
             {userData?.first_name} {userData?.surname}
@@ -37,7 +40,9 @@ const ApplicantProfileCard = ({ userData }) => {
       <div className="mt-4 bg-gray-100 p-2">
         <div className="flex justify-between gap-2 items-center p-2 border-b ">
           <h4 className="font-bold text-gray-800">Member Since</h4>
-          <p className="text-gray-500 text-sm">{formatDate(userData?.created_at)}</p>
+          <p className="text-gray-500 text-sm">
+            {formatDate(userData?.created_at)}
+          </p>
         </div>
         <div className="p-3 mt-2 rounded-lg">
           <p className="font-semibold uppercase">{userData?.staff_category}</p>
@@ -89,9 +94,13 @@ const ApplicantProfileCard = ({ userData }) => {
       <div className="mt-6">
         <h4 className="font-bold text-gray-800">Languages</h4>
         <ul className="text-gray-600 mt-2 grid grid-cols-2 gap-1">
-          {userData?.languages_spoken?.map((lang, index) => (
-            <li key={index} className="py-1 px-2 bg-yellow-400">{lang}</li>
-          ))}
+          {JSON.parse(String(userData?.languages_spoken) || "[]")?.map(
+            (lang, index) => (
+              <li key={index} className="py-1 px-2 bg-yellow-400">
+                {lang}
+              </li>
+            )
+          )}
         </ul>
       </div>
 

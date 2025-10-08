@@ -13,33 +13,31 @@ const ApplicantDetails = () => {
   const { authDetails } = useContext(AuthContext);
   const client = axiosClient(authDetails.token);
   const { id } = useParams();
-  const [staff, setStaff] = useState(null);
+  const [contract, setContract] = useState(null);
   const [loading, setLoading] = useState(false);
+  const fetchContract = async () => {
+    setLoading(true);
+    try {
+      // Fetch contract details for this staff
+      const contractRes = await client.post(`/contracts/details`, {
+        user_id: authDetails?.user?.id,
+        user_type: authDetails?.user?.role,
+        domestic_staff_id: id,
+      });
 
+      const contractData = contractRes?.data?.contracts[0];
+
+      setContract(contractData);
+    } catch (error) {
+      console.error("Error fetching staff details:", error);
+      toast.error("Unable to retrieve staff and contract data.");
+    } finally {
+      setLoading(false);
+    }
+  };
   useEffect(() => {
-    const initData = async () => {
-      setLoading(true);
-      try {
-        // Fetch contract details for this staff
-        const contractRes = await client.post(`/contracts/details`, {
-          user_id: authDetails?.user?.id,
-          user_type: authDetails?.user?.role,
-          domestic_staff_id: id,
-        });
-
-        const contractData = contractRes?.data?.contracts[0];
-
-        setStaff(contractData);
-      } catch (error) {
-        console.error("Error fetching staff details:", error);
-        toast.error("Unable to retrieve staff and contract data.");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    if (authDetails?.user && id) {
-      initData();
+    if (id) {
+      fetchContract();
     }
   }, [authDetails, id]);
 
@@ -55,12 +53,16 @@ const ApplicantDetails = () => {
       </button>
 
       {!loading ? (
-        staff ? (
+        contract ? (
           <>
-            <ApplicantHeader staff={staff} setStaff={setStaff} />
+            <ApplicantHeader
+              contract={contract}
+              fetchContract={fetchContract}
+              setContract={setContract}
+            />
             <div className="flex gap-4 flex-col lg:flex-row">
-              <ApplicantProfileCard userData={staff} />
-              <MainContent staff={staff} />
+              <ApplicantProfileCard userData={contract} />
+              <MainContent staff={contract} />
             </div>
           </>
         ) : (

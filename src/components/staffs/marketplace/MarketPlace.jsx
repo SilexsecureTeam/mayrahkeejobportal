@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../../context/AuthContex";
 import { axiosClient } from "../../../services/axios-client";
 import TableHead from "./TableHead";
@@ -69,7 +69,7 @@ function MarketPlace({ handleAddToCart, handleRemoveCart, cartItems }) {
       }
     } catch (error) {
       const errorMessage = extractErrorMessage(error);
-      if (errorMessage !== "Contract(s) not found") {
+      if (error?.status !== 404) {
         onFailure({
           message: "Something went wrong",
           error: errorMessage,
@@ -145,4 +145,4 @@ function MarketPlace({ handleAddToCart, handleRemoveCart, cartItems }) {
   );
 }
 
-export default MarketPlace;
+export default React.memo(MarketPlace);

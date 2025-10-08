@@ -5,8 +5,8 @@ import {
   MdClose,
   MdDelete,
 } from "react-icons/md";
-import { useLocation, useNavigate } from "react-router-dom";
-import { useContext, useState } from "react";
+import { useLocation } from "react-router-dom";
+import React, { useContext, useState } from "react";
 import { AuthContext } from "../../context/AuthContex";
 import { axiosClient } from "../../services/axios-client";
 import { onFailure } from "../../utils/notifications/OnFailure";
@@ -466,4 +466,4 @@ function CartedStaffs() {
   );
 }
 
-export default CartedStaffs;
+export default React.memo(CartedStaffs);

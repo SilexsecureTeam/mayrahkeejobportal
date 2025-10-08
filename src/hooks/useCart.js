@@ -43,8 +43,6 @@ function useCart() {
   };
 
   const handleSuccess = async (reference, data, getCartItems) => {
-    console.log(data);
-
     try {
       const response = await client.post("/staff-cart/checkout", {
         //amount: Number(datum.totalAmount), // Convert to kobo

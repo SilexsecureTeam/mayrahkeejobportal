@@ -107,30 +107,73 @@ function TableRow({
         </td>
       )}
       {/* ✅ Contract Status (show only when not market) */}
-      {!isMarket && info?.type !== "artisan" && (
+      {!isMarket && (
         <td className="text-left py-3 px-2">
-          <span
-            className={`px-2 py-1 rounded text-xs font-medium
-        ${
-          data.contract_status === 1
-            ? "bg-green-100 text-green-700"
-            : data.contract_status === 0
-            ? "bg-yellow-100 text-yellow-700"
-            : data.contract_status === 2
-            ? "bg-red-100 text-red-700"
-            : "bg-gray-100 text-gray-700"
-        }`}
-          >
-            {data.contract_status === 1
-              ? "Active"
-              : data.contract_status === 0
-              ? "Pending"
-              : data.contract_status === 2
-              ? "Rejected"
-              : "Unknown"}
-          </span>
+          {(() => {
+            let statusText = "";
+
+            // For cancelled
+            if (data.status?.toLowerCase() === "cancelled") {
+              statusText = "Cancelled";
+            } else {
+              // Artisan-specific pending status
+              if (
+                data.staff_category?.toLowerCase() === "artisan" &&
+                Number(data.contract_status) === 0
+              ) {
+                statusText = "Active";
+              } else {
+                // Map numeric contract_status to text
+                switch (data.contract_status) {
+                  case 0:
+                    statusText = "Pending";
+                    break;
+                  case 1:
+                    statusText = "Active";
+                    break;
+                  case 2:
+                    statusText = "Rejected";
+                    break;
+                  default:
+                    statusText = "Unknown";
+                }
+              }
+            }
+
+            // Badge styling
+            const statusStyles = {
+              Active: "bg-green-100 text-green-800",
+              Pending: "bg-yellow-100 text-yellow-800",
+              Rejected: "bg-red-100 text-red-800",
+              Cancelled: "bg-gray-100 text-gray-700",
+              Unknown: "bg-gray-200 text-gray-500",
+            };
+
+            const dotColors = {
+              Active: "bg-green-600",
+              Pending: "bg-yellow-600",
+              Rejected: "bg-red-600",
+              Cancelled: "bg-gray-600",
+              Unknown: "bg-gray-400",
+            };
+
+            const style = statusStyles[statusText] || statusStyles.Unknown;
+            const dotColor = dotColors[statusText] || dotColors.Unknown;
+
+            return (
+              <span
+                className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold ${style}`}
+              >
+                <span
+                  className={`w-2 h-2 mr-2 rounded-full ${dotColor}`}
+                ></span>
+                {statusText}
+              </span>
+            );
+          })()}
         </td>
       )}
+
       {/* Action Buttons */}
       {isMarket ? (
         <td className="text-left py-3 px-2">

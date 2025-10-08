@@ -38,7 +38,9 @@ function useStaff() {
 
   const getResidentialDetails = async (staffId) => {
     try {
-      const { data } = await client.get(`/domesticStaff/residential-status/${staffId}`);
+      const { data } = await client.get(
+        `/domesticStaff/residential-status/${staffId}`
+      );
 
       if (data.ResidentialStatus) {
         return data.ResidentialStatus;
@@ -95,25 +97,29 @@ function useStaff() {
       return [];
     }
   };
-    const getBusinessDetails = async (staffId) => {
-  try {
-    const { data } = await client.get(`/business/domestic/${staffId}`);
-    if (data.businesses) {
-      return data.businesses[0];
-    }
-    return [];
-  } catch (error) {
-    if (error.response && error.response.data.message === "No businesses found for this domestic staff") {
-      // Handle this specific case without displaying an error
+  const getBusinessDetails = async (staffId) => {
+    try {
+      const { data } = await client.get(`/business/domestic/${staffId}`);
+      if (data.businesses) {
+        return data.businesses[0];
+      }
+      return [];
+    } catch (error) {
+      if (
+        error.response &&
+        error.response.data.message ===
+          "No businesses found for this domestic staff"
+      ) {
+        // Handle this specific case without displaying an error
+        return [];
+      }
+      onFailure({
+        message: "Business Error",
+        failure: "Error Retrieving business details",
+      });
       return [];
     }
-    onFailure({
-      message: "Business Error",
-      failure: "Error Retrieving business details",
-    });
-    return [];
-  }
-};
+  };
   //To get Work Experience
   const getWorkExperience = async (staffId) => {
     try {
@@ -131,42 +137,49 @@ function useStaff() {
   };
 
   //To get Work Experience
-  const updateContractStatus = async (staff, status, setStaff) => {
+  const updateContractStatus = async (contract, status, setContract) => {
     try {
       const { data } = await client.post(
-        `/domesticStaff/update-profile/${staff.id}`,
+        `/domesticStaff/update-profile/${contract.id}`,
         {
-          contract_status: status === ContractStatus.accept ? '1' : '2',
+          contract_status: status === ContractStatus.accept ? "1" : "2",
         }
       );
-      setStaff(data.data)
-    if(ContractStatus.accept === status){
-      onSuccess({
-        message: 'Contract Status',
-        success: 'You have completed this contract'
-      })
-    } else{
-      onSuccess({
-        message: 'Contract Status',
-        success: 'You have rejected this staff'
-      })
-    }
+      setContract({
+        ...contract,
+        contract_status: status === ContractStatus.accept ? "1" : "2",
+      });
+      if (ContractStatus.accept === status) {
+        onSuccess({
+          message: "Contract Status",
+          success: "You have accepted this contract",
+        });
+      } else {
+        onSuccess({
+          message: "Contract Status",
+          success: "You have rejected this staff",
+        });
+      }
       return true;
     } catch (error) {
       return false;
     }
   };
 
-
   const getStyling = (status) => {
-    switch(status){
-      case allStatus[0] : return 'bg-primaryColor';
-      case allStatus[1] : return 'bg-yellow-500';
-      case allStatus[2] : return 'bg-red-500';
-      case allStatus[3] : return 'bg-red-700';
-      default : return 'bg-yellow-500'
+    switch (status) {
+      case allStatus[0]:
+        return "bg-primaryColor";
+      case allStatus[1]:
+        return "bg-yellow-500";
+      case allStatus[2]:
+        return "bg-red-500";
+      case allStatus[3]:
+        return "bg-red-700";
+      default:
+        return "bg-yellow-500";
     }
-}
+  };
 
   return {
     ContractStatus,
@@ -177,7 +190,7 @@ function useStaff() {
     getWorkExperience,
     getResidentialDetails,
     updateContractStatus,
-    getStyling
+    getStyling,
   };
 }
 
