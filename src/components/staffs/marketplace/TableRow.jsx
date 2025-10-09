@@ -112,31 +112,29 @@ function TableRow({
           {(() => {
             let statusText = "";
 
-            // For cancelled
-            if (data.status?.toLowerCase() === "cancelled") {
-              statusText = "Cancelled";
+            // Artisan-specific pending status
+            if (
+              data.staff_category?.toLowerCase() === "artisan" &&
+              Number(data.contract_status) === 0
+            ) {
+              statusText = "Active";
             } else {
-              // Artisan-specific pending status
-              if (
-                data.staff_category?.toLowerCase() === "artisan" &&
-                Number(data.contract_status) === 0
-              ) {
-                statusText = "Active";
-              } else {
-                // Map numeric contract_status to text
-                switch (data.contract_status) {
-                  case 0:
-                    statusText = "Pending";
-                    break;
-                  case 1:
-                    statusText = "Active";
-                    break;
-                  case 2:
-                    statusText = "Rejected";
-                    break;
-                  default:
-                    statusText = "Unknown";
-                }
+              // Map numeric contract_status to text
+              switch (data.contract_status) {
+                case 0:
+                  statusText = "Pending";
+                  break;
+                case 1:
+                  statusText = "Active";
+                  break;
+                case 2:
+                  statusText = "Rejected";
+                  break;
+                case 3:
+                  statusText = "Cancelled";
+                  break;
+                default:
+                  statusText = "Unknown";
               }
             }
 

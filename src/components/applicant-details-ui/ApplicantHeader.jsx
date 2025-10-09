@@ -135,15 +135,9 @@ const ApplicantHeader = ({ contract, fetchContract, setContract }) => {
     setTerminateLoading(true);
     try {
       const { data } = await client.post(
-        `${import.meta.env.VITE_BASE_URL}/contracts/cancel`,
+        `/domesticStaff/update-profile/${contract.id}`,
         {
-          user_id: contract?.user_id,
-          user_type:
-            contract?.staff_category?.toLowerCase() === "staff"
-              ? "candidate"
-              : "employer",
-          domestic_staff_id: contract?.id,
-          contract_id: contract?.contract_id,
+          contract_status: "3",
         }
       );
 
