@@ -49,7 +49,7 @@ function TableRow({
       ? "Active"
       : normalizedStatus === "pending"
       ? "Pending"
-      : normalizedStatus === "rejected"
+      : normalizedStatus === "inactive"
       ? "Rejected"
       : normalizedStatus === "cancelled"
       ? "Cancelled"
