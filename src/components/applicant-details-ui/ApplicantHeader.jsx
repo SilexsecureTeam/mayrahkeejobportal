@@ -5,6 +5,7 @@ import PickStaffModal from "./PickStaffModal";
 import { AuthContext } from "../../context/AuthContex";
 import { extractErrorMessage } from "../../utils/formmaters";
 import { toast } from "react-toastify";
+import { onSuccess } from "../../utils/notifications/OnSuccess";
 
 const ApplicantHeader = ({ contract, fetchContract, setContract }) => {
   const { authDetails } = useContext(AuthContext);
@@ -22,7 +23,7 @@ const ApplicantHeader = ({ contract, fetchContract, setContract }) => {
 
   // Unified state flags
   const isAccepted = status === "active";
-  const isRejected = status === "rejected";
+  const isRejected = status === "inactive";
   const isCancelled = status === "cancelled";
   const isActive = status === "active";
   const isPending = status === "pending";
@@ -60,12 +61,15 @@ const ApplicantHeader = ({ contract, fetchContract, setContract }) => {
     if (isAccepted) return toast.info("Contract already accepted.");
     setAcceptLoading(true);
     try {
-      const { data } = await client.post(`/contracts/update-status`, {
+      const { data } = await client.post(`/contracts/status-update`, {
         contract_id: contract?.contract_id,
         status: "active",
       });
 
-      toast.success(extractErrorMessage(data) || "Contract accepted!");
+      onSuccess({
+        message: "Contract Accepted!",
+        success: extractErrorMessage(data) || "Contract accepted!",
+      });
       fetchContract();
     } catch (error) {
       console.error("Accept error:", error);
@@ -80,12 +84,15 @@ const ApplicantHeader = ({ contract, fetchContract, setContract }) => {
     if (isRejected) return toast.info("Contract already rejected.");
     setRejectLoading(true);
     try {
-      const { data } = await client.post(`/contracts/update-status`, {
+      const { data } = await client.post(`/contracts/status-update`, {
         contract_id: contract?.contract_id,
-        status: "rejected",
+        status: "inactive",
       });
 
-      toast.info(extractErrorMessage(data) || "Contract rejected.");
+      onSuccess({
+        message: "Contract Rejected!",
+        success: extractErrorMessage(data) || "Contract rejected.",
+      });
       setIsModalOpen(true);
       fetchContract();
     } catch (error) {
@@ -126,12 +133,15 @@ const ApplicantHeader = ({ contract, fetchContract, setContract }) => {
 
     setTerminateLoading(true);
     try {
-      const { data } = await client.post(`/contracts/update-status`, {
+      const { data } = await client.post(`/contracts/status-update`, {
         contract_id: contract?.contract_id,
         status: "cancelled",
       });
 
-      toast.success(extractErrorMessage(data) || "Contract terminated.");
+      onSuccess({
+        message: "Contract Terminated!",
+        success: extractErrorMessage(data) || "Contract terminated.",
+      });
       fetchContract();
     } catch (error) {
       console.error("Terminate error:", error);
@@ -174,7 +184,6 @@ const ApplicantHeader = ({ contract, fetchContract, setContract }) => {
     }
   };
 
-  // ----- RENDER -----
   return (
     <header className="text-white p-4 flex flex-wrap gap-5 items-center justify-between">
       <section>
@@ -196,7 +205,7 @@ const ApplicantHeader = ({ contract, fetchContract, setContract }) => {
           </p>
         )}
 
-        {!isArtisan && !isCancelled && countdown && (
+        {!isArtisan && isAccepted && countdown && (
           <p
             className={`text-sm font-semibold ${
               countdown === "Expired" ? "text-red-600" : "text-primaryColor"
