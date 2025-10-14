@@ -22,7 +22,7 @@ import { useEffect } from "react";
 function CartedStaffs() {
   const location = useLocation();
   const { data } = location?.state || { data: null };
-  const isArtisan = data?.type === "artisan";
+  const isArtisan = data?.type?.includes("artisan");
 
   const { authDetails } = useContext(AuthContext);
   const client = axiosClient(authDetails.token);

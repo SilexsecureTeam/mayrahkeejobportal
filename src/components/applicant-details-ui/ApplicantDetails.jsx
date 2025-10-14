@@ -8,8 +8,10 @@ import { toast } from "react-toastify";
 import { AuthContext } from "../../context/AuthContex";
 import { PiSpinnerGap } from "react-icons/pi";
 import { FaArrowLeftLong } from "react-icons/fa6";
+import { useNavigate } from "react-router-dom";
 
 const ApplicantDetails = () => {
+  const navigate = useNavigate();
   const { authDetails } = useContext(AuthContext);
   const client = axiosClient(authDetails.token);
   const { id } = useParams();
@@ -45,7 +47,16 @@ const ApplicantDetails = () => {
     <div className="p-5 bg-white min-h-screen text-gray-900">
       <button
         type="button"
-        onClick={() => window.history.back()}
+        onClick={() =>
+          navigate(
+            `/${
+              authDetails?.user?.role === "employer" ? "company" : "applicant"
+            }/staff/cart`,
+            {
+              state: { data: { type: contract?.staff_category } },
+            }
+          )
+        }
         className="my-2 w-max flex items-center gap-2 outline outline-offset-5 outline-green-500 px-4 py-2 rounded text-green-500 hover:bg-green-100"
       >
         <FaArrowLeftLong className="me-4 text-green-500" />

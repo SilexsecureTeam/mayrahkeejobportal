@@ -61,7 +61,9 @@ function MarketPlace({ handleAddToCart, handleRemoveCart, cartItems }) {
           !type
             ? data.contracts
             : data.contracts?.filter(
-                (current) => current.staff_category === type
+                (current) =>
+                  current.staff_category === type &&
+                  current.status?.toLowerCase()?.includes("active")
               )
         );
       } else {
@@ -116,7 +118,11 @@ function MarketPlace({ handleAddToCart, handleRemoveCart, cartItems }) {
               contractItems
                 .reverse()
                 .map((current) => (
-                  <TableRow key={`${current?.id}`} data={current} />
+                  <TableRow
+                    key={`${current?.id}`}
+                    data={current}
+                    isContractActive={true}
+                  />
                 ))}
           </TableHead>
         </>

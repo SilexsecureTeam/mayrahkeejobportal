@@ -1,6 +1,4 @@
 import { useState, useEffect, useContext } from "react";
-import useStaff from "../../hooks/useStaff";
-import { onFailure } from "../../utils/notifications/OnFailure";
 import { PiSpinnerGap } from "react-icons/pi";
 import { axiosClient } from "../../services/axios-client";
 import PickStaffModal from "./PickStaffModal";
@@ -10,7 +8,6 @@ import { toast } from "react-toastify";
 
 const ApplicantHeader = ({ contract, fetchContract, setContract }) => {
   const { authDetails } = useContext(AuthContext);
-  const { ContractStatus, updateContractStatus } = useStaff();
   const [acceptLoading, setAcceptLoading] = useState(false);
   const [rejectLoading, setRejectLoading] = useState(false);
   const [complainLoading, setComplainLoading] = useState(false);
@@ -19,12 +16,16 @@ const ApplicantHeader = ({ contract, fetchContract, setContract }) => {
   const [countdown, setCountdown] = useState(null);
   const client = axiosClient();
 
-  // Status checks
-  const isAccepted = Number(contract?.contract_status) === 1;
-  const isRejected = Number(contract?.contract_status) === 2;
-  const isCancelled =
-    Number(contract?.contract_status) === 3 ||
-    contract?.status?.toLowerCase() === "cancelled";
+  // Identify type and normalize status
+  const isArtisan = contract?.staff_category?.toLowerCase() === "artisan";
+  const status = contract?.status?.toLowerCase();
+
+  // Unified state flags
+  const isAccepted = status === "active";
+  const isRejected = status === "rejected";
+  const isCancelled = status === "cancelled";
+  const isActive = status === "active";
+  const isPending = status === "pending";
 
   // Countdown
   useEffect(() => {
@@ -54,108 +55,93 @@ const ApplicantHeader = ({ contract, fetchContract, setContract }) => {
     return () => clearInterval(timer);
   }, [contract?.end_date, isCancelled]);
 
-  // Accept Contract
+  // ✅ Accept Contract
   const handleAccept = async () => {
+    if (isAccepted) return toast.info("Contract already accepted.");
     setAcceptLoading(true);
-    const result = await updateContractStatus(
-      contract,
-      ContractStatus.accept,
-      setContract
-    );
-    setAcceptLoading(false);
-    if (!result)
-      onFailure({ message: "Update Error", error: "Could not accept" });
-  };
+    try {
+      const { data } = await client.post(`/contracts/update-status`, {
+        contract_id: contract?.contract_id,
+        status: "active",
+      });
 
-  // Reject Contract
-  const handleReject = async () => {
-    setRejectLoading(true);
-    const result = await updateContractStatus(
-      contract,
-      ContractStatus.reject,
-      setContract
-    );
-    setRejectLoading(false);
-
-    if (result) {
-      alert("Contract rejected. You can now pick another staff.");
-      setIsModalOpen(true);
-    } else {
-      onFailure({ message: "Update Error", error: "Could not reject" });
+      toast.success(extractErrorMessage(data) || "Contract accepted!");
+      fetchContract();
+    } catch (error) {
+      console.error("Accept error:", error);
+      toast.error(error.message || "Failed to accept contract.");
+    } finally {
+      setAcceptLoading(false);
     }
   };
 
-  // Recontract
+  // ✅ Reject Contract
+  const handleReject = async () => {
+    if (isRejected) return toast.info("Contract already rejected.");
+    setRejectLoading(true);
+    try {
+      const { data } = await client.post(`/contracts/update-status`, {
+        contract_id: contract?.contract_id,
+        status: "rejected",
+      });
+
+      toast.info(extractErrorMessage(data) || "Contract rejected.");
+      setIsModalOpen(true);
+      fetchContract();
+    } catch (error) {
+      console.error("Reject error:", error);
+      toast.error(error.message || "Failed to reject contract.");
+    } finally {
+      setRejectLoading(false);
+    }
+  };
+
+  // ✅ Recontract
   const handleRecontract = async (newStaff) => {
     try {
-      const response = await client.post(
-        `${import.meta.env.VITE_BASE_URL}/contracts/recontract`,
-        {
-          user_id: authDetails?.user?.id,
-          user_type: authDetails?.user?.role,
-          domestic_staff_id: newStaff.id,
-          contract_id: contract?.contract_id,
-        }
-      );
+      const { data } = await client.post(`/contracts/recontract`, {
+        user_id: authDetails?.user?.id,
+        user_type: authDetails?.user?.role,
+        domestic_staff_id: newStaff.id,
+        contract_id: contract?.contract_id,
+      });
 
-      const data = response.data;
-
-      if (response.ok) {
-        toast.success(data.message || "Recontract successful!");
-        fetchContract();
-        setIsModalOpen(false); // close modal only on success
-      } else {
-        throw new Error(data.message || "Failed to recontract");
-      }
+      toast.success(data.message || "Recontract successful!");
+      fetchContract();
+      setIsModalOpen(false);
     } catch (error) {
       console.error("Recontract error:", error);
-      toast.error(error.message);
+      toast.error(error.message || "Failed to recontract.");
     }
   };
 
-  // Terminate Contract
+  // ✅ Terminate Contract
   const handleTerminate = async () => {
-    const activeContract =
-      contract?.status?.toLowerCase() !== "cancelled" ||
-      contract?.staff_category === "artisan";
-    if (!activeContract) return alert("No active contract found.");
-
-    const start = contract?.start_date ? new Date(contract?.start_date) : null;
-    const end = contract?.end_date ? new Date(contract?.end_date) : null;
-    const now = new Date();
-    const isActive = start && end ? now >= start && now <= end : true;
+    if (!isActive) return toast.warn("No active contract found.");
 
     const confirmTerminate = window.confirm(
-      isActive
-        ? "⚠️ This contract is currently active. Terminating it may lead to disputes. Are you sure you want to continue?"
-        : "Are you sure you want to terminate this expired or inactive contract?"
+      "⚠️ This contract is currently active. Are you sure you want to terminate it?"
     );
     if (!confirmTerminate) return;
 
     setTerminateLoading(true);
     try {
-      const { data } = await client.post(
-        `/domesticStaff/update-profile/${contract.id}`,
-        {
-          contract_status: "3",
-        }
-      );
+      const { data } = await client.post(`/contracts/update-status`, {
+        contract_id: contract?.contract_id,
+        status: "cancelled",
+      });
 
-      if (data) {
-        alert(extractErrorMessage(data));
-        fetchContract();
-      } else {
-        throw new Error(data.message || "Failed to terminate contract.");
-      }
+      toast.success(extractErrorMessage(data) || "Contract terminated.");
+      fetchContract();
     } catch (error) {
-      console.error("Termination error:", error);
-      alert(error.message);
+      console.error("Terminate error:", error);
+      toast.error(error.message || "Failed to terminate contract.");
     } finally {
       setTerminateLoading(false);
     }
   };
 
-  // Report Contact Issue
+  // ✅ Report Contact Issue (Artisan only)
   const reportContactIssue = async (staffContract) => {
     setComplainLoading(true);
     try {
@@ -167,8 +153,8 @@ const ApplicantHeader = ({ contract, fetchContract, setContract }) => {
           body: JSON.stringify({
             employer_comments: `Hello,\n\nI am unable to reach the artisan ${
               staffContract?.first_name ?? ""
-            } - ${staffContract?.surname ?? ""} (ID: ${
-              staffContract?.id
+            } - ${staffContract?.surname ?? ""} (USER ID: ${
+              staffContract?.domestic_staff_id
             }). Please follow up on this issue.\n\nRegards,`,
           }),
         }
@@ -176,15 +162,16 @@ const ApplicantHeader = ({ contract, fetchContract, setContract }) => {
 
       const data = await response.json();
       if (response.ok) {
-        alert(data.message || "Complaint submitted successfully.");
+        toast.success(data.message || "Complaint submitted successfully.");
       } else {
         throw new Error(data.message || "Failed to submit complaint.");
       }
     } catch (error) {
-      console.error("Error reporting contact issue:", error);
-      alert(error.message);
+      console.error("Contact issue error:", error);
+      toast.error(error.message);
+    } finally {
+      setComplainLoading(false);
     }
-    setComplainLoading(false);
   };
 
   // ----- RENDER -----
@@ -199,21 +186,17 @@ const ApplicantHeader = ({ contract, fetchContract, setContract }) => {
             Offers
           </a>
           <a href="#" className="text-gray-800 capitalize">
-            {contract?.staff_category?.toLowerCase() === "staff"
-              ? "Domestic Staff"
-              : "Artisan"}
+            {isArtisan ? "Artisan" : "Domestic Staff"}
           </a>
         </nav>
 
-        {/* Cancelled Banner */}
         {isCancelled && (
           <p className="text-sm font-bold text-red-600">
             ⚠️ Contract Cancelled
           </p>
         )}
 
-        {/* Countdown only if not cancelled */}
-        {!isCancelled && countdown && (
+        {!isArtisan && !isCancelled && countdown && (
           <p
             className={`text-sm font-semibold ${
               countdown === "Expired" ? "text-red-600" : "text-primaryColor"
@@ -226,7 +209,7 @@ const ApplicantHeader = ({ contract, fetchContract, setContract }) => {
 
       <div className="flex flex-wrap gap-3 items-center">
         {/* Artisan Button */}
-        {contract?.staff_category === "artisan" && (
+        {isArtisan && (
           <button
             className="bg-yellow-600 relative text-white px-4 py-2 rounded"
             onClick={() => reportContactIssue(contract)}
@@ -241,35 +224,32 @@ const ApplicantHeader = ({ contract, fetchContract, setContract }) => {
         )}
 
         {/* Staff Buttons */}
-        {contract?.staff_category !== "artisan" && !isCancelled && (
+        {!isArtisan && !isCancelled && (
           <>
             <button
               onClick={handleAccept}
               disabled={isAccepted}
-              aria-busy={acceptLoading}
-              className={`bg-green-600 relative text-white px-4 py-1 rounded overflow-hidden ${
+              className={`bg-green-600 relative text-white px-4 py-1 rounded ${
                 isAccepted ? "opacity-50 cursor-not-allowed" : ""
               }`}
             >
               {isAccepted ? "Accepted" : "Accept"}
               {acceptLoading && (
-                <div className="absolute inset-0 z-[999] bg-gray-50/50 flex items-center justify-center">
-                  <PiSpinnerGap className="text-lg animate-spin text-black" />
+                <div className="absolute inset-0 bg-gray-50/50 flex items-center justify-center">
+                  <PiSpinnerGap className="animate-spin text-black" />
                 </div>
               )}
             </button>
 
             {isRejected ? (
               <button
-                onClick={() => {
-                  if (contract?.is_recontract) {
-                    alert(
-                      "⚠️ This contract has already been recontracted once. You cannot recontract again."
-                    );
-                  } else {
-                    setIsModalOpen(true);
-                  }
-                }}
+                onClick={() =>
+                  contract?.is_recontract
+                    ? toast.warn(
+                        "⚠️ This contract has already been recontracted once."
+                      )
+                    : setIsModalOpen(true)
+                }
                 className="bg-red-600 text-white px-4 py-1 rounded"
               >
                 Pick New Staff
@@ -278,13 +258,12 @@ const ApplicantHeader = ({ contract, fetchContract, setContract }) => {
               <button
                 onClick={handleReject}
                 disabled={rejectLoading}
-                aria-busy={rejectLoading}
                 className="bg-red-600 relative text-white px-4 py-1 rounded"
               >
                 Reject
                 {rejectLoading && (
-                  <div className="absolute inset-0 z-[999] bg-gray-50/50 flex items-center justify-center">
-                    <PiSpinnerGap className="text-lg animate-spin text-black" />
+                  <div className="absolute inset-0 bg-gray-50/50 flex items-center justify-center">
+                    <PiSpinnerGap className="animate-spin text-black" />
                   </div>
                 )}
               </button>
@@ -293,26 +272,24 @@ const ApplicantHeader = ({ contract, fetchContract, setContract }) => {
         )}
 
         {/* Terminate Button */}
-        {!isCancelled &&
-          (isAccepted || contract?.staff_category === "artisan") && (
-            <button
-              onClick={handleTerminate}
-              disabled={terminateLoading}
-              className="bg-yellow-700 relative text-white px-4 py-1 rounded"
-            >
-              {terminateLoading ? (
-                <div className="flex items-center justify-center gap-2">
-                  <PiSpinnerGap className="animate-spin" />
-                  Terminating...
-                </div>
-              ) : (
-                "Terminate Contract"
-              )}
-            </button>
-          )}
+        {isActive && !isCancelled && (
+          <button
+            onClick={handleTerminate}
+            disabled={terminateLoading}
+            className="bg-yellow-700 relative text-white px-4 py-1 rounded"
+          >
+            {terminateLoading ? (
+              <div className="flex items-center justify-center gap-2">
+                <PiSpinnerGap className="animate-spin" />
+                Terminating...
+              </div>
+            ) : (
+              "Terminate Contract"
+            )}
+          </button>
+        )}
       </div>
 
-      {/* Pick Staff Modal */}
       {isModalOpen && (
         <PickStaffModal
           contract={contract}
