@@ -1,21 +1,27 @@
 // SuccessPage.js
-import { useLocation, useNavigate } from 'react-router-dom';
-import img from '../assets/pngs/success-img.png'
-import { AuthContext } from '../context/AuthContex';
-import { useContext } from 'react';
+import { useLocation, useNavigate } from "react-router-dom";
+import img from "../assets/pngs/success-img.png";
+import { AuthContext } from "../context/AuthContex";
+import { useContext } from "react";
 
 const SuccessPage = () => {
   const location = useLocation();
-  const {data} = location.state
+  const { data } = location.state;
   const { authDetails } = useContext(AuthContext);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const role = authDetails.user.role === "employer" ? "company" : "applicant";
-  
-  
-  const navigateToApplicantDetails = () =>
-    navigate(`/${role}/${data[0].domestic_staff.staff_category}/${data[0].domestic_staff_id}`, { state: { data:data[0] } });
+  const type = data[0]?.domestic_staff?.staff_category?.includes("artisan")
+    ? "artisan"
+    : "staff";
+  console.log(data);
 
+  const navigateToApplicantDetails = () =>
+    navigate(`/${role}/staff/contract-history`, {
+      state: {
+        data: { type },
+      },
+    });
 
   return (
     <div className="h-full flex items-center justify-center">
@@ -29,7 +35,10 @@ const SuccessPage = () => {
           Payment approved
         </h1>
         <p className="text-lg text-gray-600 mb-4">Congratulations</p>
-        <button onClick={navigateToApplicantDetails} className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">
+        <button
+          onClick={navigateToApplicantDetails}
+          className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
+        >
           View Details
         </button>
       </div>
