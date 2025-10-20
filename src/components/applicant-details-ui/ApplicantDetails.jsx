@@ -21,13 +21,9 @@ const ApplicantDetails = () => {
     setLoading(true);
     try {
       // Fetch contract details for this staff
-      const contractRes = await client.post(`/contracts/details`, {
-        user_id: authDetails?.user?.id,
-        user_type: authDetails?.user?.role,
-        domestic_staff_id: id,
-      });
+      const contractRes = await client.get(`/contracts/detail/${id}`);
 
-      const contractData = contractRes?.data?.contracts[0];
+      const contractData = contractRes?.data?.contract;
 
       setContract(contractData);
     } catch (error) {

@@ -21,7 +21,7 @@ function TableRow({
   const role = authDetails.user.role === "employer" ? "company" : "applicant";
 
   const navigateToStaff = () =>
-    navigate(`/${role}/${data.staff_category}/${data.domestic_staff_id}`);
+    navigate(`/${role}/${data.staff_category}/${data.contract_id}`);
 
   const employmentType =
     !data?.employment_type ||
