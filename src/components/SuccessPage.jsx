@@ -6,14 +6,15 @@ import { useContext } from "react";
 
 const SuccessPage = () => {
   const location = useLocation();
-  const { data } = location.state;
+  const data = location?.state?.data;
   const { authDetails } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const role = authDetails.user.role === "employer" ? "company" : "applicant";
-  const type = data[0]?.domestic_staff?.staff_category?.includes("artisan")
-    ? "artisan"
-    : "staff";
+  const type =
+    data && data[0]?.domestic_staff?.staff_category?.includes("artisan")
+      ? "artisan"
+      : "staff";
   console.log(data);
 
   const navigateToApplicantDetails = () =>
@@ -22,6 +23,11 @@ const SuccessPage = () => {
         data: { type },
       },
     });
+
+  if (!data) {
+    navigate(-1);
+    return;
+  }
 
   return (
     <div className="h-full flex items-center justify-center">

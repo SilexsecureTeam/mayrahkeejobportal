@@ -1,16 +1,12 @@
 import { IoMdCloseCircle } from "react-icons/io";
 import { useEffect, useState, useContext } from "react";
 import BasicInput from "../company-profile/BasicInput";
-//import { onTextChange } from "../../../utils/formmaters";
 import FormButton from "../../../components/FormButton";
 import Selector from "../../../components/Selector";
 import { AuthContext } from "../../../context/AuthContex";
 import useCompanyProfile from "../../../hooks/useCompanyProfile";
-import { useSafeMantineTheme } from "@mantine/core";
 import { createMeeting } from "../../../components/video-sdk/Api";
-import useSubscription from "../../../hooks/useSubscription";
 import { FaSpinner } from "react-icons/fa";
-//import SubscriptionCard from "../components/subscription/SubscriptionCard";
 import { SubscriptionContext } from "../../../context/SubscriptionContext";
 const fields = [
   {
@@ -76,6 +72,7 @@ function ScheduleInterviewModal({
 
   const [selected, setSelected] = useState(interviewOptions[1]);
   const [meetingId, setMeetingId] = useState(null);
+  const [generating, setGenerating] = useState(false);
 
   // Sync internal state when modal opens or details change
   useEffect(() => {
@@ -92,15 +89,18 @@ function ScheduleInterviewModal({
       setSelected(interviewOptions[1]);
       setMeetingId(null);
     }
-  }, [isOpen, edit, details]);
+  }, [isOpen, edit]);
 
-  const onClick = async () => {
+  const handleMeeting = async () => {
     try {
+      setGenerating(true);
       const roomId = await createMeeting(authDetails?.token);
       setMeetingId(roomId);
       onTextChange({ target: { name: "meeting_id", value: roomId } });
     } catch (error) {
       console.error(error);
+    } finally {
+      setGenerating(false);
     }
   };
 
@@ -167,10 +167,18 @@ function ScheduleInterviewModal({
                   <span>{meetingId || ""}</span>
                   <button
                     type="button"
-                    onClick={onClick}
+                    onClick={handleMeeting}
+                    disabled={generating}
                     className="px-2 py-1 bg-primaryColor rounded text-white flex items-center"
                   >
-                    Generate Meeting ID
+                    {generating ? (
+                      <>
+                        <FaSpinner className="animate-spin mr-1" />{" "}
+                        Generating...
+                      </>
+                    ) : (
+                      "Generate Meeting ID"
+                    )}
                   </button>
                 </div>
               </div>

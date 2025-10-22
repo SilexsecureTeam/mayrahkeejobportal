@@ -5,7 +5,6 @@ import { FormatError } from "../utils/formmaters";
 import { onFailure } from "../utils/notifications/OnFailure";
 import { get, set, del } from "idb-keyval";
 import { stages } from "../utils/constants";
-import { interviewOptions } from "../company-module/components/applicants/ScheduleInteviewModal";
 import { onSuccess } from "../utils/notifications/OnSuccess";
 import { debounce } from "lodash"; // Debounce function to limit requests
 const APPLICANTS_KEY = "Applicants Database";
@@ -153,14 +152,10 @@ function useApplicationManagement() {
       let payload = {
         ...interviewPrimarydata,
       };
-
-      console.log("Payload being sent:", payload);
-
       const updateprimarydata = {
         job_id: data.job_id,
         candidate_id: applicant.candidate_id,
       };
-
       const apiFunc = edit
         ? client.put(`/interviews/${interviewDetails?.id}`, payload)
         : client.post(`/interviews`, payload);
@@ -176,19 +171,16 @@ function useApplicationManagement() {
           interview_id: interviewData.id,
         }
       );
-
       const applicatonUpdateData =
         applicationUpdateResponse.data.job_application;
       setData(applicatonUpdateData);
       handleOnSuccess();
-
       onSuccess({
         message: `${edit ? "Update" : "Schedule"} Interview`,
         success:
           interviewResponse.data?.message ||
           `Interview ${edit ? "Updated" : "Scheduled"} successfully`,
       });
-
       await getApplicantsByEmployeeDebounced(); // Re-fetch the applicants list
     } catch (error) {
       console.log(error);
@@ -211,25 +203,6 @@ function useApplicationManagement() {
       setLoading(false);
     }
   };
-
-  // Update application status
-  const updateApplication = async (status, candidate_id, job_id) => {
-    try {
-      const response = await client.post("/applicationRespond", {
-        candidate_id: data.candidate_id,
-        job_id: data.job_id,
-        status,
-      });
-      setApplicants((prevApplicants) =>
-        prevApplicants.map((applicant) =>
-          applicant.id === candidate_id ? { ...applicant, status } : applicant
-        )
-      );
-    } catch (error) {
-      FormatError(error, setError, "Application Update Error");
-    }
-  };
-
   // Handle errors
   useEffect(() => {
     if (error?.error !== "" && error?.message !== "") {
