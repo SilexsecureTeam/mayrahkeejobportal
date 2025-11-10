@@ -82,7 +82,8 @@ function ViewProfileDetails() {
               profileDetails?.id_upload && (
                 <div className="flex flex-col gap-2 text-gray-700">
                   <span className="font-semibold">
-                    Means of Identification: {profileDetails?.id_upload}
+                    Means of Identification:{" "}
+                    {profileDetails?.means_of_identification}
                   </span>
                   {/\.(jpg|jpeg|png)$/i.test(profileDetails.id_upload) ? (
                     <img

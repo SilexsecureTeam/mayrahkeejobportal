@@ -51,10 +51,13 @@ function NINForm() {
   const fetchNin = async () => {
     setLoadingNin(true);
     try {
-      const { data } = await client.get(`/identifications/domestic/${authDetails.user.id}`);
+      const { data } = await client.get(
+        `/identifications/domestic/${authDetails.user.id}`
+      );
       setNinData(data?.identifications[0]);
     } catch (err) {
-      if (err?.response?.data?.message !== "No nin found for this domestic staff") {
+      console.log(err);
+      if (err?.status !== 404) {
         FormatError(err, setError, "Retrieval Failed");
       }
     } finally {
@@ -106,14 +109,21 @@ function NINForm() {
       <h1 className="text-xl font-semibold text-green-700">NIN Details</h1>
 
       {loadingNin ? (
-        <div className="mt-6 text-gray-500 animate-pulse">Fetching NIN details...</div>
+        <div className="mt-6 text-gray-500 animate-pulse">
+          Fetching NIN details...
+        </div>
       ) : ninData ? (
         <div className="grid grid-cols-2 gap-4 mt-4 text-gray-700">
           {Object.entries(ninData).map(([key, value]) => {
-            if (["id", "domestic_staff_id", "created_at", "updated_at"].includes(key))
+            if (
+              ["id", "domestic_staff_id", "created_at", "updated_at"].includes(
+                key
+              )
+            )
               return null;
 
-            const label = key === "file_path" ? "File" : labelMapping[key] || key;
+            const label =
+              key === "file_path" ? "File" : labelMapping[key] || key;
 
             return (
               <div key={key} className="flex flex-col">
@@ -175,7 +185,9 @@ function NINForm() {
             <input
               type="text"
               value={formData.identity_no}
-              onChange={(e) => setFormData({ ...formData, identity_no: e.target.value })}
+              onChange={(e) =>
+                setFormData({ ...formData, identity_no: e.target.value })
+              }
               required
               className="border border-gray-400 rounded p-2"
             />
@@ -190,7 +202,9 @@ function NINForm() {
               className="border border-gray-400 rounded p-2"
               required
             />
-            {fileError && <span className="text-red-500 text-sm">{fileError}</span>}
+            {fileError && (
+              <span className="text-red-500 text-sm">{fileError}</span>
+            )}
             {filePreview && (
               <img
                 src={filePreview}
@@ -216,4 +230,3 @@ function NINForm() {
 }
 
 export default NINForm;
-            

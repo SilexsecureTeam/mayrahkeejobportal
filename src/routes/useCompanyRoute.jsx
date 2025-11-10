@@ -17,17 +17,13 @@ import {
 } from "../utils/constants";
 import CompanyReducer from "../reducers/CompanyReducer";
 import { AuthContext } from "../context/AuthContex";
-import RedirectModal from "../components/RedirectModal";
 import UpdateCompanyProfileModal from "../company-module/components/company-profile/UpdateCompanyProfileModal";
 import { clear } from "idb-keyval";
 import useCompanyProfile from "../hooks/useCompanyProfile";
-import withApplicationStatus from "../hocs/withApplicationStatus";
 import withSubscription from "../hocs/withSubscription";
 
-import useSubscription from "../hooks/useSubscription";
 import SubscriptionModal from "../components/subscription/SubscriptionModal";
-import SubscriptionPlans from "../pages/SubscriptionPlans";
-import { ApplicationContextProvider } from "../context/ApplicationContext";
+
 import {
   CompanyRouteContext,
   CompanyRouteContextProvider,
@@ -41,6 +37,7 @@ import SuccessPage from "../components/SuccessPage";
 import CompanyExclusiveReducer from "../reducers/CompanyExclusiveReducer";
 import { ChatContext } from "../context/ChatContext";
 import usePusher from "../hooks/usePusher";
+import InterviewRoom from "../components/video-sdk/InterviewRoom";
 
 //Util Component
 const NavBar = lazy(() => import("../company-module/components/NavBar"));
@@ -138,10 +135,8 @@ function useCompanyRoute() {
   });
 
   const options = [...activeOptions, ...activeUtilOptions, ...extraOptions];
-  //console.log(options)
   const [state, dispatch] = useReducer(activeReducer, options[0]);
 
-  const navigate = useNavigate();
   const companyHookProps = useCompanyProfile();
   const toogleIsOpen = () => setIsOpen(!isOpen);
   const { pathname } = useLocation();
@@ -306,6 +301,8 @@ function useCompanyRoute() {
 
                   <Route path="settings" element={<Settings />} />
                   <Route path="help-center" element={<HelpCenter />} />
+
+                  <Route path="interview-room" element={<InterviewRoom />} />
                 </Routes>
               </div>
             </div>

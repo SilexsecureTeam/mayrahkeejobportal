@@ -20,9 +20,10 @@ import useStaffUser from "../../../hooks/useStaffUser";
 import { onFailure } from "../../../utils/notifications/OnFailure";
 import { axiosClient } from "../../../services/axios-client";
 import { GrDocumentText, GrUpload } from "react-icons/gr";
-import { verificationOptions1, verificationOptions2 } from "../../../utils/constants";
-
-
+import {
+  verificationOptions1,
+  verificationOptions2,
+} from "../../../utils/constants";
 
 function Dashboard() {
   const { authDetails } = useContext(AuthContext);
@@ -38,8 +39,8 @@ function Dashboard() {
   const { updateAvailabilityStatus, getStyling, allStatus } = useStaffUser();
 
   useEffect(() => {
-    getStaffProfile()
-  }, [])
+    getStaffProfile();
+  }, []);
   // Choose verification fields based on staff category
   const selectedVerificationFields =
     authDetails?.user?.staff_category === "artisan"
@@ -48,26 +49,32 @@ function Dashboard() {
 
   // Filter the verification fields that exist in the profile
   const filterVerificationDetails = profileDetails
-    ? selectedVerificationFields.filter(({key}) => key in profileDetails)
+    ? selectedVerificationFields.filter(({ key }) => key in profileDetails)
     : [];
 
   const userVerificationStatus = filterVerificationDetails
-    ?.map(({key}) => allStatus.find((status) => status === profileDetails[key]))
+    ?.map(({ key }) =>
+      allStatus.find((status) => status === profileDetails[key])
+    )
     ?.filter((status) => status === "approved");
-  
+
   const navigate = useNavigate();
   const navigateToPage = (route, index) => {
     navigate(route);
     setSideBar(index);
   };
 
-
   useEffect(() => {
     const initData = async () => {
       try {
         const { data } = await client.get("/staff-categories");
-        const sub = data.data?.find(one => one.name.toLowerCase().includes(profileDetails?.staff_category))?.subcategories || []
-        const cat = sub?.find(one => one.name === profileDetails?.subcategory)
+        const sub =
+          data.data?.find((one) =>
+            one.name.toLowerCase().includes(profileDetails?.staff_category)
+          )?.subcategories || [];
+        const cat = sub?.find(
+          (one) => one.name === profileDetails?.subcategory
+        );
         setCategory(cat);
       } catch (error) {
         onFailure({
@@ -78,7 +85,7 @@ function Dashboard() {
     };
 
     initData();
-  }, [profileDetails])
+  }, [profileDetails]);
   useEffect(() => {
     if (profileDetails && profileDetails["availability_status"] === "1") {
       setAvailabiltyStatus(true);
@@ -101,16 +108,10 @@ function Dashboard() {
                 {authDetails?.user?.surname}
               </h4>
               <p>
-                Here is a summary of your recent activities {generateDateRange()}
+                Here is a summary of your recent activities{" "}
+                {generateDateRange()}
               </p>
             </div>
-            {/* <div>
-              <button className="border p-2 hidden md:flex items-center">
-                {" "}
-                {generateDateRange()}
-                <RiCalendarEventLine className="ml-2 " size={15} />
-              </button>
-            </div> */}
           </div>
           <div className="md:flex-row flex-col flex justify-between  mt-8 gap-2">
             <div className=" w-full md:w-[23%]  flex justify-between md:flex-col ">
@@ -120,7 +121,9 @@ function Dashboard() {
                   className="border text-white transition duration-400 bg-lightgreen h-full cursor-pointer mb-4 p-3 pb-0 flex flex-col justify-between"
                 >
                   <p className="font-bold">Profile Update</p>
-                  <p className="pl-2 text-xl font-bold break-all">{profileDetails?.profile_image ? "Completed" : "Pending"}</p>
+                  <p className="pl-2 text-xl font-bold break-all">
+                    {profileDetails?.profile_image ? "Completed" : "Pending"}
+                  </p>
                   <div className="flex justify-between items-end mt-">
                     <p className="text-2xl font-medium"></p>
                     <div className="text-gray-300 mb-1">
@@ -135,7 +138,9 @@ function Dashboard() {
                   className="border bg-darkblue text-white transition duration-400 h-full cursor-pointer mb-4 p-3 pb-0 flex flex-col justify-between"
                 >
                   <p className="font-bold">Resume</p>
-                  <p className="pl-2 text-xl font-bold">{profileDetails?.resume ? "Uploaded" : "Pending"}</p>
+                  <p className="pl-2 text-xl font-bold">
+                    {profileDetails?.resume ? "Uploaded" : "Pending"}
+                  </p>
                   <div className="flex justify-between items-end mt-4">
                     <p className="text-6xl font-medium"></p>
                     <div className="text-gray-300 mb-1">
@@ -152,7 +157,14 @@ function Dashboard() {
                   className="border  bg-lightorange text-white transition duration-400 h-full cursor-pointer mb-4 p-3 pb-0 flex flex-col justify-between"
                 >
                   <p className="font-bold">Verification Status</p>
-                  <p className="pl-2 text-xl font-bold">{userVerificationStatus?.length > filterVerificationDetails?.length ? "Completed" : userVerificationStatus?.length > 0 ? "In Progress" : "Pending"}</p>
+                  <p className="pl-2 text-xl font-bold">
+                    {userVerificationStatus?.length >
+                    filterVerificationDetails?.length
+                      ? "Completed"
+                      : userVerificationStatus?.length > 0
+                      ? "In Progress"
+                      : "Pending"}
+                  </p>
                   <div className="flex justify-between items-end mt-4">
                     <p className="text- font-medium"></p>
                     <div className=" text-gray-300">
@@ -185,25 +197,37 @@ function Dashboard() {
                 <p className="font-bold my-3">Records Status</p>
               </div>
               <div className="px-3 flex flex-col border-b justify-between items-start">
-                {filterVerificationDetails?.filter(({key}) => key !== "availability_status")?.map((item, index) => {
-                const currentKey= item.key
-           const detail =
-                    allStatus.find((status) => status === profileDetails[currentKey]) || "Not Recorded";
-                  const labelText = currentKey.replace(/_/g, " ").toLowerCase();
+                {filterVerificationDetails
+                  ?.filter(({ key }) => key !== "availability_status")
+                  ?.map((item, index) => {
+                    const currentKey = item.key;
+                    const detail =
+                      allStatus.find(
+                        (status) => status === profileDetails[currentKey]
+                      ) || "Not Recorded";
+                    const labelText = currentKey
+                      .replace(/_/g, " ")
+                      .toLowerCase();
 
-                  return (
-                    <div
-                      key={index}
-                      onClick={() => navigateToPage("/staff/verifications", 2)}
-                      className="p-2 cursor-pointer hover:bg-gray-100 flex justify-between gap-2 w-full"
-                    >
-                      <span className="capitalize">{labelText}:</span>
-                      <span className={`${getStyling(detail)} text-black capitalize font-semibold`}>
-                        {detail}
-                      </span>
-                    </div>
-                  );
-                })}
+                    return (
+                      <div
+                        key={index}
+                        onClick={() =>
+                          navigateToPage("/staff/verifications", 2)
+                        }
+                        className="p-2 cursor-pointer hover:bg-gray-100 flex justify-between gap-2 w-full"
+                      >
+                        <span className="capitalize">{labelText}:</span>
+                        <span
+                          className={`${getStyling(
+                            detail
+                          )} text-black capitalize font-semibold`}
+                        >
+                          {detail}
+                        </span>
+                      </div>
+                    );
+                  })}
               </div>
             </div>
           </div>
@@ -214,23 +238,36 @@ function Dashboard() {
             {/* Availability Status Section */}
             <div className="p-3 flex gap-10 border-b">
               <p className="font-bold text-base">Availability Status</p>
-              {(profileDetails?.status === "pending" || profileDetails?.status === "approved") ? <DefaultSwitch
-                enabled={availablityStatus}
-                disabled={loading}
-                loading={loading}
-                onClick={async () => {
-                  console.log("clicked");
-                  setloading(true);
-                  const result = await updateAvailabilityStatus(
-                    authDetails.user.id,
-                    availablityStatus ? "0" : "1"
-                  );
-                  if (result) {
-                    setAvailabiltyStatus(!availablityStatus);
-                  }
-                  setloading(false);
-                }}
-              /> : <strong className={`capitalize font-medium ${profileDetails?.status === "rejected" ? "text-red-500" : "text-brown-300"}`}>{profileDetails?.status}</strong>}
+              {profileDetails?.status === "pending" ||
+              profileDetails?.status === "approved" ? (
+                <DefaultSwitch
+                  enabled={availablityStatus}
+                  disabled={loading}
+                  loading={loading}
+                  onClick={async () => {
+                    console.log("clicked");
+                    setloading(true);
+                    const result = await updateAvailabilityStatus(
+                      authDetails.user.id,
+                      availablityStatus ? "0" : "1"
+                    );
+                    if (result) {
+                      setAvailabiltyStatus(!availablityStatus);
+                    }
+                    setloading(false);
+                  }}
+                />
+              ) : (
+                <strong
+                  className={`capitalize font-medium ${
+                    profileDetails?.status === "rejected"
+                      ? "text-red-500"
+                      : "text-brown-300"
+                  }`}
+                >
+                  {profileDetails?.status}
+                </strong>
+              )}
             </div>
 
             {/* Grid Items Section */}
@@ -239,11 +276,21 @@ function Dashboard() {
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 hover:opacity-90">
                   {/* Scrollable Left Grid Item */}
                   <div className="overflow-y-auto max-h-80 p-2 border">
-                    {(profileDetails?.status === "pending" || profileDetails?.status === "approved") ? <p className="text-md leading-7 tracking-wider">
-                      We've introduced a user-friendly feature just for you,
-                      giving you the power to control your availability status
-                      with a simple click.
-                    </p> : <p className="text-md leading-7 tracking-wider">We appreciate your interest in our service, Unfortunately your application has been {profileDetails?.status}! If you'd like feedback on your application. please contact our support team.</p>}
+                    {profileDetails?.status === "pending" ||
+                    profileDetails?.status === "approved" ? (
+                      <p className="text-md leading-7 tracking-wider">
+                        We've introduced a user-friendly feature just for you,
+                        giving you the power to control your availability status
+                        with a simple click.
+                      </p>
+                    ) : (
+                      <p className="text-md leading-7 tracking-wider">
+                        We appreciate your interest in our service,
+                        Unfortunately your application has been{" "}
+                        {profileDetails?.status}! If you'd like feedback on your
+                        application. please contact our support team.
+                      </p>
+                    )}
                   </div>
 
                   {/* Scrollable Right Grid Item */}
@@ -252,15 +299,18 @@ function Dashboard() {
                       Responsibilities
                     </strong>
                     <p className="prose p-2 my-2">
-                      {category?.description && parseHtml(
-                        showFullDescription
-                          ? category?.description
-                          : category?.description?.slice(0, 100) + "..."
-                      )}
+                      {category?.description &&
+                        parseHtml(
+                          showFullDescription
+                            ? category?.description
+                            : category?.description?.slice(0, 100) + "..."
+                        )}
                     </p>
                     {category?.description?.length > 100 && (
                       <button
-                        onClick={() => setShowFullDescription(!showFullDescription)}
+                        onClick={() =>
+                          setShowFullDescription(!showFullDescription)
+                        }
                         className="text-blue-600 font-semibold mb-2 p-2"
                       >
                         {showFullDescription ? "Read Less" : "Read More"}
@@ -272,7 +322,6 @@ function Dashboard() {
             </div>
           </div>
         </div>
-
       </div>
     </>
   );

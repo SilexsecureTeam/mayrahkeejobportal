@@ -81,6 +81,9 @@ export default function ProfileFormData({
     );
 
     try {
+      if (!!data?.means_of_identification && !idFile) {
+        throw Error("Please upload an ID image");
+      }
       const response = await client.post(
         `/domesticStaff/update-profile/${authDetails.user.id}`,
         {

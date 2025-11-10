@@ -67,10 +67,12 @@ function useCompanyProfile() {
         await set(COMPANY_PROFILE_Key, response.data.details);
         setDetails({
           ...response.data.details,
-          beenRetreived: retrievalState.retrieved,
+          beenRetreived: !!response.data.details
+            ? retrievalState.retrieved
+            : retrievalState.init,
         });
       } else {
-        setDetails({ ...details, beenRetreived: retrievalState.notRetrieved });
+        setDetails({ ...details, beenRetreived: retrievalState.init });
       }
     } catch (error) {
       setDetails({ ...details, beenRetreived: retrievalState.retrieved });

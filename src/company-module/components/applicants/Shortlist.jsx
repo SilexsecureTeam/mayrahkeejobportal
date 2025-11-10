@@ -25,7 +25,6 @@ function Shortlist({ data, exclusive, toogleInterview, setEdit }) {
   const handleOnClick = () => {
     const interviewDate = new Date(interview.interview_date);
     const currentDate = new Date();
-    setApplication({ ...data });
     navigate("/interview-room", {
       state: {
         interview: interview,

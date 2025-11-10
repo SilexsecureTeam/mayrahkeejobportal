@@ -39,9 +39,11 @@ export const highlightKeyword = (sentence, keyword) => {
   );
 };
 export const FormatPrice = (price, removecode = false) => {
-  return `${!removecode ? "" : ""}${price.toLocaleString(navigator.language, {
-    minimumFractionDigits: 0, // Fixed the typo here
-  })}`;
+  return `${!removecode ? "" : ""}${price
+    ?.toFixed(2)
+    ?.toLocaleString(navigator.language, {
+      minimumFractionDigits: 0, // Fixed the typo here
+    })}`;
 };
 
 export const FormatNumber = (price) => {

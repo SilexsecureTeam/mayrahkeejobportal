@@ -1026,7 +1026,7 @@ export const field_sections2 = {
     {
       name: "Year Of Incorporation",
       type: "number",
-      field_name: "years_of_incorporation",
+      field_name: "year_of_incorporation",
     },
     {
       name: "Years Of Experience",
@@ -1074,6 +1074,6 @@ export const verificationOptions2 = [
   { label: "Availability Status", key: "availability_status" },
   { label: "Guarantor", key: "guarantor_verification_status" },
   { label: "Residence", key: "residence_verification_status" },
-  { label: "National Id", key: "nin_verification_status" },
+  { label: "National Id", key: "identification_verification_status" },
   { label: "Business", key: "business_verification_status" },
 ];

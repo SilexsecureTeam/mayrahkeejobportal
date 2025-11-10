@@ -103,27 +103,6 @@ function PublicProfile() {
                 </div>
               </div>
             </div>
-            <div className="border rounded-lg mt-4">
-              <div className="p-4">
-                <p className="font-bold mb-4">Keywords</p>
-                <div className="flex flex-wrap">
-                  {[
-                    "Communication",
-                    "Analytics",
-                    "Facebook Ads",
-                    "Content Planning",
-                    "Community Manager",
-                  ].map((keyword) => (
-                    <button
-                      key={keyword}
-                      className="p-2 m-1 bg-green-100 hover:bg-green-200 text-green-900 rounded"
-                    >
-                      {keyword}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            </div>
           </div>
           <div className="w-full lg:w-1/3 px-0 lg:px-4">
             <div className="border rounded-lg p-4 mb-4">

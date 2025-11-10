@@ -9,25 +9,28 @@ import { onSuccess } from "../../utils/notifications/OnSuccess";
 import { useLocation, useNavigate } from "react-router-dom";
 import Meeting from "./Meeting";
 import { ApplicationContext } from "../../context/ApplicationContext";
+import { useEffect } from "react";
 
 function InterviewRoom() {
   const { state } = useLocation();
-  const navigate= useNavigate();
+  const navigate = useNavigate();
   const [meetingId, setMeetingId] = useState(state?.interview?.meeting_id);
   const { authDetails } = useContext(AuthContext);
-  const {application } = useContext(ApplicationContext);
- 
-  console.log("auth token", getAuthToken);
-  console.log("meeting id", meetingId);
-  const exclusive= state?.exclusive;
-  const auth= exclusive?.user ? exclusive : authDetails;
+  const { application } = useContext(ApplicationContext);
+
+  console.log("auth token", application);
+  console.log("meeting id", meetingId, state);
+  const exclusive = state?.exclusive;
+  const auth = !!exclusive?.user ? exclusive : authDetails;
   const onClick = async () => {
     const roomId = await createMeeting("");
     setMeetingId(roomId);
   };
-if(application?.status !== "shortlist"){
-  navigate(-1);
-}
+  // useEffect(() => {
+  //   if (application?.status !== "shortlist") {
+  //     navigate(-1);
+  //   }
+  // }, [application]);
 
   return (
     <main className="h-screen flex items-center justify-center w-screen">
@@ -44,7 +47,10 @@ if(application?.status !== "shortlist"){
             }}
             token={getAuthToken()}
           >
-            <Meeting interview={state?.interview} exclusive={state?.exclusive} />
+            <Meeting
+              interview={state?.interview}
+              exclusive={state?.exclusive}
+            />
           </MeetingProvider>
         )}
       </div>

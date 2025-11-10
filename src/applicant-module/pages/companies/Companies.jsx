@@ -40,38 +40,44 @@ function Companies() {
     });
   }, []);
   useEffect(() => {
-    if(getAllCompanies.data){
-      setcompanies(getAllCompanies.data?.filter(one=>one.employer !==null))
+    if (getAllCompanies.data) {
+      setcompanies(
+        getAllCompanies.data?.filter((one) => one.employer !== null)
+      );
     }
-    
   }, [getAllCompanies]);
-  
 
   const filteredData = companies.filter(({ employer }) => {
     // Function to check if employer.company_size falls within the selected companySize range
-    const filterSize = (companySize && employer?.company_size)
-      ? (
-          (companySize === "1-49" && employer.company_size >= 1 && employer.company_size <= 49) ||
-          (companySize === "50-249" && employer.company_size >= 50 && employer.company_size <= 249) ||
+    const filterSize =
+      companySize && employer?.company_size
+        ? (companySize === "1-49" &&
+            employer.company_size >= 1 &&
+            employer.company_size <= 49) ||
+          (companySize === "50-249" &&
+            employer.company_size >= 50 &&
+            employer.company_size <= 249) ||
           (companySize === "250+" && employer.company_size >= 250)
-        )
-      : true;
-  
+        : true;
+
     const filterIndustry = industry
       ? employer?.sector?.toLowerCase().includes(industry?.toLowerCase())
       : true;
-  
+
     const filterName = companyName
-      ? employer?.company_name?.toLowerCase().includes(companyName?.toLowerCase())
+      ? employer?.company_name
+          ?.toLowerCase()
+          .includes(companyName?.toLowerCase())
       : true;
-  
+
     const filterLocation = selectedLocation
-      ? employer?.location?.toLowerCase()?.includes(selectedLocation?.toLowerCase())
+      ? employer?.location
+          ?.toLowerCase()
+          ?.includes(selectedLocation?.toLowerCase())
       : true;
-  
+
     return filterIndustry && filterSize && filterName && filterLocation;
   });
-  
 
   // console.log(companies?.filter(one=>one.employer !==null))
 
@@ -188,7 +194,7 @@ function Companies() {
                   <div className="min-h-full overflow-y-auto thin_scroll_bar">
                     {isGrid ? (
                       <div className="grid grid-cols-responsive gap-4">
-                        {currentTableData?.map(({employer}) => (
+                        {currentTableData?.map(({ employer }) => (
                           <CompanyGridCard
                             key={employer.id}
                             company={employer}
@@ -198,7 +204,7 @@ function Companies() {
                       </div>
                     ) : (
                       <div>
-                        {currentTableData?.map(({employer}) => (
+                        {currentTableData?.map(({ employer }) => (
                           <CompanyCard
                             key={employer.id}
                             company={employer}

@@ -88,7 +88,14 @@ const ShortListedDetails = () => {
         newInterview.interview_time
       );
 
-      console.log("isLive:", isLive, "hasEnded:", hasEnded, "countdown:", countdown);
+      console.log(
+        "isLive:",
+        isLive,
+        "hasEnded:",
+        hasEnded,
+        "countdown:",
+        countdown
+      );
 
       setIsLive(isLive);
       setStatusMessage(
@@ -125,7 +132,8 @@ const ShortListedDetails = () => {
       {timeLeft && (
         <div className="bg-blue-50 text-blue-600 p-4 rounded-md mb-4">
           <p className="font-medium">
-            Time Left for Interview: <span className="font-bold">{timeLeft}</span>
+            Time Left for Interview:{" "}
+            <span className="font-bold">{timeLeft}</span>
           </p>
         </div>
       )}
@@ -143,20 +151,24 @@ const ShortListedDetails = () => {
 
       {/* Interview Details */}
       <div className="rounded w-full sm:w-[90%] md:w-[80%] border">
-        {[ 
+        {[
           { label: "Interview Name:", value: newInterview?.interviewer_name },
           {
             label: "Interview Date:",
             value: newInterview
-              ? formatDateTime(newInterview.interview_date, newInterview.interview_time)
-                  .formattedDate
+              ? formatDateTime(
+                  newInterview.interview_date,
+                  newInterview.interview_time
+                ).formattedDate
               : null,
           },
           {
             label: "Interview Time:",
             value: newInterview
-              ? formatDateTime(newInterview.interview_date, newInterview.interview_time)
-                  .formattedTime
+              ? formatDateTime(
+                  newInterview.interview_date,
+                  newInterview.interview_time
+                ).formattedTime
               : null,
           },
           { label: "Location:", value: newInterview?.location },
@@ -165,7 +177,10 @@ const ShortListedDetails = () => {
         ].map(
           (item, index) =>
             item?.value && (
-              <div className="flex flex-col md:flex-row max-w-[600px] bg-lightorange"  key={index}>
+              <div
+                className="flex flex-col md:flex-row max-w-[600px] bg-lightorange"
+                key={index}
+              >
                 <div className="w-full md:w-1/3 p-4">
                   <p className="font-bold">{item?.label}</p>
                 </div>
@@ -181,7 +196,7 @@ const ShortListedDetails = () => {
       {isLive && !state.interviewFinshed ? (
         <button
           onClick={handleOnClick}
-          className="flex w-full sm:w-auto border mt-5 hover:bg-primaryColor hover:text-white border-primaryColor p-2 text-sm sm:text-little disabled:opacity-50 text-primaryColor"
+          className="flex w-full sm:w-auto border my-5 hover:bg-primaryColor hover:text-white border-primaryColor p-2 text-sm sm:text-little disabled:opacity-50 text-primaryColor"
         >
           Proceed to Interview
         </button>

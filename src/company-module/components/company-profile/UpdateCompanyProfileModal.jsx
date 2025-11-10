@@ -1,14 +1,7 @@
 import { IoMdCloseCircle } from "react-icons/io";
 import { getImageURL } from "../../../utils/formmaters";
 //import wheelIcon from "../../../assets/pngs/wheel-icon-black.png";
-import {
-  FaRegEdit,
-  FaFacebook,
-  FaLinkedin,
-  FaTwitter,
-  FaInstagram,
-  FaTimes,
-} from "react-icons/fa";
+import { FaRegEdit, FaTimes } from "react-icons/fa";
 import { useEffect, useState, useContext } from "react";
 import BasicInput from "./BasicInput";
 import SocialMediaInput from "./SocialMediaInput";
@@ -19,7 +12,6 @@ import FormButton from "../../../components/FormButton";
 import { resourceUrl } from "../../../services/axios-client";
 import Selector from "../../../components/Selector";
 import { JobContext } from "../../../context/JobContext";
-import { onFailure } from "../../../utils/notifications/OnFailure";
 import {
   social_media_inputs,
   companyBasicInputs,
@@ -33,8 +25,6 @@ function UpdateCompanyProfileModal({
   plain = false,
 }) {
   const [displayPic, setDisplayPic] = useState("");
-  const [socials, setSocials] = useState(["", "", "", ""]);
-  const [companyProfile, setCompanyProfile] = useState();
   const {
     details,
     loading,
@@ -179,7 +169,11 @@ function UpdateCompanyProfileModal({
             />
           )}
           <div className="w-full px-2 flex gap-[10px] flex-col h-[90%] ">
-            <h3 className="font-semibold text-lg border-b pb-2 text-gray-600">{`Update Company Profile`}</h3>
+            <h3 className="font-semibold text-lg border-b pb-2 text-gray-600">
+              {retrievalState?.init
+                ? "Setup Company Profile"
+                : `Update Company Profile`}
+            </h3>
 
             <form
               onSubmit={handleSubmit}
@@ -342,7 +336,9 @@ function UpdateCompanyProfileModal({
                 height="min-h-[30px] mb-[10px]"
                 loading={loading}
               >
-                Update
+                {details?.beenRetreived === retrievalState?.init
+                  ? "Create"
+                  : "Update"}
               </FormButton>
             </form>
           </div>
