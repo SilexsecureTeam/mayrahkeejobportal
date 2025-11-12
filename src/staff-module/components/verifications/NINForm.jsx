@@ -32,6 +32,7 @@ function NINForm() {
   const [isLoading, setIsLoading] = useState(false);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [error, setError] = useState({ message: "", error: "" });
+  const [showForm, setShowForm] = useState(false);
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
@@ -82,6 +83,7 @@ function NINForm() {
         success: "Submitted successfully, awaiting verification",
       });
       fetchNin();
+      setShowForm(false);
     } catch (err) {
       FormatError(err, setError, "Upload Failed");
     } finally {
@@ -104,6 +106,10 @@ function NINForm() {
     }
   }, [error.error, error.message]);
 
+  const handleRefill = () => {
+    setShowForm(true);
+  };
+
   return (
     <div className="w-full">
       <h1 className="text-xl font-semibold text-green-700">NIN Details</h1>
@@ -112,7 +118,76 @@ function NINForm() {
         <div className="mt-6 text-gray-500 animate-pulse">
           Fetching NIN details...
         </div>
-      ) : ninData ? (
+      ) : showForm || !ninData ? (
+        // ==== FORM SECTION ====
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            setIsPopupOpen(true);
+          }}
+          className="grid grid-cols-2 gap-4 mt-4 text-gray-700"
+        >
+          <div className="flex flex-col">
+            <label className="font-semibold">NIN Number</label>
+            <input
+              type="text"
+              value={formData.identity_no}
+              onChange={(e) =>
+                setFormData({ ...formData, identity_no: e.target.value })
+              }
+              required
+              className="border border-gray-400 rounded p-2"
+            />
+          </div>
+
+          <div className="flex flex-col">
+            <label className="font-semibold">Upload NIN File</label>
+            <input
+              type="file"
+              accept="image/*,.pdf"
+              onChange={handleFileChange}
+              className="border border-gray-400 rounded p-2"
+              required
+            />
+            {fileError && (
+              <span className="text-red-500 text-sm">{fileError}</span>
+            )}
+            {filePreview && (
+              <img
+                src={filePreview}
+                alt="Preview"
+                className="mt-2 max-w-xs max-h-40 border rounded object-contain"
+              />
+            )}
+          </div>
+
+          <div></div>
+          <FormButton loading={isLoading}>Submit NIN</FormButton>
+        </form>
+      ) : ninData.status === "pending" || ninData.status === "rejected" ? (
+        // ==== PENDING / REJECTED MESSAGE ====
+        <div className="mt-6 p-4 border border-yellow-400 bg-yellow-50 rounded">
+          <p className="text-gray-700">
+            Your verification status is currently{" "}
+            <span className="font-semibold text-yellow-600">
+              {ninData.status.toUpperCase()}
+            </span>
+            .
+          </p>
+          <p className="mt-2 text-sm text-gray-600">
+            {ninData.status === "rejected"
+              ? "Your submission was rejected. Please fill and submit again."
+              : "Your submission is under review. You can resubmit if you wish to update your details."}
+          </p>
+          <button
+            onClick={handleRefill}
+            className="mt-4 bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition"
+          >
+            Fill Form Again
+          </button>
+        </div>
+      ) : (
+        // ==== APPROVED / VERIFIED DETAILS ====
         <div className="grid grid-cols-2 gap-4 mt-4 text-gray-700">
           {Object.entries(ninData).map(([key, value]) => {
             if (
@@ -172,51 +247,6 @@ function NINForm() {
             );
           })}
         </div>
-      ) : (
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            setIsPopupOpen(true);
-          }}
-          className="grid grid-cols-2 gap-4 mt-4 text-gray-700"
-        >
-          <div className="flex flex-col">
-            <label className="font-semibold">NIN Number</label>
-            <input
-              type="text"
-              value={formData.identity_no}
-              onChange={(e) =>
-                setFormData({ ...formData, identity_no: e.target.value })
-              }
-              required
-              className="border border-gray-400 rounded p-2"
-            />
-          </div>
-
-          <div className="flex flex-col">
-            <label className="font-semibold">Upload NIN File</label>
-            <input
-              type="file"
-              accept="image/*,.pdf"
-              onChange={handleFileChange}
-              className="border border-gray-400 rounded p-2"
-              required
-            />
-            {fileError && (
-              <span className="text-red-500 text-sm">{fileError}</span>
-            )}
-            {filePreview && (
-              <img
-                src={filePreview}
-                alt="Preview"
-                className="mt-2 max-w-xs max-h-40 border rounded object-contain"
-              />
-            )}
-          </div>
-
-          <div></div>
-          <FormButton loading={isLoading}>Submit NIN</FormButton>
-        </form>
       )}
 
       <ConfirmationPopUp

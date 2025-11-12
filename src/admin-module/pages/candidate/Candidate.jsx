@@ -1,8 +1,5 @@
 import { Helmet } from "react-helmet";
-import {
-  FaArrowTrendUp,
-  FaPlus,
-} from "react-icons/fa6";
+import { FaArrowTrendUp, FaPlus } from "react-icons/fa6";
 import { FiUsers } from "react-icons/fi";
 import { RiCalendarEventLine } from "react-icons/ri";
 import { generateDateRange } from "../../../utils/formmaters";
@@ -12,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 import { AdminRouteContext } from "../../../context/AdminRouteContext";
 import { BsStopwatch } from "react-icons/bs";
 import UseAdminManagement from "../../../hooks/useAdminManagement";
-import CandidateUsageChart from './CandidateUsageChart';
+import CandidateUsageChart from "./CandidateUsageChart";
 
 function Candidate() {
   const { authDetails } = useContext(AuthContext);
@@ -24,20 +21,27 @@ function Candidate() {
   const [approved, setapproved] = useState(0);
   const [suspend, setsuspend] = useState(0);
   const [candidates, setCandidates] = useState([]);
-const [rejected,setRejected] = useState(0)
+  const [rejected, setRejected] = useState(0);
   useEffect(() => {
     (async () => {
       const candidates = await getCandidates();
-      console.log("candidate" + candidates);
       setCandidates(candidates);
       setCandidateCount(candidates.length);
-      const pendingCandidates = candidates.filter(candid => candid.status === 'pending');
+      const pendingCandidates = candidates.filter(
+        (candid) => candid.status === "pending"
+      );
       setPending(pendingCandidates.length);
-      const approvedCandidates = candidates.filter(candid => candid.status === 'approved');
+      const approvedCandidates = candidates.filter(
+        (candid) => candid.status === "approved"
+      );
       setapproved(approvedCandidates.length);
-      const suspendCandidates = candidates.filter(candid => candid.status === 'suspend');
+      const suspendCandidates = candidates.filter(
+        (candid) => candid.status === "suspend"
+      );
       setsuspend(suspendCandidates.length);
-      const rejectedCandidates = candidates.filter(candid => candid.status === 'rejected');
+      const rejectedCandidates = candidates.filter(
+        (candid) => candid.status === "rejected"
+      );
       setRejected(rejectedCandidates.length);
     })();
   }, []);
@@ -56,7 +60,10 @@ const [rejected,setRejected] = useState(0)
       <div className="h-full py-6 w-full text-sm text-gray-800">
         <div className="text-sm">
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6 p-4">
-            <div className="bg-orange-400 text-white px-4 py-12 rounded-md flex flex-col items-start cursor-pointer" onClick={() => navigate('/admin/candidates/all')}>
+            <div
+              className="bg-orange-400 text-white px-4 py-12 rounded-md flex flex-col items-start cursor-pointer"
+              onClick={() => navigate("/admin/candidates/all")}
+            >
               <h3 className="text-xl font-bold">{candidateCount}</h3>
               <p>All Registered Candidates</p>
             </div>

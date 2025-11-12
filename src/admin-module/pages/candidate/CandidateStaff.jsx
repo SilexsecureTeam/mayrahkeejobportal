@@ -37,16 +37,36 @@ const CandidateStaff = () => {
     );
   }
 
-
   if (!staffDetails.length) {
-    return <div className="py-6"><h1 className="font-bold text-2xl">No staff details found</h1></div>;
+    return (
+      <>
+        <button
+          type="button"
+          onClick={() => window.history.back()}
+          className="mt-2 flex items-center gap-2 outline outline-offset-5 outline-green-500 px-4 py-2 rounded text-green-500 hover:bg-green-100"
+        >
+          <FaArrowLeftLong className="me-4 text-green-500" />
+          Back
+        </button>
+        <div className="py-6">
+          <h1 className="font-bold text-2xl">No staff details found</h1>
+        </div>
+      </>
+    );
   }
 
-  const heading = ["ID", "Staff Name", "Start Date", "End Date", "Status", "StaffID"];
-  
-  const data = staffDetails.map(staff => ({
+  const heading = [
+    "ID",
+    "Staff Name",
+    "Start Date",
+    "End Date",
+    "Status",
+    "StaffID",
+  ];
+
+  const data = staffDetails.map((staff) => ({
     [heading[0].toLowerCase()]: staff.id,
-    [heading[1].toLowerCase()]: staff.staff_name, 
+    [heading[1].toLowerCase()]: staff.staff_name,
     [heading[2].toLowerCase()]: staff.start_date,
     [heading[3].toLowerCase()]: staff.end_date,
     [heading[4].toLowerCase()]: staff.status,
@@ -55,15 +75,23 @@ const CandidateStaff = () => {
 
   return (
     <div className="mt-10 mb-24">
-    <button
-          type="button"
-          onClick={() => window.history.back()}
-          className="flex items-center gap-2 outline outline-offset-5 outline-green-500 px-4 py-2 rounded text-green-500 hover:bg-green-100"
-        >
-       <FaArrowLeftLong className="me-4 text-green-500" />Back
-        </button>
-      <h2 className="text-black border-b border-gray-500 text-2xl font-bold mt-10">Candidate's Staffs</h2>
-      <DataTableComponent heading={heading} data={data} loading={loading} name="domestic-staff" />
+      <button
+        type="button"
+        onClick={() => window.history.back()}
+        className="flex items-center gap-2 outline outline-offset-5 outline-green-500 px-4 py-2 rounded text-green-500 hover:bg-green-100"
+      >
+        <FaArrowLeftLong className="me-4 text-green-500" />
+        Back
+      </button>
+      <h2 className="text-black border-b border-gray-500 text-2xl font-bold mt-10">
+        Candidate's Staffs
+      </h2>
+      <DataTableComponent
+        heading={heading}
+        data={data}
+        loading={loading}
+        name="domestic-staff"
+      />
     </div>
   );
 };

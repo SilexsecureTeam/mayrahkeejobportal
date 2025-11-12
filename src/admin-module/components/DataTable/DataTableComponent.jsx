@@ -72,8 +72,8 @@ const DataTableComponent = ({
         </button>
       </div>
 
-      <span className="p-input-icon-left w-full sm:w-auto">
-        <FaSearch className="ml-2 text-gray-500" />
+      <span className="relative p-input-icon-left w-full sm:w-auto">
+        <FaSearch className="absolute top-0 bottom-0 my-auto ml-2 text-gray-500" />
         <InputText
           value={globalFilterValue}
           className="pl-8 w-full sm:w-auto"
