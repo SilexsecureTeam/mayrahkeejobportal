@@ -225,12 +225,6 @@ const EditResume = ({ resume }) => {
       );
     });
 
-    // Log form data for debugging
-    console.log("Edit FormData contents:");
-    for (let [key, value] of formData.entries()) {
-      console.log(key, value);
-    }
-
     setLoading(true);
     setGetResumeById((prev) => ({ ...prev, isDataNeeded: false }));
 
