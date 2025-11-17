@@ -16,21 +16,42 @@ const CandidateDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const { getCandidateById } = UseAdminManagement();
+
   const [candidate, setCandidate] = useState(null);
+  const [loading, setLoading] = useState(true); // <-- add loading state
+  const [notFound, setNotFound] = useState(false);
 
   useEffect(() => {
     (async () => {
+      setLoading(true);
       const data = await getCandidateById(id);
       if (data) {
         setCandidate(data);
+        setNotFound(false);
       } else {
-        console.error("No data received");
+        setNotFound(true);
       }
+      setLoading(false);
     })();
   }, [id]);
 
-  if (!candidate) {
-    return <div className="px-5 py-5 font-bold ">Candidate not found</div>;
+  if (loading) {
+    return (
+      <div className="px-5 py-5 flex justify-center items-center">
+        <div className="animate-spin rounded-full h-8 w-8 border-4 border-green-600 border-t-transparent" />
+        <span className="ml-3 text-green-600 font-semibold">
+          Loading Candidate...
+        </span>
+      </div>
+    );
+  }
+
+  if (notFound) {
+    return (
+      <div className="px-5 py-5 font-bold text-red-600">
+        Candidate not found
+      </div>
+    );
   }
 
   const data = candidate;
@@ -43,9 +64,7 @@ const CandidateDetails = () => {
     return socialMediaHandles.map((handle, index) => {
       if (!handle.network || !handle.url) return null;
 
-      let icon;
-      let label;
-
+      let icon, label;
       switch (handle.network.toLowerCase()) {
         case "twitter":
           icon = <FaTwitter className="text-blue-500" />;
@@ -78,14 +97,6 @@ const CandidateDetails = () => {
           >
             {label}
           </a>
-          <a
-            href={handle.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-blue-500 hover:underline"
-          >
-            {label}
-          </a>
         </div>
       );
     });
@@ -93,10 +104,8 @@ const CandidateDetails = () => {
 
   const renderNinSlip = (ninSlip) => {
     if (!ninSlip) return null;
-
     const isPdf = ninSlip.toLowerCase().endsWith(".pdf");
     const url = `https://dash.mayrahkeeafrica.com/${ninSlip}`;
-
     return isPdf ? (
       <a
         href={url}
