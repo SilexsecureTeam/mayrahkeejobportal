@@ -21,6 +21,7 @@ const MyResume = () => {
   const [loading, setLoading] = useState(false);
   const [resumePicker, setResumePicker] = useState(false);
   const [portfolioPicker, setPortfolioPicker] = useState(false);
+  const [fetching, setFetching] = useState(false);
 
   const [details, setDetails] = useState({
     title: "",
@@ -44,6 +45,22 @@ const MyResume = () => {
       course_studied: "",
     },
   ]);
+
+  useEffect(() => {
+    setGetCandidate((prev) => ({ ...prev, isDataNeeded: true }));
+  }, []);
+
+  useEffect(() => {
+    setGetResumeById((prev) => ({ ...prev, isDataNeeded: true }));
+    setFetching(true); // Start fetching
+  }, []);
+
+  // Detect when data arrives
+  useEffect(() => {
+    if (getResumeById.data) {
+      setFetching(false);
+    }
+  }, [getResumeById.data]);
 
   const addQualification = () => {
     setQualifications((prev) => [
@@ -146,11 +163,6 @@ const MyResume = () => {
       if (fileInput) fileInput.value = "";
     }
   };
-
-  useEffect(() => {
-    setGetResumeById((prev) => ({ ...prev, isDataNeeded: true }));
-    setGetCandidate((prev) => ({ ...prev, isDataNeeded: true }));
-  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -293,20 +305,28 @@ const MyResume = () => {
   return (
     <div className="h-full text-[#25324b] w-full">
       <div className="px-5 mt-6">
-        {getResumeById.data?.length < 1 && (
+        {fetching && (
+          <div className="flex justify-center items-center h-[150px]">
+            <div className="animate-spin rounded-full h-8 w-8 border-4 border-green-600 border-t-transparent"></div>
+            <span className="ml-3 text-green-600 font-semibold">
+              Loading Resumes...
+            </span>
+          </div>
+        )}
+
+        {!fetching && getResumeById.data?.length < 1 && (
           <p className="text-red-600">Resume Empty !!!</p>
         )}
 
         <div className="grid grid-cols-responsive gap-5">
-          {getResumeById.data?.map((resume) => (
-            <Resume
-              authDetails={authDetails}
-              setGetResumeById={setGetResumeById}
-              getCandidate={getCandidate.data}
-              key={resume.id}
-              resume={resume}
-            />
-          ))}
+          {!fetching &&
+            getResumeById.data?.map((resume) => (
+              <Resume
+                key={resume.id}
+                resume={resume}
+                getCandidate={getCandidate.data}
+              />
+            ))}
         </div>
 
         <form onSubmit={handleSubmit}>
