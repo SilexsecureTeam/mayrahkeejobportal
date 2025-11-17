@@ -166,19 +166,7 @@ const JobForm = ({
                         </div>
 
                         {/* Contact Information */}
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-4">
-                          <div className="flex items-center space-x-3">
-                            <span className="w-8 h-8 bg-green-50 rounded-lg flex items-center justify-center">
-                              <FaMapMarkerAlt className="text-green-600 text-sm" />
-                            </span>
-                            <div>
-                              <p className="text-gray-600 text-xs">Address</p>
-                              <p className="text-gray-800 text-sm font-medium break-words">
-                                {getCandidate?.details?.address}
-                              </p>
-                            </div>
-                          </div>
-
+                        <div className="grid grid-cols-1  gap-3 mb-4">
                           <div className="flex items-center space-x-3">
                             <span className="w-8 h-8 bg-green-50 rounded-lg flex items-center justify-center">
                               <FaPhone className="text-green-600 text-sm" />
@@ -191,13 +179,13 @@ const JobForm = ({
                             </div>
                           </div>
 
-                          <div className="flex items-center space-x-3 md:col-span-2">
+                          <div className="flex items-center space-x-3">
                             <span className="w-8 h-8 bg-green-50 rounded-lg flex items-center justify-center">
                               <FaEnvelope className="text-green-600 text-sm" />
                             </span>
                             <div>
                               <p className="text-gray-600 text-xs">Email</p>
-                              <p className="text-gray-800 text-sm font-medium break-words">
+                              <p className="text-gray-800 text-sm font-medium break-all">
                                 {getCandidate?.details?.email}
                               </p>
                             </div>
