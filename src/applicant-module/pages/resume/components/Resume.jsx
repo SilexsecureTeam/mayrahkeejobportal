@@ -201,31 +201,6 @@ const Resume = ({ resume, setGetResumeById, authDetails, getCandidate }) => {
           </div>
         )}
 
-        {/* Education */}
-        {resume.educational_institution && (
-          <div className="mb-6">
-            <div className="flex items-center space-x-2 mb-4">
-              <div className="flex-shrink-0 w-6 h-6 bg-green-50 rounded flex items-center justify-center">
-                <FaGraduationCap className="text-green-600 text-xs" />
-              </div>
-              <h4 className="font-bold text-gray-800">Education</h4>
-            </div>
-            <div className="bg-gray-50 rounded-lg p-4 border-l-4 border-green-500">
-              <div className="flex justify-between items-center">
-                <p className="font-semibold text-gray-800">
-                  {resume.educational_institution}
-                </p>
-                {resume.year_of_entry && (
-                  <p className="text-sm text-gray-600">
-                    {resume.year_of_entry} -{" "}
-                    {resume.year_of_graduation || "Present"}
-                  </p>
-                )}
-              </div>
-            </div>
-          </div>
-        )}
-
         {/* Files */}
         <div className="flex flex-wrap gap-3 mb-6">
           {resume.resume_path && (

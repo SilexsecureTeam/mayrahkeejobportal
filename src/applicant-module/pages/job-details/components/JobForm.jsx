@@ -8,6 +8,13 @@ import { onFailure } from "../../../../utils/notifications/OnFailure";
 import { FcApproval } from "react-icons/fc";
 import { Link, useNavigate } from "react-router-dom";
 import { extractErrorMessage } from "../../../../utils/formmaters";
+import {
+  FaDownload,
+  FaEnvelope,
+  FaGraduationCap,
+  FaPhone,
+} from "react-icons/fa6";
+import { FaMapMarkerAlt } from "react-icons/fa";
 const JobForm = ({
   setIsOpen,
   getCandidate,
@@ -116,127 +123,187 @@ const JobForm = ({
         <div className="update_form py-6">
           <div>
             <div className="grid md:grid-cols-2 gap-3 mb-4">
-              {resume?.length > 0 ? (
-                resume?.map((item) => {
+              {resume && resume.length > 0 ? (
+                resume.map((item) => {
                   const active = activeResume === item.id;
+
                   return (
-                    <>
-                      {/* <button
-                                            onClick={() => handleActive(item.id)}
-                                            key={item.id} className="p-3 rounded bg-green-300 relative">
-                                            {item.title}
-                                            <span className='absolute top-0'> {active && (<FcApproval />)}</span>
-                                        </button> */}
-                      <div
-                        onClick={() => handleActive(item.id)}
-                        key={item.id}
-                        className={`p-4 cursor-pointer border relative rounded shadow-2xl justify-between flex-col flex ${
-                          active ? "bg-green-100" : ""
-                        }`}
-                      >
-                        <div>
-                          <div className="flex justify-between w-full">
-                            <p className="text-green-600 font-medium">
-                              {item.title}
-                            </p>
-                            <span className="absolute right-0 top-0">
-                              {" "}
-                              {active && <FcApproval size={30} />}
+                    <div
+                      key={item.id}
+                      onClick={() => handleActive(item.id)}
+                      className={`cursor-pointer bg-white rounded-xl shadow-lg border overflow-hidden transition-all duration-300 relative
+          ${active ? "ring-2 ring-green-500 shadow-xl" : "hover:shadow-xl"}`}
+                    >
+                      {/* Active Check Icon */}
+                      {active && (
+                        <span className="absolute top-3 right-3">
+                          <FcApproval size={26} />
+                        </span>
+                      )}
+
+                      {/* Header */}
+                      <div className="bg-gradient-to-r from-green-600 to-green-400 px-4 py-3">
+                        <h2 className="text-white font-bold text-lg capitalize truncate">
+                          {item.title}
+                        </h2>
+                      </div>
+
+                      {/* Body */}
+                      <div className="px-5 py-4">
+                        {/* Candidate Info */}
+                        <div className="text-center mb-4">
+                          <img
+                            className="w-[90px] h-[90px] rounded-full mx-auto"
+                            src={`${IMAGE_URL}/${getCandidate?.details?.profile}`}
+                            alt="profile"
+                          />
+                          <h3 className="font-bold text-gray-800 text-lg mt-2">
+                            {getCandidate?.details?.full_name}
+                          </h3>
+                          <p className="text-gray-600 text-xs">
+                            Professional Resume
+                          </p>
+                        </div>
+
+                        {/* Contact Information */}
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-4">
+                          <div className="flex items-center space-x-3">
+                            <span className="w-8 h-8 bg-green-50 rounded-lg flex items-center justify-center">
+                              <FaMapMarkerAlt className="text-green-600 text-sm" />
                             </span>
+                            <div>
+                              <p className="text-gray-600 text-xs">Address</p>
+                              <p className="text-gray-800 text-sm font-medium break-words">
+                                {getCandidate?.details?.address}
+                              </p>
+                            </div>
                           </div>
-                          <div className="details">
-                            <div className="flex justify-center mb-3">
-                              <div className="md:w-50">
-                                <div className="mb-3">
-                                  <img
-                                    className="w-[100px] h-[100px] rounded-full"
-                                    src={`${IMAGE_URL}/${getCandidate?.details?.profile}`}
-                                    alt={`${getCandidate.details?.full_name} profile image`}
-                                  />
-                                </div>
-                                <h3 className="font-bold">
-                                  {getCandidate.details?.full_name}
-                                </h3>
-                              </div>
+
+                          <div className="flex items-center space-x-3">
+                            <span className="w-8 h-8 bg-green-50 rounded-lg flex items-center justify-center">
+                              <FaPhone className="text-green-600 text-sm" />
+                            </span>
+                            <div>
+                              <p className="text-gray-600 text-xs">Phone</p>
+                              <p className="text-gray-800 text-sm font-medium">
+                                {getCandidate?.details?.phone_number}
+                              </p>
                             </div>
-                            <div className="grid md:grid-cols-3 gap-3 break-all">
-                              <div className="">
-                                <p className="font-bold">Address:</p>
-                                <p>{getCandidate.details?.address}</p>
-                              </div>
-                              <div className="">
-                                <p className="font-bold">Phone:</p>
-                                <p>{getCandidate.details?.phone_number}</p>
-                              </div>
-                              <div className="">
-                                <p className="font-bold">Email:</p>
-                                <p className="break-words">
-                                  {getCandidate.details?.email}
-                                </p>
-                              </div>
-                            </div>
-                            <div className="flex flex-wrap my-3 break-all">
-                              <div className="w-2/4">
-                                <p className="font-bold text-base">
-                                  Employment
-                                </p>
-                                <p className="font-medium text-base">
-                                  Position
-                                </p>
-                              </div>
-                              <div className="w-2/4">
-                                <p className="font-medium">
-                                  {item.company_name}
-                                </p>
-                                <p className="">{item.position_held}</p>
-                                <p>
-                                  <span>{item.start_date}</span> -{" "}
-                                  <span>{item.end_date}</span>
-                                </p>
-                              </div>
-                            </div>
-                            <div className="flex flex-wrap break-all my-3">
-                              <div className="w-2/4">
-                                <p className="font-bold text-base">Education</p>
-                              </div>
-                              <div className="w-2/4">
-                                <p className="font-medium">
-                                  {item.educational_institution}
-                                </p>
-                                <p>
-                                  <span>{item.year_of_entry}</span> -{" "}
-                                  <span>{item.year_of_graduation}</span>
-                                </p>
-                              </div>
+                          </div>
+
+                          <div className="flex items-center space-x-3 md:col-span-2">
+                            <span className="w-8 h-8 bg-green-50 rounded-lg flex items-center justify-center">
+                              <FaEnvelope className="text-green-600 text-sm" />
+                            </span>
+                            <div>
+                              <p className="text-gray-600 text-xs">Email</p>
+                              <p className="text-gray-800 text-sm font-medium break-words">
+                                {getCandidate?.details?.email}
+                              </p>
                             </div>
                           </div>
                         </div>
-                        {/* <div className=' w-full'>
-                                                {errorMsg && (
-                                                    <div className="flex justify-center my-3">
-                                                        <small className="text-red-700 text-center">{errorMsg}</small>
-                                                    </div>
-                                                )}
-                                                <div className="flex justify-center mt-3">
-                                                    <button
-                                                        onClick={deleteUser}
-                                                        className='px-4 rounded bg-red-500 text-white'
-                                                        disabled={loading}
-                                                    >{loading ? "Deleting" : "Delete"}</button>
-                                                </div>
-                                            </div> */}
+
+                        {/* Qualifications */}
+                        {item.certificate && item.certificate.length > 0 && (
+                          <div className="mb-6">
+                            <div className="flex items-center space-x-2 mb-4">
+                              <div className="flex-shrink-0 w-6 h-6 bg-green-50 rounded flex items-center justify-center">
+                                <FaGraduationCap className="text-green-600 text-xs" />
+                              </div>
+                              <h4 className="font-bold text-gray-800">
+                                Qualifications
+                              </h4>
+                            </div>
+                            <div className="space-y-3">
+                              {item.certificate.map((q, index) => (
+                                <div
+                                  key={index}
+                                  className=" rounded-lg p-4 bg-amber-50"
+                                >
+                                  <div className="flex justify-between items-start">
+                                    <div className="flex-1 space-x-2">
+                                      <h5 className="font-semibold text-gray-800 text-sm">
+                                        {q.qualification_title}
+                                      </h5>
+                                      <p className="text-gray-600 text-xs mt-1">
+                                        {q.course_studied}
+                                      </p>
+                                    </div>
+                                    <div className="text-right">
+                                      <p className="font-medium text-gray-700 text-sm">
+                                        {q.awarding_institution}
+                                      </p>
+                                      <p className="text-gray-500 text-xs mt-1">
+                                        {q.year_attended} -{" "}
+                                        {q.year_of_graduation || "Present"}
+                                      </p>
+                                    </div>
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        )}
+                        {/* One Work Experience Row */}
+                        {item.company_name && (
+                          <div className="bg-gray-50 rounded-lg p-4 border-l-4 border-green-500 mb-4">
+                            <h4 className="font-semibold text-gray-800 text-sm">
+                              Work Experience
+                            </h4>
+                            <p className="text-sm text-gray-600 mt-1">
+                              {item.company_name}
+                            </p>
+                            <p className="text-gray-700 font-medium">
+                              {item.position_held}
+                            </p>
+                            <p className="text-xs text-gray-500 mt-1">
+                              {item.start_date} - {item.end_date || "Present"}
+                            </p>
+                          </div>
+                        )}
+
+                        {/* Files */}
+                        <div className="flex flex-wrap gap-3 mb-6">
+                          {item.resume_path && (
+                            <a
+                              href={`${IMAGE_URL}/${item.resume_path}`}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="inline-flex items-center space-x-2 bg-green-50 hover:bg-green-100 text-green-700 px-4 py-2 rounded-lg transition-colors duration-200"
+                            >
+                              <FaDownload className="text-sm" />
+                              <span className="text-sm font-medium">
+                                Resume
+                              </span>
+                            </a>
+                          )}
+                          {item.portfolio_path && (
+                            <a
+                              href={`${IMAGE_URL}/${item.portfolio_path}`}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="inline-flex items-center space-x-2 bg-green-50 hover:bg-green-100 text-green-700 px-4 py-2 rounded-lg transition-colors duration-200"
+                            >
+                              <FaDownload className="text-sm" />
+                              <span className="text-sm font-medium">
+                                Portfolio
+                              </span>
+                            </a>
+                          )}
+                        </div>
                       </div>
-                    </>
+                    </div>
                   );
                 })
               ) : (
                 <div className="flex flex-col gap-2 items-center justify-center mx-auto">
-                  <p className="text-sm tet-gray-700">
+                  <p className="text-sm text-gray-700">
                     Please you need to create a resume
                   </p>
                   <Link
                     to="/applicant/my-resume"
-                    className="rounde-md text-sm px-3 py-1 bg-green-600 text-white font-medium"
+                    className="rounded-md text-sm px-3 py-1 bg-green-600 text-white font-medium"
                   >
                     Create Resume
                   </Link>
