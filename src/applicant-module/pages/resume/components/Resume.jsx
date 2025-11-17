@@ -1,5 +1,16 @@
 import React, { useState } from "react";
-import { FaEdit } from "react-icons/fa";
+import {
+  FaEdit,
+  FaTrash,
+  FaDownload,
+  FaBuilding,
+  FaGraduationCap,
+  FaUserTie,
+  FaCalendar,
+  FaMapMarkerAlt,
+  FaPhone,
+  FaEnvelope,
+} from "react-icons/fa";
 import EditResume from "./EditResume";
 import { BASE_URL, IMAGE_URL } from "../../../../utils/base";
 import axios from "axios";
@@ -10,30 +21,22 @@ const Resume = ({ resume, setGetResumeById, authDetails, getCandidate }) => {
   const [errorMsg, setErrorMsg] = useState(false);
   const [loading, setLoading] = useState(null);
 
-  const deleteUser = (e) => {
+  const deleteUser = () => {
     setErrorMsg(null);
     setLoading(true);
-    setGetResumeById((prev) => {
-      return {
-        ...prev,
-        isDataNeeded: false,
-      };
-    });
+
+    setGetResumeById((prev) => ({ ...prev, isDataNeeded: false }));
+
     axios
       .delete(`${BASE_URL}/resumes/${resume.id}`, {
         headers: {
           Authorization: `Bearer ${authDetails.token}`,
-          // 'Content-Type': 'multipart/form-data',
         },
       })
       .then((response) => {
         setLoading(false);
-        setGetResumeById((prev) => {
-          return {
-            ...prev,
-            isDataNeeded: true,
-          };
-        });
+        setGetResumeById((prev) => ({ ...prev, isDataNeeded: true }));
+
         onSuccess({
           message: "Delete Resume",
           success: response.data.message,
@@ -43,112 +46,232 @@ const Resume = ({ resume, setGetResumeById, authDetails, getCandidate }) => {
         if (error.response) {
           setErrorMsg(error.response.data.error);
         } else {
-          console.log(error);
           setErrorMsg(error.message);
         }
         setLoading(false);
       });
   };
+
   return (
-    <div className="p-5 border rounded shadow-lg justify-between flex-col flex">
-      <div>
-        <div className="flex border-b justify-between font-semibold text-primaryColor items-center w-full">
-          <p className="capitalize truncate">{resume.title}</p>
+    <div className="bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden hover:shadow-xl transition-all duration-300">
+      {/* Header */}
+      <div className="bg-gradient-to-r from-green-600 to-green-400 px-6 py-4">
+        <div className="flex justify-between items-center">
+          <h2 className="text-white font-bold text-xl truncate capitalize">
+            {resume.title}
+          </h2>
           <EditResume resume={resume} />
         </div>
-        <div className="details mt-4">
-          <div className="flex justify-center mb-3">
-            <div className="md:w-50">
-              <h3 className="font-bold">{getCandidate.details?.full_name}</h3>
-            </div>
+      </div>
+
+      {/* Candidate Info */}
+      <div className="px-6 py-5">
+        <div className="text-center mb-6">
+          <div className="inline-flex items-center justify-center w-16 h-16 bg-green-100 rounded-full mb-3">
+            <FaUserTie className="text-green-600 text-2xl" />
           </div>
-          <div className="details flex justify-center">
-            <div className="md:w-[90%] flex flex-col gap-3">
-              <div className="flex justify-between gap-2">
-                <p className="font-medium">Address:</p>
-                <p>{getCandidate.details?.address}</p>
-              </div>
-              <div className="flex justify-between gap-2">
-                <p className="font-medium">Phone: </p>
-                <p> {getCandidate.details?.phone_number} </p>
-              </div>
-              <div className="flex justify-between gap-2">
-                <p className="font-medium text-base">Email:</p>
-                <p className="">{getCandidate.details?.email}</p>
-              </div>
+          <h3 className="font-bold text-gray-800 text-lg">
+            {getCandidate.details?.full_name}
+          </h3>
+          <p className="text-gray-600 text-sm mt-1">Professional Resume</p>
+        </div>
 
-              {resume.awarding_institution && (
-                <div className="flex justify-between text-[#dbc87c] gap-2">
-                  <p className="font-bold text-base">Awarding Institution:</p>
-                  <p className="font-medium text-right">
-                    {resume?.awarding_institution}{" "}
-                    {resume?.year_attended &&
-                      `(${resume.year_attended} - ${
-                        resume?.year_of_graduation || "Till present"
-                      })`}
-                  </p>
-                </div>
-              )}
+        {/* Contact Info */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+          {getCandidate.details?.address && (
+            <div className="flex items-center space-x-3">
+              <div className="flex-shrink-0 w-8 h-8 bg-green-50 rounded-lg flex items-center justify-center">
+                <FaMapMarkerAlt className="text-green-600 text-sm" />
+              </div>
+              <div>
+                <p className="text-sm text-gray-500">Address</p>
+                <p className="text-gray-800 font-medium text-sm">
+                  {getCandidate.details.address}
+                </p>
+              </div>
+            </div>
+          )}
+          {getCandidate.details?.phone_number && (
+            <div className="flex items-center space-x-3">
+              <div className="flex-shrink-0 w-8 h-8 bg-green-50 rounded-lg flex items-center justify-center">
+                <FaPhone className="text-green-600 text-sm" />
+              </div>
+              <div>
+                <p className="text-sm text-gray-500">Phone</p>
+                <p className="text-gray-800 font-medium text-sm">
+                  {getCandidate.details.phone_number}
+                </p>
+              </div>
+            </div>
+          )}
+          {getCandidate.details?.email && (
+            <div className="flex items-center space-x-3 md:col-span-2">
+              <div className="flex-shrink-0 w-8 h-8 bg-green-50 rounded-lg flex items-center justify-center">
+                <FaEnvelope className="text-green-600 text-sm" />
+              </div>
+              <div>
+                <p className="text-sm text-gray-500">Email</p>
+                <p className="text-gray-800 font-medium text-sm">
+                  {getCandidate.details.email}
+                </p>
+              </div>
+            </div>
+          )}
+        </div>
 
-              {
-                <>
-                  <div className="flex justify-between gap-2">
-                    <p className="font-medium text-base">Previous Company:</p>
-                    <p className="">{resume.company_name}</p>
-                  </div>
-                  <div className="flex justify-between gap-2">
-                    <p className="font-medium text-base">Position Held:</p>
-                    <p className="">{resume.position_held}</p>
-                  </div>
-                  {resume.start_date && (
-                    <div className="flex justify-between gap-2">
-                      <p className="font-medium text-base">Duration:</p>
-                      <p>
-                        <span>
-                          {formatDate(resume.start_date)} -{" "}
-                          {resume?.end_date
-                            ? formatDate(resume.end_date)
-                            : "Till present"}
-                        </span>
+        {/* Qualifications */}
+        {resume.certificate && resume.certificate.length > 0 && (
+          <div className="mb-6">
+            <div className="flex items-center space-x-2 mb-4">
+              <div className="flex-shrink-0 w-6 h-6 bg-green-50 rounded flex items-center justify-center">
+                <FaGraduationCap className="text-green-600 text-xs" />
+              </div>
+              <h4 className="font-bold text-gray-800">Qualifications</h4>
+            </div>
+            <div className="space-y-3">
+              {resume.certificate.map((q, index) => (
+                <div key={index} className=" rounded-lg p-4 bg-amber-50">
+                  <div className="flex justify-between items-start">
+                    <div className="flex-1 space-x-2">
+                      <h5 className="font-semibold text-gray-800 text-sm">
+                        {q.qualification_title}
+                      </h5>
+                      <p className="text-gray-600 text-xs mt-1">
+                        {q.course_studied}
                       </p>
                     </div>
-                  )}
-                </>
-              }
+                    <div className="text-right">
+                      <p className="font-medium text-gray-700 text-sm">
+                        {q.awarding_institution}
+                      </p>
+                      <p className="text-gray-500 text-xs mt-1">
+                        {q.year_attended} - {q.year_of_graduation || "Present"}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
 
-              <div className="flex my-3">
-                <div className="w-2/5">
-                  <p className="font-bold text-base">Education:</p>
-                </div>
-                <div className="w-3/5 text-right">
-                  <p className="font-medium">
-                    {resume.educational_institution}
-                  </p>
-                  {resume?.year_of_entry && (
-                    <p>
-                      <span>{resume.year_of_entry}</span> -
-                      <span>{resume.year_of_graduation || "Till present"}</span>
+        {/* Work Experience */}
+        {(resume.company_name || resume.position_held) && (
+          <div className="mb-6">
+            <div className="flex items-center space-x-2 mb-4">
+              <div className="flex-shrink-0 w-6 h-6 bg-green-50 rounded flex items-center justify-center">
+                <FaBuilding className="text-green-600 text-xs" />
+              </div>
+              <h4 className="font-bold text-gray-800">Work Experience</h4>
+            </div>
+            <div className="bg-gray-50 rounded-lg p-4 border-l-4 border-green-500">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {resume.company_name && (
+                  <div>
+                    <p className="text-sm text-gray-500">Company</p>
+                    <p className="font-semibold text-gray-800">
+                      {resume.company_name}
                     </p>
-                  )}
-                </div>
+                  </div>
+                )}
+                {resume.position_held && (
+                  <div>
+                    <p className="text-sm text-gray-500">Position</p>
+                    <p className="font-semibold text-gray-800">
+                      {resume.position_held}
+                    </p>
+                  </div>
+                )}
+                {resume.start_date && (
+                  <div className="md:col-span-2">
+                    <div className="flex items-center space-x-2">
+                      <FaCalendar className="text-gray-400 text-sm" />
+                      <p className="text-sm text-gray-500">Duration</p>
+                    </div>
+                    <p className="font-medium text-gray-800 text-sm mt-1">
+                      {formatDate(resume.start_date)} -{" "}
+                      {resume.end_date
+                        ? formatDate(resume.end_date)
+                        : "Present"}
+                    </p>
+                  </div>
+                )}
               </div>
             </div>
           </div>
-        </div>
-      </div>
-      <div className=" w-full">
-        {errorMsg && (
-          <div className="flex justify-center my-3">
-            <small className="text-red-700 text-center">{errorMsg}</small>
+        )}
+
+        {/* Education */}
+        {resume.educational_institution && (
+          <div className="mb-6">
+            <div className="flex items-center space-x-2 mb-4">
+              <div className="flex-shrink-0 w-6 h-6 bg-green-50 rounded flex items-center justify-center">
+                <FaGraduationCap className="text-green-600 text-xs" />
+              </div>
+              <h4 className="font-bold text-gray-800">Education</h4>
+            </div>
+            <div className="bg-gray-50 rounded-lg p-4 border-l-4 border-green-500">
+              <div className="flex justify-between items-center">
+                <p className="font-semibold text-gray-800">
+                  {resume.educational_institution}
+                </p>
+                {resume.year_of_entry && (
+                  <p className="text-sm text-gray-600">
+                    {resume.year_of_entry} -{" "}
+                    {resume.year_of_graduation || "Present"}
+                  </p>
+                )}
+              </div>
+            </div>
           </div>
         )}
-        <div className="flex justify-center mt-3">
+
+        {/* Files */}
+        <div className="flex flex-wrap gap-3 mb-6">
+          {resume.resume_path && (
+            <a
+              href={`${IMAGE_URL}/${resume.resume_path}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center space-x-2 bg-green-50 hover:bg-green-100 text-green-700 px-4 py-2 rounded-lg transition-colors duration-200"
+            >
+              <FaDownload className="text-sm" />
+              <span className="text-sm font-medium">Resume</span>
+            </a>
+          )}
+          {resume.portfolio_path && (
+            <a
+              href={`${IMAGE_URL}/${resume.portfolio_path}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center space-x-2 bg-green-50 hover:bg-green-100 text-green-700 px-4 py-2 rounded-lg transition-colors duration-200"
+            >
+              <FaDownload className="text-sm" />
+              <span className="text-sm font-medium">Portfolio</span>
+            </a>
+          )}
+        </div>
+      </div>
+
+      {/* Delete Button */}
+      <div className="border-t border-gray-200 px-6 py-4 bg-gray-50">
+        {errorMsg && (
+          <div className="mb-3">
+            <div className="bg-red-50 border border-red-200 rounded-lg p-3">
+              <p className="text-red-700 text-sm text-center">{errorMsg}</p>
+            </div>
+          </div>
+        )}
+        <div className="flex justify-center">
           <button
             onClick={deleteUser}
-            className="px-8 py-2 rounded bg-red-500 text-white"
             disabled={loading}
+            className="inline-flex items-center space-x-2 bg-red-50 hover:bg-red-100 text-red-700 px-6 py-2 rounded-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {loading ? "Deleting" : "Delete"}
+            <FaTrash className="text-sm" />
+            <span className="font-medium">
+              {loading ? "Deleting..." : "Delete Resume"}
+            </span>
           </button>
         </div>
       </div>

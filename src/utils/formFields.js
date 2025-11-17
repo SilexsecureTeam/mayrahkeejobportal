@@ -294,3 +294,13 @@ export const social_media_inputs = [
     placeholder: "https://www.instagram.com/example",
   },
 ];
+
+export const qualificationOptions = [
+  "High School Diploma",
+  "Bachelor's Degree",
+  "Master's Degree",
+  "Doctorate (PhD)",
+  "Diploma",
+  "Certificate",
+  "Other",
+];

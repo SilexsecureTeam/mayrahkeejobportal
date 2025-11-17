@@ -1,181 +1,301 @@
 import { useContext, useEffect, useState } from "react";
 import { resourceUrl } from "../../../services/axios-client";
 import { ApplicationContext } from "../../../context/ApplicationContext";
-import Modal from "../../../components/modal/Modal";
 import { formatDate } from "../../../utils/formmaters";
+import {
+  FaDownload,
+  FaEye,
+  FaGraduationCap,
+  FaBriefcase,
+  FaUniversity,
+  FaAward,
+  FaUserGraduate,
+  FaBuilding,
+} from "react-icons/fa";
 
-const stages = [
-  {
-    name: "In-Review",
-    stage: "passed",
-  },
-  {
-    name: "Shortlist",
-    stage: "passed",
-  },
-  {
-    name: "Interview",
-    stage: "current",
-  },
-  {
-    name: "Hired/Declined",
-    stage: null,
-  },
-];
-
-function Resume({ data, applicant }) {
-  const [loading, setLoading] = useState(true); // Default loading to true
+function Resume({ applicant }) {
+  const [loading, setLoading] = useState(true);
   const [resume, setResume] = useState();
-  const [enLarge, setEnLarge] = useState(false);
   const { getResume } = useContext(ApplicationContext);
 
-  const bgColor = (current) => {
-    if (current.stage === "passed") {
-      return "bg-primaryColor/80";
-    } else if (current.stage === "current") {
-      return "bg-primaryColor";
-    } else {
-      return "bg-gray-300";
-    }
-  };
-
   useEffect(() => {
-    setLoading(true); // Start loading
+    setLoading(true);
     getResume(applicant?.candidate_id, (response) => {
       setResume(response);
-      setLoading(false); // Stop loading after fetching
+      setLoading(false);
     });
-  }, []);
+  }, [applicant?.candidate_id]);
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center h-[200px]">
-        <div className="loader"></div> {/* Replace with your spinner */}
-        <span className="ml-3 text-primaryColor font-semibold">Loading...</span>
+      <div className="flex justify-center items-center h-64">
+        <div className="flex flex-col items-center space-y-4">
+          <div className="w-12 h-12 border-4 border-green-200 border-t-green-600 rounded-full animate-spin"></div>
+          <p className="text-green-600 font-semibold">Loading Resume...</p>
+        </div>
       </div>
     );
   }
 
-  return resume ? (
-    <>
-      <div className="flex w-full px-2 md:px-5 lg:px-10 mt-[5px]">
-        <div className="flex flex-col w-full items-center">
-          <h3 className="mb-[10px] tracking-wide flex flex-col items-center text-smd font-semibold">
-            {resume.title}
-            {resume.resume_path ? (
-              <div className="flex gap-2 mt-2">
-                <a
-                  href={`https://docs.google.com/viewer?url=${encodeURIComponent(
-                    resourceUrl + resume.resume_path
-                  )}&embedded=true`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="bg-primaryColor text-white px-3 py-1 rounded text-sm hover:bg-primaryColor/90"
-                >
-                  View CV
-                </a>
-                <a
-                  href={`${resourceUrl}${resume.resume_path}`}
-                  download
-                  className="bg-secondaryColor text-black px-3 py-1 rounded border border-primaryColor text-sm hover:bg-primaryColor hover:text-white"
-                >
-                  Download CV
-                </a>
-              </div>
-            ) : (
-              <p>No file Uploaded</p>
-            )}
-          </h3>
+  if (!resume) {
+    return (
+      <div className="flex flex-col items-center justify-center h-64 text-center p-6">
+        <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mb-4">
+          <FaGraduationCap className="text-gray-400 text-2xl" />
+        </div>
+        <h3 className="text-gray-600 font-semibold text-lg mb-2">
+          No Resume Submitted
+        </h3>
+        <p className="text-gray-500 text-sm">
+          This candidate hasn't uploaded a resume yet.
+        </p>
+      </div>
+    );
+  }
 
-          <ul className="flex flex-col text-black gap-[10px] text-sm w-full">
-            <li className="flex flex-col gap-[5px] items-center bg-secondaryColor p-2 border-b">
-              <span className="font-semibold text-black text-[15px]">
-                Education:
-              </span>
-              <span className="text-black font-semibold flex gap-2 w-full justify-between">
-                Institution:
-                <span className="font-normal">
-                  {resume.educational_institution}
-                </span>
-              </span>
-              <span className="text-black font-semibold flex gap-2 w-full justify-between">
-                Academy Name:
-                <span className="font-normal">{resume?.academy_name}</span>
-              </span>
-              <span className="text-black font-semibold flex gap-2 w-full justify-between">
-                Year of Entry:{" "}
-                <span className="font-normal">{resume.year_of_entry}</span>
-              </span>
-              <span className="text-black font-semibold flex gap-2 w-full justify-between">
-                Year of Graduation:{" "}
-                <span className="font-normal">{resume.year_of_graduation}</span>
-              </span>
-            </li>
-            <li className="flex flex-col gap-[5px] items-center border-b bg-secondaryColor p-2">
-              <span className="font-semibold text-black text-[15px]">
-                Current Work Experience
-              </span>
-              <span className="text-black font-semibold flex gap-2 w-full justify-between">
-                Company:{" "}
-                <span className="font-normal">{resume.company_name}</span>
-              </span>
-              <span className="text-black font-semibold flex gap-2 w-full justify-between">
-                Position Held:{" "}
-                <span className="font-normal">{resume.position_held}</span>
-              </span>
-              <span className="text-black font-semibold flex gap-2 w-full justify-between">
-                Date Started:{" "}
-                <span className="font-normal">
-                  {formatDate(resume.start_date)}
-                </span>
-              </span>
-              <span className="text-black font-semibold flex gap-2 w-full justify-between">
-                Date Ended:{" "}
-                <span className="font-normal">
-                  {formatDate(resume.end_date)}
-                </span>
-              </span>
-            </li>
-          </ul>
+  return (
+    <div className="w-full space-y-6">
+      {/* Header Section */}
+      <div className="bg-gradient-to-r from-gray-600 to-gray-600 rounded-xl p-6 text-white">
+        <div className="text-center">
+          <h1 className="text-2xl font-bold mb-2">{resume.title}</h1>
+          <p className="text-green-100 opacity-90">Professional Resume</p>
+        </div>
+
+        {/* File Actions */}
+        <div className="flex flex-wrap justify-center gap-3 mt-4">
+          {resume.resume_path && (
+            <>
+              <a
+                href={`https://docs.google.com/viewer?url=${encodeURIComponent(
+                  resourceUrl + resume.resume_path
+                )}&embedded=true`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center space-x-2 bg-white text-green-700 px-4 py-2 rounded-lg font-medium hover:bg-green-50 transition-all duration-200 shadow-sm"
+              >
+                <FaEye className="text-sm" />
+                <span>View Resume</span>
+              </a>
+              <a
+                href={`${resourceUrl}${resume.resume_path}`}
+                download
+                className="inline-flex items-center space-x-2 bg-emerald-700 text-white px-4 py-2 rounded-lg font-medium hover:bg-emerald-800 transition-all duration-200 shadow-sm"
+              >
+                <FaDownload className="text-sm" />
+                <span>Download Resume</span>
+              </a>
+            </>
+          )}
+
+          {resume.portfolio_path && (
+            <a
+              href={`${resourceUrl}${resume.portfolio_path}`}
+              download
+              className="inline-flex items-center space-x-2 bg-transparent border-2 border-white text-white px-4 py-2 rounded-lg font-medium hover:bg-white hover:text-green-700 transition-all duration-200"
+            >
+              <FaDownload className="text-sm" />
+              <span>Download Portfolio</span>
+            </a>
+          )}
         </div>
       </div>
-      {applicant?.nin_slip && (
-        <div className="flex flex-col justify-between px-10">
-          <div
-            onClick={() => setEnLarge(true)}
-            className="cursor-pointer flex flex-col text-little justify-center items-start gap-[2px]"
-          >
-            <span className="font-semibold ">NIN</span>
-            <img
-              src={`${resourceUrl}${applicant?.nin_slip}`}
-              className="h-[100px] w-[100px] object-contain border border-dotted p-1"
-            />
+
+      {/* Certificates Section */}
+      {resume.certificate && resume.certificate.length > 0 && (
+        <div className="bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden">
+          <div className="bg-gradient-to-r from-amber-50 to-yellow-50 px-6 py-4 border-b border-amber-200">
+            <div className="flex items-center space-x-3">
+              <div className="w-10 h-10 bg-amber-100 rounded-lg flex items-center justify-center">
+                <FaAward className="text-amber-600 text-lg" />
+              </div>
+              <div>
+                <h3 className="font-bold text-gray-800 text-lg">
+                  Certificates & Qualifications
+                </h3>
+                <p className="text-amber-600 text-sm">
+                  Academic and professional credentials
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div className="p-6 space-y-4">
+            {resume.certificate.map((cert, idx) => (
+              <div
+                key={idx}
+                className="bg-gradient-to-r from-amber-50 to-yellow-50 border-l-4 border-amber-500 rounded-lg p-4 hover:shadow-md transition-all duration-200"
+              >
+                <div className="flex flex-col lg:flex-row lg:justify-between lg:items-start gap-4">
+                  <div className="flex-1">
+                    <div className="flex items-center space-x-2 mb-2">
+                      <FaUniversity className="text-amber-600 text-sm" />
+                      <h4 className="font-semibold text-gray-800 text-base">
+                        {cert.awarding_institution}
+                      </h4>
+                    </div>
+                    <p className="font-bold text-gray-900 text-lg mb-1">
+                      {cert.qualification_title}
+                    </p>
+                    <p className="text-gray-600 text-sm">
+                      {cert.course_studied}
+                    </p>
+                  </div>
+                  <div className="text-right">
+                    <div className="inline-flex items-center space-x-1 bg-amber-100 text-amber-800 px-3 py-1 rounded-full text-sm font-medium">
+                      <FaUserGraduate className="text-xs" />
+                      <span>
+                        {cert.year_attended} -{" "}
+                        {cert.year_of_graduation || "Present"}
+                      </span>
+                    </div>
+                    <p className="text-gray-500 text-xs mt-2">Completed</p>
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       )}
 
-      {enLarge && (
-        <Modal isOpen={enLarge} closeModal={() => setEnLarge(false)}>
-          <div className="flex flex-col justify-center items-center w-full h-full p-4">
-            <img
-              src={`${resourceUrl}${applicant?.nin_slip}`}
-              className="max-w-[80vw] max-h-[80vh] object-contain rounded shadow-lg"
-              alt="NIN"
-            />
-            <a
-              href={`${resourceUrl}${applicant?.nin_slip}`}
-              download
-              target="_blank"
-              className="mt-4 inline-block bg-primaryColor text-white px-4 py-2 rounded hover:bg-primaryColor/90 text-sm"
-            >
-              Download NIN Image
-            </a>
+      {/* Education Section */}
+      {resume.educational_institution && (
+        <div className="bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden">
+          <div className="bg-gradient-to-r from-blue-50 to-indigo-50 px-6 py-4 border-b border-blue-200">
+            <div className="flex items-center space-x-3">
+              <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
+                <FaGraduationCap className="text-blue-600 text-lg" />
+              </div>
+              <div>
+                <h3 className="font-bold text-gray-800 text-lg">Education</h3>
+                <p className="text-blue-600 text-sm">Academic background</p>
+              </div>
+            </div>
           </div>
-        </Modal>
+
+          <div className="p-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="space-y-3">
+                <div>
+                  <p className="text-sm text-gray-500 font-medium">
+                    Institution
+                  </p>
+                  <p className="text-gray-800 font-semibold">
+                    {resume.educational_institution}
+                  </p>
+                </div>
+                {resume.academy_name && (
+                  <div>
+                    <p className="text-sm text-gray-500 font-medium">
+                      Academy/Program
+                    </p>
+                    <p className="text-gray-800 font-semibold">
+                      {resume.academy_name}
+                    </p>
+                  </div>
+                )}
+              </div>
+              <div className="space-y-3">
+                <div>
+                  <p className="text-sm text-gray-500 font-medium">
+                    Year of Entry
+                  </p>
+                  <p className="text-gray-800 font-semibold">
+                    {resume.year_of_entry}
+                  </p>
+                </div>
+                <div>
+                  <p className="text-sm text-gray-500 font-medium">
+                    Year of Graduation
+                  </p>
+                  <p className="text-gray-800 font-semibold">
+                    {resume.year_of_graduation || "Ongoing"}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       )}
-    </>
-  ) : (
-    <p className="p-4 font-bold text-gray-600">No resume submitted</p>
+
+      {/* Work Experience Section */}
+      {(resume.company_name || resume.position_held) && (
+        <div className="bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden">
+          <div className="bg-gradient-to-r from-green-50 to-emerald-50 px-6 py-4 border-b border-green-200">
+            <div className="flex items-center space-x-3">
+              <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
+                <FaBriefcase className="text-green-600 text-lg" />
+              </div>
+              <div>
+                <h3 className="font-bold text-gray-800 text-lg">
+                  Work Experience
+                </h3>
+                <p className="text-green-600 text-sm">
+                  Professional background
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div className="p-6">
+            <div className="bg-gradient-to-r from-green-50 to-emerald-50 rounded-lg p-5 border-l-4 border-green-500">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {resume.company_name && (
+                  <div className="flex items-center space-x-3">
+                    <div className="w-8 h-8 bg-green-100 rounded flex items-center justify-center">
+                      <FaBuilding className="text-green-600 text-sm" />
+                    </div>
+                    <div>
+                      <p className="text-sm text-gray-500 font-medium">
+                        Company
+                      </p>
+                      <p className="text-gray-800 font-semibold">
+                        {resume.company_name}
+                      </p>
+                    </div>
+                  </div>
+                )}
+
+                {resume.position_held && (
+                  <div className="flex items-center space-x-3">
+                    <div className="w-8 h-8 bg-green-100 rounded flex items-center justify-center">
+                      <FaUserGraduate className="text-green-600 text-sm" />
+                    </div>
+                    <div>
+                      <p className="text-sm text-gray-500 font-medium">
+                        Position
+                      </p>
+                      <p className="text-gray-800 font-semibold">
+                        {resume.position_held}
+                      </p>
+                    </div>
+                  </div>
+                )}
+
+                {resume.start_date && (
+                  <div className="md:col-span-2 flex items-center space-x-3">
+                    <div className="w-8 h-8 bg-green-100 rounded flex items-center justify-center">
+                      <FaGraduationCap className="text-green-600 text-sm" />
+                    </div>
+                    <div>
+                      <p className="text-sm text-gray-500 font-medium">
+                        Duration
+                      </p>
+                      <p className="text-gray-800 font-semibold">
+                        {formatDate(resume.start_date)} -{" "}
+                        {resume.end_date
+                          ? formatDate(resume.end_date)
+                          : "Present"}
+                      </p>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
   );
 }
 

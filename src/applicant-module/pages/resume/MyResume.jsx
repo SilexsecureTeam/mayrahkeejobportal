@@ -1,8 +1,5 @@
-import React, { useContext, useEffect, useState } from "react";
-// import BasicInfo from './components/BasicInfo';
-// import ApplicantLoginDetails from './components/ApplicantLoginDetails';
+import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../../context/AuthContex";
-import { FaRegCheckCircle } from "react-icons/fa";
 import { BASE_URL } from "../../../utils/base";
 import { ResourceContext } from "../../../context/ResourceContext";
 import axios from "axios";
@@ -10,6 +7,9 @@ import { FcApproval } from "react-icons/fc";
 import { onSuccess } from "../../../utils/notifications/OnSuccess";
 import Resume from "./components/Resume";
 import { toast } from "react-toastify";
+import { onFailure } from "../../../utils/notifications/OnFailure";
+import { extractErrorMessage } from "../../../utils/formmaters";
+import { qualificationOptions } from "../../../utils/formFields";
 
 const MyResume = () => {
   const { authDetails } = useContext(AuthContext);
@@ -17,150 +17,286 @@ const MyResume = () => {
     useContext(ResourceContext);
 
   const user = authDetails?.user;
-  // const [active, setActive] = useState("log")
-  const [errorMsg, setErrorMsg] = useState(null);
+
+  const [loading, setLoading] = useState(false);
   const [resumePicker, setResumePicker] = useState(false);
   const [portfolioPicker, setPortfolioPicker] = useState(false);
-  const [loading, setLoading] = useState(false);
 
   const [details, setDetails] = useState({
-    candidate_id: user.id,
     title: "",
-    resume: "",
     educational_institution: "",
-    academy_name: "",
-    year_of_entry: "",
-    year_of_graduation: "",
-    academy_year_of_graduation: "",
     company_name: "",
     position_held: "",
     start_date: "",
     end_date: "",
-    portfolio: "",
-    awarding_institution: "",
-    qualification_title: "",
-    year_attended: "",
+    resume: null,
+    resumeFileName: "",
+    portfolio: null,
+    portfolioFileName: "",
   });
 
-  const clearForm = () => {
-    setDetails({
-      candidate_id: user.id,
-      title: "",
-      resume: "",
-      educational_institution: "",
-      academy_name: "",
-      year_of_entry: "",
-      year_of_graduation: "",
-      company_name: "",
-      position_held: "",
-      start_date: "",
-      end_date: "",
-      portfolio: "",
+  const [qualifications, setQualifications] = useState([
+    {
       awarding_institution: "",
       qualification_title: "",
       year_attended: "",
+      year_of_graduation: "",
+      course_studied: "",
+    },
+  ]);
+
+  const addQualification = () => {
+    setQualifications((prev) => [
+      ...prev,
+      {
+        awarding_institution: "",
+        qualification_title: "",
+        year_attended: "",
+        year_of_graduation: "",
+        course_studied: "",
+      },
+    ]);
+  };
+
+  const removeQualification = (index) => {
+    if (qualifications.length === 1)
+      return toast.error("At least one qualification is required");
+    setQualifications((prev) => prev.filter((_, i) => i !== index));
+  };
+
+  const updateQualification = (index, field, value) => {
+    setQualifications((prev) => {
+      const updated = [...prev];
+      updated[index][field] = value;
+      return updated;
     });
   };
 
-  const handleOnChange = (e) => {
-    const { value, name, files, type, checked } = e.target;
-    const file = type === "file" && e.target.files[0]; //filelist is an object carrying all details of file, .files[0] collects the value from key 0 (not array), and stores it in file
+  const handleFileChange = (e) => {
+    const { name, files } = e.target;
+    const file = files[0];
 
-    if (file && file.size > 1 * 1024 * 1024) {
-      toast.error("File size exceeds the file size limit of 1MB.");
+    if (!file) return;
+
+    // File size validation (1MB)
+    if (file.size > 1 * 1024 * 1024) {
+      toast.error("File size exceeds 1MB.");
       e.target.value = null;
       return;
     }
+
+    // File type validation
+    const allowedTypes = [".pdf", ".docx", ".doc"];
+    const fileExtension = "." + file.name.split(".").pop().toLowerCase();
+
+    if (!allowedTypes.includes(fileExtension)) {
+      toast.error("Please upload only PDF or DOCX files.");
+      e.target.value = null;
+      return;
+    }
+
     if (name === "resume") {
       setResumePicker(true);
+      setDetails((prev) => ({
+        ...prev,
+        resume: file,
+        resumeFileName: file.name,
+      }));
     }
+
     if (name === "portfolio") {
       setPortfolioPicker(true);
+      setDetails((prev) => ({
+        ...prev,
+        portfolio: file,
+        portfolioFileName: file.name,
+      }));
     }
-    setDetails((prev) => {
-      return {
-        ...prev,
-        [name]:
-          type === "checkbox" ? checked : type === "file" ? files[0] : value,
-        // [name]: name === 'cv' ? files[0] : value,
-      };
-    });
-    setErrorMsg(null);
   };
-  useEffect(() => {
-    setGetResumeById((prev) => {
-      return {
+
+  const handleInputChange = (e) => {
+    const { value, name, type, checked } = e.target;
+
+    setDetails((prev) => ({
+      ...prev,
+      [name]: type === "checkbox" ? checked : value,
+    }));
+  };
+
+  const removeFile = (fileType) => {
+    if (fileType === "resume") {
+      setDetails((prev) => ({
         ...prev,
-        isDataNeeded: true,
-      };
-    });
-  }, []);
+        resume: null,
+        resumeFileName: "",
+      }));
+      setResumePicker(false);
+      // Reset the file input
+      const fileInput = document.querySelector('input[name="resume"]');
+      if (fileInput) fileInput.value = "";
+    } else {
+      setDetails((prev) => ({
+        ...prev,
+        portfolio: null,
+        portfolioFileName: "",
+      }));
+      setPortfolioPicker(false);
+      // Reset the file input
+      const fileInput = document.querySelector('input[name="portfolio"]');
+      if (fileInput) fileInput.value = "";
+    }
+  };
 
   useEffect(() => {
-    setGetCandidate((prev) => {
-      return {
-        ...prev,
-        isDataNeeded: true,
-      };
-    });
+    setGetResumeById((prev) => ({ ...prev, isDataNeeded: true }));
+    setGetCandidate((prev) => ({ ...prev, isDataNeeded: true }));
   }, []);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setErrorMsg(null);
-    setLoading(true);
-    setGetResumeById((prev) => {
-      return {
-        ...prev,
-        isDataNeeded: false,
-      };
+
+    if (!details.title.trim()) return toast.error("Resume title is required");
+
+    // Validate qualifications
+    for (let i = 0; i < qualifications.length; i++) {
+      const q = qualifications[i];
+      if (
+        !q.awarding_institution?.trim() ||
+        !q.qualification_title?.trim() ||
+        !q.year_attended ||
+        !q.year_of_graduation ||
+        !q.course_studied?.trim()
+      ) {
+        return toast.error(
+          `Please complete all fields for Qualification #${i + 1}`
+        );
+      }
+    }
+
+    // Validate dates
+    if (details.start_date && details.end_date) {
+      const startDate = new Date(details.start_date);
+      const endDate = new Date(details.end_date);
+      if (endDate < startDate) {
+        return toast.error("End date cannot be before start date");
+      }
+    }
+
+    const formData = new FormData();
+
+    // Append basic fields
+    formData.append("candidate_id", user.id);
+    formData.append("title", details.title);
+    formData.append("educational_institution", details.educational_institution);
+    formData.append("company_name", details.company_name);
+    formData.append("position_held", details.position_held);
+    formData.append("start_date", details.start_date);
+    formData.append("end_date", details.end_date);
+
+    // Append files with correct field names for backend
+    if (details.resume) {
+      formData.append("resume_file", details.resume);
+    }
+
+    if (details.portfolio) {
+      formData.append("portfolio_file", details.portfolio);
+    }
+
+    // Append each certificate individually to FormData
+    qualifications.forEach((qualification, index) => {
+      formData.append(
+        `certificate[${index}][awarding_institution]`,
+        qualification.awarding_institution
+      );
+      formData.append(
+        `certificate[${index}][qualification_title]`,
+        qualification.qualification_title
+      );
+      formData.append(
+        `certificate[${index}][year_attended]`,
+        qualification.year_attended
+      );
+      formData.append(
+        `certificate[${index}][year_of_graduation]`,
+        qualification.year_of_graduation
+      );
+      formData.append(
+        `certificate[${index}][course_studied]`,
+        qualification.course_studied
+      );
     });
-    axios
-      .post(`${BASE_URL}/resumes`, details, {
+
+    // Log form data for debugging (remove in production)
+    console.log("FormData contents:");
+    for (let [key, value] of formData.entries()) {
+      console.log(key, value);
+    }
+
+    setLoading(true);
+
+    setGetResumeById((prev) => ({ ...prev, isDataNeeded: false }));
+
+    try {
+      const response = await axios.post(`${BASE_URL}/resumes`, formData, {
         headers: {
           Authorization: `Bearer ${authDetails.token}`,
           "Content-Type": "multipart/form-data",
         },
-      })
-      .then((response) => {
-        console.log(response);
-        onSuccess({
-          message: "Profile",
-          success: response.data.message,
-        });
-        // localStorage.setItem("userDetails", JSON.stringify(response.data.candidate));
-        // setUserUpdate(updateData)
-        setLoading(false);
-        clearForm();
-        setGetResumeById((prev) => {
-          return {
-            ...prev,
-            isDataNeeded: true,
-          };
-        });
-        // toast.success("successful");
-      })
-      .catch((error) => {
-        console.log(error);
-        if (error.response) {
-          setErrorMsg(error.response.data.error);
-          setLoading(false);
-        } else {
-          console.log(error);
-          setErrorMsg(error.message);
-          setLoading(false);
-        }
+        timeout: 30000, // 30 seconds timeout
       });
+
+      onSuccess({
+        message: "Resume Created Successfully",
+        success: response.data.message,
+      });
+
+      // Reset form
+      setDetails({
+        title: "",
+        educational_institution: "",
+        company_name: "",
+        position_held: "",
+        start_date: "",
+        end_date: "",
+        resume: null,
+        resumeFileName: "",
+        portfolio: null,
+        portfolioFileName: "",
+      });
+
+      setQualifications([
+        {
+          awarding_institution: "",
+          qualification_title: "",
+          year_attended: "",
+          year_of_graduation: "",
+          course_studied: "",
+        },
+      ]);
+
+      setResumePicker(false);
+      setPortfolioPicker(false);
+
+      // Refresh data
+      setGetResumeById((prev) => ({ ...prev, isDataNeeded: true }));
+    } catch (error) {
+      console.error("Upload error:", error);
+      onFailure({
+        message: "Failed to create resume",
+        error: extractErrorMessage(error),
+      });
+    } finally {
+      setLoading(false);
+    }
   };
 
-  // console.log(details)
-  // console.log(getResumeById)
   return (
     <div className="h-full text-[#25324b] w-full">
       <div className="px-5 mt-6">
         {getResumeById.data?.length < 1 && (
           <p className="text-red-600">Resume Empty !!!</p>
         )}
+
         <div className="grid grid-cols-responsive gap-5">
           {getResumeById.data?.map((resume) => (
             <Resume
@@ -172,326 +308,280 @@ const MyResume = () => {
             />
           ))}
         </div>
-        <div className="">
-          <form onSubmit={handleSubmit}>
-            <div className="border-b py-6">
-              <div className="flex md:w-4/5">
-                <div className="w-full">
-                  <div className="mb-4">
-                    <div className="mb-5">
-                      <div className="font-medium mb-5 text-2xl text-slate-900 flex">
-                        Add Resume
-                        {/* <span className='ml-2 prime_text'><FaRegCheckCircle /></span> */}
-                      </div>
-                    </div>
-                    <div className="mb-5">
-                      <label className="block">
-                        <span className="block font-medium text-slate-700 flex gap-1">
-                          Title of Resume{" "}
-                          <strong className="text-red-500">*</strong>{" "}
-                        </span>
-                        <input
-                          onChange={handleOnChange}
-                          type="text"
-                          required
-                          value={details.title}
-                          name="title"
-                          placeholder="e.g, my professional resume"
-                          className="mt-1 block p-2 focus:outline-none w-full border"
-                        />
-                      </label>
-                    </div>
-                    <div className="my-4 pt-5">
-                      <label htmlFor="resume" className="cursor-pointer flex">
-                        <span className="text-sm  bg-green-100 rounded border p-4 font-medium text-slate-700 text-nowrap">
-                          Add Resume{" "}
-                        </span>
-                        <span> {resumePicker && <FcApproval />}</span>
-                        <input
-                          type="file"
-                          accept=".pdf, .docx,"
-                          id="resume"
-                          name="resume"
-                          placeholder="url"
-                          onChange={handleOnChange}
-                          className="mt-1 invisible p-1 focus:outline-none w-full border"
-                        />
-                      </label>
-                      <small class="text-sm text-gray-500">
-                        File size should not exceed 1MB. Only *.pdf, .docx* are
-                        allowed.
-                      </small>
-                    </div>
-                    <div className="mb-5">
-                      <label className="block">
-                        <span className="block font-medium text-slate-700 flex gap-1">
-                          Education (Institution){" "}
-                          <strong className="text-red-500">*</strong>{" "}
-                        </span>
-                        <input
-                          onChange={handleOnChange}
-                          type="text"
-                          required
-                          value={details.educational_institution}
-                          name="educational_institution"
-                          placeholder="Name of Educational Institution"
-                          className="mt-1 block p-2 focus:outline-none w-full border"
-                        />
-                      </label>
-                    </div>
 
-                    <div className="mb-5">
-                      <label className="block">
-                        <span className="block font-medium text-slate-700 flex gap-1">
-                          Year of Entry{" "}
-                          <strong className="text-red-500">*</strong>{" "}
-                        </span>
-                        <input
-                          onChange={handleOnChange}
-                          type="text"
-                          required
-                          value={details.year_of_entry}
-                          name="year_of_entry"
-                          placeholder="e.g 2020"
-                          className="mt-1 block p-2 focus:outline-none w-full border"
-                        />
-                      </label>
-                    </div>
-                    <div className="mb-5">
-                      <label className="block">
-                        <span className="font-medium text-slate-700 flex gap-1">
-                          Year of Graduation{" "}
-                          <strong className="text-red-500">*</strong>{" "}
-                        </span>
-                        <input
-                          onChange={handleOnChange}
-                          type="text"
-                          required
-                          value={details.year_of_graduation}
-                          name="year_of_graduation"
-                          placeholder="e.g 2020"
-                          className="mt-1 block p-2 focus:outline-none w-full border"
-                        />
-                      </label>
-                    </div>
-                    <p className="font-medium text-base my-6"> Academy</p>
-                    <div className="mb-5">
-                      <label className="block">
-                        <span className="block font-medium text-slate-700 capitalize">
-                          Name of Academy (for creatives)
-                        </span>
-                        <input
-                          onChange={handleOnChange}
-                          type="text"
-                          value={details.academy_name}
-                          name="academy_name"
-                          placeholder="Enter academy name"
-                          className="mt-1 block p-2 focus:outline-none w-full border"
-                        />
-                      </label>
-                    </div>
-                    <div className="mb-5">
-                      <label className="block">
-                        <span className="block font-medium text-slate-700">
-                          Awarding Institution
-                        </span>
-                        <input
-                          onChange={handleOnChange}
-                          type="text"
-                          value={details.awarding_institution}
-                          name="awarding_institution"
-                          placeholder="Institution"
-                          className="mt-1 block p-2 focus:outline-none w-full border"
-                        />
-                      </label>
-                    </div>
-                    <div className="mb-5">
-                      <label className="block">
-                        <span className="block font-medium text-slate-700">
-                          Qualification
-                        </span>
-                        <select
-                          onChange={handleOnChange}
-                          value={details.qualification_title}
-                          name="qualification_title"
-                          className="mt-1 block p-2 focus:outline-none w-full border"
-                        >
-                          <option value="">Select Qualification</option>
-                          <option value="High School Diploma">
-                            High School Diploma
-                          </option>
-                          <option value="Associate Degree">
-                            Associate Degree
-                          </option>
-                          <option value="Bachelor's Degree">
-                            Bachelor's Degree
-                          </option>
-                          <option value="Master's Degree">
-                            Master's Degree
-                          </option>
-                          <option value="Doctorate">Doctorate</option>
-                          <option value="Professional Certificate">
-                            Professional Certificate
-                          </option>
-                          <option value="Other">Other</option>
-                        </select>
-                      </label>
-                    </div>
-                    <div className="mb-5">
-                      <label className="block">
-                        <span className="block font-medium text-slate-700">
-                          Year Of Entry
-                        </span>
-                        <input
-                          onChange={handleOnChange}
-                          type="text"
-                          value={details.year_attended}
-                          name="year_attended"
-                          placeholder=" Academy Title"
-                          className="mt-1 block p-2 focus:outline-none w-full border"
-                        />
-                      </label>
-                    </div>
-                    <div className="mb-5">
-                      <label className="block">
-                        <span className="block font-medium text-slate-700">
-                          Year Of Graduation
-                        </span>
-                        <input
-                          onChange={handleOnChange}
-                          type="text"
-                          value={details.academy_year_of_graduation}
-                          name="academy_year_of_graduation"
-                          placeholder=" Academy Title"
-                          className="mt-1 block p-2 focus:outline-none w-full border"
-                        />
-                      </label>
-                    </div>
-                    <div className="my-4 pt-5">
-                      <label
-                        htmlFor="portfolio"
-                        className="cursor-pointer flex"
+        <form onSubmit={handleSubmit}>
+          <div className="border-b py-6">
+            <div className="flex md:w-4/5">
+              <div className="w-full">
+                <p className="font-medium mb-5 text-2xl">Add Resume</p>
+
+                {/* TITLE */}
+                <label className="block mb-5">
+                  <span className="font-medium">Resume Title *</span>
+                  <input
+                    name="title"
+                    value={details.title}
+                    onChange={handleInputChange}
+                    className="mt-1 block p-2 border w-full rounded"
+                    placeholder="e.g. Senior Developer Resume"
+                    required
+                  />
+                </label>
+
+                {/* ADD RESUME */}
+                <div className="my-4 pt-5 space-y-4">
+                  <label className="cursor-pointer inline-block">
+                    <span className="text-sm bg-green-100 rounded border p-4 font-medium hover:bg-green-200 transition">
+                      {details.resumeFileName || "Add Resume (PDF/DOCX)"}
+                    </span>
+                    <input
+                      type="file"
+                      accept=".pdf,.docx,.doc"
+                      name="resume"
+                      onChange={handleFileChange}
+                      className="invisible absolute"
+                    />
+                  </label>
+                  {resumePicker && (
+                    <div className="inline-flex items-center ml-3">
+                      <FcApproval className="text-xl" />
+                      <span className="text-sm text-green-600 ml-1">
+                        {details.resumeFileName}
+                      </span>
+                      <button
+                        type="button"
+                        onClick={() => removeFile("resume")}
+                        className="text-red-500 ml-2 text-sm"
                       >
-                        <span className="text-sm  bg-green-100 rounded border p-4 font-medium text-slate-700 text-nowrap">
-                          Add Portfolio
-                        </span>
-                        <span> {portfolioPicker && <FcApproval />}</span>
-                        <input
-                          type="file"
-                          id="portfolio"
-                          accept=".pdf, .docx"
-                          name="portfolio"
-                          placeholder="portfolio"
-                          onChange={handleOnChange}
-                          className="mt-1 invisible p-1 focus:outline-none w-full border"
-                        />
-                      </label>
-                      <small class="text-sm text-gray-500">
-                        File size should not exceed 1MB. Only *.pdf, .docx* are
-                        allowed.
-                      </small>
-                    </div>
-                    <p className="font-medium text-base my-6">
-                      {" "}
-                      Previous Work Experience
-                    </p>
-                    <div className="mb-5">
-                      <label className="block">
-                        <span className="block font-medium text-slate-700">
-                          Company Name
-                        </span>
-                        <input
-                          onChange={handleOnChange}
-                          type="text"
-                          value={details.company_name}
-                          name="company_name"
-                          placeholder="Enter company name"
-                          className="mt-1 block p-2 focus:outline-none w-full border"
-                        />
-                      </label>
-                    </div>
-                    <div className="mb-5">
-                      <label className="block">
-                        <span className="block font-medium text-slate-700">
-                          Position Held
-                        </span>
-                        <input
-                          onChange={handleOnChange}
-                          type="text"
-                          value={details.position_held}
-                          name="position_held"
-                          placeholder="Position"
-                          className="mt-1 block p-2 focus:outline-none w-full border"
-                        />
-                      </label>
-                    </div>
-                    <div className="mb-5">
-                      <label className="block">
-                        <span className="block font-medium text-slate-700">
-                          Start Date
-                        </span>
-                        <input
-                          onChange={handleOnChange}
-                          type="date"
-                          value={details.start_date}
-                          name="start_date"
-                          min="1600-01-01"
-                          max="2999-12-31"
-                          placeholder="Enter your new email"
-                          className="mt-1 block p-2 focus:outline-none w-full border"
-                        />
-                      </label>
-                    </div>
-                    <div className="mb-5">
-                      <label className="block">
-                        <span className="block font-medium text-slate-700">
-                          End Date
-                        </span>
-                        <input
-                          onChange={handleOnChange}
-                          type="date"
-                          value={details.end_date}
-                          name="end_date"
-                          min="1600-01-01"
-                          max="2999-12-31"
-                          placeholder="Enter your new email"
-                          className="mt-1 block p-2 focus:outline-none w-full border"
-                        />
-                      </label>
-                    </div>
-                  </div>
-                  {/* {errorMsg?.stack && (
-                                        <div className="py-4 border-b mb-8 text-center">
-                                            {Object.keys(errorMsg.stack).map((field) => (
-                                                <div key={field}>
-                                                    {errorMsg.stack[field].map((error, index) => (
-                                                        <p className="text-red-700 text-base font-medium" key={index}> {error}</p>
-                                                    ))}
-                                                </div>
-                                            ))}
-                                        </div>
-                                    )} */}
-                  {errorMsg && (
-                    <div className="py-4 border-b mb-8 text-center">
-                      <p className="text-red-700 text-base font-medium">
-                        {" "}
-                        {errorMsg}
-                      </p>
+                        Remove
+                      </button>
                     </div>
                   )}
-                  <div className="my-3">
-                    <button className="rounded border prime_bg text-white px-4 flex justify-center py-2 w-[50%]">
-                      Save Resume
-                      {loading && (
-                        <div className="size-[20px] ml-3 animate-spin rounded-full border-r-4  border- "></div>
-                      )}
-                    </button>
-                  </div>
                 </div>
+
+                {/* QUALIFICATIONS */}
+                <p className="font-medium text-lg my-6">Qualifications</p>
+
+                {qualifications.map((q, index) => (
+                  <div
+                    key={index}
+                    className="border p-4 mb-5 rounded-lg bg-gray-50"
+                  >
+                    <div className="flex justify-between">
+                      <p className="font-medium text-sm">
+                        Qualification #{index + 1}
+                      </p>
+
+                      {index > 0 && (
+                        <button
+                          type="button"
+                          onClick={() => removeQualification(index)}
+                          className="text-red-500 text-sm"
+                        >
+                          Remove
+                        </button>
+                      )}
+                    </div>
+
+                    <label className="block mt-3">
+                      <span className="font-medium">
+                        Awarding Institution *
+                      </span>
+                      <input
+                        value={q.awarding_institution}
+                        onChange={(e) =>
+                          updateQualification(
+                            index,
+                            "awarding_institution",
+                            e.target.value
+                          )
+                        }
+                        className="mt-1 block p-2 border w-full rounded"
+                        required
+                      />
+                    </label>
+
+                    <label className="block mt-3">
+                      <span className="font-medium">Qualification Title *</span>
+                      <select
+                        value={q.qualification_title}
+                        onChange={(e) =>
+                          updateQualification(
+                            index,
+                            "qualification_title",
+                            e.target.value
+                          )
+                        }
+                        className="mt-1 block p-2 border w-full rounded"
+                        required
+                      >
+                        <option value="">Select Qualification</option>
+                        {qualificationOptions.map((option) => (
+                          <option key={option} value={option}>
+                            {option}
+                          </option>
+                        ))}
+                      </select>
+                    </label>
+
+                    <label className="block mt-3">
+                      <span className="font-medium">Year Attended *</span>
+                      <input
+                        type="number"
+                        value={q.year_attended}
+                        onChange={(e) =>
+                          updateQualification(
+                            index,
+                            "year_attended",
+                            e.target.value
+                          )
+                        }
+                        className="mt-1 block p-2 border w-full rounded"
+                        min="1900"
+                        max="2099"
+                        required
+                      />
+                    </label>
+
+                    <label className="block mt-3">
+                      <span className="font-medium">Year of Graduation *</span>
+                      <input
+                        type="number"
+                        value={q.year_of_graduation}
+                        onChange={(e) =>
+                          updateQualification(
+                            index,
+                            "year_of_graduation",
+                            e.target.value
+                          )
+                        }
+                        className="mt-1 block p-2 border w-full rounded"
+                        min="1900"
+                        max="2099"
+                        required
+                      />
+                    </label>
+
+                    <label className="block mt-3">
+                      <span className="font-medium">Course Studied *</span>
+                      <input
+                        value={q.course_studied}
+                        onChange={(e) =>
+                          updateQualification(
+                            index,
+                            "course_studied",
+                            e.target.value
+                          )
+                        }
+                        className="mt-1 block p-2 border w-full rounded"
+                        required
+                      />
+                    </label>
+                  </div>
+                ))}
+
+                <button
+                  type="button"
+                  onClick={addQualification}
+                  className="px-4 py-2 mb-6 bg-green-600 text-white rounded shadow hover:bg-green-700 transition"
+                >
+                  + Add Another Qualification
+                </button>
+
+                {/* PORTFOLIO */}
+                <div className="my-4 pt-5">
+                  <label className="cursor-pointer inline-block">
+                    <span className="text-sm bg-green-100 rounded border p-4 font-medium hover:bg-green-200 transition">
+                      {details.portfolioFileName || "Add Portfolio (PDF/DOCX)"}
+                    </span>
+                    <input
+                      type="file"
+                      accept=".pdf,.docx,.doc"
+                      name="portfolio"
+                      onChange={handleFileChange}
+                      className="invisible absolute"
+                    />
+                  </label>
+                  {portfolioPicker && (
+                    <div className="inline-flex items-center ml-3">
+                      <FcApproval className="text-xl" />
+                      <span className="text-sm text-green-600 ml-1">
+                        {details.portfolioFileName}
+                      </span>
+                      <button
+                        type="button"
+                        onClick={() => removeFile("portfolio")}
+                        className="text-red-500 ml-2 text-sm"
+                      >
+                        Remove
+                      </button>
+                    </div>
+                  )}
+                </div>
+
+                {/* WORK EXPERIENCE */}
+                <p className="font-medium text-lg my-6">Work Experience</p>
+
+                <label className="block mb-5">
+                  <span className="font-medium">Company Name</span>
+                  <input
+                    name="company_name"
+                    value={details.company_name}
+                    onChange={handleInputChange}
+                    className="mt-1 block p-2 border w-full rounded"
+                  />
+                </label>
+
+                <label className="block mb-5">
+                  <span className="font-medium">Position Held</span>
+                  <input
+                    name="position_held"
+                    value={details.position_held}
+                    onChange={handleInputChange}
+                    className="mt-1 block p-2 border w-full rounded"
+                  />
+                </label>
+
+                <label className="block mb-5">
+                  <span className="font-medium">Start Date</span>
+                  <input
+                    type="date"
+                    name="start_date"
+                    value={details.start_date}
+                    onChange={handleInputChange}
+                    className="mt-1 block p-2 border w-full rounded"
+                  />
+                </label>
+
+                <label className="block mb-5">
+                  <span className="font-medium">End Date</span>
+                  <input
+                    type="date"
+                    name="end_date"
+                    value={details.end_date}
+                    onChange={handleInputChange}
+                    className="mt-1 block p-2 border w-full rounded"
+                  />
+                </label>
+
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className="rounded prime_bg text-white px-4 py-2 w-full md:w-1/2 flex justify-center items-center disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {loading ? (
+                    <>
+                      <div className="size-5 mr-3 animate-spin rounded-full border-2 border-white border-t-transparent" />
+                      Saving Resume...
+                    </>
+                  ) : (
+                    "Save Resume"
+                  )}
+                </button>
               </div>
             </div>
-          </form>
-        </div>
+          </div>
+        </form>
       </div>
     </div>
   );
