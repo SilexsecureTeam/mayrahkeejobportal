@@ -218,6 +218,7 @@ const DataTableComponent = ({
         break;
 
       case "approved":
+      case "active":
       case "1":
         statusClass = "bg-green-500 text-white";
         statusIcon = <FaCheckCircle className="mr-2" />;

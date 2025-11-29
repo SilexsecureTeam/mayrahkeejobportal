@@ -53,7 +53,7 @@ function JobsByEmployerDetails() {
       ) : (
         <>
           <h2 className="text-3xl font-extrabold text-gray-800 mb-8">
-            Jobs Posted by Employer
+            Job Posted by Employer
           </h2>
           <div className="grid grid-cols-1 gap-8">
             {employers.map((employer) => (
@@ -230,9 +230,7 @@ function JobsByEmployerDetails() {
                       <h4 className="text-lg font-semibold text-gray-700 bg-[#F8F8FD] px-2 py-2">
                         Status and Timestamps
                       </h4>
-                      <p className="text-gray-600">
-                        <strong>Status:</strong> {employer.status}
-                      </p>
+
                       <div className="flex flex-wrap gap-2 mt-2">
                         {employer.search_keywords
                           .split(",")

@@ -108,17 +108,9 @@ const ArtisanDetails = () => {
           </div>
 
           <div className="bg-gray-200 px-4 py-4 my-4">
-            <div className="flex text-xs justify-between pb-3">
+            <div className="flex text-xs justify-between">
               <p className="font-bold">Member Since</p>
               <p>{formatDate(data.member_since)}</p>
-            </div>
-            <div className="flex">
-              <p className="text-sm font-bold">Current Salary:</p>
-              <p className="text-sm ml-2">{data.current_salary}</p>
-            </div>
-            <div className="flex">
-              <p className="text-sm font-bold">Expected Salary:</p>
-              <p className="text-sm ml-2">{data.expected_salary}</p>
             </div>
           </div>
 
@@ -141,12 +133,6 @@ const ArtisanDetails = () => {
               <p className="text-sm">{data.staff_category}</p>
               <p className="text-sm font-bold">Subcategory:</p>{" "}
               <p className="text-sm">{data.subcategory}</p>
-              <p className="text-sm font-bold">Employment Type:</p>{" "}
-              <p className="text-sm">{data.employment_type}</p>
-              <p className="text-sm font-bold">Work Type:</p>{" "}
-              <p className="text-sm">{data.work_type}</p>
-              <p className="text-sm font-bold">Work Days:</p>{" "}
-              <p className="text-sm">{data.work_days}</p>
               <p className="text-sm font-bold">Religion:</p>{" "}
               <p className="text-sm">{data.religion}</p>
               <p className="text-sm font-bold">Location:</p>{" "}

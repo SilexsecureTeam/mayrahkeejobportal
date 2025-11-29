@@ -58,13 +58,13 @@ function DomesticStaff() {
               smallTextIcon={<FaPlus />}
               link={"/admin/domestic-staff/all"}
             />
-            <DashboardCard
+            {/* <DashboardCard
               leftIcon={<BsStopwatch />}
               title={pending}
               subtitle="Pending Domestic Staff"
               smallText="-10% Less Duty Pst"
               smallTextIcon={<FaArrowTrendUp />}
-            />
+            /> */}
           </div>
         </div>
       </div>

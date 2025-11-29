@@ -15,8 +15,10 @@ const MyResume = () => {
   const { authDetails } = useContext(AuthContext);
   const { getResumeById, setGetResumeById, getCandidate, setGetCandidate } =
     useContext(ResourceContext);
-
   const user = authDetails?.user;
+
+  const COMPANY_NAME_LIMIT = 50;
+  const POSITION_LIMIT = 50;
 
   const [loading, setLoading] = useState(false);
   const [resumePicker, setResumePicker] = useState(false);
@@ -439,7 +441,7 @@ const MyResume = () => {
                     </label>
 
                     <label className="block mt-3">
-                      <span className="font-medium">Year Attended *</span>
+                      <span className="font-medium">Year of Entry *</span>
                       <input
                         type="number"
                         value={q.year_attended}
@@ -542,8 +544,15 @@ const MyResume = () => {
                     name="company_name"
                     value={details.company_name}
                     onChange={handleInputChange}
+                    maxLength={COMPANY_NAME_LIMIT} // ⬅️ hard cap
                     className="mt-1 block p-2 border w-full rounded"
                   />
+                  <div className="mt-1 text-xs text-gray-500">
+                    Max {COMPANY_NAME_LIMIT} characters.{" "}
+                    <span>
+                      {details.company_name.length}/{COMPANY_NAME_LIMIT}
+                    </span>
+                  </div>
                 </label>
 
                 <label className="block mb-5">
@@ -552,8 +561,15 @@ const MyResume = () => {
                     name="position_held"
                     value={details.position_held}
                     onChange={handleInputChange}
+                    maxLength={POSITION_LIMIT} // ⬅️ hard cap
                     className="mt-1 block p-2 border w-full rounded"
                   />
+                  <div className="mt-1 text-xs text-gray-500">
+                    Max {POSITION_LIMIT} characters.{" "}
+                    <span>
+                      {details.position_held.length}/{POSITION_LIMIT}
+                    </span>
+                  </div>
                 </label>
 
                 <label className="block mb-5">

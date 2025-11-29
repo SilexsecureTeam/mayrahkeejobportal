@@ -5,13 +5,13 @@ import { FormatError, extractErrorMessage } from "../utils/formmaters";
 import { AuthContext } from "../context/AuthContex";
 import { SubscriptionContext } from "../context/SubscriptionContext";
 import { onFailure } from "../utils/notifications/OnFailure";
-import axios from 'axios';
+import axios from "axios";
 
 export const JOB_MANAGEMENT_Key = "Job Management Database";
 export const apiURL = "https://dash.mayrahkeeafrica.com/api";
 
 function useJobManagement() {
-  const subUtils = useContext(SubscriptionContext); 
+  const subUtils = useContext(SubscriptionContext);
   const activePackage = subUtils?.activePackage;
   const currentPackage = activePackage
     ? subUtils?.packages?.find((pkg) => pkg.id === activePackage.package_id)
@@ -21,7 +21,7 @@ function useJobManagement() {
   const client = axiosClient(authDetails?.token, true);
   const [loading, setLoading] = useState(false);
 
-  const defaultDetails={
+  const defaultDetails = {
     featured_image: null,
     job_title: "",
     job_description: "",
@@ -46,14 +46,10 @@ function useJobManagement() {
     location: "",
     maps_location: "",
     number_of_participants: currentPackage?.number_of_candidates || 0,
-  }
+  };
   const [details, setDetails] = useState({
-    ...defaultDetails
+    ...defaultDetails,
   });
-
-
-
-
 
   const [jobList, setJobList] = useState([]);
   const [applicantJobs, setApplicantJobs] = useState([]);
@@ -157,7 +153,12 @@ function useJobManagement() {
       "preferred_age",
     ];
 
-    const stage2Fields = ["job_title", "job_description", "experience", "career_level"];
+    const stage2Fields = [
+      "job_title",
+      "job_description",
+      "experience",
+      "career_level",
+    ];
 
     let fieldsToValidate = [];
 
@@ -204,7 +205,7 @@ function useJobManagement() {
       const formDetails = {
         employer_id: authDetails?.user.id,
         ...details,
-      }
+      };
       // Create a new FormData object
       const formData = new FormData();
       // Loop over the details object to append each key-value pair to FormData
@@ -226,12 +227,13 @@ function useJobManagement() {
 
       setDetails({});
       await getJobsFromDB();
-      subUtils?.getActivePackage()
+      subUtils?.getActivePackage();
       handleSuccess();
     } catch (error) {
-      const errorDetails = Object.entries(error?.response?.data?.errors || {})
-        .map(([key, value]) => `${key}: ${value}`)
-        .join("\n") || error?.message;
+      const errorDetails =
+        Object.entries(error?.response?.data?.errors || {})
+          .map(([key, value]) => `${key}: ${value}`)
+          .join("\n") || error?.message;
 
       onFailure({ message: "Submission Failed", error: errorDetails });
     } finally {
@@ -255,7 +257,10 @@ function useJobManagement() {
           // Handle the 'featured_image' field separately
           if (key === "featured_image") {
             // Check if 'featured_image' is a new file (Blob or File instance)
-            if (details.featured_image instanceof Blob || details.featured_image instanceof File) {
+            if (
+              details.featured_image instanceof Blob ||
+              details.featured_image instanceof File
+            ) {
               formData.append("featured_image", details.featured_image);
             }
           } else if (key === "qualification" && Array.isArray(details[key])) {
@@ -270,7 +275,6 @@ function useJobManagement() {
         }
       }
 
-
       // // Append the image if it exists (assuming it's in details.image)
       // if (details.image) {
       //   formData.append('image', details.image); // Adjust based on your actual field name
@@ -282,12 +286,14 @@ function useJobManagement() {
       await getJobsFromDB();
       handleSuccess();
     } catch (error) {
-      onFailure({ message: "Submission Failed", error: extractErrorMessage(error) });
+      onFailure({
+        message: "Submission Failed",
+        error: extractErrorMessage(error),
+      });
     } finally {
       setLoading(false);
     }
   };
-
 
   const addJobForExclusive = async (handleSuccess, id) => {
     setLoading(true);
@@ -305,9 +311,11 @@ function useJobManagement() {
       setDetails({});
       await getJobsFromDB();
       handleSuccess();
-
     } catch (error) {
-      onFailure({ message: "Submission Failed", error: extractErrorMessage(error) });
+      onFailure({
+        message: "Submission Failed",
+        error: extractErrorMessage(error),
+      });
     } finally {
       setLoading(false);
     }
@@ -325,7 +333,6 @@ function useJobManagement() {
     }
   };
 
-
   const deleteJob = async (handleSuccess, jobId) => {
     setLoading(true);
     try {
@@ -338,14 +345,23 @@ function useJobManagement() {
       setLoading(false);
     }
   };
-  
+
   const getJobsFromDB = async () => {
     if (authDetails?.token) {
       setLoading(true);
       try {
         const response = await client.get("/job");
-        setJobList(response.data?.filter(one => Number(one.employer_id) === Number(authDetails?.user?.id)));
-        await set(JOB_MANAGEMENT_Key, response.data?.filter(one => Number(one.employer_id) === Number(authDetails.user?.id)));
+        setJobList(
+          response.data?.filter(
+            (one) => Number(one.employer_id) === Number(authDetails?.user?.id)
+          )
+        );
+        await set(
+          JOB_MANAGEMENT_Key,
+          response.data?.filter(
+            (one) => Number(one.employer_id) === Number(authDetails.user?.id)
+          )
+        );
       } catch (error) {
         FormatError(error, setError);
       } finally {
@@ -355,6 +371,7 @@ function useJobManagement() {
   };
 
   const getJobById = async (jobId, setJob) => {
+    if (!jobId) return;
     setLoading(true);
     const job = jobList.find((current) => current.id === Number(jobId));
     if (job) {
@@ -365,7 +382,7 @@ function useJobManagement() {
       const { data } = await client.get(`/job/${jobId}`);
       setJob({ ...data });
     } catch (error) {
-      FormatError(error);
+      FormatError(error, setError, "Job Error");
     } finally {
       setLoading(false);
     }
@@ -428,7 +445,7 @@ function useJobManagement() {
     getSectors,
     getSubSectors,
     validateJobDetails,
-    addJobForExclusive
+    addJobForExclusive,
   };
 }
 

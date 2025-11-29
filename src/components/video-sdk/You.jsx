@@ -1,5 +1,5 @@
 import { useMeeting, useParticipant } from "@videosdk.live/react-sdk";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState, useContext } from "react";
 import ReactPlayer from "react-player";
 import { FaMicrophone, FaMicrophoneSlash } from "react-icons/fa";
 import {
@@ -7,7 +7,6 @@ import {
   BsFillCameraVideoOffFill,
 } from "react-icons/bs";
 import { MdCallEnd } from "react-icons/md";
-import { useContext } from "react";
 import { AuthContext } from "../../context/AuthContex";
 import { useNavigate } from "react-router-dom";
 import { FormatPrice } from "../../utils/formmaters";
@@ -17,28 +16,22 @@ import { onFailure } from "../../utils/notifications/OnFailure";
 import { LuLoader } from "react-icons/lu";
 import { ApplicationContext } from "../../context/ApplicationContext";
 import { IMAGE_URL } from "../../utils/base";
-import useApplicationManagement from "../../hooks/useApplicationManagement";
 
 function You({ data, job, applicant, auth, exclusive }) {
-
   const micRef = useRef(null);
   const { authDetails } = useContext(AuthContext);
   const navigate = useNavigate();
   const { application, setApplication } = useContext(ApplicationContext);
-  const {
-    webcamStream,
-    micStream,
-    enableWebcam,
-    webcamOn,
-    micOn,
-    isLocal,
-    displayName,
-  } = useParticipant(data?.id);
-  const [loading, setLoading] = useState(false);
-  const [timeElapsed, setTimeElapsed] = useState('bsj');
+
+  const { webcamStream, micStream, enableWebcam, webcamOn, micOn, isLocal } =
+    useParticipant(data?.id);
 
   const { toggleMic, toggleWebcam, leave } = useMeeting();
-  console.log(data)
+
+  const [loading, setLoading] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [proceedUpdate, setProceedUpdate] = useState(false);
+
   const videoStream = useMemo(() => {
     if (webcamOn && webcamStream) {
       const mediaStream = new MediaStream();
@@ -46,18 +39,12 @@ function You({ data, job, applicant, auth, exclusive }) {
       return mediaStream;
     } else {
       console.log("Camera error");
-      console.log(webcamOn);
-      console.log(webcamStream);
-
       enableWebcam();
+      return null;
     }
-  }, [webcamStream, webcamOn]);
+  }, [webcamStream, webcamOn, enableWebcam]);
 
-  const [isMicEnabled, setIsMicEnabled] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [proceedUpdate, setProceedUpdate] = useState(false);
-
-  // const toogleMic = () => setIsMicEnabled(!isMicEnabled);
+  // Handle mic audio
   useEffect(() => {
     if (micRef.current) {
       if (micOn && micStream) {
@@ -68,78 +55,93 @@ function You({ data, job, applicant, auth, exclusive }) {
         micRef.current
           .play()
           .catch((error) =>
-            console.error("videoElem.current.play() failed", error)
+            console.error("micRef.current.play() failed", error)
           );
       } else {
         micRef.current.srcObject = null;
       }
     }
-
-    return clearTimeout();
   }, [micStream, micOn]);
-  console.log(application);
 
- const updateApplication = async (navigateToSingleAppplicant) => {
-    setTimeElapsed(false);
-    setTimeout(() => {
-      setTimeElapsed(!timeElapsed);
-    }, 3000);
+  const updateApplication = async () => {
     setLoading(true);
     try {
       const client = axiosClient(authDetails.token);
-      const { data } = await client.post("/applicationRespond", {
-        candidate_id: application.candidate_id,
-        job_id: application.job_id,
+
+      const payload = {
+        candidate_id: applicant?.id ?? application?.candidate_id,
+        job_id: job?.id ?? application?.job_id,
         status: stages[2].name,
-      });
-      setApplication(data?.job_application);
+      };
+
+      console.log("Sending applicationRespond payload:", payload);
+
+      const { data } = await client.post("/applicationRespond", payload);
+
+      const updatedApplication = data?.job_application;
+      setApplication(updatedApplication);
+
+      // Leave and navigate only AFTER successful update
+      leave();
+      if (exclusive?.user) {
+        navigate(
+          `/admin-exclusives/applicants/detail/${updatedApplication?.id}`
+        );
+      } else {
+        navigate(`/company/applicants/detail/${updatedApplication?.id}`);
+      }
     } catch (error) {
+      console.error("Application update error:", error);
       onFailure({
         message: "Application Error",
         error: "Application status not updated",
       });
+      // even on failure, we can still leave or stay; here I'll just leave
+      leave();
+      navigate(-1);
     } finally {
       setLoading(false);
     }
   };
 
+  const handleLeaveWithoutUpdate = () => {
+    setLoading(true);
+    // If you want a small delay for UX, you can add setTimeout, but it's optional
+    leave();
+    navigate(-1);
+    setLoading(false);
+  };
 
-
-  useEffect(() => {
-    if (typeof timeElapsed !== 'string' && !timeElapsed) {
-      if (proceedUpdate) {
-        leave();
-        if (exclusive?.user) {
-          navigate(`/admin-exclusives/applicants/detail/${application?.id}`)
-        } else {
-          navigate(`/company/applicants/detail/${application?.id}`)
-        }
-
-      }else{
-        leave();
-        navigate(-1);
-      }
-    }
-  }, [loading, timeElapsed]);
-  console.log(job)
   return (
     <>
+      {/* Confirm modal */}
       {isModalOpen && (
         <div className="fixed inset-0 flex items-center justify-center bg-black/50 z-[1000]">
           <div className="bg-white w-[90%] max-w-md rounded-lg shadow-lg p-6 relative">
-            <h2 className="text-lg font-bold text-gray-800 mb-4">Confirm Update</h2>
+            <h2 className="text-lg font-bold text-gray-800 mb-4">
+              Confirm Update
+            </h2>
             <p className="text-gray-600 mb-6 font-semibold">
-            You're about to leave. Are you satisfied with this candidate and would you like to update their status?
+              You're about to leave. Are you satisfied with this candidate and
+              would you like to update their status?
             </p>
             <div className="flex justify-end gap-4">
               <button
-                onClick={() => { setProceedUpdate(true); setIsModalOpen(false); updateApplication()}}
+                onClick={() => {
+                  setProceedUpdate(true);
+                  setIsModalOpen(false);
+                  updateApplication();
+                }}
                 className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition duration-200"
               >
                 Yes
               </button>
               <button
-                onClick={() => {setIsModalOpen(false); setTimeElapsed(false);}}
+                onClick={() => {
+                  setProceedUpdate(false);
+                  setIsModalOpen(false);
+                  handleLeaveWithoutUpdate();
+                }}
                 className="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400 transition duration-200"
               >
                 No
@@ -149,31 +151,33 @@ function You({ data, job, applicant, auth, exclusive }) {
         </div>
       )}
 
-
-      {(!timeElapsed) && (
+      {/* Loader overlay */}
+      {loading && (
         <div className="fixed flex text-white flex-col items-center justify-center left-0 top-0 h-screen w-screen z-[999] bg-primaryColor/80">
-          <LuLoader className="animate-spin text-3xl  " />
+          <LuLoader className="animate-spin text-3xl" />
           <span className="text-lg animate-pulse">Please wait...</span>
           <span className="animate-pulse">
-            {proceedUpdate ? "Updating candidate's application" : "Ending this interview session"}
+            {proceedUpdate
+              ? "Updating candidate's application"
+              : "Ending this interview session"}
           </span>
         </div>
       )}
+
       <div className="w-full h-full flex flex-col gap-2 md:gap-0 rounded-[10px] pb-28 md:pb-0">
         <audio ref={micRef} autoPlay playsInline muted={isLocal} />
+
+        {/* Video / image area */}
         <div className="w-full max-h-96 overflow-hidden rounded-[10px]">
-          {webcamOn ? (
+          {webcamOn && videoStream ? (
             <ReactPlayer
-              //
-              playsinline // extremely crucial prop
+              playsinline
               pip={false}
               light={false}
               controls={false}
               muted={true}
               playing={true}
-              //
               url={videoStream}
-              //
               height="100%"
               width="100%"
               onError={(err) => {
@@ -187,19 +191,19 @@ function You({ data, job, applicant, auth, exclusive }) {
                   job?.featured_image
                     ? `${IMAGE_URL}/${job.featured_image}`
                     : applicant?.profile
-                      ? `${IMAGE_URL}/${applicant.profile}`
-                      : "https://images.pexels.com/photos/6325968/pexels-photo-6325968.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+                    ? `${IMAGE_URL}/${applicant.profile}`
+                    : "https://images.pexels.com/photos/6325968/pexels-photo-6325968.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
                 }
                 className="w-full object-cover bg-gray-400/10"
               />
-              <span className=" bg-gray-500 absolute left-0 top-0 p-1 w-fit h-fit text-little text-white  px-2">
+              <span className="bg-gray-500 absolute left-0 top-0 p-1 w-fit h-fit text-little text-white px-2">
                 {applicant ? applicant?.full_name : job?.email}
               </span>
-
             </div>
           )}
         </div>
 
+        {/* Controls */}
         <div className="fixed z-10 left-0 bottom-0 right-0 w-full p-1 bg-[rgba(0,0,0,.8)] text-white md:text-black md:bg-transparent md:relative flex justify-center gap-8 md:p-5">
           <div className="flex flex-col items-center">
             {micOn ? (
@@ -240,9 +244,9 @@ function You({ data, job, applicant, auth, exclusive }) {
               className="text-sm h-[45px] w-[45px] cursor-pointer p-3 bg-red-500 text-red-800 rounded-full"
               onClick={() => {
                 if (auth.user.role === "employer") {
-                  setIsModalOpen(true); // Open modal before updating or navigating
+                  setIsModalOpen(true);
                 } else {
-                  navigate(-2);
+                  handleLeaveWithoutUpdate();
                 }
               }}
             />
@@ -250,10 +254,10 @@ function You({ data, job, applicant, auth, exclusive }) {
           </div>
         </div>
 
+        {/* Sidebar details */}
         <div className="sticky bottom-0 w-full md:flex flex-col h-max p-4 rounded-md bg-gray-950">
           {job && (
             <>
-
               <span className="text-white font-semibold">Job Details</span>
 
               <span className="text-white tracking-wider mt-3 flex justify-between w-full text-sm">
@@ -270,15 +274,9 @@ function You({ data, job, applicant, auth, exclusive }) {
                   {FormatPrice(Number(job.max_salary))}
                 </span>
               </span>
-              <span className="text-white tracking-wider mt-3 flex justify-between w-full text-sm">
-                Qualifications <span>{job.qualification.length} needed</span>
-              </span>
-              {/* <span className="text-white tracking-wider mt-3 flex justify-between w-full text-sm">
-                Contact Us
-                <span>{job.email}</span>
-              </span> */}
             </>
           )}
+
           {applicant && (
             <>
               <span className="sticky bottom-0 text-white font-semibold">
@@ -307,14 +305,6 @@ function You({ data, job, applicant, auth, exclusive }) {
       </div>
     </>
   );
-} 
-export default You;
+}
 
-{
-  /* <div className="w-[35%]  h-[22%]">
-<img
-  className="h-full w-full object-cover rounded-md"
-  src="https://images.pexels.com/photos/6325968/pexels-photo-6325968.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-/>
-</div> */
-            }
+export default You;

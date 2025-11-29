@@ -65,12 +65,6 @@ const EmployerDetails = () => {
       icon: "pi pi-briefcase",
       command: () => (window.location.href = `/admin/employer/alljobs/${id}`),
     },
-    {
-      label: "Applied Jobs",
-      icon: "pi pi-briefcase",
-      command: () =>
-        (window.location.href = `/admin/employer/applied-jobs/${id}`),
-    },
   ];
 
   const getSocialMediaIcon = (url) => {
@@ -127,9 +121,9 @@ const EmployerDetails = () => {
           </div>
 
           <div className="bg-gray-200 px-4 py-4 my-4">
-            <div className="flex text-xs justify-between pb-3">
-              <p className="font-bold">Year of Incorporation</p>{" "}
-              <p>{details?.year_of_incorporation}</p>
+            <div className="flex text-sm pb-3">
+              <p className="font-bold">Year of Incorporation:</p>{" "}
+              <p className="ml-2">{details?.year_of_incorporation}</p>
             </div>
 
             <div className="flex">

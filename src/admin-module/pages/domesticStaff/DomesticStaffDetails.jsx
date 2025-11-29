@@ -127,10 +127,6 @@ const DomesticStaffDetails = () => {
           </div>
 
           <div className="bg-gray-200 px-4 py-4 my-4">
-            <div className="flex text-xs justify-between pb-3">
-              <p className="font-bold">Member Since</p>
-              <p>{formatDate(data?.member_since)}</p>
-            </div>
             <div className="flex">
               <p className="text-sm font-bold">Current Salary:</p>
               <p className="text-sm ml-2">
@@ -185,8 +181,6 @@ const DomesticStaffDetails = () => {
               <p className="text-sm">{data?.religion}</p>
               <p className="text-sm font-bold">Location:</p>
               <p className="text-sm">{data?.location}</p>
-              <p className="text-sm font-bold">Job Type:</p>
-              <p className="text-sm">{data?.job_type}</p>
               <p className="text-sm font-bold">Years of Experience:</p>
               <p className="text-sm">{data?.years_of_experience}</p>
               <p className="text-sm font-bold">Education Level:</p>
@@ -195,8 +189,8 @@ const DomesticStaffDetails = () => {
               <p className="text-sm">{data?.marital_status}</p>
               <p className="text-sm font-bold">Languages Spoken:</p>
               <p className="text-sm">{data?.languages_spoken?.join(", ")}</p>
-              <p className="text-sm font-bold">Status:</p>
-              <p className="text-sm">{data?.status}</p>
+              {/* <p className="text-sm font-bold">Status:</p>
+              <p className="text-sm">{data?.status}</p> */}
             </div>
           </div>
           <hr />

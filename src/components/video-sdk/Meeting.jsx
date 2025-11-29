@@ -3,15 +3,13 @@ import CompanyView from "./CompanyView";
 import Participant from "./Participant";
 import You from "./You";
 import { useContext, useEffect, useState } from "react";
-import { get } from "idb-keyval";
 import { AuthContext } from "../../context/AuthContex";
 import { onSuccess } from "../../utils/notifications/OnSuccess";
 import { onFailure } from "../../utils/notifications/OnFailure";
-import { JobContext } from "../../context/JobContext";
 import { ApplicationContext } from "../../context/ApplicationContext";
 import useJobManagement from "../../hooks/useJobManagement";
 
-function Meeting({ interview, exclusive=null }) {
+function Meeting({ interview, exclusive = null }) {
   const { authDetails } = useContext(AuthContext);
   const { getJobById } = useJobManagement();
   const { getApplicant, application } = useContext(ApplicationContext);
@@ -21,6 +19,8 @@ function Meeting({ interview, exclusive=null }) {
   const [participant, setParticipant] = useState(null);
   const [you, setYou] = useState(null);
   //console.log( "interview: ", interview, "job: ", job, "you: ",you)
+  console.log(application);
+
   const { join, participants } = useMeeting({
     onMeetingJoined: () => {
       onSuccess({
@@ -42,8 +42,8 @@ function Meeting({ interview, exclusive=null }) {
     },
   });
 
-  const auth= exclusive?.user ? exclusive : authDetails
-  
+  const auth = exclusive?.user ? exclusive : authDetails;
+
   const getYou = () => {
     const speakerParticipants = [...participants.values()].find(
       (current) => current.id === auth.user.role
@@ -56,7 +56,7 @@ function Meeting({ interview, exclusive=null }) {
     const speakerParticipants = [...participants.values()].find(
       (current) => current.id !== auth.user.role
     );
-  setParticipant(speakerParticipants)
+    setParticipant(speakerParticipants);
   };
 
   const joinMeeting = () => {
@@ -104,7 +104,14 @@ function Meeting({ interview, exclusive=null }) {
             <CompanyView interview={interview} />
           </div>
           <div className="flex flex-col w-full md:w-[30%]">
-            <You data={you} job={job} applicant={applicant} auth={auth} exclusive={exclusive} interview={interview} />
+            <You
+              data={you}
+              job={job}
+              applicant={applicant}
+              auth={auth}
+              exclusive={exclusive}
+              interview={interview}
+            />
           </div>
         </div>
       ) : joined && joined === "JOINING" ? (
@@ -113,7 +120,9 @@ function Meeting({ interview, exclusive=null }) {
         </div>
       ) : (
         <div className="h-[82%] w-full flex items-center justify-center rounded-[15px] bg-white p-4">
-          <span className="text-center text-xl">Waiting for you to join...</span>
+          <span className="text-center text-xl">
+            Waiting for you to join...
+          </span>
         </div>
       )}
     </>

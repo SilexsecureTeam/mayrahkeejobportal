@@ -393,7 +393,7 @@ const EditResume = ({ resume }) => {
                   </label>
 
                   <label className="block mt-3">
-                    <span className="font-medium">Year Attended *</span>
+                    <span className="font-medium">Year of Entry *</span>
                     <input
                       type="number"
                       value={q.year_attended}

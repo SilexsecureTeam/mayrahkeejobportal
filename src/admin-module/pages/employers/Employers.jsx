@@ -1,9 +1,5 @@
 import { Helmet } from "react-helmet";
-import {
-  FaArrowTrendDown,
-  FaArrowTrendUp,
-  FaPlus,
-} from "react-icons/fa6";
+import { FaArrowTrendDown, FaArrowTrendUp, FaPlus } from "react-icons/fa6";
 import { FiUsers } from "react-icons/fi";
 import { RiCalendarEventLine, RiFileUserFill } from "react-icons/ri";
 import { generateDateRange } from "../../../utils/formmaters";
@@ -15,13 +11,13 @@ import DashboardCard from "../../components/dashboard/DashboardCards";
 import { BsStopwatch } from "react-icons/bs";
 import { TbCalendarClock } from "react-icons/tb";
 import DashboardChart from "../../components/dashboard/DashboardChart";
-import UseAdminManagement from "../../../hooks/useAdminManagement"; 
+import UseAdminManagement from "../../../hooks/useAdminManagement";
 
 function Employers() {
   const { authDetails } = useContext(AuthContext);
   const { setSideBar } = useContext(AdminRouteContext);
   const { getEmployers } = UseAdminManagement();
-  
+
   const [employersCount, setEmployersCount] = useState(0);
   const [pending, setPending] = useState(0);
   const navigate = useNavigate();
@@ -34,7 +30,9 @@ function Employers() {
     (async () => {
       const employers = await getEmployers();
       setEmployersCount(employers.length);
-      const pendingEmployers = employers.filter(employer => employer.status === 'pending');
+      const pendingEmployers = employers.filter(
+        (employer) => employer.status === "pending"
+      );
       setPending(pendingEmployers.length);
     })();
   }, []);
@@ -60,13 +58,13 @@ function Employers() {
               smallTextIcon={<FaPlus />}
               link={"/admin/employers/all"}
             />
-            <DashboardCard
+            {/* <DashboardCard
               leftIcon={<BsStopwatch />}
               title={pending}
               subtitle="Pending Employers"
               smallText="-10% Less Duty Pst"
               smallTextIcon={<FaArrowTrendUp />}
-            />
+            /> */}
             {/* <DashboardCard
               leftIcon={<TbCalendarClock />}
               title="42"
@@ -91,7 +89,7 @@ function Employers() {
             {/* /> */}
           </div>
         </div>
-{/* 
+        {/* 
         <div className="mt-5 !mb-32">
           <DashboardChart />
         </div> */}

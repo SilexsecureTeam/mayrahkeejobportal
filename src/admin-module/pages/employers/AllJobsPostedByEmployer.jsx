@@ -59,6 +59,35 @@ function AllDataJobsPostedEmployer() {
     [heading[6].toLowerCase()]: job.status,
   }));
 
+  const renderers = {
+    experience: (rowData) => {
+      const parseHtml = (html) => {
+        const doc = new DOMParser().parseFromString(html, "text/html");
+        return doc.body.textContent || "";
+      };
+
+      return (
+        <div className="line-clamp-2">
+          {rowData["experience"] ? parseHtml(rowData["experience"]) : null}
+        </div>
+      );
+    },
+    "job description": (rowData) => {
+      const parseHtml = (html) => {
+        const doc = new DOMParser().parseFromString(html, "text/html");
+        return doc.body.textContent || "";
+      };
+
+      return (
+        <div className="line-clamp-2">
+          {rowData["job description"]
+            ? parseHtml(rowData["job description"])
+            : null}
+        </div>
+      );
+    },
+  };
+
   return (
     <div className="mt-10">
       <button
@@ -70,13 +99,14 @@ function AllDataJobsPostedEmployer() {
         Back
       </button>
       <h2 className="text-black border-b border-gray-500 text-2xl font-bold mt-10">
-        Jobs Posted By Employers
+        Jobs Posted By Employer
       </h2>
       <DataTableComponent
         heading={heading}
         data={data}
         loading={loading}
         name="employer-jobs"
+        renderers={renderers}
       />
     </div>
   );

@@ -174,7 +174,7 @@ const CandidateDetails = () => {
 
           <div className="bg-gray-200 px-4 py-4 my-4">
             <div className="flex text-xs justify-between pb-3">
-              <p className="font-bold">Applied Jobs</p>{" "}
+              <p className="font-bold">Registered On</p>
               <p>{format(new Date(data.created_at), "MMMM dd, yyyy")}</p>
             </div>
 
@@ -189,12 +189,24 @@ const CandidateDetails = () => {
           </div>
           <hr />
           <div className="p-4">
-            <BsShieldLock className="text-green-500 text-4xl" />
-            <h1 className="font-bold">Skills</h1>
-            <div className="text-sm px-4 py-4">
-              <div dangerouslySetInnerHTML={{ __html: data.experience }} />
-              <h2>{data.personal_profile}</h2>
-            </div>
+            {/* About Me */}
+            {data.personal_profile && (
+              <div className="mt-4">
+                <p className="text-sm font-bold mb-1">About Me:</p>
+                <p className="text-sm">{data.personal_profile}</p>
+              </div>
+            )}
+
+            {/* Experience */}
+            {data.experience && (
+              <div className="mt-4">
+                <p className="text-sm font-bold mb-1">Experience:</p>
+                <div
+                  className="text-sm"
+                  dangerouslySetInnerHTML={{ __html: data.experience }}
+                />
+              </div>
+            )}
           </div>
           <hr />
           <div className="text-md px-4 py-4">
@@ -247,8 +259,6 @@ const CandidateDetails = () => {
                 />
               )}
             </p>
-            <p className="text-sm font-bold">Status:</p>{" "}
-            <p className="text-sm">{data.status}</p>
           </div>
           <hr />
           <BsEye className="text-green-500 text-4xl" />
