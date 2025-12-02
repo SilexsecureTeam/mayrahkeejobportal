@@ -9,7 +9,6 @@ import {
 import { MdCallEnd } from "react-icons/md";
 import { AuthContext } from "../../context/AuthContex";
 import { useNavigate } from "react-router-dom";
-import { FormatPrice } from "../../utils/formmaters";
 import { axiosClient } from "../../services/axios-client";
 import { stages } from "../../utils/constants";
 import { onFailure } from "../../utils/notifications/OnFailure";
@@ -38,9 +37,6 @@ function You({ data, job, applicant, auth, exclusive }) {
       mediaStream.addTrack(webcamStream.track);
       return mediaStream;
     } else {
-      console.log("Camera error");
-      enableWebcam();
-      return null;
     }
   }, [webcamStream, webcamOn, enableWebcam]);
 
@@ -73,8 +69,6 @@ function You({ data, job, applicant, auth, exclusive }) {
         job_id: job?.id ?? application?.job_id,
         status: stages[2].name,
       };
-
-      console.log("Sending applicationRespond payload:", payload);
 
       const { data } = await client.post("/applicationRespond", payload);
 
@@ -168,7 +162,7 @@ function You({ data, job, applicant, auth, exclusive }) {
         <audio ref={micRef} autoPlay playsInline muted={isLocal} />
 
         {/* Video / image area */}
-        <div className="w-full max-h-96 overflow-hidden rounded-[10px]">
+        <div className="w-full h-96 overflow-hidden rounded-[10px]">
           {webcamOn && videoStream ? (
             <ReactPlayer
               playsinline
@@ -256,23 +250,16 @@ function You({ data, job, applicant, auth, exclusive }) {
 
         {/* Sidebar details */}
         <div className="sticky bottom-0 w-full md:flex flex-col h-max p-4 rounded-md bg-gray-950">
-          {job && (
+          {!applicant && (
             <>
               <span className="text-white font-semibold">Job Details</span>
 
               <span className="text-white tracking-wider mt-3 flex justify-between w-full text-sm">
                 Title
-                <span>{job.job_title}</span>
+                <span>{application?.job_title}</span>
               </span>
               <span className="text-white tracking-wider mt-3 flex justify-between w-full text-sm">
-                Type <span>{job.type}</span>
-              </span>
-              <span className="text-white tracking-wider mt-3 flex justify-between w-full text-sm">
-                Salary{" "}
-                <span>
-                  {FormatPrice(Number(job.min_salary))} -{" "}
-                  {FormatPrice(Number(job.max_salary))}
-                </span>
+                Employer <span>{application?.employer_name}</span>
               </span>
             </>
           )}

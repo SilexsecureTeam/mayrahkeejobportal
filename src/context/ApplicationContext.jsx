@@ -20,6 +20,7 @@ export const ApplicationContextProvider = ({ children }) => {
     getResume,
     getJobApplications,
     getCompany,
+    getApplication,
   } = useApplicationManagement();
 
   const [application, setApplication] = useState(null);
@@ -42,6 +43,7 @@ export const ApplicationContextProvider = ({ children }) => {
         setApplication,
         getJobApplications,
         getCompany,
+        getApplication,
       }}
     >
       {children}

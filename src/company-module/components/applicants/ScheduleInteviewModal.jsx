@@ -156,7 +156,6 @@ function ScheduleInterviewModal({
                 data={fields[3]}
                 details={details}
                 onTextChange={onTextChange}
-                value={companyUtil?.details.address}
               />
             )}
 

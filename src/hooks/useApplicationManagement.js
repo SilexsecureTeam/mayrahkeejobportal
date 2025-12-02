@@ -93,6 +93,18 @@ function useApplicationManagement() {
     }
   };
 
+  const getApplication = async (id, setApplication) => {
+    setLoading(true);
+    try {
+      const response = await client(`/getApplication/${id}`);
+      setApplication(response?.data?.job_application);
+    } catch (error) {
+      FormatError(error, setError, "Applicantion Error");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   // Function to change user password
   const changePassword = async (currentPassword, newPassword) => {
     setLoading(true);
@@ -245,6 +257,7 @@ function useApplicationManagement() {
     getJobApplications: getJobApplicationsDebounced, // Use debounced function
     getCompany,
     changePassword,
+    getApplication,
   };
 }
 

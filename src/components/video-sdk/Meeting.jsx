@@ -12,15 +12,24 @@ import useJobManagement from "../../hooks/useJobManagement";
 function Meeting({ interview, exclusive = null }) {
   const { authDetails } = useContext(AuthContext);
   const { getJobById } = useJobManagement();
-  const { getApplicant, application } = useContext(ApplicationContext);
+  const { getApplicant, application, getApplication, setApplication } =
+    useContext(ApplicationContext);
   const [job, setJob] = useState(null);
   const [applicant, setApplicant] = useState(null);
   const [joined, setJoined] = useState(null);
   const [participant, setParticipant] = useState(null);
   const [you, setYou] = useState(null);
   //console.log( "interview: ", interview, "job: ", job, "you: ",you)
-  console.log(application);
 
+  useEffect(() => {
+    const fetchApplication = async () => {
+      if (interview) {
+        await getApplication(interview?.job_application_id, setApplication);
+      }
+    };
+
+    fetchApplication();
+  }, [interview]);
   const { join, participants } = useMeeting({
     onMeetingJoined: () => {
       onSuccess({
