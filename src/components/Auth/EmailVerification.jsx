@@ -8,46 +8,80 @@ import useRegistration from "../../hooks/useRegistration";
 import { onSuccess } from "../../utils/notifications/OnSuccess";
 import { FaSpinner } from "react-icons/fa";
 
+const OTP_DURATION_SECONDS = 60; // better naming
+
 function EmailVerification() {
-  const timeInMs = 60;
-  const [secondsLeft, setSecondsLeft] = useState(timeInMs);
+  const [secondsLeft, setSecondsLeft] = useState(OTP_DURATION_SECONDS);
   const [otp, setOtp] = useState("");
-  const [resendLoading, setResendLoading] = useState(false); // ✅ new state
+  const [resendLoading, setResendLoading] = useState(false);
 
   const { error, verifyOtp, loading, resendOtp } = useRegistration();
   const navigate = useNavigate();
 
   const regMail = JSON.parse(localStorage.getItem("__reg_info"))?.email;
 
-  // Reset timer function
+  // helper: get stored expiry or null
+  const getStoredExpiry = () => {
+    const raw = localStorage.getItem("__otp_expiry");
+    if (!raw) return null;
+    const ts = Number(raw);
+    if (Number.isNaN(ts)) return null;
+    return ts;
+  };
+
+  const setStoredExpiry = (ts) => {
+    localStorage.setItem("__otp_expiry", String(ts));
+  };
+
+  // On mount: compute remaining time from stored expiry
+  useEffect(() => {
+    const now = Date.now();
+    const existingExpiry = getStoredExpiry();
+
+    if (existingExpiry && existingExpiry > now) {
+      const diffInSeconds = Math.floor((existingExpiry - now) / 1000);
+      setSecondsLeft(diffInSeconds);
+    } else {
+      // no valid expiry stored → start a fresh countdown and store it
+      const newExpiry = now + OTP_DURATION_SECONDS * 1000;
+      setStoredExpiry(newExpiry);
+      setSecondsLeft(OTP_DURATION_SECONDS);
+    }
+  }, []);
+
+  // countdown effect
+  useEffect(() => {
+    if (secondsLeft <= 0) {
+      setSecondsLeft(0);
+      onPrompt("Time elapsed");
+      return;
+    }
+
+    const intervalId = setInterval(() => {
+      setSecondsLeft((prev) => (prev > 0 ? prev - 1 : 0));
+    }, 1000);
+
+    return () => clearInterval(intervalId);
+  }, [secondsLeft]);
+
+  // Reset timer when OTP is resent
   const resetTimer = () => {
-    setSecondsLeft(timeInMs);
+    const newExpiry = Date.now() + OTP_DURATION_SECONDS * 1000;
+    setStoredExpiry(newExpiry);
+    setSecondsLeft(OTP_DURATION_SECONDS);
     onSuccess({
       message: "OTP Sent!",
       success: "A new OTP has been sent to your email",
     });
   };
 
-  // countdown effect
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      setSecondsLeft((prev) => (prev > 0 ? prev - 1 : 0));
-    }, 1000);
-
-    return () => clearInterval(intervalId);
-  }, []);
-
-  useEffect(() => {
-    if (secondsLeft === 0) {
-      onPrompt("Time elapsed");
-    }
-  }, [secondsLeft]);
-
   return (
     <div className="flex flex-col items-center justify-start w-full md:w-[50%] pt-[10%] px-[10%]">
       <div className="flex flex-col items-center">
         <h1 className="font-semibold text-[25px]">Verify your email</h1>
-        <p className="text-little text-gray-400">We sent a code to {regMail}</p>
+        <p className="text-little text-gray-400">
+          We sent a code to {regMail || "your email"}
+        </p>
       </div>
 
       <div className="flex flex-col gap-[10px] mt-[5%] items-center justify-center">
@@ -82,7 +116,8 @@ function EmailVerification() {
                 message: "Verification successful!",
                 success: "Login to continue",
               });
-              localStorage.clear();
+              localStorage.removeItem("__otp_expiry");
+              localStorage.removeItem("__reg_info");
             });
           }}
           loading={loading}
@@ -102,7 +137,7 @@ function EmailVerification() {
           onClick={async () => {
             try {
               setResendLoading(true);
-              await resendOtp(resetTimer); // 🔥 call resend
+              await resendOtp(resetTimer);
             } finally {
               setResendLoading(false);
             }

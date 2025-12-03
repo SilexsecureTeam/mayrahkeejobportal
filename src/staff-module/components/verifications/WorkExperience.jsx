@@ -64,7 +64,6 @@ function WorkExperience() {
     handleSubmit(submitDetails)(); // Proceed with form submission
   };
 
-
   const getWorkExperiences = async () => {
     setLoading(true);
     try {
@@ -91,7 +90,9 @@ function WorkExperience() {
 
   return (
     <div>
-      <h1 className="text-xl font-semibold text-green-700">Previous Work Experience</h1>
+      <h1 className="text-xl font-semibold text-green-700">
+        Previous Work Experience
+      </h1>
 
       {
         <form
@@ -106,7 +107,7 @@ function WorkExperience() {
             let labelText;
 
             if (currentKey === "company_name") {
-              labelText = currentKey.replace(/_/g, " ") + ' / Employer\'s Name';
+              labelText = currentKey.replace(/_/g, " ") + " / Employer's Name";
             } else {
               labelText = currentKey.replace(/_/g, " ");
             }
@@ -140,20 +141,55 @@ function WorkExperience() {
       )}
 
       {workExperiences.length > 0 && (
-        <div className="flex justify-between flex-col mt-5">
-          {workExperiences?.map((current, index) => (
-            <div className="flex flex-col gap-x-3 border-b gap-y-5 p-2 w-full text-gray-600">
-              <div className="flex flex-col gap-1">
-                <label className="gap-3 font-semibold text-lg">
-                  ({index + 1}) Work Description
-                </label>
-                <label className="pl-6 capitalize font-medium">{current["work_description"]}</label>
+        <div className="flex flex-col mt-5">
+          {workExperiences.map((current, index) => (
+            <div
+              key={current.id ?? index}
+              className="flex flex-col gap-y-4 border-b pb-4 pt-2 w-full text-gray-700"
+            >
+              {/* Company + Job Title */}
+              <div className="flex flex-col">
+                <span className="font-semibold text-lg text-gray-900">
+                  {index + 1}. {current.company_name}
+                </span>
+
+                <span className="pl-6 text-primaryColor font-medium tracking-wide">
+                  {current.job_title}
+                </span>
               </div>
-              <div className="flex flex-col gap-1">
-                <label className="gap-3 font-semibold text-lg pl-6">
-                  Reason for Leaving Previous Job
-                </label>
-                <label className="pl-6 capitalize">{current["reason_for_leaving"]}</label>
+
+              {/* Duration */}
+              <div className="flex flex-col pl-6">
+                <span className="font-semibold text-gray-800">Duration</span>
+                <span className="text-gray-600">
+                  {new Date(current.start_date).toLocaleDateString("en-US", {
+                    year: "numeric",
+                    month: "long",
+                  })}{" "}
+                  —{" "}
+                  {new Date(current.end_date).toLocaleDateString("en-US", {
+                    year: "numeric",
+                    month: "long",
+                  })}
+                </span>
+              </div>
+
+              {/* Work Description */}
+              <div className="flex flex-col pl-6">
+                <span className="font-semibold text-gray-800">Description</span>
+                <span className="text-gray-600 leading-relaxed">
+                  {current.work_description}
+                </span>
+              </div>
+
+              {/* Reason for Leaving */}
+              <div className="flex flex-col pl-6">
+                <span className="font-semibold text-gray-800">
+                  Reason for Leaving
+                </span>
+                <span className="text-gray-600">
+                  {current.reason_for_leaving}
+                </span>
               </div>
             </div>
           ))}

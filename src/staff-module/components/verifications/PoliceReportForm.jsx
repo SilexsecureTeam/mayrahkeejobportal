@@ -27,7 +27,7 @@ function PoliceReportForm({ authDetails, onSuccess: onUploadSuccess }) {
   const [ninFile, setNinFile] = useState(null);
   const [loading, setLoading] = useState(false);
   const [showConfirmation, setShowConfirmation] = useState(false);
-  const [currentResidence, setCurrentResidence] = useState(undefined); // 👈 track residence
+  const [currentPoliceReport, setCurrentPoliceReport] = useState(undefined);
   const client = axiosClient(authDetails?.token, true);
 
   const [formDataValues, setFormDataValues] = useState(null);
@@ -37,29 +37,28 @@ function PoliceReportForm({ authDetails, onSuccess: onUploadSuccess }) {
     setShowConfirmation(true);
   };
 
-  // 1. Check if residence already exists
-  const getResidence = async () => {
+  const getPoliceReport = async () => {
     setLoading(true);
     try {
       const { data } = await client.get(
-        `/domesticStaff/residential-status/${authDetails.user.id}`
+        `/domesticStaff/police-report/${authDetails.user.id}`
       );
-      setCurrentResidence(data.ResidentialStatus[0] || null); // null if none
+      setCurrentPoliceReport(data.policeReport ?? null);
     } catch (error) {
       FormatError(error, null, "Retrieval Failed");
-      setCurrentResidence(null); // fallback
+      setCurrentPoliceReport(null);
     } finally {
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    getResidence();
+    getPoliceReport();
   }, []);
 
   // 2. Fetch countries ONLY if no residence
   useEffect(() => {
-    if (currentResidence === null) {
+    if (currentPoliceReport === null) {
       const fetchCountries = async () => {
         try {
           const response = await getCountries(true);
@@ -70,7 +69,7 @@ function PoliceReportForm({ authDetails, onSuccess: onUploadSuccess }) {
       };
       fetchCountries();
     }
-  }, [currentResidence]);
+  }, [currentPoliceReport]);
 
   const handleConfirmedSubmit = async () => {
     if (!policeFile) {
@@ -117,10 +116,10 @@ function PoliceReportForm({ authDetails, onSuccess: onUploadSuccess }) {
   };
 
   // 🟢 If residence exists, don’t render the form at all
-  if (currentResidence && currentResidence.id) {
+  if (currentPoliceReport && currentPoliceReport.id) {
     return (
       <div className="p-4 border rounded-md bg-gray-100 text-gray-700">
-        <p>You already have a residence record on file.</p>
+        <p>You already have a police report on file.</p>
       </div>
     );
   }

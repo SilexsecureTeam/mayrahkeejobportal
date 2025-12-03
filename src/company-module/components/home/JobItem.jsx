@@ -13,9 +13,8 @@ function JobItem({ data, applicants, currencies }) {
     (currentApplicant) => data?.id === currentApplicant.job_id
   );
 
-  const currency = currencies?.find(
-    (curr) => curr?.name === data?.currency?.split(" ")[0]
-  )?.code;
+  const currencyCode =
+    data?.currency?.split("(")?.[0]?.trim() ?? data?.currency ?? "";
 
   return (
     <div
@@ -48,11 +47,11 @@ function JobItem({ data, applicants, currencies }) {
 
       <div className="flex gap-[5px] w-max justify-between">
         <button className="border border-[#ffb836] text-little px-2 h-fit  text-[#ffb836] rounded-[20px] flex items-center justify-center">
-          {currency} {FormatPrice(Number(data?.min_salary))}
+          {currencyCode} {FormatPrice(Number(data?.min_salary))}
         </button>
         to
         <button className="border border-primaryColor text-little px-2 h-fit flex items-center justify-center text-primaryColor rounded-[20px]">
-          {currency} {FormatPrice(Number(data?.max_salary))}
+          {currencyCode} {FormatPrice(Number(data?.max_salary))}
         </button>
       </div>
 

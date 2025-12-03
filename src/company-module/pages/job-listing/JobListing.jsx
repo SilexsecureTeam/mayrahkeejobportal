@@ -102,8 +102,8 @@ function JobListing() {
         />
 
         {/* 🔹 Job Table */}
-        <div className="min-w-[700px] w-full overflow-x-auto">
-          <table className="min-w-full bg-white border border-gray-200">
+        <div className=" w-full overflow-x-auto">
+          <table className="min-w-[700px] bg-white border border-gray-200">
             <thead className="border bg-white text-gray-600 font-semibold">
               <tr className="text-xs md:text-sm divide-gray-200">
                 <th className="px-2 md:px-4 py-1 text-center">Roles</th>
