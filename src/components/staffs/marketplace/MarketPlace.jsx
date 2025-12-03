@@ -6,7 +6,7 @@ import TableRow from "./TableRow";
 import { useLocation } from "react-router-dom";
 import { onFailure } from "../../../utils/notifications/OnFailure";
 import { extractErrorMessage } from "../../../utils/formmaters";
-import { FaSpinner, FaExclamationTriangle, FaBoxOpen } from "react-icons/fa";
+import { FaSpinner, FaBoxOpen } from "react-icons/fa";
 
 const navOptions = ["Active Contracts", "Market Place"];
 
@@ -44,7 +44,7 @@ function MarketPlace({ handleAddToCart, handleRemoveCart, cartItems }) {
     } catch (error) {
       const errMsg = extractErrorMessage(error);
       setErrorMessage(errMsg || "Unable to load marketplace data.");
-      if (errMsg !== "Contract(s) not found") {
+      if (errMsg !== "No contract(s) found") {
         onFailure({ message: "Something went wrong", error: errMsg });
       }
     } finally {
@@ -76,10 +76,15 @@ function MarketPlace({ handleAddToCart, handleRemoveCart, cartItems }) {
         setContractItems([]);
       }
     } catch (error) {
-      const errMsg = extractErrorMessage(error);
-      setErrorMessage(errMsg || "Unable to load contract data.");
-      if (error?.status !== 404) {
-        onFailure({ message: "Something went wrong", error: errMsg });
+      if (error?.message === "No contract(s) found") {
+        setContractItems([]);
+        return;
+      } else {
+        const errMsg = extractErrorMessage(error);
+        setErrorMessage(errMsg || "Unable to load contract data.");
+        if (error?.status !== 404) {
+          onFailure({ message: "Something went wrong", error: errMsg });
+        }
       }
     } finally {
       setLoading(false);
@@ -104,24 +109,6 @@ function MarketPlace({ handleAddToCart, handleRemoveCart, cartItems }) {
     <div className="flex flex-col items-center justify-center py-10 text-gray-500 text-sm">
       <FaBoxOpen className="text-5xl mb-2 text-gray-400" />
       <span>No {label} found.</span>
-    </div>
-  );
-
-  // ✅ Error state
-  const renderError = () => (
-    <div className="flex flex-col items-center justify-center py-10 text-red-500 text-sm">
-      <FaExclamationTriangle className="text-5xl mb-2 text-red-400" />
-      <span>Failed to load data.</span>
-      <span className="text-gray-500 mt-1 text-xs">{errorMessage}</span>
-      <button
-        onClick={() => {
-          setErrorMessage("");
-          activeOption === navOptions[0] ? getContractItems() : getMarketList();
-        }}
-        className="mt-3 px-4 py-1 bg-red-500 text-white rounded-md text-xs hover:bg-red-600"
-      >
-        Retry
-      </button>
     </div>
   );
 
@@ -160,8 +147,6 @@ function MarketPlace({ handleAddToCart, handleRemoveCart, cartItems }) {
 
           {loading ? (
             renderLoading()
-          ) : errorMessage ? (
-            renderError()
           ) : contractItems.length === 0 ? (
             renderEmpty("active contracts")
           ) : (
@@ -190,8 +175,6 @@ function MarketPlace({ handleAddToCart, handleRemoveCart, cartItems }) {
 
           {loading ? (
             renderLoading()
-          ) : errorMessage ? (
-            renderError()
           ) : marketList.length === 0 ? (
             renderEmpty("available staff")
           ) : (

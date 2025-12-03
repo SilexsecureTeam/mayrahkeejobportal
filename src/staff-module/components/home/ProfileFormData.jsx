@@ -40,7 +40,11 @@ export default function ProfileFormData({
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm();
+  } = useForm({
+    defaultValues: {
+      ...profileDetails,
+    },
+  });
 
   const handleImageChange = (event) => {
     const imageFile = event.target.files[0];
@@ -81,7 +85,11 @@ export default function ProfileFormData({
     );
 
     try {
-      if (!!data?.means_of_identification && !idFile) {
+      if (
+        !!data?.means_of_identification &&
+        !idFile &&
+        !profileDetails?.id_upload
+      ) {
         throw Error("Please upload an ID image");
       }
       const response = await client.post(
@@ -132,7 +140,12 @@ export default function ProfileFormData({
           profileDetails={profileDetails}
         />
         {authDetails?.user?.staff_category === "artisan" && (
-          <ArtisanIDSection register={register} setIdFile={setIdFile} />
+          <ArtisanIDSection
+            register={register}
+            idFile={idFile}
+            setIdFile={setIdFile}
+            existingIdUpload={profileDetails?.id_upload}
+          />
         )}
 
         <FieldSection

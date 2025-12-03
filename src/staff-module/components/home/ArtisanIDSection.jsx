@@ -1,4 +1,9 @@
-export default function ArtisanIDSection({ register, idFile, setIdFile }) {
+export default function ArtisanIDSection({
+  register,
+  idFile,
+  setIdFile,
+  existingIdUpload, // 👈 e.g. a URL or truthy value if ID is already uploaded
+}) {
   const handleFileChange = (e) => {
     const file = e.target.files[0];
 
@@ -17,6 +22,8 @@ export default function ArtisanIDSection({ register, idFile, setIdFile }) {
 
     setIdFile(file);
   };
+
+  const hasExistingId = !!existingIdUpload;
 
   return (
     <div className="col-span-2 grid grid-cols-2 gap-4 border-t pt-4">
@@ -42,14 +49,31 @@ export default function ArtisanIDSection({ register, idFile, setIdFile }) {
 
       <div className="flex flex-col gap-1">
         <label>
-          Upload ID Image <span className="text-red-500">*</span>
+          Upload ID Image {/* only required when there is no existing ID */}
+          {!hasExistingId && <span className="text-red-500">*</span>}
         </label>
         <input
           type="file"
           accept="image/png, image/jpeg"
           onChange={handleFileChange}
+          // required only if no existing upload and no new file selected
+          required={!hasExistingId && !idFile}
           className="p-1 border border-gray-900 rounded-md"
         />
+
+        {hasExistingId && !idFile && (
+          <small className="text-xs text-green-600">
+            An ID image is already uploaded. You can upload a new one to replace
+            it (optional).
+          </small>
+        )}
+
+        {idFile && (
+          <small className="text-xs text-blue-600">
+            Selected file: {idFile.name}
+          </small>
+        )}
+
         <small className="text-xs text-gray-500">
           Max file size: 1MB (JPG or PNG)
         </small>
