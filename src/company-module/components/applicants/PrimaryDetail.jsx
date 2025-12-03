@@ -4,30 +4,35 @@ import linkedinIcon from "../../../assets/pngs/linkedin-icon.png";
 import { formatDate } from "../../../utils/formmaters";
 
 function PrimaryDetail({ data, applicant }) {
-
   const getSocials = () => {
-    const list = applicant?.social_media_handle.map((current, idx) => {
-      if (current.network === "linkedIn") {
-        return (
-          <a key={idx} href="" className="w-full flex text-little gap-[5px] items-center">
-            <img src={linkedinIcon} className="h-[15px]" />
-            {current.url}
-          </a>
-        );
-      }
-    }).filter(current => typeof current !== 'undefined');
+    const list = applicant?.social_media_handle
+      .map((current, idx) => {
+        if (current.network === "linkedIn") {
+          return (
+            <a
+              key={idx}
+              href=""
+              className="w-full flex text-little gap-[5px] items-center"
+            >
+              <img src={linkedinIcon} className="h-[15px]" />
+              {current.url}
+            </a>
+          );
+        }
+      })
+      .filter((current) => typeof current !== "undefined");
 
-
-    
     if (list.length > 0 && list.length) {
       return list;
     } else {
-      return <span className="text-little text-gray-400">No socials linked</span>;
+      return (
+        <span className="text-little text-gray-400">No socials linked</span>
+      );
     }
   };
 
   return (
-    <div className="w-full md:w-[30%] border h-full p-2">
+    <div className="w-full lg:w-[30%] border h-full p-2">
       <div className="w-full flex flex-col gap-[15px] items-center">
         <div className="flex w-full gap-[10px] items-center">
           <img
@@ -43,9 +48,7 @@ function PrimaryDetail({ data, applicant }) {
         <div className="w-full h-[100px] text-white flex flex-col gap-[5px] bg-primaryColor">
           <div className="w-full flex p-2 border-b border-gray-400 justify-between">
             <span className=" text-little">Applied Job</span>
-            <span className=" text-little">
-              {formatDate(data?.created_at)}
-            </span>
+            <span className=" text-little">{formatDate(data?.created_at)}</span>
           </div>
           <div className="w-full flex flex-col p-2 gap-[5px]  justify-between">
             <span className=" font-semibold text-[12px]">
@@ -60,7 +63,13 @@ function PrimaryDetail({ data, applicant }) {
         <div className="w-full h-[30px] text-white flex justify-between items-center px-2 py-1  gap-[5px] bg-primaryColor">
           <span className="text-little">Status</span>
           <span className="text-xs uppercase font-bold">
-            {data?.status == "in-review" ? "Under-Review" : data?.status == "shortlist" ? "Shortlisted" : data?.status == "interview" ? "Interviewed" : data.status }
+            {data?.status == "in-review"
+              ? "Under-Review"
+              : data?.status == "shortlist"
+              ? "Shortlisted"
+              : data?.status == "interview"
+              ? "Interviewed"
+              : data.status}
           </span>
         </div>
 

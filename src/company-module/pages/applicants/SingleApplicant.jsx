@@ -4,6 +4,8 @@ import SecondaryDetail from "../../components/applicants/SecondaryDetail";
 import { useContext, useEffect, useState } from "react";
 import ScheduleInterviewModal from "../../components/applicants/ScheduleInteviewModal";
 import { ApplicationContext } from "../../../context/ApplicationContext";
+import { useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function SingleApplicant() {
   const location = useLocation();
@@ -20,13 +22,31 @@ function SingleApplicant() {
     onTextChange,
     loading,
     scheduleInterview,
+    getApplication,
   } = useContext(ApplicationContext);
+  const { id } = useParams();
+  const navigate = useNavigate();
 
-  const [applicationData, setApplicantData] = useState(location?.state?.data);
+  const [applicationData, setApplicantData] = useState();
   const [applicant, setApplicant] = useState();
   const [isLoading, setIsLoading] = useState(false);
 
   const exclusiveData = location?.state?.exclusiveData || null;
+
+  useEffect(() => {
+    const fetchApplication = async () => {
+      if (id) {
+        setIsLoading(true);
+        try {
+          await getApplication(id, setApplicantData);
+        } finally {
+          setIsLoading(false);
+        }
+      }
+    };
+    if (id) fetchApplication();
+    else navigate(-1);
+  }, [id]);
 
   // New unified function to open the modal
   const openInterviewModal = (isEdit = false, detailsData = null) => {
@@ -112,12 +132,14 @@ function SingleApplicant() {
         </div>
       ) : (
         applicant && (
-          <div className="w-full flex flex-col h-full gap-[5px]">
-            <div className="w-full flex justify-between ">
-              <h2 className="font-semibold text-md">Applicant's Details</h2>
+          <div className="w-full flex flex-col h-full gap-4 p-4">
+            <div className="w-full flex justify-between">
+              <h2 className="font-semibold text-lg md:text-xl text-gray-800">
+                Applicant's Details
+              </h2>
             </div>
 
-            <div className="flex flex-col md:flex-row justify-between h-full">
+            <div className="flex flex-col lg:flex-row justify-between gap-4 min-h-[calc(100vh-150px)]">
               <PrimaryDetail data={applicationData} applicant={applicant} />
               <SecondaryDetail
                 data={applicationData}

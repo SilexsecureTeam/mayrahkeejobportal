@@ -1,4 +1,4 @@
-import React, { useState, useEffect,useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import useJobManagement from "../../../../hooks/useJobManagement";
@@ -51,46 +51,63 @@ const AllApplicants = ({ app, index }) => {
 
   return (
     <div
-  onClick={handleClick}
-  className="flex justify-between items-center text-left gap-6 border-b py-4 px-3 hover:bg-gray-100 transition duration-200 ease-in-out cursor-pointer min-w-max"
->
-  {/* Index */}
-  <div className="w-40 flex gap-x-2 items-center text-gray-700 font-semibold">
-    {index + 1}
-
-  {/* Job Info */}
-  <div className="flex items-center gap-2">
-    <img
-      src={`${resourceUrl}/${job?.featured_image}`}
-      alt="Job"
-      className="w-10 h-10 object-cover flex-shrink-0 rounded-full border border-gray-200 shadow-sm"
-    />
-    <p title={app?.job_title} className="font-medium text-gray-800 text-sm break-words capitalize">{app?.job_title?.length > 20 ? `${app?.job_title.slice(0,20)}...`: app?.job_title}</p>
-  </div>
-  </div>
-
-  {/* Office Address */}
-  <div className="w-32">
-    <p className="text-gray-600 text-sm truncate" title={job?.office_address}>
-      {job?.office_address || "N/A"}
-    </p>
-  </div>
-
-  {/* Date Created */}
-  <div className="text-gray-700 text-sm min-w-max">
-    {formatDate(dateCreated)}
-  </div>
-
-  {/* Status */}
-  <div className="w-32">
-    <button
-      className={`border px-4 py-1 text-xs rounded-full uppercase font-semibold ${getBorderColor()}`}
+      onClick={handleClick}
+      className="flex justify-between items-center text-left gap-6 border-b py-4 px-3 hover:bg-gray-100 transition duration-200 ease-in-out cursor-pointer min-w-max"
     >
-      <span className="capitalize">{(app?.status == "shortlist" ? "Shortlisted" : app?.status == "in-review" ? "Under-Review" : app?.status)}</span>
-    </button>
-  </div>
-</div>
+      {/* Index */}
+      <div className="w-40 flex gap-x-2 items-center text-gray-700 font-semibold">
+        {index + 1}
 
+        {/* Job Info */}
+        <div className="flex items-center gap-2">
+          <img
+            src={`${resourceUrl}/${job?.featured_image}`}
+            alt="Job"
+            className="w-10 h-10 object-cover flex-shrink-0 rounded-full border border-gray-200 shadow-sm"
+          />
+          <p
+            title={app?.job_title}
+            className="font-medium text-gray-800 text-sm break-words capitalize"
+          >
+            {app?.job_title?.length > 20
+              ? `${app?.job_title.slice(0, 20)}...`
+              : app?.job_title}
+          </p>
+        </div>
+      </div>
+
+      {/* Office Address */}
+      <div className="w-32">
+        <p
+          className="text-gray-600 text-sm truncate"
+          title={job?.office_address}
+        >
+          {job?.office_address || "N/A"}
+        </p>
+      </div>
+
+      {/* Date Created */}
+      <div className="text-gray-700 text-sm min-w-max">
+        {formatDate(dateCreated)}
+      </div>
+
+      {/* Status */}
+      <div className="w-32">
+        <button
+          className={`border px-4 py-1 text-xs rounded-full uppercase font-semibold ${getBorderColor()}`}
+        >
+          <span className="capitalize">
+            {app?.status == "shortlist"
+              ? "Shortlisted"
+              : app?.status == "in-review"
+              ? "Under-Review"
+              : app?.status == "interview"
+              ? "Interviewed"
+              : app?.status}
+          </span>
+        </button>
+      </div>
+    </div>
   );
 };
 

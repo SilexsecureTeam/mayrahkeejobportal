@@ -1,13 +1,15 @@
 import { useContext, useEffect, useState, useCallback, useMemo } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { axiosClient } from "../../../services/axios-client";
 import { AuthContext } from "../../../context/AuthContex";
 import { ApplicationContext } from "../../../context/ApplicationContext";
 import { FormatError } from "../../../utils/formmaters";
 import { onFailure } from "../../../utils/notifications/OnFailure";
 import { onSuccess } from "../../../utils/notifications/OnSuccess";
+import StatusUpdateModal from "./StatusUpdateModal";
 
 function Shortlist({ data, exclusive, toogleInterview, setEdit }) {
+  const { state } = useLocation();
   const navigate = useNavigate();
   const { authDetails } = useContext(AuthContext);
   const { setApplication, setInterviewDetails } =
@@ -24,6 +26,7 @@ function Shortlist({ data, exclusive, toogleInterview, setEdit }) {
   const [showStatusModal, setShowStatusModal] = useState(false);
   const [selectedStatus, setSelectedStatus] = useState("");
   const [isUpdating, setIsUpdating] = useState(false);
+  const [isInterviewLoading, setIsInterviewLoading] = useState(true); // loader state
 
   // Check if interview is physical (location but no meeting link)
   const isPhysicalInterview =
@@ -86,12 +89,10 @@ function Shortlist({ data, exclusive, toogleInterview, setEdit }) {
     if (!interview) return;
 
     if (isPhysicalInterview) {
-      if (hasEnded) {
-        // Show modal instead of navigating
-        setShowStatusModal(true);
-        console.log(data);
-      }
+      // For physical interviews, no virtual room to join
+      console.log("Physical interview - no virtual room");
     } else {
+      // For online interviews, navigate to interview room if live
       navigate("/interview-room", {
         state: {
           interview,
@@ -117,12 +118,13 @@ function Shortlist({ data, exclusive, toogleInterview, setEdit }) {
       );
 
       if (applicationUpdateResponse?.data) {
-        onSuccess("Application status updated successfully!");
+        onSuccess({
+          message: "Application Update",
+          success: "Application status updated successfully.",
+        });
+        setApplication(applicationUpdateResponse.data.job_application);
         setShowStatusModal(false);
         setSelectedStatus("");
-
-        // You might want to refresh the application data here
-        // or emit an event to parent component
       }
     } catch (err) {
       FormatError(err, setError, "Update Status Error");
@@ -134,12 +136,17 @@ function Shortlist({ data, exclusive, toogleInterview, setEdit }) {
   // Fetch interview details
   useEffect(() => {
     const initInterview = async () => {
-      if (!data?.interview_id) return;
+      if (!data?.interview_id) {
+        setIsInterviewLoading(false);
+        return;
+      }
       try {
         const response = await client.get(`/interviews/${data.interview_id}`);
         setInterview(response.data.interview);
       } catch (err) {
         FormatError(err, setError, "Interview Error");
+      } finally {
+        setIsInterviewLoading(false);
       }
     };
 
@@ -187,6 +194,20 @@ function Shortlist({ data, exclusive, toogleInterview, setEdit }) {
     return () => clearInterval(countdownInterval);
   }, [interview, formatDateTime, isPhysicalInterview]);
 
+  // Loader while fetching interview
+  if (isInterviewLoading) {
+    return (
+      <div className="flex min-h-[160px] items-center justify-center px-2">
+        <div className="flex items-center gap-3 rounded-xl border border-slate-200 bg-white px-4 py-3 shadow-sm">
+          <span className="h-4 w-4 animate-spin rounded-full border-2 border-primaryColor/30 border-t-primaryColor" />
+          <p className="text-sm font-medium text-slate-700">
+            Loading interview details…
+          </p>
+        </div>
+      </div>
+    );
+  }
+
   if (!interview) return null;
 
   const { isLive, hasEnded, formattedDate, formattedTime } = formatDateTime(
@@ -194,17 +215,11 @@ function Shortlist({ data, exclusive, toogleInterview, setEdit }) {
     interview?.interview_time
   );
 
-  // Button Label Logic
+  // Main Button Label Logic
   let buttonLabel = "";
 
   if (isPhysicalInterview) {
-    if (hasEnded) {
-      buttonLabel = "Update Application Status";
-    } else if (isLive) {
-      buttonLabel = "Physical Interview Ongoing";
-    } else {
-      buttonLabel = "Physical Interview Pending";
-    }
+    buttonLabel = "Physical Interview";
   } else {
     if (hasEnded) {
       buttonLabel = "Interview Ended";
@@ -215,165 +230,134 @@ function Shortlist({ data, exclusive, toogleInterview, setEdit }) {
     }
   }
 
-  // Disable Logic
-  const isButtonDisabled =
-    (isPhysicalInterview && !hasEnded) ||
-    (!isPhysicalInterview && (!isLive || hasEnded || !interview?.meeting_id));
+  // Disable Logic for main button
+  const isMainButtonDisabled =
+    isPhysicalInterview || hasEnded || !isLive || !interview?.meeting_id;
 
   return (
     <>
-      {/* Status Update Modal */}
-      {showStatusModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-lg shadow-xl max-w-md w-full">
-            <div className="p-6">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">
-                Update Application Status
-              </h3>
+      {/* Status Update Modal (separated component) */}
+      <StatusUpdateModal
+        isOpen={showStatusModal}
+        selectedStatus={selectedStatus}
+        setSelectedStatus={setSelectedStatus}
+        isUpdating={isUpdating}
+        onClose={() => {
+          setShowStatusModal(false);
+          setSelectedStatus("");
+        }}
+        onConfirm={handleUpdateStatus}
+      />
 
-              <p className="text-sm text-gray-600 mb-6">
-                Set the final status for this application after the interview.
-              </p>
+      <div className="px-2 pb-4">
+        <h3 className="mb-3 text-xl font-semibold tracking-tight text-slate-900">
+          Interview Scheduled
+        </h3>
 
-              <div className="space-y-4 mb-6">
-                <div className="flex items-center">
-                  <input
-                    type="radio"
-                    id="hired"
-                    name="status"
-                    value="hired"
-                    checked={selectedStatus === "hired"}
-                    onChange={(e) => setSelectedStatus(e.target.value)}
-                    className="h-4 w-4 text-primaryColor focus:ring-primaryColor border-gray-300"
-                  />
-                  <label
-                    htmlFor="hired"
-                    className="ml-3 block text-sm font-medium text-gray-700"
-                  >
-                    Hired
-                  </label>
-                </div>
+        <div className="mb-5 grid grid-cols-1 gap-4 rounded-xl border border-slate-200 bg-white p-4 shadow-sm md:grid-cols-2">
+          <div className="flex flex-col">
+            <span className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+              Interview Date
+            </span>
+            <span className="mt-1 text-sm font-medium text-slate-900">
+              {formattedDate}
+            </span>
+          </div>
 
-                <div className="flex items-center">
-                  <input
-                    type="radio"
-                    id="declined"
-                    name="status"
-                    value="declined"
-                    checked={selectedStatus === "declined"}
-                    onChange={(e) => setSelectedStatus(e.target.value)}
-                    className="h-4 w-4 text-primaryColor focus:ring-primaryColor border-gray-300"
-                  />
-                  <label
-                    htmlFor="declined"
-                    className="ml-3 block text-sm font-medium text-gray-700"
-                  >
-                    Declined
-                  </label>
-                </div>
-              </div>
+          <div className="flex flex-col">
+            <span className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+              Interviewer
+            </span>
+            <span className="mt-1 text-sm font-medium text-slate-900">
+              {interview?.interviewer_name}
+            </span>
+          </div>
 
-              <div className="flex justify-end space-x-3">
-                <button
-                  onClick={() => {
-                    setShowStatusModal(false);
-                    setSelectedStatus("");
-                  }}
-                  disabled={isUpdating}
-                  className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primaryColor disabled:opacity-50"
-                >
-                  Cancel
-                </button>
-                <button
-                  onClick={handleUpdateStatus}
-                  disabled={!selectedStatus || isUpdating}
-                  className="px-4 py-2 text-sm font-medium text-white bg-primaryColor border border-transparent rounded-md hover:bg-primaryColor/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primaryColor disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  {isUpdating ? "Updating..." : "Update Status"}
-                </button>
-              </div>
+          <div className="flex flex-col">
+            <span className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+              Interview Time
+            </span>
+            <span className="mt-1 text-sm font-medium text-slate-900">
+              {formattedTime}
+            </span>
+          </div>
+
+          {interview?.location && (
+            <div className="flex flex-col">
+              <span className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+                Location
+              </span>
+              <span className="mt-1 text-sm font-medium text-slate-900">
+                {interview?.location}
+              </span>
+            </div>
+          )}
+
+          {interview?.meeting_id && (
+            <div className="flex flex-col">
+              <span className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+                Meeting ID
+              </span>
+              <span className="mt-1 text-sm font-mono text-slate-900">
+                {interview?.meeting_id}
+              </span>
+            </div>
+          )}
+
+          <div className="flex flex-col md:col-span-2">
+            <span className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+              Additional Notes
+            </span>
+            <span className="mt-1 text-sm text-slate-800">
+              {interview?.notes || "No additional notes."}
+            </span>
+          </div>
+        </div>
+
+        {!isPhysicalInterview && countdown && (
+          <div className="mb-4">
+            <div className="inline-flex items-center gap-2 rounded-full border border-blue-100 bg-blue-50 px-3 py-1.5">
+              <span className="text-xs font-semibold uppercase tracking-wide text-blue-700">
+                Time Remaining
+              </span>
+              <span className="text-xs font-medium text-blue-800">
+                {countdown}
+              </span>
             </div>
           </div>
-        </div>
-      )}
-
-      <h3 className="px-2 text-little">An Interview has been Scheduled</h3>
-
-      <div className="grid grid-cols-2 w-full gap-y-2 justify-between items-center px-2">
-        <div className="flex flex-col">
-          <span className="text-gray-400 text-sm">Interview Date</span>
-          <span className="text-gray-700 font-semibold text-little">
-            {formattedDate}
-          </span>
-        </div>
-
-        <div className="flex flex-col w-[40%]">
-          <span className="text-gray-400 text-sm">Interviewer</span>
-          <span className="text-gray-700 font-semibold text-little">
-            {interview?.interviewer_name}
-          </span>
-        </div>
-
-        <div className="flex flex-col">
-          <span className="text-gray-400 text-sm">Interview Time</span>
-          <span className="text-gray-700 font-semibold text-little">
-            {formattedTime}
-          </span>
-        </div>
-
-        {interview?.location && (
-          <div className="flex flex-col">
-            <span className="text-gray-400 text-sm">Interview Location</span>
-            <span className="text-gray-700 font-semibold text-little">
-              {interview?.location}
-            </span>
-          </div>
         )}
 
-        {interview?.meeting_id && (
-          <div className="flex flex-col">
-            <span className="text-gray-400 text-sm">Meeting ID</span>
-            <span className="text-gray-700 font-semibold text-little">
-              {interview?.meeting_id}
-            </span>
-          </div>
-        )}
+        {/* Buttons - Responsive layout */}
+        <div className="flex flex-col gap-3 md:flex-row md:flex-wrap">
+          {/* Main button */}
+          <button
+            onClick={handleOnClick}
+            disabled={isMainButtonDisabled}
+            className="flex-1 rounded-lg border border-primaryColor px-4 py-2.5 text-sm font-semibold text-primaryColor transition hover:bg-primaryColor hover:text-white disabled:cursor-not-allowed disabled:border-slate-300 disabled:bg-slate-50 disabled:text-slate-400"
+          >
+            {buttonLabel}
+          </button>
 
-        <div className="flex flex-col">
-          <span className="text-gray-400 text-sm">Add Ons</span>
-          <span className="text-gray-700 font-semibold text-little">
-            {interview?.notes || "—"}
-          </span>
+          {/* Update Application Status button */}
+          <button
+            onClick={() => setShowStatusModal(true)}
+            className="flex-1 rounded-lg border border-primaryColor bg-primaryColor px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-primaryColor/90 hover:border-primaryColor/90"
+          >
+            Update Application Status
+          </button>
+
+          {/* Edit Interview button */}
+          <button
+            onClick={() => {
+              setEdit(true);
+              setInterviewDetails(interview);
+              toogleInterview(interview);
+            }}
+            className="flex-1 rounded-lg border border-slate-300 px-4 py-2.5 text-sm font-semibold text-slate-700 transition hover:border-slate-400 hover:bg-slate-50"
+          >
+            Edit Interview
+          </button>
         </div>
-      </div>
-
-      {!isPhysicalInterview && countdown && (
-        <div className="flex px-2 gap-2 items-center">
-          <span className="text-gray-700 font-semibold text-little">
-            Time Remaining: {countdown}
-          </span>
-        </div>
-      )}
-
-      <div className="flex px-2 gap-2 items-center mt-2">
-        <button
-          onClick={handleOnClick}
-          disabled={isButtonDisabled}
-          className="border w-fit hover:bg-primaryColor hover:text-white py-1 text-little px-2 border-primaryColor cursor-pointer disabled:hover:text-gray-700 disabled:hover:bg-transparent disabled:opacity-30 disabled:cursor-not-allowed"
-        >
-          {buttonLabel}
-        </button>
-
-        <button
-          onClick={() => {
-            setEdit(true);
-            setInterviewDetails(interview);
-            toogleInterview(interview);
-          }}
-          className="border hover:bg-primaryColor hover:text-white p-2 md:py-1 text-little px-2 border-primaryColor"
-        >
-          Edit Interview
-        </button>
       </div>
     </>
   );

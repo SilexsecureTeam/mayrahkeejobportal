@@ -28,7 +28,9 @@ function ApplicantProfile({ data, applicant }) {
           </li>
           <li className="flex flex-col">
             <span className="text-gray-800 text-sm">Gender</span>
-            <span className="font-semibold text-xs">{applicant?.gender}</span>
+            <span className="font-semibold text-xs">
+              {applicant?.gender || "N/A"}
+            </span>
           </li>
           <li className="flex flex-col">
             <span className="text-gray-800 text-sm">Languages</span>

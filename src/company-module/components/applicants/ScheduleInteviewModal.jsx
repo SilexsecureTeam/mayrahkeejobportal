@@ -107,14 +107,14 @@ function ScheduleInterviewModal({
   return (
     isOpen && (
       <div className="h-full z-10 w-full flex justify-center items-center bg-gray-600/70 fixed top-0 left-0">
-        <div className="w-[90%] md:w-[40%] h-fit p-3 flex flex-col rounded-[10px] bg-white border">
-          <IoMdCloseCircle
-            onClick={() => setIsOpen(false)}
-            className="text-lg place-self-end cursor-pointer"
-          />
-          <h4 className="text-[16px] font-semibold border-b mb-2">
-            Schedule Interview
-          </h4>
+        <div className="w-[90%] md:w-[40%] h-fit max-h-[90%] overflow-y-auto p-3 pt-0 flex flex-col rounded-[10px] bg-white border">
+          <div className="sticky py-3 z-50 top-0 right-2 bg-white flex justify-between items-center gap-2 border-b mb-2">
+            <h4 className="text-[16px] font-semibold">Schedule Interview</h4>
+            <IoMdCloseCircle
+              onClick={() => setIsOpen(false)}
+              className="text-lg place-self-end cursor-pointer"
+            />
+          </div>
 
           <form
             onSubmit={(e) => handleOnSubmit(e, selected, meetingId)}

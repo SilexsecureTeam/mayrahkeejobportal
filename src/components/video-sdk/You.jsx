@@ -66,6 +66,7 @@ function You({ data, job, applicant, auth, exclusive }) {
 
       const payload = {
         candidate_id: applicant?.id ?? application?.candidate_id,
+        interview_id: application?.interview_id,
         job_id: job?.id ?? application?.job_id,
         status: stages[2].name,
       };
