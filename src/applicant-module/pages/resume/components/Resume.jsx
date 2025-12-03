@@ -21,16 +21,16 @@ const Resume = ({ resume, setGetResumeById, authDetails, getCandidate }) => {
   const [errorMsg, setErrorMsg] = useState(false);
   const [loading, setLoading] = useState(null);
 
-  const deleteUser = () => {
+  const deleteUser = async () => {
     setErrorMsg(null);
     setLoading(true);
 
     setGetResumeById((prev) => ({ ...prev, isDataNeeded: false }));
 
-    axios
+    await axios
       .delete(`${BASE_URL}/resumes/${resume.id}`, {
         headers: {
-          Authorization: `Bearer ${authDetails.token}`,
+          Authorization: `Bearer ${authDetails?.token}`,
         },
       })
       .then((response) => {

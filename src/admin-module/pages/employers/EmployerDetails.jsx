@@ -169,10 +169,6 @@ const EmployerDetails = () => {
               <p className="text-sm font-bold">Address:</p>{" "}
               <p className="text-sm ml-2">{details?.address}</p>
             </div>
-            <div className="flex">
-              <p className="text-sm font-bold">Status:</p>{" "}
-              <p className="text-sm ml-2">{candidateAuth?.status}</p>
-            </div>
           </div>
           <hr />
           <h1 className="font-bold py-4">Social Media</h1>

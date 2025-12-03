@@ -65,7 +65,7 @@ function You({ data, job, applicant, auth, exclusive }) {
       const client = axiosClient(authDetails.token);
 
       const payload = {
-        candidate_id: applicant?.id ?? application?.candidate_id,
+        candidate_id: application?.candidate_id,
         interview_id: application?.interview_id,
         job_id: job?.id ?? application?.job_id,
         status: stages[2].name,
@@ -80,10 +80,13 @@ function You({ data, job, applicant, auth, exclusive }) {
       leave();
       if (exclusive?.user) {
         navigate(
-          `/admin-exclusives/applicants/detail/${updatedApplication?.id}`
+          `/admin-exclusives/applicants/detail/${updatedApplication?.id}`,
+          { replace: true }
         );
       } else {
-        navigate(`/company/applicants/detail/${updatedApplication?.id}`);
+        navigate(`/company/applicants/detail/${updatedApplication?.id}`, {
+          replace: true,
+        });
       }
     } catch (error) {
       console.error("Application update error:", error);
@@ -103,7 +106,7 @@ function You({ data, job, applicant, auth, exclusive }) {
     setLoading(true);
     // If you want a small delay for UX, you can add setTimeout, but it's optional
     leave();
-    navigate(-1);
+    navigate("/applicant/applications", { replace: true });
     setLoading(false);
   };
 

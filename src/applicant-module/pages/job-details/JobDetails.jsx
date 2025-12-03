@@ -1,23 +1,52 @@
 import React, { useContext, useEffect, useState } from "react";
 import { BsShare } from "react-icons/bs";
 import { FaRegCheckCircle } from "react-icons/fa";
-import { useLocation } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import JobApplicationForm from "./components/JobApplicationForm";
 import { ResourceContext } from "../../../context/ResourceContext";
 import { resourceUrl } from "../../../services/axios-client";
-import { formatDate, parseHtml, sanitizeHtml } from "../../../utils/formmaters";
+import { formatDate, sanitizeHtml } from "../../../utils/formmaters";
 import { FaArrowLeftLong } from "react-icons/fa6";
+import axios from "axios";
+import { BASE_URL } from "../../../utils/base";
 
 const JobDetails = () => {
-  const { state } = useLocation();
-  const job = state?.job;
+  const { id } = useParams();
+  const navigate = useNavigate();
 
   const { getResumeById, setGetResumeById } = useContext(ResourceContext);
+
+  const [job, setJob] = useState(null);
+  const [loadingJob, setLoadingJob] = useState(true);
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
+  // Fetch job using getJobById(id)
+  useEffect(() => {
+    if (!id && isNaN(Number(id))) {
+      // navigate("/applicant/find-job");
+      return;
+    }
+
+    const fetchJob = async () => {
+      try {
+        setLoadingJob(true);
+        const { data } = await axios.get(`${BASE_URL}/job/${id}`);
+        setJob(data);
+      } catch (err) {
+        console.error("Error fetching job:", err);
+        navigate("/applicant/find-job");
+      } finally {
+        setLoadingJob(false);
+      }
+    };
+
+    fetchJob();
+  }, [id, navigate]);
+
+  // Fetch resumes
   useEffect(() => {
     setGetResumeById((prev) => ({
       ...prev,
@@ -55,145 +84,153 @@ Don't miss out—join us today to apply.
     }
   };
 
+  if (loadingJob) {
+    return (
+      <div className="p-6 mx-auto flex flex-col justify-center items-center min-h-40">
+        <div className="animate-spin rounded-full h-8 w-8 border-4 border-green-600 border-t-transparent" />
+        <p className="mt-2 text-sm text-gray-600">Loading job details...</p>
+      </div>
+    );
+  }
+
+  if (!job) {
+    return (
+      <div className="p-6">
+        <p className="text-red-600 text-sm">Job not found.</p>
+      </div>
+    );
+  }
+
   return (
-    <>
-      <div className="relative w-full h-full text-[#25324b] overflow-y-auto">
-        <div className="sticky top-0 bg-white z-10 p-6 pt-0 border-b mb-8 shadow-md">
-          <button
-            type="button"
-            onClick={() => window.history.back()}
-            className="w-max flex items-center gap-2 outline outline-offset-5 outline-green-500 px-3 py-1 rounded text-green-500 hover:bg-green-100"
-          >
-            <FaArrowLeftLong className="me-4 text-green-500" />
-            Back
-          </button>
-          <div className="p-6 bg-white border rounded-md">
-            <div className="flex gap-2 flex-wrap justify-between items-center">
-              <div className="flex items-start space-x-4">
-                <img
-                  src={`${resourceUrl}/${job?.featured_image}`}
-                  alt="Job"
-                  className="w-20"
-                />
-                <div>
-                  <p className="text-lg font-bold mb-2">{job?.job_title}</p>
-                  <p className="text-sm mb-1">
-                    · {job?.location} · {job?.type}
-                  </p>
-                  <p className="text-sm">
-                    <b>Address:</b> {job?.office_address}
-                  </p>
-                </div>
-              </div>
-
-              <div className="flex items-center space-x-3">
-                <button
-                  onClick={() => shareJobDetails(job)}
-                  className="p-2 rounded-full border hover:bg-gray-100"
-                >
-                  <BsShare />
-                </button>
-                <JobApplicationForm
-                  job={job}
-                  getResumeById={getResumeById.data}
-                  hasApplied={state?.hasApplied}
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="flex flex-col md:flex-row px-6 min-h-full">
-          <div className="w-full md:w-4/5 pr-4">
-            <div className="mb-6">
-              <h4 className="font-bold mb-2">Description</h4>
-              <p
-                className="text-sm prose max-h-60 overflow-y-auto"
-                dangerouslySetInnerHTML={sanitizeHtml(
-                  job?.job_description || ""
-                )}
+    <div className="relative w-full h-full text-[#25324b] overflow-y-auto">
+      <div className="sticky top-0 bg-white z-10 p-6 pt-0 border-b mb-8 shadow-md">
+        <button
+          type="button"
+          onClick={() => window.history.back()}
+          className="w-max flex items-center gap-2 outline outline-offset-5 outline-green-500 px-3 py-1 rounded text-green-500 hover:bg-green-100"
+        >
+          <FaArrowLeftLong className="me-4 text-green-500" />
+          Back
+        </button>
+        <div className="p-6 bg-white border rounded-md">
+          <div className="flex gap-2 flex-wrap justify-between items-center">
+            <div className="flex items-start space-x-4">
+              <img
+                src={`${resourceUrl}/${job?.featured_image}`}
+                alt="Job"
+                className="w-20"
               />
-            </div>
-
-            <div className="mb-6">
-              <h4 className="font-bold mb-2">Experience</h4>
-              <p
-                className="text-sm prose max-h-40 overflow-y-auto"
-                dangerouslySetInnerHTML={sanitizeHtml(job?.experience || "")}
-              />
-            </div>
-
-            <div className="mb-6">
-              <h4 className="font-bold mb-2">Qualifications</h4>
-              {job?.qualification?.map((each, i) => (
-                <div key={i} className="flex items-center space-x-2 mb-2">
-                  <FaRegCheckCircle className="text-green-500" />
-                  <span>{each}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="w-full md:w-1/5">
-            <h4 className="font-bold mb-2">About this role</h4>
-            {/* <div className="bg-gray-100 p-4 rounded-md mb-6">
-                        <p className="text-sm">
-                            <b>{job?.number_of_participants || 0} Applicants Expected</b>
-                        </p>
-                    </div> */}
-
-            <div className="space-y-3 border-b pb-4">
-              <div className="flex flex-wrap justify-between gap-2">
-                <p>Apply Before:</p>
-                <p className="font-medium">
-                  {formatDate(job?.application_deadline_date)}
+              <div>
+                <p className="text-lg font-bold mb-2">{job?.job_title}</p>
+                <p className="text-sm mb-1">
+                  · {job?.location} · {job?.type}
                 </p>
-              </div>
-              <div className="flex flex-wrap justify-between gap-2">
-                <p>Job Posted On:</p>
-                <p className="font-medium">{formatDate(postedDate)}</p>
-              </div>
-              <div className="flex flex-wrap justify-between gap-2">
-                <p>Email:</p>
-                <p className="font-medium break-words">{job?.email}</p>
-              </div>
-              <div className="flex flex-wrap justify-between gap-2">
-                <p>Job Type:</p>
-                <p className="font-medium">{job?.type}</p>
-              </div>
-              <div className="flex flex-wrap justify-between gap-2">
-                <p>Salary Type:</p>
-                <p className="font-medium">{job?.salary_type}</p>
-              </div>
-              <div className="flex flex-wrap justify-between gap-2">
-                <p>Currency:</p>
-                <p className="font-medium">{job?.currency}</p>
-              </div>
-              <div className="flex flex-wrap justify-between gap-2">
-                <p>Salary Range:</p>
-                <p className="font-medium">
-                  {parseInt(job?.min_salary)} - {parseInt(job?.max_salary)}
+                <p className="text-sm">
+                  <b>Address:</b> {job?.office_address}
                 </p>
               </div>
             </div>
 
-            <div className="my-6">
-              <h4 className="font-bold mb-2">Categories</h4>
-              <div className="flex flex-wrap gap-2">
-                {keywordArr.map((each, index) => (
-                  <button
-                    key={index}
-                    className="px-3 py-1 rounded-full bg-teal-50 text-teal-400 odd:bg-amber-100 odd:text-amber-500"
-                  >
-                    {each}
-                  </button>
-                ))}
-              </div>
+            <div className="flex items-center space-x-3">
+              <button
+                onClick={() => shareJobDetails(job)}
+                className="p-2 rounded-full border hover:bg-gray-100"
+              >
+                <BsShare />
+              </button>
+              <JobApplicationForm
+                job={job}
+                getResumeById={getResumeById.data}
+                hasApplied={job?.hasApplied}
+              />
             </div>
           </div>
         </div>
       </div>
-    </>
+
+      <div className="flex flex-col md:flex-row px-6 min-h-full">
+        <div className="w-full md:w-4/5 pr-4">
+          <div className="mb-6">
+            <h4 className="font-bold mb-2">Description</h4>
+            <p
+              className="text-sm prose max-h-60 overflow-y-auto"
+              dangerouslySetInnerHTML={sanitizeHtml(job?.job_description || "")}
+            />
+          </div>
+
+          <div className="mb-6">
+            <h4 className="font-bold mb-2">Experience</h4>
+            <p
+              className="text-sm prose max-h-40 overflow-y-auto"
+              dangerouslySetInnerHTML={sanitizeHtml(job?.experience || "")}
+            />
+          </div>
+
+          <div className="mb-6">
+            <h4 className="font-bold mb-2">Qualifications</h4>
+            {job?.qualification?.map((each, i) => (
+              <div key={i} className="flex items-center space-x-2 mb-2">
+                <FaRegCheckCircle className="text-green-500" />
+                <span>{each}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="w-full md:w-1/5">
+          <h4 className="font-bold mb-2">About this role</h4>
+
+          <div className="space-y-3 border-b pb-4">
+            <div className="flex flex-wrap justify-between gap-2">
+              <p>Apply Before:</p>
+              <p className="font-medium">
+                {formatDate(job?.application_deadline_date)}
+              </p>
+            </div>
+            <div className="flex flex-wrap justify-between gap-2">
+              <p>Job Posted On:</p>
+              <p className="font-medium">{formatDate(postedDate)}</p>
+            </div>
+            <div className="flex flex-wrap justify-between gap-2">
+              <p>Email:</p>
+              <p className="font-medium break-words">{job?.email}</p>
+            </div>
+            <div className="flex flex-wrap justify-between gap-2">
+              <p>Job Type:</p>
+              <p className="font-medium">{job?.type}</p>
+            </div>
+            <div className="flex flex-wrap justify-between gap-2">
+              <p>Salary Type:</p>
+              <p className="font-medium">{job?.salary_type}</p>
+            </div>
+            <div className="flex flex-wrap justify-between gap-2">
+              <p>Currency:</p>
+              <p className="font-medium">{job?.currency}</p>
+            </div>
+            <div className="flex flex-wrap justify-between gap-2">
+              <p>Salary Range:</p>
+              <p className="font-medium">
+                {parseInt(job?.min_salary)} - {parseInt(job?.max_salary)}
+              </p>
+            </div>
+          </div>
+
+          <div className="my-6">
+            <h4 className="font-bold mb-2">Categories</h4>
+            <div className="flex flex-wrap gap-2">
+              {keywordArr.map((each, index) => (
+                <button
+                  key={index}
+                  className="px-3 py-1 rounded-full bg-teal-50 text-teal-400 odd:bg-amber-100 odd:text-amber-500"
+                >
+                  {each}
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 };
 

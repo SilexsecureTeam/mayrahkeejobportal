@@ -34,7 +34,7 @@ function ContractHistory() {
       }
     } catch (error) {
       const errorMessage = extractErrorMessage(error);
-      if (errorMessage !== "Contract(s) not found") {
+      if (errorMessage !== "No contract(s) found") {
         onFailure({
           message: "Something went wrong",
           error: errorMessage,

@@ -122,6 +122,7 @@ const ShortListedDetails = () => {
     }
   }, [newInterview]);
 
+  const isPhysical = !newInterview?.meeting_id && newInterview?.location;
   return (
     <div className="h-full w-full text-s text-primary py-3">
       <h4 className="font-semibold text-lg sm:text-xl md:text-2xl mb-5">
@@ -193,7 +194,7 @@ const ShortListedDetails = () => {
       </div>
 
       {/* Proceed Button */}
-      {isLive && !state.interviewFinshed ? (
+      {!isPhysical && isLive && !state.interviewFinshed ? (
         <button
           onClick={handleOnClick}
           className="flex w-full sm:w-auto border my-5 hover:bg-primaryColor hover:text-white border-primaryColor p-2 text-sm sm:text-little disabled:opacity-50 text-primaryColor"

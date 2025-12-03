@@ -10,12 +10,19 @@ import { toast } from "react-toastify";
 import { onFailure } from "../../../utils/notifications/OnFailure";
 import { extractErrorMessage } from "../../../utils/formmaters";
 import { qualificationOptions } from "../../../utils/formFields";
+import { useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const MyResume = () => {
   const { authDetails } = useContext(AuthContext);
   const { getResumeById, setGetResumeById, getCandidate, setGetCandidate } =
     useContext(ResourceContext);
   const user = authDetails?.user;
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const from = location.state?.from;
+  const jobId = location.state?.jobId;
 
   const COMPANY_NAME_LIMIT = 50;
   const POSITION_LIMIT = 50;
@@ -301,6 +308,27 @@ const MyResume = () => {
   return (
     <div className="h-full text-[#25324b] w-full">
       <div className="px-5 mt-6">
+        {from === "job-application" && jobId && (
+          <div className="mb-4 flex justify-end">
+            <button
+              type="button"
+              onClick={() => {
+                if (getResumeById.data?.length < 1) {
+                  onFailure({
+                    message: "Application Error",
+                    error: "Please add at least one resume to continue.",
+                  });
+                  return;
+                }
+                navigate(`/applicant/find-job/${jobId}`);
+              }}
+              className="px-4 py-2 rounded bg-green-600 text-white text-sm font-medium hover:bg-green-700 transition"
+            >
+              Continue Job Application
+            </button>
+          </div>
+        )}
+
         {fetching && (
           <div className="flex justify-center items-center h-[150px]">
             <div className="animate-spin rounded-full h-8 w-8 border-4 border-green-600 border-t-transparent"></div>
@@ -321,6 +349,8 @@ const MyResume = () => {
                 key={resume.id}
                 resume={resume}
                 getCandidate={getCandidate.data}
+                setGetResumeById={setGetResumeById}
+                authDetails={authDetails}
               />
             ))}
         </div>
