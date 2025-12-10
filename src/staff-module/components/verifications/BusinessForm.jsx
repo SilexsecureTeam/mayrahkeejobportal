@@ -11,14 +11,6 @@ import ConfirmationPopUp from "./ConfirmationPopUp";
 const formFields = ["business_identification_no", "business_file"];
 
 const labelMapping = {
-  /*business_name: "Business Name",
-  business_email: "Business Email",
-  business_phone_no: "Business Phone Number",
-  whatsapp_phone_no: "WhatsApp Phone Number",
-  business_registration_no: "Business Registration No.",
-  business_address: "Business Address",
-  business_location: "Business Location",
-  year_of_incorporation: "Year of Incorporation",*/
   business_identification_no: "Business ID",
   business_file: "Business Document",
 };

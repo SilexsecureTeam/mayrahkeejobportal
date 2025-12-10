@@ -957,6 +957,12 @@ export const field_sections2 = {
       type: "number",
       field_name: "age",
     },
+
+    {
+      name: "Phone Number",
+      type: "tel",
+      field_name: "phone_no",
+    },
     {
       name: "Residential Address",
       type: "text",

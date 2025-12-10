@@ -2,9 +2,31 @@ import React, { useState } from "react";
 import JobItem from "./JobItem";
 import { FaFilter } from "react-icons/fa";
 import FilterPopup from "../../../components/FilterPopup";
+import useJobManagement from "../../../hooks/useJobManagement";
+import { Country } from "country-state-city";
 
 function JobUpdates({ jobs, applicants }) {
   const [open, setOpen] = useState(false);
+  const [currencyList, setCurrencyList] = useState([]);
+  const { getCurrencies } = useJobManagement();
+
+  React.useEffect(() => {
+    const init = async () => {
+      const currencyResult = await getCurrencies();
+
+      const currencyWithCountry = currencyResult?.map((item) => {
+        const country = Country.getAllCountries().find((c) =>
+          item.name?.startsWith(c.isoCode)
+        );
+        return {
+          ...item,
+          name: `${item?.name} ${country ? `(${country?.name})` : ""}`,
+        };
+      });
+      setCurrencyList(currencyWithCountry);
+    };
+    init();
+  }, []);
 
   // Filters
   const [status, setStatus] = useState("all");
@@ -69,7 +91,12 @@ function JobUpdates({ jobs, applicants }) {
       <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 p-3 px-8 mt-4 gap-[15px] w-full">
         {filteredJobs?.length > 0 ? (
           filteredJobs?.map((current) => (
-            <JobItem key={current.id} data={current} applicants={applicants} />
+            <JobItem
+              key={current.id}
+              data={current}
+              applicants={applicants}
+              currencies={currencyList}
+            />
           ))
         ) : (
           <p className="text-gray-500 text-sm">No job updates available</p>

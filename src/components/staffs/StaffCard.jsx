@@ -241,10 +241,15 @@ function StaffCard({
     guarantor: data.guarantor_verification_status === allStatus[0],
     policeReport: data.police_report_verification_status === allStatus[0],
     medicalHistory: data.medical_history_verification_status === allStatus[0],
+    business: data.business_verification_status === allStatus[0],
+    identification: data.identification_verification_status === allStatus[0],
   };
 
   const userVerified = isArtisan
-    ? verificationStatus.residence && verificationStatus.guarantor
+    ? verificationStatus.residence &&
+      verificationStatus.guarantor &&
+      verificationStatus.identification &&
+      verificationStatus.business
     : verificationStatus.residence &&
       verificationStatus.guarantor &&
       verificationStatus.policeReport &&

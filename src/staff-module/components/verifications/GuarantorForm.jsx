@@ -25,7 +25,7 @@ const labelMapping = {
   first_name: "First Name",
   mobile_phone: "Mobile Phone",
   dob: "Date of Birth",
-  religion:"Religion",
+  religion: "Religion",
   email: "Email",
   occupation: "Occupation",
   residential_address: "Residential Address",
@@ -95,7 +95,9 @@ function GuarantorForm() {
   const getGarantor = async () => {
     setLoading(true);
     try {
-      const { data } = await client.get(`/domesticStaff/guarantor/${authDetails.user.id}`);
+      const { data } = await client.get(
+        `/domesticStaff/guarantor/${authDetails.user.id}`
+      );
       setCurrentGarantor(data.guarantor[0]);
     } catch (error) {
       FormatError(error, setError, "Retrieval Failed");
@@ -116,7 +118,9 @@ function GuarantorForm() {
 
   return (
     <div>
-      <h1 className="text-xl font-semibold text-green-700">Guarantor Details</h1>
+      <h1 className="text-xl font-semibold text-green-700">
+        Guarantor Details
+      </h1>
       {typeof currentGurantor === "undefined" && loading && (
         <div className="flex flex-col items-start justify-center h-full w-full">
           <span>Fetching data...</span>
@@ -130,11 +134,14 @@ function GuarantorForm() {
             const labelText = labelMapping[currentKey] || null;
 
             return (
-              labelText &&
-              <div className="flex flex-col gap-1 break-all" key={currentKey}>
-                <label className="capitalize font-medium" >{labelText}</label>
-                <label>{currentKey === "dob" ? formatDate(value):value}</label>
-              </div>
+              labelText && (
+                <div className="flex flex-col gap-1 break-all" key={currentKey}>
+                  <label className="capitalize font-bold">{labelText}</label>
+                  <label>
+                    {currentKey === "dob" ? formatDate(value) : value}
+                  </label>
+                </div>
+              )
             );
           })}
         </div>
@@ -142,7 +149,7 @@ function GuarantorForm() {
 
       {typeof currentGurantor === "undefined" && !loading && (
         <form
-           onSubmit={(e) => {
+          onSubmit={(e) => {
             e.preventDefault();
             setIsPopupOpen(true);
           }}
@@ -162,7 +169,8 @@ function GuarantorForm() {
           </div>
 
           {formFields.map((currentKey) => {
-            const labelText = labelMapping[currentKey] || currentKey.replace(/_/g, " ");
+            const labelText =
+              labelMapping[currentKey] || currentKey.replace(/_/g, " ");
             const inputType = currentKey === "dob" ? "date" : "text";
 
             return (
@@ -214,4 +222,3 @@ function GuarantorForm() {
 }
 
 export default GuarantorForm;
-            

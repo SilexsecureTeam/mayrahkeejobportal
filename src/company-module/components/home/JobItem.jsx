@@ -14,7 +14,7 @@ function JobItem({ data, applicants, currencies }) {
   );
 
   const currencyCode =
-    data?.currency?.split("(")?.[0]?.trim() ?? data?.currency ?? "";
+    currencies?.find((one) => one?.name === data?.currency)?.code || "";
 
   return (
     <div

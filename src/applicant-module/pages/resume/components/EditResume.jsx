@@ -286,18 +286,6 @@ const EditResume = ({ resume }) => {
                 />
               </label>
 
-              {/* EDUCATIONAL INSTITUTION */}
-              <label className="block mb-5">
-                <span className="font-medium">Educational Institution</span>
-                <input
-                  name="educational_institution"
-                  value={details.educational_institution}
-                  onChange={handleInputChange}
-                  className="mt-1 block p-2 border w-full rounded"
-                  placeholder="e.g. University of Lagos"
-                />
-              </label>
-
               {/* ADD RESUME */}
               <div className="my-4 pt-5">
                 <label className="cursor-pointer inline-block">

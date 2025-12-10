@@ -35,13 +35,16 @@ function MedicalForm() {
   const getMedicalRecords = (e) => {
     const { name } = e.target;
     const file = e.target.files[0]; //filelist is an object carrying all details of file, .files[0] collects the value from key 0 (not array), and stores it in file
-    if (file && (file.size > (1024 * 1024))) {
+    if (file && file.size > 1024 * 1024) {
       const maxSizeMB = ((1024 * 1024) / (1024 * 1024)).toFixed(2); // Convert file size limit to MB
       const fileSizeMB = (file.size / (1024 * 1024)).toFixed(2); // Convert uploaded file size to MB
-      e.target.value=null;
+      e.target.value = null;
       // Truncate long file names to 20 characters for better UI readability
-      const truncatedFileName = file.name.length > 10 ? `${file.name.substring(0, 10)}...` : file.name;
-      toast.error(`File size of "${truncatedFileName}" exceeds the limit of ${maxSizeMB} MB. The uploaded file is ${fileSizeMB} MB. Please select a smaller file.`);
+      const truncatedFileName =
+        file.name.length > 10 ? `${file.name.substring(0, 10)}...` : file.name;
+      toast.error(
+        `File size of "${truncatedFileName}" exceeds the limit of ${maxSizeMB} MB. The uploaded file is ${fileSizeMB} MB. Please select a smaller file.`
+      );
       return null;
     }
     if (
@@ -67,12 +70,12 @@ function MedicalForm() {
 
   const submitDetails = async (data) => {
     setIsLoading(true);
-     if (medicalFiles?.length < 1) {
+    if (medicalFiles?.length < 1) {
       onFailure({
         error: "Police Report Required",
         message: "Please upload a report before submitting.",
       });
-      return
+      return;
     }
     try {
       const response = await client.post("/domesticStaff/medical-history", {
@@ -160,7 +163,7 @@ function MedicalForm() {
             }
             return (
               <div className="flex flex-col gap-1">
-                <label className="capitalize font-medium">{labelText}</label>
+                <label className="capitalize font-bold">{labelText}</label>
                 {currentKey == "medical_report_docs" ? (
                   <a
                     className="text-blue-300 underline"
@@ -215,7 +218,10 @@ function MedicalForm() {
               accept=".pdf, .doc, .jpeg, .jpg"
               onChange={getMedicalRecords}
             />
-             <small class="px-2 mb-2 text-XS text-gray-500 font-medium">File size should not exceed 1MB. Only accepts *.pdf, .doc, .jpeg,..*</small>
+            <small class="px-2 mb-2 text-XS text-gray-500 font-medium">
+              File size should not exceed 1MB. Only accepts *.pdf, .doc,
+              .jpeg,..*
+            </small>
           </div>
 
           <div></div>
@@ -231,8 +237,8 @@ function MedicalForm() {
           <FormButton loading={isloading}>Upload Medical Details</FormButton>
         </form>
       )}
-       {/* Confirmation Popup */}
-       <ConfirmationPopUp
+      {/* Confirmation Popup */}
+      <ConfirmationPopUp
         isOpen={isPopupOpen}
         onClose={() => setIsPopupOpen(false)}
         onConfirm={handleProceed}

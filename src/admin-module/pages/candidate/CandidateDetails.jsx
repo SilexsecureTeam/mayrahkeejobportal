@@ -174,17 +174,8 @@ const CandidateDetails = () => {
 
           <div className="bg-gray-200 px-4 py-4 my-4">
             <div className="flex text-xs justify-between pb-3">
-              <p className="font-bold">Registered On</p>
+              <p className="font-bold">Registered On:</p>
               <p>{format(new Date(data.created_at), "MMMM dd, yyyy")}</p>
-            </div>
-
-            <div className="flex">
-              <p className="text-sm font-bold">Categories:</p>{" "}
-              <p className="text-sm ml-2">{data.categories || "N/A"}</p>
-            </div>
-            <div className="flex">
-              <p className="text-sm font-bold">Salary:</p>{" "}
-              <p className="text-sm ml-2">{data.salary_type || "N/A"}</p>
             </div>
           </div>
           <hr />
@@ -229,22 +220,40 @@ const CandidateDetails = () => {
           <div className="text-sm px-4 py-4 grid grid-cols-2 gap-2">
             <p className="text-sm font-bold">DOB:</p>{" "}
             <p className="text-sm">{data.date_of_birth}</p>
-            <p className="text-sm font-bold">Gender:</p>{" "}
-            <p className="text-sm">{data.gender}</p>
-            <p className="text-sm font-bold">Qualification:</p>{" "}
-            <p className="text-sm">{data.qualification}</p>
-            <p className="text-sm font-bold">Country:</p>{" "}
-            <p className="text-sm">{data.country}</p>
-            <p className="text-sm font-bold">State:</p>{" "}
-            <p className="text-sm">{data.state}</p>
-            <p className="text-sm font-bold">Local government:</p>{" "}
-            <p className="text-sm">{data.local_gov}</p>
-            <p className="text-sm font-bold">Means of Identification:</p>{" "}
-            <p className="text-sm">{data.means_of_identification}</p>
-            <p className="text-sm font-bold">NIN:</p>{" "}
-            <p className="text-sm">{data.nin}</p>
-            <p className="text-sm font-bold">NIN Slip:</p>{" "}
-            <p className="text-sm">{renderNinSlip(data.nin_slip)}</p>
+            {data?.gender && (
+              <>
+                <p className="text-sm font-bold">Gender:</p>
+                <p className="text-sm">{data.gender}</p>
+              </>
+            )}
+            {data?.country && (
+              <>
+                <p className="text-sm font-bold">Country:</p>{" "}
+                <p className="text-sm">{data.country}</p>
+              </>
+            )}
+            {data?.state && (
+              <>
+                <p className="text-sm font-bold">State:</p>{" "}
+                <p className="text-sm">{data.state}</p>
+              </>
+            )}
+            {data?.local_gov && (
+              <>
+                <p className="text-sm font-bold">Local government:</p>{" "}
+                <p className="text-sm">{data.local_gov}</p>
+              </>
+            )}
+            {data?.means_of_identification && (
+              <>
+                <p className="text-sm font-bold">Means of Identification:</p>{" "}
+                <p className="text-sm">{data.means_of_identification}</p>
+                <p className="text-sm font-bold">NIN:</p>{" "}
+                <p className="text-sm">{data.nin}</p>
+                <p className="text-sm font-bold">NIN Slip:</p>{" "}
+                <p className="text-sm">{renderNinSlip(data.nin_slip)}</p>
+              </>
+            )}
             <p className="text-sm font-bold">Educational Qualification:</p>{" "}
             <p className="text-sm">{data.educational_qualification}</p>
             <p className="text-sm font-bold">Work Experience:</p>{" "}

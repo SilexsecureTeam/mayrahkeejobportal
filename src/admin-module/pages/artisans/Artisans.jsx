@@ -74,35 +74,7 @@ function Artisan() {
               smallTextIcon={<FaPlus />}
               link={"/admin/artisans/all"}
             />
-            <DashboardCard
-              leftIcon={<BsStopwatch />}
-              title={pending}
-              subtitle="Pending Artisans"
-              smallText="-10% Less Duty Pst"
-              smallTextIcon={<FaArrowTrendUp />}
-            />
-            {/* <DashboardCard
-              leftIcon={<TbCalendarClock />}
-              title="42"
-              subtitle="On Time"
-              smallText="+2% Increase Ad-hoc staff at duty posts"
-              smallTextIcon={<FaArrowTrendUp />}
-            />
-            <DashboardCard
-              leftIcon={<BsStopwatch />}
-              title="627"
-              subtitle="Health insurance"
-              smallText="+3% increase than yesterday"
-              smallTextIcon={<FaArrowTrendDown />}
-              smallTextIconColor="text-red-500"
-            />
-            <DashboardCard
-              leftIcon={<BsStopwatch />}
-              title="5000"
-              subtitle="Monthly Report"
-              smallText="10% Generated"
-              smallTextIcon={<FaArrowTrendUp />}
-            /> */}
+            
           </div>
         </div>
       </div>

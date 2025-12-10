@@ -72,7 +72,7 @@ const Resume = ({ resume, setGetResumeById, authDetails, getCandidate }) => {
               <FaUserTie className="text-green-600 text-2xl" />
             </div>
             <h3 className="font-bold text-gray-800 text-lg">
-              {getCandidate.details?.full_name}
+              {getCandidate?.details?.full_name}
             </h3>
             <p className="text-gray-600 text-sm mt-1">Professional Resume</p>
           </div>

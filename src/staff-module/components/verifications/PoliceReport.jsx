@@ -64,7 +64,7 @@ function PoliceReport() {
             const value = currentRecord[key];
             return (
               <div key={idx} className="flex flex-col gap-1">
-                <label className="capitalize font-medium">{labelText}</label>
+                <label className="capitalize font-bold">{labelText}</label>
                 {["police_report_file", "nin_slip_file"].includes(key) ? (
                   <a
                     className="text-blue-500 underline"

@@ -44,7 +44,6 @@ function ResidenceForm() {
         local_gov: selectCity,
         domestic_staff_id: authDetails.user.id,
       });
-      console.log("Data", response.data);
       getResidence();
       onSuccess({
         message: "Residence info uploaded",
@@ -68,7 +67,8 @@ function ResidenceForm() {
         current !== "id" &&
         current !== "domestic_staff_id" &&
         current !== "created_at" &&
-        current !== "updated_at"
+        current !== "updated_at" &&
+        current !== "status"
       ) {
         fields.push(current);
         return;
@@ -99,7 +99,6 @@ function ResidenceForm() {
 
   // 2. Only fetch countries once you know residence is truly missing
   useEffect(() => {
-    console.log(currentResidence);
     if (currentResidence === undefined || currentResidence === null) {
       const fetchCountries = async () => {
         try {
@@ -142,7 +141,7 @@ function ResidenceForm() {
 
             return (
               <div className="flex flex-col gap-1">
-                <label className="capitalize font-medium">{labelText}</label>
+                <label className="capitalize font-bold">{labelText}</label>
                 <label>{value}</label>
               </div>
             );
