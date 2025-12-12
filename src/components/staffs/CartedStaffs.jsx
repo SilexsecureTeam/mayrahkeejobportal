@@ -10,7 +10,7 @@ import React, { useContext, useState } from "react";
 import { AuthContext } from "../../context/AuthContex";
 import { axiosClient } from "../../services/axios-client";
 import { onFailure } from "../../utils/notifications/OnFailure";
-import { FormatPrice } from "../../utils/formmaters";
+import { FormatNumber } from "../../utils/formmaters";
 import { PaystackConsumer } from "react-paystack";
 import useCart from "../../hooks/useCart";
 import MarketPlace from "./marketplace/MarketPlace";
@@ -331,7 +331,7 @@ function CartedStaffs() {
                               ""
                             ) : Number(item?.domestic_staff?.salary_agreed) >
                               0 ? (
-                              FormatPrice(
+                              FormatNumber(
                                 Number(item.domestic_staff.salary_agreed) +
                                   Number(item.domestic_staff.markup_fee || 0)
                               )
@@ -403,7 +403,7 @@ function CartedStaffs() {
                       </span>
                       <span>
                         {!isArtisan &&
-                          FormatPrice(
+                          FormatNumber(
                             Number(item.domestic_staff.salary_agreed) +
                               Number(item.domestic_staff.markup_fee || 0)
                           )}
@@ -415,22 +415,22 @@ function CartedStaffs() {
                   {!isArtisan && (
                     <li className="flex justify-between text-sm mb-2">
                       <span>Total Price (Item)</span>
-                      <span>{FormatPrice(salaryTotal)}</span>
+                      <span>{FormatNumber(salaryTotal)}</span>
                     </li>
                   )}
                   <li className="flex justify-between text-sm mb-2">
                     <span>Service Charge</span>
                     <span>
-                      {serviceFeeTotal ? FormatPrice(serviceFeeTotal) : 0}
+                      {serviceFeeTotal ? FormatNumber(serviceFeeTotal) : 0}
                     </span>
                   </li>
                   <li className="flex justify-between text-sm mb-2">
                     <span>VAT ({vatPercent}%)</span>
-                    <span>{totalVat ? FormatPrice(totalVat) : 0}</span>
+                    <span>{totalVat ? FormatNumber(totalVat) : 0}</span>
                   </li>
                   <li className="flex justify-between font-bold text-lg">
                     <span>Grand Total</span>
-                    <span>{grandTotal ? FormatPrice(grandTotal) : 0}</span>
+                    <span>{grandTotal ? FormatNumber(grandTotal) : 0}</span>
                   </li>
                 </ul>
                 <button

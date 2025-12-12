@@ -845,6 +845,11 @@ export const field_sections1 = {
       field_name: "gender",
     },
     {
+      name: "Phone Number",
+      type: "tel",
+      field_name: "phone_no",
+    },
+    {
       name: "Religion",
       type: "select",
       options: ["Christianity", "Islam", "Traditional"],
@@ -956,12 +961,6 @@ export const field_sections2 = {
       name: "Age",
       type: "number",
       field_name: "age",
-    },
-
-    {
-      name: "Phone Number",
-      type: "tel",
-      field_name: "phone_no",
     },
     {
       name: "Residential Address",

@@ -14,7 +14,7 @@ const EditSalaryModal = ({ staff, onClose, onSave }) => {
         ...staff,
         salary_agreed: salary,
         service_charge: serviceCharge,
-        markup_fee: markupFee
+        markup_fee: markupFee,
       });
     } finally {
       setSaving(false);

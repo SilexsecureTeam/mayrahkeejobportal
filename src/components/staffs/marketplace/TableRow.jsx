@@ -1,7 +1,7 @@
 import { useState, useContext } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { resourceUrl } from "../../../services/axios-client";
-import { formatDate, FormatPrice } from "../../../utils/formmaters";
+import { formatDate, FormatNumber } from "../../../utils/formmaters";
 import { AuthContext } from "../../../context/AuthContex";
 import { FaSpinner } from "react-icons/fa";
 
@@ -117,7 +117,7 @@ function TableRow({
         <td className="text-left py-3 px-2">
           <span className="break-all">
             {Number(data?.salary_agreed) > 0 ? (
-              FormatPrice(
+              FormatNumber(
                 Number(data?.salary_agreed) + Number(data?.markup_fee || 0)
               )
             ) : (
