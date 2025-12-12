@@ -91,11 +91,7 @@ function Artisan() {
 
   const staffsToDisplay =
     searchResult.length > 0
-      ? searchResult?.filter(
-          (current) =>
-            current?.staff_category === "artisan" &&
-            (current?.status === "pending" || current?.status === "approved")
-        )
+      ? searchResult?.filter((current) => current?.staff_category === "artisan")
       : [];
 
   const getCartItems = async () => {

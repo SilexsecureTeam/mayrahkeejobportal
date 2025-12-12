@@ -61,11 +61,7 @@ function DomesticStaff() {
 
   const staffsToDisplay =
     searchResult.length > 0
-      ? searchResult?.filter(
-          (current) =>
-            current?.staff_category === "staff" &&
-            (current?.status === "pending" || current?.status === "approved")
-        )
+      ? searchResult?.filter((current) => current?.staff_category === "staff")
       : [];
 
   const handleCondition = (data, hasCategory) => {

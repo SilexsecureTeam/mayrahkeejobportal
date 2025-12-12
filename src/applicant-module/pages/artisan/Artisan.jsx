@@ -3,7 +3,11 @@ import { axiosClient } from "../../../services/axios-client";
 import { AuthContext } from "../../../context/AuthContex";
 import { onFailure } from "../../../utils/notifications/OnFailure";
 import SearchComponent from "../../../components/staffs/SearchComponent";
-import { FaExclamationCircle, FaShoppingCart, FaFileContract } from "react-icons/fa";
+import {
+  FaExclamationCircle,
+  FaShoppingCart,
+  FaFileContract,
+} from "react-icons/fa";
 import {
   MdCheck,
   MdCheckBox,
@@ -71,17 +75,18 @@ function Artisan() {
   const navigateToCart = () =>
     navigate(`/applicant/staff/cart`, {
       state: {
-        data: { items: cartItems, category: categories, type: "artisan", ...charges },
+        data: {
+          items: cartItems,
+          category: categories,
+          type: "artisan",
+          ...charges,
+        },
       },
     });
 
   const staffsToDisplay =
     searchResult.length > 0
-      ? searchResult?.filter(
-        (current) =>
-          current?.staff_category === "artisan" &&
-          (current?.status === "pending" || current?.status === "approved")
-      )
+      ? searchResult?.filter((current) => current?.staff_category === "artisan")
       : [];
 
   const getCartItems = async () => {
@@ -90,15 +95,14 @@ function Artisan() {
         user_id: authDetails.user.id,
         user_type: authDetails.user.role,
       });
-      const {cart_items, ...others}= data
+      const { cart_items, ...others } = data;
       if (data?.cart_items) {
-        setCharges({...others})
+        setCharges({ ...others });
         setCartItems(
           data.cart_items.filter(
             (current) => current.domestic_staff.staff_category === "artisan"
           )
         );
-        
       }
     } catch (error) {
       onFailure({
@@ -115,7 +119,11 @@ function Artisan() {
       try {
         const { data } = await client.get("/staff-categories");
         //const response = await client.get("/staff-categories");
-        setCategories(data.data?.filter(one=>one.name.toLowerCase().includes("artisan"))[0] || []);
+        setCategories(
+          data.data?.filter((one) =>
+            one.name.toLowerCase().includes("artisan")
+          )[0] || []
+        );
       } catch (error) {
         onFailure({
           message: "Artisan Error",
@@ -132,7 +140,6 @@ function Artisan() {
 
   return (
     <>
-      
       <PopUpBox isOpen={conditions}>
         <div className="w-[300px] md:w-[600px] h-max max-h-[400px] text-gray-500 p-5 items-center flex flex-col gap-4 bg-white">
           <MdClose
@@ -140,8 +147,12 @@ function Artisan() {
             onClick={() => setConditions(!conditions)}
           />
           <h1 className="text-xl font-bold">Job Descriptions</h1>
-          <div className="text-sm overflow-y-auto flex-1 prose"> 
-          <p dangerouslySetInnerHTML={{ __html: selectedCategory?.description}} />
+          <div className="text-sm overflow-y-auto flex-1 prose">
+            <p
+              dangerouslySetInnerHTML={{
+                __html: selectedCategory?.description,
+              }}
+            />
           </div>
           <FormButton onClick={() => handleQuerySubmit()} loading={loading}>
             Confirm and Search
@@ -161,7 +172,9 @@ function Artisan() {
                 </span>
 
                 <button
-                  onClick={() => document.getElementById('content').classList.add('hidden')}
+                  onClick={() =>
+                    document.getElementById("content").classList.add("hidden")
+                  }
                   className="group hover:bg-red-500 hover:text-white p-1 text-red-600 text-md flex justify-between items-center"
                 >
                   Close
@@ -176,15 +189,19 @@ function Artisan() {
             </div>
 
             <button
-              onClick={() => navigate("/applicant/staff/contract-history", {
-                state: {
-                  data: { type: "artisan" },
-                }
-              })}
+              onClick={() =>
+                navigate("/applicant/staff/contract-history", {
+                  state: {
+                    data: { type: "artisan" },
+                  },
+                })
+              }
               className="flex items-center gap-2 ml-auto"
             >
               <FaFileContract size="24" className="inline md:hidden" />
-              <span className="hidden md:inline border-primaryColor px-3 py-1 border hover:bg-primaryColor hover:text-white text-sm">Contract History</span>
+              <span className="hidden md:inline border-primaryColor px-3 py-1 border hover:bg-primaryColor hover:text-white text-sm">
+                Contract History
+              </span>
             </button>
 
             <button className="my-5" onClick={navigateToCart}>
@@ -203,13 +220,12 @@ function Artisan() {
             title="Artisan's Specialized Position"
             setSelectedCategory={setSelectedCategory}
           />
-
         </div>
 
         {staffsToDisplay.length > 0 ? (
           <div className="flex flex-col gap-3 mt-5">
             <span className="font-semibold text-yellow-600">
-            Showing You Search Result
+              Showing You Search Result
             </span>
             <ul className="w-full grid grid-cols-responsive gap-4">
               {staffsToDisplay?.map((current) => (
