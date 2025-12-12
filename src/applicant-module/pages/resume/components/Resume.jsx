@@ -166,6 +166,7 @@ const Resume = ({ resume, setGetResumeById, authDetails, getCandidate }) => {
                 </div>
                 <h4 className="font-bold text-gray-800">Work Experience</h4>
               </div>
+
               <div className="bg-gray-50 rounded-lg p-4 border-l-4 border-green-500">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {resume.company_name && (
@@ -176,6 +177,7 @@ const Resume = ({ resume, setGetResumeById, authDetails, getCandidate }) => {
                       </p>
                     </div>
                   )}
+
                   {resume.position_held && (
                     <div>
                       <p className="text-sm text-gray-500">Position</p>
@@ -184,6 +186,7 @@ const Resume = ({ resume, setGetResumeById, authDetails, getCandidate }) => {
                       </p>
                     </div>
                   )}
+
                   {resume.start_date && (
                     <div className="md:col-span-2">
                       <div className="flex items-center space-x-2">
@@ -195,6 +198,15 @@ const Resume = ({ resume, setGetResumeById, authDetails, getCandidate }) => {
                         {resume.end_date
                           ? formatDate(resume.end_date)
                           : "Present"}
+                      </p>
+                    </div>
+                  )}
+
+                  {resume.description && (
+                    <div className="md:col-span-2">
+                      <p className="text-sm text-gray-500">Work Description</p>
+                      <p className="text-gray-800 text-sm mt-1 leading-relaxed max-h-20 overflow-y-auto border border-gray-200 p-2 rounded">
+                        {resume.description}
                       </p>
                     </div>
                   )}

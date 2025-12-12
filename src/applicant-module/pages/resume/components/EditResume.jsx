@@ -26,6 +26,7 @@ const EditResume = ({ resume }) => {
   const [details, setDetails] = useState({
     title: resume?.title || "",
     company_name: resume?.company_name || "",
+    work_description: resume?.work_description || "",
     position_held: resume?.position_held || "",
     start_date: resume?.start_date || "",
     end_date: resume?.end_date || "",
@@ -191,6 +192,7 @@ const EditResume = ({ resume }) => {
     formData.append("position_held", details.position_held);
     formData.append("start_date", details.start_date);
     formData.append("end_date", details.end_date);
+    formData.append("work_description", details.work_description);
 
     // Append files with correct field names for backend - EXACTLY LIKE MYRESUME
     if (details.resume) {
@@ -486,6 +488,22 @@ const EditResume = ({ resume }) => {
                   onChange={handleInputChange}
                   className="mt-1 block p-2 border w-full rounded"
                 />
+              </label>
+              <label className="block mb-5">
+                <span className="font-medium">Work Description</span>
+                <textarea
+                  name="work_description"
+                  value={details.work_description}
+                  onChange={handleInputChange}
+                  maxLength={100}
+                  className="mt-1 block p-2 border w-full rounded"
+                />
+                <div className="mt-1 text-xs text-gray-500">
+                  Max {100} characters.{" "}
+                  <span>
+                    {details.work_description.length}/{100}
+                  </span>
+                </div>
               </label>
 
               <label className="block mb-5">

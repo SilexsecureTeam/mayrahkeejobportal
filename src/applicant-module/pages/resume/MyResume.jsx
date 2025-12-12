@@ -36,6 +36,7 @@ const MyResume = () => {
     title: "",
     educational_institution: "",
     company_name: "",
+    work_description: "",
     position_held: "",
     start_date: "",
     end_date: "",
@@ -574,13 +575,29 @@ const MyResume = () => {
                     name="company_name"
                     value={details.company_name}
                     onChange={handleInputChange}
-                    maxLength={COMPANY_NAME_LIMIT} // ⬅️ hard cap
+                    maxLength={COMPANY_NAME_LIMIT}
                     className="mt-1 block p-2 border w-full rounded"
                   />
                   <div className="mt-1 text-xs text-gray-500">
                     Max {COMPANY_NAME_LIMIT} characters.{" "}
                     <span>
                       {details.company_name.length}/{COMPANY_NAME_LIMIT}
+                    </span>
+                  </div>
+                </label>
+                <label className="block mb-5">
+                  <span className="font-medium">Work Description</span>
+                  <textarea
+                    name="work_description"
+                    value={details.work_description}
+                    onChange={handleInputChange}
+                    maxLength={100}
+                    className="mt-1 block p-2 border w-full rounded"
+                  />
+                  <div className="mt-1 text-xs text-gray-500">
+                    Max {100} characters.{" "}
+                    <span>
+                      {details.work_description.length}/{100}
                     </span>
                   </div>
                 </label>
@@ -591,7 +608,7 @@ const MyResume = () => {
                     name="position_held"
                     value={details.position_held}
                     onChange={handleInputChange}
-                    maxLength={POSITION_LIMIT} // ⬅️ hard cap
+                    maxLength={POSITION_LIMIT}
                     className="mt-1 block p-2 border w-full rounded"
                   />
                   <div className="mt-1 text-xs text-gray-500">
