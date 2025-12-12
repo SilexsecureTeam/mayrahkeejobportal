@@ -1,36 +1,22 @@
-import { MeetingProvider, useMeeting } from "@videosdk.live/react-sdk";
-import CompanyView from "./CompanyView";
-import Participant from "./Participant";
-import You from "./You";
+import { MeetingProvider } from "@videosdk.live/react-sdk";
 import { useContext, useState } from "react";
 import { AuthContext } from "../../context/AuthContex";
 import { getAuthToken, createMeeting } from "./Api";
-import { onSuccess } from "../../utils/notifications/OnSuccess";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import Meeting from "./Meeting";
-import { ApplicationContext } from "../../context/ApplicationContext";
-import { useEffect } from "react";
+//import { ApplicationContext } from "../../context/ApplicationContext";
 
 function InterviewRoom() {
   const { state } = useLocation();
-  const navigate = useNavigate();
   const [meetingId, setMeetingId] = useState(state?.interview?.meeting_id);
   const { authDetails } = useContext(AuthContext);
-  const { application } = useContext(ApplicationContext);
-
-  console.log("auth token", application);
-  console.log("meeting id", meetingId, state);
+  //const { application } = useContext(ApplicationContext);
   const exclusive = state?.exclusive;
   const auth = !!exclusive?.user ? exclusive : authDetails;
   const onClick = async () => {
     const roomId = await createMeeting("");
     setMeetingId(roomId);
   };
-  // useEffect(() => {
-  //   if (application?.status !== "shortlist") {
-  //     navigate(-1);
-  //   }
-  // }, [application]);
 
   return (
     <main className="h-screen flex items-center justify-center w-screen">

@@ -22,7 +22,6 @@ const ShortListedDetails = () => {
         },
       })
       .then((response) => {
-        console.log("Interview details:", response.data);
         setState(response.data.interview);
       })
       .catch((error) => {
@@ -32,7 +31,10 @@ const ShortListedDetails = () => {
 
   // Handle navigation to the interview room
   const handleOnClick = () => {
-    navigate("/interview-room", { state: { interview: newInterview } });
+    navigate("/interview-room", {
+      state: { interview: newInterview },
+      replace: true,
+    });
   };
 
   useEffect(() => {
@@ -86,15 +88,6 @@ const ShortListedDetails = () => {
       const { isLive, hasEnded, countdown } = formatDateTime(
         newInterview.interview_date,
         newInterview.interview_time
-      );
-
-      console.log(
-        "isLive:",
-        isLive,
-        "hasEnded:",
-        hasEnded,
-        "countdown:",
-        countdown
       );
 
       setIsLive(isLive);

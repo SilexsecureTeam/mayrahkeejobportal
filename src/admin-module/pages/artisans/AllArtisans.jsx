@@ -27,7 +27,6 @@ function AllArtisans() {
     "Registered",
     "Email",
     "Subcategory",
-    "Status",
     "Years of Experience",
     "Location",
   ];
@@ -44,9 +43,8 @@ function AllArtisans() {
     [heading[2].toLowerCase()]: formatDate(artisan.created_at),
     [heading[3].toLowerCase()]: artisan.email,
     [heading[4].toLowerCase()]: artisan.subcategory,
-    [heading[5].toLowerCase()]: artisan.status,
-    [heading[6].toLowerCase()]: artisan.years_of_experience,
-    [heading[7].toLowerCase()]: artisan.location,
+    [heading[5].toLowerCase()]: artisan.years_of_experience,
+    [heading[6].toLowerCase()]: artisan.location,
   }));
 
   return (
@@ -67,7 +65,6 @@ function AllArtisans() {
         data={data}
         loading={loading}
         name="artisan"
-        allowEdit={true}
       />
     </div>
   );

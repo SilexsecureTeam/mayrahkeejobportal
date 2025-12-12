@@ -163,9 +163,11 @@ const GuarantorReportDialog = ({ fetchData }) => {
               <p>
                 <strong>Occupation:</strong> {guarantor?.occupation}
               </p>
-              <p>
-                <strong>Status:</strong> {guarantor?.status}
-              </p>
+              {guarantor?.status && (
+                <p>
+                  <strong>Status: </strong> {guarantor?.status}
+                </p>
+              )}
               <button
                 type="button"
                 className="flex items-center gap-2 bg-green-500 px-4 py-2 rounded"

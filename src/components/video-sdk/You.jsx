@@ -15,6 +15,7 @@ import { onFailure } from "../../utils/notifications/OnFailure";
 import { LuLoader } from "react-icons/lu";
 import { ApplicationContext } from "../../context/ApplicationContext";
 import { IMAGE_URL } from "../../utils/base";
+import mainLogoTwo from "../../assets/pngs/main-logo-icon.png";
 
 function You({ data, job, applicant, auth, exclusive }) {
   const micRef = useRef(null);
@@ -106,7 +107,11 @@ function You({ data, job, applicant, auth, exclusive }) {
     setLoading(true);
     // If you want a small delay for UX, you can add setTimeout, but it's optional
     leave();
-    navigate("/applicant/applications", { replace: true });
+    if (auth.user.role === "employer") {
+      navigate("/company/applicants", { replace: true });
+    } else {
+      navigate("/applicant/applications", { replace: true });
+    }
     setLoading(false);
   };
 
@@ -190,7 +195,7 @@ function You({ data, job, applicant, auth, exclusive }) {
                     ? `${IMAGE_URL}/${job.featured_image}`
                     : applicant?.profile
                     ? `${IMAGE_URL}/${applicant.profile}`
-                    : "https://images.pexels.com/photos/6325968/pexels-photo-6325968.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+                    : mainLogoTwo
                 }
                 className="w-full object-cover bg-gray-400/10"
               />

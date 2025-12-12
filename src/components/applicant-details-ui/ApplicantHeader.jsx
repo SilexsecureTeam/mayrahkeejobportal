@@ -56,7 +56,7 @@ const ApplicantHeader = ({ contract, fetchContract, setContract }) => {
     return () => clearInterval(timer);
   }, [contract?.end_date, isCancelled]);
 
-  // ✅ Accept Contract
+  //Accept Contract
   const handleAccept = async () => {
     if (isAccepted) return toast.info("Contract already accepted.");
     setAcceptLoading(true);
@@ -79,7 +79,7 @@ const ApplicantHeader = ({ contract, fetchContract, setContract }) => {
     }
   };
 
-  // ✅ Reject Contract
+  //Reject Contract
   const handleReject = async () => {
     if (isRejected) return toast.info("Contract already rejected.");
     setRejectLoading(true);
@@ -103,7 +103,7 @@ const ApplicantHeader = ({ contract, fetchContract, setContract }) => {
     }
   };
 
-  // ✅ Recontract
+  //Recontract
   const handleRecontract = async (newStaff) => {
     try {
       const { data } = await client.post(`/contracts/recontract`, {
@@ -122,12 +122,12 @@ const ApplicantHeader = ({ contract, fetchContract, setContract }) => {
     }
   };
 
-  // ✅ Terminate Contract
+  //Terminate Contract
   const handleTerminate = async () => {
     if (!isActive) return toast.warn("No active contract found.");
 
     const confirmTerminate = window.confirm(
-      "⚠️ This contract is currently active. Are you sure you want to terminate it?"
+      " This contract is currently active. Are you sure you want to terminate it?"
     );
     if (!confirmTerminate) return;
 
@@ -151,7 +151,7 @@ const ApplicantHeader = ({ contract, fetchContract, setContract }) => {
     }
   };
 
-  // ✅ Report Contact Issue (Artisan only)
+  //Report Contact Issue (Artisan only)
   const reportContactIssue = async (staffContract) => {
     setComplainLoading(true);
     try {
@@ -201,7 +201,7 @@ const ApplicantHeader = ({ contract, fetchContract, setContract }) => {
 
         {isCancelled && (
           <p className="text-sm font-bold text-red-600">
-            ⚠️ Contract Cancelled
+             Contract Cancelled
           </p>
         )}
 
@@ -255,7 +255,7 @@ const ApplicantHeader = ({ contract, fetchContract, setContract }) => {
                 onClick={() =>
                   contract?.is_recontract
                     ? toast.warn(
-                        "⚠️ This contract has already been recontracted once."
+                        " This contract has already been recontracted once."
                       )
                     : setIsModalOpen(true)
                 }

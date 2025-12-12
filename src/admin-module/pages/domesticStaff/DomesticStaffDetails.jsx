@@ -153,14 +153,6 @@ const DomesticStaffDetails = () => {
           </div>
 
           <hr />
-
-          <div className="text-md px-4 py-4">
-            <h1 className="font-bold">Contact</h1>
-            <div className="flex items-center space-x-2">
-              <span className="font-bold">Phone Number:</span>
-              <span>{data?.phone_number}</span>
-            </div>
-          </div>
         </div>
 
         <div className="shadow-lg px-4 py-4 md:col-span-1.5">

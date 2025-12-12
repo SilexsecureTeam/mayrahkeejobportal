@@ -13,8 +13,10 @@ const BusinessReportDialog = ({ fetchData }) => {
   const [business, setBusiness] = useState(null);
   const [selectedReport, setSelectedReport] = useState(null);
   const [status, setStatus] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false); // for fetch
+  const [isUpdating, setIsUpdating] = useState(false); // for update call
   const { updateStatus } = UseAdminManagement();
+
   const handleOpen = async () => {
     setVisible(true);
     setIsLoading(true);
@@ -37,39 +39,41 @@ const BusinessReportDialog = ({ fetchData }) => {
 
   const handleUpdateOpen = (report) => {
     setSelectedReport(report);
-    setStatus(report?.status || "");
+    setStatus(report?.status ?? "");
     setUpdateDialogVisible(true);
   };
 
   const handleUpdateStatus = async () => {
-    if (!status || !selectedReport?.domestic_staff_id) {
+    const domesticId = selectedReport?.domestic_staff_id;
+    if (!status || !domesticId) {
       toast.error("Invalid data. Please try again.");
       return;
     }
 
     const formData = {
-      id: selectedReport.domestic_staff_id,
-      status: status,
+      id: domesticId,
+      status,
       type: "business",
     };
 
-    console.log("Form data being sent:", formData);
-
+    setIsUpdating(true);
     try {
       const res = await updateStatus(formData);
       if (res) {
         setUpdateDialogVisible(false);
         toast.success("Status updated successfully");
-        // Fetch the updated details
         const data = await fetchData();
-        setBusiness(data.businesses[0]);
+        setBusiness(data?.businesses?.[0] ?? null);
       } else {
         toast.error("An error occurred while updating status");
       }
     } catch (error) {
+      console.error("Update error:", error);
       toast.error(
         extractErrorMessage(error) || "An error occurred while updating status"
       );
+    } finally {
+      setIsUpdating(false);
     }
   };
 
@@ -79,6 +83,18 @@ const BusinessReportDialog = ({ fetchData }) => {
     { label: "Rejected", value: "rejected" },
     { label: "Suspend", value: "suspend" },
   ];
+
+  // Helper to build file URL from business_file_path
+  const getFileUrl = (path) => {
+    if (!path) return null;
+    const base = import.meta.env.VITE_IMAGE_URL || "";
+    return `${base.replace(/\/$/, "")}/${path.replace(/^\//, "")}`;
+  };
+
+  const isImageFile = (path) => {
+    if (!path) return false;
+    return /\.(png|jpe?g|gif|webp|svg)$/i.test(path);
+  };
 
   return (
     <div className="card flex flex-col space-y-4">
@@ -111,71 +127,58 @@ const BusinessReportDialog = ({ fetchData }) => {
         modal
       >
         {isLoading ? (
-          <div className="flex justify-center items-center h-full">
-            <ClipLoader size={50} color={"#000"} loading={isLoading} />
+          <div className="flex justify-center items-center h-48">
+            <ClipLoader size={40} color={"#000"} loading={isLoading} />
           </div>
         ) : business ? (
-          <div className="p-3 border-b-2 border-gray-200 space-y-5">
-            <p>
-              <strong>Business Name:</strong> {business?.business_name}
-            </p>
-            <p>
-              <strong>Business Email:</strong> {business?.business_email}
-            </p>
-            <p>
-              <strong>Business Phone Number:</strong>{" "}
-              {business?.business_phone_no}
-            </p>
-            <p>
-              <strong>WhatsApp Phone Number:</strong>{" "}
-              {business?.whatsapp_phone_no}
-            </p>
-            <p>
-              <strong>Business Registration No.:</strong>{" "}
-              {business?.business_registration_no}
-            </p>
-            <p>
-              <strong>Business Address:</strong> {business?.business_address}
-            </p>
-            <p>
-              <strong>Business Location:</strong> {business?.business_location}
-            </p>
-            <p>
-              <strong>Year of Incorporation:</strong>{" "}
-              {business?.year_of_incorporation}
-            </p>
+          <div className="p-3 space-y-4">
             <p>
               <strong>Business Identification No.:</strong>{" "}
-              {business?.business_identification_no}
+              {business.business_identification_no ?? "—"}
             </p>
+
             <p>
-              <strong>Status:</strong> {business?.status}
+              <strong>Status:</strong> {business.status ?? "—"}
             </p>
 
-            {business?.business_file && (
-              <p>
-                <strong>Business File:</strong>{" "}
-                <a
-                  href={`${import.meta.env.VITE_IMAGE_URL}/${
-                    business?.business_file
-                  }`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-blue-500 underline"
-                >
-                  View File
-                </a>
-              </p>
-            )}
+            {/* Display file inline for images, otherwise show a link */}
+            {business.business_file_path ? (
+              isImageFile(business.business_file_path) ? (
+                <div>
+                  <strong>Business File:</strong>
+                  <div className="mt-2">
+                    <img
+                      src={getFileUrl(business.business_file_path)}
+                      alt="Business file"
+                      className="max-w-full max-h-72 object-contain rounded-md border"
+                    />
+                  </div>
+                </div>
+              ) : (
+                <p>
+                  <strong>Business File:</strong>{" "}
+                  <a
+                    href={getFileUrl(business.business_file_path)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-blue-500 underline"
+                  >
+                    View File
+                  </a>
+                </p>
+              )
+            ) : null}
 
-            <button
-              type="button"
-              className="flex items-center gap-2 bg-green-500 px-4 py-2 rounded text-white"
-              onClick={() => handleUpdateOpen(business)}
-            >
-              <FaPencil className="text-lg" />
-              Update Status
-            </button>
+            <div className="mt-4">
+              <button
+                type="button"
+                className="flex items-center gap-2 bg-green-500 px-4 py-2 rounded text-white"
+                onClick={() => handleUpdateOpen(business)}
+              >
+                <FaPencil className="text-lg" />
+                Update Status
+              </button>
+            </div>
           </div>
         ) : (
           <p>No business report available</p>
@@ -191,6 +194,7 @@ const BusinessReportDialog = ({ fetchData }) => {
       >
         <div className="p-4">
           <h3>Update Status</h3>
+
           <Dropdown
             value={status}
             options={statusOptions}
@@ -198,13 +202,33 @@ const BusinessReportDialog = ({ fetchData }) => {
             placeholder="Select a Status"
             className="w-full mb-4"
           />
-          <button
-            type="button"
-            className="flex items-center gap-2 bg-green-500 px-4 py-2 rounded text-white"
-            onClick={handleUpdateStatus}
-          >
-            Update
-          </button>
+
+          <div className="flex items-center gap-3">
+            <button
+              type="button"
+              className="flex items-center gap-2 bg-green-500 px-4 py-2 rounded text-white disabled:opacity-60"
+              onClick={handleUpdateStatus}
+              disabled={isUpdating}
+            >
+              {isUpdating ? (
+                <>
+                  <ClipLoader size={14} color="#ffffff" loading={isUpdating} />
+                  <span>Updating...</span>
+                </>
+              ) : (
+                "Update"
+              )}
+            </button>
+
+            <button
+              type="button"
+              className="px-4 py-2 rounded bg-gray-200"
+              onClick={() => setUpdateDialogVisible(false)}
+              disabled={isUpdating}
+            >
+              Cancel
+            </button>
+          </div>
         </div>
       </Dialog>
     </div>

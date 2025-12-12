@@ -51,8 +51,8 @@ function Participant({ data }) {
             muted={true}
             playing={true}
             url={videoStream}
-            height="100%"  // Ensuring full height
-            width="100%"   // Ensuring full width
+            height="100%" // Ensuring full height
+            width="100%" // Ensuring full width
             className="rounded-md"
             onError={(err) => {
               console.log(err, "participant video error");
@@ -60,13 +60,9 @@ function Participant({ data }) {
           />
         </div>
       ) : (
-       <div  className="h-[450px] w-full rounded-md flex items-center justify-center">
-       <img
-          className="w-60 md:w-80"
-          src={mainLogoTwo}
-          //"https://images.pexels.com/photos/4491440/pexels-photo-4491440.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-        />
-       </div>
+        <div className="h-[450px] w-full rounded-md flex items-center justify-center">
+          <img className="w-60 md:w-80" src={mainLogoTwo} />
+        </div>
       )}
 
       {/* <div

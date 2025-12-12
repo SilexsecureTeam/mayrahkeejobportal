@@ -24,7 +24,7 @@ const MedicalReportDialog = ({ fetchData }) => {
     setVisible(true);
     setIsLoading(true);
     setMedicalHistory([]);
-  try {
+    try {
       const data = await fetchData();
       if (data?.MedicalHistory) {
         setMedicalHistory(data.MedicalHistory);
@@ -37,7 +37,6 @@ const MedicalReportDialog = ({ fetchData }) => {
     } finally {
       setIsLoading(false);
     }
-  
   };
 
   const handleFileOpen = (file) => {
@@ -56,15 +55,15 @@ const MedicalReportDialog = ({ fetchData }) => {
     console.log("Report Id:", selectedReport.domestic_staff_id);
 
     if (!status) {
-      console.error('selectedData is null or undefined');
-      toast.error('An error occurred. Please try again');
+      console.error("selectedData is null or undefined");
+      toast.error("An error occurred. Please try again");
       return;
     }
 
     const formData = {
       id: selectedReport.domestic_staff_id,
       status: status,
-      type: 'medical'
+      type: "medical",
     };
 
     console.log("Form data being sent:", formData);
@@ -73,65 +72,115 @@ const MedicalReportDialog = ({ fetchData }) => {
       const res = await updateStatus(formData);
       if (res) {
         setUpdateDialogVisible(false);
-        toast.success('Status updated successfully');
-         // Fetch the updated details
+        toast.success("Status updated successfully");
+        // Fetch the updated details
         const data = await fetchData();
         setMedicalHistory(data.MedicalHistory);
       } else {
-        toast.error('An error occurred while updating status');
+        toast.error("An error occurred while updating status");
       }
     } catch (error) {
-      console.error('Error updating status:', error);
+      console.error("Error updating status:", error);
       if (error.response && error.response.data) {
-        console.error('Server response:', error.response.data);
+        console.error("Server response:", error.response.data);
       }
-      toast.error('An error occurred while updating status');
+      toast.error("An error occurred while updating status");
     }
   };
 
   const renderFileContent = (file) => {
-    const fileExtension = file.split('.').pop().toLowerCase();
+    const fileExtension = file.split(".").pop().toLowerCase();
     if (["jpg", "jpeg", "png", "gif"].includes(fileExtension)) {
-      return <img src={`${IMAGE_URL}/${file}`} alt="Medical Report" className="w-full h-auto" />;
+      return (
+        <img
+          src={`${IMAGE_URL}/${file}`}
+          alt="Medical Report"
+          className="w-full h-auto"
+        />
+      );
     } else if (["pdf", "doc", "docx"].includes(fileExtension)) {
-      return <iframe src={`${IMAGE_URL}/${file}`} title="Medical Report" className="w-full h-96" />;
+      return (
+        <iframe
+          src={`${IMAGE_URL}/${file}`}
+          title="Medical Report"
+          className="w-full h-96"
+        />
+      );
     } else {
       return <p>Unsupported file format</p>;
     }
   };
 
   const statusOptions = [
-    { label: 'Pending', value: 'pending' },
-    { label: 'Approved', value: 'approved' },
-    { label: 'Rejected', value: 'rejected' },
-    { label: 'Suspend', value: 'suspend' },
+    { label: "Pending", value: "pending" },
+    { label: "Approved", value: "approved" },
+    { label: "Rejected", value: "rejected" },
+    { label: "Suspend", value: "suspend" },
   ];
 
   return (
     <div className="card flex flex-col space-y-4">
-       <div className="bg-green-500 px-20 py-20 rounded-lg text-white  hover:cursor-pointer" onClick={handleOpen}>
-      View Medical Report
-      {isLoading && <ClipLoader size={20} color={"#ffffff"} loading={isLoading} className="ml-2" />}
+      <div
+        className="bg-green-500 px-20 py-20 rounded-lg text-white  hover:cursor-pointer"
+        onClick={handleOpen}
+      >
+        View Medical Report
+        {isLoading && (
+          <ClipLoader
+            size={20}
+            color={"#ffffff"}
+            loading={isLoading}
+            className="ml-2"
+          />
+        )}
       </div>
-      <Dialog header="Medical Report" visible={visible} style={{ width: '90vw', maxWidth: '600px',  overflowY:"auto", height:"max-content", maxHeight:"90%" }} onHide={() => setVisible(false)} modal>
+      <Dialog
+        header="Medical Report"
+        visible={visible}
+        style={{
+          width: "90vw",
+          maxWidth: "600px",
+          overflowY: "auto",
+          height: "max-content",
+          maxHeight: "90%",
+        }}
+        onHide={() => setVisible(false)}
+        modal
+      >
         {isLoading ? (
           <div className="flex justify-center items-center h-full">
             <ClipLoader size={50} color={"#000"} loading={isLoading} />
           </div>
-        ) : (
-          medicalHistory.length > 0 ? medicalHistory.map((report) => (
-            <div key={report.id} className="p-3 border-b-2 border-gray-200 space-y-5">
-              <p><strong>Hospital Name:</strong> {report.hospital_name}</p>
-              <p><strong>Contact:</strong> {report.contact_detail}</p>
-              <p className="flex items-center gap-5"> <strong>Report File: </strong>
-                <button onClick={() => handleFileOpen(report.medical_report_docs)}
+        ) : medicalHistory.length > 0 ? (
+          medicalHistory.map((report) => (
+            <div
+              key={report.id}
+              className="p-3 border-b-2 border-gray-200 space-y-5"
+            >
+              <p>
+                <strong>Hospital Name:</strong> {report.hospital_name}
+              </p>
+              <p>
+                <strong>Contact:</strong> {report.contact_detail}
+              </p>
+              <p className="flex items-center gap-5">
+                {" "}
+                <strong>Report File: </strong>
+                <button
+                  onClick={() => handleFileOpen(report.medical_report_docs)}
                   type="button"
                   className="flex items-center gap-2 bg-green-500 px-4 py-2 rounded text-white"
-                >View Doc
+                >
+                  View Doc
                 </button>
               </p>
-              <p><strong>Date Submitted:</strong> {formatDate(report.created_at)}</p>
-              <p><strong>Status:</strong>{report.status}</p>
+              <p>
+                <strong>Date Submitted:</strong> {formatDate(report.created_at)}
+              </p>
+              <p>
+                <strong>Status: </strong>
+                {report.status || "N/A"}
+              </p>
               <button
                 type="button"
                 className="flex items-center gap-2 bg-green-500 px-4 py-2 rounded"
@@ -140,16 +189,36 @@ const MedicalReportDialog = ({ fetchData }) => {
                 <FaPencil className="ml-2 text-lg text-white" />
               </button>
             </div>
-          )) : <p>No medical report available</p>
+          ))
+        ) : (
+          <p>No medical report available</p>
         )}
       </Dialog>
-      <Dialog header="Medical Report File" visible={fileDialogVisible} style={{ width: '90vw', maxWidth: '600px' }} onHide={() => setFileDialogVisible(false)} modal>
+      <Dialog
+        header="Medical Report File"
+        visible={fileDialogVisible}
+        style={{ width: "90vw", maxWidth: "600px" }}
+        onHide={() => setFileDialogVisible(false)}
+        modal
+      >
         {renderFileContent(selectedFile)}
       </Dialog>
-      <Dialog header="Update Status" visible={updateDialogVisible} style={{ width: '90vw', maxWidth: '600px' }} onHide={() => setUpdateDialogVisible(false)} modal>
+      <Dialog
+        header="Update Status"
+        visible={updateDialogVisible}
+        style={{ width: "90vw", maxWidth: "600px" }}
+        onHide={() => setUpdateDialogVisible(false)}
+        modal
+      >
         <div className="p-4">
           <h3>Update Status</h3>
-          <Dropdown value={status} options={statusOptions} onChange={(e) => setStatus(e.value)} placeholder="Select a Status" className="w-full mb-4" />
+          <Dropdown
+            value={status}
+            options={statusOptions}
+            onChange={(e) => setStatus(e.value)}
+            placeholder="Select a Status"
+            className="w-full mb-4"
+          />
           <button
             type="button"
             className="flex items-center gap-2 bg-green-500 px-4 py-2 rounded text-white"

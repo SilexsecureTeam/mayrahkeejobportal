@@ -84,7 +84,7 @@ const PoliceReportDialog = ({ fetchData, name }) => {
     const fileUrl = `${IMAGE_URL}/${file}`;
     if (["jpg", "jpeg", "png", "gif"].includes(fileExtension)) {
       return (
-        <img src={fileUrl} alt="Police Report" className="w-full h-auto" />
+        <img src={fileUrl} alt="Police Report" className="w-[80%] h-auto" />
       );
     } else if (["pdf", "doc", "docx"].includes(fileExtension)) {
       return (
@@ -161,12 +161,12 @@ const PoliceReportDialog = ({ fetchData, name }) => {
                 <strong>NIN Number:</strong> {report.nin_number || "N/A"}
               </p>
 
-              <p className="flex items-center gap-5">
+              <p>
                 <strong>Report File:</strong>{" "}
                 {renderFileContent(report.police_report_file)}
               </p>
 
-              <p className="flex items-center gap-5">
+              <p>
                 <strong>NIN Slip / ID:</strong>{" "}
                 {renderFileContent(report.nin_slip_file)}
               </p>
@@ -175,10 +175,11 @@ const PoliceReportDialog = ({ fetchData, name }) => {
               </p>
               <p>
                 <span className="flex justify-start items-center gap-2">
-                  <span>
-                    <strong>Status:</strong>{" "}
-                    {report.status ? report.status : "N/A"}
-                  </span>
+                  {report.status && (
+                    <span>
+                      <strong>Status:</strong> {report.status}
+                    </span>
+                  )}
                   <button
                     type="button"
                     className="flex items-center gap-2 bg-green-500 px-2 py-2 rounded"

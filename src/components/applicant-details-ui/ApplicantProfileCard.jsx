@@ -32,7 +32,6 @@ const ApplicantProfileCard = ({ userData }) => {
           <p className="text-gray-600">{userData?.subcategory}</p>
           <div className="flex items-center mt-2">
             <span className="text-yellow-500">★★★★★</span>
-            <span className="ml-1">{5}</span>
           </div>
         </section>
       </div>

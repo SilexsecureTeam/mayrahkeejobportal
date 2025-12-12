@@ -67,7 +67,7 @@ function Candidate() {
               <h3 className="text-xl font-bold">{candidateCount}</h3>
               <p>All Registered Candidates</p>
             </div>
-            <div className="bg-yellow-500 text-white px-4 py-12 rounded-md flex flex-col items-start">
+            {/* <div className="bg-yellow-500 text-white px-4 py-12 rounded-md flex flex-col items-start">
               <h3 className="text-xl font-bold">{pending}</h3>
               <p>Pending</p>
             </div>
@@ -82,15 +82,15 @@ function Candidate() {
             <div className="bg-red-700 text-white px-4 py-12 rounded-md flex flex-col items-start">
               <h3 className="text-xl font-bold">{rejected}</h3>
               <p>Rejected</p>
-            </div>
+            </div> */}
             {/* <div className="bg-cyan-950 text-white px-4 py-12 rounded-md flex flex-col items-start">
               <h3 className="text-xl font-bold">{candidateCount}</h3>
               <p>Total Jobs Applied</p>
             </div> */}
           </div>
-          <div className="mt-8">
+          {/* <div className="mt-8">
             <CandidateUsageChart candidates={candidates} />
-          </div>
+          </div> */}
         </div>
       </div>
     </>

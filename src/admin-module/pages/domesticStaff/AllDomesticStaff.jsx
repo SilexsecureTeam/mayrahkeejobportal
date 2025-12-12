@@ -35,7 +35,6 @@ function AllDomesticStaff() {
     "Registered",
     "Email",
     "Subcategory",
-    "Status",
     "Experience (years)",
     "Agreed Salary",
     "Service Charge",
@@ -56,12 +55,11 @@ function AllDomesticStaff() {
     [heading[2].toLowerCase()]: formatDate(staff.created_at),
     [heading[3].toLowerCase()]: staff.email,
     [heading[4].toLowerCase()]: staff.subcategory,
-    [heading[5].toLowerCase()]: staff.status,
-    [heading[6].toLowerCase()]: staff.years_of_experience,
-    [heading[7].toLowerCase()]: staff.salary_agreed || 0,
-    [heading[8].toLowerCase()]: staff.service_charge || 0,
-    [heading[9].toLowerCase()]: staff.markup_fee || 0,
-    [heading[10].toLowerCase()]: staff.location,
+    [heading[5].toLowerCase()]: staff.years_of_experience,
+    [heading[6].toLowerCase()]: staff.salary_agreed || 0,
+    [heading[7].toLowerCase()]: staff.service_charge || 0,
+    [heading[8].toLowerCase()]: staff.markup_fee || 0,
+    [heading[9].toLowerCase()]: staff.location,
   }));
 
   return (
@@ -92,7 +90,6 @@ function AllDomesticStaff() {
           data={data}
           loading={isLoading} // Use API loading state for DataTableComponent
           name="domestic-staff"
-          allowEdit={true}
         />
       )}
     </div>

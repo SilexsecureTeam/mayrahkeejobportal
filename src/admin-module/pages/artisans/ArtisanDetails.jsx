@@ -110,7 +110,7 @@ const ArtisanDetails = () => {
           <div className="bg-gray-200 px-4 py-4 my-4">
             <div className="flex text-xs justify-between">
               <p className="font-bold">Member Since</p>
-              <p>{formatDate(data.member_since)}</p>
+              <p>{formatDate(data?.created_at)}</p>
             </div>
           </div>
 
