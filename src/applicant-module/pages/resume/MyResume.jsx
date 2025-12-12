@@ -214,6 +214,7 @@ const MyResume = () => {
     formData.append("position_held", details.position_held);
     formData.append("start_date", details.start_date);
     formData.append("end_date", details.end_date);
+    formData.append("work_description", details.work_description);
 
     // Append files with correct field names for backend
     if (details.resume) {
