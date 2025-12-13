@@ -271,3 +271,8 @@ export function sanitizeHtml(html) {
     __html: DOMPurify.sanitize(html),
   };
 }
+
+export const isValidYear = (year) => {
+  const currentYear = new Date().getFullYear();
+  return Number.isInteger(Number(year)) && year >= 1900 && year <= currentYear;
+};

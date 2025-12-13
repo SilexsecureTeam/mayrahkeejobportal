@@ -79,7 +79,7 @@ const Resume = ({ resume, setGetResumeById, authDetails, getCandidate }) => {
 
           {/* Contact Info */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-            {getCandidate.details?.address && (
+            {getCandidate?.details?.address && (
               <div className="flex items-center space-x-3">
                 <div className="flex-shrink-0 w-8 h-8 bg-green-50 rounded-lg flex items-center justify-center">
                   <FaMapMarkerAlt className="text-green-600 text-sm" />
@@ -87,12 +87,12 @@ const Resume = ({ resume, setGetResumeById, authDetails, getCandidate }) => {
                 <div>
                   <p className="text-sm text-gray-500">Address</p>
                   <p className="text-gray-800 font-medium text-sm">
-                    {getCandidate.details.address}
+                    {getCandidate?.details.address}
                   </p>
                 </div>
               </div>
             )}
-            {getCandidate.details?.phone_number && (
+            {getCandidate?.details?.phone_number && (
               <div className="flex items-center space-x-3">
                 <div className="flex-shrink-0 w-8 h-8 bg-green-50 rounded-lg flex items-center justify-center">
                   <FaPhone className="text-green-600 text-sm" />
@@ -105,7 +105,7 @@ const Resume = ({ resume, setGetResumeById, authDetails, getCandidate }) => {
                 </div>
               </div>
             )}
-            {getCandidate.details?.email && (
+            {getCandidate?.details?.email && (
               <div className="flex items-center space-x-3 md:col-span-2">
                 <div className="flex-shrink-0 w-8 h-8 bg-green-50 rounded-lg flex items-center justify-center">
                   <FaEnvelope className="text-green-600 text-sm" />
@@ -202,11 +202,11 @@ const Resume = ({ resume, setGetResumeById, authDetails, getCandidate }) => {
                     </div>
                   )}
 
-                  {resume.description && (
+                  {resume.work_description && (
                     <div className="md:col-span-2">
                       <p className="text-sm text-gray-500">Work Description</p>
                       <p className="text-gray-800 text-sm mt-1 leading-relaxed max-h-20 overflow-y-auto border border-gray-200 p-2 rounded">
-                        {resume.description}
+                        {resume.work_description}
                       </p>
                     </div>
                   )}

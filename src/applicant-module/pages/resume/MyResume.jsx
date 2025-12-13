@@ -8,10 +8,11 @@ import { onSuccess } from "../../../utils/notifications/OnSuccess";
 import Resume from "./components/Resume";
 import { toast } from "react-toastify";
 import { onFailure } from "../../../utils/notifications/OnFailure";
-import { extractErrorMessage } from "../../../utils/formmaters";
+import { extractErrorMessage, isValidYear } from "../../../utils/formmaters";
 import { qualificationOptions } from "../../../utils/formFields";
 import { useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import QualificationsSection from "./components/QualificationsSection";
 
 const MyResume = () => {
   const { authDetails } = useContext(AuthContext);
@@ -193,6 +194,25 @@ const MyResume = () => {
           `Please complete all fields for Qualification #${i + 1}`
         );
       }
+      // Year validation
+      if (!isValidYear(Number(q.year_attended))) {
+        toast.error(`Invalid Year of Entry for Qualification #${i + 1}`);
+        return;
+      }
+
+      if (!isValidYear(Number(q.year_of_graduation))) {
+        toast.error(`Invalid Year of Graduation for Qualification #${i + 1}`);
+        return;
+      }
+
+      if (Number(q.year_of_graduation) < Number(q.year_attended)) {
+        toast.error(
+          `Year of Graduation cannot be earlier than Year of Entry (Qualification #${
+            i + 1
+          })`
+        );
+        return;
+      }
     }
 
     // Validate dates
@@ -346,7 +366,7 @@ const MyResume = () => {
 
         <div className="grid grid-cols-responsive gap-5">
           {!fetching &&
-            getResumeById.data?.map((resume) => (
+            getResumeById?.data?.map((resume) => (
               <Resume
                 key={resume.id}
                 resume={resume}
@@ -377,29 +397,31 @@ const MyResume = () => {
                 </label>
 
                 {/* ADD RESUME */}
-                <div className="my-4 pt-5 space-y-4">
-                  <label className="cursor-pointer inline-block">
-                    <span className="text-sm bg-green-100 rounded border p-4 font-medium hover:bg-green-200 transition">
-                      {details.resumeFileName || "Add Resume (PDF/DOCX)"}
-                    </span>
-                    <input
-                      type="file"
-                      accept=".pdf,.docx,.doc"
-                      name="resume"
-                      onChange={handleFileChange}
-                      className="invisible absolute"
-                    />
-                  </label>
-                  {resumePicker && (
-                    <div className="inline-flex items-center ml-3">
-                      <FcApproval className="text-xl" />
-                      <span className="text-sm text-green-600 ml-1">
-                        {details.resumeFileName}
-                      </span>
+                <div className="my-4 pt-5">
+                  {!resumePicker ? (
+                    <label className="cursor-pointer inline-flex items-center gap-3 rounded border bg-green-100 px-4 py-3 text-sm font-medium hover:bg-green-200 transition">
+                      <span>Add Resume (PDF/DOCX)</span>
+                      <input
+                        type="file"
+                        accept=".pdf,.docx,.doc"
+                        name="resume"
+                        onChange={handleFileChange}
+                        className="hidden"
+                      />
+                    </label>
+                  ) : (
+                    <div className="flex items-center justify-between rounded border bg-green-50 px-4 py-3">
+                      <div className="flex items-center gap-2 min-w-0">
+                        <FcApproval className="text-xl shrink-0" />
+                        <span className="text-sm text-green-700 truncate">
+                          {details.resumeFileName}
+                        </span>
+                      </div>
+
                       <button
                         type="button"
                         onClick={() => removeFile("resume")}
-                        className="text-red-500 ml-2 text-sm"
+                        className="text-red-500 text-sm hover:underline ml-3 shrink-0"
                       >
                         Remove
                       </button>
@@ -408,158 +430,37 @@ const MyResume = () => {
                 </div>
 
                 {/* QUALIFICATIONS */}
-                <p className="font-medium text-lg my-6">Qualifications</p>
-
-                {qualifications.map((q, index) => (
-                  <div
-                    key={index}
-                    className="border p-4 mb-5 rounded-lg bg-gray-50"
-                  >
-                    <div className="flex justify-between">
-                      <p className="font-medium text-sm">
-                        Qualification #{index + 1}
-                      </p>
-
-                      {index > 0 && (
-                        <button
-                          type="button"
-                          onClick={() => removeQualification(index)}
-                          className="text-red-500 text-sm"
-                        >
-                          Remove
-                        </button>
-                      )}
-                    </div>
-
-                    <label className="block mt-3">
-                      <span className="font-medium">
-                        Awarding Institution *
-                      </span>
-                      <input
-                        value={q.awarding_institution}
-                        onChange={(e) =>
-                          updateQualification(
-                            index,
-                            "awarding_institution",
-                            e.target.value
-                          )
-                        }
-                        className="mt-1 block p-2 border w-full rounded"
-                        required
-                      />
-                    </label>
-
-                    <label className="block mt-3">
-                      <span className="font-medium">Qualification Title *</span>
-                      <select
-                        value={q.qualification_title}
-                        onChange={(e) =>
-                          updateQualification(
-                            index,
-                            "qualification_title",
-                            e.target.value
-                          )
-                        }
-                        className="mt-1 block p-2 border w-full rounded"
-                        required
-                      >
-                        <option value="">Select Qualification</option>
-                        {qualificationOptions.map((option) => (
-                          <option key={option} value={option}>
-                            {option}
-                          </option>
-                        ))}
-                      </select>
-                    </label>
-
-                    <label className="block mt-3">
-                      <span className="font-medium">Year of Entry *</span>
-                      <input
-                        type="number"
-                        value={q.year_attended}
-                        onChange={(e) =>
-                          updateQualification(
-                            index,
-                            "year_attended",
-                            e.target.value
-                          )
-                        }
-                        className="mt-1 block p-2 border w-full rounded"
-                        min="1900"
-                        max="2099"
-                        required
-                      />
-                    </label>
-
-                    <label className="block mt-3">
-                      <span className="font-medium">Year of Graduation *</span>
-                      <input
-                        type="number"
-                        value={q.year_of_graduation}
-                        onChange={(e) =>
-                          updateQualification(
-                            index,
-                            "year_of_graduation",
-                            e.target.value
-                          )
-                        }
-                        className="mt-1 block p-2 border w-full rounded"
-                        min="1900"
-                        max="2099"
-                        required
-                      />
-                    </label>
-
-                    <label className="block mt-3">
-                      <span className="font-medium">Course Studied *</span>
-                      <input
-                        value={q.course_studied}
-                        onChange={(e) =>
-                          updateQualification(
-                            index,
-                            "course_studied",
-                            e.target.value
-                          )
-                        }
-                        className="mt-1 block p-2 border w-full rounded"
-                        required
-                      />
-                    </label>
-                  </div>
-                ))}
-
-                <button
-                  type="button"
-                  onClick={addQualification}
-                  className="px-4 py-2 mb-6 bg-green-600 text-white rounded shadow hover:bg-green-700 transition"
-                >
-                  + Add Another Qualification
-                </button>
+                <QualificationsSection
+                  qualifications={qualifications}
+                  setQualifications={setQualifications}
+                />
 
                 {/* PORTFOLIO */}
                 <div className="my-4 pt-5">
-                  <label className="cursor-pointer inline-block">
-                    <span className="text-sm bg-green-100 rounded border p-4 font-medium hover:bg-green-200 transition">
-                      {details.portfolioFileName || "Add Portfolio (PDF/DOCX)"}
-                    </span>
-                    <input
-                      type="file"
-                      accept=".pdf,.docx,.doc"
-                      name="portfolio"
-                      onChange={handleFileChange}
-                      className="invisible absolute"
-                    />
-                  </label>
-                  {portfolioPicker && (
-                    <div className="inline-flex items-center ml-3">
-                      <FcApproval className="text-xl" />
-                      <span className="text-sm text-green-600 ml-1">
-                        {details.portfolioFileName}
-                      </span>
+                  {!portfolioPicker ? (
+                    <label className="cursor-pointer inline-flex items-center gap-3 rounded border bg-green-100 px-4 py-3 text-sm font-medium hover:bg-green-200 transition">
+                      <span>Add Portfolio (PDF/DOCX)</span>
+                      <input
+                        type="file"
+                        accept=".pdf,.docx,.doc"
+                        name="portfolio"
+                        onChange={handleFileChange}
+                        className="hidden"
+                      />
+                    </label>
+                  ) : (
+                    <div className="flex items-center justify-between rounded border bg-green-50 px-4 py-3">
+                      <div className="flex items-center gap-2 min-w-0">
+                        <FcApproval className="text-xl shrink-0" />
+                        <span className="text-sm text-green-700 truncate">
+                          {details.portfolioFileName}
+                        </span>
+                      </div>
+
                       <button
                         type="button"
                         onClick={() => removeFile("portfolio")}
-                        className="text-red-500 ml-2 text-sm"
+                        className="text-red-500 text-sm hover:underline ml-3 shrink-0"
                       >
                         Remove
                       </button>
@@ -598,7 +499,7 @@ const MyResume = () => {
                   <div className="mt-1 text-xs text-gray-500">
                     Max {100} characters.{" "}
                     <span>
-                      {details.work_description.length}/{100}
+                      {details?.work_description?.length}/{100}
                     </span>
                   </div>
                 </label>
