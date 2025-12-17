@@ -15,7 +15,7 @@ import { onFailure } from "../../utils/notifications/OnFailure";
 import { LuLoader } from "react-icons/lu";
 import { ApplicationContext } from "../../context/ApplicationContext";
 import { IMAGE_URL } from "../../utils/base";
-import mainLogoTwo from "../../assets/pngs/main-logo-icon.png";
+import mayrahkeeIcon from "../../assets/mayrahkee.png";
 
 function You({ data, job, applicant, auth, exclusive }) {
   const micRef = useRef(null);
@@ -188,20 +188,24 @@ function You({ data, job, applicant, auth, exclusive }) {
               }}
             />
           ) : (
-            <div className="flex flex-col relative md:h-full rounded-[10px]">
+            <div className="flex flex-col items-center justify-center relative md:h-full rounded-[10px]">
               <img
-                src={
+                src={mayrahkeeIcon}
+                alt="avatar"
+                className="w-full object-cover bg-gray-700/10"
+              />
+              {/*
                   job?.featured_image
                     ? `${IMAGE_URL}/${job.featured_image}`
                     : applicant?.profile
                     ? `${IMAGE_URL}/${applicant.profile}`
-                    : mainLogoTwo
-                }
-                className="w-full object-cover bg-gray-400/10"
-              />
-              <span className="bg-gray-500 absolute left-0 top-0 p-1 w-fit h-fit text-little text-white px-2">
-                {applicant ? applicant?.full_name : job?.email}
-              </span>
+                    : mayrahkeeIcon*/}
+              {applicant?.full_name ||
+                (job?.email && (
+                  <span className="bg-gray-500 absolute left-0 top-0 p-1 w-fit h-fit text-little text-white px-2">
+                    {applicant ? applicant?.full_name : job?.email}
+                  </span>
+                ))}
             </div>
           )}
         </div>

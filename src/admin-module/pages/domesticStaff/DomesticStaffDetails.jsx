@@ -181,8 +181,8 @@ const DomesticStaffDetails = () => {
               <p className="text-sm">{data?.marital_status}</p>
               <p className="text-sm font-bold">Languages Spoken:</p>
               <p className="text-sm">{data?.languages_spoken?.join(", ")}</p>
-              {/* <p className="text-sm font-bold">Status:</p>
-              <p className="text-sm">{data?.status}</p> */}
+              <p className="text-sm font-bold">Phone Number:</p>
+              <p className="text-sm">{data?.phone_no}</p>
             </div>
           </div>
           <hr />

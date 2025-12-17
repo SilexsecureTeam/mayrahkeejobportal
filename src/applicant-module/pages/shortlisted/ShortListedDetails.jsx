@@ -84,13 +84,16 @@ const ShortListedDetails = () => {
   };
 
   useEffect(() => {
-    if (newInterview?.interview_date && newInterview?.interview_time) {
+    if (!newInterview?.interview_date || !newInterview?.interview_time) return;
+
+    const updateStatus = () => {
       const { isLive, hasEnded, countdown } = formatDateTime(
         newInterview.interview_date,
         newInterview.interview_time
       );
 
       setIsLive(isLive);
+      setTimeLeft(countdown);
       setStatusMessage(
         isLive
           ? "The interview is live now."
@@ -98,21 +101,15 @@ const ShortListedDetails = () => {
           ? "The interview has ended."
           : "The interview is not live yet."
       );
-      setTimeLeft(countdown);
+    };
 
-      // Countdown timer
-      if (!isLive && !hasEnded && countdown) {
-        const interval = setInterval(() => {
-          const updatedCountdown = formatDateTime(
-            newInterview.interview_date,
-            newInterview.interview_time
-          ).countdown;
-          setTimeLeft(updatedCountdown);
-        }, 1000);
+    // Run immediately
+    updateStatus();
 
-        return () => clearInterval(interval);
-      }
-    }
+    // Then every second
+    const interval = setInterval(updateStatus, 1000);
+
+    return () => clearInterval(interval);
   }, [newInterview]);
 
   const isPhysical = !newInterview?.meeting_id && newInterview?.location;

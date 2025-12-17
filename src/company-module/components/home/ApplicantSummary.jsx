@@ -26,7 +26,7 @@ function ApplicantSummary({ applicants, byCategory, jobs }) {
           {byCategory &&
             Object.keys(byCategory)
               ?.splice(0, 3)
-              .map((current) => {
+              .map((current, idx) => {
                 const info = byCategory[current];
                 const jobApplicants = applicants?.filter(
                   (currentApplicant) =>
@@ -35,7 +35,7 @@ function ApplicantSummary({ applicants, byCategory, jobs }) {
                 return (
                   <>
                     <div
-                      key={current?.id}
+                      key={`${current} "-" ${idx}`}
                       className={` list-item-parent flex h-full text-[11px] items-center gap-[5px]`}
                     >
                       <div

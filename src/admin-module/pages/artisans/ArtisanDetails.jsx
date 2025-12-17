@@ -79,7 +79,7 @@ const ArtisanDetails = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="shadow-lg px-4 py-4 md:col-span-1">
           <div className="flex space-x-4">
-            <div>
+            <div className="shrink-0">
               {data.profile_image ? (
                 <img
                   src={"https://dash.mayrahkeeafrica.com/" + data.profile_image}
@@ -117,11 +117,13 @@ const ArtisanDetails = () => {
           <hr />
 
           <div className="text-md px-4 py-4">
-            <h1 className="font-bold">Contact</h1>
-            <div className="flex items-center space-x-2">
-              <span className="font-bold">Phone Number:</span>
-              <span>{data.phone_number}</span>
-            </div>
+            <h1 className="font-bold text-gray-500">Contact</h1>
+            {data?.phone_no && (
+              <div className="flex items-center space-x-2">
+                <span className="font-bold">Phone Number:</span>
+                <span>{data.phone_no}</span>
+              </div>
+            )}
           </div>
         </div>
 
@@ -147,8 +149,6 @@ const ArtisanDetails = () => {
               <p className="text-sm">{data.marital_status}</p>
               <p className="text-sm font-bold">Languages Spoken:</p>{" "}
               <p className="text-sm">{data.languages_spoken?.join(", ")}</p>
-              <p className="text-sm font-bold">Status:</p>{" "}
-              <p className="text-sm">{data.status}</p>
             </div>
           </div>
         </div>

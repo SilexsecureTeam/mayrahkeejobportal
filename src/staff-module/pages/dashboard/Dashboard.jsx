@@ -1,14 +1,5 @@
 import { Helmet } from "react-helmet";
-import docsIcon from "../../../assets/pngs/doc-vector.png";
-import chatsIcon from "../../../assets/pngs/multiple-chat.png";
-import { FaArrowRightLong } from "react-icons/fa6";
-import {
-  MdChevronLeft,
-  MdChevronRight,
-  MdOutlineRateReview,
-  MdOutlineRemoveRedEye,
-} from "react-icons/md";
-import { RiCalendarEventLine } from "react-icons/ri";
+import { MdOutlineRateReview, MdOutlineRemoveRedEye } from "react-icons/md";
 import { generateDateRange, parseHtml } from "../../../utils/formmaters";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../../context/AuthContex";
@@ -201,13 +192,14 @@ function Dashboard() {
                   ?.filter(({ key }) => key !== "availability_status")
                   ?.map((item, index) => {
                     const currentKey = item.key;
+
                     const detail =
                       allStatus.find(
                         (status) => status === profileDetails[currentKey]
                       ) || "Not Recorded";
-                    const labelText = currentKey
-                      .replace(/_/g, " ")
-                      .toLowerCase();
+                    const labelText =
+                      `${item?.label} verification status` ||
+                      currentKey.replace(/_/g, " ").toLowerCase();
 
                     return (
                       <div

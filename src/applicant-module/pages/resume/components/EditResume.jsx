@@ -323,7 +323,6 @@ const EditResume = ({ resume }) => {
               </div>
 
               {/* QUALIFICATIONS */}
-              <p className="font-medium text-lg my-6">Qualifications</p>
 
               <QualificationsSection
                 qualifications={qualifications}

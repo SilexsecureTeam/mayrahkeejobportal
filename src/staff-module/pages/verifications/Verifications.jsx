@@ -8,20 +8,21 @@ import PoliceReport from "../../components/verifications/PoliceReport";
 import WorkExperience from "../../components/verifications/WorkExperience";
 import BusinessForm from "../../components/verifications/BusinessForm";
 import { StaffManagementContext } from "../../../context/StaffManagementModule";
-import { verificationOptions1, verificationOptions2  } from "../../../utils/constants";
+import {
+  verificationOptions1,
+  verificationOptions2,
+} from "../../../utils/constants";
 import { AuthContext } from "../../../context/AuthContex";
 
 function Verifications() {
-  const { getStaffProfile } = useContext(
-    StaffManagementContext
-  );
-  const { authDetails } = useContext(
-    AuthContext
-  );
-  const options=authDetails?.user?.staff_category == "artisan" ? verificationOptions2 : verificationOptions1;
+  const { getStaffProfile } = useContext(StaffManagementContext);
+  const { authDetails } = useContext(AuthContext);
+  const options =
+    authDetails?.user?.staff_category == "artisan"
+      ? verificationOptions2
+      : verificationOptions1;
   const [option, setOption] = useState(options[0]);
- 
-  
+
   const renderComponent = () => {
     switch (option?.label) {
       case "Availability Status":
@@ -38,15 +39,15 @@ function Verifications() {
         return <WorkExperience />;
       case "Business":
         return <BusinessForm />;
-      case "National Id":
+      case "NIN":
         return <NINForm />;
-      default :
+      default:
         return null;
     }
   };
-  useEffect(()=>{
-      getStaffProfile()
-    },[])
+  useEffect(() => {
+    getStaffProfile();
+  }, []);
 
   return (
     <div className="h-fit w-full py-5 px-2 md:px-12 gap-[15px] flex flex-col">

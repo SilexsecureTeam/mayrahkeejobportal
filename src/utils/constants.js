@@ -1079,6 +1079,6 @@ export const verificationOptions2 = [
   { label: "Availability Status", key: "availability_status" },
   { label: "Guarantor", key: "guarantor_verification_status" },
   { label: "Residence", key: "residence_verification_status" },
-  { label: "National Id", key: "identification_verification_status" },
+  { label: "NIN", key: "identification_verification_status" },
   { label: "Business", key: "business_verification_status" },
 ];

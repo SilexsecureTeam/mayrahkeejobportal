@@ -172,8 +172,8 @@ function ResidenceForm() {
               className="p-1 border w-full focus:outline-none text-sm border-gray-500  rounded-md"
             >
               <option value="">-- select --</option>
-              {countries?.map((country) => (
-                <option key={country.id} value={country.name}>
+              {countries?.map((country, idx) => (
+                <option key={`${country?.id}"-"${idx}`} value={country.name}>
                   {country.name}
                 </option>
               ))}
