@@ -114,7 +114,16 @@ function UpdateCompanyProfileModal({
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    updateCompanyProfile(newDetails, () => {
+    const cleanedDetails = {
+      ...newDetails,
+      social_media: Array.isArray(newDetails.social_media)
+        ? newDetails.social_media.map((link) =>
+            typeof link === "string" && link.trim() !== "" ? link : ""
+          )
+        : [],
+    };
+
+    updateCompanyProfile(cleanedDetails, () => {
       setIsOpen(false);
     });
   };
@@ -240,7 +249,7 @@ function UpdateCompanyProfileModal({
                         ) || null
                       }
                       setSelected={({ name }) =>
-                        setNewDetails({ ...details, sector: name })
+                        setNewDetails({ ...newDetails, sector: name })
                       }
                     />
                   </label>
@@ -256,7 +265,7 @@ function UpdateCompanyProfileModal({
                     placeholder="Enter company details...."
                     value={newDetails?.company_profile}
                     onChange={(text) =>
-                      setNewDetails({ ...details, company_profile: text })
+                      setNewDetails({ ...newDetails, company_profile: text })
                     }
                   />
                 </div>

@@ -30,28 +30,28 @@ function ProfileHeader({ children, isOpen, setIsOpen, details }) {
       {/* Right-hand Section */}
       <div className="flex flex-col h-full justify-between w-full md:w-[90%] p-4">
         {/* Top Section (Company Info) */}
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center w-full mb-4">
+        <div className="flex flex-col md:flex-row justify-between gap-2 items-start md:items-center w-full mb-4">
           <div className="text-gray-800 space-y-1 md:space-y-0">
             <h2 className="font-bold text-2xl md:text-3xl">
               {details?.company_name}
             </h2>
 
             <div className="flex flex-col md:flex-row md:items-center gap-2 md:gap-4 text-sm">
-              <span className="flex items-center gap-1">
-                <span>Email:</span>
+              <span className="flex flex-wrap gap-[2px]">
+                <span className="font-semibold">Email:</span>
                 <a
                   href={`mailto:${details?.email}`}
-                  className="hover:underline break-all"
+                  className="hover:underline break-all line-clamp-1"
                 >
                   {details?.email}
                 </a>
               </span>
               <hr className="hidden md:block w-px h-6 bg-gray-300" />
-              <span className="flex items-center gap-1">
-                <span>Phone No:</span>
+              <span className="flex flex-wrap gap-[2px]">
+                <span className="font-semibold">Phone No:</span>
                 <a
                   href={`tel:${details?.phone_number}`}
-                  className="hover:underline"
+                  className="hover:underline line-clamp-1 break-all"
                 >
                   {details?.phone_number}
                 </a>
