@@ -17,6 +17,7 @@ import { ResourceContext } from "../../../context/ResourceContext";
 import { useMemo } from "react";
 import CustomPagination from "../../../components/CustomPagination";
 import { State } from "country-state-city";
+import { set } from "lodash";
 
 const PageSize = 3;
 
@@ -28,10 +29,13 @@ function Companies() {
   const [companyName, setcompanyName] = useState("");
   const [selectedLocation, setSelectedLocation] = useState("");
 
+  const [loading, setLoading] = useState(true);
+
   const { getAllJobs, setGetAllJobs, getAllCompanies, setGetAllCompanies } =
     useContext(ResourceContext);
 
   useEffect(() => {
+    setLoading(true);
     setGetAllCompanies((prev) => {
       return {
         ...prev,
@@ -41,6 +45,7 @@ function Companies() {
   }, []);
   useEffect(() => {
     if (getAllCompanies.data) {
+      setLoading(false);
       setcompanies(
         getAllCompanies.data?.filter((one) => one.employer !== null)
       );
@@ -190,9 +195,13 @@ function Companies() {
                     </div>
                   </div>
                 </div>
-                {companies && (
-                  <div className="min-h-full overflow-y-auto thin_scroll_bar">
-                    {isGrid ? (
+                <div className="min-h-[300px] overflow-y-auto thin_scroll_bar">
+                  {loading ? (
+                    <div className="flex items-center justify-center min-h-[300px] w-full">
+                      <div className="h-10 w-10 animate-spin rounded-full border-2 border-gray-300 border-t-green-700" />
+                    </div>
+                  ) : filteredData?.length ? (
+                    isGrid ? (
                       <div className="grid grid-cols-responsive gap-4">
                         {currentTableData?.map(({ employer }) => (
                           <CompanyGridCard
@@ -212,10 +221,15 @@ function Companies() {
                           />
                         ))}
                       </div>
-                    )}
-                  </div>
-                )}
+                    )
+                  ) : (
+                    <p className="text-center text-gray-500 py-10">
+                      No companies found
+                    </p>
+                  )}
+                </div>
               </div>
+
               {companies && (
                 <div className="mt-5">
                   <div>
