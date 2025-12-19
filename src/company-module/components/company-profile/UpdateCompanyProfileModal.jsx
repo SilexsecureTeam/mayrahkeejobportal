@@ -34,7 +34,7 @@ function UpdateCompanyProfileModal({
   } = companyHookProps;
   const { getSectors } = useContext(JobContext) ?? {};
 
-  const [newDetails, setNewDetails] = useState({});
+  const [newDetails, setNewDetails] = useState(details || {});
   const [campaignPhotos, setCampaignPhotos] = useState([
     ...(details?.company_campaign_photos || []),
   ]);
@@ -115,6 +115,7 @@ function UpdateCompanyProfileModal({
     e.preventDefault();
 
     const cleanedDetails = {
+      ...details,
       ...newDetails,
       social_media: Array.isArray(newDetails.social_media)
         ? newDetails.social_media.map((link) =>

@@ -46,7 +46,7 @@ function DetailsRight({ data }) {
             <span>{data?.rc_number}</span>
           </li>
 
-          <li className="flex w-full justify-between pr-[10%]">
+          <li className="flex w-full justify-between pr-[10%] gap-1">
             <span>Sector:</span>
             <span>{data?.sector}</span>
           </li>
