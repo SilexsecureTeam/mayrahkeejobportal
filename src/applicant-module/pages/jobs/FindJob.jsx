@@ -31,6 +31,8 @@ function FindJob() {
   const [selectedLocation, setSelectedLocation] = useState("");
   const { getStates } = useLocationService();
 
+  const [loading, setLoading] = useState(true);
+
   const [states, setStates] = useState([]);
 
   useEffect(() => {
@@ -47,11 +49,17 @@ function FindJob() {
   }, []);
 
   useEffect(() => {
+    setLoading(true);
     setGetAllJobs((prev) => ({
       ...prev,
       isDataNeeded: true,
     }));
   }, []);
+  useEffect(() => {
+    if (getAllJobs?.data) {
+      setLoading(false);
+    }
+  }, [getAllJobs?.data]);
 
   useEffect(() => {
     setGetAllApplications((prev) => ({
@@ -210,32 +218,38 @@ function FindJob() {
                   </div>
                 </div>
                 <div className="min-h-full overflow-y-auto thin_scroll_bar">
-                  {getAllJobs.data && (
-                    <div>
-                      {isGrid ? (
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                          {currentTableData?.map((job) => (
-                            <JobGridCard
-                              key={job.id}
-                              job={job}
-                              newApplicant={newApplicant}
-                              getAllApplications={getAllApplications?.data}
-                            />
-                          ))}
-                        </div>
-                      ) : (
-                        <div>
-                          {currentTableData?.map((job) => (
-                            <JobCard
-                              getAllApplications={getAllApplications?.data}
-                              key={job.id}
-                              job={job}
-                              newApplicant={newApplicant}
-                            />
-                          ))}
-                        </div>
-                      )}
+                  {loading ? (
+                    <div className="flex justify-center items-center h-48 mx-auto">
+                      <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-green-700" />
                     </div>
+                  ) : (
+                    getAllJobs.data && (
+                      <div>
+                        {isGrid ? (
+                          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                            {currentTableData?.map((job) => (
+                              <JobGridCard
+                                key={job.id}
+                                job={job}
+                                newApplicant={newApplicant}
+                                getAllApplications={getAllApplications?.data}
+                              />
+                            ))}
+                          </div>
+                        ) : (
+                          <div>
+                            {currentTableData?.map((job) => (
+                              <JobCard
+                                getAllApplications={getAllApplications?.data}
+                                key={job.id}
+                                job={job}
+                                newApplicant={newApplicant}
+                              />
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    )
                   )}
                 </div>
               </div>
