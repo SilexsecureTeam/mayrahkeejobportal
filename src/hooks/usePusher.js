@@ -73,9 +73,12 @@ const usePusher = ({ userId, role, token }) => {
           senderName: data?.sender?.sender_name || newMessage?.sender_type,
           message: newMessage?.message,
           onClick: () => {
-            navigate(`/${role === "employer" ? "company" : role}/messages`, {
-              state: { chat: newMessage },
-            });
+            navigate(
+              `/${role === "employer" ? "company" : "applicant"}/messages`,
+              {
+                state: { chat: newMessage },
+              }
+            );
           },
         });
       }

@@ -144,7 +144,7 @@ function Companies() {
           <div className="flex flex-col md:flex-row">
             <div className="w-full md:w-[20%] mb-4 md:mb-0">
               <div className="checks_container pr-5">
-                <div className="mb-4">
+                <div className="mb-4 ">
                   <CompaniesCategory
                     setCompanySize={setCompanySize}
                     setIndustry={setIndustry}
