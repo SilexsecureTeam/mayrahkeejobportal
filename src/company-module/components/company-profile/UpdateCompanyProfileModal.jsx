@@ -34,7 +34,17 @@ function UpdateCompanyProfileModal({
   } = companyHookProps;
   const { getSectors } = useContext(JobContext) ?? {};
 
-  const [newDetails, setNewDetails] = useState(details || {});
+  const [newDetails, setNewDetails] = useState({
+    ...details,
+
+    social_media: Array.isArray(details?.social_media)
+      ? details.social_media
+      : ["", "", "", ""], // <-- ensure array of strings
+    company_campaign_photos: Array.isArray(details?.company_campaign_photos)
+      ? details.company_campaign_photos
+      : [],
+    company_profile: details?.company_profile || "",
+  });
   const [campaignPhotos, setCampaignPhotos] = useState([
     ...(details?.company_campaign_photos || []),
   ]);
@@ -42,9 +52,9 @@ function UpdateCompanyProfileModal({
 
   useEffect(() => {
     if (isOpen) {
-      setNewDetails(details);
+      setNewDetails(details || {});
     }
-  }, [isOpen]);
+  }, [isOpen, details]);
 
   const getCampaignPhotoURL = (e) => {
     const { name } = e.target;
@@ -129,15 +139,6 @@ function UpdateCompanyProfileModal({
     });
   };
 
-  useEffect(() => {
-    setTimeout(() => {
-      if (details?.beenRetreived === retrievalState?.notRetrieved && onInit) {
-        setIsOpen(true);
-      } else {
-        setIsOpen(false);
-      }
-    }, 1000);
-  }, [details?.beenRetreived]);
   const handleRemovePhoto = (index) => {
     // Remove the selected photo from the campaignPhotos state
     const updatedPhotos = campaignPhotos.filter((_, idx) => idx !== index);
@@ -180,9 +181,9 @@ function UpdateCompanyProfileModal({
           )}
           <div className="w-full px-2 flex gap-[10px] flex-col h-[90%] ">
             <h3 className="font-semibold text-lg border-b pb-2 text-gray-600">
-              {retrievalState?.init
+              {details?.beenRetreived === retrievalState.init
                 ? "Setup Company Profile"
-                : `Update Company Profile`}
+                : "Update Company Profile"}
             </h3>
 
             <form
@@ -227,6 +228,7 @@ function UpdateCompanyProfileModal({
               {companyBasicInputs?.map((current, idx) =>
                 current?.type !== "dropdown" ? (
                   <BasicInput
+                    key={`${current.id}-${idx}`}
                     data={current}
                     details={newDetails}
                     onTextChange={(e) =>
@@ -235,7 +237,6 @@ function UpdateCompanyProfileModal({
                         [e.target.name]: e.target.value,
                       })
                     }
-                    key={current.id || idx}
                     required={current?.required}
                   />
                 ) : (
@@ -346,7 +347,7 @@ function UpdateCompanyProfileModal({
                 height="min-h-[30px] mb-[10px]"
                 loading={loading}
               >
-                {details?.beenRetreived === retrievalState?.init
+                {details?.beenRetreived === retrievalState.init
                   ? "Create"
                   : "Update"}
               </FormButton>

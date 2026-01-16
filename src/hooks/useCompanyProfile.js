@@ -1,11 +1,11 @@
 import { useContext, useEffect, useState } from "react";
 import { axiosClient } from "../services/axios-client";
-import { set, get, del, keys } from "idb-keyval";
-import { FormatError } from "../utils/formmaters";
+import { set, get } from "idb-keyval";
 import { AuthContext } from "../context/AuthContex";
 import { CompanyRouteContext } from "../context/CompanyRouteContext";
 import { onFailure } from "../utils/notifications/OnFailure";
 import { onSuccess } from "../utils/notifications/OnSuccess";
+import { retrievalState } from "../utils/formmaters";
 
 export const COMPANY_PROFILE_Key = "Company Profile Database";
 
@@ -13,183 +13,147 @@ function useCompanyProfile() {
   const { authDetails } = useContext(AuthContext);
   const { setGlobalDetails = () => {} } = useContext(CompanyRouteContext) ?? {};
 
-  const retrievalState = {
-    init: 1,
-    notRetrieved: 2,
-    retrieved: 3,
-  };
-
   const client = axiosClient(authDetails?.token, true);
 
   const [loading, setLoading] = useState(false);
 
   const [details, setDetails] = useState({
-    //beenRetrieved check it data has instantialted
-    beenRetreived: retrievalState.init,
-    employer_id: authDetails?.user.id,
-    company_profile: "",
-    logo_image: "",
-    company_name: "",
-    email: "",
-    phone_number: "",
-    website: "",
-    year_of_incorporation: null,
-    rc_number: "",
-    company_size: "",
-    sector: "",
-    introduction_video_url: "",
-    profile_url: "",
-    company_campaign_photos: [],
-    social_media: [],
-    network: "",
-    location: "",
-    address: "",
+    employer_id: authDetails?.user?.id,
+    beenRetreived: retrievalState.loading,
   });
 
-  const [error, setError] = useState({
-    message: "",
-    error: "",
-  });
-
-  const onTextChange = (e) => {
-    const { name, value } = e.target;
-    setDetails({ ...details, [name]: value });
-  };
-
+  /* ----------------------------------
+   * FETCH PROFILE
+   * ---------------------------------- */
   const getProfileInfo = async () => {
     setLoading(true);
+
     try {
       const response = await client.get(
         `/employer/getEmployer/${authDetails?.user.id}`
       );
-      setGlobalDetails({ ...response.data.details });
-      if (response.data.details) {
-        await set(COMPANY_PROFILE_Key, response.data.details);
-        setDetails({
-          ...response.data.details,
-          beenRetreived: !!response.data.details
-            ? retrievalState.retrieved
-            : retrievalState.init,
-        });
-      } else {
-        setDetails({ ...details, beenRetreived: retrievalState.init });
+
+      const profile = response?.data?.details;
+
+      // PROFILE DOES NOT EXIST YET
+      if (!profile) {
+        setDetails((prev) => ({
+          ...prev,
+          beenRetreived: retrievalState.init,
+        }));
+        return;
       }
+
+      // PROFILE EXISTS
+      await set(COMPANY_PROFILE_Key, profile);
+
+      setDetails({
+        ...profile,
+        beenRetreived: retrievalState.retrieved,
+      });
+
+      setGlobalDetails(profile);
     } catch (error) {
-      setDetails({ ...details, beenRetreived: retrievalState.retrieved });
+      setDetails((prev) => ({
+        ...prev,
+        beenRetreived: retrievalState.init,
+      }));
     } finally {
       setLoading(false);
     }
   };
 
+  /* ----------------------------------
+   * UPDATE / CREATE PROFILE
+   * ---------------------------------- */
   const mapToFormData = (data) => {
     const formData = new FormData();
 
-    Object.keys(data).forEach((current) => {
-      const key = current;
-      const val = data[current];
+    Object.entries(data).forEach(([key, val]) => {
+      if (!val) return;
 
-      if (val) {
-        if (Array.isArray(val)) {
-          // Append all values in the array, whether strings or files
-          val.forEach((item) => {
-            if (typeof item === "object") {
-              // It's a file, append it
-              formData.append(`${key}[]`, item);
-            } else if (typeof item === "string") {
-              // It's a string (existing path), append it
-              formData.append(`${key}[]`, item);
-            }
-          });
-        } else {
-          if (key === "logo_image" && typeof val === "string") {
-            // Skip existing logo image URL
-            return;
-          } else {
-            formData.append(current, val);
+      if (Array.isArray(val)) {
+        val.forEach((item) => {
+          if (item instanceof File || typeof item === "string") {
+            formData.append(`${key}[]`, item);
           }
-        }
+        });
+      } else {
+        if (key === "logo_image" && typeof val === "string") return;
+        formData.append(key, val);
       }
     });
 
     return formData;
   };
 
-  //Api request to update profile
-  const updateCompanyProfile = async (newdetails, handleSuccess) => {
+  const updateCompanyProfile = async (newDetails, onDone) => {
     setLoading(true);
+
     try {
-      const data = mapToFormData(newdetails);
+      const data = mapToFormData(newDetails);
 
       const response = await client.post(
         `/employer/UpdateEmployer/${details.employer_id}`,
         data
       );
 
-      //On success, save response data to index db
+      const employer = response?.data?.employer;
+
       setDetails({
-        ...details,
-        ...response.data?.employer,
+        ...employer,
         beenRetreived: retrievalState.retrieved,
       });
-      setGlobalDetails({ ...details, ...response.data?.employer });
-      await set(COMPANY_PROFILE_Key, response.data?.employer);
+
+      setGlobalDetails(employer);
+      await set(COMPANY_PROFILE_Key, employer);
+
       onSuccess({
-        message: "Profile Update",
-        success: response?.message || "Successful",
+        message: "Profile Updated",
+        success: "Company profile saved successfully",
       });
-      handleSuccess();
+
+      onDone?.();
     } catch (error) {
-      console.log(error);
-      // FormatError(error, setError, "Update Error");
       onFailure({
-        message: error?.message || "An error occurred",
+        message: "Profile Error",
         error:
-          typeof error?.response?.data?.message === "string"
-            ? error?.response?.data?.message
-            : Object.entries(error?.response?.data?.message || {})
-                .map(
-                  ([key, value]) =>
-                    `${key}: ${Array.isArray(value) ? value.join(", ") : value}`
-                )
-                .join("\n"),
+          JSON.stringify(error?.response?.data?.message) ||
+          "Unable to save company profile",
       });
     } finally {
       setLoading(false);
     }
   };
 
-  //   useEffect(() => console.log(details), [details]);
+  /* ----------------------------------
+   * BOOTSTRAP FROM INDEXED DB
+   * ---------------------------------- */
   useEffect(() => {
-    if (error.message && error.error) {
-      onFailure(error);
-    }
-  }, [error.message, error.error]);
-
-  useEffect(() => {
-    //Initailise value from index db
-    const initValue = async () => {
+    const init = async () => {
       try {
-        const storedValue = await get(COMPANY_PROFILE_Key);
-        if (storedValue !== undefined) {
+        const cached = await get(COMPANY_PROFILE_Key);
+
+        if (cached) {
           setDetails({
-            ...storedValue,
+            ...cached,
             beenRetreived: retrievalState.retrieved,
           });
-          setGlobalDetails({ ...storedValue });
+          setGlobalDetails(cached);
         } else {
           await getProfileInfo();
         }
-      } catch (error) {
-        FormatError(error, setError, "Index Error");
+      } catch {
+        await getProfileInfo();
       }
     };
-    initValue();
+
+    init();
   }, []);
 
   return {
     loading,
     details,
-    onTextChange,
     setDetails,
     updateCompanyProfile,
     retrievalState,

@@ -393,7 +393,7 @@ function StaffCard({
                 : `${getField("years_of_experience")} Year(s)`}
             </span>
           </span>
-          {data?.staff_category === "artisan" && (
+          {/* {data?.staff_category === "artisan" && (
             <span className="flex gap-2 items-center justify-between text-md truncate font-semibold">
               Service Charge:
               <span className="text-sm w-[60%] text-start font-normal text-gray-500">
@@ -402,7 +402,7 @@ function StaffCard({
                   : "N/A"}
               </span>
             </span>
-          )}
+          )} */}
 
           {data?.staff_category !== "artisan" && (
             <span className="flex gap-2 items-center justify-between text-md truncate font-semibold">

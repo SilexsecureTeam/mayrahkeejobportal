@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { AuthContext } from "../../../../context/AuthContex";
 import { FaEdit } from "react-icons/fa";
 import { BASE_URL } from "../../../../utils/base";
@@ -10,7 +10,6 @@ import UseModal from "../../../components/general/UseModal";
 import { toast } from "react-toastify";
 import { onFailure } from "../../../../utils/notifications/OnFailure";
 import { extractErrorMessage } from "../../../../utils/formmaters";
-import { qualificationOptions } from "../../../../utils/formFields";
 import QualificationsSection from "./QualificationsSection";
 
 const EditResume = ({ resume }) => {
@@ -36,6 +35,7 @@ const EditResume = ({ resume }) => {
     portfolio: null,
     portfolioFileName: "",
   });
+  const [tillDate, setTillDate] = useState(details.end_date ? false : true);
 
   // QUALIFICATIONS - EXACTLY LIKE MYRESUME
   const [qualifications, setQualifications] = useState(
@@ -192,8 +192,13 @@ const EditResume = ({ resume }) => {
     formData.append("company_name", details.company_name);
     formData.append("position_held", details.position_held);
     formData.append("start_date", details.start_date);
-    formData.append("end_date", details.end_date);
+
     formData.append("work_description", details.work_description);
+    if (tillDate) {
+      formData.append("end_date", "");
+    } else {
+      formData.append("end_date", details.end_date);
+    }
 
     // Append files with correct field names for backend - EXACTLY LIKE MYRESUME
     if (details.resume) {
@@ -380,13 +385,13 @@ const EditResume = ({ resume }) => {
                   name="work_description"
                   value={details.work_description}
                   onChange={handleInputChange}
-                  maxLength={100}
+                  maxLength={500}
                   className="mt-1 block p-2 border w-full rounded"
                 />
                 <div className="mt-1 text-xs text-gray-500">
-                  Max {100} characters.{" "}
+                  Max {500} characters.{" "}
                   <span>
-                    {details.work_description.length}/{100}
+                    {details.work_description.length}/{500}
                   </span>
                 </div>
               </label>
@@ -412,16 +417,35 @@ const EditResume = ({ resume }) => {
                 />
               </label>
 
-              <label className="block mb-5">
-                <span className="font-medium">End Date</span>
-                <input
-                  type="date"
-                  name="end_date"
-                  value={details.end_date}
-                  onChange={handleInputChange}
-                  className="mt-1 block p-2 border w-full rounded"
-                />
-              </label>
+              <div className="flex items-center mb-5 gap-3">
+                <span className="font-medium text-gray-700">Till Date</span>
+                <button
+                  type="button"
+                  onClick={() => setTillDate(!tillDate)}
+                  className={`w-12 h-6 flex items-center rounded-full p-1 duration-300 transition-colors ${
+                    tillDate ? "bg-green-500" : "bg-gray-300"
+                  }`}
+                >
+                  <div
+                    className={`bg-white w-4 h-4 rounded-full shadow-md transform duration-300 ${
+                      tillDate ? "translate-x-6" : "translate-x-0"
+                    }`}
+                  />
+                </button>
+              </div>
+
+              {!tillDate && (
+                <label className="block mb-5">
+                  <span className="font-medium">End Date</span>
+                  <input
+                    type="date"
+                    name="end_date"
+                    value={details.end_date}
+                    onChange={handleInputChange}
+                    className="mt-1 block p-2 border w-full rounded"
+                  />
+                </label>
+              )}
 
               <button
                 type="submit"

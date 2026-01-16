@@ -197,7 +197,7 @@ const Resume = ({ resume, setGetResumeById, authDetails, getCandidate }) => {
                         {formatDate(resume.start_date)} -{" "}
                         {resume.end_date
                           ? formatDate(resume.end_date)
-                          : "Present"}
+                          : "Till Date"}
                       </p>
                     </div>
                   )}

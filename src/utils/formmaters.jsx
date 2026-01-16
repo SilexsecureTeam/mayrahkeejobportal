@@ -276,3 +276,9 @@ export const isValidYear = (year) => {
   const currentYear = new Date().getFullYear();
   return Number.isInteger(Number(year)) && year >= 1900 && year <= currentYear;
 };
+
+export const retrievalState = {
+  init: "init", // employer exists, profile NOT created
+  loading: "loading", // fetching
+  retrieved: "retrieved", // profile exists
+};

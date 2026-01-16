@@ -30,14 +30,13 @@ import {
 } from "../context/CompanyRouteContext";
 import { ref, set } from "firebase/database";
 import { database } from "../utils/firebase";
-import StaffCard from "../components/staffs/StaffCard";
-import StaffInformation from "../staff-module/pages/verifications/StaffInformation";
 import CartedStaffs from "../components/staffs/CartedStaffs";
 import SuccessPage from "../components/SuccessPage";
 import CompanyExclusiveReducer from "../reducers/CompanyExclusiveReducer";
 import { ChatContext } from "../context/ChatContext";
 import usePusher from "../hooks/usePusher";
 import InterviewRoom from "../components/video-sdk/InterviewRoom";
+import { retrievalState } from "../utils/formmaters";
 
 //Util Component
 const NavBar = lazy(() => import("../company-module/components/NavBar"));
@@ -138,8 +137,17 @@ function useCompanyRoute() {
   const [state, dispatch] = useReducer(activeReducer, options[0]);
 
   const companyHookProps = useCompanyProfile();
+  const { details } = companyHookProps;
   const toogleIsOpen = () => setIsOpen(!isOpen);
   const { pathname } = useLocation();
+  const [modalOpen, setModalOpen] = useState(false);
+
+  useEffect(() => {
+    // Open modal only when profile is missing
+    if (details?.beenRetreived === retrievalState.init) {
+      setModalOpen(true);
+    }
+  }, [details?.beenRetreived]);
 
   useEffect(() => {
     const matchedOption = options.find((opt) => pathname === opt?.route);
@@ -185,6 +193,7 @@ function useCompanyRoute() {
     //console.log(index, page)
     dispatch(page);
   };
+
   // const WithProtection=(Component, title)=>withApplicationStatus(withSubscription(Component, title))
   const WithProtection = (Component, title) =>
     withSubscription(Component, title);
@@ -228,9 +237,9 @@ function useCompanyRoute() {
             {/* Routes and dashboard take up 80% of total width and 100% of height*/}
             <div className="flex-1 w-2/3 relative flex divide-y-2 divide-secondaryColor bg-white flex-col h-full">
               <UpdateCompanyProfileModal
-                isOpen={redirectState}
-                setIsOpen={setRedirectState}
-                onInit={true}
+                isOpen={modalOpen}
+                setIsOpen={setModalOpen}
+                onInit={details?.beenRetreived === retrievalState.init}
                 companyHookProps={companyHookProps}
               />
               <NavBar
