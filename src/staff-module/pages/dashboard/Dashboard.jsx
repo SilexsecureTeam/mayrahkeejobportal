@@ -149,8 +149,8 @@ function Dashboard() {
                 >
                   <p className="font-bold">Verification Status</p>
                   <p className="pl-2 text-xl font-bold">
-                    {userVerificationStatus?.length >
-                    filterVerificationDetails?.length
+                    {userVerificationStatus?.length >=
+                    filterVerificationDetails?.length - 1
                       ? "Completed"
                       : userVerificationStatus?.length > 0
                       ? "In Progress"

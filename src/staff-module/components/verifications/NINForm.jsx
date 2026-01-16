@@ -136,7 +136,12 @@ function NINForm() {
                 setFormData({ ...formData, identity_no: e.target.value })
               }
               required
-              className="border border-gray-400 rounded p-2"
+              maxLength={11}
+              className={`border rounded p-2 outline-none ring-0 ${
+                formData.identity_no.length < 11
+                  ? "border-red-500"
+                  : "border-gray-400"
+              }`}
             />
           </div>
 
