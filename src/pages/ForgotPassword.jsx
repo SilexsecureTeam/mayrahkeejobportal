@@ -21,42 +21,42 @@ function ForgotPassword() {
         <img className="w-[60%] block md:hidden" src={MainLogo} />
         <div className="grid grid-cols-2 md:w-[60%] gap-[10px] text-sm font-semibold">
           <button
+            disabled={!!showResetPassword}
             onClick={() => setRole("candidate")}
-            className={`px-2 py-1 text-little ${
-              role === "candidate"
-                ? "md:text-white text-gray-500 bg-white md:bg-primaryColor border-0"
-                : "md:text-primaryColor text-gray-300  border bg-white/30 md:bg-primaryColor/30"
-            }`}
+            className={`px-2 py-1 text-little ${role === "candidate"
+              ? "md:text-white text-gray-500 bg-white md:bg-primaryColor border-0"
+              : "md:text-primaryColor text-gray-300  border bg-white/30 md:bg-primaryColor/30 disabled:opacity-60"
+              }`}
           >
             Corperate Candidate
           </button>
           <button
+            disabled={!!showResetPassword}
             onClick={() => setRole("employer")}
-            className={`px-2 py-1 text-little ${
-              role === "employer"
-                ? "md:text-white text-gray-500 bg-white md:bg-primaryColor border-0"
-                : "md:text-primaryColor text-gray-300  border bg-white/30 md:bg-primaryColor/30"
-            }`}
+            className={`px-2 py-1 text-little ${role === "employer"
+              ? "md:text-white text-gray-500 bg-white md:bg-primaryColor border-0"
+              : "md:text-primaryColor text-gray-300  border bg-white/30 md:bg-primaryColor/30 disabled:opacity-60"
+              }`}
           >
             Corperate Employer
           </button>
           <button
+            disabled={!!showResetPassword}
             onClick={() => setRole("artisan")}
-            className={`px-2 py-1 text-little ${
-              role === "artisan"
-                ? "md:text-white text-gray-500 bg-white md:bg-primaryColor border-0"
-                : "md:text-primaryColor text-gray-300  border bg-white/30 md:bg-primaryColor/30"
-            }`}
+            className={`px-2 py-1 text-little ${role === "artisan"
+              ? "md:text-white text-gray-500 bg-white md:bg-primaryColor border-0"
+              : "md:text-primaryColor text-gray-300  border bg-white/30 md:bg-primaryColor/30 disabled:opacity-60"
+              }`}
           >
             Artisan
           </button>
           <button
-            onClick={() => setRole("staff")}
-            className={`px-2 py-1 text-little ${
-              role === "staff"
-                ? "md:text-white text-gray-500 bg-white md:bg-primaryColor border-0"
-                : "md:text-primaryColor text-gray-300  border bg-white/30 md:bg-primaryColor/30"
-            }`}
+            disabled={!!showResetPassword}
+            onClick={() => setRole("domesticStaff")}
+            className={`px-2 py-1 text-little ${role === "domesticStaff"
+              ? "md:text-white text-gray-500 bg-white md:bg-primaryColor border-0"
+              : "md:text-primaryColor text-gray-300  border bg-white/30 md:bg-primaryColor/30 disabled:opacity-60"
+              }`}
           >
             Domestic Staff
           </button>
@@ -86,21 +86,21 @@ function ForgotPassword() {
             <FormButton
               loading={loading}
               onClick={() => {
-  forgotPassword(email, role)
-    .then((response) => {
-      // Assuming the API response has a success indicator, e.g., `response.success`
-      if (response) {
-        setShowResetPassword(true);
-      } else {
-        // Handle the error case if the response indicates failure
-        console.error("Password reset failed", response?.message || "Unknown error");
-      }
-    })
-    .catch((error) => {
-      // Handle network or other unexpected errors
-      console.error("Error during forgot password request", error);
-    });
-}}
+                forgotPassword(email, role)
+                  .then((response) => {
+                    // Assuming the API response has a success indicator, e.g., `response.success`
+                    if (response) {
+                      setShowResetPassword(true);
+                    } else {
+                      // Handle the error case if the response indicates failure
+                      console.error("Password reset failed", response?.message || "Unknown error");
+                    }
+                  })
+                  .catch((error) => {
+                    // Handle network or other unexpected errors
+                    console.error("Error during forgot password request", error);
+                  });
+              }}
 
             >
               Verify
@@ -158,7 +158,7 @@ function ForgotPassword() {
       </div>
 
       <div className="hidden md:flex bg-primaryColor w-[40%] bg-[length:100%_110%] items-center justify-center" >
-      <img className="h-[15%] hidden md:block" src={MainLogo2} />
+        <img className="h-[15%] hidden md:block" src={MainLogo2} />
       </div>
     </main>
   );

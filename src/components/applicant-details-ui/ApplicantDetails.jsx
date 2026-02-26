@@ -9,6 +9,9 @@ import { AuthContext } from "../../context/AuthContex";
 import { PiSpinnerGap } from "react-icons/pi";
 import { FaArrowLeftLong } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
+import FeedbackModal from "../modal/FeedbackModal";
+import { onFailure } from "../../utils/notifications/OnFailure";
+import { extractErrorMessage } from "../../utils/formmaters";
 
 const ApplicantDetails = () => {
   const navigate = useNavigate();
@@ -17,6 +20,9 @@ const ApplicantDetails = () => {
   const { id } = useParams();
   const [contract, setContract] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [isFeedbackOpen, setIsFeedbackOpen] = useState(false);
+  const [feedbackLoading, setFeedbackLoading] = useState(false);
+
   const fetchContract = async () => {
     setLoading(true);
     try {
@@ -33,6 +39,30 @@ const ApplicantDetails = () => {
       setLoading(false);
     }
   };
+  const handleFeedbackSubmit = async (feedbackData) => {
+    setFeedbackLoading(true);
+    try {
+      const payload = {
+        user_id: contract?.domestic_staff_id,
+        user_type: contract?.staff_category?.toLowerCase() === "artisan" ? "Artisan" : "domestic",
+        rate_by: authDetails?.user?.id,
+        rate_by_type: authDetails?.user?.role,
+        rating: feedbackData.rating,
+        comment: feedbackData.comment || "No comment provided.",
+      };
+      await client.post(`/ratings`, payload);
+      toast.success("Thank you for your feedback!");
+      setIsFeedbackOpen(false);
+    } catch (error) {
+      onFailure({
+        message: "Submission Error",
+        error: extractErrorMessage(error) || "Failed to submit feedback."
+      })
+    } finally {
+      setFeedbackLoading(false);
+    }
+  };
+
   useEffect(() => {
     if (id) {
       fetchContract();
@@ -45,8 +75,7 @@ const ApplicantDetails = () => {
         type="button"
         onClick={() =>
           navigate(
-            `/${
-              authDetails?.user?.role === "employer" ? "company" : "applicant"
+            `/${authDetails?.user?.role === "employer" ? "company" : "applicant"
             }/staff/cart`,
             {
               state: { data: { type: contract?.staff_category } },
@@ -65,7 +94,7 @@ const ApplicantDetails = () => {
             <ApplicantHeader
               contract={contract}
               fetchContract={fetchContract}
-              setContract={setContract}
+              openFeedback={() => setIsFeedbackOpen(true)}
             />
             <div className="flex gap-4 flex-col lg:flex-row">
               <ApplicantProfileCard userData={contract} />
@@ -83,6 +112,12 @@ const ApplicantDetails = () => {
           <span className="text-sm">Fetching data...</span>
         </div>
       )}
+      <FeedbackModal
+        isOpen={isFeedbackOpen}
+        loading={feedbackLoading}
+        onClose={() => setIsFeedbackOpen(false)}
+        onSubmit={handleFeedbackSubmit}
+      />
     </div>
   );
 };

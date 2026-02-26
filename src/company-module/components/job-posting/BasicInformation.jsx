@@ -16,24 +16,39 @@ import {
   salaryTypeData,
 } from "../../../utils/formFields";
 import { useLocationService } from "../../../services/locationService";
+import { useContext } from "react";
+import { SubscriptionContext } from "../../../context/SubscriptionContext";
 
 function BasicInformation({ jobUtils, validateAndProceed, editJob }) {
   const { getEmployentTypes, getCurrencies, getSectors, getSubSectors } =
     useJobManagement();
   const { getStates } = useLocationService();
+  const subUtils = useContext(SubscriptionContext);
+  const activePackage = subUtils?.activePackage;
+  const getPackageExpiryDate = () => {
+    if (!activePackage?.created_at || !activePackage?.duration) return null;
+
+    const startDate = new Date(activePackage.created_at);
+    // Add duration days to the creation date
+    startDate.setDate(startDate.getDate() + Number(activePackage.duration));
+
+    // Format to YYYY-MM-DD for the HTML date input
+    return startDate.toISOString().split("T")[0];
+  };
+
+  const maxDeadline = getPackageExpiryDate();
 
   const [states, setStates] = useState([]);
   const [jobSectorList, setJobSectorList] = useState([]);
   const [selectedType, setSelectedType] = useState(
     jobUtils?.details?.type && jobUtils?.details?.type
   );
-  const [currentQualification, setCurrentQualification] = useState("");
   const [selectedGender, setSelectedGender] = useState(
     jobUtils?.details?.salary_type &&
-      genderData?.find(
-        (one) =>
-          one.name?.toLowerCase() === jobUtils?.details?.gender?.toLowerCase()
-      )
+    genderData?.find(
+      (one) =>
+        one.name?.toLowerCase() === jobUtils?.details?.gender?.toLowerCase()
+    )
   );
   const [selectedSector, setSelectedSector] = useState();
   const [subSectorList, setSubSectorList] = useState(null);
@@ -41,12 +56,11 @@ function BasicInformation({ jobUtils, validateAndProceed, editJob }) {
   const [selectedSalary, setSelectedSalary] = useState(
     jobUtils?.details?.salary_type
       ? salaryTypeData?.find(
-          (one) => one.name === jobUtils?.details?.salary_type
-        )
+        (one) => one.name === jobUtils?.details?.salary_type
+      )
       : salaryTypeData[1]
   );
   const [photoUrl, setPhotoUrl] = useState();
-  const [minimumPrice, setMinimumPrice] = useState(0);
   const [employmentList, setEmploymentList] = useState([]);
   const [currencyList, setCurrencyList] = useState([]);
   const [selectedCurrency, setSelectedCurrency] = useState();
@@ -117,9 +131,9 @@ function BasicInformation({ jobUtils, validateAndProceed, editJob }) {
       if (employmentListResult.length > 0) {
         setSelectedType(
           jobUtils.details?.type &&
-            employmentListResult?.find(
-              (one) => one?.name === jobUtils?.details?.type
-            )
+          employmentListResult?.find(
+            (one) => one?.name === jobUtils?.details?.type
+          )
         );
       }
     };
@@ -159,7 +173,7 @@ function BasicInformation({ jobUtils, validateAndProceed, editJob }) {
   useEffect(() => {
     setSelectedType(
       jobUtils.details?.type &&
-        employmentList?.find((one) => one?.name === jobUtils?.details?.type)
+      employmentList?.find((one) => one?.name === jobUtils?.details?.type)
     );
   }, [employmentList]);
 
@@ -186,8 +200,8 @@ function BasicInformation({ jobUtils, validateAndProceed, editJob }) {
       // Find the selected subsector or default to the first one in the subsector list
       const subsector = jobUtils?.details?.subsector
         ? sector?.sub_sectors?.find(
-            (one) => one?.name === jobUtils?.details?.subsector
-          )
+          (one) => one?.name === jobUtils?.details?.subsector
+        )
         : [];
       setSelectedSubSector(subsector);
     }
@@ -352,14 +366,23 @@ function BasicInformation({ jobUtils, validateAndProceed, editJob }) {
       />
 
       {/* Basic Inputs */}
-      {stageOneBasicInputs.map((current) => (
-        <BasicJobInput
-          key={current.id}
-          data={current}
-          jobUtils={jobUtils}
-          disabled={current?.name === "application_deadline_date" && editJob}
-        />
-      ))}
+      {stageOneBasicInputs.map((current) => {
+        // Check if this is the deadline input
+        const isDeadlineInput = current?.name === "application_deadline_date";
+
+        return (
+          <BasicJobInput
+            key={current.id}
+            data={{
+              ...current,
+              // Inject the max attribute if it's the deadline date
+              max: isDeadlineInput ? maxDeadline : current.max
+            }}
+            jobUtils={jobUtils}
+            disabled={isDeadlineInput && editJob}
+          />
+        );
+      })}
       {/* Employment Types */}
       <div className="flex flex-col sm:flex-row gap-4 border-b py-4">
         <div className="flex flex-col gap-2 w-full sm:max-w-[25%]">

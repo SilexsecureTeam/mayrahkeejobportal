@@ -8,6 +8,7 @@ export const stageOneBasicInputs = [
     type: "text",
     placeholder: "e.g hr@example.com",
     prompt: "Here you input the company email",
+    verification: "Enter a valid company email address",
     required: true,
   },
   {
@@ -29,8 +30,8 @@ export const stageOneBasicInputs = [
     type: "date",
     placeholder: "dd-mm-yyy",
     min: new Date().toISOString().split("T")[0],
-    max: "4040-12-31",
     prompt: "Here you set an application deadline",
+    verification: "Select a date within your subscription period",
     required: true,
   },
   {

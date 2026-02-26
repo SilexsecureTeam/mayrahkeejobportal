@@ -16,9 +16,9 @@ const MainContent = ({ staff }) => {
   const { getWorkExperience } = useStaff();
 
   // Dynamically select verification options based on staff category
-  const verificationOptions = staff?.staff_category === "artisan" 
-    ? verificationOptions2 
-    : verificationOptions1?.filter(p=> p.label !== "Work Experience");
+  const verificationOptions = staff?.staff_category === "artisan"
+    ? verificationOptions2
+    : verificationOptions1?.filter(p => p.label !== "Work Experience");
 
   // Function to render the content based on active tab
   const renderContent = () => {
@@ -33,7 +33,7 @@ const MainContent = ({ staff }) => {
         return <PoliceRecord staff={staff} />;
       case "Business":
         return <Business staff={staff} />;
-      case "National Id":
+      case "NIN":
         return <NIN staff={staff} />;
       default:
         return null;
@@ -56,7 +56,7 @@ const MainContent = ({ staff }) => {
       <div className="border-b mb-4">
         <nav className="flex space-x-8 text-gray-700 overflow-x-auto">
           {/* Dynamically generate navigation based on verification options */}
-          {verificationOptions?.filter(item=>item.label !== "Availability Status")?.map((option) => (
+          {verificationOptions?.filter(item => item.label !== "Availability Status")?.map((option) => (
             <a
               href="#"
               key={option.key}
@@ -77,28 +77,28 @@ const MainContent = ({ staff }) => {
       {/* Work experience section */}
       {staff?.staff_category !== "artisan" &&
         <section>
-        <h4 className="text-xl font-semibold mb-4">Work experience</h4>
-        <div className="flex space-x-4 text-gray-600 mb-4">
-          <span className="border-b-2 border-black pb-1">All experience</span>
-        </div>
-        <div className="space-y-3">
-          { workExperience.length > 0 ? workExperience.map((job, index) => (
-            <div className={`${index !== 0 && "border-t border-gray-300"} flex gap-2 pt-3`} key={index}>
-              <TbBriefcase2 size="24" className="flex-shrink-0 mr-2" />
-              <section>
-                <h5 className="font-semibold">{job.title}</h5>
-                <p className="text-gray-500">
-                  {job.company} • {job.startDate} - {job.endDate}
-                </p>
-                <p className="text-gray-600 mt-2">{job.description}</p>
-                <button className="text-gray-800 underline font-medium mt-2">Show more</button>
-              </section>
-            </div>
-          )) :
-           <span>No work experience found</span>
-        }
-        </div>
-      </section>}
+          <h4 className="text-xl font-semibold mb-4">Work experience</h4>
+          <div className="flex space-x-4 text-gray-600 mb-4">
+            <span className="border-b-2 border-black pb-1">All experience</span>
+          </div>
+          <div className="space-y-3">
+            {workExperience.length > 0 ? workExperience.map((job, index) => (
+              <div className={`${index !== 0 && "border-t border-gray-300"} flex gap-2 pt-3`} key={index}>
+                <TbBriefcase2 size="24" className="flex-shrink-0 mr-2" />
+                <section>
+                  <h5 className="font-semibold">{job.title}</h5>
+                  <p className="text-gray-500">
+                    {job.company} • {job.startDate} - {job.endDate}
+                  </p>
+                  <p className="text-gray-600 mt-2">{job.description}</p>
+                  <button className="text-gray-800 underline font-medium mt-2">Show more</button>
+                </section>
+              </div>
+            )) :
+              <span>No work experience found</span>
+            }
+          </div>
+        </section>}
     </main>
   );
 };

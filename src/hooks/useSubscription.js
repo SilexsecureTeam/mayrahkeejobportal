@@ -25,12 +25,12 @@ function useSubscription() {
   const interviewPackages = packages.filter(
     (current) =>
       current.title.toLowerCase().includes("plus") ||
-      current.title.toLowerCase().includes("premium")
+      current.title.toLowerCase().includes("premium"),
   );
   // console.log(interviePackages)
   const isInterviewPackge =
     interviewPackages?.find(
-      (current) => current?.id === activePackage?.package_id
+      (current) => current?.id === activePackage?.package_id,
     ) ||
     userRole?.match("admin") ||
     authDetails?.user?.user_type === "exclusive"
@@ -42,7 +42,7 @@ function useSubscription() {
     try {
       const { data } = await client.get("/packages");
       const userPackage = data.data.sort(
-        (a, b) => Number(a.price) - Number(b.price)
+        (a, b) => Number(a.price) - Number(b.price),
       );
 
       setPackages(userPackage);
@@ -59,7 +59,7 @@ function useSubscription() {
     setLoading(true);
     try {
       const { data } = await client.get(
-        `/user-package-payment/${authDetails?.user?.id}`
+        `/user-package-payment/${authDetails?.user?.id}`,
       );
       if (data?.data) {
         // const byAscendingOrder = data.data.sort(
@@ -106,7 +106,7 @@ function useSubscription() {
         setLoading(false);
       }
     },
-    [userId]
+    [userId],
   );
 
   const config = (data, handleSuccess) => {
@@ -116,7 +116,7 @@ function useSubscription() {
       reference: new Date().getTime().toString(),
       email: userEmail,
       amount: priceInKobo,
-      publicKey: import.meta.env.VITE_LIVE_PUBLIC_KEY,
+      publicKey: import.meta.env.VITE_TEST_PUBLIC_KEY,
       text: "Paystack Button Implementation",
       onSuccess: (reference) => {
         handleSuccess(reference, data);

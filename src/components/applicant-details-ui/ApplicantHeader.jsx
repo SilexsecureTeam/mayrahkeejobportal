@@ -6,8 +6,9 @@ import { AuthContext } from "../../context/AuthContex";
 import { extractErrorMessage } from "../../utils/formmaters";
 import { toast } from "react-toastify";
 import { onSuccess } from "../../utils/notifications/OnSuccess";
+import FeedbackModal from "../modal/FeedbackModal";
 
-const ApplicantHeader = ({ contract, fetchContract, setContract }) => {
+const ApplicantHeader = ({ contract, fetchContract, openFeedback }) => {
   const { authDetails } = useContext(AuthContext);
   const [acceptLoading, setAcceptLoading] = useState(false);
   const [rejectLoading, setRejectLoading] = useState(false);
@@ -15,6 +16,7 @@ const ApplicantHeader = ({ contract, fetchContract, setContract }) => {
   const [terminateLoading, setTerminateLoading] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [countdown, setCountdown] = useState(null);
+
   const client = axiosClient();
 
   // Identify type and normalize status
@@ -121,31 +123,27 @@ const ApplicantHeader = ({ contract, fetchContract, setContract }) => {
       toast.error(error.message || "Failed to recontract.");
     }
   };
-
-  //Terminate Contract
   const handleTerminate = async () => {
     if (!isActive) return toast.warn("No active contract found.");
-
-    const confirmTerminate = window.confirm(
-      " This contract is currently active. Are you sure you want to terminate it?"
-    );
-    if (!confirmTerminate) return;
+    if (!window.confirm("Are you sure you want to terminate?")) return;
 
     setTerminateLoading(true);
     try {
-      const { data } = await client.post(`/contracts/status-update`, {
+      await client.post(`/contracts/status-update`, {
         contract_id: contract?.contract_id,
         status: "cancelled",
       });
 
-      onSuccess({
-        message: "Contract Terminated!",
-        success: extractErrorMessage(data) || "Contract terminated.",
-      });
-      fetchContract();
+      onSuccess({ message: "Contract Terminated!", success: "Success" });
+
+      // 1. Refresh data (this triggers parent loading)
+      await fetchContract();
+
+      // 2. Open the modal that now lives in the parent
+      openFeedback();
+
     } catch (error) {
-      console.error("Terminate error:", error);
-      toast.error(error.message || "Failed to terminate contract.");
+      toast.error("Failed to terminate.");
     } finally {
       setTerminateLoading(false);
     }
@@ -161,11 +159,9 @@ const ApplicantHeader = ({ contract, fetchContract, setContract }) => {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            employer_comments: `Hello,\n\nI am unable to reach the artisan ${
-              staffContract?.first_name ?? ""
-            } - ${staffContract?.surname ?? ""} (USER ID: ${
-              staffContract?.domestic_staff_id
-            }). Please follow up on this issue.\n\nRegards,`,
+            employer_comments: `Hello,\n\nI am unable to reach the artisan ${staffContract?.first_name ?? ""
+              } - ${staffContract?.surname ?? ""} (USER ID: ${staffContract?.domestic_staff_id
+              }). Please follow up on this issue.\n\nRegards,`,
           }),
         }
       );
@@ -201,15 +197,14 @@ const ApplicantHeader = ({ contract, fetchContract, setContract }) => {
 
         {isCancelled && (
           <p className="text-sm font-bold text-red-600">
-             Contract Cancelled
+            Contract Cancelled
           </p>
         )}
 
         {!isArtisan && isAccepted && countdown && (
           <p
-            className={`text-sm font-semibold ${
-              countdown === "Expired" ? "text-red-600" : "text-primaryColor"
-            }`}
+            className={`text-sm font-semibold ${countdown === "Expired" ? "text-red-600" : "text-primaryColor"
+              }`}
           >
             Contract: {countdown}
           </p>
@@ -227,8 +222,8 @@ const ApplicantHeader = ({ contract, fetchContract, setContract }) => {
             {complainLoading
               ? "Sending..."
               : isCancelled
-              ? "Contract Cancelled"
-              : "Complain: Can't Reach Artisan"}
+                ? "Contract Cancelled"
+                : "Complain: Can't Reach Artisan"}
           </button>
         )}
 
@@ -238,9 +233,8 @@ const ApplicantHeader = ({ contract, fetchContract, setContract }) => {
             <button
               onClick={handleAccept}
               disabled={isAccepted}
-              className={`bg-green-600 relative text-white px-4 py-1 rounded ${
-                isAccepted ? "opacity-50 cursor-not-allowed" : ""
-              }`}
+              className={`bg-green-600 relative text-white px-4 py-1 rounded ${isAccepted ? "opacity-50 cursor-not-allowed" : ""
+                }`}
             >
               {isAccepted ? "Accepted" : "Accept"}
               {acceptLoading && (
@@ -255,8 +249,8 @@ const ApplicantHeader = ({ contract, fetchContract, setContract }) => {
                 onClick={() =>
                   contract?.is_recontract
                     ? toast.warn(
-                        " This contract has already been recontracted once."
-                      )
+                      " This contract has already been recontracted once."
+                    )
                     : setIsModalOpen(true)
                 }
                 className="bg-red-600 text-white px-4 py-1 rounded"

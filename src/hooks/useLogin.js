@@ -65,14 +65,14 @@ function useLogin(role) {
             ...loginDetails,
             password: "__",
             re_enter_password: "__",
-          })
+          }),
         );
         console.log("complete registration");
 
         // Optional: Delay the confirmation box slightly to ensure UI updates
         setTimeout(() => {
           const userConfirmation = window.confirm(
-            "Your registration is incomplete. Would you like to verify your email now?"
+            "Your registration is incomplete. Would you like to verify your email now?",
           );
 
           if (userConfirmation) {
