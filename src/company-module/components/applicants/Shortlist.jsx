@@ -15,6 +15,7 @@ function Shortlist({ data, exclusive, toogleInterview, setEdit }) {
   const { setApplication, setInterviewDetails } =
     useContext(ApplicationContext);
 
+
   const client = useMemo(
     () => axiosClient(authDetails?.token),
     [authDetails?.token]
@@ -113,7 +114,7 @@ function Shortlist({ data, exclusive, toogleInterview, setEdit }) {
           job_id: data.job_id,
           candidate_id: data.candidate_id,
           status: selectedStatus,
-          interview_id: data.id,
+          interview_id: data.interview_id,
         }
       );
 

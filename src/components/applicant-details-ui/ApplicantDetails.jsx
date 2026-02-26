@@ -117,6 +117,10 @@ const ApplicantDetails = () => {
         loading={feedbackLoading}
         onClose={() => setIsFeedbackOpen(false)}
         onSubmit={handleFeedbackSubmit}
+        title="Contract Terminated"
+        description="We're sorry to see this contract end. How would you rate your experience?"
+        submitLabel="Submit Feedback"
+        placeholder="Share more details about the termination..."
       />
     </div>
   );

@@ -92,11 +92,20 @@ function HiringProgress({
     }
   };
 
-  // dedicated handler for reopen with loader
+
   const handleReopen = async () => {
+
+    const confirmReopen = window.confirm(
+      "Are you sure you want to reopen this application? This will change the status back to 'In-Review'."
+    );
+
+    if (!confirmReopen) return;
+
     try {
       setIsReopening(true);
       await updateApplication("in-review");
+    } catch (error) {
+      console.error("Error reopening application:", error);
     } finally {
       setIsReopening(false);
     }

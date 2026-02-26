@@ -109,7 +109,7 @@ function useStaffRoute() {
               </SideBar>
 
               {/* Routes and dashboard take up 80% of total width and 100% of height*/}
-              <div className="md:w-[82%] w-full relative flex divide-y-2 divide-secondaryColor bg-white flex-col h-full">
+              <div className="flex-1 w-2/3 relative flex divide-y-2 divide-secondaryColor bg-white flex-col h-full">
                 <NavBar
                   state={state}
                   toogleIsOpen={toogleIsOpen}

@@ -19,7 +19,6 @@ const Resume = () => {
   const fileInputRef = useRef(null);
 
   useEffect(() => {
-    console.log(profileDetails)
     if (profileDetails?.resume) {
       const filePath = `https://docs.google.com/viewer?url=${encodeURIComponent(resourceUrl + profileDetails.resume)}&embedded=true`;
       setResumeUrl(filePath);
@@ -30,11 +29,23 @@ const Resume = () => {
   // Handle File Selection (Click or Drag)
   const handleFileSelect = (file) => {
     if (!file) return;
-    if (!["application/pdf", "application/msword", "application/vnd.openxmlformats-officedocument.wordprocessingml.document", "image/jpeg", "image/png"].includes(file.type)) {
-      onFailure({ message: "Invalid File", error: "Only PDF, DOC, DOCX, JPG, PNG are allowed" });
+
+    // REMOVED images from this list
+    const allowedTypes = [
+      "application/pdf",
+      "application/msword",
+      "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+    ];
+
+    if (!allowedTypes.includes(file.type)) {
+      onFailure({
+        message: "Invalid File",
+        error: "Only PDF, DOC, and DOCX are allowed"
+      });
       return;
     }
-    if (file.size > 1024*1024) { // 1MB Limit
+
+    if (file.size > 1024 * 1024) { // 1MB Limit
       onFailure({ message: "File Too Large", error: "File must be under 1MB" });
       return;
     }
@@ -53,11 +64,6 @@ const Resume = () => {
     e.preventDefault();
     if (!selectedFile) {
       onFailure({ message: "Upload Failed", error: "Please select a file" });
-      return;
-    }
-
-    if (resumeUrl) {
-      onFailure({ message: "Upload Blocked", error: "Resume already uploaded, you can upload a new one." });
       return;
     }
 
@@ -89,9 +95,8 @@ const Resume = () => {
         {["Upload Resume", "View Resume"].map((tab) => (
           <button
             key={tab}
-            className={`h-full px-4 ${
-              activeTab === tab ? "border-b-2 border-primaryColor text-primaryColor" : "text-gray-400"
-            }`}
+            className={`h-full px-4 ${activeTab === tab ? "border-b-2 border-primaryColor text-primaryColor" : "text-gray-400"
+              }`}
             onClick={() => setActiveTab(tab)}
           >
             {tab}
@@ -114,7 +119,7 @@ const Resume = () => {
           </div>
 
           {/* Hidden File Input */}
-          <input type="file" accept=".pdf,.doc,.docx,.jpg,.png" ref={fileInputRef} className="hidden" onChange={(e) => handleFileSelect(e.target.files[0])} />
+          <input type="file" accept=".pdf,.doc,.docx" ref={fileInputRef} className="hidden" onChange={(e) => handleFileSelect(e.target.files[0])} />
 
           {/* Selected File Name */}
           {selectedFile && (
@@ -125,7 +130,7 @@ const Resume = () => {
             </div>
           )}
 
-          <span className="text-sm text-gray-500">Allowed: PDF, DOC, DOCX, JPG, PNG (max 1MB).</span>
+          <span className="text-sm text-gray-500">Allowed: PDF, DOC, DOCX (max 1MB).</span>
           <FormButton loading={loading} type="submit" width="w-[30%] bg-primaryColor text-white">
             Upload Resume
           </FormButton>

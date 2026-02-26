@@ -3,6 +3,7 @@ import { axiosClient, resourceUrl } from "../../services/axios-client";
 import { formatDate, FormatPrice } from "../../utils/formmaters";
 import { field_sections1, field_sections2 } from "../../utils/constants";
 import { AuthContext } from "../../context/AuthContex";
+import FeedbackModal from "../modal/FeedbackModal";
 
 const ApplicantProfileCard = ({ userData }) => {
   const { authDetails } = useContext(AuthContext);
@@ -15,9 +16,20 @@ const ApplicantProfileCard = ({ userData }) => {
     : "/placeolder2.png";
 
   // Rating & Reviews State
+  const [hasReviewed, setHasReviewed] = useState(false);
+  const [existingReview, setExistingReview] = useState(null);
   const [ratingStats, setRatingStats] = useState(null);
   const [loadingRating, setLoadingRating] = useState(false);
   const [showReviews, setShowReviews] = useState(false);
+  const [showFeedbackModal, setShowFeedbackModal] = useState(false);
+  const [submittingReview, setSubmittingReview] = useState(false);
+
+  useEffect(() => {
+    if (userData) {
+      getRating();
+      checkIfUserReviewed();
+    }
+  }, []);
 
   // Render star rating
   const renderStars = (rating = 0) => {
@@ -31,6 +43,51 @@ const ApplicantProfileCard = ({ userData }) => {
     ));
   };
 
+  const submitReview = async ({ rating, comment }) => {
+    try {
+      setSubmittingReview(true);
+
+      const payload = {
+        user_id: userData?.domestic_staff_id,
+        user_type:
+          userData?.staff_category?.toLowerCase() === "artisan"
+            ? "Artisan"
+            : "domestic",
+        rate_by: authDetails?.user?.id,
+        rate_by_type: authDetails?.user?.role,
+        rating,
+        comment: comment || "No comment provided.",
+      };
+
+      await client.post(`/ratings`, payload);
+
+
+      await getRating(); // refresh stats
+      await checkIfUserReviewed();
+      setShowFeedbackModal(false);
+    } catch (error) {
+      console.error("Review submission error", error);
+    } finally {
+      setSubmittingReview(false);
+    }
+  };
+
+  const checkIfUserReviewed = async () => {
+    try {
+      const { data } = await client.post("/ratings/by-user", {
+        user_id: userData?.domestic_staff_id,
+        user_type: userData?.staff_category,
+        rate_by: authDetails?.user?.id,
+        rate_by_type: authDetails?.user?.role,
+      });
+
+      setHasReviewed(data?.has_reviewed);
+      setExistingReview(data?.rating || null);
+
+    } catch (error) {
+      console.error("Check review error", error);
+    }
+  };
   // Fetch rating statistics
   const getRating = async () => {
     try {
@@ -46,10 +103,6 @@ const ApplicantProfileCard = ({ userData }) => {
       setLoadingRating(false);
     }
   };
-
-  useEffect(() => {
-    getRating();
-  }, []);
 
   const renderValue = (fieldName) => {
     const value = userData?.[fieldName];
@@ -82,20 +135,50 @@ const ApplicantProfileCard = ({ userData }) => {
                 <div className="flex items-center gap-1">
                   {renderStars(Math.round(ratingStats.average_rating))}
                 </div>
+
                 <span className="text-gray-600 text-sm">
                   {ratingStats.average_rating.toFixed(1)} ({ratingStats.total_ratings})
                 </span>
+
                 {ratingStats.total_ratings > 0 && (
                   <button
                     onClick={() => setShowReviews(true)}
-                    className="ml-3 px-2 py-1 text-xs bg-blue-100 text-blue-700 rounded hover:bg-blue-200 transition"
+                    className="px-2 py-1 text-xs bg-blue-100 text-blue-700 rounded hover:bg-blue-200 transition"
                   >
                     View Reviews
                   </button>
                 )}
+
+                {hasReviewed ? (
+                  <button
+                    onClick={() => {
+                      setSelectedRating(existingReview?.rating);
+                      setComment(existingReview?.comment);
+                      setShowFeedbackModal(true);
+                    }}
+                    className="px-3 py-1 text-xs bg-gray-800 text-white rounded"
+                  >
+                    Edit Review
+                  </button>
+                ) : (
+                  <button
+                    onClick={() => setShowFeedbackModal(true)}
+                    className="px-3 py-1 text-xs bg-yellow-500 text-white rounded"
+                  >
+                    Add Review
+                  </button>
+                )}
               </>
             ) : (
-              <span className="text-sm text-gray-400">No reviews yet</span>
+              <>
+                <span className="text-sm text-gray-400">No reviews yet</span>
+                <button
+                  onClick={() => setShowFeedbackModal(true)}
+                  className="px-3 py-1 text-xs bg-yellow-500 text-white rounded hover:bg-yellow-600 transition shadow-sm"
+                >
+                  Be First to Review
+                </button>
+              </>
             )}
           </div>
         </section>
@@ -211,6 +294,17 @@ const ApplicantProfileCard = ({ userData }) => {
           </div>
         </div>
       )}
+
+      <FeedbackModal
+        isOpen={showFeedbackModal}
+        onClose={() => setShowFeedbackModal(false)}
+        onSubmit={submitReview}
+        loading={submittingReview}
+        title="Rate This Professional"
+        description="Share your experience working with this professional."
+        submitLabel="Submit Review"
+        placeholder="Write your review here..."
+      />
     </aside>
   );
 };

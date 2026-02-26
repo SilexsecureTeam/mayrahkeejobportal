@@ -103,6 +103,7 @@ function ScheduleInterviewModal({
       setGenerating(false);
     }
   };
+  const today = new Date().toISOString().split("T")[0];
 
   return (
     isOpen && (
@@ -129,6 +130,7 @@ function ScheduleInterviewModal({
               data={fields[1]}
               details={details}
               onTextChange={onTextChange}
+              min={today}
             />
             <BasicInput
               data={fields[2]}

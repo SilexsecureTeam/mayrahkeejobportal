@@ -1,15 +1,12 @@
 import { useContext, useEffect, useState } from "react";
 import { Helmet } from "react-helmet";
-import { MdClose } from "react-icons/md";
 import { CiSearch } from "react-icons/ci";
 import { BsFilter } from "react-icons/bs";
-import noticeImg from "../../../assets/pngs/notice-icon.png";
 import { ResourceContext } from "../../../context/ResourceContext";
 import { AuthContext } from "../../../context/AuthContex";
 import AllApplicants from "./components/AllApplicants";
-import AllShortlistedApplicants from "./components/AllShortlistedApplication";
-import {useLocation} from 'react-router-dom';
-const stages=[
+import { useLocation } from 'react-router-dom';
+const stages = [
   { label: "All", key: "all" },
   { label: "Under-Review", key: "in-review" },
   { label: "Interviewed", key: "interview" },
@@ -18,11 +15,9 @@ const stages=[
   { label: "Hired", key: "hired" },
 ]
 function Application() {
-  const location= useLocation();
+  const location = useLocation();
   const { getAllApplications, setGetAllApplications } = useContext(ResourceContext);
   const { authDetails } = useContext(AuthContext);
-
-  const [closeNote, setCloseNote] = useState(true);
   const [view, setView] = useState();
   const [appFilter, setAppFilter] = useState("");
   const [randomizedApplications, setRandomizedApplications] = useState([]);
@@ -34,17 +29,17 @@ function Application() {
     }));
 
     return () => {
-    setGetAllApplications((prev) => ({
-      ...prev,
-     isDataNeeded: false
-    }));
-  };
-    
+      setGetAllApplications((prev) => ({
+        ...prev,
+        isDataNeeded: false
+      }));
+    };
+
   }, []);
   useEffect(() => {
-    if(stages.find(one=> one.key === location?.state?.id) ){
+    if (stages.find(one => one.key === location?.state?.id)) {
       setView(location?.state?.id)
-    }else{
+    } else {
       setView("all")
     }
   }, [location?.state]);
@@ -71,7 +66,7 @@ function Application() {
   // Apply view-specific filtering and randomness
   const filteredApplications = (() => {
     let applications = filterByKeyword || [];
-    if(view !== "all"){
+    if (view !== "all") {
       applications = applications?.filter((app) => app.status === view);
     }
     return randomizedApplications.length ? randomizedApplications : applications;
@@ -85,7 +80,7 @@ function Application() {
 
   // Get count based on status
   const getStatusCount = (status) => {
-    if(status === "all") return filterByKeyword?.length;
+    if (status === "all") return filterByKeyword?.length;
     return filterByKeyword?.filter((app) => app.status === status).length || 0;
   };
 
@@ -107,24 +102,23 @@ function Application() {
               </p>
             </div>
           </div>
-        
+
           <div className="flex border-b mb-6 min-w-full overflow-auto">
             {stages?.map(({ label, key }) => (
               <button
                 key={key}
                 onClick={() => setView(key)}
-                className={`w-max mx-2 p-2 hover:text-gray-500 ${
-                  view === key ? "sticky left-0 bg-gray-200 border-b-2 border-green-600 font-medium" : ""
-                }`}
+                className={`w-max mx-2 p-2 hover:text-gray-500 ${view === key ? "sticky left-0 bg-gray-200 border-b-2 border-green-600 font-medium" : ""
+                  }`}
               >
                 {label} ({getStatusCount(key)})
               </button>
             ))}
           </div>
-        
-              
+
+
           <div className="flex flex-wrap justify-between items-center">
-            <p className="font-bold capitalize">{view === "in-review" ? "Under-Review": view === "interview" ? "Interviewed" : view === "shortlist" ? "Shortlisted" : view} Applications</p>
+            <p className="font-bold capitalize">{view === "in-review" ? "Under-Review" : view === "interview" ? "Interviewed" : view === "shortlist" ? "Shortlisted" : view} Applications</p>
             <div className="flex items-start">
               <div className="relative border h-full py-1 px-6 mb-4">
                 <input
@@ -148,8 +142,8 @@ function Application() {
           </div>
           <div className="w-full my-3 flex flex-col items-stretch overflow-x-auto">
             {filteredApplications.map((app, index) => (
-                  <AllApplicants key={app.id} app={app} index={index} />
-                ))}
+              <AllApplicants key={app.id} app={app} index={index} />
+            ))}
           </div>
         </div>
       </div>
