@@ -21,10 +21,13 @@ function PoliceRecord({ staff }) {
     <div className="flex flex-col">
       <div className="flex items-center gap-2 text-md">
         <h1 className="font-semibold">Status:</h1>
-        {staff.police_report_verification_status?.toLowerCase() == "approved" ? (
+        {policeRecord?.status?.toLowerCase() ===
+          "approved" ? (
           <span className="text-green-500">Verified</span>
         ) : (
-          <span className="text-gray-400">{staff.police_report_verification_status}</span>
+          <span className="text-gray-400">
+            {policeRecord ? policeRecord?.status || "Pending" : "Not Recorded"}
+          </span>
         )}
       </div>
       {policeRecord && (

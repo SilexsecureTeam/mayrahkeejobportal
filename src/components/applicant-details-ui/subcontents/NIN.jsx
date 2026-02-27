@@ -37,11 +37,12 @@ function NIN({ staff }) {
     <div className="flex flex-col mt-4">
       <div className="flex items-center gap-2 text-md">
         <h1 className="font-semibold">Status:</h1>
-        {staff?.nin_verification_status?.toLowerCase() === "approved" ? (
+        {ninData?.status?.toLowerCase() ===
+          "approved" ? (
           <span className="text-green-500">Verified</span>
         ) : (
           <span className="text-gray-400">
-            {staff?.nin_verification_status || "Pending"}
+            {ninData ? ninData?.status || "Pending" : "Not Recorded"}
           </span>
         )}
       </div>

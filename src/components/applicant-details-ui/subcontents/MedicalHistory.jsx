@@ -10,7 +10,7 @@ function MedicalHistory({ staff }) {
     const initData = async () => {
       const result = await getMedicalDetails(staff.id);
       if (result[0]) {
-        setMedicalHistory({...result[0]});
+        setMedicalHistory({ ...result[0] });
       }
     };
 
@@ -21,10 +21,13 @@ function MedicalHistory({ staff }) {
     <div className="flex flex-col">
       <div className="flex items-center gap-2 text-md">
         <h1 className="font-semibold">Status:</h1>
-        {staff.medical_history_verification_status.toLowerCase() == "approved" ? (
+        {medicalHistory?.status?.toLowerCase() ===
+          "approved" ? (
           <span className="text-green-500">Verified</span>
         ) : (
-          <span className="text-gray-400">{staff.medical_history_verification_status}</span>
+          <span className="text-gray-400">
+            {medicalHistory ? medicalHistory?.status || "Pending" : "Not Recorded"}
+          </span>
         )}
       </div>
       {medicalHistory && (

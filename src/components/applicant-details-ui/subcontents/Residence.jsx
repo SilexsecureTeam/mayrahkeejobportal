@@ -29,10 +29,13 @@ function Residence({ staff }) {
         <>
           <div className="flex items-center gap-2 text-md">
             <h1 className="font-semibold">Status:</h1>
-            {resident?.status?.toLowerCase() === "approved" ? (
+            {resident?.status?.toLowerCase() ===
+              "approved" ? (
               <span className="text-green-500">Verified</span>
             ) : (
-              <span className="text-gray-400">{resident?.status || "Pending"}</span>
+              <span className="text-gray-400">
+                {resident ? resident?.status || "Pending" : "Not Recorded"}
+              </span>
             )}
           </div>
 

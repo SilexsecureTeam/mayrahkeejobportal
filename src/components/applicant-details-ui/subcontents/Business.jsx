@@ -35,11 +35,12 @@ function Business({ staff }) {
         <>
           <div className="flex items-center gap-2 text-md">
             <h1 className="font-semibold">Status:</h1>
-            {staff?.business_verification_status?.toLowerCase() === "approved" ? (
+            {business?.status?.toLowerCase() ===
+              "approved" ? (
               <span className="text-green-500">Verified</span>
             ) : (
               <span className="text-gray-400">
-                {staff?.business_verification_status || "Pending"}
+                {business ? business?.status || "Pending" : "Not Recorded"}
               </span>
             )}
           </div>
