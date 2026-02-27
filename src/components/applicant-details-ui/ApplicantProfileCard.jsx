@@ -1,9 +1,10 @@
 import { useContext, useEffect, useState } from "react";
 import { axiosClient, resourceUrl } from "../../services/axios-client";
-import { formatDate, FormatPrice } from "../../utils/formmaters";
+import { extractErrorMessage, formatDate, FormatPrice } from "../../utils/formmaters";
 import { field_sections1, field_sections2 } from "../../utils/constants";
 import { AuthContext } from "../../context/AuthContex";
 import FeedbackModal from "../modal/FeedbackModal";
+import { onFailure } from "../../utils/notifications/OnFailure";
 
 const ApplicantProfileCard = ({ userData }) => {
   const { authDetails } = useContext(AuthContext);
@@ -60,13 +61,16 @@ const ApplicantProfileCard = ({ userData }) => {
       };
 
       await client.post(`/ratings`, payload);
-
+      toast.success("Thank you for your feedback!");
 
       await getRating(); // refresh stats
       await checkIfUserReviewed();
       setShowFeedbackModal(false);
     } catch (error) {
-      console.error("Review submission error", error);
+      onFailure({
+        message: "Submission Error",
+        error: extractErrorMessage(error) || "Failed to submit feedback."
+      })
     } finally {
       setSubmittingReview(false);
     }
@@ -76,7 +80,9 @@ const ApplicantProfileCard = ({ userData }) => {
     try {
       const { data } = await client.post("/ratings/by-user", {
         user_id: userData?.domestic_staff_id,
-        user_type: userData?.staff_category,
+        user_type: userData?.staff_category?.toLowerCase() === "artisan"
+          ? "Artisan"
+          : "domestic",
         rate_by: authDetails?.user?.id,
         rate_by_type: authDetails?.user?.role,
       });
@@ -94,7 +100,9 @@ const ApplicantProfileCard = ({ userData }) => {
       setLoadingRating(true);
       const { data } = await client.post(`/ratings/stats`, {
         user_id: userData?.domestic_staff_id,
-        user_type: userData?.staff_category,
+        user_type: userData?.staff_category?.toLowerCase() === "artisan"
+          ? "Artisan"
+          : "domestic",
       });
       setRatingStats(data?.data);
     } catch (error) {

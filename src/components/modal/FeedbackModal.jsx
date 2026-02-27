@@ -28,7 +28,7 @@ const FeedbackModal = ({
     if (!isOpen) return null;
 
     return (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/40 backdrop-blur-sm p-4">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4">
             <div className="bg-white rounded-2xl p-6 w-full max-w-md shadow-2xl text-gray-800 animate-in fade-in zoom-in-95 duration-200">
 
                 {/* Header */}
