@@ -282,3 +282,14 @@ export const retrievalState = {
   loading: "loading", // fetching
   retrieved: "retrieved", // profile exists
 };
+
+export const getPackageExpiryDate = (activePackage) => {
+  if (!activePackage?.created_at || !activePackage?.duration) return null;
+
+  const startDate = new Date(activePackage.created_at);
+  // Add duration days to the creation date
+  startDate.setDate(startDate.getDate() + Number(activePackage.duration));
+
+  // Format to YYYY-MM-DD for the HTML date input
+  return startDate.toISOString().split("T")[0];
+};

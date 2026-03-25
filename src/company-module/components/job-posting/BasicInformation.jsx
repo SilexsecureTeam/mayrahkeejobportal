@@ -1,13 +1,12 @@
 import JobTypeItem from "./JobTypeItem";
-import RangeSlider from "react-range-slider-input";
 import "../style.css";
 import { useEffect, useState } from "react";
-import { FormatPrice } from "../../../utils/formmaters";
+import { getPackageExpiryDate } from "../../../utils/formmaters";
 import BasicJobInput from "./BasicJobInput";
 import QualificationsForm from "./QualificationsForm";
 import SelectorInput from "./SelectorInput";
 import useJobManagement from "../../../hooks/useJobManagement";
-import { Country, State } from "country-state-city";
+import { Country } from "country-state-city";
 import { resourceUrl } from "../../../services/axios-client";
 import { toast } from "react-toastify";
 import {
@@ -20,23 +19,13 @@ import { useContext } from "react";
 import { SubscriptionContext } from "../../../context/SubscriptionContext";
 
 function BasicInformation({ jobUtils, validateAndProceed, editJob }) {
-  const { getEmployentTypes, getCurrencies, getSectors, getSubSectors } =
+  const { getEmployentTypes, getCurrencies, getSectors } =
     useJobManagement();
   const { getStates } = useLocationService();
   const subUtils = useContext(SubscriptionContext);
   const activePackage = subUtils?.activePackage;
-  const getPackageExpiryDate = () => {
-    if (!activePackage?.created_at || !activePackage?.duration) return null;
 
-    const startDate = new Date(activePackage.created_at);
-    // Add duration days to the creation date
-    startDate.setDate(startDate.getDate() + Number(activePackage.duration));
-
-    // Format to YYYY-MM-DD for the HTML date input
-    return startDate.toISOString().split("T")[0];
-  };
-
-  const maxDeadline = getPackageExpiryDate();
+  const maxDeadline = getPackageExpiryDate(activePackage);
 
   const [states, setStates] = useState([]);
   const [jobSectorList, setJobSectorList] = useState([]);
@@ -376,10 +365,15 @@ function BasicInformation({ jobUtils, validateAndProceed, editJob }) {
             data={{
               ...current,
               // Inject the max attribute if it's the deadline date
-              max: isDeadlineInput ? maxDeadline : current.max
+              max: isDeadlineInput ? maxDeadline : current.max,
+              verification: isDeadlineInput
+                ? `You cannot select a date beyond your subscription validity${maxDeadline ? ` (expires on ${new Date(maxDeadline).toLocaleDateString()})` : ""
+                }.`
+                : current?.verification
             }}
             jobUtils={jobUtils}
             disabled={isDeadlineInput && editJob}
+
           />
         );
       })}

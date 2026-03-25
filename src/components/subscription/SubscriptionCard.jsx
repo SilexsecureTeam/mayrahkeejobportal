@@ -1,5 +1,5 @@
-import { useContext, useState } from "react";
-import { FormatPrice } from "../../utils/formmaters";
+import { useContext, useState, useEffect } from "react";
+import { FormatPrice, getPackageExpiryDate } from "../../utils/formmaters";
 import Spinner from "../Spinner";
 import { PaystackConsumer } from "react-paystack";
 import { IoMdCheckmarkCircleOutline } from "react-icons/io";
@@ -8,12 +8,56 @@ import { IoGift } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
 
 function SubscriptionCard({ data, setIsOpen, currentPackage }) {
-  const [showPerks, setShowPerks] = useState(currentPackage?.package_id === data?.id);
+  const [showPerks, setShowPerks] = useState(
+    currentPackage?.package_id === data?.id
+  );
   const [quantity, setQuantity] = useState(1);
   const [showModal, setShowModal] = useState(false);
   const [agreed, setAgreed] = useState(false);
+
+  // Countdown state
+  const [timeLeft, setTimeLeft] = useState(null);
+
   const subUtils = useContext(SubscriptionContext);
+  const activePackage = subUtils?.activePackage;
+
+  const maxDeadline = getPackageExpiryDate(activePackage);
   const navigate = useNavigate();
+
+  // Countdown logic
+  useEffect(() => {
+    if (!maxDeadline) return;
+
+    const interval = setInterval(() => {
+      const now = new Date().getTime();
+      const distance = new Date(maxDeadline).getTime() - now;
+
+      if (distance <= 0) {
+        setTimeLeft("Expired");
+        clearInterval(interval);
+        return;
+      }
+
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((distance / (1000 * 60 * 60)) % 24);
+      const minutes = Math.floor((distance / (1000 * 60)) % 60);
+
+      setTimeLeft(`${days}d ${hours}h ${minutes}m`);
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [maxDeadline]);
+
+  // Dynamic urgency styling
+  const getCountdownStyle = () => {
+    if (!timeLeft || timeLeft === "Expired") {
+      return "bg-red-100 text-red-600 border-red-400";
+    }
+    const days = parseInt(timeLeft.split("d")[0]);
+    if (days <= 1) return "bg-red-100 text-red-600 border-red-400";
+    if (days <= 3) return "bg-orange-100 text-orange-600 border-orange-400";
+    return "bg-green-100 text-green-600 border-green-400";
+  };
 
   const handleOnClick = (reference, data) => {
     subUtils?.makePaymentCheck(reference, data);
@@ -36,20 +80,26 @@ function SubscriptionCard({ data, setIsOpen, currentPackage }) {
   };
 
   return (
-    <li className="group relative duration-75 rounded-[10px] group flex flex-col items-center justify-between p-3 border even:border even:bg-primaryColor even:text-white odd:text-primaryColor odd:border-primaryColor">
+    <li className="group relative duration-75 rounded-[10px] flex flex-col items-center justify-between p-3 border even:border even:bg-primaryColor even:text-white odd:text-primaryColor odd:border-primaryColor">
+      {/* Active package badge */}
       {currentPackage?.package_id === data.id && (
-        <IoGift size="50" className="absolute top-[-10px] left-0 right-0 mx-auto animate-bounce z-10" />
+        <IoGift
+          size="50"
+          className="absolute top-[-10px] left-0 right-0 mx-auto animate-bounce z-10"
+        />
       )}
 
-      <div className="flex flex-col items-center h-96 overflow-y-auto">
+      <div className="flex flex-col items-center h-96 overflow-y-auto w-full">
         <h3 className="sticky top-0 font-semibold group-odd:bg-white group-odd:border-primaryColor text-center group-even:bg-primaryColor group-even:border-white w-[60%] rounded-[5px] py-1 border text-md">
           {data.title}
         </h3>
 
+        {/* Price */}
         <span className="font-semibold mt-[10%] text-xl flex gap-2 items-center">
           {data?.title?.toLowerCase().includes("exclusive")
             ? "Contract"
             : `₦ ${FormatPrice(Number(data.price) * quantity)}`}
+
           <button
             onClick={() => setShowPerks(!showPerks)}
             className="text-sm border odd:border-primaryColor rounded-md px-2 py-1 transition-all hover:bg-primaryColor hover:text-white"
@@ -58,6 +108,7 @@ function SubscriptionCard({ data, setIsOpen, currentPackage }) {
           </button>
         </span>
 
+        {/* Quantity */}
         {!data?.title?.toLowerCase().includes("exclusive") && (
           <div className="mt-3 text-center">
             <label className="block text-sm font-medium">Quantity</label>
@@ -71,23 +122,44 @@ function SubscriptionCard({ data, setIsOpen, currentPackage }) {
           </div>
         )}
 
-        <article className="font-medium flex flex-col items-center my-2">
+        {/* Info Section */}
+        <article className="font-medium flex flex-col items-center my-2 gap-1">
           <p>Jobs per subscription: {data?.number_of_jobs || 0}</p>
+
           {currentPackage?.package_id === data.id && (
-            <p>Jobs Remaining: {currentPackage?.available_jobs}</p>
+            <>
+              <p>Jobs Remaining: {currentPackage?.available_jobs}</p>
+
+              {/* Countdown Badge */}
+              <div
+                className={`px-3 py-1 rounded-full text-xs font-semibold border ${getCountdownStyle()}`}
+              >
+                {timeLeft === "Expired"
+                  ? "Subscription Expired"
+                  : `Expires in: ${timeLeft}`}
+              </div>
+            </>
           )}
+
           <p>
-            Duration: {data?.duration} {data?.duration > 1 ? "days" : "day"}
+            Duration: {data?.duration}{" "}
+            {data?.duration > 1 ? "days" : "day"}
           </p>
         </article>
 
+        {/* Description / Perks */}
         {!showPerks ? (
-          <p className="my-5 text-little text-center w-[90%]">{data.description}</p>
+          <p className="my-5 text-little text-center w-[90%]">
+            {data.description}
+          </p>
         ) : (
           <div className="flex flex-col gap-2 p-2 text-[12px] items-start">
             {data?.permissions?.map((current, index) => (
               <div key={index} className="flex gap-2 font-bold text-sm w-full">
-                <IoMdCheckmarkCircleOutline size="18" className="flex-shrink-0 text-green-500" />
+                <IoMdCheckmarkCircleOutline
+                  size="18"
+                  className="flex-shrink-0 text-green-500"
+                />
                 <span>{current}</span>
               </div>
             ))}
@@ -95,41 +167,63 @@ function SubscriptionCard({ data, setIsOpen, currentPackage }) {
         )}
       </div>
 
+      {/* CTA Section */}
       {data?.title?.toLowerCase().includes("exclusive") ? (
         <button
           onClick={() => navigate("/company/help-center")}
           className="text-sm font-semibold w-[80%] h-[35px] rounded-md transition-all group-odd:bg-primaryColor group-odd:text-white group-even:bg-white group-even:text-primaryColor hover:scale-105 disabled:opacity-60"
-          disabled={(currentPackage && currentPackage?.package_id !== data.id)}
+          disabled={
+            currentPackage && currentPackage?.package_id !== data.id
+          }
         >
           Contact Mayrahkee Support
         </button>
       ) : (
         <PaystackConsumer
           {...subUtils?.config(
-            { ...data, price: Number(data.price) * quantity, quantity: quantity },
+            {
+              ...data,
+              price: Number(data.price) * quantity,
+              quantity: quantity,
+            },
             handleOnClick
           )}
         >
           {({ initializePayment }) => (
             <>
               <button
-                disabled={subUtils?.loading || (currentPackage && currentPackage?.package_id !== data.id && Number(currentPackage?.available_jobs) > 0)}
+                disabled={
+                  subUtils?.loading ||
+                  (currentPackage &&
+                    currentPackage?.package_id !== data.id &&
+                    Number(currentPackage?.available_jobs) > 0)
+                }
                 onClick={() => setShowModal(true)}
                 className="text-sm font-semibold w-[80%] h-[35px] rounded-md transition-all group-odd:bg-primaryColor group-odd:text-white group-even:bg-white group-even:text-primaryColor hover:scale-105 disabled:opacity-60"
               >
                 {subUtils?.loading ? "Processing..." : "Choose Plan"}
               </button>
 
-              {/* Modal for Subscription Guidelines */}
+              {/* Modal */}
               {showModal && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
                   <div className="bg-white p-6 rounded-lg shadow-lg w-[90%] max-w-md text-black">
-                    <h2 className="text-2xl font-bold mb-4">Subscription Guidelines</h2>
+                    <h2 className="text-2xl font-bold mb-4">
+                      Subscription Guidelines
+                    </h2>
+
                     <ul className="text-sm list-disc space-y-2 px-4 text-gray-700">
                       <li>Package upgrades are not available.</li>
-                      <li>You can make payments for multiple job postings under a single package.</li>
-                      <li>All job postings must be utilized before subscribing to a different package.</li>
+                      <li>
+                        You can make payments for multiple job postings
+                        under a single package.
+                      </li>
+                      <li>
+                        All job postings must be utilized before
+                        subscribing to a different package.
+                      </li>
                     </ul>
+
                     <div className="mt-4 flex items-center gap-2 *:cursor-pointer">
                       <input
                         type="checkbox"
@@ -141,6 +235,7 @@ function SubscriptionCard({ data, setIsOpen, currentPackage }) {
                         I agree to the terms above
                       </label>
                     </div>
+
                     <div className="mt-6 flex justify-end gap-2">
                       <button
                         onClick={() => {
@@ -151,6 +246,7 @@ function SubscriptionCard({ data, setIsOpen, currentPackage }) {
                       >
                         Cancel
                       </button>
+
                       <button
                         disabled={!agreed}
                         onClick={() => {
